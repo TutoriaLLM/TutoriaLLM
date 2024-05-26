@@ -2,14 +2,13 @@ var WebSocketServer = require("ws").Server;
 var http = require("http");
 var express = require("express");
 var app = express();
-var port = process.env.PORT || 25565;
 
 app.use(express.static(__dirname + "/"));
 
 var server = http.createServer(app);
-server.listen(port);
+server.listen();
 
-console.log("http server listening on %d", port);
+console.log("http server listening");
 
 var wss = new WebSocketServer({ server: server });
 console.log("websocket server created");
