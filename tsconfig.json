@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "ESNext",
+    "jsx": "react-jsx",
+    "module": "CommonJS",
+    "target": "ES6",
+    "lib": ["es2015", "DOM", "DOM.Iterable"],
     "esModuleInterop": true,
     "strict": true,
     "moduleResolution": "Node",
-    "sourceMap": true,
-    "outDir": "dist"
-  }
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist"
+  },
+  "exclude": ["client"]
 }
