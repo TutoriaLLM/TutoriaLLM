@@ -1,0 +1,26 @@
+.blocklyFlyoutScrollbar[display="none"] {
+  display: none;
+}
+/* Makes our label white. */
+.blocklyTreeLabel {
+  color: white;
+}
+/* Adds padding around the group of categories and separators. */
+.blocklyToolboxContents {
+  padding: 1rem;
+}
+/* Adds space between the categories, rounds the corners and adds space around the label. */
+.blocklyTreeRow {
+  /*override tailwindcss reset*/
+  box-sizing: content-box;
+  /*until here*/
+
+  border: 0;
+  padding: 1rem;
+  margin-bottom: 0.5em;
+  border-radius: 0.5rem;
+  .blocklyTreeRowContentContainer > .blocklyTreeLabel {
+    padding: 1rem;
+    font-weight: 600;
+  }
+}

@@ -1,15 +1,19 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "module": "CommonJS",
-    "target": "ES6",
-    "lib": ["es2015", "DOM", "DOM.Iterable"],
-    "esModuleInterop": true,
-    "strict": true,
-    "moduleResolution": "Node",
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "exclude": ["client"]
+  "include": ["src"]
 }
