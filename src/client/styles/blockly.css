@@ -24,3 +24,6 @@
     font-weight: 600;
   }
 }
+.blocklyToolboxDiv {
+  border-right: 2.5px solid #d1d5db;
+}

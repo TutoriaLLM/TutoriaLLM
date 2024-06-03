@@ -4,10 +4,10 @@ const Theme = Blockly.Theme.defineTheme("theme", {
   name: "theme",
   base: Blockly.Themes.Classic,
   componentStyles: {
-    workspaceBackgroundColour: "#e5e7eb",
+    workspaceBackgroundColour: "#f3f4f6",
     toolboxBackgroundColour: "#e5e7eb",
     toolboxForegroundColour: "#374151",
-    flyoutBackgroundColour: "#6b7280",
+    flyoutBackgroundColour: "#e5e7eb",
     flyoutForegroundColour: "#ccc",
     flyoutOpacity: 0.4,
     scrollbarColour: "#797979",

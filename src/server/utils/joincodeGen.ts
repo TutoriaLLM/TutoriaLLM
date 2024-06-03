@@ -1,7 +1,7 @@
 //複数セッションを管理するのに使用するコード
 export default function joincodeGen(): string {
   const digits = "0123456789";
-  const letters = "abcdefghijklmnopqrstuvwxyz";
+  const letters = "";
   const possibleChars = digits + letters;
   let code = "";
 

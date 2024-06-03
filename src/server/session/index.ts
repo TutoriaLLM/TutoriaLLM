@@ -1,8 +1,14 @@
 import express from "express";
-import router from "../db/index.js";
+import DBrouter from "../db/index.js";
+import websocketserver from "../websocket/index.js";
 
+// セッション管理をまとめる。db/websocketサーバーのエントリーポイント
 const session = express.Router();
 
-session.use("/", router);
+// 作成されたセッションのデータをもとにアクセスできるWebsocketサーバー
+session.use("/ws", websocketserver);
+
+// DBに直接アクセスしてセッションの作成を行う
+session.use("/", DBrouter);
 
 export default session;

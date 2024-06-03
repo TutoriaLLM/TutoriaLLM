@@ -1,17 +1,22 @@
 import * as Blockly from "blockly/core";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-//import customizations
+// カスタマイズのインポート
 import { toolboxCategories } from "./toolbox";
 import registerBlocks from "./blocks";
 import Theme from "./theme";
-//blocklyのcssを上書きする
+
+// BlocklyのCSSを上書きする
 import "../../styles/blockly.css";
 
+import { currentSessionState } from "../../pages/editorPage";
+import { useAtom } from "jotai";
+
+// ブロックを登録する
 registerBlocks();
 
 export default function Editor() {
-  const [xml, setXml] = useState("");
+  const [currentSession, setCurrentSession] = useAtom(currentSessionState);
 
   useEffect(() => {
     async function getWorkspace() {
@@ -33,7 +38,7 @@ export default function Editor() {
     }
     getWorkspace();
 
-    // Passes the injection div.
+    // Blocklyのワークスペースを初期化
     const workspace = Blockly.inject("blocklyDiv", {
       toolbox: toolboxCategories,
       theme: Theme,
@@ -51,8 +56,32 @@ export default function Editor() {
       },
     });
 
+    // セッションが存在する場合はワークスペースを読み込む
+    if (currentSession && currentSession.workspace) {
+      Blockly.serialization.workspaces.load(
+        currentSession.workspace,
+        workspace
+      );
+    }
+
+    // ワークスペースの変更を検知して保存
+    const saveWorkspace = () => {
+      const newWorkspace = Blockly.serialization.workspaces.save(workspace);
+      setCurrentSession((prev) => {
+        if (prev) {
+          console.log("Workspace saved: ", newWorkspace);
+          return {
+            ...prev,
+            workspace: newWorkspace,
+          };
+        }
+        return prev;
+      });
+    };
+
+    workspace.addChangeListener(saveWorkspace);
+
     return () => {
-      // Clean up the workspace when the component unmounts
       workspace.dispose();
     };
   }, []);

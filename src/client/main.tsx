@@ -14,8 +14,9 @@ export default function App(): React.ReactElement {
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
+          <Route path="/:code" element={<Editor />} />
           <Route path="/" element={<Editor />} />
-          <Route path="/*" element={<NotFound />} />
+          <Route path="/*/*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>
