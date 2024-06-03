@@ -42,7 +42,7 @@ export default function EditorPage(props: any) {
     }
   }, [codeFromPath]);
 
-  // セッションが存在するか確認する
+  // セッションが存在するか確認する。一回目だけDBから取得し、以降はWebSocketで更新する
   useEffect(() => {
     async function checkSession() {
       if (sessionCode !== "") {

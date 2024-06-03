@@ -20,19 +20,29 @@ websocketserver.ws("/connect/:code", (ws, req) => {
   });
   ws.on("message", async (message) => {
     const messageJson: SessionValue = JSON.parse(message.toString());
+    console.log("message received");
     console.log(messageJson);
 
     if (messageJson.sessioncode) {
-      const { sessioncode, uuid, workspace } = messageJson;
+      //すでにあるデータをアップデート
+      const currentData = await sessionDB.get(code);
+      //すでにあるデータを取得し、uuidが一致するか確認＆一部のデータは引き継ぐ
+      const currentDataJson: SessionValue = JSON.parse(currentData);
+      if (currentDataJson.uuid !== messageJson.uuid) {
+        ws.send("Invalid uuid");
+        ws.close();
+      }
+      const { sessioncode, uuid, workspace, updatedAt } = messageJson;
       await sessionDB.put(
         code,
         JSON.stringify({
-          code: sessioncode,
+          sessioncode: sessioncode,
           uuid: uuid,
           workspace: workspace,
           dialogue: [], //内容がある場合はアップデートするようなロジックが必要！！！
+          createdAt: currentDataJson.createdAt,
           updatedAt: new Date(),
-        })
+        } as SessionValue) // Add type annotation here
       );
       console.log("workspace updated");
       ws.send("workspace updated");

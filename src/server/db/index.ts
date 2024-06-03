@@ -25,7 +25,9 @@ DBrouter.get("/new", async (req, res) => {
   //生成したコードが重複していないか確認
   const value = await sessionDB.get(code).catch(() => null);
   if (value === code) {
-    res.status(500).send("Failed to create session: code already exists");
+    res
+      .status(500)
+      .send("Failed to create session by api: code already exists");
     return;
   }
   await sessionDB.put(code, JSON.stringify(intitialData(code)));
@@ -47,7 +49,7 @@ DBrouter.put("/:key", async (req, res) => {
   const updateData: SessionValue = req.body;
   try {
     await sessionDB.put(req.params.key, JSON.stringify(updateData));
-    res.send("Session updated");
+    res.send("Session updated by api");
   } catch (e) {
     res.status(404).send(null);
   }
