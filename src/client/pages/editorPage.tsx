@@ -70,9 +70,9 @@ export default function EditorPage(props: any) {
 
   // WebSocketに接続する関数
   async function connectWebSocket(data: SessionValue) {
-    const host = `ws://${window.location.host}/session/ws/connect${sessionCode}?uuid=${data.uuid}`;
+    const host = `ws://${window.location.host}/session/ws/connect/${sessionCode}?uuid=${data.uuid}`;
 
-    console.log("processing websocket connection" + host);
+    console.log("processing websocket connection: " + host);
 
     const ws = new WebSocket(host);
     ws.onopen = () => {
