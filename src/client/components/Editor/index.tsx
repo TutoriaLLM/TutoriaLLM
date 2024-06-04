@@ -9,8 +9,8 @@ import Theme from "./theme";
 // BlocklyのCSSを上書きする
 import "../../styles/blockly.css";
 
-import { currentSessionState } from "../../pages/editorPage";
 import { useAtom } from "jotai";
+import { currentSessionState } from "../../state";
 
 // ブロックを登録する
 registerBlocks();

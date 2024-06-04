@@ -1,7 +1,7 @@
 import { atom, useAtom } from "jotai";
 import React, { useEffect } from "react";
 
-import { isPopupOpen } from "../../pages/editorPage";
+import { isPopupOpen } from "../../state";
 import * as Dialog from "@radix-ui/react-dialog";
 import JoinSession from "./joinsession";
 import CreateNewSession from "./newsession";

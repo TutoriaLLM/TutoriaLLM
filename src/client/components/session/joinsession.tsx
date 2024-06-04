@@ -1,7 +1,7 @@
 import { OTPInput, SlotProps } from "input-otp";
 import { useSetAtom } from "jotai";
 
-import { userSessionCode } from "../../pages/editorPage";
+import { userSessionCode } from "../../state";
 import { useRef } from "react";
 
 export default function JoinSession() {

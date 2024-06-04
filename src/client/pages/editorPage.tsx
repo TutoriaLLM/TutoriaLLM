@@ -4,22 +4,25 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Dialogue from "../components/dialogue";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import SessionPopup from "../components/session";
 import { SessionValue } from "../../server/type";
 
-// 状態管理
-export const userSessionCode = atom("");
-export const isPopupOpen = atom(false);
-export const isWorkspaceSaved = atom(true);
-export const currentSessionState = atom<SessionValue | null>(null);
+//stateの読み込み
+import {
+  userSessionCode,
+  isPopupOpen,
+  currentSessionState,
+  isWorkspaceConnected,
+} from "../state";
 
 export default function EditorPage(props: any) {
   const { code: codeFromPath } = useParams();
   const [sessionCode, setSessionCode] = useAtom(userSessionCode);
   const [currentSession, setCurrentSession] = useAtom(currentSessionState);
   const [showPopup, setShowPopup] = useAtom(isPopupOpen);
-  const [isConnected, setIsConnected] = useState(false);
+  const [WorkspaceConnection, setWorkspaceConnection] =
+    useAtom(isWorkspaceConnected);
 
   var devicewidth = window.innerWidth;
   const isMobile = devicewidth < 768;
@@ -77,7 +80,7 @@ export default function EditorPage(props: any) {
     const ws = new WebSocket(host);
     ws.onopen = () => {
       console.log("connected");
-      setIsConnected(true);
+      setWorkspaceConnection(true);
       setWs(ws); // WebSocketインスタンスを保存
     };
     ws.onmessage = (event) => {
@@ -85,7 +88,7 @@ export default function EditorPage(props: any) {
     };
     ws.onclose = () => {
       console.log("disconnected");
-      setIsConnected(false);
+      setWorkspaceConnection(false);
       setWs(null); // WebSocketインスタンスをクリア
     };
   }
@@ -102,7 +105,7 @@ export default function EditorPage(props: any) {
   useEffect(() => {
     let reconnectInterval: NodeJS.Timeout;
 
-    if (!isConnected) {
+    if (!WorkspaceConnection) {
       reconnectInterval = setInterval(() => {
         console.log("Attempting to reconnect...");
         if (sessionCode) {
@@ -128,12 +131,12 @@ export default function EditorPage(props: any) {
     }
 
     return () => clearInterval(reconnectInterval);
-  }, [isConnected, sessionCode]);
+  }, [WorkspaceConnection, sessionCode]);
 
   return (
     <div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
-      <Navbar code={sessionCode} isConnected={isConnected} />
-      {!showPopup && isConnected && (
+      <Navbar code={sessionCode} isConnected={WorkspaceConnection} />
+      {!showPopup && WorkspaceConnection && (
         // ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
         <PanelGroup autoSaveId="workspace" direction={direction}>
           <Panel
