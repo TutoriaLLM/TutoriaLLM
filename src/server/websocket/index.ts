@@ -23,7 +23,8 @@ websocketserver.ws("/connect/:code", (ws, req) => {
     console.log("message received");
     console.log(messageJson);
 
-    if (messageJson.sessioncode) {
+    if (messageJson.workspace) {
+      const messageJson = JSON.parse(message.toString());
       //すでにあるデータをアップデート
       const currentData = await sessionDB.get(code);
       //すでにあるデータを取得し、uuidが一致するか確認＆一部のデータは引き継ぐ
