@@ -52,7 +52,7 @@ websocketserver.ws("/connect/:code", (ws, req) => {
   ws.send("Hello! Message From Server!!");
 });
 
-//接続コードを元にwebsocketサーバーにUUID付きで接続する
+//接続コードを元にUUIDを応答する
 websocketserver.get("/get/:code", async (req, res) => {
   const code = req.params.code;
 
@@ -71,7 +71,7 @@ websocketserver.get("/get/:code", async (req, res) => {
   }
 
   // UUIDをクライアントに送信
-  res.json({ uuid: data.uuid, websocketUrl: `ws://${req.headers.host}/ws` });
+  res.json({ uuid: data.uuid });
 });
 
 //テスト用

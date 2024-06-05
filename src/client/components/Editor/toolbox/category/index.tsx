@@ -1,20 +1,35 @@
-//カテゴリとブロックのJSONの型定義（を提供したい）
-// export type BlockJson = {
-//   kind: "block";
-//   type: string;
-//   extraState?: any;
-// };
+// 基本カテゴリのインポート
+import logic from "./basics/blocks/logic";
+import math from "./basics/blocks/math";
+import loops from "./basics/blocks/loop";
+import variables from "./basics/blocks/variables";
 
-// export type CategoryJson = {
-//   kind: "category";
-//   name: string;
-//   colour: string;
-//   contents: Array<CategoryJson | BlockJson>;
-// };
+// 非ブロックカテゴリのインポート
+import separator from "./basics/separator";
 
-//カテゴリのインポート
-import logic from "./logic";
+// src/extensions/*/toolbox/index.tsx からすべてのツールボックスを動的にインポート
+const extensionModules = import.meta.glob("/src/extensions/*/toolbox/index.*", {
+  eager: true,
+});
 
-//まとめたカテゴリのエクスポート
-export const categoryContents = [logic];
+// 拡張機能モジュールを読み込む関数
+const loadExtensions = () => {
+  const extensions = Object.values(extensionModules);
+  console.log("extensions", extensions);
+  return extensions.map((mod: any) => mod.default);
+};
+
+// すべてのカテゴリを結合
+const loadedExtensions = loadExtensions();
+export const categoryContents = [
+  //基本カテゴリ
+  logic,
+  math,
+  loops,
+  variables,
+  //以下は拡張カテゴリ
+  separator,
+  ...loadedExtensions,
+];
+
 export default categoryContents;

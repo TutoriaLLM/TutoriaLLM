@@ -16,14 +16,35 @@
   /*until here*/
 
   border: 0;
-  padding: 1rem;
+  padding: 0.9rem;
   margin-bottom: 0.5em;
-  border-radius: 0.5rem;
-  .blocklyTreeRowContentContainer > .blocklyTreeLabel {
-    padding: 1rem;
-    font-weight: 600;
-  }
+  border-radius: 1rem;
+  transition: all 0.15s ease; /* アニメーションを追加 */
 }
+
+.blocklyTreeRow:hover {
+  opacity: 75%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.blocklyTreeRow .blocklyTreeRowContentContainer > .blocklyTreeLabel {
+  padding: 1rem;
+  font-weight: 600;
+  transition: all 0.15s ease; /* アニメーションを追加 */
+}
+
 .blocklyToolboxDiv {
   border-right: 2.5px solid #d1d5db;
+}
+
+.blocklySeparator {
+  border: 0;
+  margin: 0.5rem 0;
+  height: 1px;
+  background-color: #d1d5db;
+}
+.blocklyLabelTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
 }

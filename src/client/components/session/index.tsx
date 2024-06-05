@@ -22,7 +22,7 @@ export default function SessionPopup(props: { message: string }) {
     <div>
       {showPopup && (
         <Dialog.Root open={showPopup} onOpenChange={setShowPopup}>
-          <Dialog.Overlay className="fixed inset-0 backdrop-blur-sm bg-gray-200/40 z-[998]" />
+          <Dialog.Overlay className="fixed inset-0 bg-gray-200 z-[998]" />
           <Dialog.Content
             onPointerDownOutside={avoidDefaultDomBehavior}
             onInteractOutside={avoidDefaultDomBehavior}

@@ -1,7 +1,7 @@
 export const logic = {
   kind: "category",
-  name: "logic",
-  colour: "#10b981",
+  name: "Logic",
+  colour: "#06b6d4",
   contents: [
     {
       kind: "block",
