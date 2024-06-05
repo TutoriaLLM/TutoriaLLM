@@ -1,7 +1,8 @@
 import express from "express";
 import { sessionDB } from "../db/index.js";
 import expressWs from "express-ws";
-import { SessionValue } from "../type.js";
+import { SessionValue, WSrequestMessage } from "../type.js";
+import { ExecCodeTest, StopCodeTest } from "./vm/index.js";
 
 const websocketserver = express.Router();
 expressWs(websocketserver as any);
@@ -19,16 +20,20 @@ websocketserver.ws("/connect/:code", (ws, req) => {
     }
   });
   ws.on("message", async (message) => {
-    const messageJson: SessionValue = JSON.parse(message.toString());
+    const messageJson: SessionValue | WSrequestMessage = JSON.parse(
+      message.toString()
+    );
     console.log("message received");
     console.log(messageJson);
 
-    if (messageJson.workspace) {
+    //すでにあるデータを取得
+    const currentData = await sessionDB.get(code);
+
+    const currentDataJson: SessionValue = JSON.parse(currentData);
+
+    if ((messageJson as SessionValue).workspace) {
+      //取得したDBのデータとuuidが一致するか確認＆一部のデータは引き継ぐ
       const messageJson = JSON.parse(message.toString());
-      //すでにあるデータをアップデート
-      const currentData = await sessionDB.get(code);
-      //すでにあるデータを取得し、uuidが一致するか確認＆一部のデータは引き継ぐ
-      const currentDataJson: SessionValue = JSON.parse(currentData);
       if (currentDataJson.uuid !== messageJson.uuid) {
         ws.send("Invalid uuid");
         ws.close();
@@ -47,6 +52,24 @@ websocketserver.ws("/connect/:code", (ws, req) => {
       );
       console.log("workspace updated");
       ws.send("workspace updated");
+    }
+    if ((messageJson as WSrequestMessage).request === "open") {
+      console.log("test code received. Executing...");
+      const result = await ExecCodeTest(
+        code,
+        currentDataJson.uuid,
+        "console.log('test')"
+      );
+      if (result === "Valid uuid") {
+        console.log("Script is running...");
+      } else {
+        console.log(result);
+      }
+    }
+    if ((messageJson as WSrequestMessage).request === "stop") {
+      const result = StopCodeTest();
+      // ここに停止処理を追加
+      console.log(result);
     }
   });
 

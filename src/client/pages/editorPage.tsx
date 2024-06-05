@@ -14,6 +14,7 @@ import {
   isPopupOpen,
   currentSessionState,
   isWorkspaceConnected,
+  websocketInstance,
 } from "../state";
 
 export default function EditorPage(props: any) {
@@ -23,13 +24,13 @@ export default function EditorPage(props: any) {
   const [showPopup, setShowPopup] = useAtom(isPopupOpen);
   const [WorkspaceConnection, setWorkspaceConnection] =
     useAtom(isWorkspaceConnected);
+  const [wsInstance, setWsInstance] = useAtom(websocketInstance);
 
   var devicewidth = window.innerWidth;
   const isMobile = devicewidth < 768;
   const direction = isMobile ? "vertical" : "horizontal";
 
   const [statusMessage, setStatusMessage] = useState("");
-  const [ws, setWs] = useState<WebSocket | null>(null);
 
   // URLパスにコードがあるか確認する
   useEffect(() => {
@@ -81,7 +82,7 @@ export default function EditorPage(props: any) {
     ws.onopen = () => {
       console.log("connected");
       setWorkspaceConnection(true);
-      setWs(ws); // WebSocketインスタンスを保存
+      setWsInstance(ws); // WebSocketインスタンスを保存
     };
     ws.onmessage = (event) => {
       console.log("Message from server ", event.data);
@@ -89,17 +90,21 @@ export default function EditorPage(props: any) {
     ws.onclose = () => {
       console.log("disconnected");
       setWorkspaceConnection(false);
-      setWs(null); // WebSocketインスタンスをクリア
+      setWsInstance(null); // WebSocketインスタンスをクリア
     };
   }
 
   // currentSessionが変更されたときにWebSocketに内容を送信
   useEffect(() => {
-    if (ws && ws.readyState === WebSocket.OPEN && currentSession) {
-      ws.send(JSON.stringify(currentSession));
+    if (
+      wsInstance &&
+      wsInstance.readyState === WebSocket.OPEN &&
+      currentSession
+    ) {
+      wsInstance.send(JSON.stringify(currentSession));
       console.log("Sent currentSession to WebSocket:", currentSession);
     }
-  }, [currentSession, ws]);
+  }, [currentSession, wsInstance]);
 
   // 接続が切れた場合に再接続を試みる
   useEffect(() => {

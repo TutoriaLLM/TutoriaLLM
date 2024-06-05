@@ -9,3 +9,6 @@ export const isWorkspaceConnected = atom(false);
 //現在のセッションの状態
 import { SessionValue } from "../server/type";
 export const currentSessionState = atom<SessionValue | null>(null);
+
+//WSインスタンス
+export const websocketInstance = atom<WebSocket | null>(null);

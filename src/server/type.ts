@@ -5,6 +5,11 @@ export type Dialogue = {
   content: any;
 }[];
 
+export type WSrequestMessage = {
+  request: string;
+  value?: string;
+};
+
 export type SessionValue = {
   sessioncode: string;
   uuid: string;
