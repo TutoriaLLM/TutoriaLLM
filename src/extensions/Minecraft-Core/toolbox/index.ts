@@ -7,10 +7,7 @@ export const external = {
       kind: "block",
       type: "ext_minecraft_onplayerchatcommand",
     },
-    {
-      kind: "block",
-      type: "ext_minecraft_onplayertransform",
-    },
+
     {
       kind: "block",
       type: "ext_minecraft_sendcommandrequest",

@@ -28,10 +28,15 @@ export async function ExecCodeTest(
     console,
     http,
   });
-  (script = new vm.Script(`${userScript}`, {
-    importModuleDynamically: vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
-  })),
+  try {
+    script = new vm.Script(`${userScript}`);
     script.runInContext(context);
+  } catch (e) {
+    console.log("error on VM execution");
+    console.log(e);
+    StopCodeTest();
+    //エラーを返すとクライアントが処理できないので、暫定処置として止めている
+  }
 
   running = true;
   return "Valid uuid";
