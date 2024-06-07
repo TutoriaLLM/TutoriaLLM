@@ -12,3 +12,6 @@ export const currentSessionState = atom<SessionValue | null>(null);
 
 //WSインスタンス
 export const websocketInstance = atom<WebSocket | null>(null);
+
+//ワークスペースのコードが実行されているかどうか
+export const isWorkspaceCodeRunning = atom(false);

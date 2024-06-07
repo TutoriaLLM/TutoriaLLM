@@ -1,27 +1,35 @@
 import * as Switch from "@radix-ui/react-switch";
+import * as Blockly from "blockly";
+import { javascriptGenerator } from "blockly/javascript";
 
 import {
   isWorkspaceConnected,
   websocketInstance,
   currentSessionState,
+  isWorkspaceCodeRunning,
 } from "../state";
 import { useAtomValue } from "jotai";
-import { useState } from "react";
-import { SessionValue, WSrequestMessage } from "../../server/type";
+import { useEffect, useState } from "react";
+import { SessionValue, WSMessage } from "../../server/type";
 
 //このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。
 export function ExecSwitch() {
-  const [ischecked, setIsChecked] = useState(false);
+  const isCodeRunning = useAtomValue(isWorkspaceCodeRunning);
   const isConnected = useAtomValue(isWorkspaceConnected);
   const wsInstance = useAtomValue(websocketInstance);
   const currentSession = useAtomValue(currentSessionState);
+
+  //スイッチの無効化を管理
+  const [isSwitchDisabled, setIsSwitchDisabled] = useState(false);
+
   //チェックの有無は、確実に状態を表示するため、コンポーネント側で状態を用意せず、サーバーの状態を元に表示する。
-  function WSreq(request: string, value: string): WSrequestMessage | undefined {
+  function WSreq(request: string, value?: string): WSMessage | undefined {
     if (!currentSession) {
       return;
     }
     return {
       request: request,
+      value: value,
     };
   }
 
@@ -30,22 +38,43 @@ export function ExecSwitch() {
       console.log("An error occurred. Please try again later.");
       return;
     }
+
+    if (!setIsSwitchDisabled) {
+      console.log("Switch is disabled.");
+      return;
+    }
+
     //スイッチが変更されたときの処理を書く
-    if (ischecked) {
+    if (isCodeRunning) {
       //スイッチがオンのとき
-      setIsChecked(false);
       console.log("stop");
       //スクリプトの実行を停止する処理を書く
-      wsInstance.send(JSON.stringify(WSreq("stop", "test")));
+      wsInstance.send(JSON.stringify(WSreq("stop")));
     }
-    if (!ischecked) {
+    if (!isCodeRunning) {
       //スイッチがオフのとき
-      setIsChecked(true);
       console.log("start");
       //スクリプトの実行を開始する処理を書く
-      wsInstance.send(JSON.stringify(WSreq("open", "test")));
+      //BlocklyワークスペースをJavaScriptコードに変換する処理を書く
+      const workspace = Blockly.getMainWorkspace();
+      if (!workspace) {
+        console.error("workspace is not found");
+        return;
+      }
+      Blockly.serialization.workspaces.load(
+        currentSession.workspace,
+        workspace
+      );
+      var generatedCode = javascriptGenerator.workspaceToCode(workspace);
+      console.log("code has generated!", generatedCode.toString());
+      wsInstance.send(JSON.stringify(WSreq("open", generatedCode)));
     }
+    setIsSwitchDisabled(false);
   }
+  //スイッチの状態が外部から変更されるまで待つ
+  useEffect(() => {
+    setIsSwitchDisabled(true);
+  }, [isCodeRunning]);
   return (
     <form className="justify-center items-center">
       {isConnected ? (
@@ -54,7 +83,8 @@ export function ExecSwitch() {
             Run Code
           </label>
           <Switch.Root
-            checked={ischecked}
+            checked={isCodeRunning}
+            disabled={!isSwitchDisabled}
             onCheckedChange={() => ChangeSwitch()}
             className="w-16 h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100"
           >

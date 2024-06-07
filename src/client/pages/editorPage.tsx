@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAtom } from "jotai";
 import SessionPopup from "../components/session";
-import { SessionValue } from "../../server/type";
+import { SessionValue, WSMessage } from "../../server/type";
 
 //stateの読み込み
 import {
@@ -15,6 +15,7 @@ import {
   currentSessionState,
   isWorkspaceConnected,
   websocketInstance,
+  isWorkspaceCodeRunning,
 } from "../state";
 
 export default function EditorPage(props: any) {
@@ -25,6 +26,7 @@ export default function EditorPage(props: any) {
   const [WorkspaceConnection, setWorkspaceConnection] =
     useAtom(isWorkspaceConnected);
   const [wsInstance, setWsInstance] = useAtom(websocketInstance);
+  const [isCodeRunning, setIsCodeRunning] = useAtom(isWorkspaceCodeRunning);
 
   var devicewidth = window.innerWidth;
   const isMobile = devicewidth < 768;
@@ -85,7 +87,13 @@ export default function EditorPage(props: any) {
       setWsInstance(ws); // WebSocketインスタンスを保存
     };
     ws.onmessage = (event) => {
+      const message = event.data;
+      const messageJson: WSMessage | SessionValue = JSON.parse(message);
       console.log("Message from server ", event.data);
+      if ((messageJson as WSMessage).request === "updateState_isrunning") {
+        console.log("isrunning updated");
+        setIsCodeRunning((messageJson as WSMessage).value as boolean);
+      }
     };
     ws.onclose = () => {
       console.log("disconnected");

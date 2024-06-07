@@ -7,15 +7,18 @@ import variables from "./basics/blocks/variables";
 // 非ブロックカテゴリのインポート
 import separator from "./basics/separator";
 
-// src/extensions/*/toolbox/index.tsx からすべてのツールボックスを動的にインポート
-const extensionModules = import.meta.glob("/src/extensions/*/toolbox/index.*", {
-  eager: true,
-});
+// src/extensions/*/toolbox/以下からすべてのツールボックスを動的にインポート
+const extensionModules = import.meta.glob(
+  "/src/extensions/*/toolbox/**/index.*",
+  {
+    eager: true,
+  }
+);
 
 // 拡張機能モジュールを読み込む関数
 const loadExtensions = () => {
   const extensions = Object.values(extensionModules);
-  console.log("extensions", extensions);
+  console.log("extensions for toolbox loaded");
   return extensions.map((mod: any) => mod.default);
 };
 

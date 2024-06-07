@@ -1,6 +1,9 @@
 import vm from "vm";
 import { sessionDB } from "../../db/index.js";
-import { SessionValue } from "../../type.js";
+import { SessionValue, WSMessage } from "../../type.js";
+import { WebSocketServer } from "ws"; // WebSocketモジュールのインポート
+import { v4 as uuid } from "uuid";
+import Module from "module";
 
 let context;
 let script;
@@ -18,17 +21,12 @@ export async function ExecCodeTest(
     return "Invalid uuid";
   }
 
-  // create a new context and run user script
   context = vm.createContext({
-    require,
-    WebSocket,
-    console,
-    setTimeout,
-    setInterval,
-    clearTimeout,
-    clearInterval,
+    WebSocketServer,
+    uuid() {},
+    console, // コンテキストにconsoleを追加
+    code, // コンテキストにコードを追加
   });
-
   script = new vm.Script(userScript);
   script.runInContext(context);
 
@@ -44,4 +42,11 @@ export function StopCodeTest() {
   } else {
     return "No script is running.";
   }
+}
+
+export function SendIsWorkspaceRunning(isrunning: boolean): WSMessage {
+  return {
+    request: "updateState_isrunning",
+    value: isrunning,
+  };
 }

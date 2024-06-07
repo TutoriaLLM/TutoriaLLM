@@ -5,9 +5,9 @@ export type Dialogue = {
   content: any;
 }[];
 
-export type WSrequestMessage = {
+export type WSMessage = {
   request: string;
-  value?: string;
+  value?: string | number | boolean | object | null;
 };
 
 export type SessionValue = {

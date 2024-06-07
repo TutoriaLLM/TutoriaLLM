@@ -1,11 +1,18 @@
 import express from "express";
 import { sessionDB } from "../db/index.js";
 import expressWs from "express-ws";
-import { SessionValue, WSrequestMessage } from "../type.js";
-import { ExecCodeTest, StopCodeTest } from "./vm/index.js";
+import { SessionValue, WSMessage } from "../type.js";
+import {
+  ExecCodeTest,
+  SendIsWorkspaceRunning,
+  StopCodeTest,
+} from "./vm/index.js";
 
 const websocketserver = express.Router();
 expressWs(websocketserver as any);
+
+//スクリプトの実行状態を管理
+var isRunning = false;
 
 websocketserver.ws("/connect/:code", (ws, req) => {
   const code = req.params.code;
@@ -19,8 +26,9 @@ websocketserver.ws("/connect/:code", (ws, req) => {
       ws.close();
     }
   });
+  ws.send(JSON.stringify(SendIsWorkspaceRunning(isRunning)));
   ws.on("message", async (message) => {
-    const messageJson: SessionValue | WSrequestMessage = JSON.parse(
+    const messageJson: SessionValue | WSMessage = JSON.parse(
       message.toString()
     );
     console.log("message received");
@@ -51,29 +59,39 @@ websocketserver.ws("/connect/:code", (ws, req) => {
         } as SessionValue) // Add type annotation here
       );
       console.log("workspace updated");
-      ws.send("workspace updated");
     }
-    if ((messageJson as WSrequestMessage).request === "open") {
+
+    //実行リクエストが来たときの処理
+    if (
+      (messageJson as WSMessage).request === "open" &&
+      (messageJson as WSMessage).value
+    ) {
       console.log("test code received. Executing...");
       const result = await ExecCodeTest(
         code,
         currentDataJson.uuid,
-        "console.log('test')"
+        (messageJson as WSMessage).value as string
       );
       if (result === "Valid uuid") {
         console.log("Script is running...");
+        isRunning = true;
+        ws.send(JSON.stringify(SendIsWorkspaceRunning(isRunning)));
       } else {
         console.log(result);
+        isRunning = false;
+        ws.send(JSON.stringify(SendIsWorkspaceRunning(isRunning)));
       }
     }
-    if ((messageJson as WSrequestMessage).request === "stop") {
+
+    //停止リクエストが来たときの処理
+    if ((messageJson as WSMessage).request === "stop") {
       const result = StopCodeTest();
       // ここに停止処理を追加
       console.log(result);
+      isRunning = false;
+      ws.send(JSON.stringify(SendIsWorkspaceRunning(isRunning)));
     }
   });
-
-  ws.send("Hello! Message From Server!!");
 });
 
 //接続コードを元にUUIDを応答する
