@@ -1,9 +1,9 @@
 import vm from "vm";
 import { sessionDB } from "../../db/index.js";
-import { SessionValue, WSMessage } from "../../type.js";
-import { WebSocketServer } from "ws"; // WebSocketモジュールのインポート
-import { v4 as uuid } from "uuid";
-import Module from "module";
+import { WSMessage } from "../../type.js";
+import * as http from "http";
+import WebSocket from "ws";
+import websocketserver from "../index.js";
 
 let context;
 let script;
@@ -22,13 +22,16 @@ export async function ExecCodeTest(
   }
 
   context = vm.createContext({
-    WebSocketServer,
-    uuid() {},
-    console, // コンテキストにconsoleを追加
-    code, // コンテキストにコードを追加
+    //拡張機能ファイルで定義されたコンテキストをここに追加する
+    WebSocket,
+    uuid,
+    console,
+    http,
   });
-  script = new vm.Script(userScript);
-  script.runInContext(context);
+  (script = new vm.Script(`${userScript}`, {
+    importModuleDynamically: vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER,
+  })),
+    script.runInContext(context);
 
   running = true;
   return "Valid uuid";

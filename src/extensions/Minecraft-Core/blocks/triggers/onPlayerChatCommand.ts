@@ -28,13 +28,12 @@ export function code() {
     generator
   ) {
     // Collect argument strings.
-    const commandValue = block.getFieldValue("FIELD");
-    const innerCode = generator.valueToCode(block, "INPUT", Order.ATOMIC);
+    var field_input = block.getFieldValue("FIELD");
+    var run_input = generator.statementToCode(block, "INPUT");
+
+    const code = `console.log("execute${field_input}run${run_input}")`;
 
     // Return code.
-    return [
-      `console.log("on player chat command ${commandValue} do:${innerCode}")`,
-      Order.NONE,
-    ];
+    return code;
   };
 }

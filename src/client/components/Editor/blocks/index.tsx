@@ -30,6 +30,7 @@ function registerBlocks() {
           },
         };
         if (code) {
+          //codeを登録する関数がある場合は実行する
           code();
         }
       }
