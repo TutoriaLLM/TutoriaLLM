@@ -1,8 +1,9 @@
+type ContentType = "user" | "ai" | "log" | "image";
+
 export type Dialogue = {
-  contentType: string;
+  contentType: ContentType;
   isuser: boolean;
-  //コンテンツの種類が決まったら型を追加する
-  content: any;
+  content: any; // コンテンツの種類に応じて型を変更できます
 }[];
 
 export type WSMessage = {
@@ -17,6 +18,8 @@ export type SessionValue = {
   updatedAt: Date;
   dialogue: Dialogue;
   workspace: Object;
+  isVMRunning: boolean;
+  clients: string[];
 };
 
 export type WSMinecraftMessage = {

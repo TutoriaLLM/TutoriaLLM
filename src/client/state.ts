@@ -6,9 +6,10 @@ export const userSessionCode = atom("");
 export const isPopupOpen = atom(false);
 //ワークスペースが接続されているかどうか
 export const isWorkspaceConnected = atom(false);
-//現在のセッションの状態
+//現在のセッション/比較に使用する１つ前のセッションの状態
 import { SessionValue } from "../server/type";
 export const currentSessionState = atom<SessionValue | null>(null);
+export const prevSessionState = atom<SessionValue | null>(null);
 
 //WSインスタンス
 export const websocketInstance = atom<WebSocket | null>(null);

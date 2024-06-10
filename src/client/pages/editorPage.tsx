@@ -16,12 +16,17 @@ import {
   isWorkspaceConnected,
   websocketInstance,
   isWorkspaceCodeRunning,
+  prevSessionState,
 } from "../state";
 
 export default function EditorPage(props: any) {
   const { code: codeFromPath } = useParams();
   const [sessionCode, setSessionCode] = useAtom(userSessionCode);
+  // 現在のセッション情報
   const [currentSession, setCurrentSession] = useAtom(currentSessionState);
+  //比較するために前回の値を保存
+  const [prevSession, setPrevSession] = useAtom(prevSessionState);
+
   const [showPopup, setShowPopup] = useAtom(isPopupOpen);
   const [WorkspaceConnection, setWorkspaceConnection] =
     useAtom(isWorkspaceConnected);
@@ -61,9 +66,10 @@ export default function EditorPage(props: any) {
           );
           setShowPopup(true);
         } else {
-          const data = await response.json();
+          const data: SessionValue = await response.json();
           console.log("code is valid!" + JSON.stringify(data));
           setCurrentSession(data);
+          setPrevSession(data);
           connectWebSocket(data);
         }
       }
@@ -90,9 +96,15 @@ export default function EditorPage(props: any) {
       const message = event.data;
       const messageJson: WSMessage | SessionValue = JSON.parse(message);
       console.log("Message from server ", event.data);
+      //コードの実行状況
       if ((messageJson as WSMessage).request === "updateState_isrunning") {
         console.log("isrunning updated");
         setIsCodeRunning((messageJson as WSMessage).value as boolean);
+      }
+      //セッション内容を受信したらワークスペース内容をprevSessionと比較して内容が違う場合は更新する
+      if ((messageJson as SessionValue).workspace !== prevSession?.workspace) {
+        console.log("Received changed session data from server!");
+        setCurrentSession(messageJson as SessionValue);
       }
     };
     ws.onclose = () => {
@@ -102,15 +114,24 @@ export default function EditorPage(props: any) {
     };
   }
 
-  // currentSessionが変更されたときにWebSocketに内容を送信
+  // currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はWebSocketに送信する
   useEffect(() => {
     if (
       wsInstance &&
       wsInstance.readyState === WebSocket.OPEN &&
       currentSession
     ) {
-      wsInstance.send(JSON.stringify(currentSession));
-      console.log("Sent currentSession to WebSocket:", currentSession);
+      // 前回のセッションのワークスペース、対話の内容が違う場合のみ送信
+      if (
+        JSON.stringify(currentSession.workspace) !==
+          JSON.stringify(prevSession?.workspace) ||
+        JSON.stringify(currentSession.dialogue) !==
+          JSON.stringify(prevSession?.dialogue)
+      ) {
+        wsInstance.send(JSON.stringify(currentSession));
+        setPrevSession(currentSession);
+        console.log("Sent currentSession to WebSocket:", currentSession);
+      }
     }
   }, [currentSession, wsInstance]);
 
@@ -134,6 +155,7 @@ export default function EditorPage(props: any) {
             .then((data) => {
               console.log("Reconnected successfully");
               setCurrentSession(data);
+              setPrevSession(data);
               connectWebSocket(data);
             })
             .catch((error) => {
@@ -173,7 +195,7 @@ export default function EditorPage(props: any) {
             maxSize={80}
             minSize={20}
           >
-            <Dialogue />
+            <Dialogue content={currentSession?.dialogue} />
           </Panel>
         </PanelGroup>
       )}

@@ -16,6 +16,8 @@ function intitialData(code: string): SessionValue {
     updatedAt: new Date(),
     dialogue: [],
     workspace: {},
+    isVMRunning: false,
+    clients: [],
   };
 }
 

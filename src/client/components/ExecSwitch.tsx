@@ -74,7 +74,7 @@ export function ExecSwitch() {
   //スイッチの状態が外部から変更されるまで待つ
   useEffect(() => {
     setIsSwitchDisabled(true);
-  }, [isCodeRunning]);
+  }, [isCodeRunning, currentSession]);
   return (
     <form className="justify-center items-center">
       {isConnected ? (
