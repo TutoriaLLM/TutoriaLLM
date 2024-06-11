@@ -4,7 +4,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Dialogue from "../components/dialogue";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import SessionPopup from "../components/session";
 import { SessionValue, WSMessage } from "../../server/type";
 
@@ -31,7 +31,7 @@ export default function EditorPage(props: any) {
   const [WorkspaceConnection, setWorkspaceConnection] =
     useAtom(isWorkspaceConnected);
   const [wsInstance, setWsInstance] = useAtom(websocketInstance);
-  const [isCodeRunning, setIsCodeRunning] = useAtom(isWorkspaceCodeRunning);
+  const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
 
   var devicewidth = window.innerWidth;
   const isMobile = devicewidth < 768;
@@ -95,7 +95,7 @@ export default function EditorPage(props: any) {
     ws.onmessage = (event) => {
       const message = event.data;
       const messageJson: WSMessage | SessionValue = JSON.parse(message);
-      console.log("Message from server ", event.data);
+      console.log("Message from server ", messageJson);
       //コードの実行状況
       if ((messageJson as WSMessage).request === "updateState_isrunning") {
         console.log("isrunning updated");
@@ -130,7 +130,10 @@ export default function EditorPage(props: any) {
       ) {
         wsInstance.send(JSON.stringify(currentSession));
         setPrevSession(currentSession);
-        console.log("Sent currentSession to WebSocket:", currentSession);
+        console.log(
+          "Sent currentSession to WebSocket and save prev session:",
+          currentSession
+        );
       }
     }
   }, [currentSession, wsInstance]);
@@ -195,7 +198,7 @@ export default function EditorPage(props: any) {
             maxSize={80}
             minSize={20}
           >
-            <Dialogue content={currentSession?.dialogue} />
+            <Dialogue />
           </Panel>
         </PanelGroup>
       )}

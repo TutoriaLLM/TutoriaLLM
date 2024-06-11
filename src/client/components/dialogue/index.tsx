@@ -1,7 +1,13 @@
 import { Send, Server } from "lucide-react";
-import type { Dialogue } from "../../../server/type";
+import type { Dialogue, SessionValue } from "../../../server/type";
 
-export default function Dialogue(props: any) {
+import { currentSessionState } from "../../state";
+import { useAtom } from "jotai";
+
+export default function Dialogue() {
+  const [sesionState, setSessionState] = useAtom(currentSessionState);
+  function sendMessage(message: string) {}
+
   return (
     <div className="w-full h-full flex flex-col justify-end p-4 bg-gray-100">
       <div className="w-full h-full overflow-scroll flex flex-col gap-4 mb-4">
@@ -15,7 +21,7 @@ export default function Dialogue(props: any) {
             baa!(test)
           </div>
         </div>
-        {props.content.map(
+        {sesionState?.dialogue.map(
           (
             item: { contentType: string; isuser: boolean; content: any },
             index: number

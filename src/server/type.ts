@@ -1,3 +1,5 @@
+import { Workspace } from "blockly";
+
 type ContentType = "user" | "ai" | "log" | "image";
 
 export type Dialogue = {
@@ -17,7 +19,8 @@ export type SessionValue = {
   createdAt: Date;
   updatedAt: Date;
   dialogue: Dialogue;
-  workspace: Object;
+  //シリアル化したBlockly.Workspaceを保存する
+  workspace: any[string];
   isVMRunning: boolean;
   clients: string[];
 };

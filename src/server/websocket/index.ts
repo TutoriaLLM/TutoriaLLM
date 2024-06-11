@@ -60,6 +60,20 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         }
       });
     };
+    async function updateLog(message: string) {
+      if (!message) return;
+      await updateDatabase({
+        ...currentDataJson,
+        dialogue: [
+          ...currentDataJson.dialogue,
+          {
+            contentType: "log",
+            isuser: false,
+            content: message,
+          },
+        ],
+      });
+    }
 
     if ((messageJson as SessionValue).workspace) {
       const messageJson = JSON.parse(message.toString());
@@ -83,10 +97,15 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
       console.log("workspace updated");
     }
 
-    if (
-      (messageJson as WSMessage).request === "open" &&
-      (messageJson as WSMessage).value
-    ) {
+    if ((messageJson as WSMessage).request === "open") {
+      if ((messageJson as WSMessage).value === (undefined || null || "")) {
+        isRunning = false;
+        currentDataJson.isVMRunning = isRunning;
+        await updateDatabase(currentDataJson);
+        updateLog("Code is invalid");
+        sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
+        return;
+      }
       console.log("test code received. Executing...");
       const result = await ExecCodeTest(
         code,
@@ -114,17 +133,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
       console.log(result);
       isRunning = false;
       currentDataJson.isVMRunning = isRunning;
-      await updateDatabase({
-        ...currentDataJson,
-        dialogue: [
-          ...currentDataJson.dialogue,
-          {
-            contentType: "log",
-            isuser: false,
-            content: result.consoleOutput,
-          },
-        ],
-      });
+      updateLog(result.consoleOutput.join("\n"));
       sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
     }
   });

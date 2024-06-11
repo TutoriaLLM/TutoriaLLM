@@ -1,4 +1,4 @@
-import vm from "vm";
+import vm, { Context, Script } from "vm";
 import { sessionDB } from "../../db/index.js";
 import { SessionValue, WSMessage } from "../../type.js";
 import * as http from "http";
@@ -12,10 +12,21 @@ import { error } from "console";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// VMのインスタンスを管理するためのインターフェース
+interface VMInstance {
+  context: Context;
+  script: Script | null;
+  consoleOutput: string[];
+  running: boolean;
+}
+
+// VMのインスタンスを管理するオブジェクト
+const vmInstances: { [key: string]: VMInstance } = {};
+
 // 拡張機能ファイルを読み込む関数
-const loadExtensions = async () => {
+const loadExtensions = async (): Promise<((context: Context) => void)[]> => {
   const extensionsDir = path.resolve(__dirname, "../../../extensions");
-  const extensions = [];
+  const extensions: ((context: Context) => void)[] = [];
 
   const extensionFolders = fs.readdirSync(extensionsDir);
   for (const extensionFolder of extensionFolders) {
@@ -37,27 +48,21 @@ const loadExtensions = async () => {
   return extensions;
 };
 
-let context: vm.Context;
-let script: vm.Script;
-let running = false;
-let consoleOutput: string[] = [];
-
 export async function ExecCodeTest(
   code: string,
   uuid: string,
   userScript: string,
   serverRootPath: string
-) {
+): Promise<string> {
   // verify session with uuid
   const session = await sessionDB.get(code);
-  const sessionValue = JSON.parse(session);
+  const sessionValue: SessionValue = JSON.parse(session);
   if (sessionValue.uuid !== uuid) {
     return "Invalid uuid";
   }
 
-  // VM コンテキストを作成し、拡張機能を追加。安全なコンテキストを作成するために、VMのコンテキストには必要最小限の機能のみを提供する
-  consoleOutput = [];
-  context = vm.createContext({
+  const consoleOutput: string[] = [];
+  const context = vm.createContext({
     WebSocket,
     WebSocketServer,
     uuid,
@@ -76,26 +81,31 @@ export async function ExecCodeTest(
     extFunction(context);
   });
 
+  let script: Script | null = null;
   try {
     script = new vm.Script(`${userScript}`);
     script.runInContext(context);
   } catch (e) {
     console.log("error on VM execution");
     console.log(e);
-    await StopCodeTest(code, uuid); // Ensure StopCodeTest is awaited
-    // エラーを返すとクライアントが処理できないので、暫定処置として止めている
+    await StopCodeTest(code, uuid);
   }
 
-  running = true;
+  // VMのインスタンスを保存
+  vmInstances[uuid] = { context, script, consoleOutput, running: true };
+
   return "Valid uuid";
 }
 
-export async function StopCodeTest(code: string, uuid: string) {
-  if (running) {
-    running = false; // Set running to false to stop further execution
-    const output = consoleOutput;
+export async function StopCodeTest(
+  code: string,
+  uuid: string
+): Promise<{ message: string; consoleOutput: string[]; error: string }> {
+  const instance = vmInstances[uuid];
+  if (instance && instance.running) {
+    instance.running = false;
+    const output = instance.consoleOutput;
     const session = await sessionDB.get(code);
-    //uuidが一致するか確認
     if (JSON.parse(session).uuid !== uuid) {
       return {
         message: "Invalid uuid",
@@ -104,6 +114,7 @@ export async function StopCodeTest(code: string, uuid: string) {
       };
     }
     console.log("updating session result");
+    delete vmInstances[uuid]; // VMインスタンスを削除
     return {
       message: "Script execution stopped successfully.",
       consoleOutput: output,
