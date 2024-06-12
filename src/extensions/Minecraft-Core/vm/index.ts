@@ -2,35 +2,34 @@ import { Context } from "vm";
 import { v4 as uuid } from "uuid";
 import { WebSocketServer } from "ws";
 import http from "http";
+import expressWs from "express-ws";
 
 export default function (context: Context) {
   // ランダムな空いているポートを選択するために0を指定
-  const server = http.createServer().listen(0, () => {
-    const address = server.address();
-    const port = typeof address === "string" ? address : address?.port;
+  const websocketserver: expressWs.Router = context.WebSocketRouter;
 
-    console.log(
-      "minecraft vm server with https created on port " +
-        port +
-        " with path " +
-        context.serverRootPath +
-        "/minecraft"
-    );
+  console.log("minecraft vm server created on expressWs");
 
-    const wss = new WebSocketServer({ server });
+  websocketserver.ws("/minecraft/:code", async (ws, req) => {
+    const code = req.params.code;
+    console.log("new minecraft connection+", code);
 
-    wss.on("connection", function connection(ws: any) {
-      ws.on("message", function incoming(message: any) {
-        console.log("received: %s", message);
-        ws.send("received: " + message);
-      });
+    ws.send(JSON.stringify(commandMsg("/say Hello,Minecraft!")));
+    ws.send(JSON.stringify(subscribeMsg("PlayerMessage")));
 
-      ws.send("connected to minecraft server");
+    ws.on("message", async (message) => {
+      try {
+        const messageJson = JSON.parse(message.toString());
+      } catch (e) {
+        console.log("invalid message received");
+      }
+      console.log("Minecraft message received");
+      console.log(messageJson);
     });
-  });
 
-  server.on("error", (err) => {
-    console.error("Server error:", err);
+    ws.on("close", async () => {
+      console.log("Minecraft WS disconnected");
+    });
   });
 }
 

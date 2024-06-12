@@ -2,11 +2,12 @@ import vm, { Context, Script } from "vm";
 import { sessionDB } from "../../db/index.js";
 import { SessionValue, WSMessage } from "../../type.js";
 import * as http from "http";
-import WebSocket, { WebSocketServer } from "ws";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { error } from "console";
+import { WebSocketServer } from "ws";
+import expressWs from "express-ws";
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -52,7 +53,8 @@ export async function ExecCodeTest(
   code: string,
   uuid: string,
   userScript: string,
-  serverRootPath: string
+  serverRootPath: string,
+  WebSocketRouter: expressWs.Router
 ): Promise<string> {
   // verify session with uuid
   const session = await sessionDB.get(code);
@@ -63,8 +65,7 @@ export async function ExecCodeTest(
 
   const consoleOutput: string[] = [];
   const context = vm.createContext({
-    WebSocket,
-    WebSocketServer,
+    WebSocketRouter,
     uuid,
     console: {
       log: (...args: string[]) => {

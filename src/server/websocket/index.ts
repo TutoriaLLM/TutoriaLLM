@@ -111,7 +111,8 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         code,
         currentDataJson.uuid,
         (messageJson as WSMessage).value as string,
-        `/vm/${code}`
+        `/vm/${code}`,
+        websocketserver
       );
       if (result === "Valid uuid") {
         console.log("Script is running...");
