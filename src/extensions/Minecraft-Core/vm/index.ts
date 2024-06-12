@@ -4,7 +4,7 @@ import { WebSocketServer } from "ws";
 import http from "http";
 import expressWs from "express-ws";
 
-export default function (context: Context) {
+export default async function (context: Context) {
   // ランダムな空いているポートを選択するために0を指定
   const websocketserver: expressWs.Router = context.WebSocketRouter;
 
@@ -20,11 +20,11 @@ export default function (context: Context) {
     ws.on("message", async (message) => {
       try {
         const messageJson = JSON.parse(message.toString());
+        console.log(messageJson);
       } catch (e) {
         console.log("invalid message received");
       }
       console.log("Minecraft message received");
-      console.log(messageJson);
     });
 
     ws.on("close", async () => {

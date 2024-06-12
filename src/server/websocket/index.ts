@@ -1,7 +1,7 @@
 import express from "express";
 import { sessionDB } from "../db/index.js";
 import expressWs from "express-ws";
-import { SessionValue, WSMessage } from "../type.js";
+import { SessionValue, WSMessage } from "../../type.js";
 import {
   ExecCodeTest,
   SendIsWorkspaceRunning,
@@ -81,12 +81,12 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         ws.send("Invalid uuid");
         ws.close();
       }
-      const { sessioncode, uuid, workspace, updatedAt } = messageJson;
+      const { sessioncode, uuid, workspace, dialogue } = messageJson;
       const dataToPut: SessionValue = {
         sessioncode: sessioncode,
         uuid: uuid,
         workspace: workspace,
-        dialogue: currentDataJson.dialogue,
+        dialogue: dialogue,
         createdAt: currentDataJson.createdAt,
         updatedAt: new Date(),
         isVMRunning: currentDataJson.isVMRunning,

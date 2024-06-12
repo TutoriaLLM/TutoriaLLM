@@ -1,12 +1,10 @@
 import vm, { Context, Script } from "vm";
 import { sessionDB } from "../../db/index.js";
-import { SessionValue, WSMessage } from "../../type.js";
+import { SessionValue, WSMessage } from "../../../type.js";
 import * as http from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { error } from "console";
-import { WebSocketServer } from "ws";
 import expressWs from "express-ws";
 
 // `__dirname` を取得
@@ -63,6 +61,7 @@ export async function ExecCodeTest(
     return "Invalid uuid";
   }
 
+  //コンテキストの設定
   const consoleOutput: string[] = [];
   const context = vm.createContext({
     WebSocketRouter,

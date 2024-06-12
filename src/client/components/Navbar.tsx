@@ -6,7 +6,7 @@ export default function Navbar(props: { code: string; isConnected: boolean }) {
     <div className="w-full p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex justify-between gap-2">
       <a
         href="/"
-        className="flex gap-0.5 bg-red-500 font-semibold hover:bg-red-300 transition-colors duration-150 border border-red-500 rounded-xl p-4 text-white hover:text-gray-700"
+        className="flex gap-0.5 bg-red-500 font-semibold hover:bg-red-300 transition-colors duration-150 border border-red-500 rounded-2xl p-4 text-white hover:text-gray-700"
       >
         <DoorOpen />
         Leave

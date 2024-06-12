@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import SessionPopup from "../components/session";
-import { SessionValue, WSMessage } from "../../server/type";
+import { SessionValue, WSMessage } from "../../type";
 
 //stateの読み込み
 import {

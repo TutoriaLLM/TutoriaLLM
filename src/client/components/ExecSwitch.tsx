@@ -10,7 +10,7 @@ import {
 } from "../state";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { SessionValue, WSMessage } from "../../server/type";
+import { SessionValue, WSMessage } from "../../type";
 import sleep from "../utils/sleep";
 
 //このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。

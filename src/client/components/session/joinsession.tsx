@@ -7,7 +7,7 @@ import { useRef } from "react";
 export default function JoinSession() {
   function Slot(props: SlotProps) {
     return (
-      <div className="h-10 w-10 border-2 border-gray-400 rounded-xl flex justify-center items-center p-0.5 font-semibold text-gray-800">
+      <div className="h-10 w-10 border-2 border-gray-400 rounded-2xl flex justify-center items-center p-0.5 font-semibold text-gray-800">
         {props.char !== null && <div>{props.char}</div>}
         {props.hasFakeCaret && (
           <div className="w-0.5 h-full bg-gray-400 rounded-full animate-caret-blink" />
@@ -23,7 +23,7 @@ export default function JoinSession() {
     console.log("join session" + inputCode);
   }
   return (
-    <div className="flex flex-col justify-center items-center gap-1.5 p-2 bg-stone-200 rounded-xl w-full">
+    <div className="flex flex-col justify-center items-center gap-1.5 p-2 bg-stone-200 rounded-2xl w-full">
       <span>Type your code</span>
       <OTPInput
         ref={inputRef}

@@ -32,7 +32,7 @@ export default function CreateNewSession() {
 
   return (
     <button
-      className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-xl flex transition-all items-center ${
+      className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center ${
         loading ? "opacity-50 cursor-not-allowed" : ""
       }`}
       onClick={handleCreateSession}
