@@ -23,6 +23,7 @@ export type SessionValue = {
   workspace: any[string];
   isVMRunning: boolean;
   clients: string[];
+  language: string;
 };
 
 export type WSMinecraftMessage = {

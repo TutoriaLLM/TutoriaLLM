@@ -91,6 +91,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         updatedAt: new Date(),
         isVMRunning: currentDataJson.isVMRunning,
         clients: currentDataJson.clients,
+        language: currentDataJson.language,
       };
 
       await updateDatabase(dataToPut);

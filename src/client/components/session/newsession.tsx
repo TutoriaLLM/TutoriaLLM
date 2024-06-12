@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-export default function CreateNewSession() {
+export default function CreateNewSession(props: { language: string }) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
   const handleCreateSession = async () => {
     setLoading(true);
+    console.log("create session");
+    const language = props.language; // ここで状態を取得する
     try {
-      const response = await fetch("session/new", {
+      const response = await fetch("session/new" + "?language=" + language, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +42,7 @@ export default function CreateNewSession() {
       onClick={handleCreateSession}
       disabled={loading}
     >
-      {loading ? "Creating..." : "Create New Session"} <Plus />
+      {loading ? t("session.creating") : t("session.createSession")} <Plus />
     </button>
   );
 }

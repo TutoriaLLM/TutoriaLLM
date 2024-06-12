@@ -8,7 +8,7 @@ const DBrouter = express.Router();
 //複数セッションを管理するのに使用するコードとデータを保存するDB
 export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
 
-function intitialData(code: string): SessionValue {
+function intitialData(code: string, language: string): SessionValue {
   return {
     sessioncode: code,
     uuid: crypto.randomUUID(),
@@ -18,12 +18,18 @@ function intitialData(code: string): SessionValue {
     workspace: {},
     isVMRunning: false,
     clients: [],
+    language: language,
   };
 }
 
 DBrouter.get("/new", async (req, res) => {
   //参加コードを生成
   const code = joincodeGen();
+  //言語をクエリから取得し、存在しない場合は英語をデフォルトとする
+  var language = req.query.language;
+  if (language === undefined || !language) {
+    language = "en";
+  }
   //生成したコードが重複していないか確認
   const value = await sessionDB.get(code).catch(() => null);
   if (value === code) {
@@ -32,7 +38,11 @@ DBrouter.get("/new", async (req, res) => {
       .send("Failed to create session by api: code already exists");
     return;
   }
-  await sessionDB.put(code, JSON.stringify(intitialData(code)));
+  await sessionDB.put(
+    code,
+    JSON.stringify(intitialData(code, language.toString()))
+  );
+  console.log("session created by api");
   res.send(code);
 });
 

@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import NotFound from "./pages/404";
 import Editor from "./pages/editorPage";
 
+import "../i18n/config";
+
 export default function App(): React.ReactElement {
   // アプリのページ定義
 

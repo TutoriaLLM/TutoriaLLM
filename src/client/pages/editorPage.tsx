@@ -8,6 +8,9 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import SessionPopup from "../components/session";
 import { SessionValue, WSMessage } from "../../type";
 
+//言語の読み込み
+import { useTranslation } from "react-i18next";
+
 //stateの読み込み
 import {
   userSessionCode,
@@ -17,6 +20,7 @@ import {
   websocketInstance,
   isWorkspaceCodeRunning,
   prevSessionState,
+  LanguageToStart,
 } from "../state";
 
 export default function EditorPage(props: any) {
@@ -37,7 +41,11 @@ export default function EditorPage(props: any) {
   const isMobile = devicewidth < 768;
   const direction = isMobile ? "vertical" : "horizontal";
 
-  const [statusMessage, setStatusMessage] = useState("");
+  //言語
+  const { t } = useTranslation();
+  const languageToStart = useAtomValue(LanguageToStart);
+
+  const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
 
   // URLパスにコードがあるか確認する
   useEffect(() => {
@@ -47,11 +55,11 @@ export default function EditorPage(props: any) {
       setSessionCode(codeFromPath);
       console.log("codeFromPath", codeFromPath);
     } else {
-      setStatusMessage("Type your code or create a new session to start.");
+      setStatusMessage(t("session.typecodeMsg"));
       setShowPopup(true);
       console.log("codeFromPath is empty");
     }
-  }, [codeFromPath]);
+  }, [codeFromPath, languageToStart]);
 
   // セッションが存在するか確認する。一回目だけDBから取得し、以降はWebSocketで更新する
   useEffect(() => {
@@ -61,9 +69,7 @@ export default function EditorPage(props: any) {
         if (response.status === 404) {
           // セッションが存在しない場合はスキップする
           console.log("code is invalid!");
-          setStatusMessage(
-            "Session not found. Type another code or create a new session to start."
-          );
+          setStatusMessage(t("session.sessionNotFoundMsg"));
           setShowPopup(true);
         } else {
           const data: SessionValue = await response.json();
@@ -78,11 +84,11 @@ export default function EditorPage(props: any) {
     if (sessionCode !== "") {
       checkSession();
     }
-  }, [sessionCode]);
+  }, [sessionCode, languageToStart]);
 
   // WebSocketに接続する関数
   async function connectWebSocket(data: SessionValue) {
-    const host = `ws://${window.location.host}/session/ws/connect/${sessionCode}?uuid=${data.uuid}`;
+    const host = `ws://${window.location.host}/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
 
     console.log("processing websocket connection: " + host);
 

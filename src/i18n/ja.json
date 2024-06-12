@@ -1,0 +1,11 @@
+{
+  "session": {
+    "hello": "こんにちは！",
+    "createSession": "セッションをつくる",
+    "typecodeMsg": "コードを入力するか、新しいセッションを作成して開始してください。",
+    "or": "または"
+  },
+  "session.creating": "作成中...",
+  "session.joinsession": "コードで参加する",
+  "session.sessionNotFoundMsg": "セッションが見つかりませんでした。他のコードを試すか、新しいセッションを作成してください。"
+}

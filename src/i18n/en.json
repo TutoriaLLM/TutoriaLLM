@@ -1,0 +1,11 @@
+{
+  "session": {
+    "hello": "Hello!",
+    "createSession": "Create new session",
+    "typecodeMsg": "Type your code or create a new session to start.",
+    "or": "or"
+  },
+  "session.creating": "creating...",
+  "session.joinsession": "join with code",
+  "session.sessionNotFoundMsg": "Session not found. Type another code or create a new session to start."
+}

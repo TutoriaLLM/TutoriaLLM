@@ -6,6 +6,9 @@ import { toolboxCategories } from "./toolbox";
 import registerBlocks from "./blocks";
 import Theme from "./theme";
 
+// 言語の読み込み
+import { blocklyLocale } from "../../../i18n/blocklyLocale";
+
 // BlocklyのCSSを上書きする
 import "../../styles/blockly.css";
 
@@ -15,17 +18,26 @@ import { currentSessionState, prevSessionState } from "../../state";
 // ブロックを登録する
 registerBlocks();
 
-//エディターを定義する
+// エディターを定義する
 export default function Editor() {
   const [currentSession, setCurrentSession] = useAtom(currentSessionState);
   const prevSession = useAtomValue(prevSessionState);
 
   useEffect(() => {
+    // Blocklyの言語設定を適用
+    const language = currentSession?.language;
+    console.log("langState", language);
+    if (language && blocklyLocale[language]) {
+      console.log("Setting Blockly locale to", language);
+      Blockly.setLocale(blocklyLocale[language]);
+    } else {
+      console.log("Setting Blockly locale to English");
+      Blockly.setLocale(blocklyLocale["en"]);
+    }
+
     // ワークスペースのリサイズを検知してBlocklyをリサイズ
     async function getWorkspace() {
       const workspaceArea = document.getElementById("workspaceArea");
-      console.log("workspaceArea", workspaceArea);
-
       if (workspaceArea) {
         const resizeObserver = new ResizeObserver((entries) => {
           onResize();
@@ -34,11 +46,11 @@ export default function Editor() {
       }
 
       function onResize() {
-        console.log("Resized");
         const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
         Blockly.svgResize(workspace);
       }
     }
+
     getWorkspace();
 
     // Blocklyのワークスペースを初期化
@@ -61,7 +73,6 @@ export default function Editor() {
 
     // セッションが存在する場合はワークスペースを読み込む
     if (currentSession && currentSession.workspace) {
-      console.log("Workspace Initialized: ", currentSession.workspace);
       Blockly.serialization.workspaces.load(
         currentSession.workspace,
         workspace
@@ -96,10 +107,6 @@ export default function Editor() {
               prev &&
               JSON.stringify(prev.workspace) !== JSON.stringify(newWorkspace)
             ) {
-              console.log(
-                "Overwrite workspace to current state ",
-                newWorkspace
-              );
               return {
                 ...prev,
                 workspace: newWorkspace,
@@ -120,7 +127,7 @@ export default function Editor() {
     };
   }, []);
 
-  //currentSessionの変更を前のsessionと比較してワークスペースを更新
+  // currentSessionの変更を前のsessionと比較してワークスペースを更新
   useEffect(() => {
     const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
     if (
@@ -138,7 +145,7 @@ export default function Editor() {
         console.error("Failed to load the workspace:", error);
       }
     }
-  }, [currentSession?.workspace]);
+  }, [currentSession, prevSession]);
 
   return <div id="blocklyDiv" className="w-full h-full"></div>;
 }

@@ -2,6 +2,8 @@ import { atom } from "jotai";
 // 状態管理
 //セッションコード
 export const userSessionCode = atom("");
+//開始する言語の状態。i18nから取得する。セッション開始後にはSessionStateを使用する。
+export const LanguageToStart = atom("");
 //セッションを作成、参加するためのポップアップの表示
 export const isPopupOpen = atom(false);
 //ワークスペースが接続されているかどうか

@@ -4,7 +4,10 @@ import { useSetAtom } from "jotai";
 import { userSessionCode } from "../../state";
 import { useRef } from "react";
 
+import { useTranslation } from "react-i18next";
+
 export default function JoinSession() {
+  const { t } = useTranslation();
   function Slot(props: SlotProps) {
     return (
       <div className="h-10 w-10 border-2 border-gray-400 rounded-2xl flex justify-center items-center p-0.5 font-semibold text-gray-800">
@@ -24,7 +27,7 @@ export default function JoinSession() {
   }
   return (
     <div className="flex flex-col justify-center items-center gap-1.5 p-2 bg-stone-200 rounded-2xl w-full">
-      <span>Type your code</span>
+      <span>{t("session.joinsession")}</span>
       <OTPInput
         ref={inputRef}
         inputMode="text"
