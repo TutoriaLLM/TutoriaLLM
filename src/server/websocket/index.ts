@@ -15,14 +15,14 @@ expressWs(websocketserver as any);
 
 const clients = new Map<string, any>(); // WebSocketクライアントを管理するマップ
 
-// Initialize i18next
+// i18n configuration
 i18next.use(FsBackend).init<FsBackendOptions>(
   {
     backend: {
       loadPath: "src/i18n/{{lng}}.json",
     },
     fallbackLng: "en",
-    preload: ["ja", "en"], // Add the languages you want to preload
+    preload: ["ja", "en", "zh", "ms"], // Add the languages you want to preload
   },
   (err, t) => {
     if (err) return console.error(err);
