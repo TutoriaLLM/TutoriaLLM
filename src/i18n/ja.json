@@ -12,5 +12,7 @@
   "session.hello": "こんにちは",
   "session.or": "または",
   "session.createSession": "新しい部屋を作る",
-  "session.typecodeMsg": "コードを入力するか、新しい部屋を作成して開始してください。"
+  "session.typecodeMsg": "コードを入力するか、新しい部屋を作成して開始してください。",
+  "session.about": "アプリについて",
+  "session.welcome": "AIとプログラミングを学んでみよう。"
 }

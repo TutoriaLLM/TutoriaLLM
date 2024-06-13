@@ -3,6 +3,8 @@ import expressWs from "express-ws";
 import ViteExpress from "vite-express";
 
 import session from "./session/index.js";
+import admin from "./admin/index.js";
+import auth from "./auth/index.js";
 
 const app = express();
 expressWs(app);
@@ -10,10 +12,15 @@ expressWs(app);
 //session routes
 app.use("/session", session);
 
+//admin routes
+app.use("/admin", admin);
+
+//auth routes
+app.use("/auth", auth);
+
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000...")
 );
-
 //メモリ監視
 // メモリ使用量を一定時間おきに監視する関数
 const monitorMemoryUsage = (interval: number) => {

@@ -1,5 +1,5 @@
 import express from "express";
-import DBrouter from "../db/index.js";
+import DBrouter from "../db/session.js";
 import websocketserver from "../websocket/index.js";
 
 // セッション管理をまとめる。db/websocketサーバーのエントリーポイント

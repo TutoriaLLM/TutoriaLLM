@@ -18,4 +18,9 @@ export default defineConfig({
       include: [/node_modules/],
     },
   },
+  define: {
+    "process.env.VITE_AUTH_SECRET": JSON.stringify(
+      process.env.VITE_AUTH_SECRET
+    ),
+  },
 });

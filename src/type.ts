@@ -30,3 +30,11 @@ export type WSMinecraftMessage = {
   Header: {};
   Body: {};
 };
+
+export type AppConfig = {
+  settings: {
+    defaultPassword: string;
+    enableJoinbyCode: boolean;
+    enableCreateRoom: boolean;
+  };
+};

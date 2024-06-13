@@ -1,6 +1,6 @@
 import { Level } from "level";
 import express from "express";
-import joincodeGen from "../utils/joincodeGen.js";
+import joincodeGen from "../../utils/joincodeGen.js";
 import { SessionValue } from "../../type.js";
 
 const DBrouter = express.Router();

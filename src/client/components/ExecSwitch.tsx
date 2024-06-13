@@ -11,7 +11,7 @@ import {
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { SessionValue, WSMessage } from "../../type";
-import sleep from "../utils/sleep";
+import sleep from "../../utils/sleep";
 
 import { useTranslation } from "react-i18next";
 

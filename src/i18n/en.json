@@ -12,5 +12,7 @@
   "session.hello": "Hello",
   "session.or": "or",
   "session.createSession": "Create new room",
-  "session.typecodeMsg": "Type your code, or create new room to start."
+  "session.typecodeMsg": "Type your code, or create new room to start.",
+  "session.about": "About this app",
+  "session.welcome": "Study coding with AI"
 }

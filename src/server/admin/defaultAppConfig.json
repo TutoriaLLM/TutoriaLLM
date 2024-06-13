@@ -1,0 +1,7 @@
+{
+  "settings": {
+    "defaultPassword": "admin",
+    "enableJoinbyCode": true,
+    "enableCreateRoom": true
+  }
+}

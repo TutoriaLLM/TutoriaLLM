@@ -1,5 +1,5 @@
 import express from "express";
-import { sessionDB } from "../db/index.js";
+import { sessionDB } from "../db/session.js";
 import expressWs from "express-ws";
 import { SessionValue, WSMessage } from "../../type.js";
 import {
