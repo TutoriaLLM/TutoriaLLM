@@ -13,8 +13,11 @@ import { useEffect, useState } from "react";
 import { SessionValue, WSMessage } from "../../type";
 import sleep from "../utils/sleep";
 
+import { useTranslation } from "react-i18next";
+
 //このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。
 export function ExecSwitch() {
+  const { t } = useTranslation();
   const isCodeRunning = useAtomValue(isWorkspaceCodeRunning);
   const isConnected = useAtomValue(isWorkspaceConnected);
   const wsInstance = useAtomValue(websocketInstance);
@@ -80,14 +83,16 @@ export function ExecSwitch() {
         <div className="flex items-center p-2 gap-2 rounded-2xl border border-gray-300">
           <span className="flex flex-col">
             <label className="text-gray-600 text-base leading-none font-semibold">
-              Run Code
+              {t("execSwitch.label")}
             </label>
             <label
               className={`${
                 isCodeRunning ? "text-green-600" : "text-red-400"
               } text-xs leading-none font-semibold`}
             >
-              {isCodeRunning ? "Running" : "Stopped"}
+              {isCodeRunning
+                ? t("execSwitch.Running")
+                : t("execSwitch.Stopped")}
             </label>
           </span>
           <Switch.Root

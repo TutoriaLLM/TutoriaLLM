@@ -50,8 +50,11 @@ export default function SessionPopup(props: { message: string }) {
               <CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
               <p className="text-left w-full"> {props.message}</p>
             </div>
+
             <span className="my-2 h-0.5 w-[75%] rounded-full bg-gray-200" />
+
             <CreateNewSession language={languageToStart} />
+
             <span className="">{t("session.or")}</span>
             <JoinSession />
             <span className="my-2 h-0.5 w-[75%] rounded-full bg-gray-200" />

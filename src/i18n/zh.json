@@ -10,7 +10,5 @@
   "execSwitch.Stopped": "Stopped",
   "error.empty_code": "Code is invalid or empty",
   "session.hello": "Hello",
-  "session.or": "or",
-  "session.createSession": "Create new room",
-  "session.typecodeMsg": "Type your code, or create new room to start."
+  "session.createSession": "新建房间"
 }

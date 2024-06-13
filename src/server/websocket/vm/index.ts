@@ -6,6 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import expressWs from "express-ws";
+import { updateLog } from "../index.js";
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -15,21 +16,20 @@ const __dirname = path.dirname(__filename);
 interface VMInstance {
   context: Context;
   script: Script | null;
-  consoleOutput: string[];
   running: boolean;
 }
 
 // VMのインスタンスを管理するオブジェクト
 const vmInstances: { [key: string]: VMInstance } = {};
 
-// 拡張機能ファイルを読み込む関数
+// 拡張機能コンテキストを読み込む関数
 const loadExtensions = async (): Promise<((context: Context) => void)[]> => {
   const extensionsDir = path.resolve(__dirname, "../../../extensions");
   const extensions: ((context: Context) => void)[] = [];
 
   const extensionFolders = fs.readdirSync(extensionsDir);
   for (const extensionFolder of extensionFolders) {
-    const vmDir = path.join(extensionsDir, extensionFolder, "vm");
+    const vmDir = path.join(extensionsDir, extensionFolder, "context");
     if (fs.existsSync(vmDir) && fs.lstatSync(vmDir).isDirectory()) {
       const files = fs.readdirSync(vmDir);
       for (const file of files) {
@@ -47,12 +47,51 @@ const loadExtensions = async (): Promise<((context: Context) => void)[]> => {
   return extensions;
 };
 
+// ログを蓄積するバッファと定期的なDB更新関数
+class LogBuffer {
+  private buffer: string[] = [];
+  private interval: NodeJS.Timeout | null = null;
+
+  constructor(
+    private dbUpdater: (code: string, logs: string[]) => Promise<void>,
+    private code: string
+  ) {}
+
+  start() {
+    if (this.interval) return;
+    this.interval = setInterval(() => this.flush(), 1000);
+  }
+
+  stop() {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
+  }
+
+  add(log: string) {
+    this.buffer.push(log);
+  }
+
+  private async flush() {
+    if (this.buffer.length === 0) return;
+    const logsToSave = [...this.buffer];
+    this.buffer = [];
+    try {
+      await this.dbUpdater(this.code, logsToSave);
+    } catch (e) {
+      console.error("Error updating DB with logs:", e);
+    }
+  }
+}
+
 export async function ExecCodeTest(
   code: string,
   uuid: string,
   userScript: string,
   serverRootPath: string,
-  WebSocketRouter: expressWs.Router
+  WebSocketRouter: expressWs.Router,
+  DBupdator: (newData: SessionValue) => Promise<void>
 ): Promise<string> {
   // verify session with uuid
   const session = await sessionDB.get(code);
@@ -61,14 +100,29 @@ export async function ExecCodeTest(
     return "Invalid uuid";
   }
 
-  //コンテキストの設定
-  const consoleOutput: string[] = [];
+  // ログバッファのインスタンスを作成
+  const logBuffer = new LogBuffer(async (code, logs: string[]) => {
+    const session = await sessionDB.get(code);
+    const sessionValue: SessionValue = JSON.parse(session);
+    logs.forEach((log) => {
+      sessionValue.dialogue.push({
+        contentType: "log",
+        isuser: false,
+        content: log,
+      });
+    });
+    await DBupdator(sessionValue);
+  }, code);
+
+  // コンテキストの設定
   const context = vm.createContext({
     WebSocketRouter,
     uuid,
     console: {
       log: (...args: string[]) => {
-        consoleOutput.push(args.join(" "));
+        const logMessage = args.join(" ");
+        logBuffer.add(logMessage);
+        console.log("log from VM:" + logMessage);
       },
     },
     http,
@@ -92,7 +146,10 @@ export async function ExecCodeTest(
   }
 
   // VMのインスタンスを保存
-  vmInstances[uuid] = { context, script, consoleOutput, running: true };
+  vmInstances[uuid] = { context, script, running: true };
+
+  // ログバッファの処理を開始
+  logBuffer.start();
 
   return "Valid uuid";
 }
@@ -100,16 +157,14 @@ export async function ExecCodeTest(
 export async function StopCodeTest(
   code: string,
   uuid: string
-): Promise<{ message: string; consoleOutput: string[]; error: string }> {
+): Promise<{ message: string; error: string }> {
   const instance = vmInstances[uuid];
   if (instance && instance.running) {
     instance.running = false;
-    const output = instance.consoleOutput;
     const session = await sessionDB.get(code);
     if (JSON.parse(session).uuid !== uuid) {
       return {
         message: "Invalid uuid",
-        consoleOutput: [],
         error: "Invalid uuid",
       };
     }
@@ -117,13 +172,11 @@ export async function StopCodeTest(
     delete vmInstances[uuid]; // VMインスタンスを削除
     return {
       message: "Script execution stopped successfully.",
-      consoleOutput: output,
       error: "",
     };
   } else {
     return {
       message: "Script is not running.",
-      consoleOutput: [],
       error: "Script is not running.",
     };
   }

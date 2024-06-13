@@ -4,6 +4,7 @@ import { initReactI18next } from "react-i18next";
 // 言語jsonファイルのimport
 import translation_en from "./en.json";
 import translation_ja from "./ja.json";
+import translation_zh from "./zh.json";
 
 const resources = {
   ja: {
@@ -12,6 +13,9 @@ const resources = {
   en: {
     translation: translation_en,
   },
+  zh: {
+    translation: translation_zh,
+  },
 };
 
 i18n
@@ -19,7 +23,7 @@ i18n
   .init({
     resources,
     lng: "en", //Default Language
-    fallbackLng: ["ja", "en"], //Languages
+    fallbackLng: ["ja", "en", "zh"], //Languages
     interpolation: {
       escapeValue: false, // react already safes from xss
     },

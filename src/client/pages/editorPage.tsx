@@ -22,6 +22,7 @@ import {
   prevSessionState,
   LanguageToStart,
 } from "../state";
+import i18next from "i18next";
 
 export default function EditorPage(props: any) {
   const { code: codeFromPath } = useParams();
@@ -77,6 +78,7 @@ export default function EditorPage(props: any) {
           setCurrentSession(data);
           setPrevSession(data);
           connectWebSocket(data);
+          i18next.changeLanguage(data.language);
         }
       }
     }

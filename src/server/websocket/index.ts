@@ -7,12 +7,28 @@ import {
   SendIsWorkspaceRunning,
   StopCodeTest,
 } from "./vm/index.js";
-import { send } from "vite";
+import i18next from "i18next";
+import FsBackend, { FsBackendOptions } from "i18next-fs-backend";
 
 const websocketserver = express.Router();
 expressWs(websocketserver as any);
 
 const clients = new Map<string, any>(); // WebSocketクライアントを管理するマップ
+
+// Initialize i18next
+i18next.use(FsBackend).init<FsBackendOptions>(
+  {
+    backend: {
+      loadPath: "src/i18n/{{lng}}.json",
+    },
+    fallbackLng: "en",
+    preload: ["ja", "en"], // Add the languages you want to preload
+  },
+  (err, t) => {
+    if (err) return console.error(err);
+    console.log("i18next initialized");
+  }
+);
 
 websocketserver.ws("/connect/:code", async (ws, req) => {
   const code = req.params.code;
@@ -38,6 +54,9 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
     await sessionDB.put(code, JSON.stringify(data));
   }
 
+  // Change language based on DB settings
+  i18next.changeLanguage(data.language);
+
   ws.send(JSON.stringify(SendIsWorkspaceRunning(data.isVMRunning)));
 
   ws.on("message", async (message) => {
@@ -60,20 +79,6 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         }
       });
     };
-    async function updateLog(message: string) {
-      if (!message) return;
-      await updateDatabase({
-        ...currentDataJson,
-        dialogue: [
-          ...currentDataJson.dialogue,
-          {
-            contentType: "log",
-            isuser: false,
-            content: message,
-          },
-        ],
-      });
-    }
 
     if ((messageJson as SessionValue).workspace) {
       const messageJson = JSON.parse(message.toString());
@@ -103,7 +108,9 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         isRunning = false;
         currentDataJson.isVMRunning = isRunning;
         await updateDatabase(currentDataJson);
-        updateLog("Code is invalid");
+        updateDatabase(
+          updateLog(i18next.t("error.empty_code"), currentDataJson)
+        );
         sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
         return;
       }
@@ -113,7 +120,8 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         currentDataJson.uuid,
         (messageJson as WSMessage).value as string,
         `/vm/${code}`,
-        websocketserver
+        websocketserver,
+        updateDatabase
       );
       if (result === "Valid uuid") {
         console.log("Script is running...");
@@ -135,7 +143,6 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
       console.log(result);
       isRunning = false;
       currentDataJson.isVMRunning = isRunning;
-      updateLog(result.consoleOutput.join("\n"));
       sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
     }
   });
@@ -181,6 +188,23 @@ function sendToAllClients(session: SessionValue, message?: WSMessage) {
       clients.get(id).send(JSON.stringify(message ? message : session));
     }
   });
+}
+
+export function updateLog(
+  message: string,
+  currentDataJson: SessionValue
+): SessionValue {
+  return {
+    ...currentDataJson,
+    dialogue: [
+      ...currentDataJson.dialogue,
+      {
+        contentType: "log",
+        isuser: false,
+        content: message,
+      },
+    ],
+  };
 }
 
 export default websocketserver;

@@ -1,11 +1,16 @@
 {
-  "session": {
-    "hello": "こんにちは！",
-    "createSession": "セッションをつくる",
-    "typecodeMsg": "コードを入力するか、新しいセッションを作成して開始してください。",
-    "or": "または"
-  },
   "session.creating": "作成中...",
   "session.joinsession": "コードで参加する",
-  "session.sessionNotFoundMsg": "セッションが見つかりませんでした。他のコードを試すか、新しいセッションを作成してください。"
+  "session.sessionNotFoundMsg": "セッションが見つかりませんでした。他のコードを試すか、新しいセッションを作成してください。",
+  "navbar.leave": "やめる",
+  "navbar.reconnecting": "切断されました。再接続しています。",
+  "navbar.connected": "接続中",
+  "execSwitch.label": "コードを実行",
+  "execSwitch.Running": "実行中",
+  "execSwitch.Stopped": "停止中",
+  "error.empty_code": "コードが無効か、空になっています",
+  "session.hello": "こんにちは",
+  "session.or": "または",
+  "session.createSession": "新しい部屋を作る",
+  "session.typecodeMsg": "コードを入力するか、新しい部屋を作成して開始してください。"
 }
