@@ -1,20 +1,20 @@
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useAtomValue } from "jotai";
 import React, { useEffect } from "react";
 
-import { LanguageToStart, isPopupOpen } from "../../state";
+import { LanguageToStart, isPopupOpen } from "../../state.js";
 import * as Dialog from "@radix-ui/react-dialog";
-import JoinSession from "./joinsession";
-import CreateNewSession from "./newsession";
+import JoinSession from "./joinsession.js";
+import CreateNewSession from "./newsession.js";
 import { CircleAlert, HelpCircle } from "lucide-react";
 
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 
-import { LangPicker } from "./language";
+import { LangPicker } from "./language.js";
 
 export default function SessionPopup(props: { message: string }) {
   const { t } = useTranslation();
-  const [showPopup, setShowPopup] = useAtom(isPopupOpen);
+  const showPopup = useAtomValue(isPopupOpen);
   const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function SessionPopup(props: { message: string }) {
   return (
     <div>
       {showPopup && (
-        <Dialog.Root open={showPopup} onOpenChange={setShowPopup}>
+        <Dialog.Root open={showPopup}>
           <Dialog.Overlay className="fixed inset-0 z-[998] bg-gray-100 p-2">
             <Dialog.Content
               onPointerDownOutside={avoidDefaultDomBehavior}

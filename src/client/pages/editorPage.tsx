@@ -5,7 +5,7 @@ import Dialogue from "../components/dialogue";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import SessionPopup from "../components/session";
+import SessionPopup from "../components/sessionPopup";
 import { SessionValue, WSMessage } from "../../type";
 
 //言語の読み込み
@@ -24,7 +24,7 @@ import {
 } from "../state";
 import i18next from "i18next";
 
-export default function EditorPage(props: any) {
+export default function EditorPage() {
   const { code: codeFromPath } = useParams();
   const [sessionCode, setSessionCode] = useAtom(userSessionCode);
   // 現在のセッション情報

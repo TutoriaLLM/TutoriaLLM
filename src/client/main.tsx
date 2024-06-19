@@ -8,7 +8,7 @@ import EditorPage from "./pages/editorPage";
 
 import "../i18n/client_i18nConfig";
 import NotFoundPage from "./pages/404";
-import AdminPage from "../admin";
+import AdminPage from "./pages/adminPage";
 
 export default function App(): React.ReactElement {
   // アプリのページ定義

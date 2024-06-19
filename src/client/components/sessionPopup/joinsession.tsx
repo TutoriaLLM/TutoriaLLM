@@ -1,7 +1,7 @@
 import { OTPInput, SlotProps } from "input-otp";
 import { useSetAtom } from "jotai";
 
-import { userSessionCode } from "../../state";
+import { userSessionCode } from "../../state.js";
 import { useRef } from "react";
 
 import { useTranslation } from "react-i18next";

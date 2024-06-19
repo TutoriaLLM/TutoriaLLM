@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "nodemon -w src/server -x tsx src/server/main.ts",
     "start": "NODE_ENV=production tsx src/server/main.ts",
-    "build": "vite build"
+    "build": "vite build",
+    "reset-user": "tsx src/server/db/users.ts --reset-credentials"
   },
   "dependencies": {
-    "@auth/express": "^0.5.5",
     "@blockly/continuous-toolbox": "^6.0.1",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-switch": "^1.0.3",
@@ -24,6 +24,7 @@
     "jotai": "^2.8.2",
     "level": "^8.0.1",
     "lucide-react": "^0.381.0",
+    "passport-local": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.2",

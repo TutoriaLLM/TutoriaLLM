@@ -1,22 +1,20 @@
-// utils/password.js
-
 import bcrypt from "bcrypt";
-
-// Define the number of salt rounds
-const saltRounds = 10;
+import dotenv from "dotenv";
+dotenv.config();
 
 export async function saltAndHashPassword(password: string) {
   try {
-    // Generate a salt
-    const salt = await bcrypt.genSalt(saltRounds);
-
-    // Hash the password with the salt
-    const hashedPassword = await bcrypt.hash(password, salt);
-
+    // generate hashed password
+    const hashedPassword = await bcrypt.hash(password, 12);
     return hashedPassword;
   } catch (error: any) {
     throw new Error("Error salting and hashing password: " + error.message);
   }
 }
 
-export default saltAndHashPassword;
+export async function comparePasswordToHash(password: string, hash: string) {
+  const match = await bcrypt.compare(password, hash);
+  return match;
+}
+
+export default { saltAndHashPassword, comparePasswordToHash };
