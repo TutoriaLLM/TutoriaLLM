@@ -210,7 +210,7 @@ export default function EditorPage() {
           </Panel>
         </PanelGroup>
       )}
-      <SessionPopup message={statusMessage} />
+      <SessionPopup isPopupOpen={showPopup} langToStart={languageToStart} message={statusMessage} />
     </div>
   );
 }
