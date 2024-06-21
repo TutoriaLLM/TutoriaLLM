@@ -1,18 +1,32 @@
 {
-  "session.creating": "creating...",
-  "session.joinsession": "join with code",
-  "session.sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
-  "navbar.leave": "leave",
-  "navbar.connected": "connected",
-  "navbar.reconnecting": "disconnected. attempting to reconnect.",
-  "execSwitch.label": "Run code",
-  "execSwitch.Running": "Running",
-  "execSwitch.Stopped": "Stopped",
-  "error.empty_code": "Code is invalid or empty",
-  "session.hello": "Hello",
-  "session.or": "or",
-  "session.createSession": "Create new room",
-  "session.typecodeMsg": "Type your code, or create new room to start.",
-  "session.about": "About this app",
-  "session.welcome": "Study coding with AI"
+  "session": {
+    "creating": "creating...",
+    "joinsession": "join with code",
+    "sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
+    "hello": "Hello",
+    "or": "or",
+    "createSession": "Create new room",
+    "typecodeMsg": "Type your code, or create new room to start.",
+    "about": "About this app",
+    "welcome": "Study coding with AI"
+  },
+  "navbar": {
+    "leave": "leave",
+    "connected": "connected",
+    "reconnecting": "disconnected. attempting to reconnect.",
+    "home": "Home",
+    "signout": "Sign out"
+  },
+  "execSwitch": {
+    "label": "Run code",
+    "Running": "Running",
+    "Stopped": "Stopped"
+  },
+  "error": {
+    "empty_code": "Code is invalid or empty"
+  },
+  "login": {
+    "welcome": "Login to continue",
+    "title": "Login"
+  }
 }

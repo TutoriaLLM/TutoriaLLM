@@ -11,7 +11,7 @@ export default function CreateNewSession(props: { language: string }) {
     console.log("create session");
     const language = props.language; // ここで状態を取得する
     try {
-      const response = await fetch("session/new" + "?language=" + language, {
+      const response = await fetch("/session/new" + "?language=" + language, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -1,97 +1,65 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-import process from "process";
-import {
-  saltAndHashPassword,
-  comparePasswordToHash,
-} from "../../utils/password.js";
-import admin from "../admin/index.js";
+import sqlite from "better-sqlite3";
+import { saltAndHashPassword } from "../../utils/password.js";
+import fs from "fs";
+import path from "path";
 
-export async function getDbConnection() {
-  console.log("getDbConnection");
-  const db = await open({
-    filename: "dist/users.db",
-    driver: sqlite3.Database,
-  });
-
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT UNIQUE,
-      passwordHash TEXT
-    )
-  `);
-
-  return db;
+// ディレクトリが存在するかどうかを確認し、存在しない場合は作成
+const dbDirectory = path.dirname("dist/users.db");
+if (!fs.existsSync(dbDirectory)) {
+  fs.mkdirSync(dbDirectory, { recursive: true });
 }
 
-export async function getUserFromDb(username: string, password: string) {
-  console.log("getUserFromDb");
-  const db = await getDbConnection();
-  // const user = await db.get(
-  //   "SELECT * FROM users WHERE username = ? AND passwordHash = ?",
-  //   [username, passwordHash]
-  // );
-  const user = await db.get("SELECT * FROM users WHERE username = ?", [
-    username,
-  ]);
-  if (!user) {
-    return null;
-  }
-  const match = await comparePasswordToHash(password, user.passwordHash);
-  if (!match) {
-    return null;
-  }
+// SQLiteデータベースを開く
+export const db = sqlite("dist/users.db");
 
-  return user;
-}
+db.exec(`CREATE TABLE IF NOT EXISTS users (
+    id TEXT NOT NULL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
+)`);
 
-export async function createUser(username: string, passwordHash: string) {
-  console.log("createUser");
-  const db = await getDbConnection();
-  const result = await db.run(
-    "INSERT INTO users (username, passwordHash) VALUES (?, ?)",
-    [username, passwordHash]
-  );
-  return { id: result.lastID, username };
-}
+db.exec(`CREATE TABLE IF NOT EXISTS session (
+    id TEXT NOT NULL PRIMARY KEY,
+    expires_at INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)`);
 
-// Function to reset credentials and create initial admin user
+// ユーザーの認証情報をリセット
 export async function resetCredentials(
   adminUsername: string,
   adminPasswordHash: string
 ) {
   console.log("resetCredentials");
-  const db = await getDbConnection();
 
   // Clear the users table
-  await db.exec(`DELETE FROM users`);
+  db.exec(`DELETE FROM users`);
 
   // Create the initial admin user
-  const result = await db.run(
-    "INSERT INTO users (username, passwordHash) VALUES (?, ?)",
-    [adminUsername, adminPasswordHash]
-  );
+  const result = db
+    .prepare("INSERT INTO users (id, username, password) VALUES (?, ?, ?)")
+    .run("1", adminUsername, adminPasswordHash); // 'null' to '1' to ensure a valid ID
 
   return {
-    id: result.lastID,
+    id: result.lastInsertRowid,
     username: adminUsername,
     password: adminPasswordHash,
   };
 }
 
-// Check for command-line argument to reset credentials
+// Adminユーザーの認証情報をリセット
 if (process.argv.includes("--reset-credentials")) {
-  const adminUsername = "admin"; // Set your admin username here
-  // 初回設定時にパスワードをハッシュ化して保存する例
-  const defaultAdminPassword = "admin"; // Set your admin password here
-  const adminPasswordHash = await saltAndHashPassword(defaultAdminPassword); // Save this hashed password securely
+  (async () => {
+    const adminUsername = "admin"; // Set your admin username here
+    const defaultAdminPassword = "admin"; // Set your admin password here
+    const adminPasswordHash = await saltAndHashPassword(defaultAdminPassword); // Save this hashed password securely
 
-  resetCredentials(adminUsername, adminPasswordHash)
-    .then((result) => {
-      console.log("Admin user created:", result);
-    })
-    .catch((error) => {
-      console.error("Error creating admin user:", error);
-    });
+    resetCredentials(adminUsername, adminPasswordHash)
+      .then((result) => {
+        console.log("Admin user created:", result);
+      })
+      .catch((error) => {
+        console.error("Error creating admin user:", error);
+      });
+  })();
 }

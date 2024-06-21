@@ -7,13 +7,13 @@ import registerBlocks from "./blocks";
 import Theme from "./theme";
 
 // 言語の読み込み
-import { blocklyLocale } from "../../../i18n/blocklyLocale";
+import { blocklyLocale } from "../../../../i18n/blocklyLocale";
 
 // BlocklyのCSSを上書きする
-import "../../styles/blockly.css";
+import "../../../styles/blockly.css";
 
 import { useAtom, useAtomValue } from "jotai";
-import { currentSessionState, prevSessionState } from "../../state";
+import { currentSessionState, prevSessionState } from "../../../state";
 
 // ブロックを登録する
 registerBlocks();

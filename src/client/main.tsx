@@ -19,8 +19,7 @@ export default function App(): React.ReactElement {
         <Routes>
           <Route path="/:code" element={<EditorPage />} />
           <Route path="/" element={<EditorPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-
+          <Route path="/admin/*" element={<AdminPage />} />
           <Route path="/*/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -1,16 +1,29 @@
 {
-  "session.createSession": "新建房间",
-  "error.empty_code": "代码无效或为空",
-  "execSwitch.Running": "跑步",
-  "execSwitch.Stopped": "已停止",
-  "execSwitch.label": "运行代码",
-  "navbar.connected": "连接",
-  "navbar.leave": "停止",
-  "navbar.reconnecting": "已断开连接。\n重新连接。",
-  "session.creating": "制作...",
-  "session.hello": "你好",
-  "session.joinsession": "使用代码加入",
-  "session.or": "或者",
-  "session.sessionNotFoundMsg": "未找到会话。\n请尝试其他代码或创建一个新会话。",
-  "session.typecodeMsg": "输入您的代码或创建一个新房间即可开始。"
+  "error": {
+    "empty_code": "代码无效或为空"
+  },
+  "execSwitch": {
+    "Running": "跑步",
+    "Stopped": "已停止",
+    "label": "运行代码"
+  },
+  "login": {
+    "welcome": "登录以继续"
+  },
+  "navbar": {
+    "connected": "连接的",
+    "leave": "离开",
+    "reconnecting": "已断开连接。\n尝试重新连接。"
+  },
+  "session": {
+    "about": "关于这个应用程序",
+    "createSession": "创建新房间",
+    "creating": "创造...",
+    "hello": "你好",
+    "joinsession": "使用代码加入",
+    "or": "或者",
+    "sessionNotFoundMsg": "未找到会话。\n输入另一个代码或创建一个新会话来启动。",
+    "typecodeMsg": "输入您的代码，或创建新房间来开始。",
+    "welcome": "使用人工智能学习编码"
+  }
 }

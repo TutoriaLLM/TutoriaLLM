@@ -1,11 +1,9 @@
-import Navbar from "../components/Navbar";
-import Editor from "../components/Editor";
+import Navbar from "../components/Editor/Navbar";
+import Editor from "../components/Editor/Blockly";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import Dialogue from "../components/dialogue";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import SessionPopup from "../components/sessionPopup";
 import { SessionValue, WSMessage } from "../../type";
 
 //言語の読み込み
@@ -23,6 +21,8 @@ import {
   LanguageToStart,
 } from "../state";
 import i18next from "i18next";
+import Dialogue from "../components/Editor/dialogue";
+import SessionPopup from "../components/Editor/sessionPopup";
 
 export default function EditorPage() {
   const { code: codeFromPath } = useParams();
@@ -210,7 +210,11 @@ export default function EditorPage() {
           </Panel>
         </PanelGroup>
       )}
-      <SessionPopup isPopupOpen={showPopup} langToStart={languageToStart} message={statusMessage} />
+      <SessionPopup
+        isPopupOpen={showPopup}
+        langToStart={languageToStart}
+        message={statusMessage}
+      />
     </div>
   );
 }

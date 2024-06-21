@@ -1,16 +1,29 @@
 {
-  "error.empty_code": "Kod tidak sah atau kosong",
-  "execSwitch.Running": "Berlari",
-  "execSwitch.Stopped": "Berhenti",
-  "execSwitch.label": "jalankan kod",
-  "navbar.connected": "menyambung",
-  "navbar.leave": "berhenti",
-  "navbar.reconnecting": "Terputus sambungan. \nMenyambung semula.",
-  "session.createSession": "buat bilik baru",
-  "session.creating": "membuat...",
-  "session.hello": "Hello",
-  "session.joinsession": "Sertai dengan kod",
-  "session.or": "atau",
-  "session.sessionNotFoundMsg": "Sesi tidak ditemui. \nSila cuba kod lain atau buat sesi baharu.",
-  "session.typecodeMsg": "Masukkan kod anda atau buat bilik baharu untuk bermula."
+  "error": {
+    "empty_code": "Kod tidak sah atau kosong"
+  },
+  "execSwitch": {
+    "Running": "Berlari",
+    "Stopped": "Berhenti",
+    "label": "Jalankan kod"
+  },
+  "login": {
+    "welcome": "Log masuk untuk meneruskan"
+  },
+  "navbar": {
+    "connected": "bersambung",
+    "leave": "pergi",
+    "reconnecting": "terputus. \ncuba menyambung semula."
+  },
+  "session": {
+    "about": "Mengenai aplikasi ini",
+    "createSession": "Buat bilik baru",
+    "creating": "mencipta...",
+    "hello": "Hello",
+    "joinsession": "sertai dengan kod",
+    "or": "atau",
+    "sessionNotFoundMsg": "Sesi tidak ditemui. \nTaip kod lain atau buat sesi baharu untuk bermula.",
+    "typecodeMsg": "Taip kod anda atau buat ruang baharu untuk bermula.",
+    "welcome": "Belajar pengekodan dengan AI"
+  }
 }

@@ -1,5 +1,5 @@
 import { DoorOpen } from "lucide-react";
-import ExecSwitch from "./ExecSwitch";
+import ExecSwitch from "../ExecSwitch";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar(props: { code: string; isConnected: boolean }) {

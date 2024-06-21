@@ -1,5 +1,12 @@
 import { Workspace } from "blockly";
 
+
+export interface DatabaseUser {
+	id: string;
+	username: string;
+	password: string;
+}
+
 type ContentType = "user" | "ai" | "log" | "image";
 
 export type Dialogue = {

@@ -1,7 +1,7 @@
 import { PlusCircle, Send, Server, User } from "lucide-react";
-import type { Dialogue, SessionValue } from "../../../type";
+import type { Dialogue, SessionValue } from "../../../../type";
 
-import { currentSessionState } from "../../state";
+import { currentSessionState } from "../../../state";
 import { useAtom } from "jotai";
 import { useState } from "react";
 

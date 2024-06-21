@@ -1,18 +1,32 @@
 {
-  "session.creating": "作成中...",
-  "session.joinsession": "コードで参加する",
-  "session.sessionNotFoundMsg": "セッションが見つかりませんでした。他のコードを試すか、新しいセッションを作成してください。",
-  "navbar.leave": "やめる",
-  "navbar.reconnecting": "切断されました。再接続しています。",
-  "navbar.connected": "接続中",
-  "execSwitch.label": "コードを実行",
-  "execSwitch.Running": "実行中",
-  "execSwitch.Stopped": "停止中",
-  "error.empty_code": "コードが無効か、空になっています",
-  "session.hello": "こんにちは",
-  "session.or": "または",
-  "session.createSession": "新しい部屋を作る",
-  "session.typecodeMsg": "コードを入力するか、新しい部屋を作成して開始してください。",
-  "session.about": "アプリについて",
-  "session.welcome": "AIとプログラミングを学んでみよう。"
+  "error": {
+    "empty_code": "コードが無効か空です"
+  },
+  "execSwitch": {
+    "Running": "ランニング",
+    "Stopped": "停止",
+    "label": "コードを実行する"
+  },
+  "login": {
+    "welcome": "続行するにはログインしてください",
+    "title": "ログイン"
+  },
+  "navbar": {
+    "connected": "接続されています",
+    "leave": "離れる",
+    "reconnecting": "切断されました。\n再接続しようとしています。",
+    "home": "ホーム",
+    "signout": "サインアウト"
+  },
+  "session": {
+    "about": "このアプリについて",
+    "createSession": "新しい部屋を作成する",
+    "creating": "作成...",
+    "hello": "こんにちは",
+    "joinsession": "コードで参加する",
+    "or": "または",
+    "sessionNotFoundMsg": "セッションが見つかりません。\n別のコードを入力するか、新しいセッションを作成して開始します。",
+    "typecodeMsg": "コードを入力するか、新しいルームを作成して開始してください。",
+    "welcome": "AIを使ってコーディングを学ぶ"
+  }
 }
