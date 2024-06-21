@@ -19,7 +19,7 @@ db.exec(`CREATE TABLE IF NOT EXISTS users (
 )`);
 
 db.exec(`CREATE TABLE IF NOT EXISTS session (
-    id TEXT NOT NULL PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     expires_at INTEGER NOT NULL,
     user_id TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)

@@ -9,7 +9,11 @@
   },
   "login": {
     "welcome": "続行するにはログインしてください",
-    "title": "ログイン"
+    "title": "ログイン",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "login": "ログイン",
+    "loginFailed": "ログインに失敗しました"
   },
   "navbar": {
     "connected": "接続されています",
@@ -28,5 +32,12 @@
     "sessionNotFoundMsg": "セッションが見つかりません。\n別のコードを入力するか、新しいセッションを作成して開始します。",
     "typecodeMsg": "コードを入力するか、新しいルームを作成して開始してください。",
     "welcome": "AIを使ってコーディングを学ぶ"
+  },
+  "sidebar": {
+    "dashboard": "ダッシュボード",
+    "tutorials": "チュートリアル",
+    "users": "ユーザー",
+    "settings": "設定",
+    "toggle": "サイドバー"
   }
 }

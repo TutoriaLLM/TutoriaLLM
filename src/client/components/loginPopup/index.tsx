@@ -5,6 +5,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import Login from "./login";
 import i18n from "i18next";
 import { LangPicker } from "../Langpicker";
+import { useAtom } from "jotai";
+import { LanguageToStart } from "../../state";
 
 export default function LoginPopup(props: {
   langToStart: string;
@@ -14,7 +16,7 @@ export default function LoginPopup(props: {
   const { t } = useTranslation();
   const showPopup = props.isPopupOpen;
 
-  const [languageToStart, setLanguageToStart] = useState(props.langToStart);
+  const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
 
   useEffect(() => {
     if (languageToStart === "") {

@@ -63,7 +63,7 @@ auth.post("/login", async (req, res) => {
     return res.status(401).json({ message: "パスワードが違います" });
   }
 
-  const session = await lucia.createSession(existingUser.id, {});
+  const session = await lucia.createSession(existingUser.id.toString(), {});
   console.log("session created", session);
   res
     .setHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())

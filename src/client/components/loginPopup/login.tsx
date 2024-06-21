@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import * as Label from "@radix-ui/react-label";
 import { CircleAlert } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+  const { t } = useTranslation();
   const usernameRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
@@ -15,7 +17,7 @@ export default function Login() {
     const username = usernameRef.current?.value;
     const password = passwordRef.current?.value;
 
-    const response = await fetch("auth/login", {
+    const response = await fetch("/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +30,7 @@ export default function Login() {
     if (response.status === 200) {
       window.location.href = currentPage;
     } else {
-      setLoginWarning("Login failed");
+      setLoginWarning(t("login.loginFailed"));
     }
   };
 
@@ -46,7 +48,7 @@ export default function Login() {
 
       <div className="w-full flex p-2 flex-wrap gap-3 items-center justify-between">
         <Label.Root className="text-md text-gray-500" htmlFor="username">
-          Username
+          {t("login.username")}
         </Label.Root>
         <input
           className=" w-[60%] p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
@@ -58,7 +60,7 @@ export default function Login() {
       </div>
       <div className="w-full flex p-2 flex-wrap gap-3 items-center justify-between">
         <Label.Root className="text-md text-gray-500" htmlFor="password">
-          Password
+          {t("login.password")}
         </Label.Root>
         <input
           className=" w-[60%] p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
@@ -72,7 +74,7 @@ export default function Login() {
         type="submit"
         className="bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center"
       >
-        Login
+        {t("login.login")}
       </button>
     </form>
   );

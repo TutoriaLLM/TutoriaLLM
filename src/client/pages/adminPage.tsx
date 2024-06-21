@@ -1,4 +1,4 @@
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { LanguageToStart } from "../state";
 import LoginPopup from "../components/loginPopup";
 import { useEffect, useState } from "react";
@@ -9,18 +9,25 @@ import Dashboard from "../components/Admin/tabs/Dashboard";
 import Users from "../components/Admin/tabs/Users";
 import Settings from "../components/Admin/tabs/Settings";
 import Tutorials from "../components/Admin/tabs/Tutorials";
+import i18next from "i18next";
 
 export default function AdminPage() {
-  const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
+  const languageToStart = useAtomValue(LanguageToStart);
   const [showPopup, setShowPopup] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem("language") || languageToStart;
+    i18next.changeLanguage(storedLanguage);
+    console.log("languageToStart", storedLanguage);
+  }, [languageToStart]);
 
   useEffect(() => {
     async function fetchAuthInfo() {
       const response = await fetch("/auth/session");
       if (response.status === 200) {
         const authInfo = await response.json();
-        console.log("authInfo", authInfo);
+        console.log("authInfo", authInfo.session);
         setIsAuthenticated(true);
         setShowPopup(false);
       } else {
@@ -31,6 +38,11 @@ export default function AdminPage() {
     }
     fetchAuthInfo();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("language", languageToStart);
+    i18next.changeLanguage(languageToStart);
+  }, [languageToStart]);
 
   return (
     <div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
