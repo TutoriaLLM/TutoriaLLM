@@ -5,7 +5,6 @@ import * as http from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import expressWs from "express-ws";
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -82,12 +81,18 @@ class LogBuffer {
   }
 }
 
+//コンテキストでサーバーを作成するのに使用
+import express from "express";
+import expressWs from "express-ws";
+
+export const vmExpress = express.Router();
+expressWs(vmExpress as any);
+
 export async function ExecCodeTest(
   code: string,
   uuid: string,
   userScript: string,
   serverRootPath: string,
-  websocketserver: expressWs.Router,
   DBupdator: (newData: SessionValue) => Promise<void>
 ): Promise<string> {
   // verify session with uuid
@@ -113,13 +118,19 @@ export async function ExecCodeTest(
 
   // コンテキストの設定
   const context = vm.createContext({
-    websocketserver,
+    vmExpress,
+    code,
     uuid,
     console: {
       log: (...args: string[]) => {
         const logMessage = args.join(" ");
         logBuffer.add(logMessage);
         console.log("log from VM:" + logMessage);
+      },
+      error: (...args: string[]) => {
+        const logMessage = args.join(" ");
+        logBuffer.add(logMessage);
+        console.error("error from VM:" + logMessage);
       },
     },
     http,

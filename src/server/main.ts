@@ -8,6 +8,7 @@ import auth from "./auth/index.js";
 
 import { lucia } from "./auth/index.js";
 import { verifyRequestOrigin } from "lucia";
+import { vmExpress } from "./websocket/vm/index.js";
 
 const app = express();
 
@@ -59,11 +60,8 @@ expressWs(app);
 //session routes
 app.use("/session", session);
 
-//vm redirect
-app.get("/vm/:code", (req, res) => {
-  const code = req.params.code;
-  res.redirect("/session/ws/connect/vm/" + code);
-});
+//vm proxy
+app.use("/vm", vmExpress);
 
 //admin routes
 app.use("/api/admin", admin);

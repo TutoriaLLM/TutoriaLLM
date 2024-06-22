@@ -31,29 +31,35 @@ export function code() {
     var field_input = block.getFieldValue("FIELD");
     var run_input = generator.statementToCode(block, "INPUT");
 
-    const code = /* javascript */ `
+    const code = /*javascript*/ `
+    console.log("Connect your  Minecraft at: vm/"+ code);
 
-    wss.on("connection", (ws) => {
-      console.log("Minecraft connected");
-      ws.send(JSON.stringify(subscribeMsg("PlayerMessage")));
+    vmExpress.get("/"+ code, async (req, res) => {
+      res.send("Use Minecraft to connect to this server at: vm/"+ code);
     });
 
-    wss.on("message", function incoming(data) {
-      let message;
-      try {
-        message = JSON.parse(data);
-      } catch (error) {
-        console.error("Error parsing message:", error);
-        return;
-      }
+    vmExpress.ws("/"+ code, async (ws, req) => {
 
-      if (message && message.body && message.body.eventName === "PlayerMessage") {
-        const playerName = message.body.properties.Sender;
-        const messageText = message.body.properties.Message;
-        if (messageText.startsWith("${field_input}")) {
-          ${run_input}
+      console.log("Connection established. Sending subscribe message for Minecraft events: PlayerMessage.");
+      ws.send(JSON.stringify(subscribeMsg("PlayerMessage")));
+      ws.send(JSON.stringify(commandMsg("/say Hello, Minecraft!")));
+
+      ws.on("message", async (message) => {
+        console.log("received: %s", message);
+        const data = JSON.parse(message);
+
+        if (data && data.body && data.header.eventName === "PlayerMessage") {
+          const messageText = data.body.message;
+          if (messageText.startsWith("${field_input}")) {
+            ${run_input}
+          }
         }
-      }
+      });
+
+      ws.on("close", (ws) => {
+        console.log("Connection closed.");
+        ws.close();
+      });
     });
     `;
 
