@@ -6,7 +6,6 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import expressWs from "express-ws";
-import { updateLog } from "../index.js";
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -23,11 +22,10 @@ interface VMInstance {
 const vmInstances: { [key: string]: VMInstance } = {};
 
 // 拡張機能コンテキストを読み込む関数
-const loadExtensions = async (): Promise<((context: Context) => void)[]> => {
+const loadExtensions = async (context: Context): Promise<void> => {
   const extensionsDir = path.resolve(__dirname, "../../../extensions");
-  const extensions: ((context: Context) => void)[] = [];
-
   const extensionFolders = fs.readdirSync(extensionsDir);
+
   for (const extensionFolder of extensionFolders) {
     const vmDir = path.join(extensionsDir, extensionFolder, "context");
     if (fs.existsSync(vmDir) && fs.lstatSync(vmDir).isDirectory()) {
@@ -38,13 +36,12 @@ const loadExtensions = async (): Promise<((context: Context) => void)[]> => {
           fileURLToPath(new URL(filePath, import.meta.url))
         );
         if (typeof mod.default === "function") {
-          extensions.push(mod.default);
+          console.log("loading extension", file);
+          context[path.basename(file, path.extname(file))] = mod.default;
         }
       }
     }
   }
-
-  return extensions;
 };
 
 // ログを蓄積するバッファと定期的なDB更新関数
@@ -90,7 +87,7 @@ export async function ExecCodeTest(
   uuid: string,
   userScript: string,
   serverRootPath: string,
-  WebSocketRouter: expressWs.Router,
+  websocketserver: expressWs.Router,
   DBupdator: (newData: SessionValue) => Promise<void>
 ): Promise<string> {
   // verify session with uuid
@@ -116,7 +113,7 @@ export async function ExecCodeTest(
 
   // コンテキストの設定
   const context = vm.createContext({
-    WebSocketRouter,
+    websocketserver,
     uuid,
     console: {
       log: (...args: string[]) => {
@@ -130,14 +127,11 @@ export async function ExecCodeTest(
   });
 
   // 拡張機能をコンテキストに追加
-  const loadedExtensions = await loadExtensions();
-  loadedExtensions.forEach((extFunction) => {
-    extFunction(context);
-  });
+  await loadExtensions(context);
 
   let script: Script | null = null;
   try {
-    script = new vm.Script(`${userScript}`);
+    script = new vm.Script(userScript);
     script.runInContext(context);
   } catch (e) {
     console.log("error on VM execution");

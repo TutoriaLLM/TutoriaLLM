@@ -23,7 +23,7 @@ export function code() {
     generator
   ) {
     var text_command = block.getFieldValue("COMMAND");
-    // TODO: Assemble javascript into code variable.
+    // todo: Assemble javascript into code variable.
     var code = `sendCommandRequest("${text_command}");`;
 
     return code;

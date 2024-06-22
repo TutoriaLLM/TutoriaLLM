@@ -59,6 +59,12 @@ expressWs(app);
 //session routes
 app.use("/session", session);
 
+//vm redirect
+app.get("/vm/:code", (req, res) => {
+  const code = req.params.code;
+  res.redirect("/session/ws/connect/vm/" + code);
+});
+
 //admin routes
 app.use("/api/admin", admin);
 

@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 
-export default function (command: any) {
+export default function commandMsg(command: string) {
   return {
     header: {
       requestId: randomUUID(),

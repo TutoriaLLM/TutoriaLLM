@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 
-export default function (eventName: any) {
+export default function unsubscribeMsg(eventName: string) {
   console.log("Unsubscribed" + eventName);
   return {
     header: {
