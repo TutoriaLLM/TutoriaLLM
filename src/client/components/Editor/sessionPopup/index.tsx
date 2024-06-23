@@ -10,15 +10,16 @@ import i18n from "i18next";
 
 import { LangPicker } from "../../Langpicker.js";
 import PopupDialog from "../../Popup.js";
+import { useAtom } from "jotai";
+import { LanguageToStart } from "../../../state.js";
 
 export default function SessionPopup(props: {
   isPopupOpen: boolean;
-  langToStart: string;
   message: string;
 }) {
   const { t } = useTranslation();
   const showPopup = props.isPopupOpen;
-  const [languageToStart, setLanguageToStart] = useState(props.langToStart);
+  const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
 
   useEffect(() => {
     if (languageToStart === "") {
@@ -53,7 +54,7 @@ export default function SessionPopup(props: {
             </a> */}
               </div>
 
-              <div className=" bg-white rounded-3xl shadow p-3 w-full">
+              <div className="bg-gray-50 rounded-3xl shadow p-3 w-full">
                 <div className="p-1.5 py-2 bg-yellow-200 text-gray-600 font-normal border rounded-2xl w-full h-full flex justify-center items-center">
                   <CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
                   <p className="text-left w-full"> {props.message}</p>

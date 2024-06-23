@@ -51,12 +51,13 @@ export default function EditorPage() {
   // URLパスにコードがあるか確認する
   useEffect(() => {
     console.log("useEffect");
+    //言語に応じたメッセージを表示
+    setStatusMessage(t("session.typecodeMsg"));
     // URLにコードがある場合は状態を更新
     if (codeFromPath) {
       setSessionCode(codeFromPath);
       console.log("codeFromPath", codeFromPath);
     } else {
-      setStatusMessage(t("session.typecodeMsg"));
       setShowPopup(true);
       console.log("codeFromPath is empty");
     }
@@ -210,11 +211,7 @@ export default function EditorPage() {
           </Panel>
         </PanelGroup>
       )}
-      <SessionPopup
-        isPopupOpen={showPopup}
-        langToStart={languageToStart}
-        message={statusMessage}
-      />
+      <SessionPopup isPopupOpen={showPopup} message={statusMessage} />
     </div>
   );
 }

@@ -28,8 +28,9 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 - [Tailwind CSS](https://tailwindcss.com/)スタイリングに使用。
 - [Level](https://github.com/Level/level)ユーザーのセッションデータの保存に使用。
 - [better-sqlite-3](https://github.com/WiseLibs/better-sqlite3)ユーザーの認証に使用。チュートリアルの保存にも使用する予定。
+- [lucia-auth](https://lucia-auth.com/)ユーザーの認証に使用。
 - [Jotai](https://jotai.org/)フロントエンドの状態管理。
-- [react-i18next](https://react.i18next.com/)多言語対応に使用。バックエンドは通常の i18n を使用。U
+- [react-i18next](https://react.i18next.com/)多言語対応に使用。バックエンドは通常の i18n を使用。
 
 リポジトリを複製し、以下のコマンドを使用します。
 
