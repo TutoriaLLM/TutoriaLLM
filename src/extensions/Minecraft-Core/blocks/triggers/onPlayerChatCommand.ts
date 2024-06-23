@@ -28,8 +28,8 @@ export function code() {
     generator
   ) {
     // Collect argument strings.
-    var field_input = block.getFieldValue("FIELD");
-    var run_input = generator.statementToCode(block, "INPUT");
+    const field_input = block.getFieldValue("FIELD");
+    const run_input = generator.statementToCode(block, "INPUT");
 
     const code = /*javascript*/ `
     console.log("Connect your  Minecraft at: vm/"+ code);
@@ -45,20 +45,18 @@ export function code() {
       ws.send(JSON.stringify(commandMsg("/say Hello, Minecraft!")));
 
       ws.on("message", async (message) => {
-        console.log("received: %s", message);
-        const data = JSON.parse(message);
+      const data = JSON.parse(message);
 
-        if (data && data.body && data.header.eventName === "PlayerMessage") {
-          const messageText = data.body.message;
-          if (messageText.startsWith("${field_input}")) {
-            ${run_input}
-          }
+      if (data && data.body && data.header.eventName === "PlayerMessage") {
+        const messageText = data.body.message;
+        if (messageText === "${field_input}") {
+        ${run_input}
         }
+      }
       });
 
-      ws.on("close", (ws) => {
-        console.log("Connection closed.");
-        ws.close();
+      ws.on("close", () => {
+      console.log("Connection closed.");
       });
     });
     `;

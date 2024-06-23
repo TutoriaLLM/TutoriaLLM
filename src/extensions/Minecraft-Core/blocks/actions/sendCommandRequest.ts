@@ -24,7 +24,10 @@ export function code() {
   ) {
     var text_command = block.getFieldValue("COMMAND");
     // todo: Assemble javascript into code variable.
-    var code = `sendCommandRequest("${text_command}");`;
+    var code = /* javascript */ `
+    commandMsg("${text_command}");
+    
+    `;
 
     return code;
   };
