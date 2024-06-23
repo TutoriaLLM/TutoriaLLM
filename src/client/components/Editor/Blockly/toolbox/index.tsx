@@ -1,4 +1,4 @@
-import { ICollapsibleToolboxItem, IToolbox } from "blockly";
+import type { ICollapsibleToolboxItem, IToolbox } from "blockly";
 import * as Blockly from "blockly/core";
 
 export * from "./toolboxCategory";
@@ -8,12 +8,8 @@ class CustomCategory extends Blockly.ToolboxCategory {
    * Constructor for a custom category.
    * @override
    */
-  constructor(
-    categoryDef: any,
-    toolbox: IToolbox,
-    opt_parent: ICollapsibleToolboxItem
-  ) {
-    super(categoryDef, toolbox, opt_parent);
+  constructor(categoryDef: any, toolbox: IToolbox, optParent: ICollapsibleToolboxItem) {
+    super(categoryDef, toolbox, optParent);
   }
 
   /** @override */
@@ -41,17 +37,8 @@ class CustomCategory extends Blockly.ToolboxCategory {
       (labelDom as HTMLElement).style.color = "#fff7ed";
     }
     // This is used for accessibility purposes.
-    Blockly.utils.aria.setState(
-      this.htmlDiv_ as Element,
-      Blockly.utils.aria.State.SELECTED,
-      isSelected
-    );
+    Blockly.utils.aria.setState(this.htmlDiv_ as Element, Blockly.utils.aria.State.SELECTED, isSelected);
   }
 }
 
-Blockly.registry.register(
-  Blockly.registry.Type.TOOLBOX_ITEM,
-  Blockly.ToolboxCategory.registrationName,
-  CustomCategory,
-  true
-);
+Blockly.registry.register(Blockly.registry.Type.TOOLBOX_ITEM, Blockly.ToolboxCategory.registrationName, CustomCategory, true);

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { DatabaseUser } from "../../../../type";
 import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import type { DatabaseUser } from "../../../../type";
 
 export default function Users() {
   const [users, setUsers] = useState<DatabaseUser[]>([]);
@@ -9,13 +9,13 @@ export default function Users() {
   const [selectedUser, setSelectedUser] = useState<DatabaseUser | null>(null);
   const [editUser, setEditUser] = useState<Partial<DatabaseUser>>({});
   const [newUser, setNewUser] = useState({ username: "", password: "" });
-  const [currentUserID, setCurrentUserID] = useState("");
+  const [currentUserId, setCurrentUserId] = useState("");
 
   const fetchUsers = () => {
     fetch("/api/admin/users")
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
+          throw new Error(`Network response was not ok ${response.statusText}`);
         }
         return response.json();
       })
@@ -29,6 +29,7 @@ export default function Users() {
       });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     fetchUsers();
 
@@ -36,13 +37,13 @@ export default function Users() {
     fetch("/auth/session")
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
+          throw new Error(`Network response was not ok ${response.statusText}`);
         }
         return response.json();
       })
       .then((data) => {
-        console.log("userid", data.userId);
-        setCurrentUserID(data.userId);
+        console.info("userid", data.userId);
+        setCurrentUserId(data.userId);
       })
       .catch((error) => {
         setError(error.message);
@@ -53,7 +54,7 @@ export default function Users() {
     fetch(`/api/admin/users/${id}`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
+          throw new Error(`Network response was not ok ${response.statusText}`);
         }
         return response.json();
       })
@@ -91,9 +92,7 @@ export default function Users() {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error(
-              "Network response was not ok " + response.statusText
-            );
+            throw new Error(`Network response was not ok ${response.statusText}`);
           }
           return response.json();
         })
@@ -108,7 +107,7 @@ export default function Users() {
   };
 
   const handleDeleteUser = (id: string) => {
-    if (currentUserID === id) {
+    if (currentUserId === id) {
       alert("You cannot delete the logged-in user.");
       return;
     }
@@ -127,7 +126,7 @@ export default function Users() {
   };
 
   const handleCreateUser = () => {
-    if (!newUser.username || !newUser.password) {
+    if (!(newUser.username && newUser.password)) {
       console.error("Invalid user data");
       return;
     }
@@ -140,7 +139,7 @@ export default function Users() {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
+          throw new Error(`Network response was not ok ${response.statusText}`);
         }
         return response.json();
       })
@@ -173,32 +172,31 @@ export default function Users() {
             <th scope="col" className="px-6 py-4">
               User ID
             </th>
-            <th scope="col" className="px-6 py-4"></th>
+            <th scope="col" className="px-6 py-4" />
           </tr>
         </thead>
         <tbody className="gap-2">
           {users.map((user) => (
-            <tr
-              key={user.id}
-              className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
-            >
+            <tr key={user.id} className="border-y-2 border-gray-300 rounded-2xl bg-gray-200">
               <th className="px-6 py-4">{user.username}</th>
 
               <td className="px-6 py-4">{user.id}</td>
               <td className="px-6 py-4 border-l-2 border-gray-300">
                 <span className="flex gap-2">
                   <button
+                    type="button"
                     className="p-1.5 rounded-full bg-sky-500 px-2 font-semibold text-white hover:bg-sky-600"
                     onClick={() => handleUserClick(user.id)}
                   >
                     View
                   </button>
                   <button
+                    type="button"
                     className={`p-1.5 rounded-full bg-red-500 px-2 font-semibold text-white hover:bg-red-600 ${
-                      currentUserID === user.id ? "hidden" : "block"
+                      currentUserId === user.id ? "hidden" : "block"
                     }`}
                     onClick={() => handleDeleteUser(user.id)}
-                    disabled={currentUserID === user.id}
+                    disabled={currentUserId === user.id}
                   >
                     Delete
                   </button>
@@ -211,27 +209,17 @@ export default function Users() {
 
       {selectedUser && (
         <div className="p-2 bg-gray-300 rounded-2xl">
-          <button onClick={() => setSelectedUser(null)}>
+          <button type="button" onClick={() => setSelectedUser(null)}>
             <X />
           </button>
           <form>
             <label>
               Username:
-              <input
-                type="text"
-                name="username"
-                value={editUser.username || ""}
-                onChange={handleEditChange}
-              />
+              <input type="text" name="username" value={editUser.username || ""} onChange={handleEditChange} />
             </label>
             <label>
               New password (optional):
-              <input
-                type="password"
-                name="password"
-                value={editUser.password || ""}
-                onChange={handleEditChange}
-              />
+              <input type="password" name="password" value={editUser.password || ""} onChange={handleEditChange} />
             </label>
             <button type="button" onClick={handleUpdateUser}>
               Update

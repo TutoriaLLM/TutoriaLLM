@@ -1,4 +1,4 @@
-import { javascriptGenerator, Order } from "blockly/javascript";
+import { javascriptGenerator } from "blockly/javascript";
 
 export const block = {
   type: "ext_minecraft_onplayerchatcommand",
@@ -23,16 +23,13 @@ export const block = {
 };
 
 export function code() {
-  javascriptGenerator.forBlock["ext_minecraft_onplayerchatcommand"] = function (
-    block,
-    generator
-  ) {
+  javascriptGenerator.forBlock.ext_minecraft_onplayerchatcommand = (block, generator) => {
     // Collect argument strings.
-    var field_input = block.getFieldValue("FIELD");
-    var run_input = generator.statementToCode(block, "INPUT");
+    const fieldInput = block.getFieldValue("FIELD");
+    const runInput = generator.statementToCode(block, "INPUT");
 
     const code = /*javascript*/ `
-    console.log("Connect your  Minecraft at: vm/"+ code);
+    console.info("Connect your  Minecraft at: vm/"+ code);
 
     vmExpress.get("/"+ code, async (req, res) => {
       res.send("Use Minecraft to connect to this server at: vm/"+ code);
@@ -40,24 +37,24 @@ export function code() {
 
     vmExpress.ws("/"+ code, async (ws, req) => {
 
-      console.log("Connection established. Sending subscribe message for Minecraft events: PlayerMessage.");
+      console.info("Connection established. Sending subscribe message for Minecraft events: PlayerMessage.");
       ws.send(JSON.stringify(subscribeMsg("PlayerMessage")));
       ws.send(JSON.stringify(commandMsg("/say Hello, Minecraft!")));
 
       ws.on("message", async (message) => {
-        console.log("received: %s", message);
+        console.info("received: %s", message);
         const data = JSON.parse(message);
 
         if (data && data.body && data.header.eventName === "PlayerMessage") {
           const messageText = data.body.message;
-          if (messageText.startsWith("${field_input}")) {
-            ${run_input}
+          if (messageText.startsWith("${fieldInput}")) {
+            ${runInput}
           }
         }
       });
 
       ws.on("close", (ws) => {
-        console.log("Connection closed.");
+        console.info("Connection closed.");
         ws.close();
       });
     });

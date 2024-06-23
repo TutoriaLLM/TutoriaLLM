@@ -1,28 +1,28 @@
-import Navbar from "../components/Editor/Navbar";
-import Editor from "../components/Editor/Blockly";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { SessionValue, WSMessage } from "../../type";
+import { useEffect, useState } from "react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { useParams } from "react-router-dom";
+import type { SessionValue, WSMessage } from "../../type";
+import Editor from "../components/Editor/Blockly";
+import Navbar from "../components/Editor/Navbar";
 
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-//stateの読み込み
-import {
-  userSessionCode,
-  isPopupOpen,
-  currentSessionState,
-  isWorkspaceConnected,
-  websocketInstance,
-  isWorkspaceCodeRunning,
-  prevSessionState,
-  LanguageToStart,
-} from "../state";
 import i18next from "i18next";
 import Dialogue from "../components/Editor/dialogue";
 import SessionPopup from "../components/Editor/sessionPopup";
+//stateの読み込み
+import {
+  LanguageToStart,
+  currentSessionState,
+  isPopupOpen,
+  isWorkspaceCodeRunning,
+  isWorkspaceConnected,
+  prevSessionState,
+  userSessionCode,
+  websocketInstance,
+} from "../state";
 
 export default function EditorPage() {
   const { code: codeFromPath } = useParams();
@@ -33,12 +33,11 @@ export default function EditorPage() {
   const [prevSession, setPrevSession] = useAtom(prevSessionState);
 
   const [showPopup, setShowPopup] = useAtom(isPopupOpen);
-  const [WorkspaceConnection, setWorkspaceConnection] =
-    useAtom(isWorkspaceConnected);
+  const [WorkspaceConnection, setWorkspaceConnection] = useAtom(isWorkspaceConnected);
   const [wsInstance, setWsInstance] = useAtom(websocketInstance);
   const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
 
-  var devicewidth = window.innerWidth;
+  const devicewidth = window.innerWidth;
   const isMobile = devicewidth < 768;
   const direction = isMobile ? "vertical" : "horizontal";
 
@@ -49,32 +48,34 @@ export default function EditorPage() {
   const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
 
   // URLパスにコードがあるか確認する
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    console.log("useEffect");
+    console.info("useEffect");
     // URLにコードがある場合は状態を更新
     if (codeFromPath) {
       setSessionCode(codeFromPath);
-      console.log("codeFromPath", codeFromPath);
+      console.info("codeFromPath", codeFromPath);
     } else {
       setStatusMessage(t("session.typecodeMsg"));
       setShowPopup(true);
-      console.log("codeFromPath is empty");
+      console.info("codeFromPath is empty");
     }
   }, [codeFromPath, languageToStart]);
 
   // セッションが存在するか確認する。一回目だけDBから取得し、以降はWebSocketで更新する
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     async function checkSession() {
       if (sessionCode !== "") {
-        const response = await fetch("/session/" + sessionCode);
+        const response = await fetch(`/session/${sessionCode}`);
         if (response.status === 404) {
           // セッションが存在しない場合はスキップする
-          console.log("code is invalid!");
+          console.info("code is invalid!");
           setStatusMessage(t("session.sessionNotFoundMsg"));
           setShowPopup(true);
         } else {
           const data: SessionValue = await response.json();
-          console.log("code is valid!" + JSON.stringify(data));
+          console.info(`code is valid!${JSON.stringify(data)}`);
           setCurrentSession(data);
           setPrevSession(data);
           connectWebSocket(data);
@@ -92,79 +93,71 @@ export default function EditorPage() {
   async function connectWebSocket(data: SessionValue) {
     const host = `ws://${window.location.host}/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
 
-    console.log("processing websocket connection: " + host);
+    console.info(`processing websocket connection: ${host}`);
 
     const ws = new WebSocket(host);
     ws.onopen = () => {
-      console.log("connected");
+      console.info("connected");
       setWorkspaceConnection(true);
       setWsInstance(ws); // WebSocketインスタンスを保存
     };
     ws.onmessage = (event) => {
       const message = event.data;
       const messageJson: WSMessage | SessionValue = JSON.parse(message);
-      console.log("Message from server ", messageJson);
+      console.info("Message from server ", messageJson);
       //コードの実行状況
       if ((messageJson as WSMessage).request === "updateState_isrunning") {
-        console.log("isrunning updated");
+        console.info("isrunning updated");
         setIsCodeRunning((messageJson as WSMessage).value as boolean);
       }
       //セッション内容を受信したらワークスペース内容をprevSessionと比較して内容が違う場合は更新する
       if ((messageJson as SessionValue).workspace !== prevSession?.workspace) {
-        console.log("Received changed session data from server!");
+        console.info("Received changed session data from server!");
         setCurrentSession(messageJson as SessionValue);
       }
     };
     ws.onclose = () => {
-      console.log("disconnected");
+      console.info("disconnected");
       setWorkspaceConnection(false);
       setWsInstance(null); // WebSocketインスタンスをクリア
     };
   }
 
   // currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はWebSocketに送信する
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (
-      wsInstance &&
-      wsInstance.readyState === WebSocket.OPEN &&
-      currentSession
-    ) {
+    if (wsInstance && wsInstance.readyState === WebSocket.OPEN && currentSession) {
       // 前回のセッションのワークスペース、対話の内容が違う場合のみ送信
       if (
-        JSON.stringify(currentSession.workspace) !==
-          JSON.stringify(prevSession?.workspace) ||
-        JSON.stringify(currentSession.dialogue) !==
-          JSON.stringify(prevSession?.dialogue)
+        JSON.stringify(currentSession.workspace) !== JSON.stringify(prevSession?.workspace) ||
+        JSON.stringify(currentSession.dialogue) !== JSON.stringify(prevSession?.dialogue)
       ) {
         wsInstance.send(JSON.stringify(currentSession));
         setPrevSession(currentSession);
-        console.log(
-          "Sent currentSession to WebSocket and save prev session:",
-          currentSession
-        );
+        console.info("Sent currentSession to WebSocket and save prev session:", currentSession);
       }
     }
   }, [currentSession, wsInstance]);
 
   // 接続が切れた場合に再接続を試みる
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     let reconnectInterval: NodeJS.Timeout;
 
     if (!WorkspaceConnection) {
       reconnectInterval = setInterval(() => {
-        console.log("Attempting to reconnect...");
+        console.info("Attempting to reconnect...");
         if (sessionCode) {
           // 再接続を試行
-          fetch("/session/" + sessionCode)
+          fetch(`/session/${sessionCode}`)
             .then((response) => {
               if (response.status !== 404) {
                 return response.json();
-              } else {
-                throw new Error("Session not found");
               }
+              throw new Error("Session not found");
             })
             .then((data) => {
-              console.log("Reconnected successfully");
+              console.info("Reconnected successfully");
               setCurrentSession(data);
               setPrevSession(data);
               connectWebSocket(data);
@@ -185,36 +178,20 @@ export default function EditorPage() {
       {!showPopup && WorkspaceConnection && (
         // ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
         <PanelGroup autoSaveId="workspace" direction={direction}>
-          <Panel
-            id="workspaceArea"
-            defaultSize={75}
-            order={1}
-            maxSize={80}
-            minSize={20}
-          >
+          <Panel id="workspaceArea" defaultSize={75} order={1} maxSize={80} minSize={20}>
             <Editor />
           </Panel>
           <PanelResizeHandle className="md:h-full md:w-3 h-3 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
-            <span className="rounded-full p-1 bg-gray-50"></span>
-            <span className="rounded-full p-1 bg-gray-50"></span>
-            <span className="rounded-full p-1 bg-gray-50"></span>
+            <span className="rounded-full p-1 bg-gray-50" />
+            <span className="rounded-full p-1 bg-gray-50" />
+            <span className="rounded-full p-1 bg-gray-50" />
           </PanelResizeHandle>
-          <Panel
-            id="dialogueArea"
-            defaultSize={25}
-            order={2}
-            maxSize={80}
-            minSize={20}
-          >
+          <Panel id="dialogueArea" defaultSize={25} order={2} maxSize={80} minSize={20}>
             <Dialogue />
           </Panel>
         </PanelGroup>
       )}
-      <SessionPopup
-        isPopupOpen={showPopup}
-        langToStart={languageToStart}
-        message={statusMessage}
-      />
+      <SessionPopup isPopupOpen={showPopup} langToStart={languageToStart} message={statusMessage} />
     </div>
   );
 }

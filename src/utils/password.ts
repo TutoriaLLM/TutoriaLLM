@@ -7,8 +7,9 @@ export async function saltAndHashPassword(password: string) {
     // generate hashed password
     const hashedPassword = await bcrypt.hash(password, 12);
     return hashedPassword;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   } catch (error: any) {
-    throw new Error("Error salting and hashing password: " + error.message);
+    throw new Error(`Error salting and hashing password: ${error.message}`);
   }
 }
 

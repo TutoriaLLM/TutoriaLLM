@@ -1,10 +1,10 @@
 import * as Blockly from "blockly/core";
 import { useEffect } from "react";
 
-// カスタマイズのインポート
-import { toolboxCategories } from "./toolbox";
 import registerBlocks from "./blocks";
 import Theme from "./theme";
+// カスタマイズのインポート
+import { toolboxCategories } from "./toolbox";
 
 // 言語の読み込み
 import { blocklyLocale } from "../../../../i18n/blocklyLocale";
@@ -23,23 +23,24 @@ export default function Editor() {
   const [currentSession, setCurrentSession] = useAtom(currentSessionState);
   const prevSession = useAtomValue(prevSessionState);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     // Blocklyの言語設定を適用
     const language = currentSession?.language;
-    console.log("langState", language);
+    console.info("langState", language);
     if (language && blocklyLocale[language]) {
-      console.log("Setting Blockly locale to", language);
+      console.info("Setting Blockly locale to", language);
       Blockly.setLocale(blocklyLocale[language]);
     } else {
-      console.log("Setting Blockly locale to English");
-      Blockly.setLocale(blocklyLocale["en"]);
+      console.info("Setting Blockly locale to English");
+      Blockly.setLocale(blocklyLocale.en);
     }
 
     // ワークスペースのリサイズを検知してBlocklyをリサイズ
     async function getWorkspace() {
       const workspaceArea = document.getElementById("workspaceArea");
       if (workspaceArea) {
-        const resizeObserver = new ResizeObserver((entries) => {
+        const resizeObserver = new ResizeObserver(() => {
           onResize();
         });
         resizeObserver.observe(workspaceArea);
@@ -72,11 +73,8 @@ export default function Editor() {
     });
 
     // セッションが存在する場合はワークスペースを読み込む
-    if (currentSession && currentSession.workspace) {
-      Blockly.serialization.workspaces.load(
-        currentSession.workspace,
-        workspace
-      );
+    if (currentSession?.workspace) {
+      Blockly.serialization.workspaces.load(currentSession.workspace, workspace);
     }
 
     // ワークスペースのブロックの変更を検知して保存
@@ -94,7 +92,7 @@ export default function Editor() {
               // moveEvent.reasonが配列である場合
               // 配列内に'disconnect'が含まれているか確認
               if (moveEvent.reason.includes("disconnect")) {
-                console.log("Block disconnection detected, not saving.");
+                console.info("Block disconnection detected, not saving.");
                 return;
               }
             }
@@ -103,10 +101,7 @@ export default function Editor() {
           // ワークスペースを保存する処理
           const newWorkspace = Blockly.serialization.workspaces.save(workspace);
           setCurrentSession((prev) => {
-            if (
-              prev &&
-              JSON.stringify(prev.workspace) !== JSON.stringify(newWorkspace)
-            ) {
+            if (prev && JSON.stringify(prev.workspace) !== JSON.stringify(newWorkspace)) {
               return {
                 ...prev,
                 workspace: newWorkspace,
@@ -130,22 +125,15 @@ export default function Editor() {
   // currentSessionの変更を前のsessionと比較してワークスペースを更新
   useEffect(() => {
     const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-    if (
-      currentSession &&
-      prevSession &&
-      currentSession.workspace !== prevSession.workspace
-    ) {
+    if (currentSession && prevSession && currentSession.workspace !== prevSession.workspace) {
       try {
-        Blockly.serialization.workspaces.load(
-          currentSession.workspace,
-          workspace
-        );
-        console.log("workspace refreshed from currentSession state");
+        Blockly.serialization.workspaces.load(currentSession.workspace, workspace);
+        console.info("workspace refreshed from currentSession state");
       } catch (error) {
         console.error("Failed to load the workspace:", error);
       }
     }
   }, [currentSession, prevSession]);
 
-  return <div id="blocklyDiv" className="w-full h-full"></div>;
+  return <div id="blocklyDiv" className="w-full h-full" />;
 }

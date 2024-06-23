@@ -1,15 +1,15 @@
+import i18next from "i18next";
 import { useAtomValue } from "jotai";
-import { LanguageToStart } from "../state";
-import LoginPopup from "../components/loginPopup";
 import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Navbar from "../components/Admin/Navbar";
 import SideBar from "../components/Admin/Sidebar";
-import { Route, Routes } from "react-router-dom";
 import Dashboard from "../components/Admin/tabs/Dashboard";
-import Users from "../components/Admin/tabs/Users";
 import Settings from "../components/Admin/tabs/Settings";
 import Tutorials from "../components/Admin/tabs/Tutorials";
-import i18next from "i18next";
+import Users from "../components/Admin/tabs/Users";
+import LoginPopup from "../components/loginPopup";
+import { LanguageToStart } from "../state";
 
 export default function AdminPage() {
   const languageToStart = useAtomValue(LanguageToStart);
@@ -19,7 +19,7 @@ export default function AdminPage() {
   useEffect(() => {
     const storedLanguage = localStorage.getItem("language") || languageToStart;
     i18next.changeLanguage(storedLanguage);
-    console.log("languageToStart", storedLanguage);
+    console.info("languageToStart", storedLanguage);
   }, [languageToStart]);
 
   useEffect(() => {
@@ -27,11 +27,11 @@ export default function AdminPage() {
       const response = await fetch("/auth/session");
       if (response.status === 200) {
         const authInfo = await response.json();
-        console.log("authInfo", authInfo.session);
+        console.info("authInfo", authInfo.session);
         setIsAuthenticated(true);
         setShowPopup(false);
       } else {
-        console.log("auth failed");
+        console.info("auth failed");
         setIsAuthenticated(false);
         setShowPopup(true);
       }
@@ -62,11 +62,7 @@ export default function AdminPage() {
           </div>
         </div>
       ) : (
-        <LoginPopup
-          langToStart={languageToStart}
-          isPopupOpen={showPopup}
-          message="You need to login to access this page"
-        />
+        <LoginPopup langToStart={languageToStart} isPopupOpen={showPopup} message="You need to login to access this page" />
       )}
     </div>
   );

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import * as Label from "@radix-ui/react-label";
 import { CircleAlert } from "lucide-react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function Login() {
@@ -12,6 +12,7 @@ export default function Login() {
 
   const currentPage = window.location.href;
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const handleLogin = async (event: any) => {
     event.preventDefault();
     const username = usernameRef.current?.value;
@@ -35,10 +36,7 @@ export default function Login() {
   };
 
   return (
-    <form
-      onSubmit={handleLogin}
-      className="flex flex-col justify-center items-center gap-3"
-    >
+    <form onSubmit={handleLogin} className="flex flex-col justify-center items-center gap-3">
       {loginWarning === "" ? null : (
         <div className="p-1.5 py-2 bg-yellow-200 text-gray-600 font-normal border rounded-2xl w-full h-full flex justify-center items-center">
           <CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />

@@ -2,12 +2,12 @@ import express from "express";
 import expressWs from "express-ws";
 import ViteExpress from "vite-express";
 
-import session from "./session/index.js";
 import admin from "./admin/index.js";
 import auth from "./auth/index.js";
+import session from "./session/index.js";
 
-import { lucia } from "./auth/index.js";
 import { verifyRequestOrigin } from "lucia";
+import { lucia } from "./auth/index.js";
 import { vmExpress } from "./websocket/vm/index.js";
 
 const app = express();
@@ -19,11 +19,7 @@ app.use((req, res, next) => {
   }
   const originHeader = req.headers.origin ?? null;
   const hostHeader = req.headers.host ?? null;
-  if (
-    !originHeader ||
-    !hostHeader ||
-    !verifyRequestOrigin(originHeader, [hostHeader])
-  ) {
+  if (!(originHeader && hostHeader) || !verifyRequestOrigin(originHeader, [hostHeader])) {
     return res.status(403).end();
   }
   return next();
@@ -38,17 +34,11 @@ app.use(async (req, res, next) => {
   }
 
   const { session, user } = await lucia.validateSession(sessionId);
-  if (session && session.fresh) {
-    res.appendHeader(
-      "Set-Cookie",
-      lucia.createSessionCookie(session.id).serialize()
-    );
+  if (session?.fresh) {
+    res.appendHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize());
   }
   if (!session) {
-    res.appendHeader(
-      "Set-Cookie",
-      lucia.createBlankSessionCookie().serialize()
-    );
+    res.appendHeader("Set-Cookie", lucia.createBlankSessionCookie().serialize());
   }
   res.locals.session = session;
   res.locals.user = user;
@@ -69,18 +59,14 @@ app.use("/api/admin", admin);
 //auth routes
 app.use("/auth", auth);
 
-ViteExpress.listen(app, 3000, () =>
-  console.log("Server is listening on port 3000...")
-);
+ViteExpress.listen(app, 3000, () => console.info("Server is listening on port 3000..."));
 //メモリ監視
 // メモリ使用量を一定時間おきに監視する関数
 const monitorMemoryUsage = (interval: number) => {
   setInterval(() => {
     const memoryUsage = process.memoryUsage();
-    console.log(
-      `プロセスの総使用量: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`
-    );
-    console.log("-------------------------");
+    console.info(`プロセスの総使用量: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`);
+    console.info("-------------------------");
   }, interval);
 };
 monitorMemoryUsage(5000);

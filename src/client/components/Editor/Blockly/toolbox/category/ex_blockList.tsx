@@ -1,4 +1,4 @@
-var toolbox = {
+const toolbox = {
   kind: "categoryToolbox",
   contents: [
     {

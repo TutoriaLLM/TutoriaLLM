@@ -1,18 +1,16 @@
 import express from "express";
 import expressWs from "express-ws";
-import { sessionDB } from "../db/session.js";
-import { SessionValue, WSMessage } from "../../type.js";
-import {
-  ExecCodeTest,
-  SendIsWorkspaceRunning,
-  StopCodeTest,
-} from "./vm/index.js";
 import i18next from "i18next";
-import FsBackend, { FsBackendOptions } from "i18next-fs-backend";
+import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import type { SessionValue, WSMessage } from "../../type.js";
+import { sessionDB } from "../db/session.js";
+import { ExecCodeTest, SendIsWorkspaceRunning, StopCodeTest } from "./vm/index.js";
 
 const websocketserver = express.Router();
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 expressWs(websocketserver as any);
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const clients = new Map<string, any>(); // WebSocketクライアントを管理するマップ
 
 // i18n configuration
@@ -26,14 +24,14 @@ i18next.use(FsBackend).init<FsBackendOptions>(
   },
   (err, t) => {
     if (err) return console.error(err);
-    console.log("i18next initialized");
-  }
+    console.info("i18next initialized");
+  },
 );
 
 websocketserver.ws("/connect/:code", async (ws, req) => {
   const code = req.params.code;
   const uuid = req.query.uuid as string;
-  console.log("new connection request from: ", code);
+  console.info("new connection request from: ", code);
 
   try {
     // コードが存在しない場合は接続を拒否
@@ -68,10 +66,8 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
     ws.send(JSON.stringify(SendIsWorkspaceRunning(data.isVMRunning)));
 
     ws.on("message", async (message) => {
-      const messageJson: SessionValue | WSMessage = JSON.parse(
-        message.toString()
-      );
-      console.log("message received in ws session");
+      const messageJson: SessionValue | WSMessage = JSON.parse(message.toString());
+      console.info("message received in ws session");
 
       try {
         const currentData = await sessionDB.get(code);
@@ -81,6 +77,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         const updateDatabase = async (newData: SessionValue) => {
           await sessionDB.put(code, JSON.stringify(newData));
           // 全クライアントに更新を通知
+          // biome-ignore lint/complexity/noForEach: <explanation>
           newData.clients.forEach((id) => {
             if (clients.has(id)) {
               clients.get(id).send(JSON.stringify(newData));
@@ -108,7 +105,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
           };
 
           await updateDatabase(dataToPut);
-          console.log("workspace updated");
+          console.info("workspace updated");
         }
 
         if ((messageJson as WSMessage).request === "open") {
@@ -116,47 +113,36 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
             isRunning = false;
             currentDataJson.isVMRunning = isRunning;
             await updateDatabase(currentDataJson);
-            updateDatabase(
-              updateLog(i18next.t("error.empty_code"), currentDataJson)
-            );
-            sendToAllClients(
-              currentDataJson,
-              SendIsWorkspaceRunning(isRunning)
-            );
+            updateDatabase(updateLog(i18next.t("error.empty_code"), currentDataJson));
+            sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
             return;
           }
-          console.log("test code received. Executing...");
+          console.info("test code received. Executing...");
           const result = await ExecCodeTest(
             code,
             currentDataJson.uuid,
             (messageJson as WSMessage).value as string,
             `/vm/${code}`,
-            updateDatabase
+            updateDatabase,
           );
           if (result === "Valid uuid") {
-            console.log("Script is running...");
+            console.info("Script is running...");
             isRunning = true;
             currentDataJson.isVMRunning = isRunning;
             await updateDatabase(currentDataJson);
-            sendToAllClients(
-              currentDataJson,
-              SendIsWorkspaceRunning(isRunning)
-            );
+            sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
           } else {
-            console.log(result);
+            console.info(result);
             isRunning = false;
             currentDataJson.isVMRunning = isRunning;
             await updateDatabase(currentDataJson);
-            sendToAllClients(
-              currentDataJson,
-              SendIsWorkspaceRunning(isRunning)
-            );
+            sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
           }
         }
 
         if ((messageJson as WSMessage).request === "stop") {
           const result = await StopCodeTest(code, uuid);
-          console.log(result);
+          console.info(result);
           isRunning = false;
           currentDataJson.isVMRunning = isRunning;
           sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
@@ -168,13 +154,11 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
     });
 
     ws.on("close", async () => {
-      console.log("disconnected client");
+      console.info("disconnected client");
       try {
         const currentData = await sessionDB.get(code);
         const currentDataJson: SessionValue = JSON.parse(currentData);
-        currentDataJson.clients = currentDataJson.clients.filter(
-          (id) => id !== clientId
-        );
+        currentDataJson.clients = currentDataJson.clients.filter((id) => id !== clientId);
         await sessionDB.put(code, JSON.stringify(currentDataJson));
         clients.delete(clientId); // マップから削除
       } catch (error) {
@@ -182,7 +166,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
       }
     });
   } catch (error) {
-    console.log("Error connecting:", error);
+    console.info("Error connecting:", error);
     ws.send("Server error");
     ws.close();
   }
@@ -212,11 +196,12 @@ websocketserver.get("/get/:code", async (req, res) => {
   }
 });
 
-websocketserver.get("/hello", async (req, res) => {
+websocketserver.get("/hello", async (_req, res) => {
   res.send("hello");
 });
 
 function sendToAllClients(session: SessionValue, message?: WSMessage) {
+  // biome-ignore lint/complexity/noForEach: <explanation>
   session.clients.forEach((id) => {
     if (clients.has(id)) {
       clients.get(id).send(JSON.stringify(message ? message : session));
@@ -224,10 +209,7 @@ function sendToAllClients(session: SessionValue, message?: WSMessage) {
   });
 }
 
-export function updateLog(
-  message: string,
-  currentDataJson: SessionValue
-): SessionValue {
+export function updateLog(message: string, currentDataJson: SessionValue): SessionValue {
   return {
     ...currentDataJson,
     dialogue: [

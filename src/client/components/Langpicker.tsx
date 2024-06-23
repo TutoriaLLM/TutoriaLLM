@@ -23,11 +23,7 @@ export function LangPicker(props: {
         {languageList.map((lang, index) => (
           <button
             key={index}
-            className={`p-2 rounded-xl ${
-              lang === props.language
-                ? "bg-gray-300"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`p-2 rounded-xl ${lang === props.language ? "bg-gray-300" : "bg-gray-200 hover:bg-gray-300"}`}
             onClick={() => props.setLanguage(lang)}
           >
             {langToStr(lang)}

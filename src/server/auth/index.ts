@@ -1,9 +1,9 @@
-import { Lucia } from "lucia";
 import { BetterSqlite3Adapter } from "@lucia-auth/adapter-sqlite";
-import { db } from "../db/users.js";
-import type { DatabaseUser } from "../../type.js";
 import express from "express";
+import { Lucia } from "lucia";
+import type { DatabaseUser } from "../../type.js";
 import { comparePasswordToHash } from "../../utils/password.js";
+import { db } from "../db/users.js";
 
 // 認証機能をセットアップ
 const adapter = new BetterSqlite3Adapter(db, {
@@ -35,7 +35,7 @@ declare module "lucia" {
 //ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
 export const auth = express.Router();
 
-auth.get("/session", (req, res) => {
+auth.get("/session", (_req, res) => {
   if (!res.locals.session) {
     return res.status(401).json({ message: "認証情報がありません" });
   }
@@ -45,7 +45,7 @@ auth.get("/session", (req, res) => {
 auth.use(express.json()); // ここでJSONミドルウェアを追加します
 
 auth.post("/login", async (req, res) => {
-  console.log("login request", req.body);
+  console.info("login request", req.body);
   const { username, password } = req.body;
 
   const existingUser = db
@@ -55,33 +55,24 @@ auth.post("/login", async (req, res) => {
     return res.status(401).json({ message: "ユーザーが見つかりません" });
   }
 
-  const validPassword = await comparePasswordToHash(
-    password,
-    existingUser.password
-  );
+  const validPassword = await comparePasswordToHash(password, existingUser.password);
   if (!validPassword) {
     return res.status(401).json({ message: "パスワードが違います" });
   }
 
   const session = await lucia.createSession(existingUser.id.toString(), {});
-  console.log("session created", session);
-  res
-    .setHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
-    .setHeader("Location", "/")
-    .redirect("/");
+  console.info("session created", session);
+  res.setHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize()).setHeader("Location", "/").redirect("/");
 });
 
-auth.post("/logout", async (req, res) => {
-  console.log("logout request");
+auth.post("/logout", async (_req, res) => {
+  console.info("logout request");
   if (!res.locals.session) {
     return res.status(401).end();
   }
   await lucia.invalidateSession(res.locals.session.id);
   return res
-    .setHeader(
-      "Set-Cookie",
-      lucia.createBlankSessionCookie().serialize() + "; Max-Age=0"
-    )
+    .setHeader("Set-Cookie", `${lucia.createBlankSessionCookie().serialize()}; Max-Age=0`)
     .status(200)
     .json({ message: "ログアウトしました" });
 });

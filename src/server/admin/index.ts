@@ -6,7 +6,7 @@ import usersConfiguration from "./userConfig.js";
 const admin = express.Router();
 
 // 権限がない場合は、管理者ページにアクセスできないようにする
-admin.use((req, res, next) => {
+admin.use((_, res, next) => {
   if (!res.locals.user) {
     return res.status(401).json({ message: "認証情報がありません" });
   }

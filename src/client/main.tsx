@@ -2,7 +2,7 @@ import "./styles/index.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import EditorPage from "./pages/editorPage";
 
@@ -26,6 +26,8 @@ export default function App(): React.ReactElement {
     </React.StrictMode>
   );
 }
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
 const domNode = document.getElementById("root")!;
 const root = createRoot(domNode);
 root.render(<App />);

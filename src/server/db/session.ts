@@ -1,7 +1,7 @@
-import { Level } from "level";
 import express from "express";
+import { Level } from "level";
+import type { SessionValue } from "../../type.js";
 import joincodeGen from "../../utils/joincodeGen.js";
-import { SessionValue } from "../../type.js";
 
 const DBrouter = express.Router();
 
@@ -26,23 +26,18 @@ DBrouter.get("/new", async (req, res) => {
   //参加コードを生成
   const code = joincodeGen();
   //言語をクエリから取得し、存在しない場合は英語をデフォルトとする
-  var language = req.query.language;
+  let language = req.query.language;
   if (language === undefined || !language) {
     language = "en";
   }
   //生成したコードが重複していないか確認
   const value = await sessionDB.get(code).catch(() => null);
   if (value === code) {
-    res
-      .status(500)
-      .send("Failed to create session by api: code already exists");
+    res.status(500).send("Failed to create session by api: code already exists");
     return;
   }
-  await sessionDB.put(
-    code,
-    JSON.stringify(intitialData(code, language.toString()))
-  );
-  console.log("session created by api");
+  await sessionDB.put(code, JSON.stringify(intitialData(code, language.toString())));
+  console.info("session created by api");
   res.send(code);
 });
 
@@ -51,7 +46,7 @@ DBrouter.get("/:key", async (req, res) => {
   try {
     const value = await sessionDB.get(req.params.key);
     res.send(value);
-  } catch (e) {
+  } catch {
     res.status(404).send(null);
   }
 });
@@ -62,7 +57,7 @@ DBrouter.put("/:key", async (req, res) => {
   try {
     await sessionDB.put(req.params.key, JSON.stringify(updateData));
     res.send("Session updated by api");
-  } catch (e) {
+  } catch {
     res.status(404).send(null);
   }
 });
@@ -72,7 +67,7 @@ DBrouter.delete("/:key", async (req, res) => {
   try {
     await sessionDB.get(req.params.key);
     res.send("Session deleted");
-  } catch (e) {
+  } catch {
     res.status(404).send(null);
   }
 });

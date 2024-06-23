@@ -1,4 +1,4 @@
-import { javascriptGenerator, Order } from "blockly/javascript";
+import { javascriptGenerator } from "blockly/javascript";
 
 export const block = {
   type: "ext_example_console_log",
@@ -18,14 +18,11 @@ export const block = {
 };
 
 export function code() {
-  javascriptGenerator.forBlock["ext_example_console_log"] = function (
-    block,
-    generator
-  ) {
+  javascriptGenerator.forBlock.ext_example_console_log = (block) => {
     // Collect argument strings.
-    var text_text = block.getFieldValue("TEXT");
+    const textText = block.getFieldValue("TEXT");
 
-    const code = `console.log("${text_text}");\n`;
+    const code = `console.log("${textText}");\n`;
 
     // Return code.
     return code;

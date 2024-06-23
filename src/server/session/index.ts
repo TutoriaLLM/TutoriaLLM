@@ -1,5 +1,5 @@
 import express from "express";
-import DBrouter from "../db/session.js";
+import dBrouter from "../db/session.js";
 import websocketserver from "../websocket/index.js";
 
 // セッション管理をまとめる。db/websocketサーバーのエントリーポイント
@@ -9,6 +9,6 @@ const session = express.Router();
 session.use("/ws", websocketserver);
 
 // DBに直接アクセスしてセッションの作成を行う
-session.use("/", DBrouter);
+session.use("/", dBrouter);
 
 export default session;

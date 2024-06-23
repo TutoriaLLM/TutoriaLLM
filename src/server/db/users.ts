@@ -1,7 +1,7 @@
+import fs from "node:fs";
+import path from "node:path";
 import sqlite from "better-sqlite3";
 import { saltAndHashPassword } from "../../utils/password.js";
-import fs from "fs";
-import path from "path";
 
 // ディレクトリが存在するかどうかを確認し、存在しない場合は作成
 const dbDirectory = path.dirname("dist/users.db");
@@ -9,7 +9,7 @@ if (!fs.existsSync(dbDirectory)) {
   fs.mkdirSync(dbDirectory, { recursive: true });
 }
 
-// SQLiteデータベースを開く
+// SQLiteデータベースsを開く
 export const db = sqlite("dist/users.db");
 
 db.exec(`CREATE TABLE IF NOT EXISTS users (
@@ -26,19 +26,14 @@ db.exec(`CREATE TABLE IF NOT EXISTS session (
 )`);
 
 // ユーザーの認証情報をリセット
-export async function resetCredentials(
-  adminUsername: string,
-  adminPasswordHash: string
-) {
-  console.log("resetCredentials");
+export async function resetCredentials(adminUsername: string, adminPasswordHash: string) {
+  console.info("resetCredentials");
 
   // Clear the users table
-  db.exec(`DELETE FROM users`);
+  db.exec("DELETE FROM users");
 
   // Create the initial admin user
-  const result = db
-    .prepare("INSERT INTO users (id, username, password) VALUES (?, ?, ?)")
-    .run("1", adminUsername, adminPasswordHash); // 'null' to '1' to ensure a valid ID
+  const result = db.prepare("INSERT INTO users (id, username, password) VALUES (?, ?, ?)").run("1", adminUsername, adminPasswordHash); // 'null' to '1' to ensure a valid ID
 
   return {
     id: result.lastInsertRowid,
@@ -56,7 +51,7 @@ if (process.argv.includes("--reset-credentials")) {
 
     resetCredentials(adminUsername, adminPasswordHash)
       .then((result) => {
-        console.log("Admin user created:", result);
+        console.info("Admin user created:", result);
       })
       .catch((error) => {
         console.error("Error creating admin user:", error);

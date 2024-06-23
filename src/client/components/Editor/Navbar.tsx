@@ -1,6 +1,6 @@
 import { DoorOpen } from "lucide-react";
-import ExecSwitch from "../ExecSwitch";
 import { useTranslation } from "react-i18next";
+import ExecSwitch from "../ExecSwitch";
 
 export default function Navbar(props: { code: string; isConnected: boolean }) {
   const { t } = useTranslation();
@@ -17,13 +17,9 @@ export default function Navbar(props: { code: string; isConnected: boolean }) {
         <p className="font-semibold text-xl tracking-widest">{props.code}</p>
         <span className="text-xs flex">
           {props.isConnected ? (
-            <p className="p-0.5 px-2 rounded-full bg-green-300">
-              {t("navbar.connected")}
-            </p>
+            <p className="p-0.5 px-2 rounded-full bg-green-300">{t("navbar.connected")}</p>
           ) : (
-            <p className="p-0.5 px-2 rounded-full bg-red-300">
-              {t("navbar.reconnecting")}
-            </p>
+            <p className="p-0.5 px-2 rounded-full bg-red-300">{t("navbar.reconnecting")}</p>
           )}
         </span>
       </div>

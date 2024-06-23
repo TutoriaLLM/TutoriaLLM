@@ -2,23 +2,23 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 // 言語jsonファイルのimport
-import translation_en from "./en.json";
-import translation_ja from "./ja.json";
-import translation_zh from "./zh.json";
-import translation_my from "./ms.json";
+import translationEn from "./en.json";
+import translationJa from "./ja.json";
+import translationMy from "./ms.json";
+import translationZh from "./zh.json";
 
 const resources = {
   ja: {
-    translation: translation_ja,
+    translation: translationJa,
   },
   en: {
-    translation: translation_en,
+    translation: translationEn,
   },
   zh: {
-    translation: translation_zh,
+    translation: translationZh,
   },
   ms: {
-    translation: translation_my,
+    translation: translationMy,
   },
 };
 

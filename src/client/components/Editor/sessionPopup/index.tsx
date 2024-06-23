@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { CircleAlert } from "lucide-react";
 import JoinSession from "./joinsession.js";
 import CreateNewSession from "./newsession.js";
-import { CircleAlert, HelpCircle } from "lucide-react";
 
-import { useTranslation } from "react-i18next";
 import i18n from "i18next";
+import { useTranslation } from "react-i18next";
 
 import { LangPicker } from "../../Langpicker.js";
 import PopupDialog from "../../Popup.js";
@@ -38,12 +38,8 @@ export default function SessionPopup(props: {
           Content={
             <div className="fixed flex flex-col justify-center items-center max-w-md w-full gap-3 bg-transparent p-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[999] font-semibold">
               <div className="w-full flex flex-col justify-center items-center p-2 gap-2">
-                <Dialog.Title className="text-3xl">
-                  {t("session.hello")}
-                </Dialog.Title>
-                <Dialog.Description className="text-md font-medium text-gray-600">
-                  {t("session.welcome")}
-                </Dialog.Description>
+                <Dialog.Title className="text-3xl">{t("session.hello")}</Dialog.Title>
+                <Dialog.Description className="text-md font-medium text-gray-600">{t("session.welcome")}</Dialog.Description>
                 {/* <a
               href="about"
               className=" p-2 rounded-xl bg-gray-200 hover:bg-gray-300 flex gap-1.5 justify-center items-center"
@@ -65,10 +61,7 @@ export default function SessionPopup(props: {
                   <JoinSession />
                 </div>
               </div>
-              <LangPicker
-                language={languageToStart}
-                setLanguage={setLanguageToStart}
-              />
+              <LangPicker language={languageToStart} setLanguage={setLanguageToStart} />
             </div>
           }
         />

@@ -1,4 +1,4 @@
-import { javascriptGenerator, Order } from "blockly/javascript";
+import { javascriptGenerator } from "blockly/javascript";
 
 export const block = {
   type: "ext_minecraft_sendcommandrequest",
@@ -18,13 +18,10 @@ export const block = {
 };
 
 export function code() {
-  javascriptGenerator.forBlock["ext_minecraft_sendcommandrequest"] = function (
-    block,
-    generator
-  ) {
-    var text_command = block.getFieldValue("COMMAND");
+  javascriptGenerator.forBlock.ext_minecraft_sendcommandrequest = (block) => {
+    const textCommand = block.getFieldValue("COMMAND");
     // todo: Assemble javascript into code variable.
-    var code = `sendCommandRequest("${text_command}");`;
+    const code = `sendCommandRequest("${textCommand}");`;
 
     return code;
   };

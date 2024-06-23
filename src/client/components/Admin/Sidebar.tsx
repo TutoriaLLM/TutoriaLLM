@@ -1,13 +1,7 @@
+import { Cog, GraduationCap, LayoutDashboard, type LucideIcon, Sidebar, User } from "lucide-react";
 import { useState } from "react";
-import {
-  Cog,
-  GraduationCap,
-  LayoutDashboard,
-  User,
-  Sidebar,
-} from "lucide-react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function SideBar() {
   const { t } = useTranslation();
@@ -24,13 +18,10 @@ export default function SideBar() {
     label,
   }: {
     href: string;
-    icon: any;
+    icon: LucideIcon;
     label: string;
   }) => (
-    <Link
-      to={href}
-      className="hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition"
-    >
+    <Link to={href} className="hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition">
       <Icon />
       {label}
     </Link>
@@ -44,34 +35,19 @@ export default function SideBar() {
         } md:translate-x-0 fixed md:relative z-50`}
       >
         <div className="flex flex-col gap-2 p-2 font-semibold">
-          <SidebarItem
-            href="/admin"
-            icon={LayoutDashboard}
-            label={t("sidebar.dashboard")}
-          />
+          <SidebarItem href="/admin" icon={LayoutDashboard} label={t("sidebar.dashboard")} />
 
-          <SidebarItem
-            href="/admin/tutorials"
-            icon={GraduationCap}
-            label={t("sidebar.tutorials")}
-          />
+          <SidebarItem href="/admin/tutorials" icon={GraduationCap} label={t("sidebar.tutorials")} />
 
-          <span className="w-full border-t-2 border-gray-300 text-gray-500"></span>
-          <SidebarItem
-            href="/admin/users"
-            icon={User}
-            label={t("sidebar.users")}
-          />
+          <span className="w-full border-t-2 border-gray-300 text-gray-500" />
+          <SidebarItem href="/admin/users" icon={User} label={t("sidebar.users")} />
 
-          <span className="w-full border-t-2 border-gray-300 text-gray-500"></span>
-          <SidebarItem
-            href="/admin/settings"
-            icon={Cog}
-            label={t("sidebar.settings")}
-          />
+          <span className="w-full border-t-2 border-gray-300 text-gray-500" />
+          <SidebarItem href="/admin/settings" icon={Cog} label={t("sidebar.settings")} />
         </div>
       </div>
       <button
+        type="button"
         onClick={toggleSidebar}
         className="fixed bottom-4 left-4 md:hidden p-2 gap-0.5 font-semibold text-xs justify-center items-center flex z-50 bg-gray-100 hover:bg-gray-300 shadow transition rounded-full border-gray-300"
       >

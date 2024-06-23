@@ -1,24 +1,24 @@
-import vm, { Context, Script } from "vm";
+import fs from "node:fs";
+import * as http from "node:http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import vm, { type Context, type Script } from "node:vm";
+import type { SessionValue, WSMessage } from "../../../type.js";
 import { sessionDB } from "../../db/session.js";
-import { SessionValue, WSMessage } from "../../../type.js";
-import * as http from "http";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // VMのインスタンスを管理するためのインターフェース
-interface VMInstance {
+interface VmInstance {
   context: Context;
   script: Script | null;
   running: boolean;
 }
 
 // VMのインスタンスを管理するオブジェクト
-const vmInstances: { [key: string]: VMInstance } = {};
+const vmInstances: { [key: string]: VmInstance } = {};
 
 // 拡張機能コンテキストを読み込む関数
 const loadExtensions = async (context: Context): Promise<void> => {
@@ -31,11 +31,9 @@ const loadExtensions = async (context: Context): Promise<void> => {
       const files = fs.readdirSync(vmDir);
       for (const file of files) {
         const filePath = path.join(vmDir, file);
-        const mod = await import(
-          fileURLToPath(new URL(filePath, import.meta.url))
-        );
+        const mod = await import(fileURLToPath(new URL(filePath, import.meta.url)));
         if (typeof mod.default === "function") {
-          console.log("loading extension", file);
+          console.info("loading extension", file);
           context[path.basename(file, path.extname(file))] = mod.default;
         }
       }
@@ -50,7 +48,7 @@ class LogBuffer {
 
   constructor(
     private dbUpdater: (code: string, logs: string[]) => Promise<void>,
-    private code: string
+    private code: string,
   ) {}
 
   start() {
@@ -86,6 +84,7 @@ import express from "express";
 import expressWs from "express-ws";
 
 export const vmExpress = express.Router();
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 expressWs(vmExpress as any);
 
 export async function ExecCodeTest(
@@ -93,7 +92,7 @@ export async function ExecCodeTest(
   uuid: string,
   userScript: string,
   serverRootPath: string,
-  DBupdator: (newData: SessionValue) => Promise<void>
+  dBupdator: (newData: SessionValue) => Promise<void>,
 ): Promise<string> {
   // verify session with uuid
   const session = await sessionDB.get(code);
@@ -106,6 +105,7 @@ export async function ExecCodeTest(
   const logBuffer = new LogBuffer(async (code, logs: string[]) => {
     const session = await sessionDB.get(code);
     const sessionValue: SessionValue = JSON.parse(session);
+    // biome-ignore lint/complexity/noForEach: <explanation>
     logs.forEach((log) => {
       sessionValue.dialogue.push({
         contentType: "log",
@@ -113,7 +113,7 @@ export async function ExecCodeTest(
         content: log,
       });
     });
-    await DBupdator(sessionValue);
+    await dBupdator(sessionValue);
   }, code);
 
   // コンテキストの設定
@@ -125,12 +125,12 @@ export async function ExecCodeTest(
       log: (...args: string[]) => {
         const logMessage = args.join(" ");
         logBuffer.add(logMessage);
-        console.log("log from VM:" + logMessage);
+        console.info(`log from VM:${logMessage}`);
       },
       error: (...args: string[]) => {
         const logMessage = args.join(" ");
         logBuffer.add(logMessage);
-        console.error("error from VM:" + logMessage);
+        console.error(`error from VM:${logMessage}`);
       },
     },
     http,
@@ -145,8 +145,8 @@ export async function ExecCodeTest(
     script = new vm.Script(userScript);
     script.runInContext(context);
   } catch (e) {
-    console.log("error on VM execution");
-    console.log(e);
+    console.info("error on VM execution");
+    console.info(e);
     await StopCodeTest(code, uuid);
   }
 
@@ -159,12 +159,9 @@ export async function ExecCodeTest(
   return "Valid uuid";
 }
 
-export async function StopCodeTest(
-  code: string,
-  uuid: string
-): Promise<{ message: string; error: string }> {
+export async function StopCodeTest(code: string, uuid: string): Promise<{ message: string; error: string }> {
   const instance = vmInstances[uuid];
-  if (instance && instance.running) {
+  if (instance?.running) {
     instance.running = false;
     const session = await sessionDB.get(code);
     if (JSON.parse(session).uuid !== uuid) {
@@ -173,18 +170,18 @@ export async function StopCodeTest(
         error: "Invalid uuid",
       };
     }
-    console.log("updating session result");
+    console.info("updating session result");
     delete vmInstances[uuid]; // VMインスタンスを削除
     return {
       message: "Script execution stopped successfully.",
       error: "",
     };
-  } else {
-    return {
-      message: "Script is not running.",
-      error: "Script is not running.",
-    };
   }
+
+  return {
+    message: "Script is not running.",
+    error: "Script is not running.",
+  };
 }
 
 export function SendIsWorkspaceRunning(isrunning: boolean): WSMessage {

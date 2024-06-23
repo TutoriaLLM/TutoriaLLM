@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Navbar() {
   const handleSignOut = async () => {
-    console.log("signing out");
+    console.info("signing out");
     const res = await fetch("/auth/logout", {
       method: "POST",
     });
@@ -24,6 +24,7 @@ export default function Navbar() {
       </a>
       <div className="justify-items-center">
         <button
+          type="button"
           onClick={handleSignOut}
           className="flex gap-0.5 bg-red-500 font-semibold hover:bg-red-300 transition-colors duration-150 border border-red-500 rounded-2xl p-4 text-white hover:text-gray-700"
         >
