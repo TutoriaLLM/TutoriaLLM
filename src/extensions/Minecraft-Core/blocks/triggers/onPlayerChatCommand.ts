@@ -2,8 +2,14 @@ import { javascriptGenerator, Order } from "blockly/javascript";
 
 export const block = {
   type: "ext_minecraft_onplayerchatcommand",
-  message0: "On Player Chat command %1 %2 %3",
+  message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
   args0: [
+    {
+      type: "field_image",
+      src: "src/extensions/Minecraft-Core/media/minecraft.png",
+      width: 40,
+      height: 40,
+    },
     {
       type: "field_input",
       name: "FIELD",
@@ -17,7 +23,7 @@ export const block = {
       name: "INPUT",
     },
   ],
-  colour: 230,
+  colour: "#a855f7",
   tooltip: "",
   helpUrl: "",
 };
@@ -65,3 +71,13 @@ export function code() {
     return code;
   };
 }
+
+export const locale = {
+  en: {
+    MINECRAFT_ONPLAYERCHATCOMMAND: "on player chat %1 %2 %3 %4",
+  },
+  ja: {
+    MINECRAFT_ONPLAYERCHATCOMMAND:
+      "%1 プレイヤーが %2 とチャットしたとき %3 %4",
+  },
+};

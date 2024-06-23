@@ -1,6 +1,6 @@
-export const lists = {
+export const category = {
   kind: "category",
-  name: "Lists",
+  name: "%{BKY_LISTS_CATEGORY}",
   categorystyle: "list_category",
   contents: [
     {
@@ -61,4 +61,12 @@ export const lists = {
     },
   ],
 };
-export default lists;
+
+export const locale = {
+  en: {
+    LISTS_CATEGORY: "Lists",
+  },
+  ja: {
+    LISTS_CATEGORY: "リスト",
+  },
+};

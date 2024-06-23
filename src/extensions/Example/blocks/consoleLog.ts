@@ -2,8 +2,14 @@ import { javascriptGenerator, Order } from "blockly/javascript";
 
 export const block = {
   type: "ext_example_console_log",
-  message0: "send console.log text %1",
+  message0: "%1 %{BKY_EXAMPLE_CONSOLE_LOG} %2",
   args0: [
+    {
+      type: "field_image",
+      src: "src/extensions/Example/media/terminal.png",
+      width: 40,
+      height: 40,
+    },
     {
       type: "field_input",
       name: "TEXT",
@@ -31,3 +37,12 @@ export function code() {
     return code;
   };
 }
+
+export const locale = {
+  ja: {
+    EXAMPLE_CONSOLE_LOG: "コンソールにテキストを送信",
+  },
+  en: {
+    EXAMPLE_CONSOLE_LOG: "send console.log text",
+  },
+};

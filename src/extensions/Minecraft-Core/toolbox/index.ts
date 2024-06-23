@@ -1,6 +1,6 @@
-export const external = {
+export const category = {
   kind: "category",
-  name: "Minecraft",
+  name: "%{BKY_MINECRAFT}",
   colour: "#a855f7",
   contents: [
     {
@@ -14,4 +14,12 @@ export const external = {
     },
   ],
 };
-export default external;
+
+export const locale = {
+  ja: {
+    MINECRAFT: "マインクラフト",
+  },
+  en: {
+    MINECRAFT: "Minecraft",
+  },
+};

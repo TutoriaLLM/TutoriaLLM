@@ -1,7 +1,7 @@
 import { ICollapsibleToolboxItem, IToolbox } from "blockly";
 import * as Blockly from "blockly/core";
 
-export * from "./toolboxCategory";
+export * from "./category";
 
 class CustomCategory extends Blockly.ToolboxCategory {
   /**

@@ -39,5 +39,8 @@
     "users": "ユーザー",
     "settings": "設定",
     "toggle": "サイドバー"
+  },
+  "blocklyCore": {
+    "logic": "ロジック"
   }
 }

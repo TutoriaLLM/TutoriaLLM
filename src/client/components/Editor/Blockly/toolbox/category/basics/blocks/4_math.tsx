@@ -1,6 +1,6 @@
-export const math = {
+export const category = {
   kind: "category",
-  name: "Math",
+  name: "%{BKY_MATH_CATEGORY}",
   colour: "#3b82f6",
   contents: [
     {
@@ -119,4 +119,12 @@ export const math = {
     },
   ],
 };
-export default math;
+
+export const locale = {
+  en: {
+    MATH_CATEGORY: "Math",
+  },
+  ja: {
+    MATH_CATEGORY: "数学",
+  },
+};

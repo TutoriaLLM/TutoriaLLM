@@ -1,11 +1,4 @@
-// 基本カテゴリのインポート
-import logic from "./basics/blocks/logic";
-import math from "./basics/blocks/math";
-import loops from "./basics/blocks/loop";
-import variables from "./basics/blocks/variables";
-
-// 非ブロックカテゴリのインポート
-import separator from "./basics/separator";
+import * as Blockly from "blockly";
 
 // src/extensions/*/toolbox/以下からすべてのツールボックスを動的にインポート
 const extensionModules = import.meta.glob(
@@ -15,24 +8,53 @@ const extensionModules = import.meta.glob(
   }
 );
 
-// 拡張機能モジュールを読み込む関数
-const loadExtensions = () => {
-  const extensions = Object.values(extensionModules);
-  console.log("extensions for toolbox loaded");
-  return extensions.map((mod: any) => mod.default);
+// 基本カテゴリをインポート
+const basicModules = import.meta.glob(
+  "/src/client/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
+  {
+    eager: true,
+  }
+);
+
+import separator from "./basics/separator";
+
+// モジュールを結合。
+const combinedModules = {
+  ...basicModules,
+  separator,
+  ...extensionModules,
 };
 
-// すべてのカテゴリを結合
-const loadedExtensions = loadExtensions();
-export const categoryContents = [
-  //基本カテゴリ
-  logic,
-  math,
-  loops,
-  variables,
-  //以下は拡張カテゴリ
-  separator,
-  ...loadedExtensions,
-];
+const loadExtensions = () => {
+  const extensions = Object.values(combinedModules);
+  return extensions.map((mod: any) => mod);
+};
 
-export default categoryContents;
+const loadedExtensions = loadExtensions();
+console.log("loadedExtensions for toolbox", loadedExtensions);
+
+// カテゴリとセパレータのみを取り出す
+const categoryContents = loadedExtensions
+  .filter((ext) => ext && (ext.category || ext === separator)) // ext と ext.category の存在を確認
+  .map((ext) => ext.category || ext);
+
+// カテゴリの翻訳を行う関数
+export function translateCategories(language: string) {
+  loadedExtensions.forEach((ext) => {
+    if (ext.locale && ext.locale[language]) {
+      // localeが記述されている場合は登録する(json形式)
+      for (const key in ext.locale[language]) {
+        if (ext.locale[language].hasOwnProperty(key)) {
+          Blockly.Msg[key] = ext.locale[language][key];
+        }
+      }
+    }
+  });
+}
+
+export const toolboxCategories = {
+  kind: "categoryToolbox",
+  contents: categoryContents,
+};
+
+export default toolboxCategories;

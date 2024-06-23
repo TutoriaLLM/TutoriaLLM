@@ -1,6 +1,6 @@
-export const external = {
+export const category = {
   kind: "category",
-  name: "Example",
+  name: "%{BKY_EXAMPLE}",
   colour: "#a855f7",
   contents: [
     {
@@ -9,4 +9,12 @@ export const external = {
     },
   ],
 };
-export default external;
+
+export const locale = {
+  ja: {
+    EXAMPLE: "開発例",
+  },
+  en: {
+    EXAMPLE: "Example",
+  },
+};

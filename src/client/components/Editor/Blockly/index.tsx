@@ -2,7 +2,7 @@ import * as Blockly from "blockly/core";
 import { useEffect } from "react";
 
 // カスタマイズのインポート
-import { toolboxCategories } from "./toolbox";
+import { toolboxCategories, translateCategories } from "./toolbox";
 import registerBlocks from "./blocks";
 import Theme from "./theme";
 
@@ -14,9 +14,6 @@ import "../../../styles/blockly.css";
 
 import { useAtom, useAtomValue } from "jotai";
 import { currentSessionState, prevSessionState } from "../../../state";
-
-// ブロックを登録する
-registerBlocks();
 
 // エディターを定義する
 export default function Editor() {
@@ -52,6 +49,11 @@ export default function Editor() {
     }
 
     getWorkspace();
+    // ブロックを登録する
+    registerBlocks(language as string);
+
+    //カテゴリの翻訳を登録する
+    translateCategories(language as string);
 
     // Blocklyのワークスペースを初期化
     const workspace = Blockly.inject("blocklyDiv", {

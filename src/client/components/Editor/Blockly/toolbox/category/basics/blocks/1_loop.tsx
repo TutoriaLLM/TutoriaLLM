@@ -1,6 +1,6 @@
-export const loops = {
+export const category = {
   kind: "category",
-  name: "Loops",
+  name: "%{BKY_LOOPS_CATEGORY}",
   colour: "#10b981",
   contents: [
     {
@@ -64,4 +64,12 @@ export const loops = {
     },
   ],
 };
-export default loops;
+
+export const locale = {
+  en: {
+    LOOPS_CATEGORY: "Loops",
+  },
+  ja: {
+    LOOPS_CATEGORY: "ループ",
+  },
+};

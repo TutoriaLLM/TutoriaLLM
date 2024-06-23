@@ -2,8 +2,14 @@ import { javascriptGenerator, Order } from "blockly/javascript";
 
 export const block = {
   type: "ext_minecraft_sendcommandrequest",
-  message0: "send command %1",
+  message0: "%1 %{BKY_MINECRAFT_SENDCOMMANDREQUEST} %2",
   args0: [
+    {
+      type: "field_image",
+      src: "src/extensions/Minecraft-Core/media/minecraft.png",
+      width: 40,
+      height: 40,
+    },
     {
       type: "field_input",
       name: "NAME",
@@ -12,7 +18,7 @@ export const block = {
   ],
   previousStatement: null,
   nextStatement: null,
-  colour: 230,
+  colour: "#a855f7",
   tooltip: "",
   helpUrl: "",
 };
@@ -32,3 +38,12 @@ export function code() {
     return code;
   };
 }
+
+export const locale = {
+  ja: {
+    MINECRAFT_SENDCOMMANDREQUEST: "コマンドを実行する",
+  },
+  en: {
+    MINECRAFT_SENDCOMMANDREQUEST: "Execute command",
+  },
+};

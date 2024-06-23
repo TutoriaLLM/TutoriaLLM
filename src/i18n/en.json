@@ -38,5 +38,8 @@
     "tutorials": "Tutorials",
     "users": "Users",
     "settings": "Settings"
+  },
+  "blocklyCore": {
+    "logic": "Logic"
   }
 }

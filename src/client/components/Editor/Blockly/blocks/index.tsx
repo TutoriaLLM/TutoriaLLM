@@ -1,5 +1,4 @@
 import * as Blockly from "blockly";
-import { javascriptGenerator } from "blockly/javascript";
 
 // src/extensions/*/blocks/以下からすべてのツールボックスを動的にインポート
 const extensionModules: any = import.meta.glob(
@@ -8,19 +7,22 @@ const extensionModules: any = import.meta.glob(
     eager: true,
   }
 );
+
 // 拡張機能モジュールを読み込む関数
 const loadExtensions = () => {
   const extensions = Object.values(extensionModules);
   return extensions.map((mod: any) => mod);
 };
+
 const loadedExtensions = loadExtensions();
 console.log("loadedExtensions for block", loadedExtensions);
 
-function registerBlocks() {
+function registerBlocks(language: string) {
   console.log("registerBlocks");
+
   loadedExtensions.forEach((module: any) => {
     if (module && typeof module === "object") {
-      const { block, code } = module;
+      const { block, code, locale } = module;
       console.log("registerBlocks", block);
 
       if (block) {
@@ -29,9 +31,21 @@ function registerBlocks() {
             this.jsonInit(block);
           },
         };
+
         if (code) {
-          //codeを登録する関数がある場合は実行する
+          // codeを登録する関数がある場合は実行する
           code();
+        }
+
+        if (locale && locale[language]) {
+          // localeが記述されている場合は登録する(json形式)
+          console.log("register locale", locale);
+          console.log("register language", language);
+          for (const key in locale[language]) {
+            if (locale[language].hasOwnProperty(key)) {
+              Blockly.Msg[key] = locale[language][key];
+            }
+          }
         }
       }
     } else {

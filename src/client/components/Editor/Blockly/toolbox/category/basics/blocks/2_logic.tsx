@@ -1,6 +1,6 @@
-export const logic = {
+export const category = {
   kind: "category",
-  name: "Logic",
+  name: "%{BKY_LOGIC_CATEGORY}",
   colour: "#06b6d4",
   contents: [
     {
@@ -48,4 +48,12 @@ export const logic = {
     },
   ],
 };
-export default logic;
+
+export const locale = {
+  en: {
+    LOGIC_CATEGORY: "Logic",
+  },
+  ja: {
+    LOGIC_CATEGORY: "論理",
+  },
+};
