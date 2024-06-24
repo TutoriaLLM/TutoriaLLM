@@ -50,9 +50,9 @@ export default function AdminPage() {
       {isAuthenticated ? (
         <div>
           <Navbar />
-          <div className="h-full flex">
+          <div className="h-full flex w-full">
             <SideBar />
-            <div className="flex-grow">
+            <div className="w-full">
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/users" element={<Users />} />

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@blockly/continuous-toolbox": "^6.0.1",
+    "@langchain/openai": "^0.2.0",
     "@lucia-auth/adapter-sqlite": "^3.0.1",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.1.0",
@@ -25,6 +26,7 @@
     "i18next-fs-backend": "^2.3.1",
     "input-otp": "^1.2.4",
     "jotai": "^2.8.2",
+    "langchain": "^0.2.6",
     "level": "^8.0.1",
     "lucia": "^3.2.0",
     "lucide-react": "^0.381.0",
