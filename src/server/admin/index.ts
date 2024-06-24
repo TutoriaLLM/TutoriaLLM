@@ -1,6 +1,7 @@
 import express from "express";
 import appConfiguration from "./appConfig.js";
 import usersConfiguration from "./userConfig.js";
+import sessionManager from "./sessionManager.js";
 
 // 管理者ページが使用するAPIのエントリーポイント
 const admin = express.Router();
@@ -15,6 +16,9 @@ admin.use((req, res, next) => {
 
 // アプリ全体のConfigを設定するAPI
 admin.use("/config", appConfiguration);
+
+// DBrouterからセッションのより詳細な情報を取得する
+admin.use("/sessions", sessionManager);
 
 //チュートリアルのガイドのDBを操作するAPI
 //ガイドの追加、削除、編集、インポート、エクスポートなど

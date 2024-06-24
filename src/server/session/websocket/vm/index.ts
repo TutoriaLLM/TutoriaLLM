@@ -1,6 +1,6 @@
 import vm, { Context, Script } from "vm";
-import { sessionDB } from "../../db/session.js";
-import { SessionValue, WSMessage } from "../../../type.js";
+import { sessionDB } from "../../../db/session.js";
+import { SessionValue, WSMessage } from "../../../../type.js";
 import * as http from "http";
 import fs from "fs";
 import path from "path";

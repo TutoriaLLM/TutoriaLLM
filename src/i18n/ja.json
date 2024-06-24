@@ -38,7 +38,8 @@
     "tutorials": "チュートリアル",
     "users": "ユーザー",
     "settings": "設定",
-    "toggle": "サイドバー"
+    "toggle": "サイドバー",
+    "sessions": "セッション"
   },
   "blocklyCore": {
     "logic": "ロジック"

@@ -8,7 +8,7 @@ import auth from "./auth/index.js";
 
 import { lucia } from "./auth/index.js";
 import { verifyRequestOrigin } from "lucia";
-import { vmExpress } from "./websocket/vm/index.js";
+import { vmExpress } from "./session/websocket/vm/index.js";
 
 const app = express();
 

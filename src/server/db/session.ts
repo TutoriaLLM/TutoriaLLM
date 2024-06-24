@@ -14,7 +14,13 @@ function intitialData(code: string, language: string): SessionValue {
     uuid: crypto.randomUUID(),
     createdAt: new Date(),
     updatedAt: new Date(),
-    dialogue: [],
+    dialogue: [
+      {
+        contentType: "ai",
+        isuser: false,
+        content: "Welcome to the session! ",
+      },
+    ],
     workspace: {},
     isVMRunning: false,
     clients: [],

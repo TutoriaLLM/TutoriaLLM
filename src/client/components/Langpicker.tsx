@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import { Globe } from "lucide-react";
+import { langToStr } from "../../utils/langToStr";
 
 // ユーザーは言語一覧から選択する。
 export function LangPicker(props: {
@@ -7,14 +8,6 @@ export function LangPicker(props: {
   setLanguage: (lang: string) => void;
 }) {
   const languageList = i18next.languages.slice().sort(); // ここでABC順にソートする
-
-  function langToStr(lang: string) {
-    const nameGenerator = new Intl.DisplayNames(lang, { type: "language" });
-    if (!nameGenerator) {
-      return lang;
-    }
-    return nameGenerator.of(lang);
-  }
 
   return (
     <div className="flex flex-col justify-center items-center gap-2 p-2 rounded-2xl w-full">

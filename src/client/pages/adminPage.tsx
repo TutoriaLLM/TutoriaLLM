@@ -10,6 +10,7 @@ import Users from "../components/Admin/tabs/Users";
 import Settings from "../components/Admin/tabs/Settings";
 import Tutorials from "../components/Admin/tabs/Tutorials";
 import i18next from "i18next";
+import Sessions from "../components/Admin/tabs/Sessions";
 
 export default function AdminPage() {
   const languageToStart = useAtomValue(LanguageToStart);
@@ -56,6 +57,7 @@ export default function AdminPage() {
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/users" element={<Users />} />
                 <Route path="/tutorials" element={<Tutorials />} />
+                <Route path="/sessions" element={<Sessions />} />
                 <Route path="/settings" element={<Settings />} />
               </Routes>
             </div>

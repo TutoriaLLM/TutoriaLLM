@@ -1,7 +1,7 @@
 import express from "express";
 import expressWs from "express-ws";
-import { sessionDB } from "../db/session.js";
-import { SessionValue, WSMessage } from "../../type.js";
+import { sessionDB } from "../../db/session.js";
+import { SessionValue, WSMessage } from "../../../type.js";
 import {
   ExecCodeTest,
   SendIsWorkspaceRunning,

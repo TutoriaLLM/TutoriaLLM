@@ -1,4 +1,4 @@
-import { PlusCircle, Send, Server, User } from "lucide-react";
+import { BrainCircuit, PlusCircle, Send, Server, User } from "lucide-react";
 import type { Dialogue, SessionValue } from "../../../../type";
 
 import { currentSessionState } from "../../../state";
@@ -52,8 +52,14 @@ export default function Dialogue() {
             }
             if (item.contentType === "ai") {
               return (
-                <div key={index} className="flex justify-end">
-                  <div className="rounded-2xl rounded-br-none bg-blue-500 text-gray-800 p-3 shadow max-w-xs">
+                <div key={index} className="flex justify-start items-end gap-2">
+                  <div className="text-gray-600 flex flex-col items-center">
+                    <span className="bg-gray-200 rounded-full p-2">
+                      <BrainCircuit />
+                    </span>
+                    <p className="text-xs">AI</p>
+                  </div>
+                  <div className="rounded-2xl rounded-bl-none bg-sky-600 text-white p-3 shadow max-w-xs">
                     {item.content}
                   </div>
                 </div>

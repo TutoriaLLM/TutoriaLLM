@@ -37,7 +37,8 @@
     "dashboard": "Dashboard",
     "tutorials": "Tutorials",
     "users": "Users",
-    "settings": "Settings"
+    "settings": "Settings",
+    "sessions": "Sessions"
   },
   "blocklyCore": {
     "logic": "Logic"
