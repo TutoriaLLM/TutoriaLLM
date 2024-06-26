@@ -8,12 +8,19 @@
     "label": "运行代码"
   },
   "login": {
-    "welcome": "登录以继续"
+    "welcome": "登录以继续",
+    "login": "登录",
+    "loginFailed": "登录失败",
+    "password": "密码",
+    "title": "登录",
+    "username": "用户名"
   },
   "navbar": {
     "connected": "连接的",
     "leave": "离开",
-    "reconnecting": "已断开连接。\n尝试重新连接。"
+    "reconnecting": "已断开连接。\n尝试重新连接。",
+    "home": "家",
+    "signout": "登出"
   },
   "session": {
     "about": "关于这个应用程序",
@@ -25,5 +32,13 @@
     "sessionNotFoundMsg": "未找到会话。\n输入另一个代码或创建一个新会话来启动。",
     "typecodeMsg": "输入您的代码，或创建新房间来开始。",
     "welcome": "使用人工智能学习编码"
+  },
+  "sidebar": {
+    "dashboard": "仪表板",
+    "sessions": "会议",
+    "settings": "设置",
+    "toggle": "Sidebar",
+    "tutorials": "教程",
+    "users": "用户"
   }
 }

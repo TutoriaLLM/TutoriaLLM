@@ -38,9 +38,7 @@
     "tutorials": "Tutorials",
     "users": "Users",
     "settings": "Settings",
-    "sessions": "Sessions"
-  },
-  "blocklyCore": {
-    "logic": "Logic"
+    "sessions": "Sessions",
+    "toggle": "Sidebar"
   }
 }

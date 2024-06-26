@@ -3,8 +3,8 @@
     "empty_code": "コードが無効か空です"
   },
   "execSwitch": {
-    "Running": "ランニング",
-    "Stopped": "停止",
+    "Running": "実行中",
+    "Stopped": "停止中",
     "label": "コードを実行する"
   },
   "login": {
@@ -17,7 +17,7 @@
   },
   "navbar": {
     "connected": "接続されています",
-    "leave": "離れる",
+    "leave": "やめる",
     "reconnecting": "切断されました。\n再接続しようとしています。",
     "home": "ホーム",
     "signout": "サインアウト"
@@ -29,9 +29,9 @@
     "hello": "こんにちは",
     "joinsession": "コードで参加する",
     "or": "または",
-    "sessionNotFoundMsg": "セッションが見つかりません。\n別のコードを入力するか、新しいセッションを作成して開始します。",
-    "typecodeMsg": "コードを入力するか、新しいルームを作成して開始してください。",
-    "welcome": "AIを使ってコーディングを学ぶ"
+    "sessionNotFoundMsg": "セッションが見つかりません。\n別のコードを入力するか、新しいセッションを作成して開始してください。",
+    "typecodeMsg": "コードを入れるか、新しいルームを作成して始めましょう。",
+    "welcome": "AIを使ってプログラミングを学ぼう。"
   },
   "sidebar": {
     "dashboard": "ダッシュボード",
@@ -40,8 +40,5 @@
     "settings": "設定",
     "toggle": "サイドバー",
     "sessions": "セッション"
-  },
-  "blocklyCore": {
-    "logic": "ロジック"
   }
 }
