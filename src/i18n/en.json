@@ -40,5 +40,11 @@
     "settings": "Settings",
     "sessions": "Sessions",
     "toggle": "Sidebar"
+  },
+  "textbubble": {
+    "log": "Log",
+    "server": "Server",
+    "ai": "AI",
+    "you": "You"
   }
 }

@@ -14,6 +14,7 @@ import { SessionValue, WSMessage } from "../../type";
 import sleep from "../../utils/sleep";
 
 import { useTranslation } from "react-i18next";
+import { PlayIcon, StopCircleIcon } from "lucide-react";
 
 //このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。
 export function ExecSwitch() {
@@ -82,26 +83,28 @@ export function ExecSwitch() {
       {isConnected ? (
         <div className="flex items-center p-2 gap-2 rounded-2xl border border-gray-300">
           <span className="flex flex-col">
-            <label className="text-gray-600 text-base leading-none font-semibold">
-              {t("execSwitch.label")}
-            </label>
             <label
               className={`${
                 isCodeRunning ? "text-green-600" : "text-red-400"
-              } text-xs leading-none font-semibold`}
+              } text-base leading-none font-semibold`}
             >
-              {isCodeRunning
-                ? t("execSwitch.Running")
-                : t("execSwitch.Stopped")}
+              {isCodeRunning ? <PlayIcon /> : <StopCircleIcon />}
             </label>
           </span>
+          <label
+            className={`${
+              isCodeRunning ? "text-green-600 animate-pulse" : "text-red-400"
+            } text-xs leading-none font-semibold`}
+          >
+            {isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
+          </label>
           <Switch.Root
             checked={isCodeRunning}
             disabled={isSwitchDisabled}
             onCheckedChange={() => ChangeSwitch()}
             className="w-16 h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100"
           >
-            <Switch.Thumb className="block w-8 h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
+            <Switch.Thumb className="shadow block w-8 h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
           </Switch.Root>
         </div>
       ) : null}

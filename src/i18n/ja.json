@@ -40,5 +40,11 @@
     "settings": "設定",
     "toggle": "サイドバー",
     "sessions": "セッション"
+  },
+  "textbubble": {
+    "log": "記録",
+    "server": "サーバー",
+    "ai": "AI",
+    "you": "あなた"
   }
 }

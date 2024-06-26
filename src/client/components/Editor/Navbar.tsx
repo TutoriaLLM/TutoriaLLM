@@ -13,7 +13,7 @@ export default function Navbar(props: { code: string; isConnected: boolean }) {
         <DoorOpen />
         <span>{t("navbar.leave")}</span>
       </a>
-      <div className="justify-items-center">
+      <div className="flex flex-col justify-center items-center">
         <p className="font-semibold text-xl tracking-widest">{props.code}</p>
         <span className="text-xs flex">
           {props.isConnected ? (
