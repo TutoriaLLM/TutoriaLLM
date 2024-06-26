@@ -25,6 +25,7 @@ function intitialData(code: string, language: string): SessionValue {
     isVMRunning: false,
     clients: [],
     language: language,
+    llmContext: "",
   };
 }
 

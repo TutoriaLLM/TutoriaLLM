@@ -9,6 +9,9 @@ import {
 } from "./vm/index.js";
 import i18next from "i18next";
 import FsBackend, { FsBackendOptions } from "i18next-fs-backend";
+import { updateDialogue } from "../../../utils/dialogueUpdater.js";
+import { invokeLLM } from "../llm/index.js";
+import e from "express";
 
 const websocketserver = express.Router();
 expressWs(websocketserver as any);
@@ -94,17 +97,30 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
             ws.send("Invalid uuid");
             ws.close();
           }
-          const { sessioncode, uuid, workspace, dialogue } = messageJson;
+          const { sessioncode, uuid, workspace, dialogue, llmContext } =
+            messageJson;
+          //dialogueが更新されている場合は、LLMによって応答が生成される
+          async function updateDialogueLLM(data: SessionValue) {
+            if (dialogue !== currentDataJson.dialogue) {
+              const message = await invokeLLM(messageJson);
+              const newDIalogue = updateDialogue(message, data, "ai");
+              return newDIalogue.dialogue;
+            } else {
+              return data.dialogue;
+            }
+          }
+
           const dataToPut: SessionValue = {
             sessioncode: sessioncode,
             uuid: uuid,
             workspace: workspace,
-            dialogue: dialogue,
+            dialogue: await updateDialogueLLM(currentDataJson),
             createdAt: currentDataJson.createdAt,
             updatedAt: new Date(),
             isVMRunning: currentDataJson.isVMRunning,
             clients: currentDataJson.clients,
             language: currentDataJson.language,
+            llmContext: llmContext,
           };
 
           await updateDatabase(dataToPut);
@@ -117,7 +133,11 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
             currentDataJson.isVMRunning = isRunning;
             await updateDatabase(currentDataJson);
             updateDatabase(
-              updateLog(i18next.t("error.empty_code"), currentDataJson)
+              updateDialogue(
+                i18next.t("error.empty_code"),
+                currentDataJson,
+                "log"
+              )
             );
             sendToAllClients(
               currentDataJson,
@@ -222,23 +242,6 @@ function sendToAllClients(session: SessionValue, message?: WSMessage) {
       clients.get(id).send(JSON.stringify(message ? message : session));
     }
   });
-}
-
-export function updateLog(
-  message: string,
-  currentDataJson: SessionValue
-): SessionValue {
-  return {
-    ...currentDataJson,
-    dialogue: [
-      ...currentDataJson.dialogue,
-      {
-        contentType: "log",
-        isuser: false,
-        content: message,
-      },
-    ],
-  };
 }
 
 export default websocketserver;

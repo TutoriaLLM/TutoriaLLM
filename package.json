@@ -38,6 +38,7 @@
     "tsx": "^4.3.0",
     "typescript": "^5.3.2",
     "uuid": "^9.0.1",
+    "vectra": "^0.7.6",
     "vite-express": "*",
     "vite-plugin-svgr": "^4.2.0"
   },

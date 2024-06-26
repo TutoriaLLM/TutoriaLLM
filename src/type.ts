@@ -6,18 +6,18 @@ export interface DatabaseUser {
   password: string;
 }
 
-type ContentType = "user" | "ai" | "log" | "image";
+export type WSMessage = {
+  request: string;
+  value?: string | number | boolean | object | null;
+};
+
+export type ContentType = "user" | "ai" | "log" | "image";
 
 export type Dialogue = {
   contentType: ContentType;
   isuser: boolean;
   content: any; // コンテンツの種類に応じて型を変更できます
 }[];
-
-export type WSMessage = {
-  request: string;
-  value?: string | number | boolean | object | null;
-};
 
 export type SessionValue = {
   sessioncode: string;
@@ -30,6 +30,8 @@ export type SessionValue = {
   isVMRunning: boolean;
   clients: string[];
   language: string;
+  //AIへ与えるコンテキスト
+  llmContext: string;
 };
 
 export type WSMinecraftMessage = {
@@ -38,9 +40,13 @@ export type WSMinecraftMessage = {
 };
 
 export type AppConfig = {
-  settings: {
-    defaultPassword: string;
-    enableJoinbyCode: boolean;
-    enableCreateRoom: boolean;
+  General_Settings: {
+    Enable_Join_by_code: boolean;
+    Enable_Create_Room: boolean;
+  };
+  AI_Settings: {
+    AI_Model: string;
+    AI_Temperature: number;
+    Max_Number_of_processes: number;
   };
 };
