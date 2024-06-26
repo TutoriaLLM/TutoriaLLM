@@ -92,7 +92,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
         };
 
         if ((messageJson as SessionValue).workspace) {
-          const messageJson = JSON.parse(message.toString());
+          const messageJson: SessionValue = JSON.parse(message.toString());
           if (currentDataJson.uuid !== messageJson.uuid) {
             ws.send("Invalid uuid");
             ws.close();
@@ -100,11 +100,17 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
           const { sessioncode, uuid, workspace, dialogue, llmContext } =
             messageJson;
           //dialogueが更新されている場合は、LLMによって応答が生成される
+          //ユーザーが更新した場合のみ、LLMを呼び出す（それ以外を呼び出すと無限ループになる）
           async function updateDialogueLLM(data: SessionValue) {
-            if (dialogue !== currentDataJson.dialogue) {
+            const lastMessage = data.dialogue[data.dialogue.length - 1];
+            if (
+              dialogue !== currentDataJson.dialogue &&
+              dialogue.length > 0 &&
+              lastMessage.isuser
+            ) {
               const message = await invokeLLM(messageJson);
-              const newDIalogue = updateDialogue(message, data, "ai");
-              return newDIalogue.dialogue;
+              const newDialogue = updateDialogue(message, messageJson, "ai");
+              return newDialogue.dialogue;
             } else {
               return data.dialogue;
             }
@@ -114,13 +120,14 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
             sessioncode: sessioncode,
             uuid: uuid,
             workspace: workspace,
-            dialogue: await updateDialogueLLM(currentDataJson),
+            dialogue: await updateDialogueLLM(messageJson),
             createdAt: currentDataJson.createdAt,
             updatedAt: new Date(),
             isVMRunning: currentDataJson.isVMRunning,
             clients: currentDataJson.clients,
             language: currentDataJson.language,
             llmContext: llmContext,
+            tutorial: currentDataJson.tutorial,
           };
 
           await updateDatabase(dataToPut);

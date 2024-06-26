@@ -22,7 +22,7 @@ const vmInstances: { [key: string]: VMInstance } = {};
 
 // 拡張機能コンテキストを読み込む関数
 const loadExtensions = async (context: Context): Promise<void> => {
-  const extensionsDir = path.resolve(__dirname, "../../../extensions");
+  const extensionsDir = path.resolve(__dirname, "../../../../extensions");
   const extensionFolders = fs.readdirSync(extensionsDir);
 
   for (const extensionFolder of extensionFolders) {

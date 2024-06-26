@@ -10,28 +10,23 @@ import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { MessageHistoryFromSession } from "../../../utils/dialogueToChatHistory.js";
 import { sessionDB } from "../../db/session.js";
 
-let processingMessage = 0;
 //sessionvalueを元に、会話を呼び出す。結果はdialogueに追加される
 export async function invokeLLM(session: SessionValue) {
   console.log("invokeLLM");
   const config: AppConfig = await getConfig();
-  processingMessage += 1;
-  //   if (processingMessage > config.AI_Settings.Max_Number_of_processes) {
-  //     updateDialogue(
-  //       "AIの処理が多すぎます。しばらく待ってからもう一度お試しください。",
-  //       session,
-  //       "log"
-  //     );
-  //   }
   const model = new ChatOpenAI({
     apiKey: process.env.VITE_OPENAI_API_KEY,
-    model: "gpt-3.5-turbo",
+    model: config.AI_Settings.AI_Model,
+    temperature: config.AI_Settings.AI_Temperature,
   });
   const systemTemplate =
     "You are tutor of Coding with using this language: {language}";
 
-  const userTemplate =
-    "Answer for latest question from users includes past messages. If there is no question, encourage user to do coding.: {dialogue}";
+  const userTemplate = `
+    Answer for latest question from users includes past messages if it exists:{text}
+    This is past record of messages includes user chat, log from server, and AI response: {dialogue}
+    If there is no question, encourage user or provide feedback based on past messages, or explain whats happening in the server
+    `;
 
   const promptTemplate = ChatPromptTemplate.fromMessages([
     ["system", systemTemplate],
@@ -43,9 +38,9 @@ export async function invokeLLM(session: SessionValue) {
   const chain = promptTemplate.pipe(model).pipe(parser);
 
   const response = await chain.invoke({
-    language: "japanese",
-    dialogue: session.dialogue,
-    text: "hi",
+    language: session.language,
+    dialogue: JSON.stringify(session.dialogue),
+    text: session.dialogue[session.dialogue.length - 1].content,
   });
 
   return response;

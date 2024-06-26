@@ -18,6 +18,6 @@ export function updateDialogue(
   };
 }
 
-export function extractDialogue(currentDataJson: SessionValue): Dialogue {
+export function extractDialogue(currentDataJson: SessionValue): Dialogue[] {
   return currentDataJson.dialogue.map((entry) => entry.content);
 }

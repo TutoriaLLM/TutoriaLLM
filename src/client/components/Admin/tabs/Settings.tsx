@@ -27,6 +27,7 @@ function ConfigManager() {
         },
         body: JSON.stringify(config),
       });
+      console.log(response);
       if (response.ok) {
         alert("Config updated successfully");
       } else {

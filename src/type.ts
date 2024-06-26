@@ -17,14 +17,23 @@ export type Dialogue = {
   contentType: ContentType;
   isuser: boolean;
   content: any; // コンテンツの種類に応じて型を変更できます
-}[];
+};
+
+export type Tutorial = {
+  //チュートリアルの有無
+  isTutorial: boolean;
+  //チュートリアルのid
+  tutorialId: string | null;
+  //チュートリアルの進行度
+  progress: number | null;
+};
 
 export type SessionValue = {
   sessioncode: string;
   uuid: string;
   createdAt: Date;
   updatedAt: Date;
-  dialogue: Dialogue;
+  dialogue: Dialogue[];
   //シリアル化したBlockly.Workspaceを保存する
   workspace: any[string];
   isVMRunning: boolean;
@@ -32,6 +41,8 @@ export type SessionValue = {
   language: string;
   //AIへ与えるコンテキスト
   llmContext: string;
+  //チュートリアルの有無や設定を保存する
+  tutorial: Tutorial;
 };
 
 export type WSMinecraftMessage = {

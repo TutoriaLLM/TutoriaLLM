@@ -21,8 +21,8 @@ import {
   LanguageToStart,
 } from "../state";
 import i18next from "i18next";
-import Dialogue from "../components/Editor/dialogue";
 import SessionPopup from "../components/Editor/sessionPopup";
+import DialogueView from "../components/Editor/dialogue";
 
 export default function EditorPage() {
   const { code: codeFromPath } = useParams();
@@ -207,7 +207,7 @@ export default function EditorPage() {
             maxSize={80}
             minSize={20}
           >
-            <Dialogue />
+            <DialogueView />
           </Panel>
         </PanelGroup>
       )}
