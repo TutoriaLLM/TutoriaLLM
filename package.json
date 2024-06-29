@@ -7,15 +7,18 @@
     "dev": "nodemon -w src/server -x tsx src/server/main.ts",
     "start": "NODE_ENV=production tsx src/server/main.ts",
     "build": "vite build",
-    "reset-user": "tsx src/server/db/users.ts --reset-credentials"
+    "reset-user": "tsx src/server/db/users.ts --reset-credentials",
+    "reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials"
   },
   "dependencies": {
     "@blockly/continuous-toolbox": "^6.0.1",
     "@langchain/openai": "^0.2.0",
     "@lucia-auth/adapter-sqlite": "^3.0.1",
+    "@marp-team/marpit": "^3.0.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-switch": "^1.0.3",
+    "@types/js-yaml": "^4.0.9",
     "bcrypt": "^5.1.1",
     "better-sqlite3": "^9.6.0",
     "blockly": "^11.1.0",
@@ -26,6 +29,7 @@
     "i18next-fs-backend": "^2.3.1",
     "input-otp": "^1.2.4",
     "jotai": "^2.8.2",
+    "js-yaml": "^4.1.0",
     "langchain": "^0.2.6",
     "level": "^8.0.1",
     "lucia": "^3.2.0",

@@ -9,6 +9,7 @@ import auth from "./auth/index.js";
 import { lucia } from "./auth/index.js";
 import { verifyRequestOrigin } from "lucia";
 import { vmExpress } from "./session/websocket/vm/index.js";
+import tutorials from "./tutorials/index.js";
 
 const app = express();
 
@@ -59,6 +60,9 @@ expressWs(app);
 
 //session routes
 app.use("/session", session);
+
+// Tutorial routes
+app.use("/tutorial", tutorials);
 
 //vm proxy
 app.use("/vm", vmExpress);

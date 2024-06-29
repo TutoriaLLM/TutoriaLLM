@@ -26,6 +26,11 @@ function intitialData(code: string, language: string): SessionValue {
     clients: [],
     language: language,
     llmContext: "",
+    tutorial: {
+      isTutorial: false,
+      tutorialId: null,
+      progress: null,
+    },
   };
 }
 

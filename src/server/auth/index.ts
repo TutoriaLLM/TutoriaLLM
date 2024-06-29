@@ -1,12 +1,12 @@
 import { Lucia } from "lucia";
 import { BetterSqlite3Adapter } from "@lucia-auth/adapter-sqlite";
-import { db } from "../db/users.js";
+import { userDB } from "../db/users.js";
 import type { DatabaseUser } from "../../type.js";
 import express from "express";
 import { comparePasswordToHash } from "../../utils/password.js";
 
 // 認証機能をセットアップ
-const adapter = new BetterSqlite3Adapter(db, {
+const adapter = new BetterSqlite3Adapter(userDB, {
   user: "users", // Correct table name
   session: "session", // Correct table name
 });
@@ -48,7 +48,7 @@ auth.post("/login", async (req, res) => {
   console.log("login request", req.body);
   const { username, password } = req.body;
 
-  const existingUser = db
+  const existingUser = userDB
     .prepare("SELECT * FROM users WHERE username = ?") // Correct table name
     .get(username) as DatabaseUser | undefined;
   if (!existingUser) {

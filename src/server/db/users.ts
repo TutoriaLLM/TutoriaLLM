@@ -10,15 +10,15 @@ if (!fs.existsSync(dbDirectory)) {
 }
 
 // SQLiteデータベースを開く
-export const db = sqlite("dist/users.db");
+export const userDB = sqlite("dist/users.db");
 
-db.exec(`CREATE TABLE IF NOT EXISTS users (
+userDB.exec(`CREATE TABLE IF NOT EXISTS users (
     id TEXT NOT NULL PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 )`);
 
-db.exec(`CREATE TABLE IF NOT EXISTS session (
+userDB.exec(`CREATE TABLE IF NOT EXISTS session (
     id TEXT PRIMARY KEY,
     expires_at INTEGER NOT NULL,
     user_id TEXT NOT NULL,
@@ -33,10 +33,10 @@ export async function resetCredentials(
   console.log("resetCredentials");
 
   // Clear the users table
-  db.exec(`DELETE FROM users`);
+  userDB.exec(`DELETE FROM users`);
 
   // Create the initial admin user
-  const result = db
+  const result = userDB
     .prepare("INSERT INTO users (id, username, password) VALUES (?, ?, ?)")
     .run("1", adminUsername, adminPasswordHash); // 'null' to '1' to ensure a valid ID
 

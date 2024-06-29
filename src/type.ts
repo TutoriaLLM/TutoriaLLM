@@ -19,6 +19,23 @@ export type Dialogue = {
   content: any; // コンテンツの種類に応じて型を変更できます
 };
 
+//バックエンドでのチュートリアルの内容を管理するための型
+export type TutorialData = {
+  //チュートリアルのid
+  tutorialId: string;
+  //チュートリアルの内容
+  content: string;
+  //チュートリアルのメタデータ(未定義のためany型)
+  metadata: {
+    marp: true;
+    title: string;
+    description: string;
+    author?: string;
+    keywords?: string[];
+  };
+};
+
+//フロントエンドでのチュートリアルの進行度を管理するための型
 export type Tutorial = {
   //チュートリアルの有無
   isTutorial: boolean;

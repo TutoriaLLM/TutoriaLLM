@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import { useState } from "react";
 import TextBubble from "./parts/textbubble";
 import { Dialogue } from "../../../../type";
+import TutorialPicker from "./tutorialPicker";
 
 export default function DialogueView() {
   const [sessionState, setSessionState] = useAtom(currentSessionState);
@@ -31,6 +32,7 @@ export default function DialogueView() {
   return (
     <div className="w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
       <div className="w-full h-full overflow-scroll flex flex-col gap-4 p-4 py-8">
+        <TutorialPicker />
         {sessionState?.dialogue.map((item: Dialogue, index) => {
           return <TextBubble item={item} index={index} />;
         })}

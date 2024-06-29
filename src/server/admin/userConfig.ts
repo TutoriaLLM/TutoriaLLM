@@ -1,10 +1,9 @@
 import express from "express";
-import Database from "better-sqlite3";
 import { saltAndHashPassword } from "../../utils/password.js";
 import { DatabaseUser } from "../../type.js";
 import { generateIdFromEntropySize } from "lucia";
 // 既存のDBに接続する
-import { db } from "../db/users.js";
+import { userDB } from "../db/users.js";
 
 const usersConfiguration = express.Router();
 
@@ -14,7 +13,7 @@ usersConfiguration.use(express.json());
 // ユーザーの一覧を取得するAPI
 usersConfiguration.get("/", (req, res) => {
   try {
-    const users = db.prepare("SELECT * FROM users").all();
+    const users = userDB.prepare("SELECT * FROM users").all();
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: (err as Error).message });
@@ -29,12 +28,12 @@ usersConfiguration.post("/new", async (req, res) => {
   try {
     const hashedPassword = await saltAndHashPassword(password);
     const generatedID = generateIdFromEntropySize(16); // IDを生成
-    const insert = db.prepare(
+    const insert = userDB.prepare(
       "INSERT INTO users (id, username, password) VALUES (?, ?, ?)"
     );
     const result = insert.run(generatedID, username, hashedPassword);
     if (result.changes > 0) {
-      const user = db
+      const user = userDB
         .prepare("SELECT * FROM users WHERE id = ?")
         .get(generatedID) as DatabaseUser;
       const { password, ...userWithoutPassword } = user;
@@ -53,7 +52,7 @@ usersConfiguration.post("/new", async (req, res) => {
 usersConfiguration.get("/:id", (req, res) => {
   const { id } = req.params;
   try {
-    const user = db
+    const user = userDB
       .prepare("SELECT * FROM users WHERE id = ?")
       .get(id) as DatabaseUser;
     const userWithType = user;
@@ -78,7 +77,7 @@ usersConfiguration.put("/:id", async (req, res) => {
     if (password) {
       // パスワードが空でない場合はハッシュ化して更新
       const hashedPassword = await saltAndHashPassword(password);
-      const update = db.prepare(
+      const update = userDB.prepare(
         "UPDATE users SET username = ?, password = ? WHERE id = ?"
       );
       const result = update.run(username, hashedPassword, id); // パラメータの順序を合わせる
@@ -89,7 +88,9 @@ usersConfiguration.put("/:id", async (req, res) => {
       }
     } else {
       // パスワードが空の場合はパスワードを更新しない
-      const update = db.prepare("UPDATE users SET username = ? WHERE id = ?");
+      const update = userDB.prepare(
+        "UPDATE users SET username = ? WHERE id = ?"
+      );
       const result = update.run(username, id); // パラメータの順序を合わせる
       if (result.changes > 0) {
         res.json({ message: "User updated successfully" });
@@ -107,7 +108,7 @@ usersConfiguration.delete("/:id", (req, res) => {
   console.log("delete user");
   const { id } = req.params;
   try {
-    const remove = db.prepare("DELETE FROM users WHERE id = ?");
+    const remove = userDB.prepare("DELETE FROM users WHERE id = ?");
     const result = remove.run(id);
     if (result.changes > 0) {
       res.json({ message: "User deleted successfully" });
