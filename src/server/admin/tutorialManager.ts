@@ -28,6 +28,30 @@ tutorialsManager.delete("/:id", (req, res) => {
   res.send(`Tutorial ${id} deleted`);
 });
 
+//新しいチュートリアルを作成
+tutorialsManager.post("/new", (req, res) => {
+  if (!req.body.content) {
+    res.status(400).send("Body is required");
+    return;
+  }
+  const tutorial = req.body.content as string;
+  const extractMetadataToInsert = extractMetadata(tutorial);
+  const content = extractMetadataToInsert.content;
+  const metadata = extractMetadataToInsert.metadata;
+  console.log(content);
+  console.log(metadata);
+  //新しいチュートリアルを作成
+  try {
+    tutorialDB
+      .prepare("INSERT INTO tutorials (content, metadata) VALUES (?, ?)")
+      .run(content, JSON.stringify(metadata));
+    res.status(201).send("Tutorial created");
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Failed to create tutorial");
+  }
+});
+
 //チュートリアルの内容を更新
 tutorialsManager.post("/:id", (req, res) => {
   const id = req.params.id;
@@ -51,23 +75,6 @@ tutorialsManager.post("/:id", (req, res) => {
   tutorialDB
     .prepare("UPDATE tutorials SET content = ? metadata = ? WHERE id = ?")
     .run(content, metadata, id);
-});
-
-//新しいチュートリアルを作成
-tutorialsManager.post("/new", (req, res) => {
-  if (!req.body || typeof req.body !== "string") {
-    res.status(400).send("Bad Request");
-    return;
-  }
-  const tutorial = req.body as string;
-  const extractMetadataToInsert = extractMetadata(tutorial);
-  const content = extractMetadataToInsert.content;
-  const metadata = extractMetadataToInsert.metadata;
-  //新しいチュートリアルを作成
-  tutorialDB
-    .prepare("INSERT INTO tutorials (content, metadata) VALUES (?, ?)")
-    .run(content, metadata);
-  res.send("Tutorial created");
 });
 
 tutorialsManager.all("*", (req, res) => {

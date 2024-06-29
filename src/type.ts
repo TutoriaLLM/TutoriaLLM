@@ -22,7 +22,7 @@ export type Dialogue = {
 //バックエンドでのチュートリアルの内容を管理するための型
 export type TutorialData = {
   //チュートリアルのid
-  tutorialId: string;
+  id: string;
   //チュートリアルの内容
   content: string;
   //チュートリアルのメタデータ(未定義のためany型)
