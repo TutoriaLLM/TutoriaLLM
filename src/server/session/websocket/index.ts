@@ -84,11 +84,11 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 				const updateDatabase = async (newData: SessionValue) => {
 					await sessionDB.put(code, JSON.stringify(newData));
 					// 全クライアントに更新を通知
-					newData.clients.forEach((id) => {
+					for (const id of newData.clients) {
 						if (clients.has(id)) {
 							clients.get(id).send(JSON.stringify(newData));
 						}
-					});
+					}
 				};
 
 				if ((messageJson as SessionValue).workspace) {
@@ -243,11 +243,11 @@ websocketserver.get("/hello", async (req, res) => {
 });
 
 function sendToAllClients(session: SessionValue, message?: WSMessage) {
-	session.clients.forEach((id) => {
+	for (const id of session.clients) {
 		if (clients.has(id)) {
 			clients.get(id).send(JSON.stringify(message ? message : session));
 		}
-	});
+	}
 }
 
 export default websocketserver;

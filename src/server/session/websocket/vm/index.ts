@@ -106,13 +106,13 @@ export async function ExecCodeTest(
 	const logBuffer = new LogBuffer(async (code, logs: string[]) => {
 		const session = await sessionDB.get(code);
 		const sessionValue: SessionValue = JSON.parse(session);
-		logs.forEach((log) => {
+		for (const log of logs) {
 			sessionValue.dialogue.push({
 				contentType: "log",
 				isuser: false,
 				content: log,
 			});
-		});
+		}
 		await DBupdator(sessionValue);
 	}, code);
 

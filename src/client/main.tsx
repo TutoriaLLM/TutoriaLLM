@@ -26,6 +26,11 @@ export default function App(): React.ReactElement {
 		</React.StrictMode>
 	);
 }
-const domNode = document.getElementById("root")!;
-const root = createRoot(domNode);
-root.render(<App />);
+try {
+	const domNode = document.getElementById("root");
+	if (!domNode) throw new Error("Root element not found");
+	const root = createRoot(domNode);
+	root.render(<App />);
+} catch (e) {
+	console.error(e);
+}

@@ -8,7 +8,7 @@ import { db } from "./index.js";
 function getMarkdownFiles(dir: string): string[] {
 	let results: string[] = [];
 	const list = fs.readdirSync(dir);
-	list.forEach((file) => {
+	for (const file of list) {
 		const filePath = path.resolve(dir, file);
 		const stat = fs.statSync(filePath);
 		if (stat?.isDirectory()) {
@@ -18,7 +18,7 @@ function getMarkdownFiles(dir: string): string[] {
 			// マークダウンファイルをリストに追加
 			results.push(filePath);
 		}
-	});
+	}
 	return results;
 }
 
