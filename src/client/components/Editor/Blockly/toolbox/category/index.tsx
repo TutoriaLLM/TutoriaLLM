@@ -2,32 +2,32 @@ import * as Blockly from "blockly";
 
 // src/extensions/*/toolbox/以下からすべてのツールボックスを動的にインポート
 const extensionModules = import.meta.glob(
-  "/src/extensions/*/toolbox/**/index.*",
-  {
-    eager: true,
-  }
+	"/src/extensions/*/toolbox/**/index.*",
+	{
+		eager: true,
+	},
 );
 
 // 基本カテゴリをインポート
 const basicModules = import.meta.glob(
-  "/src/client/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
-  {
-    eager: true,
-  }
+	"/src/client/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
+	{
+		eager: true,
+	},
 );
 
 import separator from "./basics/separator";
 
 // モジュールを結合。
 const combinedModules = {
-  ...basicModules,
-  separator,
-  ...extensionModules,
+	...basicModules,
+	separator,
+	...extensionModules,
 };
 
 const loadExtensions = () => {
-  const extensions = Object.values(combinedModules);
-  return extensions.map((mod: any) => mod);
+	const extensions = Object.values(combinedModules);
+	return extensions.map((mod: any) => mod);
 };
 
 const loadedExtensions = loadExtensions();
@@ -35,26 +35,26 @@ console.log("loadedExtensions for toolbox", loadedExtensions);
 
 // カテゴリとセパレータのみを取り出す
 const categoryContents = loadedExtensions
-  .filter((ext) => ext && (ext.category || ext === separator)) // ext と ext.category の存在を確認
-  .map((ext) => ext.category || ext);
+	.filter((ext) => ext && (ext.category || ext === separator)) // ext と ext.category の存在を確認
+	.map((ext) => ext.category || ext);
 
 // カテゴリの翻訳を行う関数
 export function translateCategories(language: string) {
-  loadedExtensions.forEach((ext) => {
-    if (ext.locale && ext.locale[language]) {
-      // localeが記述されている場合は登録する(json形式)
-      for (const key in ext.locale[language]) {
-        if (ext.locale[language].hasOwnProperty(key)) {
-          Blockly.Msg[key] = ext.locale[language][key];
-        }
-      }
-    }
-  });
+	loadedExtensions.forEach((ext) => {
+		if (ext.locale?.[language]) {
+			// localeが記述されている場合は登録する(json形式)
+			for (const key in ext.locale[language]) {
+				if (ext.locale[language].hasOwnProperty(key)) {
+					Blockly.Msg[key] = ext.locale[language][key];
+				}
+			}
+		}
+	});
 }
 
 export const toolboxCategories = {
-  kind: "categoryToolbox",
-  contents: categoryContents,
+	kind: "categoryToolbox",
+	contents: categoryContents,
 };
 
 export default toolboxCategories;

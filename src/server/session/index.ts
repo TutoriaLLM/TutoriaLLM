@@ -1,7 +1,7 @@
 import express from "express";
+import expressWs from "express-ws";
 import DBrouter from "../db/session.js";
 import websocketserver from "./websocket/index.js";
-import expressWs from "express-ws";
 
 // セッション管理をまとめる。db/websocketサーバーのエントリーポイント
 const session = express();
