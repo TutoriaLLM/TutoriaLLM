@@ -1,22 +1,8 @@
-import sqlite from "better-sqlite3";
+import { db } from "./index.js";
+import { Tutorial, NewTutorial, UpdatedTutorial } from "../../type.js";
 import fs from "fs";
 import path from "path";
 import { extractMetadata } from "../../utils/extractTutorialMetadata.js";
-
-// ディレクトリが存在するかどうかを確認し、存在しない場合は作成
-const dbDirectory = path.dirname("dist/tutorials.db");
-if (!fs.existsSync(dbDirectory)) {
-  fs.mkdirSync(dbDirectory, { recursive: true });
-}
-
-// SQLiteデータベースを開く
-export const tutorialDB = sqlite("dist/tutorials.db");
-
-tutorialDB.exec(`CREATE TABLE IF NOT EXISTS tutorials (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    content TEXT NOT NULL,
-    metadata TEXT NOT NULL
-)`);
 
 // マークダウンファイルを取得する関数
 function getMarkdownFiles(dir: string): string[] {
@@ -39,7 +25,7 @@ function getMarkdownFiles(dir: string): string[] {
 // デフォルトチュートリアル(拡張機能から提供されたもの)を再読み込み
 export async function reloadDefaultTutorials() {
   // すべてのチュートリアルを削除
-  tutorialDB.exec(`DELETE FROM tutorials`);
+  db.deleteFrom("tutorials").executeTakeFirstOrThrow();
 
   // マークダウンファイルのパスを取得
   const tutorialFiles = getMarkdownFiles(path.resolve("src/extensions"));
@@ -55,9 +41,12 @@ export async function reloadDefaultTutorials() {
       metadata.title &&
       metadata.description
     ) {
-      tutorialDB
-        .prepare("INSERT INTO tutorials (content, metadata) VALUES (?, ?)")
-        .run(fullContent, JSON.stringify(metadata));
+      db.insertInto("tutorials")
+        .values({
+          content: fullContent,
+          metadata: JSON.stringify(metadata),
+        } as NewTutorial)
+        .executeTakeFirstOrThrow();
     } else {
       console.log(`File ${file} does not contain valid metadata.
         please include 'marp: true', 'title' and 'description' in the metadata.`);

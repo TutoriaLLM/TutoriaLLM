@@ -1,14 +1,14 @@
 import { Lucia } from "lucia";
 import { BetterSqlite3Adapter } from "@lucia-auth/adapter-sqlite";
-import { userDB } from "../db/users.js";
-import type { DatabaseUser } from "../../type.js";
+import { database } from "../db/index.js";
+import type { User } from "../../type.js";
 import express from "express";
 import { comparePasswordToHash } from "../../utils/password.js";
 
 // 認証機能をセットアップ
-const adapter = new BetterSqlite3Adapter(userDB, {
+const adapter = new BetterSqlite3Adapter(database, {
   user: "users", // Correct table name
-  session: "session", // Correct table name
+  session: "authSessions", // Correct table name
 });
 
 export const lucia = new Lucia(adapter, {
@@ -28,7 +28,7 @@ export const lucia = new Lucia(adapter, {
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: Omit<DatabaseUser, "id">;
+    DatabaseUserAttributes: Omit<User, "id">;
   }
 }
 
@@ -48,9 +48,9 @@ auth.post("/login", async (req, res) => {
   console.log("login request", req.body);
   const { username, password } = req.body;
 
-  const existingUser = userDB
+  const existingUser = database
     .prepare("SELECT * FROM users WHERE username = ?") // Correct table name
-    .get(username) as DatabaseUser | undefined;
+    .get(username) as User | undefined;
   if (!existingUser) {
     return res.status(401).json({ message: "ユーザーが見つかりません" });
   }

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { DatabaseUser } from "../../../../type";
+import { User } from "../../../../type";
 import { X } from "lucide-react";
 
 export default function Users() {
-  const [users, setUsers] = useState<DatabaseUser[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedUser, setSelectedUser] = useState<DatabaseUser | null>(null);
-  const [editUser, setEditUser] = useState<Partial<DatabaseUser>>({});
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [editUser, setEditUser] = useState<Partial<User>>({});
   const [newUser, setNewUser] = useState({ username: "", password: "" });
-  const [currentUserID, setCurrentUserID] = useState("");
+  const [currentUserID, setCurrentUserID] = useState(null);
 
   const fetchUsers = () => {
     fetch("/api/admin/users")
@@ -49,7 +49,7 @@ export default function Users() {
       });
   }, []);
 
-  const handleUserClick = (id: string) => {
+  const handleUserClick = (id: number) => {
     fetch(`/api/admin/users/${id}`)
       .then((response) => {
         if (!response.ok) {
@@ -107,7 +107,7 @@ export default function Users() {
     }
   };
 
-  const handleDeleteUser = (id: string) => {
+  const handleDeleteUser = (id: number) => {
     if (currentUserID === id) {
       alert("You cannot delete the logged-in user.");
       return;

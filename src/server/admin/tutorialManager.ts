@@ -1,6 +1,6 @@
 import express from "express";
-import { tutorialDB } from "../db/tutorials.js";
-import { TutorialData } from "../../type.js";
+import { db } from "../db/index.js";
+import { Tutorial, UpdatedTutorial, NewTutorial } from "../../type.js";
 import { extractMetadata } from "../../utils/extractTutorialMetadata.js";
 
 //内部向けのチュートリアルエンドポイント(編集可能)
@@ -8,28 +8,50 @@ const tutorialsManager = express.Router();
 tutorialsManager.use(express.json());
 
 //全てのチュートリアルを取得
-tutorialsManager.get("/", (req, res) => {
-  const tutorials = tutorialDB
-    .prepare("SELECT * FROM tutorials")
-    .all() as TutorialData[];
-  res.json(tutorials);
+tutorialsManager.get("/", async (req, res) => {
+  try {
+    const tutorials = await db.selectFrom("tutorials").selectAll().execute();
+    res.json(tutorials);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Failed to fetch tutorials");
+  }
 });
 
 //チュートリアルの内容を取得
-tutorialsManager.get("/:id", (req, res) => {
-  res.send(`Tutorial ${req.params.id}`);
+tutorialsManager.get("/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const tutorial = await db
+      .selectFrom("tutorials")
+      .selectAll()
+      .where("id", "=", id)
+      .executeTakeFirst();
+    if (tutorial) {
+      res.json(tutorial);
+    } else {
+      res.status(404).send("Not Found");
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Failed to fetch tutorial");
+  }
 });
 
 //チュートリアルを削除
-tutorialsManager.delete("/:id", (req, res) => {
-  const id = req.params.id;
-  //idに対応するチュートリアルを削除
-  tutorialDB.prepare("DELETE FROM tutorials WHERE id = ?").run(id);
-  res.send(`Tutorial ${id} deleted`);
+tutorialsManager.delete("/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    await db.deleteFrom("tutorials").where("id", "=", id).execute();
+    res.send(`Tutorial ${id} deleted`);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Failed to delete tutorial");
+  }
 });
 
 //新しいチュートリアルを作成
-tutorialsManager.post("/new", (req, res) => {
+tutorialsManager.post("/new", async (req, res) => {
   if (!req.body.content) {
     res.status(400).send("Body is required");
     return;
@@ -42,9 +64,13 @@ tutorialsManager.post("/new", (req, res) => {
   console.log(metadata);
   //新しいチュートリアルを作成
   try {
-    tutorialDB
-      .prepare("INSERT INTO tutorials (content, metadata) VALUES (?, ?)")
-      .run(content, JSON.stringify(metadata));
+    await db
+      .insertInto("tutorials")
+      .values({
+        content: content,
+        metadata: JSON.stringify(metadata),
+      } as NewTutorial)
+      .execute();
     res.status(201).send("Tutorial created");
   } catch (e) {
     console.error(e);
@@ -53,28 +79,40 @@ tutorialsManager.post("/new", (req, res) => {
 });
 
 //チュートリアルの内容を更新
-tutorialsManager.post("/:id", (req, res) => {
-  const id = req.params.id;
-  //idに対応するチュートリアルを取得
-  const tutorial = tutorialDB
-    .prepare("SELECT * FROM tutorials WHERE id = ?")
-    .get(id) as TutorialData;
-  if (!tutorial) {
-    res.status(404).send("Not Found");
-    return;
+tutorialsManager.post("/:id", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  try {
+    const tutorial = await db
+      .selectFrom("tutorials")
+      .selectAll()
+      .where("id", "=", id)
+      .executeTakeFirst();
+    if (!tutorial) {
+      res.status(404).send("Not Found");
+      return;
+    }
+    if (!req.body.content) {
+      res.status(400).send("Bad Request");
+      return;
+    }
+    const tutorialToUpdate = req.body.content as string;
+    const extractMetadataToUpdate = extractMetadata(tutorialToUpdate);
+    const content = extractMetadataToUpdate.content;
+    const metadata = extractMetadataToUpdate.metadata;
+    //チュートリアルの内容を更新
+    await db
+      .updateTable("tutorials")
+      .set({
+        content: content,
+        metadata: JSON.stringify(metadata),
+      })
+      .where("id", "=", id)
+      .execute();
+    res.send(`Tutorial ${id} updated`);
+  } catch (e) {
+    console.error(e);
+    res.status(500).send("Failed to update tutorial");
   }
-  if (!req.body || typeof req.body !== "string") {
-    res.status(400).send("Bad Request");
-    return;
-  }
-  const tutorialToUpdate = req.body as string;
-  const extractMetadataToUpdate = extractMetadata(tutorialToUpdate);
-  const content = extractMetadataToUpdate.content;
-  const metadata = extractMetadataToUpdate.metadata;
-  //チュートリアルの内容を更新
-  tutorialDB
-    .prepare("UPDATE tutorials SET content = ? metadata = ? WHERE id = ?")
-    .run(content, metadata, id);
 });
 
 tutorialsManager.all("*", (req, res) => {

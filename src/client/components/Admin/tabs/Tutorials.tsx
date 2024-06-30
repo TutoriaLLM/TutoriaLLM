@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { TutorialData } from "../../../../type";
+import { Tutorial } from "../../../../type";
 import { X } from "lucide-react";
 import yaml from "js-yaml";
 
 export default function Users() {
-  const [tutorials, setTutorials] = useState<TutorialData[]>([]);
+  const [tutorials, setTutorials] = useState<Tutorial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedTutorial, setSelectedTutorial] = useState<TutorialData | null>(
+  const [selectedTutorial, setSelectedTutorial] = useState<Tutorial | null>(
     null
   );
-  const [editTutorial, setEditTutorial] = useState<Partial<TutorialData>>({});
+  const [editTutorial, setEditTutorial] = useState<Partial<Tutorial>>({});
   const [newTutorial, setNewTutorial] = useState("");
 
   const fetchTutorials = () => {
@@ -35,7 +35,7 @@ export default function Users() {
     fetchTutorials();
   }, []);
 
-  const handleTutorialClick = (id: string) => {
+  const handleTutorialClick = (id: number) => {
     fetch(`/api/admin/tutorials/${id}`)
       .then((response) => {
         if (!response.ok) {
@@ -94,7 +94,7 @@ export default function Users() {
     }
   };
 
-  const handleDeleteTutorial = (id: string) => {
+  const handleDeleteTutorial = (id: number) => {
     fetch(`/api/admin/tutorials/${id}`, {
       method: "DELETE",
     })
