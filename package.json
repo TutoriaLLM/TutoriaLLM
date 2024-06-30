@@ -8,7 +8,13 @@
     "start": "NODE_ENV=production tsx src/server/main.ts",
     "build": "vite build",
     "reset-user": "tsx src/server/db/users.ts --reset-credentials",
-    "reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials"
+    "reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials",
+    "lint": "biome lint ./src/",
+    "format": "biome format ./src/",
+    "check": "biome check ./src/",
+    "lint:fix": "biome lint --apply ./src/",
+    "format:fix": "biome format ./src/ --write",
+    "check:fix": "biome check --apply ./src/"
   },
   "dependencies": {
     "@blockly/continuous-toolbox": "^6.0.1",
