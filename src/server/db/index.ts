@@ -2,6 +2,12 @@ import SQLite from "better-sqlite3";
 import { Kysely, SqliteDialect } from "kysely";
 import type { Database } from "../../type.js";
 
+//distが存在しない場合は作成する
+import fs from "node:fs";
+if (!fs.existsSync("dist")) {
+	fs.mkdirSync("dist");
+}
+
 export const database = new SQLite("dist/database.db");
 const dialect = new SqliteDialect({
 	database: database,
