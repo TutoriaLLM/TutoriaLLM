@@ -1,11 +1,11 @@
 {
-  "General_Settings": {
-    "Enable_Join_by_code": true,
-    "Enable_Create_Room": true
-  },
-  "AI_Settings": {
-    "AI_Model": "gpt-3.5-turbo",
-    "AI_Temperature": 0.5,
-    "Max_Number_of_processes": 1
-  }
+	"General_Settings": {
+		"Enable_Join_by_code": true,
+		"Enable_Create_Room": true
+	},
+	"AI_Settings": {
+		"AI_Model": "gpt-3.5-turbo",
+		"AI_Temperature": 0.5,
+		"Max_Number_of_processes": 1
+	}
 }

@@ -1,18 +1,18 @@
 import express from "express";
 import appConfiguration from "./appConfig.js";
-import usersConfiguration from "./userConfig.js";
 import sessionManager from "./sessionManager.js";
 import tutorialsManager from "./tutorialManager.js";
+import usersConfiguration from "./userConfig.js";
 
 // 管理者ページが使用するAPIのエントリーポイント
 const admin = express.Router();
 
 // 権限がない場合は、管理者ページにアクセスできないようにする
 admin.use((req, res, next) => {
-  if (!res.locals.user) {
-    return res.status(401).json({ message: "認証情報がありません" });
-  }
-  return next();
+	if (!res.locals.user) {
+		return res.status(401).json({ message: "認証情報がありません" });
+	}
+	return next();
 });
 
 // アプリ全体のConfigを設定するAPI

@@ -1,29 +1,27 @@
-// vite.config.ts
-import { defineConfig } from "file:///home/souto/projects/kids-code-tutorial/node_modules/vite/dist/node/index.js";
 import react from "file:///home/souto/projects/kids-code-tutorial/node_modules/@vitejs/plugin-react/dist/index.mjs";
 import svgr from "file:///home/souto/projects/kids-code-tutorial/node_modules/vite-plugin-svgr/dist/index.js";
-var vite_config_default = defineConfig({
-  optimizeDeps: {
-    include: ["blockly"]
-  },
-  plugins: [react(), svgr()],
-  resolve: {
-    alias: {
-      "@": "/src"
-    }
-  },
-  build: {
-    commonjsOptions: {
-      include: [/node_modules/]
-    }
-  },
-  define: {
-    "process.env.VITE_AUTH_SECRET": JSON.stringify(
-      process.env.VITE_AUTH_SECRET
-    )
-  }
+// vite.config.ts
+import { defineConfig } from "file:///home/souto/projects/kids-code-tutorial/node_modules/vite/dist/node/index.js";
+const vite_config_default = defineConfig({
+	optimizeDeps: {
+		include: ["blockly"],
+	},
+	plugins: [react(), svgr()],
+	resolve: {
+		alias: {
+			"@": "/src",
+		},
+	},
+	build: {
+		commonjsOptions: {
+			include: [/node_modules/],
+		},
+	},
+	define: {
+		"process.env.VITE_AUTH_SECRET": JSON.stringify(
+			process.env.VITE_AUTH_SECRET,
+		),
+	},
 });
-export {
-  vite_config_default as default
-};
+export { vite_config_default as default };
 //# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvaG9tZS9zb3V0by9wcm9qZWN0cy9raWRzLWNvZGUtdHV0b3JpYWxcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfZmlsZW5hbWUgPSBcIi9ob21lL3NvdXRvL3Byb2plY3RzL2tpZHMtY29kZS10dXRvcmlhbC92aXRlLmNvbmZpZy50c1wiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9pbXBvcnRfbWV0YV91cmwgPSBcImZpbGU6Ly8vaG9tZS9zb3V0by9wcm9qZWN0cy9raWRzLWNvZGUtdHV0b3JpYWwvdml0ZS5jb25maWcudHNcIjtpbXBvcnQgeyBkZWZpbmVDb25maWcgfSBmcm9tIFwidml0ZVwiO1xuaW1wb3J0IHJlYWN0IGZyb20gXCJAdml0ZWpzL3BsdWdpbi1yZWFjdFwiO1xuaW1wb3J0IHN2Z3IgZnJvbSBcInZpdGUtcGx1Z2luLXN2Z3JcIjtcblxuLy8gaHR0cHM6Ly92aXRlanMuZGV2L2NvbmZpZy9cbmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyh7XG4gIG9wdGltaXplRGVwczoge1xuICAgIGluY2x1ZGU6IFtcImJsb2NrbHlcIl0sXG4gIH0sXG4gIHBsdWdpbnM6IFtyZWFjdCgpLCBzdmdyKCldLFxuICByZXNvbHZlOiB7XG4gICAgYWxpYXM6IHtcbiAgICAgIFwiQFwiOiBcIi9zcmNcIixcbiAgICB9LFxuICB9LFxuICBidWlsZDoge1xuICAgIGNvbW1vbmpzT3B0aW9uczoge1xuICAgICAgaW5jbHVkZTogWy9ub2RlX21vZHVsZXMvXSxcbiAgICB9LFxuICB9LFxuICBkZWZpbmU6IHtcbiAgICBcInByb2Nlc3MuZW52LlZJVEVfQVVUSF9TRUNSRVRcIjogSlNPTi5zdHJpbmdpZnkoXG4gICAgICBwcm9jZXNzLmVudi5WSVRFX0FVVEhfU0VDUkVUXG4gICAgKSxcbiAgfSxcbn0pO1xuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUF1UyxTQUFTLG9CQUFvQjtBQUNwVSxPQUFPLFdBQVc7QUFDbEIsT0FBTyxVQUFVO0FBR2pCLElBQU8sc0JBQVEsYUFBYTtBQUFBLEVBQzFCLGNBQWM7QUFBQSxJQUNaLFNBQVMsQ0FBQyxTQUFTO0FBQUEsRUFDckI7QUFBQSxFQUNBLFNBQVMsQ0FBQyxNQUFNLEdBQUcsS0FBSyxDQUFDO0FBQUEsRUFDekIsU0FBUztBQUFBLElBQ1AsT0FBTztBQUFBLE1BQ0wsS0FBSztBQUFBLElBQ1A7QUFBQSxFQUNGO0FBQUEsRUFDQSxPQUFPO0FBQUEsSUFDTCxpQkFBaUI7QUFBQSxNQUNmLFNBQVMsQ0FBQyxjQUFjO0FBQUEsSUFDMUI7QUFBQSxFQUNGO0FBQUEsRUFDQSxRQUFRO0FBQUEsSUFDTixnQ0FBZ0MsS0FBSztBQUFBLE1BQ25DLFFBQVEsSUFBSTtBQUFBLElBQ2Q7QUFBQSxFQUNGO0FBQ0YsQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K

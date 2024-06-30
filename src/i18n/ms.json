@@ -1,44 +1,44 @@
 {
-  "error": {
-    "empty_code": "Kod tidak sah atau kosong"
-  },
-  "execSwitch": {
-    "Running": "Berlari",
-    "Stopped": "Berhenti",
-    "label": "Jalankan kod"
-  },
-  "login": {
-    "welcome": "Log masuk untuk meneruskan",
-    "login": "Log masuk",
-    "loginFailed": "Daftar masuk gagal",
-    "password": "Kata laluan",
-    "title": "Log masuk",
-    "username": "Nama pengguna"
-  },
-  "navbar": {
-    "connected": "bersambung",
-    "leave": "pergi",
-    "reconnecting": "terputus. \ncuba menyambung semula.",
-    "home": "Rumah",
-    "signout": "Log keluar"
-  },
-  "session": {
-    "about": "Mengenai aplikasi ini",
-    "createSession": "Buat bilik baru",
-    "creating": "mencipta...",
-    "hello": "Hello",
-    "joinsession": "sertai dengan kod",
-    "or": "atau",
-    "sessionNotFoundMsg": "Sesi tidak ditemui. \nTaip kod lain atau buat sesi baharu untuk bermula.",
-    "typecodeMsg": "Taip kod anda atau buat ruang baharu untuk bermula.",
-    "welcome": "Belajar pengekodan dengan AI"
-  },
-  "sidebar": {
-    "dashboard": "Papan pemuka",
-    "sessions": "Sesi",
-    "settings": "tetapan",
-    "toggle": "Navigasi",
-    "tutorials": "Tutorial",
-    "users": "Pengguna"
-  }
+	"error": {
+		"empty_code": "Kod tidak sah atau kosong"
+	},
+	"execSwitch": {
+		"Running": "Berlari",
+		"Stopped": "Berhenti",
+		"label": "Jalankan kod"
+	},
+	"login": {
+		"welcome": "Log masuk untuk meneruskan",
+		"login": "Log masuk",
+		"loginFailed": "Daftar masuk gagal",
+		"password": "Kata laluan",
+		"title": "Log masuk",
+		"username": "Nama pengguna"
+	},
+	"navbar": {
+		"connected": "bersambung",
+		"leave": "pergi",
+		"reconnecting": "terputus. \ncuba menyambung semula.",
+		"home": "Rumah",
+		"signout": "Log keluar"
+	},
+	"session": {
+		"about": "Mengenai aplikasi ini",
+		"createSession": "Buat bilik baru",
+		"creating": "mencipta...",
+		"hello": "Hello",
+		"joinsession": "sertai dengan kod",
+		"or": "atau",
+		"sessionNotFoundMsg": "Sesi tidak ditemui. \nTaip kod lain atau buat sesi baharu untuk bermula.",
+		"typecodeMsg": "Taip kod anda atau buat ruang baharu untuk bermula.",
+		"welcome": "Belajar pengekodan dengan AI"
+	},
+	"sidebar": {
+		"dashboard": "Papan pemuka",
+		"sessions": "Sesi",
+		"settings": "tetapan",
+		"toggle": "Navigasi",
+		"tutorials": "Tutorial",
+		"users": "Pengguna"
+	}
 }

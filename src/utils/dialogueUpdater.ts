@@ -1,23 +1,23 @@
-import { ContentType, Dialogue, SessionValue } from "../type.js";
+import type { ContentType, Dialogue, SessionValue } from "../type.js";
 
 export function updateDialogue(
-  message: string,
-  currentDataJson: SessionValue,
-  contentType: ContentType
+	message: string,
+	currentDataJson: SessionValue,
+	contentType: ContentType,
 ): SessionValue {
-  return {
-    ...currentDataJson,
-    dialogue: [
-      ...currentDataJson.dialogue,
-      {
-        contentType: contentType,
-        isuser: false,
-        content: message,
-      },
-    ],
-  };
+	return {
+		...currentDataJson,
+		dialogue: [
+			...currentDataJson.dialogue,
+			{
+				contentType: contentType,
+				isuser: false,
+				content: message,
+			},
+		],
+	};
 }
 
 export function extractDialogue(currentDataJson: SessionValue): Dialogue[] {
-  return currentDataJson.dialogue.map((entry) => entry.content);
+	return currentDataJson.dialogue.map((entry) => entry.content);
 }

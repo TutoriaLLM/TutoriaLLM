@@ -1,43 +1,43 @@
-import { javascriptGenerator, Order } from "blockly/javascript";
+import { Order, javascriptGenerator } from "blockly/javascript";
 
 export const block = {
-  type: "ext_minecraft_onplayerchatcommand",
-  message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
-  args0: [
-    {
-      type: "field_image",
-      src: "src/extensions/Minecraft-Core/media/minecraft.png",
-      width: 40,
-      height: 40,
-    },
-    {
-      type: "field_input",
-      name: "FIELD",
-      text: "hello",
-    },
-    {
-      type: "input_dummy",
-    },
-    {
-      type: "input_statement",
-      name: "INPUT",
-    },
-  ],
-  colour: "#a855f7",
-  tooltip: "",
-  helpUrl: "",
+	type: "ext_minecraft_onplayerchatcommand",
+	message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
+	args0: [
+		{
+			type: "field_image",
+			src: "src/extensions/Minecraft-Core/media/minecraft.png",
+			width: 40,
+			height: 40,
+		},
+		{
+			type: "field_input",
+			name: "FIELD",
+			text: "hello",
+		},
+		{
+			type: "input_dummy",
+		},
+		{
+			type: "input_statement",
+			name: "INPUT",
+		},
+	],
+	colour: "#a855f7",
+	tooltip: "",
+	helpUrl: "",
 };
 
 export function code() {
-  javascriptGenerator.forBlock["ext_minecraft_onplayerchatcommand"] = function (
-    block,
-    generator
-  ) {
-    // Collect argument strings.
-    const field_input = block.getFieldValue("FIELD");
-    const run_input = generator.statementToCode(block, "INPUT");
+	javascriptGenerator.forBlock.ext_minecraft_onplayerchatcommand = (
+		block,
+		generator,
+	) => {
+		// Collect argument strings.
+		const field_input = block.getFieldValue("FIELD");
+		const run_input = generator.statementToCode(block, "INPUT");
 
-    const code = /*javascript*/ `
+		const code = /*javascript*/ `
     console.log("Connect your  Minecraft at: vm/"+ code);
 
     vmExpress.get("/"+ code, async (req, res) => {
@@ -67,17 +67,17 @@ export function code() {
     });
     `;
 
-    // Return code.
-    return code;
-  };
+		// Return code.
+		return code;
+	};
 }
 
 export const locale = {
-  en: {
-    MINECRAFT_ONPLAYERCHATCOMMAND: "on player chat %1 %2 %3 %4",
-  },
-  ja: {
-    MINECRAFT_ONPLAYERCHATCOMMAND:
-      "%1 プレイヤーが %2 とチャットしたとき %3 %4",
-  },
+	en: {
+		MINECRAFT_ONPLAYERCHATCOMMAND: "on player chat %1 %2 %3 %4",
+	},
+	ja: {
+		MINECRAFT_ONPLAYERCHATCOMMAND:
+			"%1 プレイヤーが %2 とチャットしたとき %3 %4",
+	},
 };
