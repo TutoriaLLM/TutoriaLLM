@@ -13,6 +13,10 @@ import type { SessionValue } from "../type";
 export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
 
+//ツアーの内容を管理するための状態
+import type { StepType } from "@reactour/tour";
+export const tourState = atom<StepType[]>([]);
+
 //WSインスタンス
 export const websocketInstance = atom<WebSocket | null>(null);
 

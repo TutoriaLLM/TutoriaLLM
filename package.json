@@ -19,6 +19,7 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-switch": "^1.0.3",
+    "@reactour/tour": "^3.7.0",
     "@types/js-yaml": "^4.0.9",
     "bcrypt": "^5.1.1",
     "better-sqlite3": "^9.6.0",
