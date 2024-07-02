@@ -40,16 +40,16 @@ const categoryContents = loadedExtensions
 
 // カテゴリの翻訳を行う関数
 export function translateCategories(language: string) {
-	loadedExtensions.forEach((ext) => {
+	for (const ext of loadedExtensions) {
 		if (ext.locale?.[language]) {
 			// localeが記述されている場合は登録する(json形式)
 			for (const key in ext.locale[language]) {
-				if (ext.locale[language].hasOwnProperty(key)) {
+				if (Object.prototype.hasOwnProperty.call(ext.locale[language], key)) {
 					Blockly.Msg[key] = ext.locale[language][key];
 				}
 			}
 		}
-	});
+	}
 }
 
 export const toolboxCategories = {
