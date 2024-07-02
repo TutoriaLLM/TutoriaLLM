@@ -1,5 +1,5 @@
 import SQLite from "better-sqlite3";
-import { Kysely, SqliteDialect } from "kysely";
+import { Kysely, ParseJSONResultsPlugin, SqliteDialect } from "kysely";
 import type { Database } from "../../type.js";
 
 //distが存在しない場合は作成する
@@ -19,6 +19,7 @@ const dialect = new SqliteDialect({
 // to communicate with your database.
 export const db = new Kysely<Database>({
 	dialect,
+	plugins: [new ParseJSONResultsPlugin()],
 });
 
 // Create the tables if they don't exist
@@ -46,7 +47,7 @@ async function createTables() {
 		.ifNotExists()
 		.addColumn("id", "integer", (col) => col.autoIncrement().primaryKey())
 		.addColumn("content", "text", (col) => col.notNull())
-		.addColumn("metadata", "text", (col) => col.notNull()) // Storing JSON as text
+		.addColumn("metadata", "json", (col) => col.notNull()) // Storing JSON as JSON
 		.execute();
 }
 

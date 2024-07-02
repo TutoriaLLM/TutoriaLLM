@@ -167,7 +167,7 @@ export default function Users() {
 				</thead>
 				<tbody className="gap-2">
 					{tutorials.map((tutorial) => {
-						const metadata = extractMetadata(tutorial.content);
+						const metadata = tutorial.metadata;
 						return (
 							<tr
 								key={tutorial.id}
@@ -245,23 +245,4 @@ export default function Users() {
 			</div>
 		</div>
 	);
-}
-
-// メタデータを抽出する関数
-function extractMetadata(content: string): {
-	title: string;
-	description: string;
-	keywords: string;
-} {
-	const metadataDelimiter = "---";
-	const parts = content.split(metadataDelimiter);
-	if (parts.length >= 3) {
-		const metadata = yaml.load(parts[1].trim()) as Record<string, any>;
-		return {
-			title: metadata.title || "",
-			description: metadata.description || "",
-			keywords: metadata.keywords || "",
-		};
-	}
-	return { title: "", description: "", keywords: "" };
 }

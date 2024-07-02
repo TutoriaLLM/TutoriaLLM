@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { PlusCircle, Send } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Dialogue } from "../../../../type";
 import { currentSessionState } from "../../../state";
 import TextBubble from "./parts/textbubble";
@@ -9,6 +9,7 @@ import TutorialPicker from "./tutorialPicker";
 export default function DialogueView() {
 	const [sessionState, setSessionState] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
+	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	function sendMessage(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault(); // デフォルトのフォーム送信を防止
@@ -38,6 +39,12 @@ export default function DialogueView() {
 		}
 	}
 
+	useEffect(() => {
+		if (messagesEndRef.current) {
+			messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [sessionState?.dialogue]);
+
 	return (
 		<div className="w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
 			<div className="w-full h-full overflow-scroll flex flex-col gap-4 p-4 py-8">
@@ -45,6 +52,7 @@ export default function DialogueView() {
 				{sessionState?.dialogue.map((item: Dialogue) => {
 					return <TextBubble key={item.id} item={item} />;
 				})}
+				<div ref={messagesEndRef} />
 			</div>
 			<div className="w-full p-2">
 				<div className="flex items-center bg-white shadow gap-2 p-2 rounded-2xl">

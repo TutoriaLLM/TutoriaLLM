@@ -4,10 +4,14 @@ import { db } from "../db/index.js";
 //外部向けのチュートリアルエンドポイント(編集不可)
 const tutorials = express();
 
-//全てのチュートリアルを取得
+//チュートリアルの一覧を取得。コンテンツは送信しない。
 tutorials.get("/", async (req, res) => {
 	try {
-		const tutorials = await db.selectFrom("tutorials").selectAll().execute();
+		const tutorials = await db
+			.selectFrom("tutorials")
+			.select(["id", "metadata"])
+			.execute();
+
 		res.json(tutorials);
 	} catch (e) {
 		console.error(e);
@@ -21,7 +25,7 @@ tutorials.get("/:id", async (req, res) => {
 		const id = Number.parseInt(req.params.id, 10);
 		const tutorial = await db
 			.selectFrom("tutorials")
-			.selectAll()
+			.select(["id", "metadata"])
 			.where("id", "=", id)
 			.executeTakeFirst();
 		if (tutorial) {
