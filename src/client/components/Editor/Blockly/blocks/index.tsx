@@ -20,7 +20,7 @@ console.log("loadedExtensions for block", loadedExtensions);
 function registerBlocks(language: string) {
 	console.log("registerBlocks");
 
-	loadedExtensions.forEach((module: any) => {
+	for (const module of loadedExtensions) {
 		if (module && typeof module === "object") {
 			const { block, code, locale } = module;
 			console.log("registerBlocks", block);
@@ -42,7 +42,7 @@ function registerBlocks(language: string) {
 					console.log("register locale", locale);
 					console.log("register language", language);
 					for (const key in locale[language]) {
-						if (locale[language].hasOwnProperty(key)) {
+						if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
 							Blockly.Msg[key] = locale[language][key];
 						}
 					}
@@ -51,7 +51,7 @@ function registerBlocks(language: string) {
 		} else {
 			console.warn("Module is not an object or is undefined", module);
 		}
-	});
+	}
 }
 
 export default registerBlocks;

@@ -15,6 +15,7 @@ export function LangPicker(props: {
 			<div className="flex flex-wrap gap-2">
 				{languageList.map((lang, index) => (
 					<button
+						type="button"
 						key={index}
 						className={`p-2 rounded-xl ${
 							lang === props.language
