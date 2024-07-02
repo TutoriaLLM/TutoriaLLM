@@ -11,7 +11,8 @@
 				"useExhaustiveDependencies": "info"
 			},
 			"suspicious": {
-				"noExplicitAny": "warn"
+				"noExplicitAny": "warn",
+				"noArrayIndexKey": "info"
 			}
 		}
 	}
