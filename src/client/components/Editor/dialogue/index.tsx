@@ -15,11 +15,20 @@ export default function DialogueView() {
 		if (message) {
 			setSessionState((prev) => {
 				if (prev) {
+					const lastId =
+						prev.dialogue.length > 0
+							? prev.dialogue[prev.dialogue.length - 1].id
+							: 0;
 					return {
 						...prev,
 						dialogue: [
 							...prev.dialogue,
-							{ contentType: "user", isuser: true, content: message },
+							{
+								id: lastId + 1,
+								contentType: "user",
+								isuser: true,
+								content: message,
+							},
 						],
 					};
 				}
@@ -33,8 +42,8 @@ export default function DialogueView() {
 		<div className="w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
 			<div className="w-full h-full overflow-scroll flex flex-col gap-4 p-4 py-8">
 				<TutorialPicker />
-				{sessionState?.dialogue.map((item: Dialogue, index) => {
-					return <TextBubble item={item} index={index} />;
+				{sessionState?.dialogue.map((item: Dialogue) => {
+					return <TextBubble key={item.id} item={item} />;
 				})}
 			</div>
 			<div className="w-full p-2">

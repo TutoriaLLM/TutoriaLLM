@@ -16,6 +16,7 @@ function intitialData(code: string, language: string): SessionValue {
 		updatedAt: new Date(),
 		dialogue: [
 			{
+				id: 0,
 				contentType: "ai",
 				isuser: false,
 				content: "Welcome to the session! ",

@@ -5,19 +5,17 @@ export function updateDialogue(
 	currentDataJson: SessionValue,
 	contentType: ContentType,
 ): SessionValue {
+	console.log("updateDialogue");
 	return {
 		...currentDataJson,
 		dialogue: [
 			...currentDataJson.dialogue,
 			{
+				id: currentDataJson.dialogue.length + 1,
 				contentType: contentType,
 				isuser: false,
 				content: message,
-			},
+			} as Dialogue,
 		],
 	};
-}
-
-export function extractDialogue(currentDataJson: SessionValue): Dialogue[] {
-	return currentDataJson.dialogue.map((entry) => entry.content);
 }

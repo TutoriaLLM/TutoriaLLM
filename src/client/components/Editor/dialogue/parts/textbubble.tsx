@@ -2,12 +2,13 @@ import { BrainCircuit, Server, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type Dialogue, SessionValue } from "../../../../../type";
 
-export default function TextBubble(props: { item: Dialogue; index: number }) {
+export default function TextBubble(props: { item: Dialogue }) {
 	const { t } = useTranslation();
+
 	if (props.item.contentType === "user") {
 		return (
 			<div
-				key={props.index}
+				key={props.item.id}
 				className="flex justify-start flex-row-reverse items-end gap-2"
 			>
 				<div className="text-gray-600 flex flex-col items-center">
@@ -24,7 +25,7 @@ export default function TextBubble(props: { item: Dialogue; index: number }) {
 	}
 	if (props.item.contentType === "ai") {
 		return (
-			<div key={props.index} className="flex justify-start items-end gap-2">
+			<div key={props.item.id} className="flex justify-start items-end gap-2">
 				<div className="text-gray-600 flex flex-col items-center">
 					<span className="bg-gray-200 rounded-full p-2">
 						<BrainCircuit />
@@ -39,7 +40,7 @@ export default function TextBubble(props: { item: Dialogue; index: number }) {
 	}
 	if (props.item.contentType === "log") {
 		return (
-			<div key={props.index} className="flex justify-start items-end gap-2">
+			<div key={props.item.id} className="flex justify-start items-end gap-2">
 				<div className="text-gray-600 flex flex-col items-center">
 					<span className="bg-gray-200 rounded-full p-2">
 						<Server />

@@ -72,9 +72,10 @@ export type WSMessage = {
 export type ContentType = "user" | "ai" | "log" | "image";
 
 export type Dialogue = {
+	id: number;
 	contentType: ContentType;
 	isuser: boolean;
-	content: any; // コンテンツの種類に応じて型を変更できます
+	content: string;
 };
 
 //フロントエンドでのチュートリアルの進行度を管理するための型
@@ -94,7 +95,7 @@ export type SessionValue = {
 	updatedAt: Date;
 	dialogue: Dialogue[];
 	//シリアル化したBlockly.Workspaceを保存する
-	workspace: any[string];
+	workspace: { [key: string]: any };
 	isVMRunning: boolean;
 	clients: string[];
 	language: string;
