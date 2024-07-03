@@ -1,4 +1,4 @@
-]<h1 align="center">
+<h1 align="center">
 Kids Code Tutorial(仮称) <br /> <a href="https://github.com/google/blockly"><img src="https://tinyurl.com/built-on-blockly" /> </a>
 </h1>
 
