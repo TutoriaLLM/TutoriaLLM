@@ -34,11 +34,21 @@ export default function Navbar(props: {
 				</span>
 				<span className="border border-gray-300 h-full" />
 				<span className="text-xs">
-					{props.isTutorial ? (
-						<p className="p-0.5 px-2 rounded-full bg-green-300">
-							<Progress.Root max={100} value={props.tutorialProgress}>
-								<Progress.Indicator />
+					{props.isTutorial && typeof props.tutorialProgress === "number" ? (
+						<p className="p-0.5 px-2">
+							<Progress.Root
+								max={100}
+								value={props.tutorialProgress}
+								className="rounded-full bg-gray-300 w-32 h-3 overflow-hidden"
+							>
+								<Progress.Indicator
+									className="bg-green-300 rounded-full w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
+									style={{
+										transform: `translateX(-${100 - props.tutorialProgress}%)`,
+									}}
+								/>
 							</Progress.Root>
+							{props.tutorialProgress}%
 						</p>
 					) : (
 						<p className="p-0.5 px-2 rounded-full bg-red-300">

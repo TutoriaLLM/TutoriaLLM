@@ -39,7 +39,7 @@ export default function TutorialPicker() {
 					tutorial: {
 						isTutorial: true,
 						tutorialId: tutorial.id,
-						progress: 0,
+						progress: 10, // チュートリアルの進行度を初期化
 					},
 					dialogue: [
 						...prev.dialogue,
