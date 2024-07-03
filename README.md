@@ -8,8 +8,7 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 
 多少現在の内容とはズレがありますが、プロジェクトを開始した当初の説明動画です。
 
-
-<iframe width="600" height="400" src="https://www.youtube.com/embed/Emb5GYgJis0"></iframe>
+[https://youtu.be/Emb5GYgJis0?si=cTiSOld8gMYnfne2](https://youtu.be/Emb5GYgJis0?si=cTiSOld8gMYnfne2)
 
 ## 設計
 
