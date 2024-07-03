@@ -1,4 +1,4 @@
-<h1 align="center">
+]<h1 align="center">
 Kids Code Tutorial(仮称) <br /> <a href="https://github.com/google/blockly"><img src="https://tinyurl.com/built-on-blockly" /> </a>
 </h1>
 
@@ -7,9 +7,9 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 このプロジェクトは 2024 年度の未踏ジュニアに採択され、最終報告会（11 月）までにすべての機能が使用できるようになる予定です。
 
 多少現在の内容とはズレがありますが、プロジェクトを開始した当初の説明動画です。
-<div>
-<iframe width="600" height="400" src="https://www.youtube.com/embed/Emb5GYgJis0?si=cTiSOld8gMYnfne2"></iframe>
-</div>
+
+
+<iframe width="600" height="400" src="https://www.youtube.com/embed/Emb5GYgJis0"></iframe>
 
 ## 設計
 
