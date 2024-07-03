@@ -83,7 +83,7 @@ export type TutorialStats = {
 	//チュートリアルの有無
 	isTutorial: boolean;
 	//チュートリアルのid
-	tutorialId: string | null;
+	tutorialId: number | null;
 	//チュートリアルの進行度
 	progress: number | null;
 };

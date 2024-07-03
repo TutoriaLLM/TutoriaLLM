@@ -197,7 +197,12 @@ export default function EditorPage() {
 
 	return (
 		<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
-			<Navbar code={sessionCode} isConnected={WorkspaceConnection} />
+			<Navbar
+				code={sessionCode}
+				isConnected={WorkspaceConnection}
+				isTutorial={currentSession?.tutorial.isTutorial}
+				tutorialProgress={currentSession?.tutorial.progress}
+			/>
 			{!showPopup && WorkspaceConnection && (
 				// ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
 				<TourProvider steps={steps}>

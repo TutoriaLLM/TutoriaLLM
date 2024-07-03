@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { PlusCircle, Send } from "lucide-react";
+import { Phone, PlusCircle, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Dialogue } from "../../../../type";
 import { currentSessionState } from "../../../state";

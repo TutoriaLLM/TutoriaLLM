@@ -1,50 +1,57 @@
 {
-	"error": {
-		"empty_code": "コードが無効か空です"
-	},
-	"execSwitch": {
-		"Running": "実行中",
-		"Stopped": "停止中",
-		"label": "コードを実行する"
-	},
-	"login": {
-		"welcome": "続行するにはログインしてください",
-		"title": "ログイン",
-		"username": "ユーザー名",
-		"password": "パスワード",
-		"login": "ログイン",
-		"loginFailed": "ログインに失敗しました"
-	},
-	"navbar": {
-		"connected": "接続されています",
-		"leave": "やめる",
-		"reconnecting": "切断されました。\n再接続しようとしています。",
-		"home": "ホーム",
-		"signout": "サインアウト"
-	},
-	"session": {
-		"about": "このアプリについて",
-		"createSession": "新しい部屋を作成する",
-		"creating": "作成...",
-		"hello": "こんにちは",
-		"joinsession": "コードで参加する",
-		"or": "または",
-		"sessionNotFoundMsg": "セッションが見つかりません。\n別のコードを入力するか、新しいセッションを作成して開始してください。",
-		"typecodeMsg": "コードを入れるか、新しいルームを作成して始めましょう。",
-		"welcome": "AIを使ってプログラミングを学ぼう。"
-	},
-	"sidebar": {
-		"dashboard": "ダッシュボード",
-		"tutorials": "チュートリアル",
-		"users": "ユーザー",
-		"settings": "設定",
-		"toggle": "サイドバー",
-		"sessions": "セッション"
-	},
-	"textbubble": {
-		"log": "記録",
-		"server": "サーバー",
-		"ai": "AI",
-		"you": "あなた"
-	}
+  "error": {
+    "empty_code": "コードが無効か空です"
+  },
+  "execSwitch": {
+    "Running": "実行中",
+    "Stopped": "停止中",
+    "label": "コードを実行する"
+  },
+  "login": {
+    "welcome": "続行するにはログインしてください",
+    "title": "ログイン",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "login": "ログイン",
+    "loginFailed": "ログインに失敗しました"
+  },
+  "navbar": {
+    "connected": "接続されています",
+    "leave": "やめる",
+    "reconnecting": "切断されました。\n再接続しようとしています。",
+    "home": "ホーム",
+    "signout": "サインアウト",
+    "noTutorial": "チュートリアルは選択されていません"
+  },
+  "session": {
+    "about": "このアプリについて",
+    "createSession": "新しい部屋を作成する",
+    "creating": "作成...",
+    "hello": "こんにちは",
+    "joinsession": "コードで参加する",
+    "or": "または",
+    "sessionNotFoundMsg": "セッションが見つかりません。\n別のコードを入力するか、新しいセッションを作成して開始してください。",
+    "typecodeMsg": "コードを入れるか、新しいルームを作成して始めましょう。",
+    "welcome": "AIを使ってプログラミングを学ぼう。"
+  },
+  "sidebar": {
+    "dashboard": "ダッシュボード",
+    "tutorials": "チュートリアル",
+    "users": "ユーザー",
+    "settings": "設定",
+    "toggle": "サイドバー",
+    "sessions": "セッション"
+  },
+  "textbubble": {
+    "log": "記録",
+    "server": "サーバー",
+    "ai": "AI",
+    "you": "あなた"
+  },
+  "tutorial": {
+    "title": "チュートリアルを選択",
+    "description": "学習したいチュートリアルを選択しましょう",
+    "start": "チュートリアルを開始",
+    "startTutorial": "チュートリアルが選択されました"
+  }
 }

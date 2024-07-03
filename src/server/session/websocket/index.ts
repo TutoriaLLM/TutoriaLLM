@@ -97,8 +97,14 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 						ws.send("Invalid uuid");
 						ws.close();
 					}
-					const { sessioncode, uuid, workspace, dialogue, llmContext } =
-						messageJson;
+					const {
+						sessioncode,
+						uuid,
+						workspace,
+						dialogue,
+						tutorial,
+						llmContext,
+					} = messageJson;
 					//dialogueが更新されている場合は、LLMによって応答が生成される
 					//ユーザーが更新した場合のみ、LLMを呼び出す（それ以外を呼び出すと無限ループになる）
 					async function updateDialogueLLM(data: SessionValue) {
@@ -126,7 +132,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 						clients: currentDataJson.clients,
 						language: currentDataJson.language,
 						llmContext: llmContext,
-						tutorial: currentDataJson.tutorial,
+						tutorial: tutorial,
 					};
 
 					await updateDatabase(dataToPut);

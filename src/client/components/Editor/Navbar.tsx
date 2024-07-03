@@ -1,8 +1,14 @@
+import * as Progress from "@radix-ui/react-progress";
 import { DoorOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import ExecSwitch from "../ExecSwitch";
 
-export default function Navbar(props: { code: string; isConnected: boolean }) {
+export default function Navbar(props: {
+	code: string;
+	isConnected: boolean;
+	isTutorial: boolean | null | undefined;
+	tutorialProgress: number | null | undefined;
+}) {
 	const { t } = useTranslation();
 	return (
 		<div className="w-full p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex justify-between gap-2">
@@ -13,9 +19,9 @@ export default function Navbar(props: { code: string; isConnected: boolean }) {
 				<DoorOpen />
 				<span>{t("navbar.leave")}</span>
 			</a>
-			<div className="flex flex-col justify-center items-center">
-				<p className="font-semibold text-xl tracking-widest">{props.code}</p>
-				<span className="text-xs flex">
+			<div className="flex justify-center items-center gap-2">
+				<span className="text-xs">
+					<p className="font-semibold text-xl tracking-widest">{props.code}</p>
 					{props.isConnected ? (
 						<p className="p-0.5 px-2 rounded-full bg-green-300">
 							{t("navbar.connected")}
@@ -23,6 +29,20 @@ export default function Navbar(props: { code: string; isConnected: boolean }) {
 					) : (
 						<p className="p-0.5 px-2 rounded-full bg-red-300">
 							{t("navbar.reconnecting")}
+						</p>
+					)}
+				</span>
+				<span className="border border-gray-300 h-full" />
+				<span className="text-xs">
+					{props.isTutorial ? (
+						<p className="p-0.5 px-2 rounded-full bg-green-300">
+							<Progress.Root max={100} value={props.tutorialProgress}>
+								<Progress.Indicator />
+							</Progress.Root>
+						</p>
+					) : (
+						<p className="p-0.5 px-2 rounded-full bg-red-300">
+							{t("navbar.noTutorial")}
 						</p>
 					)}
 				</span>
