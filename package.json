@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@blockly/continuous-toolbox": "^6.0.1",
 		"@langchain/openai": "^0.2.0",
+		"@lexical/react": "^0.16.1",
 		"@lucia-auth/adapter-sqlite": "^3.0.1",
 		"@marp-team/marpit": "^3.0.0",
 		"@radix-ui/react-dialog": "^1.0.5",
@@ -36,6 +37,7 @@
 		"kysely": "^0.27.3",
 		"langchain": "^0.2.6",
 		"level": "^8.0.1",
+		"lexical": "^0.16.1",
 		"lucia": "^3.2.0",
 		"lucide-react": "^0.381.0",
 		"react": "^18.2.0",

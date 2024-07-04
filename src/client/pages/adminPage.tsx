@@ -7,6 +7,7 @@ import SideBar from "../components/Admin/Sidebar";
 import Dashboard from "../components/Admin/tabs/Dashboard";
 import Sessions from "../components/Admin/tabs/Sessions";
 import Settings from "../components/Admin/tabs/Settings";
+import TutorialBuilder from "../components/Admin/tabs/TutorialBuilder";
 import Tutorials from "../components/Admin/tabs/Tutorials";
 import Users from "../components/Admin/tabs/Users";
 import LoginPopup from "../components/loginPopup";
@@ -48,15 +49,19 @@ export default function AdminPage() {
 	return (
 		<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
 			{isAuthenticated ? (
-				<div>
+				<div className="w-full h-full">
 					<Navbar />
 					<div className="h-full flex w-full">
 						<SideBar />
-						<div className="w-full">
+						<div className="w-full h-full overflow-scroll">
 							<Routes>
 								<Route path="/" element={<Dashboard />} />
 								<Route path="/users" element={<Users />} />
 								<Route path="/tutorials" element={<Tutorials />} />
+								<Route
+									path="/tutorials/builder"
+									element={<TutorialBuilder />}
+								/>
 								<Route path="/sessions" element={<Sessions />} />
 								<Route path="/settings" element={<Settings />} />
 							</Routes>

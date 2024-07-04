@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Tutorial } from "../../../../type";
 
-export default function Users() {
+export default function Tutorials() {
 	const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
