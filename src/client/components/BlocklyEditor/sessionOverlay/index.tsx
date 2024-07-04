@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai";
 import { LanguageToStart } from "../../../state.js";
 import { LangPicker } from "../../Langpicker.js";
-import PopupDialog from "../../Popup.js";
+import Overlay from "../../Overlay.js";
 
 export default function SessionPopup(props: {
 	isPopupOpen: boolean;
@@ -34,7 +34,7 @@ export default function SessionPopup(props: {
 	return (
 		<div>
 			{showPopup && (
-				<PopupDialog
+				<Overlay
 					openState={showPopup}
 					Content={
 						<div className="fixed flex flex-col justify-center items-center max-w-md w-full gap-3 bg-transparent p-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[999] font-semibold">

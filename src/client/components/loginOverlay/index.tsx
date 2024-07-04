@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageToStart } from "../../state";
 import { LangPicker } from "../Langpicker";
-import PopupDialog from "../Popup";
+import Overlay from "../Overlay";
 import Login from "./login";
 
 export default function LoginPopup(props: {
@@ -31,7 +31,7 @@ export default function LoginPopup(props: {
 	return (
 		<div>
 			{showPopup && (
-				<PopupDialog
+				<Overlay
 					openState={showPopup}
 					Content={
 						<div className="fixed flex flex-col justify-center items-center max-w-md w-full gap-3 bg-transparent p-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[999] font-semibold">

@@ -15,7 +15,7 @@ import { useTour } from "@reactour/tour";
 
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue";
-import SessionPopup from "../components/BlocklyEditor/sessionPopup";
+import SessionPopup from "../components/BlocklyEditor/sessionOverlay";
 //stateの読み込み
 import {
 	LanguageToStart,

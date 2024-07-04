@@ -7,10 +7,9 @@ import SideBar from "../components/Admin/Sidebar";
 import Dashboard from "../components/Admin/tabs/Dashboard";
 import Sessions from "../components/Admin/tabs/Sessions";
 import Settings from "../components/Admin/tabs/Settings";
-import TutorialBuilder from "../components/Admin/tabs/TutorialBuilder";
 import Tutorials from "../components/Admin/tabs/Tutorials";
 import Users from "../components/Admin/tabs/Users";
-import LoginPopup from "../components/loginPopup";
+import LoginPopup from "../components/loginOverlay";
 import { LanguageToStart } from "../state";
 
 export default function AdminPage() {
@@ -58,10 +57,6 @@ export default function AdminPage() {
 								<Route path="/" element={<Dashboard />} />
 								<Route path="/users" element={<Users />} />
 								<Route path="/tutorials" element={<Tutorials />} />
-								<Route
-									path="/tutorials/builder"
-									element={<TutorialBuilder />}
-								/>
 								<Route path="/sessions" element={<Sessions />} />
 								<Route path="/settings" element={<Settings />} />
 							</Routes>

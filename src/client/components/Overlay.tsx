@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 
-export default function PopupDialog(props: {
+export default function Overlay(props: {
 	openState: boolean;
 	Content: JSX.Element;
 }) {
