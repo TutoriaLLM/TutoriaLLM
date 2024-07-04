@@ -1,110 +1,236 @@
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-
-//内容を保存するstate
-import type { EditorState } from "lexical";
+import * as Label from "@radix-ui/react-label";
 import React, { useState, useEffect } from "react";
+import SlideEditor from "./mdEditor";
+import Popup from "../Popup";
+import type { Tutorial } from "../../../type";
+import { removeFrontMatter } from "../../../utils/markdown";
 
-//nodesの追加
-import { HeadingNode } from "@lexical/rich-text";
-import type { Klass, LexicalNode } from "lexical";
-const nodes: Array<Klass<LexicalNode>> = [HeadingNode];
+type TutorialType = Pick<Tutorial, "metadata" | "content">;
 
-//Markdownの入力サポート
-import type { Transformer } from "@lexical/markdown";
-import { HEADING } from "@lexical/markdown";
-import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-
-//markdownを変換する関数
-import {
-	$convertFromMarkdownString,
-	$convertToMarkdownString,
-} from "@lexical/markdown";
-
-import ToolbarPlugin from "./toolbar.js";
-const placeholder = "Enter some rich text...";
-
-function MarkdownConversionPlugin(props: {
-	setMarkdownState: (markdown: string) => void;
+export default function TutorialEditor(props: {
+	id: number | null;
+	buttonText: string;
 }) {
-	const [editor] = useLexicalComposerContext();
-
-	useEffect(() => {
-		editor.registerUpdateListener(({ editorState }) => {
-			editorState.read(() => {
-				const markdown = $convertToMarkdownString([HEADING]);
-				props.setMarkdownState(markdown);
-			});
-		});
-	}, [editor, props.setMarkdownState]);
-
-	return null;
-}
-
-export default function SlideEditor() {
-	const TRANSFORMERS: Array<Transformer> = [HEADING];
-
-	const [editorState, setEditorState] = useState<EditorState | null>(null);
-	const [markdownState, setMarkdownState] = useState<string>("");
-
-	const editorConfig = {
-		namespace: "tutorial-editor",
-		nodes: nodes,
-		// Handling of errors during update
-		onError(error: Error) {
-			throw error;
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
+	const [tutorialData, setTutorialData] = useState<TutorialType>({
+		metadata: {
+			title: "",
+			description: "",
+			keywords: [],
 		},
-		// The editor theme
-		theme: {
-			heading: {
-				h1: "text-3xl font-bold",
-				h2: "text-2xl font-bold",
-				h3: "text-1xl font-bold",
-				paragraph: "text-base",
-			},
-		},
-		editorState: editorState,
+		content: "",
+	});
+
+	const handleOpenPopup = () => {
+		if (props.id !== null) {
+			// Fetch existing tutorial data
+			fetch(`/api/admin/tutorials/${props.id}`)
+				.then((response) => response.json() as Promise<Tutorial>)
+				.then((data) => {
+					//フロントマターを削除してcontentをセット
+					const content = removeFrontMatter(data.content);
+					setTutorialData({ metadata: data.metadata, content });
+				})
+				.catch((error) => {
+					console.error("Error fetching tutorial data:", error);
+				});
+		}
+		setIsPopupOpen(true);
 	};
 
-	return (
-		<div className="w-full h-full flex flex-col">
-			<h3 className="text-xl">Editor</h3>
-			<div className="w-full h-full">
-				<LexicalComposer initialConfig={editorConfig}>
-					<div className="w-full h-full">
-						<ToolbarPlugin />
-						<div className="bg-white">
-							<RichTextPlugin
-								contentEditable={
-									<ContentEditable
-										className="editor-input"
-										aria-placeholder={placeholder}
-										placeholder={`<div className="editor-placeholder">${placeholder}</div>`}
-									/>
-								}
-								ErrorBoundary={LexicalErrorBoundary}
-								placeholder={null}
-							/>
-							<HistoryPlugin />
-						</div>
-					</div>
-					<OnChangePlugin
-						onChange={(editorState: EditorState) => {
-							console.log(editorState);
-							setEditorState(editorState);
-						}}
+	const handleClosePopup = () => {
+		setIsPopupOpen(false);
+	};
+
+	const handleInputChange = (
+		field: keyof Tutorial["metadata"],
+		value: string | string[],
+	) => {
+		setTutorialData((prevData) => ({
+			...prevData,
+			metadata: { ...prevData.metadata, [field]: value },
+		}));
+	};
+
+	const handleContentChange = (content: string) => {
+		setTutorialData((prevData) => ({
+			...prevData,
+			content,
+		}));
+	};
+
+	const handleSave = () => {
+		const url =
+			props.id === null
+				? "/api/admin/tutorials/new"
+				: `/api/admin/tutorials/${props.id}`;
+		const method = props.id === null ? "POST" : "PUT";
+
+		//mdのフロントマターを作成して結合
+		const content = `
+---
+title: ${tutorialData.metadata.title}
+description: ${tutorialData.metadata.description}
+keywords: ${tutorialData.metadata.keywords}
+---
+		${tutorialData.content}
+		
+		`;
+
+		fetch(url, {
+			method,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				content: content,
+				metadata: tutorialData.metadata,
+			}),
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.text();
+			})
+			.then((data) => {
+				console.log(data);
+				alert("Tutorial saved successfully!");
+				handleClosePopup();
+			})
+			.catch((error) => {
+				console.error("Error saving tutorial:", error);
+				alert("Failed to save tutorial");
+			});
+	};
+
+	const popupContent = (
+		<div className="w-full h-full flex flex-col gap-4 p-3">
+			<div className="flex flex-col gap-2">
+				<span>
+					<h2 className="font-semibold text-2xl text-gray-800">
+						Metadata Editor
+					</h2>
+					<p className="text-sm text-gray-600">
+						Edit the metadata of the tutorial.
+					</p>
+				</span>
+				<div className="flex flex-wrap items-center gap-4 px-5">
+					<Label.Root
+						className="text-gray-800 border-l-2 border-blue-500 pl-3"
+						htmlFor="title"
+					>
+						<h3 className="font-semibold text-base">Title</h3>
+						<p className="font-medium text-xs">Title of the tutorial</p>
+					</Label.Root>
+					<input
+						className="p-1.5 rounded-2xl bg-white"
+						type="text"
+						id="title"
+						value={tutorialData.metadata.title}
+						onChange={(e) => handleInputChange("title", e.target.value)}
 					/>
-					<MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-					<MarkdownConversionPlugin setMarkdownState={setMarkdownState} />
-				</LexicalComposer>
+				</div>
+				<div className="flex flex-wrap items-center gap-4 px-5">
+					<Label.Root
+						className="text-gray-800 border-l-2 border-blue-500 pl-3"
+						htmlFor="description"
+					>
+						<h3 className="font-semibold text-base">Description</h3>
+						<p className="font-medium text-xs">
+							Brief description of the tutorial
+						</p>
+					</Label.Root>
+					<input
+						className="p-1.5 rounded-2xl bg-white"
+						type="text"
+						id="description"
+						value={tutorialData.metadata.description}
+						onChange={(e) => handleInputChange("description", e.target.value)}
+					/>
+				</div>
+				<div className="flex flex-wrap items-center gap-4 px-5">
+					<Label.Root
+						className="text-gray-800 border-l-2 border-blue-500 pl-3"
+						htmlFor="keywords"
+					>
+						<h3 className="font-semibold text-base">Keywords</h3>
+						<p className="font-medium text-xs">Separated by comma</p>
+					</Label.Root>
+					<input
+						className="p-1.5 rounded-2xl bg-white"
+						type="text"
+						id="keywords"
+						value={tutorialData.metadata.keywords}
+						onChange={(e) =>
+							handleInputChange(
+								"keywords",
+								e.target.value.split(",").map((k) => k.trim()),
+							)
+						}
+					/>
+				</div>
 			</div>
-			<h3 className="text-xl">Markdown Preview</h3>
-			<code className="text-xs">{markdownState}</code>
+			<div className="flex flex-col gap-2">
+				<span>
+					<h2 className="font-semibold text-2xl text-gray-800">
+						Tutorial Generator
+					</h2>
+					<p className="text-sm text-gray-600">
+						Generate Tutorial Template from metadata.
+					</p>
+				</span>
+				<span>
+					<button
+						type="button"
+						className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
+					>
+						Generate
+					</button>
+				</span>
+			</div>
+			<div className="flex flex-col gap-2">
+				<span>
+					<h2 className="font-semibold text-2xl text-gray-800">
+						Tutorial Editor
+					</h2>
+					<p className="text-sm text-gray-600">
+						Edit the tutorial content after generation.
+					</p>
+				</span>
+				<SlideEditor
+					mdContent={tutorialData.content}
+					onContentChange={handleContentChange}
+				/>
+			</div>
+			<div className="flex flex-col gap-2">
+				<span>
+					<button
+						type="button"
+						className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
+						onClick={() => handleSave()}
+					>
+						Save
+					</button>
+				</span>
+			</div>
+		</div>
+	);
+
+	return (
+		<div className="w-full h-full flex flex-col gap-4 p-3">
+			<button
+				type="button"
+				className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
+				onClick={handleOpenPopup}
+			>
+				{props.buttonText}
+			</button>
+			<Popup
+				openState={isPopupOpen}
+				onClose={handleClosePopup}
+				Content={popupContent}
+			/>
 		</div>
 	);
 }

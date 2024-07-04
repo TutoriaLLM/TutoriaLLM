@@ -17,3 +17,13 @@ export function extractMetadata(content: string): {
 	}
 	return { metadata: {}, content };
 }
+
+//フロントマターを削除する関数
+export function removeFrontMatter(content: string): string {
+	const metadataDelimiter = "---";
+	const parts = content.split(metadataDelimiter);
+	if (parts.length >= 3) {
+		return parts.slice(2).join(metadataDelimiter).trim();
+	}
+	return content;
+}

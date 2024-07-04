@@ -2,16 +2,12 @@ import yaml from "js-yaml";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Tutorial } from "../../../../type";
+import TutorialEditor from "../../TutorialEditor";
 
 export default function Tutorials() {
 	const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [selectedTutorial, setSelectedTutorial] = useState<Tutorial | null>(
-		null,
-	);
-	const [editTutorial, setEditTutorial] = useState<Partial<Tutorial>>({});
-	const [newTutorial, setNewTutorial] = useState("");
 
 	const fetchTutorials = () => {
 		fetch("/api/admin/tutorials")
@@ -35,65 +31,6 @@ export default function Tutorials() {
 		fetchTutorials();
 	}, []);
 
-	const handleTutorialClick = (id: number) => {
-		fetch(`/api/admin/tutorials/${id}`)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setSelectedTutorial(data);
-				setEditTutorial(data);
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
-	};
-
-	const handleEditChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const { name, value } = e.target;
-		setEditTutorial((prev) => ({ ...prev, [name]: value }));
-	};
-
-	const handleNewTutorialChange = (
-		e: React.ChangeEvent<HTMLTextAreaElement>,
-	) => {
-		setNewTutorial(e.target.value.toString());
-	};
-
-	const handleUpdateTutorial = () => {
-		if (!editTutorial.content || !editTutorial.id) {
-			console.error("Invalid tutorial data");
-			return;
-		}
-		if (selectedTutorial) {
-			fetch(`/api/admin/tutorial/${selectedTutorial.id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(editTutorial),
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error(
-							`Network response was not ok ${response.statusText}`,
-						);
-					}
-					return response.json();
-				})
-				.then(() => {
-					fetchTutorials();
-					setSelectedTutorial(null);
-				})
-				.catch((error) => {
-					setError(error.message);
-				});
-		}
-	};
-
 	const handleDeleteTutorial = (id: number) => {
 		fetch(`/api/admin/tutorials/${id}`, {
 			method: "DELETE",
@@ -106,33 +43,6 @@ export default function Tutorials() {
 				setTutorials((prevTutorial) =>
 					prevTutorial.filter((tutorial) => tutorial.id !== id),
 				);
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
-	};
-
-	const handleCreateTutorial = () => {
-		if (!newTutorial) {
-			console.error("Invalid tutorial data");
-			return;
-		}
-		fetch("/api/admin/tutorials/new", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ content: newTutorial }),
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setTutorials((prevTutorial) => [...prevTutorial, data]);
-				setNewTutorial("");
 			})
 			.catch((error) => {
 				setError(error.message);
@@ -176,23 +86,16 @@ export default function Tutorials() {
 								<th className="px-6 py-4">{metadata.title}</th>
 								<th className="px-6 py-4">{metadata.description}</th>
 								<th className="px-6 py-4">{metadata.keywords}</th>
-								<td className="px-6 py-4 border-l-2 border-gray-300">
-									<span className="flex gap-2">
-										<button
-											type="button"
-											className="p-1.5 rounded-full bg-sky-500 px-2 font-semibold text-white hover:bg-sky-600"
-											onClick={() => handleTutorialClick(tutorial.id)}
-										>
-											View
-										</button>
-										<button
-											type="button"
-											className="p-1.5 rounded-full bg-red-500 px-2 font-semibold text-white hover:bg-red-600"
-											onClick={() => handleDeleteTutorial(tutorial.id)}
-										>
-											Delete
-										</button>
-									</span>
+								<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300">
+									<TutorialEditor id={tutorial.id} buttonText="Edit" />
+
+									<button
+										type="button"
+										className="p-1.5 rounded-full bg-red-500 px-2 font-semibold text-white hover:bg-red-600"
+										onClick={() => handleDeleteTutorial(tutorial.id)}
+									>
+										Delete
+									</button>
 								</td>
 							</tr>
 						);
@@ -200,48 +103,9 @@ export default function Tutorials() {
 				</tbody>
 			</table>
 
-			{selectedTutorial && (
-				<div className="p-2 bg-gray-300 rounded-2xl">
-					<button type="button" onClick={() => setSelectedTutorial(null)}>
-						<X />
-					</button>
-					<form>
-						<label>
-							content:
-							<textarea
-								name="content"
-								value={editTutorial.content || ""}
-								onChange={handleEditChange}
-							/>
-						</label>
-						<button type="button" onClick={handleUpdateTutorial}>
-							Update
-						</button>
-					</form>
-				</div>
-			)}
-
 			<div className="p-2 border-b-2 border-gray-300 bg-gray-300">
 				<h2 className="py-2 font-semibold">Create New Tutorial</h2>
-				<form className="gap-2 flex">
-					<label>
-						content
-						<textarea
-							className="p-1.5 rounded-2xl bg-white"
-							name="content"
-							value={newTutorial}
-							onChange={handleNewTutorialChange}
-						/>
-					</label>
-
-					<button
-						type="button"
-						onClick={handleCreateTutorial}
-						className="p-1.5 rounded-full bg-orange-500 px-2 font-semibold text-white hover:bg-orange-600"
-					>
-						Create
-					</button>
-				</form>
+				<TutorialEditor id={null} buttonText="New Tutorial" />
 			</div>
 		</div>
 	);

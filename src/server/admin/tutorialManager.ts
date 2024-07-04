@@ -1,6 +1,6 @@
 import express from "express";
 import { type NewTutorial, Tutorial, UpdatedTutorial } from "../../type.js";
-import { extractMetadata } from "../../utils/extractTutorialMetadata.js";
+import { extractMetadata } from "../../utils/markdown.js";
 import { db } from "../db/index.js";
 
 //内部向けのチュートリアルエンドポイント(編集可能)
@@ -24,7 +24,7 @@ tutorialsManager.get("/:id", async (req, res) => {
 		const id = Number.parseInt(req.params.id, 10);
 		const tutorial = await db
 			.selectFrom("tutorials")
-			.selectAll()
+			.select(["id", "metadata", "content"])
 			.where("id", "=", id)
 			.executeTakeFirst();
 		if (tutorial) {
@@ -79,7 +79,7 @@ tutorialsManager.post("/new", async (req, res) => {
 });
 
 //チュートリアルの内容を更新
-tutorialsManager.post("/:id", async (req, res) => {
+tutorialsManager.put("/:id", async (req, res) => {
 	const id = Number.parseInt(req.params.id, 10);
 	try {
 		const tutorial = await db

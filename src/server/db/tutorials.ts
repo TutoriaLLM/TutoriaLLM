@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { type NewTutorial, Tutorial, UpdatedTutorial } from "../../type.js";
-import { extractMetadata } from "../../utils/extractTutorialMetadata.js";
+import { extractMetadata } from "../../utils/markdown.js";
 import { db } from "./index.js";
 
 // マークダウンファイルを取得する関数
