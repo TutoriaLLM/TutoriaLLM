@@ -25,7 +25,7 @@ tutorials.get("/:id", async (req, res) => {
 		const id = Number.parseInt(req.params.id, 10);
 		const tutorial = await db
 			.selectFrom("tutorials")
-			.select(["id", "metadata"])
+			.select(["id", "metadata", "content"])
 			.where("id", "=", id)
 			.executeTakeFirst();
 		if (tutorial) {
