@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
 import type { SessionValue, WSMessage } from "../../type";
-import Editor from "../components/Editor/Blockly";
-import Navbar from "../components/Editor/Navbar";
+import Editor from "../components/BlocklyEditor/Blockly";
+import Navbar from "../components/BlocklyEditor/Navbar";
 
 //言語の読み込み
 import { useTranslation } from "react-i18next";
@@ -14,8 +14,8 @@ import Tour, { TourProvider } from "@reactour/tour";
 import { useTour } from "@reactour/tour";
 
 import i18next, { use } from "i18next";
-import DialogueView from "../components/Editor/dialogue";
-import SessionPopup from "../components/Editor/sessionPopup";
+import DialogueView from "../components/BlocklyEditor/dialogue";
+import SessionPopup from "../components/BlocklyEditor/sessionPopup";
 //stateの読み込み
 import {
 	LanguageToStart,
