@@ -10,32 +10,6 @@ description: Blocklyで作成したコードを実行して、サーバーから
 作成するブロックはこんな感じです。
 Blocklyのワークスペース内容の一部をjsonとして表示しています。
 
-```json
-    
-    {
-        "type": "controls_repeat_ext",
-        "inputs": {
-            "TIMES": {
-                "block": {
-                    "type": "math_number",
-                    "fields": {
-                        "NUM": 10
-                    }
-                }
-            },
-            "DO": {
-                "block": {
-                    "type": "ext_example_console_log",
-                    "fields": {
-                        "TEXT": "hello world!"
-                    }
-                }
-            }
-        }
-    }
-
-```
-
 # 気をつけること
 
  - 繰り返す回数と多く設定してしまうと無限ループが発生してしまいます。
