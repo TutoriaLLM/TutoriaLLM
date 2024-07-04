@@ -50,7 +50,6 @@ export interface TutorialTable {
 	id: Generated<number>;
 	content: string;
 	metadata: JSONColumnType<{
-		marp: true;
 		title: string;
 		description: string;
 		author?: string;

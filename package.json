@@ -16,7 +16,6 @@
 		"@langchain/openai": "^0.2.0",
 		"@lexical/react": "^0.16.1",
 		"@lucia-auth/adapter-sqlite": "^3.0.1",
-		"@marp-team/marpit": "^3.0.0",
 		"@radix-ui/react-dialog": "^1.0.5",
 		"@radix-ui/react-label": "^2.1.0",
 		"@radix-ui/react-progress": "^1.1.0",

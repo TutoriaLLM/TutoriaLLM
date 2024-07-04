@@ -1,7 +1,4 @@
 ---
-marp: true
-theme: default
-paginate: true
 author: So Tokumaru
 title: Example
 keywords: Example

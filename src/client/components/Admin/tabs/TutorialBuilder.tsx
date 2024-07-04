@@ -1,6 +1,6 @@
 import * as Label from "@radix-ui/react-label";
 import React from "react";
-import SlideEditor from "../../SlideEditor";
+import TutorialEditor from "../../TutorialEditor";
 
 export default function TutorialBuilder() {
 	return (
@@ -89,7 +89,25 @@ export default function TutorialBuilder() {
 						Edit the tutorial content after generation.
 					</p>
 				</span>
-				<SlideEditor />
+				<TutorialEditor />
+			</div>
+			<div className="flex flex-col gap-2">
+				<span>
+					<button
+						type="button"
+						className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
+					>
+						Save
+					</button>
+				</span>
+				<span>
+					<button
+						type="button"
+						className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
+					>
+						New Tutorial
+					</button>
+				</span>
 			</div>
 		</div>
 	);

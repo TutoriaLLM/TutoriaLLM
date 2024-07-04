@@ -35,12 +35,7 @@ export async function reloadDefaultTutorials() {
 		const content = fs.readFileSync(file, "utf-8");
 		const { metadata, content: fullContent } = extractMetadata(content);
 
-		if (
-			metadata &&
-			metadata.marp === true &&
-			metadata.title &&
-			metadata.description
-		) {
+		if (metadata.title && metadata.description) {
 			db.insertInto("tutorials")
 				.values({
 					content: fullContent,
@@ -49,7 +44,7 @@ export async function reloadDefaultTutorials() {
 				.executeTakeFirstOrThrow();
 		} else {
 			console.log(`File ${file} does not contain valid metadata.
-        please include 'marp: true', 'title' and 'description' in the metadata.`);
+        please include'title' and 'description' in the metadata.`);
 		}
 	}
 }

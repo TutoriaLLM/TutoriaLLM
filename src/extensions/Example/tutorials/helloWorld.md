@@ -1,14 +1,11 @@
 ---
-marp: true
-theme: default
-paginate: true
 author: So Tokumaru
 title: サーバーからHello Worldを送信しよう
 keywords: 基本
 description: Blocklyで作成したコードを実行して、サーバーからHello Worldを送信してみましょう。
 ---
 # サーバーからHello Worldを送信しよう
----
+
 # 作成するブロック
 作成するブロックはこんな感じです。
 Blocklyのワークスペース内容の一部をjsonとして表示しています。
@@ -38,8 +35,6 @@ Blocklyのワークスペース内容の一部をjsonとして表示していま
     }
 
 ```
-
----
 
 # 気をつけること
 
