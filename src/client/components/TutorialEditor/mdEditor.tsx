@@ -83,22 +83,22 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 
 	useEffect(() => {
 		setMarkdownState(mdContent);
+		console.log("mdContent", mdContent);
 	}, [mdContent]);
 
 	return (
 		<div className="w-full h-full flex flex-col">
-			<h3 className="text-xl">Editor</h3>
-			<div className="w-full h-full">
+			<div className="w-full h-full py-2">
 				<LexicalComposer initialConfig={editorConfig}>
-					<div className="w-full h-full">
+					<div className="w-full h-full border rounded-2xl overflow-clip p-2">
 						<ToolbarPlugin />
-						<div className="bg-white">
+						<div className="bg-white border">
 							<RichTextPlugin
 								contentEditable={
 									<ContentEditable
 										className="editor-input"
 										aria-placeholder={placeholder}
-										placeholder={`<div className="editor-placeholder">${placeholder}</div>`}
+										placeholder={`<div className="">${placeholder}</div>`}
 									/>
 								}
 								ErrorBoundary={LexicalErrorBoundary}
@@ -121,8 +121,6 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 					<MarkdownLoader markdown={mdContent} />
 				</LexicalComposer>
 			</div>
-			<h3 className="text-xl">Markdown Preview</h3>
-			<code className="text-xs">{markdownState}</code>
 		</div>
 	);
 };

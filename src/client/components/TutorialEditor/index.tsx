@@ -1,6 +1,6 @@
 import * as Label from "@radix-ui/react-label";
 import React, { useState, useEffect } from "react";
-import SlideEditor from "./mdEditor";
+import MdEditor from "./mdEditor";
 import Popup from "../Popup";
 import type { Tutorial } from "../../../type";
 import { removeFrontMatter } from "../../../utils/markdown";
@@ -115,7 +115,7 @@ keywords: ${tutorialData.metadata.keywords}
 						Edit the metadata of the tutorial.
 					</p>
 				</span>
-				<div className="flex flex-wrap items-center gap-4 px-5">
+				<div className="flex items-center gap-4 px-5">
 					<Label.Root
 						className="text-gray-800 border-l-2 border-blue-500 pl-3"
 						htmlFor="title"
@@ -124,14 +124,14 @@ keywords: ${tutorialData.metadata.keywords}
 						<p className="font-medium text-xs">Title of the tutorial</p>
 					</Label.Root>
 					<input
-						className="p-1.5 rounded-2xl bg-white"
+						className="p-2 w-full border rounded-2xl bg-white"
 						type="text"
 						id="title"
 						value={tutorialData.metadata.title}
 						onChange={(e) => handleInputChange("title", e.target.value)}
 					/>
 				</div>
-				<div className="flex flex-wrap items-center gap-4 px-5">
+				<div className="flex items-center gap-4 px-5">
 					<Label.Root
 						className="text-gray-800 border-l-2 border-blue-500 pl-3"
 						htmlFor="description"
@@ -142,14 +142,14 @@ keywords: ${tutorialData.metadata.keywords}
 						</p>
 					</Label.Root>
 					<input
-						className="p-1.5 rounded-2xl bg-white"
+						className="p-2 w-full border rounded-2xl bg-white"
 						type="text"
 						id="description"
 						value={tutorialData.metadata.description}
 						onChange={(e) => handleInputChange("description", e.target.value)}
 					/>
 				</div>
-				<div className="flex flex-wrap items-center gap-4 px-5">
+				<div className="flex items-center gap-4 px-5">
 					<Label.Root
 						className="text-gray-800 border-l-2 border-blue-500 pl-3"
 						htmlFor="keywords"
@@ -158,7 +158,7 @@ keywords: ${tutorialData.metadata.keywords}
 						<p className="font-medium text-xs">Separated by comma</p>
 					</Label.Root>
 					<input
-						className="p-1.5 rounded-2xl bg-white"
+						className="p-2 w-full border rounded-2xl bg-white"
 						type="text"
 						id="keywords"
 						value={tutorialData.metadata.keywords}
@@ -198,7 +198,7 @@ keywords: ${tutorialData.metadata.keywords}
 						Edit the tutorial content after generation.
 					</p>
 				</span>
-				<SlideEditor
+				<MdEditor
 					mdContent={tutorialData.content}
 					onContentChange={handleContentChange}
 				/>
