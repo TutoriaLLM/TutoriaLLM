@@ -7,7 +7,7 @@ import { removeFrontMatter } from "../../../utils/markdown";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content">;
 
-export default function TutorialEditor(props: {
+export default function llTutorialEditor(props: {
 	id: number | null;
 	buttonText: string;
 }) {

@@ -1,8 +1,13 @@
-import { $getSelection, $isRangeSelection } from "lexical";
+import { $getSelection, $isRangeSelection, TextNode } from "lexical";
 import { $createHeadingNode } from "@lexical/rich-text";
 import type { HeadingTagType } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $createCodeNode } from "@lexical/code";
+import { $createParagraphNode } from "lexical";
+import { useState } from "react";
+import { Heading1, Heading2, Heading3, Pilcrow, Puzzle } from "lucide-react";
+import type { SessionValue } from "../../../type";
 
 const SupportedBlockType = {
 	paragraph: "Paragraph",
@@ -12,53 +17,116 @@ const SupportedBlockType = {
 	h4: "Heading 4",
 	h5: "Heading 5",
 	h6: "Heading 6",
+	code: "Code Block",
 } as const;
 type BlockType = keyof typeof SupportedBlockType;
 
 export default function ToolbarPlugin() {
 	const [editor] = useLexicalComposerContext();
+	const [inputValue, setInputValue] = useState("");
 
 	const formatHeading = (headingSize: HeadingTagType) => {
-		// エディタの状態を変更するために、editor.update()を使用する
 		editor.update(() => {
-			// editorから選択範囲を取得
 			const selection = $getSelection();
 			if ($isRangeSelection(selection)) {
-				// 選択範囲をheadingSizeに変更する
 				$setBlocksType(selection, () => $createHeadingNode(headingSize));
 			}
 		});
 	};
 
+	const formatCodeBlock = (codeContent: string) => {
+		editor.update(() => {
+			const selection = $getSelection();
+			if ($isRangeSelection(selection)) {
+				const codeNode = $createCodeNode();
+				const textNode = new TextNode(codeContent);
+				codeNode.append(textNode);
+				$setBlocksType(selection, () => codeNode);
+			}
+		});
+	};
+
+	const formatParagraph = () => {
+		editor.update(() => {
+			const selection = $getSelection();
+			if ($isRangeSelection(selection)) {
+				$setBlocksType(selection, () => $createParagraphNode());
+			}
+		});
+	};
+
+	const fetchCodeData = async () => {
+		if (inputValue) {
+			try {
+				const response = await fetch(`/session/${inputValue}`);
+				const data: SessionValue = await response.json();
+				const workspace = data.workspace;
+				formatCodeBlock(JSON.stringify(workspace, null, 2));
+				setInputValue("");
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
+		}
+	};
+
 	return (
-		<div className="flex space-x-4 px-4 py-2 border-b border-gray-300">
-			<button
-				className="text-gray-400"
-				type="button"
-				role="checkbox"
-				aria-checked="false"
-				onClick={() => formatHeading("h1")}
-			>
-				H1
-			</button>
-			<button
-				className="text-gray-400"
-				type="button"
-				role="checkbox"
-				aria-checked="false"
-				onClick={() => formatHeading("h2")}
-			>
-				H2
-			</button>
-			<button
-				className="text-gray-400"
-				type="button"
-				role="checkbox"
-				aria-checked="false"
-				onClick={() => formatHeading("h3")}
-			>
-				H3
-			</button>
+		<div className="flex justify-between items-center x-4 py-2 border-b border-gray-300">
+			<div className="flex space-x-4 ">
+				<button
+					className="text-gray-400"
+					type="button"
+					role="checkbox"
+					aria-checked="false"
+					onClick={() => formatHeading("h1")}
+				>
+					<Heading1 />
+				</button>
+				<button
+					className="text-gray-400"
+					type="button"
+					role="checkbox"
+					aria-checked="false"
+					onClick={() => formatHeading("h2")}
+				>
+					<Heading2 />
+				</button>
+				<button
+					className="text-gray-400"
+					type="button"
+					role="checkbox"
+					aria-checked="false"
+					onClick={() => formatHeading("h3")}
+				>
+					<Heading3 />
+				</button>
+
+				<button
+					className="text-gray-400"
+					type="button"
+					role="checkbox"
+					aria-checked="false"
+					onClick={formatParagraph}
+				>
+					<Pilcrow />
+				</button>
+			</div>
+			<div className="flex space-x-4 ">
+				<input
+					type="number"
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value)}
+					className="input p-2 border rounded-2xl"
+					placeholder="Enter code number"
+				/>
+				<button
+					className="text-gray-400"
+					type="button"
+					role="button"
+					onClick={fetchCodeData}
+				>
+					<Puzzle />
+				</button>
+			</div>
 		</div>
 	);
 }

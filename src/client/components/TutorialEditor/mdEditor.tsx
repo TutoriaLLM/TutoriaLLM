@@ -8,8 +8,10 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import type { EditorState } from "lexical";
 import { useState, useEffect } from "react";
 import { HeadingNode } from "@lexical/rich-text";
+import { CodeNode, $createCodeNode } from "@lexical/code";
+import { $createParagraphNode, ParagraphNode } from "lexical"; // 追加
 import type { Transformer } from "@lexical/markdown";
-import { HEADING } from "@lexical/markdown";
+import { HEADING, CODE } from "@lexical/markdown";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import {
 	$convertFromMarkdownString,
@@ -27,7 +29,7 @@ function MarkdownConversionPlugin(props: {
 	useEffect(() => {
 		editor.registerUpdateListener(({ editorState }) => {
 			editorState.read(() => {
-				const markdown = $convertToMarkdownString([HEADING]);
+				const markdown = $convertToMarkdownString([HEADING, CODE]);
 				props.setMarkdownState(markdown);
 			});
 		});
@@ -43,7 +45,7 @@ function MarkdownLoader(props: { markdown: string }) {
 	useEffect(() => {
 		if (!loaded && props.markdown) {
 			editor.update(() => {
-				$convertFromMarkdownString(props.markdown, [HEADING]);
+				$convertFromMarkdownString(props.markdown, [HEADING, CODE]);
 			});
 			setLoaded(true);
 		}
@@ -61,13 +63,13 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 	mdContent,
 	onContentChange,
 }) => {
-	const TRANSFORMERS: Array<Transformer> = [HEADING];
+	const TRANSFORMERS: Array<Transformer> = [HEADING, CODE];
 
 	const [markdownState, setMarkdownState] = useState<string>(mdContent);
 
 	const editorConfig = {
 		namespace: "tutorial-editor",
-		nodes: [HeadingNode],
+		nodes: [HeadingNode, CodeNode, ParagraphNode], // 追加
 		onError(error: Error) {
 			throw error;
 		},
@@ -76,8 +78,9 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 				h1: "text-3xl font-bold",
 				h2: "text-2xl font-bold",
 				h3: "text-1xl font-bold",
-				paragraph: "text-base",
 			},
+			paragraph: "text-sm font-normal",
+			code: "px-2 rounded-lg text-gray-600 font-mono text-xs",
 		},
 	};
 
@@ -96,7 +99,7 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 							<RichTextPlugin
 								contentEditable={
 									<ContentEditable
-										className="editor-input"
+										className="editor-input min-h-[200px] w-full" // ここに最小高さを追加
 										aria-placeholder={placeholder}
 										placeholder={`<div className="">${placeholder}</div>`}
 									/>
@@ -110,7 +113,7 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 					<OnChangePlugin
 						onChange={(editorState: EditorState) => {
 							editorState.read(() => {
-								const markdown = $convertToMarkdownString([HEADING]);
+								const markdown = $convertToMarkdownString([HEADING, CODE]);
 								setMarkdownState(markdown);
 								onContentChange(markdown);
 							});
