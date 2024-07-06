@@ -3,25 +3,25 @@ import { useEffect } from "react";
 
 import registerBlocks from "./blocks";
 import Theme from "./theme";
-// カスタマイズのインポート
 import { toolboxCategories, translateCategories } from "./toolbox";
-
-// 言語の読み込み
 import { blocklyLocale } from "../../../../i18n/blocklyLocale";
-
-// BlocklyのCSSを上書きする
 import "../../../styles/blockly.css";
-
 import { useAtom, useAtomValue } from "jotai";
-import { currentSessionState, prevSessionState } from "../../../state";
+import {
+	currentSessionState,
+	highlightedBlockState,
+	prevSessionState,
+} from "../../../state";
+import { BlockHighlight } from "./blockHighlight";
 
-// エディターを定義する
 export default function Editor() {
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
 	const prevSession = useAtomValue(prevSessionState);
+	const [highlightedBlock, setHighlightedBlock] = useAtom(
+		highlightedBlockState,
+	);
 
 	useEffect(() => {
-		// Blocklyの言語設定を適用
 		const language = currentSession?.language;
 		console.log("langState", language);
 		if (language && blocklyLocale[language]) {
@@ -32,7 +32,6 @@ export default function Editor() {
 			Blockly.setLocale(blocklyLocale.en);
 		}
 
-		// ワークスペースのリサイズを検知してBlocklyをリサイズ
 		async function getWorkspace() {
 			const workspaceArea = document.getElementById("workspaceArea");
 			if (workspaceArea) {
@@ -49,13 +48,9 @@ export default function Editor() {
 		}
 
 		getWorkspace();
-		// ブロックを登録する
 		registerBlocks(language as string);
-
-		//カテゴリの翻訳を登録する
 		translateCategories(language as string);
 
-		// Blocklyのワークスペースを初期化
 		const workspace = Blockly.inject("blocklyDiv", {
 			toolbox: toolboxCategories,
 			theme: Theme,
@@ -73,7 +68,6 @@ export default function Editor() {
 			},
 		});
 
-		// セッションが存在する場合はワークスペースを読み込む
 		if (currentSession?.workspace) {
 			Blockly.serialization.workspaces.load(
 				currentSession.workspace,
@@ -81,7 +75,6 @@ export default function Editor() {
 			);
 		}
 
-		// ワークスペースのブロックの変更を検知して保存
 		const saveWorkspace = (event: Blockly.Events.Abstract) => {
 			try {
 				if (
@@ -93,8 +86,6 @@ export default function Editor() {
 					if (event.type === Blockly.Events.MOVE) {
 						const moveEvent = event as Blockly.Events.BlockMove;
 						if (Array.isArray(moveEvent.reason)) {
-							// moveEvent.reasonが配列である場合
-							// 配列内に'disconnect'が含まれているか確認
 							if (moveEvent.reason.includes("disconnect")) {
 								console.log("Block disconnection detected, not saving.");
 								return;
@@ -102,7 +93,6 @@ export default function Editor() {
 						}
 					}
 
-					// ワークスペースを保存する処理
 					const newWorkspace = Blockly.serialization.workspaces.save(workspace);
 					setCurrentSession((prev) => {
 						if (
@@ -129,7 +119,6 @@ export default function Editor() {
 		};
 	}, []);
 
-	// currentSessionの変更を前のsessionと比較してワークスペースを更新
 	useEffect(() => {
 		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
 		if (
@@ -148,6 +137,17 @@ export default function Editor() {
 			}
 		}
 	}, [currentSession, prevSession]);
+
+	// ハイライトされたブロックを更新。１つ以上ハイライトはできない。
+	useEffect(() => {
+		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
+		const blockHighlight = new BlockHighlight(workspace);
+		blockHighlight.dispose();
+		if (highlightedBlock) {
+			console.log("highlightedBlock", highlightedBlock);
+			blockHighlight.init(10, highlightedBlock);
+		}
+	}, [highlightedBlock]);
 
 	return <div id="blocklyDiv" className="w-full h-full" />;
 }

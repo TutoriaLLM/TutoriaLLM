@@ -13,6 +13,9 @@ import type { SessionValue } from "../type";
 export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
 
+//ハイライトするブロックの状態
+export const highlightedBlockState = atom<string | null>(null);
+
 //ツアーの内容を管理するための状態
 import type { StepType } from "@reactour/tour";
 export const tourState = atom<StepType[]>([]);

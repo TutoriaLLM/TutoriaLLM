@@ -4,6 +4,7 @@ const Theme = Blockly.Theme.defineTheme("theme", {
 	name: "theme",
 	base: Blockly.Themes.Classic,
 	componentStyles: {
+		//WARN: changing BackgroundColor may affects blockHighlight plugin.
 		workspaceBackgroundColour: "#f3f4f6",
 		toolboxBackgroundColour: "#e5e7eb",
 		toolboxForegroundColour: "#374151",
