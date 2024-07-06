@@ -1,6 +1,7 @@
 import { BrainCircuit, Server, User } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type Dialogue, SessionValue } from "../../../../../type";
+import Markdown from "react-markdown";
 
 export default function TextBubble(props: { item: Dialogue }) {
 	const { t } = useTranslation();
@@ -18,7 +19,9 @@ export default function TextBubble(props: { item: Dialogue }) {
 					<p className="text-xs">{t("textbubble.you")}</p>
 				</div>
 				<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-xs">
-					{props.item.content}
+					<p className="prose">
+						<Markdown>{props.item.content}</Markdown>
+					</p>{" "}
 				</div>
 			</div>
 		);
@@ -32,8 +35,10 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.ai")}</p>
 				</div>
-				<div className="rounded-2xl rounded-bl-none bg-sky-600 text-white p-3 shadow max-w-xs">
-					{props.item.content}
+				<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-xs">
+					<p className="prose">
+						<Markdown>{props.item.content}</Markdown>
+					</p>{" "}
 				</div>
 			</div>
 		);
@@ -51,7 +56,9 @@ export default function TextBubble(props: { item: Dialogue }) {
 					<p className="text-xs font-semibold text-gray-600">
 						{t("textbubble.log")}:
 					</p>
-					<p className="">"{props.item.content}"</p>
+					<p className="prose">
+						<Markdown>{props.item.content}</Markdown>
+					</p>
 				</div>
 			</div>
 		);
