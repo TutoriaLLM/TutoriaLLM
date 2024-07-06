@@ -65,7 +65,7 @@ export async function invokeLLM(session: SessionValue) {
 	You are a coding tutor, and you must use this language: {language}.
 	You are required to provide both support and instruction to the user.
 	If a tutorial is selected, use it to offer appropriate guidance.
-	Explicitly instruct the user on what to do next based on the provided tutorial content and advance the session accordingly.
+	Explicitly instruct the user on what to do next, based on the provided tutorial content and advance the session accordingly.
 	Tutorial content: {tutorialContent}
 	`;
 
@@ -76,7 +76,7 @@ export async function invokeLLM(session: SessionValue) {
     If there is no question, provide feedback based on past messages, or explain what is happening on the server.
     Use the provided tutorial content to guide the user explicitly on what they should do next.
 
-	This is the workspace of Blockly; it will be converted to code to execute: {workspace}
+	This is the current user workspace of Blockly; it has rendered as block in user's screen, and will be converted to code to execute: {workspace}
 	If there is no workspace, encourage the user to start coding and provide a message to help them begin.
     `;
 

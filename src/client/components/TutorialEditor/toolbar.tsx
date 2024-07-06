@@ -61,7 +61,9 @@ export default function ToolbarPlugin() {
 				const response = await fetch(`/session/${inputValue}`);
 				const data: SessionValue = await response.json();
 				const workspace = data.workspace;
-				formatCodeBlock(JSON.stringify(workspace, null, 2));
+				formatCodeBlock(
+					`This is converted code of Blockly workspace: ${JSON.stringify(workspace, null, 2)}`,
+				);
 				setInputValue("");
 			} catch (error) {
 				console.error("Error fetching data:", error);
