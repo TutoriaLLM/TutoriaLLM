@@ -40,6 +40,7 @@ export class BlockHighlight {
 	constructor(protected workspace: Blockly.WorkspaceSvg) {}
 
 	init(padding?: number, targetBlockId?: string) {
+		console.log("BlockHighlight init");
 		this.padding = padding || defaultPadding;
 		this.targetBlockId = targetBlockId;
 
@@ -112,13 +113,16 @@ export class BlockHighlight {
 	}
 
 	dispose() {
+		console.log("BlockHighlight dispose");
+		this.restoreBlockOpacity(); // すべてのブロックの透明度を元に戻す
 		if (this.svgGroup) {
 			Blockly.utils.dom.removeNode(this.svgGroup);
+			this.svgGroup = undefined; // 確実にメモリリークを防ぐためにnullに設定
 		}
 		if (this.onChangeWrapper) {
 			this.workspace.removeChangeListener(this.onChangeWrapper);
+			this.onChangeWrapper = undefined; // 確実にメモリリークを防ぐためにnullに設定
 		}
-		this.restoreBlockOpacity(); // すべてのブロックの透明度を元に戻す
 	}
 
 	private onChange(event: Blockly.Events.Abstract) {
@@ -147,7 +151,7 @@ export class BlockHighlight {
 			this.restoreBlockOpacity(); // ドラッグ中はすべてのブロックの透明度を1にする
 		} else {
 			this.isDragging = false;
-			this.dimNonTargetBlocks(); // ドラッグ終了後にフォーカスしていないブロックを暗くする
+			this.dispose(); // ドラッグ終了後にハイライトを消す
 		}
 		this.svgGroup?.setAttribute("opacity", event.isStart ? "0" : "1");
 	}

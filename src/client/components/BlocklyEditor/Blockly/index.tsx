@@ -132,6 +132,8 @@ export default function Editor() {
 					workspace,
 				);
 				console.log("workspace refreshed from currentSession state");
+				//ハイライトを解除する
+				setHighlightedBlock(null);
 			} catch (error) {
 				console.error("Failed to load the workspace:", error);
 			}
@@ -140,11 +142,11 @@ export default function Editor() {
 
 	// ハイライトされたブロックを更新。１つ以上ハイライトはできない。
 	useEffect(() => {
+		console.log("highlightedBlock changed", highlightedBlock);
 		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
 		const blockHighlight = new BlockHighlight(workspace);
 		blockHighlight.dispose();
 		if (highlightedBlock) {
-			console.log("highlightedBlock", highlightedBlock);
 			blockHighlight.init(10, highlightedBlock);
 		}
 	}, [highlightedBlock]);

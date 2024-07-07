@@ -68,7 +68,7 @@ export type WSMessage = {
 	value?: string | number | boolean | object | null;
 };
 
-export type ContentType = "user" | "ai" | "log" | "image";
+export type ContentType = "user" | "ai" | "log" | "image" | "blockId";
 
 export type Dialogue = {
 	id: number;
@@ -84,7 +84,7 @@ export type TutorialStats = {
 	//チュートリアルのid
 	tutorialId: number | null;
 	//チュートリアルの進行度
-	progress: number | null;
+	progress: number;
 };
 
 export type SessionValue = {
@@ -115,8 +115,9 @@ export type AppConfig = {
 		Enable_Create_Room: boolean;
 	};
 	AI_Settings: {
-		AI_Model: string;
-		AI_Temperature: number;
+		Chat_AI_Model: string;
+		Chat_AI_Temperature: number;
 		Max_Number_of_processes: number;
+		Background_AI_Model: string;
 	};
 };

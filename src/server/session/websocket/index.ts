@@ -3,7 +3,7 @@ import e from "express";
 import expressWs from "express-ws";
 import i18next from "i18next";
 import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
-import type { SessionValue, WSMessage } from "../../../type.js";
+import type { Dialogue, SessionValue, WSMessage } from "../../../type.js";
 import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { sessionDB } from "../../db/session.js";
 import { invokeLLM } from "../llm/index.js";
@@ -107,7 +107,9 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 					} = messageJson;
 					//dialogueが更新されている場合は、LLMによって応答が生成される
 					//ユーザーが更新した場合のみ、LLMを呼び出す（それ以外を呼び出すと無限ループになる）
-					async function updateDialogueLLM(data: SessionValue) {
+					async function updateDialogueLLM(
+						data: SessionValue,
+					): Promise<{ dialogue: Dialogue[]; progress: number }> {
 						const lastMessage = data.dialogue[data.dialogue.length - 1];
 						if (
 							dialogue !== currentDataJson.dialogue &&
@@ -115,24 +117,62 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 							lastMessage.isuser
 						) {
 							const message = await invokeLLM(messageJson);
-							const newDialogue = updateDialogue(message, messageJson, "ai");
-							return newDialogue.dialogue;
+							if (message.blockId !== (null || "" || undefined)) {
+								//メッセージないに進行度が含まれているので、それもアップデートしている
+								console.log(message);
+								//レスポンスを追加
+								const response = message.response;
+								const newDialogueWithResponse = updateDialogue(
+									response,
+									messageJson,
+									"ai",
+								);
+								//指定されたブロックidを追加
+								const blockId = message.blockId;
+								const newDialogueWithBlockId = updateDialogue(
+									blockId,
+									newDialogueWithResponse,
+									"blockId",
+								);
+								return {
+									dialogue: newDialogueWithBlockId.dialogue,
+									progress: message.progress,
+								};
+							}
+							if (message) {
+								const newDialogue = updateDialogue(
+									message.response,
+									messageJson,
+									"ai",
+								);
+								return {
+									dialogue: newDialogue.dialogue,
+									progress: message.progress,
+								};
+							}
 						}
-						return data.dialogue;
+						return {
+							dialogue: data.dialogue,
+							progress: data.tutorial.progress,
+						};
 					}
 
+					const updatedData = await updateDialogueLLM(messageJson);
 					const dataToPut: SessionValue = {
 						sessioncode: sessioncode,
 						uuid: uuid,
 						workspace: workspace,
-						dialogue: await updateDialogueLLM(messageJson),
+						dialogue: updatedData.dialogue,
 						createdAt: currentDataJson.createdAt,
 						updatedAt: new Date(),
 						isVMRunning: currentDataJson.isVMRunning,
 						clients: currentDataJson.clients,
 						language: currentDataJson.language,
 						llmContext: llmContext,
-						tutorial: tutorial,
+						tutorial: {
+							...tutorial,
+							progress: updatedData.progress,
+						},
 					};
 
 					await updateDatabase(dataToPut);
