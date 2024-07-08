@@ -40,7 +40,7 @@ export class BlockHighlight {
 	constructor(protected workspace: Blockly.WorkspaceSvg) {}
 
 	init(padding?: number, targetBlockId?: string) {
-		console.log("BlockHighlight init");
+		console.log(`BlockHighlight init${targetBlockId}`);
 		this.padding = padding || defaultPadding;
 		this.targetBlockId = targetBlockId;
 
@@ -116,6 +116,8 @@ export class BlockHighlight {
 		console.log("BlockHighlight dispose");
 		this.restoreBlockOpacity(); // すべてのブロックの透明度を元に戻す
 		if (this.svgGroup) {
+			console.log("BlockHighlight dispose svgGroup");
+			this.svgGroup.setAttribute("opacity", "0");
 			Blockly.utils.dom.removeNode(this.svgGroup);
 			this.svgGroup = undefined; // 確実にメモリリークを防ぐためにnullに設定
 		}
@@ -153,7 +155,10 @@ export class BlockHighlight {
 			this.isDragging = false;
 			this.dispose(); // ドラッグ終了後にハイライトを消す
 		}
-		this.svgGroup?.setAttribute("opacity", event.isStart ? "0" : "1");
+
+		if (this.svgGroup) {
+			this.svgGroup.setAttribute("opacity", event.isStart ? "0" : "1");
+		}
 	}
 
 	private applyColor() {

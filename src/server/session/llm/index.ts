@@ -78,6 +78,7 @@ Answer the user's latest question based on past messages if they asking: {text}
 
 This is the current user workspace of Blockly; it has rendered as block in user's screen, and will be converted to code to execute: {workspace}
 You may attach blockId from workspace that you are reffering.
+Also, You may attach blockName from workspace that users required to use.
 If there is no workspace, encourage the user to start coding and provide a message to help them begin.
     `;
 
@@ -93,6 +94,12 @@ If there is no workspace, encourage the user to start coding and provide a messa
 			.optional()
 			.describe(
 				"block id from user's Blockly workspace if needed. Skip this response if not needed.",
+			),
+		blockName: z
+			.string()
+			.optional()
+			.describe(
+				"block name to being used for code. It is defined from Blockly Workspace, and can reffer from tutorial. Skip this response if not needed.",
 			),
 		progress: z
 			.number()

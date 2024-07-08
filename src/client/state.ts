@@ -14,7 +14,11 @@ export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
 
 //ハイライトするブロックの状態
-export const highlightedBlockState = atom<string | null>(null);
+import type { HighlightedBlock } from "../type";
+export const highlightedBlockState = atom<HighlightedBlock>(null);
+
+//メニューから取り出すブロックの状態
+export const blockNameFromMenuState = atom<string | null>(null);
 
 //ツアーの内容を管理するための状態
 import type { StepType } from "@reactour/tour";

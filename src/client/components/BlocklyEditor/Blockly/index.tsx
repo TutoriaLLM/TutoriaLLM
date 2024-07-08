@@ -1,5 +1,5 @@
 import * as Blockly from "blockly/core";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import registerBlocks from "./blocks";
 import Theme from "./theme";
@@ -8,6 +8,7 @@ import { blocklyLocale } from "../../../../i18n/blocklyLocale";
 import "../../../styles/blockly.css";
 import { useAtom, useAtomValue } from "jotai";
 import {
+	blockNameFromMenuState,
 	currentSessionState,
 	highlightedBlockState,
 	prevSessionState,
@@ -17,9 +18,14 @@ import { BlockHighlight } from "./blockHighlight";
 export default function Editor() {
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
 	const prevSession = useAtomValue(prevSessionState);
+	const [blockNameFromMenu, setBlockNameFromMenu] = useAtom(
+		blockNameFromMenuState,
+	);
 	const [highlightedBlock, setHighlightedBlock] = useAtom(
 		highlightedBlockState,
 	);
+
+	const blockHighlightRef = useRef<BlockHighlight | null>(null);
 
 	useEffect(() => {
 		const language = currentSession?.language;
@@ -83,6 +89,7 @@ export default function Editor() {
 					event.type === Blockly.Events.FINISHED_LOADING ||
 					event.type === Blockly.Events.MOVE
 				) {
+					console.log("event type:", event.type);
 					if (event.type === Blockly.Events.MOVE) {
 						const moveEvent = event as Blockly.Events.BlockMove;
 						if (Array.isArray(moveEvent.reason)) {
@@ -107,6 +114,55 @@ export default function Editor() {
 						return prev;
 					});
 				}
+				if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
+					console.log("Toolbox item selected");
+					const toolbox = workspace.getToolbox() as Blockly.Toolbox;
+					//カテゴリを開いている際に、Stateからツールボックス内の探す必要のあるブロックがある場合は、そのブロックを探し、ツールボックス内のワークスペースでハイライトする
+					if (blockNameFromMenu && toolbox.getSelectedItem() !== null) {
+						try {
+							const workspace = toolbox.getFlyout()?.getWorkspace();
+							const block = workspace?.getBlocksByType(blockNameFromMenu);
+
+							if (block && block.length > 0 && workspace) {
+								//ハイライトする
+								setHighlightedBlock({
+									workspace: workspace,
+									blockId: block[0].id,
+								});
+							}
+							//ブロックが存在しない場合は、空のidからハイライトする
+							if (block && block.length === 0 && workspace) {
+								setHighlightedBlock({
+									workspace: workspace,
+									blockId: "",
+								});
+							}
+						} catch (error) {
+							console.log("Error in saveWorkspace:", error);
+							return null;
+						}
+					}
+					//カテゴリを閉じた場合は、ハイライトを解除する
+					if (toolbox.getFlyout()?.isVisible() === false) {
+						console.log("Flyout is closed, clearing highlighted block");
+						setHighlightedBlock(null);
+					}
+				}
+				//メニューから指定したブロックが移動された場合、ハイライトを解除する
+				if (event.type === Blockly.Events.MOVE) {
+					const moveEvent = event as Blockly.Events.BlockMove;
+					const toolbox = workspace.getToolbox() as Blockly.Toolbox;
+					const toolWorkspace = toolbox.getFlyout()?.getWorkspace();
+					if (!toolWorkspace || !blockNameFromMenu) {
+						return;
+					}
+					const block = toolWorkspace.getBlocksByType(blockNameFromMenu);
+					console.log("Block moved", moveEvent.blockId, block);
+					if (moveEvent.blockId === block[0].id) {
+						console.log("Block moved from toolbox, clearing highlighted block");
+						setBlockNameFromMenu(null);
+					}
+				}
 			} catch (error) {
 				console.error("Error in saveWorkspace:", error);
 			}
@@ -117,7 +173,7 @@ export default function Editor() {
 		return () => {
 			workspace.dispose();
 		};
-	}, []);
+	}, [blockNameFromMenu]);
 
 	useEffect(() => {
 		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
@@ -143,11 +199,19 @@ export default function Editor() {
 	// ハイライトされたブロックを更新。１つ以上ハイライトはできない。
 	useEffect(() => {
 		console.log("highlightedBlock changed", highlightedBlock);
-		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-		const blockHighlight = new BlockHighlight(workspace);
-		blockHighlight.dispose();
+
+		if (blockHighlightRef.current) {
+			blockHighlightRef.current.dispose();
+		}
+
 		if (highlightedBlock) {
-			blockHighlight.init(10, highlightedBlock);
+			blockHighlightRef.current = new BlockHighlight(
+				highlightedBlock.workspace ||
+					(Blockly.getMainWorkspace() as Blockly.WorkspaceSvg),
+			);
+			blockHighlightRef.current.init(10, highlightedBlock.blockId);
+		} else {
+			blockHighlightRef.current = null;
 		}
 	}, [highlightedBlock]);
 

@@ -48,7 +48,8 @@
 		"ai": "AI",
 		"you": "You",
 		"block": "Block",
-		"findBlock": "Find block"
+		"findBlock": "Find block",
+		"findBlockFromMenu": "Find from menu"
 	},
 	"tutorial": {
 		"title": "Pick Tutorial",

@@ -68,7 +68,13 @@ export type WSMessage = {
 	value?: string | number | boolean | object | null;
 };
 
-export type ContentType = "user" | "ai" | "log" | "image" | "blockId";
+export type ContentType =
+	| "user"
+	| "ai"
+	| "log"
+	| "image"
+	| "blockId"
+	| "blockName";
 
 export type Dialogue = {
 	id: number;
@@ -103,6 +109,13 @@ export type SessionValue = {
 	//チュートリアルの有無や設定を保存する
 	tutorial: TutorialStats;
 };
+
+//ハイライトするブロック
+import type Blockly from "blockly";
+export type HighlightedBlock = {
+	blockId: string;
+	workspace: Blockly.WorkspaceSvg | null;
+} | null;
 
 export type WSMinecraftMessage = {
 	Header: null;

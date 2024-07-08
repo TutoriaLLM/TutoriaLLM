@@ -117,17 +117,42 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 							lastMessage.isuser
 						) {
 							const message = await invokeLLM(messageJson);
-							if (message.blockId !== (null || "" || undefined)) {
-								//メッセージないに進行度が含まれているので、それもアップデートしている
+
+							if (message.blockId && message.blockName) {
+								// 両方のブロックIDとブロック名が存在する場合の処理
 								console.log(message);
-								//レスポンスを追加
 								const response = message.response;
 								const newDialogueWithResponse = updateDialogue(
 									response,
 									messageJson,
 									"ai",
 								);
-								//指定されたブロックidを追加
+								const blockId = message.blockId;
+								const newDialogueWithBlockId = updateDialogue(
+									blockId,
+									newDialogueWithResponse,
+									"blockId",
+								);
+								const blockName = message.blockName;
+								const newDialogueWithBlockName = updateDialogue(
+									blockName,
+									newDialogueWithBlockId,
+									"blockName",
+								);
+								return {
+									dialogue: newDialogueWithBlockName.dialogue,
+									progress: message.progress,
+								};
+							}
+							if (message.blockId) {
+								// ブロックIDが存在する場合の処理
+								console.log(message);
+								const response = message.response;
+								const newDialogueWithResponse = updateDialogue(
+									response,
+									messageJson,
+									"ai",
+								);
 								const blockId = message.blockId;
 								const newDialogueWithBlockId = updateDialogue(
 									blockId,
@@ -139,7 +164,29 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 									progress: message.progress,
 								};
 							}
+							if (message.blockName) {
+								// ブロック名が存在する場合の処理
+								console.log(message);
+								const response = message.response;
+								const newDialogueWithResponse = updateDialogue(
+									response,
+									messageJson,
+									"ai",
+								);
+								const blockName = message.blockName;
+								const newDialogueWithBlockName = updateDialogue(
+									blockName,
+									newDialogueWithResponse,
+									"blockName",
+								);
+								return {
+									dialogue: newDialogueWithBlockName.dialogue,
+									progress: message.progress,
+								};
+							}
+
 							if (message) {
+								// 他のメッセージが存在する場合の処理
 								const newDialogue = updateDialogue(
 									message.response,
 									messageJson,

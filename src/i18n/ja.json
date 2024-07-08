@@ -48,7 +48,8 @@
 		"ai": "AI",
 		"you": "あなた",
 		"block": "ブロック",
-		"findBlock": "ブロックを見つける"
+		"findBlock": "ブロックを見つける",
+		"findBlockFromMenu": "メニューから探す"
 	},
 	"tutorial": {
 		"title": "チュートリアルを選択",
