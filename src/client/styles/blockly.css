@@ -48,3 +48,23 @@
   font-size: 1.25rem;
   font-weight: 600;
 }
+
+@keyframes highlightCategoryButton {
+  0% {
+    background-color: #ef4444;
+    border: #fde047;
+  }
+  50% {
+    background-color: #eab308;
+    border: #ef4444;
+  }
+100% {
+    background-color: #ef4444;
+    border: #fde047;
+  }
+}
+
+.highlight {
+  animation: highlightCategoryButton 1s infinite;
+
+}

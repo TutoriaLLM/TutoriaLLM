@@ -81,6 +81,33 @@ export default function Editor() {
 			);
 		}
 
+		const toolbox = workspace.getToolbox() as Blockly.Toolbox;
+
+		//ハイライトするツールボックスの項目がある場合、そのメニュー項目をハイライトする
+		const toolboxItem = toolbox.getToolboxItems();
+		for (const item of toolboxItem) {
+			if (item.isSelectable()) {
+				const category = item as Blockly.ToolboxCategory;
+
+				const stringifiedContents = JSON.stringify(category.getContents());
+				if (
+					blockNameFromMenu &&
+					stringifiedContents.includes(blockNameFromMenu)
+				) {
+					//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+					const div = category.getDiv();
+					const labelDOM = div?.getElementsByClassName(
+						"blocklyTreeRow",
+					)[0] as HTMLElement;
+					if (labelDOM) {
+						labelDOM.style.backgroundColor = "#ef4444";
+						labelDOM.classList.add("highlight");
+						//highlightはCSSファイル内で定義されている
+					}
+				}
+			}
+		}
+
 		const saveWorkspace = (event: Blockly.Events.Abstract) => {
 			try {
 				if (
@@ -116,11 +143,11 @@ export default function Editor() {
 				}
 				if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
 					console.log("Toolbox item selected");
-					const toolbox = workspace.getToolbox() as Blockly.Toolbox;
 					//カテゴリを開いている際に、Stateからツールボックス内の探す必要のあるブロックがある場合は、そのブロックを探し、ツールボックス内のワークスペースでハイライトする
 					if (blockNameFromMenu && toolbox.getSelectedItem() !== null) {
 						try {
-							const workspace = toolbox.getFlyout()?.getWorkspace();
+							const flyout = toolbox.getFlyout();
+							const workspace = flyout?.getWorkspace();
 							const block = workspace?.getBlocksByType(blockNameFromMenu);
 
 							if (block && block.length > 0 && workspace) {
