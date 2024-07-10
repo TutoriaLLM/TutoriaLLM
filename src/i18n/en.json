@@ -16,7 +16,8 @@
 		"reconnecting": "disconnected. attempting to reconnect.",
 		"home": "Home",
 		"signout": "Sign out",
-		"noTutorial": "No tutorial has selected"
+		"noTutorial": "No tutorial has selected",
+		"joinCode": "Join Code"
 	},
 	"execSwitch": {
 		"label": "Run code",
@@ -49,7 +50,9 @@
 		"you": "You",
 		"block": "Block",
 		"findBlock": "Find block",
-		"findBlockFromMenu": "Find from menu"
+		"findBlockFromMenu": "Find from menu",
+		"replying": "Replying...",
+		"ask": "Ask anything..."
 	},
 	"tutorial": {
 		"title": "Pick Tutorial",
