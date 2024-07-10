@@ -97,23 +97,19 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 						ws.send("Invalid uuid");
 						ws.close();
 					}
-					const {
-						sessioncode,
-						uuid,
-						workspace,
-						dialogue,
-						tutorial,
-						llmContext,
-					} = messageJson;
+					const { sessioncode, uuid, workspace, tutorial, llmContext } =
+						messageJson;
 					//dialogueが更新されている場合は、LLMによって応答が生成される
 					//ユーザーが更新した場合のみ、LLMを呼び出す（それ以外を呼び出すと無限ループになる）
-					async function updateDialogueLLM(
-						data: SessionValue,
-					): Promise<{ dialogue: Dialogue[]; progress: number }> {
+					async function updateDialogueLLM(data: SessionValue): Promise<{
+						dialogue: Dialogue[];
+						isreplying: boolean;
+						progress: number;
+					}> {
 						const lastMessage = data.dialogue[data.dialogue.length - 1];
 						if (
-							dialogue !== currentDataJson.dialogue &&
-							dialogue.length > 0 &&
+							data.dialogue !== currentDataJson.dialogue &&
+							data.dialogue.length > 0 &&
 							lastMessage.isuser
 						) {
 							const message = await invokeLLM(messageJson);
@@ -141,6 +137,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 								);
 								return {
 									dialogue: newDialogueWithBlockName.dialogue,
+									isreplying: false,
 									progress: message.progress,
 								};
 							}
@@ -161,6 +158,8 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 								);
 								return {
 									dialogue: newDialogueWithBlockId.dialogue,
+									isreplying: false,
+
 									progress: message.progress,
 								};
 							}
@@ -181,6 +180,8 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 								);
 								return {
 									dialogue: newDialogueWithBlockName.dialogue,
+									isreplying: false,
+
 									progress: message.progress,
 								};
 							}
@@ -194,12 +195,16 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 								);
 								return {
 									dialogue: newDialogue.dialogue,
+									isreplying: false,
+
 									progress: message.progress,
 								};
 							}
 						}
 						return {
 							dialogue: data.dialogue,
+							isreplying: false,
+
 							progress: data.tutorial.progress,
 						};
 					}
@@ -210,6 +215,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 						uuid: uuid,
 						workspace: workspace,
 						dialogue: updatedData.dialogue,
+						isReplying: updatedData.isreplying,
 						createdAt: currentDataJson.createdAt,
 						updatedAt: new Date(),
 						isVMRunning: currentDataJson.isVMRunning,

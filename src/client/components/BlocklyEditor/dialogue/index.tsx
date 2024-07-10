@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { Phone, PlusCircle, Send } from "lucide-react";
+import { Bot, PlusCircle, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Dialogue } from "../../../../type";
 import { currentSessionState } from "../../../state";
@@ -31,11 +31,38 @@ export default function DialogueView() {
 								content: message,
 							},
 						],
+						isReplying: true,
 					};
 				}
 				return prev;
 			});
 			setMessage(""); // メッセージ送信後にフィールドをクリア
+
+			// サーバーサイドからの応答をシミュレート
+			setTimeout(() => {
+				setSessionState((prev) => {
+					if (prev) {
+						const lastId =
+							prev.dialogue.length > 0
+								? prev.dialogue[prev.dialogue.length - 1].id
+								: 0;
+						return {
+							...prev,
+							dialogue: [
+								...prev.dialogue,
+								{
+									id: lastId + 1,
+									contentType: "ai",
+									isuser: false,
+									content: "This is a response from the server.",
+								},
+							],
+							isReplying: false, // 応答を受信したらisReplyingをfalseに設定
+						};
+					}
+					return prev;
+				});
+			}, 2000); // 例として2秒後に応答を受信
 		}
 	}
 
@@ -52,6 +79,20 @@ export default function DialogueView() {
 				{sessionState?.dialogue.map((item: Dialogue) => {
 					return <TextBubble key={item.id} item={item} />;
 				})}
+				{/*/返信中のアニメーションを表示*/}
+				{sessionState?.isReplying && (
+					<div className="flex justify-start items-end gap-2 animate-pulse">
+						<div className="text-gray-600 flex flex-col items-center">
+							<span className="bg-gray-200 rounded-full p-2">
+								<Bot />
+							</span>
+							<p className="text-xs">AI</p>
+						</div>
+						<div className="rounded-2xl rounded-bl-none bg-gray-300 text-gray-800 p-3 shadow max-w-xs">
+							<p className="prose">Replying...</p>
+						</div>
+					</div>
+				)}
 				<div ref={messagesEndRef} />
 			</div>
 			<div className="w-full p-2">

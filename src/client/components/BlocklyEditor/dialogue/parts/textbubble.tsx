@@ -1,5 +1,5 @@
 import {
-	BrainCircuit,
+	Bot,
 	MenuSquare,
 	Puzzle,
 	ScanSearch,
@@ -68,7 +68,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 			<div key={props.item.id} className="flex justify-start items-end gap-2">
 				<div className="text-gray-600 flex flex-col items-center">
 					<span className="bg-gray-200 rounded-full p-2">
-						<BrainCircuit />
+						<Bot />
 					</span>
 					<p className="text-xs">{t("textbubble.ai")}</p>
 				</div>

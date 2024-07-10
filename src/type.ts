@@ -99,6 +99,7 @@ export type SessionValue = {
 	createdAt: Date;
 	updatedAt: Date;
 	dialogue: Dialogue[];
+	isReplying: boolean;
 	//シリアル化したBlockly.Workspaceを保存する
 	workspace: { [key: string]: any };
 	isVMRunning: boolean;
