@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
 import type { SessionValue, WSMessage } from "../../type";
@@ -9,7 +9,7 @@ import Navbar from "../components/BlocklyEditor/Navbar";
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-import i18next, { use } from "i18next";
+import i18next from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue";
 import SessionPopup from "../components/BlocklyEditor/sessionOverlay";
 //stateの読み込み
@@ -47,6 +47,7 @@ export default function EditorPage() {
 	const languageToStart = useAtomValue(LanguageToStart);
 
 	const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
+	const timerRef = useRef<NodeJS.Timeout | null>(null); // タイマーを保持するためのref
 
 	// URLパスにコードがあるか確認する
 	useEffect(() => {
@@ -143,6 +144,48 @@ export default function EditorPage() {
 					"Sent currentSession to WebSocket and save prev session:",
 					currentSession,
 				);
+			}
+
+			// タイマーのリセットと新規設定
+			if (
+				JSON.stringify(currentSession.workspace) !==
+				JSON.stringify(prevSession?.workspace)
+			) {
+				if (timerRef.current) {
+					clearTimeout(timerRef.current);
+				}
+				timerRef.current = setTimeout(() => {
+					// ワークスペース更新後、最後のメッセージがユーザーでないかつ入力中でない場合
+					if (
+						currentSession?.dialogue.findLast((item) => !item.isuser) &&
+						!currentSession.isReplying
+					) {
+						setCurrentSession((prev) => {
+							if (prev) {
+								setPrevSession(prev);
+								const lastId =
+									prev.dialogue.length > 0
+										? prev.dialogue[prev.dialogue.length - 1].id
+										: 0;
+								return {
+									...prev,
+									dialogue: [
+										...prev.dialogue,
+										{
+											id: lastId + 1,
+											contentType: "request",
+											isuser: true,
+											content:
+												"request for AI feedback. This message is automatically generated on the client side.",
+										},
+									],
+									isReplying: true,
+								};
+							}
+							return prev;
+						});
+					}
+				}, 5000); // 例として5秒後に送信
 			}
 		}
 	}, [currentSession, wsInstance]);

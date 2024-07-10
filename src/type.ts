@@ -73,6 +73,7 @@ export type ContentType =
 	| "ai"
 	| "log"
 	| "image"
+	| "request"
 	| "blockId"
 	| "blockName";
 

@@ -6,17 +6,18 @@ import { currentSessionState } from "../../../state";
 import TextBubble from "./parts/textbubble";
 import TutorialPicker from "./tutorialPicker";
 import { useTranslation } from "react-i18next";
+import { use } from "i18next";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
-	const [sessionState, setSessionState] = useAtom(currentSessionState);
+	const [session, setSession] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	function sendMessage(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault(); // デフォルトのフォーム送信を防止
 		if (message) {
-			setSessionState((prev) => {
+			setSession((prev) => {
 				if (prev) {
 					const lastId =
 						prev.dialogue.length > 0
@@ -39,32 +40,6 @@ export default function DialogueView() {
 				return prev;
 			});
 			setMessage(""); // メッセージ送信後にフィールドをクリア
-
-			// サーバーサイドからの応答をシミュレート
-			setTimeout(() => {
-				setSessionState((prev) => {
-					if (prev) {
-						const lastId =
-							prev.dialogue.length > 0
-								? prev.dialogue[prev.dialogue.length - 1].id
-								: 0;
-						return {
-							...prev,
-							dialogue: [
-								...prev.dialogue,
-								{
-									id: lastId + 1,
-									contentType: "ai",
-									isuser: false,
-									content: "This is a response from the server.",
-								},
-							],
-							isReplying: false, // 応答を受信したらisReplyingをfalseに設定
-						};
-					}
-					return prev;
-				});
-			}, 2000); // 例として2秒後に応答を受信
 		}
 	}
 
@@ -72,17 +47,17 @@ export default function DialogueView() {
 		if (messagesEndRef.current) {
 			messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
 		}
-	}, [sessionState?.dialogue]);
+	}, [session?.dialogue]);
 
 	return (
 		<div className="w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
 			<div className="w-full h-full overflow-scroll flex flex-col gap-4 p-4 py-8">
 				<TutorialPicker />
-				{sessionState?.dialogue.map((item: Dialogue) => {
+				{session?.dialogue.map((item: Dialogue) => {
 					return <TextBubble key={item.id} item={item} />;
 				})}
 				{/*/返信中のアニメーションを表示*/}
-				{sessionState?.isReplying && (
+				{session?.isReplying && (
 					<div className="flex justify-start items-end gap-2 animate-pulse">
 						<div className="text-gray-600 flex flex-col items-center">
 							<span className="bg-gray-200 rounded-full p-2">
