@@ -132,6 +132,9 @@ export type AppConfig = {
 	AI_Settings: {
 		Chat_AI_Model: string;
 		Chat_AI_Temperature: number;
-		Max_Number_of_processes: number;
+	};
+	Client_Settings: {
+		AutoReply: boolean;
+		Reply_Time_ms: number;
 	};
 };

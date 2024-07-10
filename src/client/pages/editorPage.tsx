@@ -2,14 +2,14 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
-import type { SessionValue, WSMessage } from "../../type";
+import type { AppConfig, SessionValue, WSMessage } from "../../type";
 import Editor from "../components/BlocklyEditor/Blockly";
 import Navbar from "../components/BlocklyEditor/Navbar";
 
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-import i18next from "i18next";
+import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue";
 import SessionPopup from "../components/BlocklyEditor/sessionOverlay";
 //stateの読み込み
@@ -38,6 +38,9 @@ export default function EditorPage() {
 	const [wsInstance, setWsInstance] = useAtom(websocketInstance);
 	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
 
+	//設定の保存をするstatte
+	const [settings, setSettings] = useState<AppConfig>();
+
 	const devicewidth = window.innerWidth;
 	const isMobile = devicewidth < 768;
 	const direction = isMobile ? "vertical" : "horizontal";
@@ -48,6 +51,24 @@ export default function EditorPage() {
 
 	const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
 	const timerRef = useRef<NodeJS.Timeout | null>(null); // タイマーを保持するためのref
+
+	//設定をAPIから取得
+	useEffect(() => {
+		async function fetchConfig() {
+			const result = await fetch("/config");
+			const response = (await result.json()) as AppConfig;
+			if (!response) {
+				throw new Error("Failed to fetch config");
+			}
+			setSettings(response);
+		}
+		try {
+			fetchConfig();
+			console.log("fetching settings...");
+		} catch (error) {
+			console.error("Error fetching settings:", error);
+		}
+	}, []);
 
 	// URLパスにコードがあるか確認する
 	useEffect(() => {
@@ -146,10 +167,11 @@ export default function EditorPage() {
 				);
 			}
 
-			// タイマーのリセットと新規設定
+			// ワークスペースの内容が変更されかつ自動返信が有効の場合、一定時間後にAIにユーザーのワークスペースのフィードバックを要求する
 			if (
 				JSON.stringify(currentSession.workspace) !==
-				JSON.stringify(prevSession?.workspace)
+					JSON.stringify(prevSession?.workspace) &&
+				settings?.Client_Settings.AutoReply
 			) {
 				if (timerRef.current) {
 					clearTimeout(timerRef.current);
@@ -185,7 +207,7 @@ export default function EditorPage() {
 							return prev;
 						});
 					}
-				}, 5000); // 例として5秒後に送信
+				}, settings?.Client_Settings.Reply_Time_ms); // 例として5秒後に送信
 			}
 		}
 	}, [currentSession, wsInstance]);
