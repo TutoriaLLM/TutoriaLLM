@@ -9,10 +9,6 @@ import Navbar from "../components/BlocklyEditor/Navbar";
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-//ツアーを提供するためのライブラリ
-import Tour, { TourProvider } from "@reactour/tour";
-import { useTour } from "@reactour/tour";
-
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue";
 import SessionPopup from "../components/BlocklyEditor/sessionOverlay";
@@ -24,7 +20,6 @@ import {
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	prevSessionState,
-	tourState,
 	userSessionCode,
 	websocketInstance,
 } from "../state";
@@ -42,9 +37,6 @@ export default function EditorPage() {
 		useAtom(isWorkspaceConnected);
 	const [wsInstance, setWsInstance] = useAtom(websocketInstance);
 	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
-
-	//ツアーのステップを定義
-	const steps = useAtomValue(tourState);
 
 	const devicewidth = window.innerWidth;
 	const isMobile = devicewidth < 768;
@@ -187,14 +179,6 @@ export default function EditorPage() {
 		return () => clearInterval(reconnectInterval);
 	}, [WorkspaceConnection, sessionCode]);
 
-	//ステップが更新されたらツアーを実行する
-	useEffect(() => {
-		if (steps.length > 0) {
-			console.log("Tour started");
-			useTour();
-		}
-	}, [steps]);
-
 	return (
 		<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
 			<Navbar
@@ -205,33 +189,31 @@ export default function EditorPage() {
 			/>
 			{!showPopup && WorkspaceConnection && (
 				// ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
-				<TourProvider steps={steps}>
-					<PanelGroup autoSaveId="workspace" direction={direction}>
-						<Panel
-							id="workspaceArea"
-							defaultSize={75}
-							order={1}
-							maxSize={80}
-							minSize={20}
-						>
-							<Editor />
-						</Panel>
-						<PanelResizeHandle className="md:h-full md:w-3 h-3 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
-							<span className="rounded-full p-1 bg-gray-50" />
-							<span className="rounded-full p-1 bg-gray-50" />
-							<span className="rounded-full p-1 bg-gray-50" />
-						</PanelResizeHandle>
-						<Panel
-							id="dialogueArea"
-							defaultSize={25}
-							order={2}
-							maxSize={80}
-							minSize={20}
-						>
-							<DialogueView />
-						</Panel>
-					</PanelGroup>
-				</TourProvider>
+				<PanelGroup autoSaveId="workspace" direction={direction}>
+					<Panel
+						id="workspaceArea"
+						defaultSize={75}
+						order={1}
+						maxSize={80}
+						minSize={20}
+					>
+						<Editor />
+					</Panel>
+					<PanelResizeHandle className="md:h-full md:w-3 h-3 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
+						<span className="rounded-full p-1 bg-gray-50" />
+						<span className="rounded-full p-1 bg-gray-50" />
+						<span className="rounded-full p-1 bg-gray-50" />
+					</PanelResizeHandle>
+					<Panel
+						id="dialogueArea"
+						defaultSize={25}
+						order={2}
+						maxSize={80}
+						minSize={20}
+					>
+						<DialogueView />
+					</Panel>
+				</PanelGroup>
 			)}
 			<SessionPopup isPopupOpen={showPopup} message={statusMessage} />
 		</div>

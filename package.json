@@ -21,7 +21,6 @@
 		"@radix-ui/react-popover": "^1.1.1",
 		"@radix-ui/react-progress": "^1.1.0",
 		"@radix-ui/react-switch": "^1.0.3",
-		"@reactour/tour": "^3.7.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/js-yaml": "^4.0.9",
 		"bcrypt": "^5.1.1",
