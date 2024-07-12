@@ -97,8 +97,14 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 						ws.send("Invalid uuid");
 						ws.close();
 					}
-					const { sessioncode, uuid, workspace, tutorial, llmContext } =
-						messageJson;
+					const {
+						sessioncode,
+						uuid,
+						workspace,
+						tutorial,
+						llmContext,
+						dialogue,
+					} = messageJson;
 
 					// 非同期関数を宣言する
 					async function updateSession() {
@@ -223,7 +229,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 								sessioncode: sessioncode,
 								uuid: uuid,
 								workspace: workspace, // 既存のワークスペース値を保持
-								dialogue: currentDataJson.dialogue, // 現在の対話データを一旦使う
+								dialogue: dialogue, // 現在の対話データを一旦使う
 								isReplying: true, // LLMの更新中であることを示す
 								createdAt: currentDataJson.createdAt,
 								updatedAt: new Date(),
