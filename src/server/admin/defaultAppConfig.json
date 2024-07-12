@@ -5,7 +5,10 @@
 	},
 	"AI_Settings": {
 		"Chat_AI_Model": "gpt-4o",
-		"Chat_AI_Temperature": 0.5,
-		"Max_Number_of_processes": 1
+		"Chat_AI_Temperature": 0.5
+	},
+	"Client_Settings": {
+		"AutoReply": true,
+		"Reply_Time_ms": 5000
 	}
 }

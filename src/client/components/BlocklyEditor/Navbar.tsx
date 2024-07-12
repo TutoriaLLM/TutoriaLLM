@@ -21,12 +21,9 @@ export default function Navbar(props: {
 			</a>
 			<div className="flex justify-center items-center gap-2">
 				<span className="text-xs">
+					<p>{t("navbar.joinCode")}</p>
 					<p className="font-semibold text-xl tracking-widest">{props.code}</p>
-					{props.isConnected ? (
-						<p className="p-0.5 px-2 rounded-full bg-green-300">
-							{t("navbar.connected")}
-						</p>
-					) : (
+					{props.isConnected ? null : (
 						<p className="p-0.5 px-2 rounded-full bg-red-300">
 							{t("navbar.reconnecting")}
 						</p>
@@ -42,13 +39,13 @@ export default function Navbar(props: {
 								className="rounded-full bg-gray-300 w-32 h-3 overflow-hidden"
 							>
 								<Progress.Indicator
-									className="bg-green-300 rounded-full w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
+									className="bg-green-400 rounded-full w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
 									style={{
 										transform: `translateX(-${100 - props.tutorialProgress}%)`,
 									}}
 								/>
 							</Progress.Root>
-							{props.tutorialProgress}%
+							<p className="text-base">{props.tutorialProgress}%</p>
 						</p>
 					) : (
 						<p className="p-0.5 px-2 rounded-full bg-red-300">

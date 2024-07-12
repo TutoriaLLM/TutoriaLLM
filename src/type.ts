@@ -73,6 +73,7 @@ export type ContentType =
 	| "ai"
 	| "log"
 	| "image"
+	| "request"
 	| "blockId"
 	| "blockName";
 
@@ -99,6 +100,7 @@ export type SessionValue = {
 	createdAt: Date;
 	updatedAt: Date;
 	dialogue: Dialogue[];
+	isReplying: boolean;
 	//シリアル化したBlockly.Workspaceを保存する
 	workspace: { [key: string]: any };
 	isVMRunning: boolean;
@@ -130,6 +132,9 @@ export type AppConfig = {
 	AI_Settings: {
 		Chat_AI_Model: string;
 		Chat_AI_Temperature: number;
-		Max_Number_of_processes: number;
+	};
+	Client_Settings: {
+		AutoReply: boolean;
+		Reply_Time_ms: number;
 	};
 };

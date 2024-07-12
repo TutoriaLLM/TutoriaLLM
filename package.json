@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "nodemon -w src/server -x tsx src/server/main.ts",
 		"start": "NODE_ENV=production tsx src/server/main.ts",
-		"build": "vite build",
+		"vite-build": "vite build",
+		"build": "vite-build && reset-user && reset-tutorials",
 		"reset-user": "tsx src/server/db/users.ts --reset-credentials",
 		"reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials",
 		"check": "biome check --apply --max-diagnostics=50 ."
@@ -21,7 +22,6 @@
 		"@radix-ui/react-popover": "^1.1.1",
 		"@radix-ui/react-progress": "^1.1.0",
 		"@radix-ui/react-switch": "^1.0.3",
-		"@reactour/tour": "^3.7.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@types/js-yaml": "^4.0.9",
 		"bcrypt": "^5.1.1",

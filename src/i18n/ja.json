@@ -21,7 +21,8 @@
 		"reconnecting": "切断されました。\n再接続しようとしています。",
 		"home": "ホーム",
 		"signout": "サインアウト",
-		"noTutorial": "チュートリアルは選択されていません"
+		"noTutorial": "チュートリアルは選択されていません",
+		"joinCode": "参加コード"
 	},
 	"session": {
 		"about": "このアプリについて",
@@ -49,7 +50,9 @@
 		"you": "あなた",
 		"block": "ブロック",
 		"findBlock": "ブロックを見つける",
-		"findBlockFromMenu": "メニューから探す"
+		"findBlockFromMenu": "メニューから探す",
+		"replying": "返信中...",
+		"ask": "質問してみる..."
 	},
 	"tutorial": {
 		"title": "チュートリアルを選択",

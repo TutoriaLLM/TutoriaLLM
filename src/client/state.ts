@@ -20,10 +20,6 @@ export const highlightedBlockState = atom<HighlightedBlock>(null);
 //メニューから取り出すブロックの状態
 export const blockNameFromMenuState = atom<string | null>(null);
 
-//ツアーの内容を管理するための状態
-import type { StepType } from "@reactour/tour";
-export const tourState = atom<StepType[]>([]);
-
 //WSインスタンス
 export const websocketInstance = atom<WebSocket | null>(null);
 

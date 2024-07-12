@@ -22,6 +22,7 @@ function intitialData(code: string, language: string): SessionValue {
 				content: "Welcome to the session! ",
 			},
 		],
+		isReplying: false,
 		workspace: {},
 		isVMRunning: false,
 		clients: [],
@@ -30,7 +31,7 @@ function intitialData(code: string, language: string): SessionValue {
 		tutorial: {
 			isTutorial: false,
 			tutorialId: null,
-			progress: null,
+			progress: 10,
 		},
 	};
 }

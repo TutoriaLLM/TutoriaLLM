@@ -101,129 +101,207 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 						sessioncode,
 						uuid,
 						workspace,
-						dialogue,
 						tutorial,
 						llmContext,
+						dialogue,
 					} = messageJson;
-					//dialogueが更新されている場合は、LLMによって応答が生成される
-					//ユーザーが更新した場合のみ、LLMを呼び出す（それ以外を呼び出すと無限ループになる）
-					async function updateDialogueLLM(
-						data: SessionValue,
-					): Promise<{ dialogue: Dialogue[]; progress: number }> {
-						const lastMessage = data.dialogue[data.dialogue.length - 1];
-						if (
-							dialogue !== currentDataJson.dialogue &&
-							dialogue.length > 0 &&
-							lastMessage.isuser
-						) {
-							const message = await invokeLLM(messageJson);
 
-							if (message.blockId && message.blockName) {
-								// 両方のブロックIDとブロック名が存在する場合の処理
-								console.log(message);
-								const response = message.response;
-								const newDialogueWithResponse = updateDialogue(
-									response,
-									messageJson,
-									"ai",
-								);
-								const blockId = message.blockId;
-								const newDialogueWithBlockId = updateDialogue(
-									blockId,
-									newDialogueWithResponse,
-									"blockId",
-								);
-								const blockName = message.blockName;
-								const newDialogueWithBlockName = updateDialogue(
-									blockName,
-									newDialogueWithBlockId,
-									"blockName",
-								);
-								return {
-									dialogue: newDialogueWithBlockName.dialogue,
-									progress: message.progress,
-								};
-							}
-							if (message.blockId) {
-								// ブロックIDが存在する場合の処理
-								console.log(message);
-								const response = message.response;
-								const newDialogueWithResponse = updateDialogue(
-									response,
-									messageJson,
-									"ai",
-								);
-								const blockId = message.blockId;
-								const newDialogueWithBlockId = updateDialogue(
-									blockId,
-									newDialogueWithResponse,
-									"blockId",
-								);
-								return {
-									dialogue: newDialogueWithBlockId.dialogue,
-									progress: message.progress,
-								};
-							}
-							if (message.blockName) {
-								// ブロック名が存在する場合の処理
-								console.log(message);
-								const response = message.response;
-								const newDialogueWithResponse = updateDialogue(
-									response,
-									messageJson,
-									"ai",
-								);
-								const blockName = message.blockName;
-								const newDialogueWithBlockName = updateDialogue(
-									blockName,
-									newDialogueWithResponse,
-									"blockName",
-								);
-								return {
-									dialogue: newDialogueWithBlockName.dialogue,
-									progress: message.progress,
-								};
-							}
+					// 非同期関数を宣言する
+					async function updateSession() {
+						//dialogueが更新されている場合は、LLMによって応答が生成される
+						//ユーザーが更新した場合のみ、LLMを呼び出したものを追加し、それ以外はそのまま処理をせず返す
+						async function updateDialogueLLM(data: SessionValue): Promise<{
+							dialogue: Dialogue[];
+							isreplying: boolean;
+							progress: number;
+						}> {
+							const lastMessage = data.dialogue[data.dialogue.length - 1];
+							if (
+								data.dialogue !== currentDataJson.dialogue &&
+								data.dialogue.length > 0 &&
+								lastMessage.isuser
+							) {
+								const message = await invokeLLM(messageJson);
 
-							if (message) {
-								// 他のメッセージが存在する場合の処理
-								const newDialogue = updateDialogue(
-									message.response,
-									messageJson,
-									"ai",
-								);
-								return {
-									dialogue: newDialogue.dialogue,
-									progress: message.progress,
-								};
+								if (message.blockId && message.blockName) {
+									// 両方のブロックIDとブロック名が存在する場合の処理
+									console.log(message);
+									const response = message.response;
+									const newDialogueWithResponse = updateDialogue(
+										response,
+										messageJson,
+										"ai",
+									);
+									const blockId = message.blockId;
+									const newDialogueWithBlockId = updateDialogue(
+										blockId,
+										newDialogueWithResponse,
+										"blockId",
+									);
+									const blockName = message.blockName;
+									const newDialogueWithBlockName = updateDialogue(
+										blockName,
+										newDialogueWithBlockId,
+										"blockName",
+									);
+									return {
+										dialogue: newDialogueWithBlockName.dialogue,
+										isreplying: false,
+										progress: message.progress,
+									};
+								}
+								if (message.blockId) {
+									// ブロックIDが存在する場合の処理
+									console.log(message);
+									const response = message.response;
+									const newDialogueWithResponse = updateDialogue(
+										response,
+										messageJson,
+										"ai",
+									);
+									const blockId = message.blockId;
+									const newDialogueWithBlockId = updateDialogue(
+										blockId,
+										newDialogueWithResponse,
+										"blockId",
+									);
+									return {
+										dialogue: newDialogueWithBlockId.dialogue,
+										isreplying: false,
+										progress: message.progress,
+									};
+								}
+								if (message.blockName) {
+									// ブロック名が存在する場合の処理
+									console.log(message);
+									const response = message.response;
+									const newDialogueWithResponse = updateDialogue(
+										response,
+										messageJson,
+										"ai",
+									);
+									const blockName = message.blockName;
+									const newDialogueWithBlockName = updateDialogue(
+										blockName,
+										newDialogueWithResponse,
+										"blockName",
+									);
+									return {
+										dialogue: newDialogueWithBlockName.dialogue,
+										isreplying: false,
+										progress: message.progress,
+									};
+								}
+
+								if (message) {
+									// 他のメッセージが存在する場合の処理
+									const newDialogue = updateDialogue(
+										message.response,
+										messageJson,
+										"ai",
+									);
+									return {
+										dialogue: newDialogue.dialogue,
+										isreplying: false,
+										progress: message.progress,
+									};
+								}
 							}
+							return {
+								dialogue: data.dialogue,
+								isreplying: false,
+								progress: data.tutorial.progress,
+							};
 						}
-						return {
-							dialogue: data.dialogue,
-							progress: data.tutorial.progress,
-						};
+
+						// LLMの更新が必要かどうかをチェックする
+						const llmUpdateNeeded =
+							messageJson.dialogue !== currentDataJson.dialogue &&
+							messageJson.dialogue.length > 0 &&
+							messageJson.dialogue[messageJson.dialogue.length - 1].isuser;
+
+						if (llmUpdateNeeded) {
+							// LLMの更新を開始するが、結果を待たない
+							const llmUpdatePromise = updateDialogueLLM(messageJson);
+
+							// Workspaceの更新を行う
+							const dataToPut: SessionValue = {
+								sessioncode: sessioncode,
+								uuid: uuid,
+								workspace: workspace, // 既存のワークスペース値を保持
+								dialogue: dialogue, // 現在の対話データを一旦使う
+								isReplying: true, // LLMの更新中であることを示す
+								createdAt: currentDataJson.createdAt,
+								updatedAt: new Date(),
+								isVMRunning: currentDataJson.isVMRunning,
+								clients: currentDataJson.clients,
+								language: currentDataJson.language,
+								llmContext: llmContext,
+								tutorial: {
+									...tutorial,
+									progress: currentDataJson.tutorial.progress, // 現在の進捗を一旦使う
+								},
+							};
+
+							await updateDatabase(dataToPut);
+
+							// LLMの更新結果を待つ
+							const updatedData = await llmUpdatePromise;
+
+							// LLMの更新結果でWorkspaceを再度更新する
+							//最新のデータを取得
+							const latestData = await sessionDB.get(code);
+							const latestDataJson: SessionValue = JSON.parse(latestData);
+							const finalDataToPut: SessionValue = {
+								sessioncode: latestDataJson.sessioncode,
+								uuid: latestDataJson.uuid,
+								workspace: latestDataJson.workspace, // 既存のワークスペース値を保持
+								dialogue: updatedData.dialogue,
+								isReplying: updatedData.isreplying,
+								createdAt: latestDataJson.createdAt,
+								updatedAt: new Date(),
+								isVMRunning: latestDataJson.isVMRunning,
+								clients: latestDataJson.clients,
+								language: latestDataJson.language,
+								llmContext: llmContext,
+								tutorial: {
+									...tutorial,
+									progress: updatedData.progress,
+								},
+							};
+
+							await updateDatabase(finalDataToPut);
+						} else {
+							// LLMの更新が必要ない場合は、一回の更新で済ます
+							const dataToPut: SessionValue = {
+								sessioncode: sessioncode,
+								uuid: uuid,
+								workspace: workspace, // 既存のワークスペース値を保持
+								dialogue: messageJson.dialogue, // ユーザーからの更新をそのまま使う
+								isReplying: false, // LLMの更新が不要なためfalseに設定
+								createdAt: currentDataJson.createdAt,
+								updatedAt: new Date(),
+								isVMRunning: currentDataJson.isVMRunning,
+								clients: currentDataJson.clients,
+								language: currentDataJson.language,
+								llmContext: llmContext,
+								tutorial: {
+									...tutorial,
+									progress: messageJson.tutorial.progress, // ユーザーからの更新をそのまま使う
+								},
+							};
+
+							await updateDatabase(dataToPut);
+						}
 					}
 
-					const updatedData = await updateDialogueLLM(messageJson);
-					const dataToPut: SessionValue = {
-						sessioncode: sessioncode,
-						uuid: uuid,
-						workspace: workspace,
-						dialogue: updatedData.dialogue,
-						createdAt: currentDataJson.createdAt,
-						updatedAt: new Date(),
-						isVMRunning: currentDataJson.isVMRunning,
-						clients: currentDataJson.clients,
-						language: currentDataJson.language,
-						llmContext: llmContext,
-						tutorial: {
-							...tutorial,
-							progress: updatedData.progress,
-						},
-					};
-
-					await updateDatabase(dataToPut);
-					console.log("workspace updated");
+					updateSession()
+						.then(() => {
+							console.log("Session updated");
+						})
+						.catch((error) => {
+							console.error("Error updating session:", error);
+						});
 				}
 
 				if ((messageJson as WSMessage).request === "open") {

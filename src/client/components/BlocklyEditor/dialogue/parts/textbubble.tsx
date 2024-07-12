@@ -1,5 +1,5 @@
 import {
-	BrainCircuit,
+	Bot,
 	MenuSquare,
 	Puzzle,
 	ScanSearch,
@@ -28,8 +28,10 @@ export default function TextBubble(props: { item: Dialogue }) {
 
 	const handleHighlightClick = (blockId: string) => {
 		if (highlightedBlock?.blockId === blockId) {
+			//スイッチオフ
 			setHighlightedBlock(null);
 		} else {
+			//スイッチオン
 			setHighlightedBlock({ blockId, workspace: null });
 			setBlockNameFromMenu(null);
 		}
@@ -37,9 +39,12 @@ export default function TextBubble(props: { item: Dialogue }) {
 
 	const handleBlockNameClick = (blockName: string) => {
 		if (blockNameFromMenu === blockName) {
+			//スイッチオフ
 			setBlockNameFromMenu(null);
 		} else {
+			//スイッチオン
 			setBlockNameFromMenu(blockName);
+			setHighlightedBlock(null);
 		}
 	};
 
@@ -68,7 +73,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 			<div key={props.item.id} className="flex justify-start items-end gap-2">
 				<div className="text-gray-600 flex flex-col items-center">
 					<span className="bg-gray-200 rounded-full p-2">
-						<BrainCircuit />
+						<Bot />
 					</span>
 					<p className="text-xs">{t("textbubble.ai")}</p>
 				</div>
