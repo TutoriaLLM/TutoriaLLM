@@ -28,8 +28,10 @@ export default function TextBubble(props: { item: Dialogue }) {
 
 	const handleHighlightClick = (blockId: string) => {
 		if (highlightedBlock?.blockId === blockId) {
+			//スイッチオフ
 			setHighlightedBlock(null);
 		} else {
+			//スイッチオン
 			setHighlightedBlock({ blockId, workspace: null });
 			setBlockNameFromMenu(null);
 		}
@@ -37,9 +39,12 @@ export default function TextBubble(props: { item: Dialogue }) {
 
 	const handleBlockNameClick = (blockName: string) => {
 		if (blockNameFromMenu === blockName) {
+			//スイッチオフ
 			setBlockNameFromMenu(null);
 		} else {
+			//スイッチオン
 			setBlockNameFromMenu(blockName);
+			setHighlightedBlock(null);
 		}
 	};
 
