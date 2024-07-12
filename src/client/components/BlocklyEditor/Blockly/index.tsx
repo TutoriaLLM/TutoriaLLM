@@ -94,6 +94,7 @@ export default function Editor() {
 					blockNameFromMenu &&
 					stringifiedContents.includes(blockNameFromMenu)
 				) {
+					console.log("Found block in toolbox:", blockNameFromMenu);
 					//カテゴリ名が一致する場合、そのカテゴリの色を変更する
 					const div = category.getDiv();
 					const labelDOM = div?.getElementsByClassName(
@@ -144,7 +145,14 @@ export default function Editor() {
 				if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
 					console.log("Toolbox item selected");
 					//カテゴリを開いている際に、Stateからツールボックス内の探す必要のあるブロックがある場合は、そのブロックを探し、ツールボックス内のワークスペースでハイライトする
-					if (blockNameFromMenu && toolbox.getSelectedItem() !== null) {
+					if (
+						blockNameFromMenu &&
+						toolbox.getSelectedItem() !== (null || undefined)
+					) {
+						console.log(
+							"Toolbox item selected, highlighting block. selected item:",
+							toolbox.getSelectedItem(),
+						);
 						try {
 							const flyout = toolbox.getFlyout();
 							const workspace = flyout?.getWorkspace();
@@ -165,7 +173,10 @@ export default function Editor() {
 								});
 							}
 						} catch (error) {
-							console.log("Error in saveWorkspace:", error);
+							console.log(
+								"Error in saveWorkspace, toolbox item select:",
+								error,
+							);
 							return null;
 						}
 					}
@@ -184,8 +195,7 @@ export default function Editor() {
 						return;
 					}
 					const block = toolWorkspace.getBlocksByType(blockNameFromMenu);
-					console.log("Block moved", moveEvent.blockId, block);
-					if (moveEvent.blockId === block[0].id) {
+					if (moveEvent?.blockId === block[0]?.id) {
 						console.log("Block moved from toolbox, clearing highlighted block");
 						setBlockNameFromMenu(null);
 					}
