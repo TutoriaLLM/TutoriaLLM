@@ -38,7 +38,7 @@ export function code() {
 		const run_input = generator.statementToCode(block, "INPUT");
 
 		const code = /*javascript*/ `
-    console.log("Connect your  Minecraft at: vm/"+ code);
+    console.log("Connect your  Minecraft at: api/vm/"+ code);
 
     vmExpress.get("/"+ code, async (req, res) => {
       res.send("Use Minecraft to connect to this server at: vm/"+ code);
