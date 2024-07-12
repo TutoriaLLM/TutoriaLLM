@@ -1,5 +1,4 @@
 import express from "express";
-import e from "express";
 import expressWs from "express-ws";
 import i18next from "i18next";
 import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
@@ -13,8 +12,8 @@ import {
 	StopCodeTest,
 } from "./vm/index.js";
 
-const websocketserver = express.Router();
-expressWs(websocketserver as any);
+const websocketserver = express();
+const wsServer = expressWs(websocketserver).app;
 
 const clients = new Map<string, any>(); // WebSocketクライアントを管理するマップ
 
@@ -33,7 +32,7 @@ i18next.use(FsBackend).init<FsBackendOptions>(
 	},
 );
 
-websocketserver.ws("/connect/:code", async (ws, req) => {
+wsServer.ws("/connect/:code", async (ws, req) => {
 	const code = req.params.code;
 	const uuid = req.query.uuid as string;
 	console.log("new connection request from: ", code);
@@ -386,7 +385,7 @@ websocketserver.ws("/connect/:code", async (ws, req) => {
 });
 
 // 接続コードを元にUUIDを応答する
-websocketserver.get("/get/:code", async (req, res) => {
+wsServer.get("/get/:code", async (req, res) => {
 	const code = req.params.code;
 
 	try {
@@ -409,7 +408,7 @@ websocketserver.get("/get/:code", async (req, res) => {
 	}
 });
 
-websocketserver.get("/hello", async (req, res) => {
+wsServer.get("/hello", async (req, res) => {
 	res.send("hello");
 });
 

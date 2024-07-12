@@ -1,20 +1,15 @@
 import express from "express";
+import type { Express } from "express";
 import expressWs from "express-ws";
-import ViteExpress from "vite-express";
-
-import admin from "./admin/index.js";
-import auth from "./auth/index.js";
-import session from "./session/index.js";
-
 import { verifyRequestOrigin } from "lucia";
 import { lucia } from "./auth/index.js";
-import { vmExpress } from "./session/websocket/vm/index.js";
-import tutorials from "./tutorials/index.js";
-import { getConfigApp } from "./getConfig.js";
+import api from "./apis.js";
+import ViteExpress from "vite-express";
 
-const app = express();
+// Initialize express and express-ws on the main app
+const { app } = expressWs(express());
 
-//Cookieの読み込み
+// Cookieの読み込み
 app.use((req, res, next) => {
 	if (req.method === "GET") {
 		return next();
@@ -57,31 +52,23 @@ app.use(async (req, res, next) => {
 	return next();
 });
 
-expressWs(app);
+app.use("/api", api);
 
-//session routes
-app.use("/session", session);
+//不正なwebsocketリクエストを拒否
+app.ws("**", (ws, req) => {
+	console.log("Invalid websocket request");
+	ws.close();
+});
 
-// Tutorial routes
-app.use("/tutorial", tutorials);
+ViteExpress.config({
+	ignorePaths: /^\/api/,
+});
 
-// config fetch route
-app.use("/config", getConfigApp);
-
-//vm proxy
-app.use("/vm", vmExpress);
-
-//admin routes
-app.use("/api/admin", admin);
-
-//auth routes
-app.use("/auth", auth);
-
-ViteExpress.listen(app, 3000, () =>
+ViteExpress.listen(app as unknown as Express, 3000, () =>
 	console.log("Server is listening on port 3000..."),
 );
-//メモリ監視
-// メモリ使用量を一定時間おきに監視する関数
+
+// メモリ監視
 const monitorMemoryUsage = (interval: number) => {
 	setInterval(() => {
 		const memoryUsage = process.memoryUsage();

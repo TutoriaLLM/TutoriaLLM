@@ -58,7 +58,7 @@ export default function ToolbarPlugin() {
 	const fetchCodeData = async () => {
 		if (inputValue) {
 			try {
-				const response = await fetch(`/session/${inputValue}`);
+				const response = await fetch(`api/session/${inputValue}`);
 				const data: SessionValue = await response.json();
 				const workspace = data.workspace;
 				formatCodeBlock(

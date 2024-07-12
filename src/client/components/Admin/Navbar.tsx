@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 export default function Navbar() {
 	const handleSignOut = async () => {
 		console.log("signing out");
-		const res = await fetch("/auth/logout", {
+		const res = await fetch("api/auth/logout", {
 			method: "POST",
 		});
 		if (res.status === 200) {

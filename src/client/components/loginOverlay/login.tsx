@@ -17,7 +17,7 @@ export default function Login() {
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;
 
-		const response = await fetch("/auth/login", {
+		const response = await fetch("api/auth/login", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

@@ -33,7 +33,7 @@ export default function Users() {
 		fetchUsers();
 
 		// 現在のユーザー情報を取得
-		fetch("/auth/session")
+		fetch("api/auth/session")
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`Network response was not ok ${response.statusText}`);

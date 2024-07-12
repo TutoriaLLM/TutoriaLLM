@@ -15,7 +15,7 @@ export default function TutorialPicker() {
 	useEffect(() => {
 		const fetchTutorials = async () => {
 			try {
-				const response = await fetch("/tutorial");
+				const response = await fetch("api/tutorial");
 				const data: Tutorial[] = await response.json();
 				setTutorials(data);
 			} catch (error) {

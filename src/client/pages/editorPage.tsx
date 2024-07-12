@@ -55,7 +55,7 @@ export default function EditorPage() {
 	//設定をAPIから取得
 	useEffect(() => {
 		async function fetchConfig() {
-			const result = await fetch("/config");
+			const result = await fetch("api/config");
 			const response = (await result.json()) as AppConfig;
 			if (!response) {
 				throw new Error("Failed to fetch config");
@@ -89,7 +89,7 @@ export default function EditorPage() {
 	useEffect(() => {
 		async function checkSession() {
 			if (sessionCode !== "") {
-				const response = await fetch(`/session/${sessionCode}`);
+				const response = await fetch(`api/session/${sessionCode}`);
 				if (response.status === 404) {
 					// セッションが存在しない場合はスキップする
 					console.log("code is invalid!");
@@ -114,7 +114,7 @@ export default function EditorPage() {
 	// WebSocketに接続する関数
 	async function connectWebSocket(data: SessionValue) {
 		const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
-		const host = `${protocol}://${window.location.host}/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
+		const host = `${protocol}://${window.location.host}/api/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
 
 		console.log(`processing websocket connection: ${host}`);
 
@@ -222,7 +222,7 @@ export default function EditorPage() {
 				console.log("Attempting to reconnect...");
 				if (sessionCode) {
 					// 再接続を試行
-					fetch(`/session/${sessionCode}`)
+					fetch(`api/session/${sessionCode}`)
 						.then((response) => {
 							if (response.status !== 404) {
 								return response.json();
