@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "nodemon -w src/server -x tsx src/server/main.ts",
 		"start": "NODE_ENV=production tsx src/server/main.ts",
-		"build": "vite build",
+		"vite-build": "vite build",
+		"build": "vite-build && reset-user && reset-tutorials",
 		"reset-user": "tsx src/server/db/users.ts --reset-credentials",
 		"reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials",
 		"check": "biome check --apply --max-diagnostics=50 ."
