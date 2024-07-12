@@ -64,8 +64,13 @@ ViteExpress.config({
 	ignorePaths: /^\/api/,
 });
 
-ViteExpress.listen(app as unknown as Express, 3000, () =>
-	console.log("Server is listening on port 3000..."),
+let port = process.env.PORT as unknown as number;
+if (!port) {
+	port = 3000;
+}
+
+ViteExpress.listen(app as unknown as Express, port, () =>
+	console.log(`Server is listening with port: ${port}`),
 );
 
 // メモリ監視
