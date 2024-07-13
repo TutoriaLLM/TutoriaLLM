@@ -250,7 +250,7 @@ export default function EditorPage() {
 			<Navbar
 				code={sessionCode}
 				isConnected={WorkspaceConnection}
-				isTutorial={currentSession?.tutorial.isTutorial}
+				isTutorial={currentSession?.tutorial.isTutorial ?? false}
 				tutorialProgress={currentSession?.tutorial.progress}
 			/>
 			{!showPopup && WorkspaceConnection && (

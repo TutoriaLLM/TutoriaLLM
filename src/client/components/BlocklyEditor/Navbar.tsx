@@ -6,7 +6,7 @@ import ExecSwitch from "../ExecSwitch";
 export default function Navbar(props: {
 	code: string;
 	isConnected: boolean;
-	isTutorial: boolean | null | undefined;
+	isTutorial: boolean;
 	tutorialProgress: number | null | undefined;
 }) {
 	const { t } = useTranslation();
