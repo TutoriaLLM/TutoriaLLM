@@ -1,12 +1,14 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import image from "../media/terminal.png";
+
 export const block = {
 	type: "ext_example_console_log",
 	message0: "%1 %{BKY_EXAMPLE_CONSOLE_LOG} %2",
 	args0: [
 		{
 			type: "field_image",
-			src: "src/extensions/Example/media/terminal.png",
+			src: image,
 			width: 40,
 			height: 40,
 		},

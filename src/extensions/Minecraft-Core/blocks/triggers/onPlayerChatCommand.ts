@@ -1,12 +1,14 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import image from "../../media/minecraft.png";
+
 export const block = {
 	type: "ext_minecraft_onplayerchatcommand",
 	message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
 	args0: [
 		{
 			type: "field_image",
-			src: "src/extensions/Minecraft-Core/media/minecraft.png",
+			src: image,
 			width: 40,
 			height: 40,
 		},
@@ -74,7 +76,7 @@ export function code() {
 
 export const locale = {
 	en: {
-		MINECRAFT_ONPLAYERCHATCOMMAND: "on player chat %1 %2 %3 %4",
+		MINECRAFT_ONPLAYERCHATCOMMAND: "%1 on player chat  %2 %3 %4",
 	},
 	ja: {
 		MINECRAFT_ONPLAYERCHATCOMMAND:

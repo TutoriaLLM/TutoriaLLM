@@ -1,12 +1,13 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import image from "../../media/minecraft.png";
 export const block = {
 	type: "ext_minecraft_sendcommandrequest",
-	message0: "%1 %{BKY_MINECRAFT_SENDCOMMANDREQUEST} %2",
+	message0: "%{BKY_MINECRAFT_SENDCOMMANDREQUEST}",
 	args0: [
 		{
 			type: "field_image",
-			src: "src/extensions/Minecraft-Core/media/minecraft.png",
+			src: image,
 			width: 40,
 			height: 40,
 		},
@@ -41,9 +42,9 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SENDCOMMANDREQUEST: "コマンドを実行する",
+		MINECRAFT_SENDCOMMANDREQUEST: "%1 コマンドを実行する %2",
 	},
 	en: {
-		MINECRAFT_SENDCOMMANDREQUEST: "Execute command",
+		MINECRAFT_SENDCOMMANDREQUEST: "%1 Execute command %2",
 	},
 };
