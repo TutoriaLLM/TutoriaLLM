@@ -69,11 +69,30 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 
 		ws.send(JSON.stringify(SendIsWorkspaceRunning(data.isVMRunning)));
 
+		let pongReceived = true;
+
+		// pingを送信する
+		const pingInterval = setInterval(() => {
+			if (pongReceived) {
+				ws.send(JSON.stringify({ request: "ping" } as WSMessage));
+				pongReceived = false; // pongが受信されるのを待つ
+			} else {
+				// pongが受信されなかった場合、接続を切断する
+				ws.close();
+			}
+		}, 5000);
+
 		ws.on("message", async (message) => {
 			const messageJson: SessionValue | WSMessage = JSON.parse(
 				message.toString(),
 			);
 			console.log("message received in ws session");
+
+			// pongを受信したらpongReceivedをtrueに設定する
+			if ((messageJson as WSMessage).request === "pong") {
+				pongReceived = true;
+				return;
+			}
 
 			try {
 				const currentData = await sessionDB.get(code);
@@ -364,6 +383,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		});
 
 		ws.on("close", async () => {
+			clearInterval(pingInterval);
 			console.log("disconnected client");
 			try {
 				const currentData = await sessionDB.get(code);

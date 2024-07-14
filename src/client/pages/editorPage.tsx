@@ -9,7 +9,7 @@ import Navbar from "../components/BlocklyEditor/Navbar";
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-import i18next, { use } from "i18next";
+import i18next from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue";
 import SessionPopup from "../components/BlocklyEditor/sessionOverlay";
 //stateの読み込み
@@ -133,6 +133,11 @@ export default function EditorPage() {
 				console.log("isrunning updated");
 				setIsCodeRunning((messageJson as WSMessage).value as boolean);
 			}
+			//pingを受信したらpongを返す
+			if ((messageJson as WSMessage).request === "ping") {
+				console.log("Received ping from server");
+				ws.send(JSON.stringify({ request: "pong" } as WSMessage));
+			}
 			//セッション内容を受信したらワークスペース内容をprevSessionと比較して内容が違う場合は更新する
 			if ((messageJson as SessionValue).workspace !== prevSession?.workspace) {
 				console.log("Received changed session data from server!");
@@ -250,8 +255,8 @@ export default function EditorPage() {
 			<Navbar
 				code={sessionCode}
 				isConnected={WorkspaceConnection}
-				isTutorial={currentSession?.tutorial.isTutorial ?? false}
-				tutorialProgress={currentSession?.tutorial.progress}
+				isTutorial={currentSession?.tutorial?.isTutorial ?? false}
+				tutorialProgress={currentSession?.tutorial?.progress ?? 0}
 			/>
 			{!showPopup && WorkspaceConnection && (
 				// ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
