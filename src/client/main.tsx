@@ -33,3 +33,11 @@ try {
 } catch (e) {
 	console.error(e);
 }
+
+// Reactアプリがレンダリングされた後にローディング画面を非表示にする
+const loadingElement = document.getElementById("loading");
+const rootElement = document.getElementById("root");
+if (loadingElement && rootElement) {
+	loadingElement.style.display = "none";
+	rootElement.style.display = "block";
+}
