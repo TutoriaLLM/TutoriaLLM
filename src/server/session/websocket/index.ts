@@ -375,6 +375,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
 					sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
+					await updateDatabase(currentDataJson);
 				}
 			} catch (error) {
 				console.error("Error handling message:", error);
@@ -391,8 +392,22 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				currentDataJson.clients = currentDataJson.clients.filter(
 					(id) => id !== clientId,
 				);
-				await sessionDB.put(code, JSON.stringify(currentDataJson));
 				clients.delete(clientId); // マップから削除
+
+				//VMが実行中かつすべてのクライアントが切断された場合、VMを停止する
+				console.log(
+					currentDataJson.isVMRunning,
+					currentDataJson.clients.length,
+				);
+				if (
+					currentDataJson.isVMRunning &&
+					currentDataJson.clients.length === 0
+				) {
+					const result = await StopCodeTest(code, uuid);
+					console.log(`${result.message} VM stopped. no clients connected.`);
+					currentDataJson.isVMRunning = false;
+				}
+				await sessionDB.put(code, JSON.stringify(currentDataJson));
 			} catch (error) {
 				console.error("Error closing connection:", error);
 			}
