@@ -20,6 +20,7 @@ import {
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	prevSessionState,
+	settingState,
 	userSessionCode,
 	websocketInstance,
 } from "../state";
@@ -39,7 +40,7 @@ export default function EditorPage() {
 	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
 
 	//設定の保存をするstatte
-	const [settings, setSettings] = useState<AppConfig>();
+	const [settings, setSettings] = useAtom(settingState);
 
 	const devicewidth = window.innerWidth;
 	const isMobile = devicewidth < 768;

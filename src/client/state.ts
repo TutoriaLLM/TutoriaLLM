@@ -9,7 +9,7 @@ export const isPopupOpen = atom(false);
 //ワークスペースが接続されているかどうか
 export const isWorkspaceConnected = atom(false);
 //現在のセッション/比較に使用する１つ前のセッションの状態
-import type { SessionValue } from "../type";
+import type { AppConfig, SessionValue } from "../type";
 export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
 
@@ -25,3 +25,6 @@ export const websocketInstance = atom<WebSocket | null>(null);
 
 //ワークスペースのコードが実行されているかどうか
 export const isWorkspaceCodeRunning = atom(false);
+
+//読み込んだ設定を保存する状態
+export const settingState = atom<AppConfig | null>(null);
