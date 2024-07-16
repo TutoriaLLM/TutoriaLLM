@@ -59,5 +59,11 @@
 		"description": "Choose what you want to learn",
 		"start": "Start Tutorial",
 		"startTutorial": "Tutorial has selected"
+	},
+	"quickReply": {
+		"done": "I'm done",
+		"iDontKnow": "I don't know",
+		"explainThis": "Explain this",
+		"whatToDo": "What do I need to?"
 	}
 }

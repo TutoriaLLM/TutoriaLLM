@@ -59,5 +59,11 @@
 		"description": "学習したいチュートリアルを選択しましょう",
 		"start": "チュートリアルを開始",
 		"startTutorial": "チュートリアルが選択されました"
+	},
+	"quickReply": {
+		"iDontKnow": "わかりません",
+		"done": "できました",
+		"explainThis": "説明してください",
+		"whatToDo": "何をしたらいいですか"
 	}
 }

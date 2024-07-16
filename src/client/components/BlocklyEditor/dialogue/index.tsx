@@ -6,14 +6,13 @@ import { currentSessionState } from "../../../state";
 import TextBubble from "./parts/textbubble";
 import TutorialPicker from "./tutorialPicker";
 import { useTranslation } from "react-i18next";
-import { use } from "i18next";
+import QuickReply from "./parts/quickreply";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
 	const [session, setSession] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
-
 	function sendMessage(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault(); // デフォルトのフォーム送信を防止
 		if (message) {
@@ -41,6 +40,10 @@ export default function DialogueView() {
 			});
 			setMessage(""); // メッセージ送信後にフィールドをクリア
 		}
+	}
+
+	function handleQuickReply(reply: string) {
+		setMessage(reply);
 	}
 
 	useEffect(() => {
@@ -73,7 +76,15 @@ export default function DialogueView() {
 				<div ref={messagesEndRef} />
 			</div>
 			<div className="w-full p-2">
-				<div className="flex items-center bg-white shadow gap-2 p-2 rounded-2xl">
+				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
+					<div className="relative w-full py-2.5 overflow-clip">
+						<div className="flex flex-wrap w-full overflow-x-scroll">
+							<QuickReply onReply={handleQuickReply} />
+						</div>
+						<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+						<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+					</div>
+
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
 						<input
 							type="text"
