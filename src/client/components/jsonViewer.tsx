@@ -10,6 +10,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
 		key: string,
+		index?: number,
 	) => {
 		const value =
 			e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -17,16 +18,22 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			...obj,
 			[key]: e.target.type === "number" ? +value : value,
 		};
-		setObj(newValue);
+		if (typeof index === "number") {
+			const arr = obj[key] as any[];
+			arr[index] = e.target.type === "number" ? +value : value;
+			setObj({ ...obj, [key]: arr });
+		} else {
+			setObj(newValue);
+		}
 	};
 
-	const renderInputField = (key: string, value: any) => {
+	const renderInputField = (key: string, value: any, index?: number) => {
 		if (typeof value === "boolean") {
 			return (
 				<input
 					type="checkbox"
 					checked={value}
-					onChange={(e) => handleChange(e, key)}
+					onChange={(e) => handleChange(e, key, index)}
 				/>
 			);
 		}
@@ -35,7 +42,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 				<input
 					type="number"
 					value={value}
-					onChange={(e) => handleChange(e, key)}
+					onChange={(e) => handleChange(e, key, index)}
 				/>
 			);
 		}
@@ -44,11 +51,21 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 				<input
 					type="text"
 					value={value}
-					onChange={(e) => handleChange(e, key)}
+					onChange={(e) => handleChange(e, key, index)}
 				/>
 			);
 		}
 		return <div>Type not supported</div>;
+	};
+
+	const addItemToArray = (key: string) => {
+		const arr = obj[key] as any[];
+		setObj({ ...obj, [key]: [...arr, ""] });
+	};
+
+	const removeItemFromArray = (key: string, index: number) => {
+		const arr = obj[key] as any[];
+		setObj({ ...obj, [key]: arr.filter((_, i) => i !== index) });
 	};
 
 	return (
@@ -56,11 +73,33 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			{Object.keys(obj).map((key, index) => {
 				const value = obj[key];
 
-				if (
-					typeof value === "object" &&
-					value !== null &&
-					!Array.isArray(value)
-				) {
+				if (typeof value === "object" && value !== null) {
+					if (Array.isArray(value)) {
+						return (
+							<div key={index}>
+								<h3 className="font-semibold text-lg">{key}</h3>
+								{value.map((item, itemIndex) => (
+									<div key={itemIndex} className="flex items-center mb-2">
+										{renderInputField(key, item, itemIndex)}
+										<button
+											type="button"
+											onClick={() => removeItemFromArray(key, itemIndex)}
+											className="ml-2 bg-red-500 text-white px-2 py-1 rounded"
+										>
+											Remove
+										</button>
+									</div>
+								))}
+								<button
+									type="button"
+									onClick={() => addItemToArray(key)}
+									className="mt-2 bg-blue-500 text-white px-2 py-1 rounded"
+								>
+									Add Item
+								</button>
+							</div>
+						);
+					}
 					return (
 						<div key={index}>
 							<h3 className="font-semibold text-lg">{key}</h3>
