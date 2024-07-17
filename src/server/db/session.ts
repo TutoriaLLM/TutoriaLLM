@@ -33,6 +33,13 @@ function intitialData(code: string, language: string): SessionValue {
 			tutorialId: null,
 			progress: 10,
 		},
+		stats: {
+			totalConnectingTime: 0,
+			currentNumOfBlocks: 0,
+			totalInvokedLLM: 0,
+			totalUserMessages: 0,
+			totalCodeExecutions: 0,
+		},
 	};
 }
 

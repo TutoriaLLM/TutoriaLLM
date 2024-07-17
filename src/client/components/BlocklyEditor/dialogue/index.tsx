@@ -7,6 +7,7 @@ import TextBubble from "./parts/textbubble";
 import TutorialPicker from "./tutorialPicker";
 import { useTranslation } from "react-i18next";
 import QuickReply from "./parts/quickreply";
+import { updateStats } from "../../../../utils/statsUpdater";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
@@ -34,6 +35,12 @@ export default function DialogueView() {
 							},
 						],
 						isReplying: true,
+						stats: updateStats(
+							{
+								totalUserMessages: prev.stats.totalUserMessages + 1,
+							},
+							prev,
+						).stats,
 					};
 				}
 				return prev;

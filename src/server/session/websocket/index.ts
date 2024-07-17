@@ -12,6 +12,7 @@ import {
 	StopCodeTest,
 } from "./vm/index.js";
 import codeGen from "./codeGen.js";
+import { updateStats } from "../../../utils/statsUpdater.js";
 
 const websocketserver = express();
 const wsServer = expressWs(websocketserver).app;
@@ -73,6 +74,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		let pongReceived = true;
 
 		// pingを送信する
+		const pingTimeMs = 5000;
 		const pingInterval = setInterval(() => {
 			if (pongReceived) {
 				ws.send(JSON.stringify({ request: "ping" } as WSMessage));
@@ -81,7 +83,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				// pongが受信されなかった場合、接続を切断する
 				ws.close();
 			}
-		}, 5000);
+		}, pingTimeMs);
 
 		ws.on("message", async (message) => {
 			const messageJson: SessionValue | WSMessage = JSON.parse(
@@ -92,6 +94,20 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 			// pongを受信したらpongReceivedをtrueに設定する
 			if ((messageJson as WSMessage).request === "pong") {
 				pongReceived = true;
+				//statsの接続時間を更新
+				const currentData = await sessionDB.get(code);
+				const currentDataJson: SessionValue = JSON.parse(currentData);
+				const currentDataJsonWithupdatedStats = updateStats(
+					{
+						totalConnectingTime:
+							currentDataJson.stats.totalConnectingTime + pingTimeMs,
+					},
+					currentDataJson,
+				);
+				await sessionDB.put(
+					code,
+					JSON.stringify(currentDataJsonWithupdatedStats),
+				);
 				return;
 			}
 
@@ -123,6 +139,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 						tutorial,
 						llmContext,
 						dialogue,
+						stats,
 					} = messageJson;
 
 					// 非同期関数を宣言する
@@ -260,6 +277,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									...tutorial,
 									progress: currentDataJson.tutorial.progress, // 現在の進捗を一旦使う
 								},
+								stats: stats,
 							};
 
 							await updateDatabase(dataToPut);
@@ -287,6 +305,12 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									...tutorial,
 									progress: updatedData.progress,
 								},
+								stats: updateStats(
+									{
+										totalInvokedLLM: latestDataJson.stats.totalInvokedLLM + 1,
+									},
+									latestDataJson,
+								).stats,
 							};
 
 							await updateDatabase(finalDataToPut);
@@ -296,7 +320,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 								sessioncode: sessioncode,
 								uuid: uuid,
 								workspace: workspace, // 既存のワークスペース値を保持
-								dialogue: messageJson.dialogue, // ユーザーからの更新をそのまま使う
+								dialogue: dialogue, // ユーザーからの更新をそのまま使う
 								isReplying: false, // LLMの更新が不要なためfalseに設定
 								createdAt: currentDataJson.createdAt,
 								updatedAt: new Date(),
@@ -308,6 +332,8 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									...tutorial,
 									progress: messageJson.tutorial.progress, // ユーザーからの更新をそのまま使う
 								},
+								//最後のメッセージがユーザーの場合は、ユーザーメッセージの数を更新する
+								stats: messageJson.stats,
 							};
 
 							await updateDatabase(dataToPut);
@@ -380,8 +406,17 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					console.log(result);
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
+
 					sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
-					await updateDatabase(currentDataJson);
+					//statsの更新
+					const currentDataJsonWithupdatedStats = updateStats(
+						{
+							totalCodeExecutions:
+								currentDataJson.stats.totalCodeExecutions + 1,
+						},
+						currentDataJson,
+					);
+					await updateDatabase(currentDataJsonWithupdatedStats);
 				}
 			} catch (error) {
 				console.error("Error handling message:", error);

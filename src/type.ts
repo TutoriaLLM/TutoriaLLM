@@ -94,6 +94,14 @@ export type TutorialStats = {
 	progress: number;
 };
 
+//数値的な統計情報を保存するための型。基本的に全て0からカウントできるnumber型の値を保存する
+export type Stats = {
+	totalConnectingTime: number;
+	currentNumOfBlocks: number;
+	totalInvokedLLM: number;
+	totalUserMessages: number;
+	totalCodeExecutions: number;
+};
 export type SessionValue = {
 	sessioncode: string;
 	uuid: string;
@@ -110,6 +118,8 @@ export type SessionValue = {
 	llmContext: string;
 	//チュートリアルの有無や設定を保存する
 	tutorial: TutorialStats;
+	//数値的な統計情報を保存する
+	stats: Stats;
 };
 
 //ハイライトするブロック

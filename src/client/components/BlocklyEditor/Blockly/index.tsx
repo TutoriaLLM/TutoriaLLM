@@ -14,6 +14,7 @@ import {
 	prevSessionState,
 } from "../../../state";
 import { BlockHighlight } from "./blockHighlight";
+import { updateStats } from "../../../../utils/statsUpdater";
 
 export default function Editor() {
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
@@ -137,6 +138,12 @@ export default function Editor() {
 							return {
 								...prev,
 								workspace: newWorkspace,
+								stats: updateStats(
+									{
+										currentNumOfBlocks: workspace.getAllBlocks().length,
+									},
+									prev,
+								).stats,
 							};
 						}
 						return prev;
