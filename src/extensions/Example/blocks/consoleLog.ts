@@ -1,17 +1,9 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
-import image from "../media/terminal.png";
-
 export const block = {
 	type: "ext_example_console_log",
-	message0: "%1 %{BKY_EXAMPLE_CONSOLE_LOG} %2",
+	message0: "%{BKY_EXAMPLE_CONSOLE_LOG} %1",
 	args0: [
-		{
-			type: "field_image",
-			src: image,
-			width: 40,
-			height: 40,
-		},
 		{
 			type: "field_input",
 			name: "TEXT",

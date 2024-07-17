@@ -6,12 +6,6 @@ export const block = {
 	message0: "%{BKY_MINECRAFT_SENDCOMMANDREQUEST}",
 	args0: [
 		{
-			type: "field_image",
-			src: image,
-			width: 40,
-			height: 40,
-		},
-		{
 			type: "field_input",
 			name: "NAME",
 			text: "/say hello",
@@ -42,9 +36,9 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SENDCOMMANDREQUEST: "%1 コマンドを実行する %2",
+		MINECRAFT_SENDCOMMANDREQUEST: "コマンドを実行する %1",
 	},
 	en: {
-		MINECRAFT_SENDCOMMANDREQUEST: "%1 Execute command %2",
+		MINECRAFT_SENDCOMMANDREQUEST: "Execute command %1",
 	},
 };

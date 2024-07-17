@@ -7,12 +7,6 @@ export const block = {
 	message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
 	args0: [
 		{
-			type: "field_image",
-			src: image,
-			width: 40,
-			height: 40,
-		},
-		{
 			type: "field_input",
 			name: "FIELD",
 			text: "hello",
@@ -76,10 +70,9 @@ export function code() {
 
 export const locale = {
 	en: {
-		MINECRAFT_ONPLAYERCHATCOMMAND: "%1 on player chat  %2 %3 %4",
+		MINECRAFT_ONPLAYERCHATCOMMAND: "on player chat  %1 %2 %3",
 	},
 	ja: {
-		MINECRAFT_ONPLAYERCHATCOMMAND:
-			"%1 プレイヤーが %2 とチャットしたとき %3 %4",
+		MINECRAFT_ONPLAYERCHATCOMMAND: "プレイヤーが %1 とチャットしたとき %2 %3",
 	},
 };
