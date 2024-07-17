@@ -25,7 +25,7 @@ export default function AdminPage() {
 
 	useEffect(() => {
 		async function fetchAuthInfo() {
-			const response = await fetch("api/auth/session");
+			const response = await fetch("/api/auth/session");
 			if (response.status === 200) {
 				const authInfo = await response.json();
 				console.log("authInfo", authInfo.session);
