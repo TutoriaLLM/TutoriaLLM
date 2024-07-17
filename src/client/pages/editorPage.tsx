@@ -271,7 +271,7 @@ export default function EditorPage() {
 					>
 						<Editor />
 					</Panel>
-					<PanelResizeHandle className="md:h-full md:w-3 h-3 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
+					<PanelResizeHandle className="md:h-full md:w-3 h-5 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
 						<span className="rounded-full p-1 bg-gray-50" />
 						<span className="rounded-full p-1 bg-gray-50" />
 						<span className="rounded-full p-1 bg-gray-50" />
