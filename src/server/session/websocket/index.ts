@@ -11,6 +11,7 @@ import {
 	SendIsWorkspaceRunning,
 	StopCodeTest,
 } from "./vm/index.js";
+import codeGen from "./codeGen.js";
 
 const websocketserver = express();
 const wsServer = expressWs(websocketserver).app;
@@ -323,7 +324,12 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				}
 
 				if ((messageJson as WSMessage).request === "open") {
-					if ((messageJson as WSMessage).value === (undefined || null || "")) {
+					//ワークスペースを取得
+					const seializedWorkspace = currentDataJson.workspace;
+
+					const generatedCode = await codeGen(seializedWorkspace);
+
+					if (generatedCode === (undefined || null || "")) {
 						isRunning = false;
 						currentDataJson.isVMRunning = isRunning;
 						await updateDatabase(currentDataJson);
@@ -344,7 +350,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					const result = await ExecCodeTest(
 						code,
 						currentDataJson.uuid,
-						(messageJson as WSMessage).value as string,
+						generatedCode,
 						`/vm/${code}`,
 						updateDatabase,
 					);

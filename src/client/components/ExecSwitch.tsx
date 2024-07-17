@@ -59,16 +59,7 @@ export function ExecSwitch() {
 		if (!isCodeRunning) {
 			//スイッチがオフのとき
 			console.log("start");
-			//スクリプトの実行を開始する処理を書く
-			//BlocklyワークスペースをJavaScriptコードに変換する処理を書く
-			const workspace = Blockly.getMainWorkspace();
-			Blockly.serialization.workspaces.load(
-				currentSession.workspace,
-				workspace,
-			);
-			const generatedCode = javascriptGenerator.workspaceToCode(workspace);
-			console.log("code has generated!", generatedCode.toString());
-			wsInstance.send(JSON.stringify(WSreq("open", generatedCode)));
+			wsInstance.send(JSON.stringify(WSreq("open")));
 		}
 		setIsSwitchDisabled(true);
 	}

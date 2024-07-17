@@ -108,7 +108,7 @@ export async function ExecCodeTest(
 		const sessionValue: SessionValue = JSON.parse(session);
 		for (const log of logs) {
 			sessionValue.dialogue.push({
-				id: sessionValue.dialogue.length,
+				id: sessionValue.dialogue.length + 1,
 				contentType: "log",
 				isuser: false,
 				content: log,
