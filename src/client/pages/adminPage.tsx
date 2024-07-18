@@ -52,7 +52,7 @@ export default function AdminPage() {
 					<Navbar />
 					<div className="h-full flex w-full">
 						<SideBar />
-						<div className="w-full h-full overflow-scroll">
+						<div className="w-full h-full">
 							<Routes>
 								<Route path="/" element={<Dashboard />} />
 								<Route path="/users" element={<Users />} />

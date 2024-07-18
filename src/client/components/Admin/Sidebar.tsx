@@ -38,11 +38,11 @@ export default function SideBar() {
 	);
 
 	return (
-		<div className="h-full flex">
+		<div className=" flex">
 			<div
 				className={`bg-gray-200 text-gray-800 border-r-2 border-gray-300 h-full w-full p-2 transition-transform transform ${
 					isOpen ? "translate-x-0" : "-translate-x-full"
-				} md:translate-x-0 fixed md:relative z-50`}
+				} md:translate-x-0 fixed md:static z-50`}
 			>
 				<div className="flex flex-col gap-2 p-2 font-semibold">
 					<SidebarItem
