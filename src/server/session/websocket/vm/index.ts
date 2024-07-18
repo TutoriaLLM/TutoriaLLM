@@ -26,11 +26,11 @@ const loadExtensions = async (context: Context) => {
 	const extensionFolders = fs.readdirSync(extensionsDir);
 
 	for (const extensionFolder of extensionFolders) {
-		const vmDir = path.join(extensionsDir, extensionFolder, "context");
-		if (fs.existsSync(vmDir) && fs.lstatSync(vmDir).isDirectory()) {
-			const files = fs.readdirSync(vmDir);
+		const ctxDir = path.join(extensionsDir, extensionFolder, "context");
+		if (fs.existsSync(ctxDir) && fs.lstatSync(ctxDir).isDirectory()) {
+			const files = fs.readdirSync(ctxDir);
 			for (const file of files) {
-				const filePath = path.join(vmDir, file);
+				const filePath = path.join(ctxDir, file);
 				// 修正箇所
 				const fileURL = pathToFileURL(filePath).href;
 				const mod = await import(fileURL);
@@ -82,7 +82,7 @@ class LogBuffer {
 }
 
 //コンテキストでサーバーを作成するのに使用
-import express from "express";
+import express, { type Router } from "express";
 import expressWs from "express-ws";
 
 export const vmExpress = express.Router();
@@ -141,9 +141,47 @@ export async function ExecCodeTest(
 	// 拡張機能をコンテキストに追加
 	await loadExtensions(context);
 
+	//拡張機能スクリプトをロードする。script.tsファイルのデフォルトエクスポートが拡張機能として使用される
+	async function loadScript(): Promise<string | null> {
+		const extensionsDir = path.resolve(__dirname, "../../../../extensions");
+
+		function findScriptFiles(dir: string): string[] {
+			let results: string[] = [];
+			const list = fs.readdirSync(dir);
+
+			for (const file of list) {
+				const filePath = path.join(dir, file);
+				const stat = fs.lstatSync(filePath);
+				if (stat?.isDirectory()) {
+					results = results.concat(findScriptFiles(filePath));
+				} else if (file === "script.ts" || file === "script.js") {
+					results.push(filePath);
+				}
+			}
+			return results;
+		}
+
+		const scriptFiles = findScriptFiles(extensionsDir);
+		let ExtscriptContent = "";
+		for (const scriptFile of scriptFiles) {
+			const scriptContent = fs.readFileSync(scriptFile, "utf-8");
+			// Optionally, add a check here to ensure the content contains a default function export
+			console.log("loading extension script", scriptFile);
+			ExtscriptContent += scriptContent;
+		}
+		return ExtscriptContent;
+	}
+
 	let script: Script | null = null;
+	const extScript = await loadScript();
+	console.log("extScript", extScript);
 	try {
-		script = new vm.Script(userScript);
+		script = new vm.Script(
+			`
+				${extScript}
+				${userScript}
+			`,
+		);
 		script.runInContext(context);
 	} catch (e) {
 		console.log("error on VM execution");
@@ -176,6 +214,17 @@ export async function StopCodeTest(
 		}
 		console.log("updating session result");
 		delete vmInstances[uuid]; // VMインスタンスを削除
+
+		//ユーザーのコードが含まれたvmExpressのパスを削除
+		console.log((vmExpress as Router).stack);
+
+		const stack = (vmExpress as Router).stack;
+		for (let i = stack.length - 1; i >= 0; i--) {
+			const layer = stack[i];
+			if (layer.route?.path?.toString().includes(code)) {
+				stack.splice(i, 1);
+			}
+		}
 		return {
 			message: "Script execution stopped successfully.",
 			error: "",

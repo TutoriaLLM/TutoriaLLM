@@ -1,7 +1,5 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
-import image from "../../media/minecraft.png";
-
 export const block = {
 	type: "ext_minecraft_onplayerchatcommand",
 	message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
@@ -34,33 +32,17 @@ export function code() {
 		const run_input = generator.statementToCode(block, "INPUT");
 
 		const code = /*javascript*/ `
-    console.log("Connect your  Minecraft at: api/vm/"+ code);
-
-    vmExpress.get("/"+ code, async (req, res) => {
-      res.send("Use Minecraft to connect to this server at: vm/"+ code);
-    });
-
-    vmExpress.ws("/"+ code, async (ws, req) => {
-
-      console.log("Connection established. Sending subscribe message for Minecraft events: PlayerMessage.");
-      ws.send(JSON.stringify(subscribeMsg("PlayerMessage")));
-      ws.send(JSON.stringify(commandMsg("/say Hello, Minecraft!")));
-
-      ws.on("message", async (message) => {
-      const data = JSON.parse(message);
-
-      if (data && data.body && data.header.eventName === "PlayerMessage") {
-        const messageText = data.body.message;
-        if (messageText === "${field_input}") {
-        ${run_input}
-        }
-      }
-      });
-
-      ws.on("close", () => {
-      console.log("Connection closed.");
-      });
-    });
+		//Scriptで定義済みの関数を使用する
+		// イベントリスナーを設定
+		onMessageEvent = async (message) => {
+			console.log("Message received:", message);
+			const data = JSON.parse(message);
+			if (data && data.body && data.header.eventName === "PlayerMessage") {
+				const messageText = data.body.message;
+				if (messageText === "${field_input}") {
+				${run_input}
+			}}
+		};
     `;
 
 		// Return code.
