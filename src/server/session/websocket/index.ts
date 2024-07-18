@@ -353,7 +353,10 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					//ワークスペースを取得
 					const seializedWorkspace = currentDataJson.workspace;
 
-					const generatedCode = await codeGen(seializedWorkspace);
+					const generatedCode = await codeGen(
+						seializedWorkspace,
+						currentDataJson.language,
+					);
 
 					if (generatedCode === (undefined || null || "")) {
 						isRunning = false;

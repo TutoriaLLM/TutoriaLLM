@@ -5,14 +5,17 @@ import path from "node:path";
 
 /// <reference types="vite/client" />
 
-export default async function codeGen(serializedWorkspace: {
-	[key: string]: any;
-}) {
+export default async function codeGen(
+	serializedWorkspace: {
+		[key: string]: any;
+	},
+	language: string,
+) {
 	// ワークスペースの定義
 	const workspace = new Blockly.Workspace();
 
 	// ブロックの登録
-	await registerBlocks();
+	await registerBlocks(language);
 
 	// ワークスペースの読み込み
 	Blockly.serialization.workspaces.load(serializedWorkspace, workspace);
@@ -24,7 +27,7 @@ export default async function codeGen(serializedWorkspace: {
 	return generatedCode;
 }
 
-async function registerBlocks() {
+async function registerBlocks(language: string) {
 	const rootDir = process.cwd();
 	const blockFiles = await fastGlob(
 		path.join(rootDir, "src/extensions/*/blocks/**/*.*"),
@@ -37,7 +40,7 @@ async function registerBlocks() {
 				const mod = await import(filePath);
 
 				if (mod.block && mod.code) {
-					const { block, code } = mod;
+					const { block, code, locale } = mod;
 					console.log("registerBlocks", block);
 
 					Blockly.Blocks[block.type] = {
@@ -47,6 +50,17 @@ async function registerBlocks() {
 					};
 
 					code();
+
+					if (locale?.[language]) {
+						// localeが記述されている場合は登録する(json形式)
+						console.log("register locale", locale);
+						console.log("register language", language);
+						for (const key in locale[language]) {
+							if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
+								Blockly.Msg[key] = locale[language][key];
+							}
+						}
+					}
 				} else {
 					console.warn(`Module ${filePath} does not export 'block' or 'code'`);
 				}
