@@ -45,7 +45,7 @@ async function simplifyDialogue(session: SessionValue) {
 }
 
 const openai = new OpenAI({
-	apiKey: process.env.VITE_OPENAI_API_KEY,
+	apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function invokeLLM(session: SessionValue) {
