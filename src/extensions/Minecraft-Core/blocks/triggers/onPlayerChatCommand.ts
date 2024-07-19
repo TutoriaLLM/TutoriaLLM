@@ -27,25 +27,36 @@ export function code() {
 		block,
 		generator,
 	) => {
-		// Collect argument strings.
 		const field_input = block.getFieldValue("FIELD");
 		const run_input = generator.statementToCode(block, "INPUT");
 
 		const code = /*javascript*/ `
-		//Scriptで定義済みの関数を使用する
-		// イベントリスナーを設定
-		onMessageEvent = async (message) => {
-			console.log("Message received:", message);
-			const data = JSON.parse(message);
-			if (data && data.body && data.header.eventName === "PlayerMessage") {
-				const messageText = data.body.message;
-				if (messageText === "${field_input}") {
-				${run_input}
-			}}
-		};
-    `;
 
-		// Return code.
+        onConnectEvents.push(
+			async () => {
+				if (wss) {
+					wss.send(JSON.stringify(subscribeMsg("PlayerMessage")));
+				} else {
+					console.error("WebSocket is not connected.");
+				}
+			}
+		);
+		
+        onMessageEvents.push(
+			async (message) => {
+				const data = JSON.parse(message);
+				if (data && data.body && data.header.eventName === "PlayerMessage") {
+					console.log("PlayerMessage", data.body.message);
+					const messageText = data.body.message;
+					if (messageText === "${field_input}") {
+						console.log("message matched");
+						${run_input}
+					}
+				}
+			}
+		);
+        `;
+
 		return code;
 	};
 }
