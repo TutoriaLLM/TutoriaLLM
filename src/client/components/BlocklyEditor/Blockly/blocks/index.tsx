@@ -46,6 +46,17 @@ function registerBlocks(language: string) {
 							Blockly.Msg[key] = locale[language][key];
 						}
 					}
+				} else {
+					// localeが記述されていない場合は英語を登録する
+					for (const key in locale?.en) {
+						if (Object.prototype.hasOwnProperty.call(locale.en, key)) {
+							Blockly.Msg[key] = locale.en[key];
+						}
+						//英語も登録されていない場合はエラーを出力
+						if (!locale?.en) {
+							console.error("No English locale found for", module);
+						}
+					}
 				}
 			}
 		} else {
