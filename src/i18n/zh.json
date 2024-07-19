@@ -20,7 +20,9 @@
 		"leave": "离开",
 		"reconnecting": "已断开连接。\n尝试重新连接。",
 		"home": "家",
-		"signout": "登出"
+		"signout": "登出",
+		"joinCode": "加入代码",
+		"noTutorial": "没有选择教程"
 	},
 	"session": {
 		"about": "关于这个应用程序",
@@ -40,5 +42,28 @@
 		"toggle": "Sidebar",
 		"tutorials": "教程",
 		"users": "用户"
+	},
+	"quickReply": {
+		"done": "我受够了",
+		"explainThis": "解释一下这个",
+		"iDontKnow": "我不知道",
+		"whatToDo": "我需要做什么？"
+	},
+	"textbubble": {
+		"ai": "人工智能",
+		"ask": "随便问...",
+		"block": "堵塞",
+		"findBlock": "寻找区块",
+		"findBlockFromMenu": "从菜单中查找",
+		"log": "日志",
+		"replying": "正在回复...",
+		"server": "服务器",
+		"you": "你"
+	},
+	"tutorial": {
+		"description": "选择您想学习的内容",
+		"start": "开始教程",
+		"startTutorial": "教程已选",
+		"title": "选择教程"
 	}
 }

@@ -20,7 +20,9 @@
 		"leave": "pergi",
 		"reconnecting": "terputus. \ncuba menyambung semula.",
 		"home": "Rumah",
-		"signout": "Log keluar"
+		"signout": "Log keluar",
+		"joinCode": "Sertai Kod",
+		"noTutorial": "Tiada tutorial telah dipilih"
 	},
 	"session": {
 		"about": "Mengenai aplikasi ini",
@@ -40,5 +42,28 @@
 		"toggle": "Navigasi",
 		"tutorials": "Tutorial",
 		"users": "Pengguna"
+	},
+	"quickReply": {
+		"done": "Saya sudah selesai",
+		"explainThis": "Jelaskan ini",
+		"iDontKnow": "saya tak tahu",
+		"whatToDo": "Apa yang saya perlukan?"
+	},
+	"textbubble": {
+		"ai": "AI",
+		"ask": "Tanya apa sahaja...",
+		"block": "Sekat",
+		"findBlock": "Cari blok",
+		"findBlockFromMenu": "Cari dari menu",
+		"log": "Log",
+		"replying": "Membalas...",
+		"server": "Pelayan",
+		"you": "awak"
+	},
+	"tutorial": {
+		"description": "Pilih apa yang anda ingin pelajari",
+		"start": "Mulakan Tutorial",
+		"startTutorial": "Tutorial telah dipilih",
+		"title": "Pilih Tutorial"
 	}
 }
