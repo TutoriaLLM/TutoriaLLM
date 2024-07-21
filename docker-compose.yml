@@ -11,8 +11,15 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    environment:
-      - NODE_ENV=development
     env_file:
       - .env
     command: npm run dev
+  db:
+    container_name: code-tutorial-db-dev
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: code_tutorial_db

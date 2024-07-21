@@ -7,9 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
+      - "80:80"
     env_file:
       - .env
     command: npm run start
