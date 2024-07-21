@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: code-tutorial-app
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    command: npm run start
