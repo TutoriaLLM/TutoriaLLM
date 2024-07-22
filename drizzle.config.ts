@@ -13,6 +13,6 @@ export default defineConfig({
 		host: process.env.DATABASE_HOST || "localhost",
 		port: 5432,
 		database: process.env.DATABASE_NAME || "code_tutorial_db",
-		ssl: process.env.NODE_ENV === "production",
+		ssl: true,
 	},
 });
