@@ -4,8 +4,8 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-ENV PORT=80 \
+ENV PORT=${PORT} \
     #シークレット
     NODE_ENV=production
-EXPOSE 80
+EXPOSE ${PORT}
 CMD ["npm", "start"]
