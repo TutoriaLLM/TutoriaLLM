@@ -6,9 +6,7 @@
 	"scripts": {
 		"dev": "nodemon -w src/server -x tsx src/server/main.ts",
 		"start": "NODE_ENV=production tsx src/server/main.ts",
-		"build": "vite build && npm run reset-user && npm run reset-tutorials",
-		"reset-user": "tsx src/server/db/users.ts --reset-credentials",
-		"reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials",
+		"build": "vite build",
 		"check": "biome check --apply --max-diagnostics=50 .",
 		"drizzle:generate": "drizzle-kit generate --config=drizzle.config.ts",
 		"drizzle:push": "drizzle-kit push --config=drizzle.config.ts",
