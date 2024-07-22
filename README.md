@@ -41,17 +41,42 @@ docker build --nocache
 docker compose up
 ```
 
-### アプリを稼働させる（実稼働）
+### サーバーでアプリを稼働させる（実稼働）
 
-以下のコマンドで実稼働アプリをビルドし、起動させます。
+自前のサーバーで稼働させる場合は以下のコマンドで実稼働アプリをビルドし、起動させます。
 > 7月時点でこの機能はまだ開発中です
 
 ```
 docker compose -f docker-compose.prod.yml up
 ```
 
-認証情報は以下の方法でリセットできます。
+### Docker Hubから取得する
+[Docker Hub](https://hub.docker.com/r/soumame/code-tutorial-app)からイメージを取得することも可能です。PostgreSQL, Redisと接続する必要があります。
+#### Postgresql
+```
+  db:
+    container_name: code-tutorial-db-prod
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: code_tutorial_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: UTC
+```
 
+#### Redis
+```
+  redis:
+    container_name: code-tutorial-redis-prod
+    image: redis/redis-stack-server:latest
+    ports:
+      - "6379:6379"
+```
+
+認証情報は以下の方法でリセットできます。
 ```
 npm run reset-user
 ```
