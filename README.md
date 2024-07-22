@@ -30,8 +30,12 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 
 > 現在Dockerへの移行を進めています。
 
-サーバーはDockerを利用してホストすることができます。以下のコマンドで開発サーバーを起動します：
+VSCodeなどを利用してコードを編集することができます。
+```
+npm i
+```
 
+サーバーはDockerを利用してホストすることができます。以下のコマンドで開発サーバーを起動します：
 ```
 docker build --nocache
 docker compose up
