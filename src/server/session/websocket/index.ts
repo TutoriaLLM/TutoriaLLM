@@ -63,7 +63,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		// クライアントIDをセッションに追加
 		if (!data.clients.includes(clientId)) {
 			data.clients.push(clientId);
-			await sessionDB.put(code, JSON.stringify(data));
+			await sessionDB.set(code, JSON.stringify(data));
 		}
 
 		// Change language based on DB settings
@@ -96,6 +96,9 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				pongReceived = true;
 				//statsの接続時間を更新
 				const currentData = await sessionDB.get(code);
+				if (!currentData) {
+					return;
+				}
 				const currentDataJson: SessionValue = JSON.parse(currentData);
 				const currentDataJsonWithupdatedStats = updateStats(
 					{
@@ -104,7 +107,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					},
 					currentDataJson,
 				);
-				await sessionDB.put(
+				await sessionDB.set(
 					code,
 					JSON.stringify(currentDataJsonWithupdatedStats),
 				);
@@ -113,11 +116,17 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 
 			try {
 				const currentData = await sessionDB.get(code);
+				if (!currentData) {
+					ws.send("Session not found");
+					ws.close();
+					return;
+				}
 				const currentDataJson: SessionValue = JSON.parse(currentData);
+
 				let isRunning = currentDataJson.isVMRunning;
 
 				const updateDatabase = async (newData: SessionValue) => {
-					await sessionDB.put(code, JSON.stringify(newData));
+					await sessionDB.set(code, JSON.stringify(newData));
 					// 全クライアントに更新を通知
 					for (const id of newData.clients) {
 						if (clients.has(id)) {
@@ -288,6 +297,9 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 							// LLMの更新結果でWorkspaceを再度更新する
 							//最新のデータを取得
 							const latestData = await sessionDB.get(code);
+							if (!latestData) {
+								return;
+							}
 							const latestDataJson: SessionValue = JSON.parse(latestData);
 							const finalDataToPut: SessionValue = {
 								sessioncode: latestDataJson.sessioncode,
@@ -432,6 +444,9 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 			console.log("disconnected client");
 			try {
 				const currentData = await sessionDB.get(code);
+				if (!currentData) {
+					return;
+				}
 				const currentDataJson: SessionValue = JSON.parse(currentData);
 				currentDataJson.clients = currentDataJson.clients.filter(
 					(id) => id !== clientId,
@@ -451,7 +466,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					console.log(`${result.message} VM stopped. no clients connected.`);
 					currentDataJson.isVMRunning = false;
 				}
-				await sessionDB.put(code, JSON.stringify(currentDataJson));
+				await sessionDB.set(code, JSON.stringify(currentDataJson));
 			} catch (error) {
 				console.error("Error closing connection:", error);
 			}

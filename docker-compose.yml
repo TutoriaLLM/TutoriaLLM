@@ -1,6 +1,12 @@
 version: '3.8'
 
 services:
+  redis:
+  #実稼働ではredis/redis-stack-serverを使用する
+    container_name: code-tutorial-redis-dev
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
   db:
     container_name: code-tutorial-db-dev
     image: postgres:14

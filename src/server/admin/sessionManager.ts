@@ -9,10 +9,10 @@ sessionManager.get("/list", async (req, res) => {
 	try {
 		// keys() は async iterator なので、まず配列に変換します
 		const keys = [];
-		for await (const key of sessionDB.keys()) {
+		for await (const key of await sessionDB.keys("*")) {
 			keys.push(key);
 		}
-		const allSessions = await sessionDB.getMany(keys);
+		const allSessions = await sessionDB.mGet(keys);
 		res.json(allSessions);
 	} catch (err) {
 		res.status(500).json({ error: (err as Error).message });

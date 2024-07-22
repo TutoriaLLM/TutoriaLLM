@@ -6,7 +6,21 @@ import joincodeGen from "../../utils/joincodeGen.js";
 const DBrouter = express.Router();
 
 //複数セッションを管理するのに使用するコードとデータを保存するDB
-export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
+//export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
+//Redisに移行
+import redis from "redis";
+export const sessionDB = redis.createClient({
+	username: process.env.REDIS_USERNAME,
+	password: process.env.REDIS_PASSWORD,
+	socket: {
+		host: process.env.REDIS_HOST,
+		port: process.env.REDIS_PORT as unknown as number,
+	},
+});
+await sessionDB.connect();
+sessionDB.on("error", (err) => {
+	console.log(`Error ${err}`);
+});
 
 function intitialData(code: string, language: string): SessionValue {
 	return {
@@ -52,14 +66,19 @@ DBrouter.get("/new", async (req, res) => {
 		language = "en";
 	}
 	//生成したコードが重複していないか確認
-	const value = await sessionDB.get(code).catch(() => null);
+	//const value = await sessionDB.get(code).catch(() => null);
+	const value = await sessionDB.get(code);
 	if (value === code) {
 		res
 			.status(500)
 			.send("Failed to create session by api: code already exists");
 		return;
 	}
-	await sessionDB.put(
+	// await sessionDB.put(
+	// 	code,
+	// 	JSON.stringify(intitialData(code, language.toString())),
+	// );
+	await sessionDB.set(
 		code,
 		JSON.stringify(intitialData(code, language.toString())),
 	);
@@ -70,6 +89,7 @@ DBrouter.get("/new", async (req, res) => {
 //get value from key
 DBrouter.get("/:key", async (req, res) => {
 	try {
+		//const value = await sessionDB.get(req.params.key);
 		const value = await sessionDB.get(req.params.key);
 		res.send(value);
 	} catch (e) {
@@ -81,7 +101,8 @@ DBrouter.get("/:key", async (req, res) => {
 DBrouter.put("/:key", async (req, res) => {
 	const updateData: SessionValue = req.body;
 	try {
-		await sessionDB.put(req.params.key, JSON.stringify(updateData));
+		//await sessionDB.put(req.params.key, JSON.stringify(updateData));
+		await sessionDB.set(req.params.key, JSON.stringify(updateData));
 		res.send("Session updated by api");
 	} catch (e) {
 		res.status(404).send(null);
@@ -91,7 +112,8 @@ DBrouter.put("/:key", async (req, res) => {
 //delete value from key
 DBrouter.delete("/:key", async (req, res) => {
 	try {
-		await sessionDB.get(req.params.key);
+		//await sessionDB.get(req.params.key);
+		await sessionDB.del(req.params.key);
 		res.send("Session deleted");
 	} catch (e) {
 		res.status(404).send(null);
