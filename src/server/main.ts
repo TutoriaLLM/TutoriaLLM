@@ -84,3 +84,6 @@ const monitorMemoryUsage = (interval: number) => {
 	}, interval);
 };
 monitorMemoryUsage(5000);
+process.on("uncaughtException", (err) => {
+	console.log(err);
+});

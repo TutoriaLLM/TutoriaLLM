@@ -1,15 +1,22 @@
-import { BetterSqlite3Adapter } from "@lucia-auth/adapter-sqlite";
+import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+
 import express from "express";
 import { Lucia } from "lucia";
-import type { User } from "../../type.js";
 import { comparePasswordToHash } from "../../utils/password.js";
-import { database } from "../db/index.js";
+import pg from "pg";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { authSessions, type User, users } from "../db/schema.js";
+import { db } from "../db/index.js";
+import { eq } from "drizzle-orm";
 
+declare module "lucia" {
+	interface Register {
+		Lucia: typeof lucia;
+		UserId: number;
+	}
+}
 // 認証機能をセットアップ
-const adapter = new BetterSqlite3Adapter(database, {
-	user: "users", // Correct table name
-	session: "authSessions", // Correct table name
-});
+const adapter = new DrizzlePostgreSQLAdapter(db, authSessions, users);
 
 export const lucia = new Lucia(adapter, {
 	sessionCookie: {
@@ -48,27 +55,42 @@ auth.post("/login", async (req, res) => {
 	console.log("login request", req.body);
 	const { username, password } = req.body;
 
-	const existingUser = database
-		.prepare("SELECT * FROM users WHERE username = ?") // Correct table name
-		.get(username) as User | undefined;
-	if (!existingUser) {
-		return res.status(401).json({ message: "ユーザーが見つかりません" });
-	}
+	try {
+		// const existingUserQuery = await pool.query(
+		// 	"SELECT * FROM users WHERE username = $1",
+		// 	[username],
+		// );
+		const existingUserQuery = await db
+			.select()
+			.from(users)
+			.where(eq(users.username, username));
+		const existingUser = existingUserQuery[0] as User | undefined;
 
-	const validPassword = await comparePasswordToHash(
-		password,
-		existingUser.password,
-	);
-	if (!validPassword) {
-		return res.status(401).json({ message: "パスワードが違います" });
-	}
+		if (!existingUser) {
+			return res.status(401).json({ message: "ユーザーが見つかりません" });
+		}
 
-	const session = await lucia.createSession(existingUser.id.toString(), {});
-	console.log("session created", session);
-	res
-		.setHeader("Set-Cookie", lucia.createSessionCookie(session.id).serialize())
-		.setHeader("Location", "/")
-		.redirect("/");
+		const validPassword = await comparePasswordToHash(
+			password,
+			existingUser.password,
+		);
+		if (!validPassword) {
+			return res.status(401).json({ message: "パスワードが違います" });
+		}
+
+		const session = await lucia.createSession(existingUser.id, {});
+		console.log("session created", session);
+		res
+			.setHeader(
+				"Set-Cookie",
+				lucia.createSessionCookie(session.id).serialize(),
+			)
+			.setHeader("Location", "/")
+			.redirect("/");
+	} catch (error) {
+		console.error("login error", error);
+		return res.status(500).json({ message: "内部サーバーエラー" });
+	}
 });
 
 auth.post("/logout", async (req, res) => {

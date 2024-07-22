@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { User } from "../../../../type";
+import type { User } from "../../../../server/db/schema";
 
 export default function Users() {
 	const [users, setUsers] = useState<User[]>([]);

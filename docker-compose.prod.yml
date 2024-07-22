@@ -1,13 +1,29 @@
 version: '3.8'
 
 services:
-  app:
-    container_name: code-tutorial-app
+  db:
+    container_name: code-tutorial-db-prod
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: code_tutorial_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: UTC
+  app: 
+    container_name: code-tutorial-app-prod
     build:
       context: .
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
+    volumes:
+      - .:/app
+      - /app/node_modules
     env_file:
       - .env
-    command: npm run start
+    command: npm run dev
+    depends_on:
+      - db

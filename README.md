@@ -28,33 +28,22 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 
 ### 開発サーバーの起動
 
-サーバーはフロントエンドもバックエンドも単一の node.js でホストされています。また、以下の主要な技術を使用しています。（詳しくは package.json をご覧ください）
+> 現在Dockerへの移行を進めています。
 
-- [Vite-Express](https://github.com/szymmis/vite-express)フロントエンドとバックエンドに使用。
-- [Express.js](https://expressjs.com/)フロントエンドとバックエンドのルーティング。
-  - [express-ws](https://github.com/HenningM/express-ws)セッションごとの websocket 通信に使用。
-- [Vite](https://vitejs.dev/)開発サーバーとビルドに使用。
-- [Tailwind CSS](https://tailwindcss.com/)スタイリングに使用。
-- [Level](https://github.com/Level/level)ユーザーのセッションデータの保存に使用。
-- [better-sqlite-3](https://github.com/WiseLibs/better-sqlite3)ユーザーの認証に使用。チュートリアルの保存にも使用する予定。
-- [lucia-auth](https://lucia-auth.com/)ユーザーの認証に使用。
-- [Jotai](https://jotai.org/)フロントエンドの状態管理。
-- [react-i18next](https://react.i18next.com/)多言語対応に使用。バックエンドは通常の i18n を使用。
-
-リポジトリを複製し、以下のコマンドを使用します。
+サーバーはDockerを利用してホストすることができます。以下のコマンドで開発サーバーを起動します：
 
 ```
-npm i
-npm run dev
+docker build --nocache
+docker compose up
 ```
 
-### アプリを稼働させる
+### アプリを稼働させる（実稼働）
 
-以下のコマンドでアプリをビルドし、起動させます。
+以下のコマンドで実稼働アプリをビルドし、起動させます。
+> 7月時点でこの機能はまだ開発中です
 
 ```
-npm run build
-npm run start
+docker compose -f docker-compose.prod.yml up
 ```
 
 認証情報は以下の方法でリセットできます。

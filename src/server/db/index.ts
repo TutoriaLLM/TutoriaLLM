@@ -1,57 +1,14 @@
-import SQLite from "better-sqlite3";
-import { Kysely, ParseJSONResultsPlugin, SqliteDialect } from "kysely";
-import type { Database } from "../../type.js";
-
-//distが存在しない場合は作成する
-import fs from "node:fs";
-if (!fs.existsSync("dist")) {
-	fs.mkdirSync("dist");
-}
-
-export const database = new SQLite("dist/database.db");
-const dialect = new SqliteDialect({
-	database: database,
+import { drizzle } from "drizzle-orm/node-postgres";
+import * as schema from "./schema.js";
+import pg from "pg";
+const client = new pg.Client({
+	user: process.env.DATABASE_USER || "postgres",
+	password: process.env.DATABASE_PASSWORD || "postgres",
+	host: process.env.DATABASE_HOST || "localhost",
+	port: 5432,
+	database: process.env.DATABASE_NAME || "code_tutorial_db",
+	ssl: process.env.NODE_ENV === "production",
 });
+client.connect();
 
-// Database interface is passed to Kysely's constructor, and from now on, Kysely
-// knows your database structure.
-// Dialect is passed to Kysely's constructor, and from now on, Kysely knows how
-// to communicate with your database.
-export const db = new Kysely<Database>({
-	dialect,
-	plugins: [new ParseJSONResultsPlugin()],
-});
-
-// Create the tables if they don't exist
-async function createTables() {
-	await db.schema
-		.createTable("users")
-		.ifNotExists()
-		.addColumn("id", "integer", (col) => col.autoIncrement().primaryKey())
-		.addColumn("username", "varchar(255)", (col) => col.notNull())
-		.addColumn("password", "varchar(255)", (col) => col.notNull())
-		.execute();
-
-	await db.schema
-		.createTable("authSessions")
-		.ifNotExists()
-		.addColumn("id", "varchar(255)", (col) => col.primaryKey())
-		.addColumn("expires_at", "integer", (col) => col.notNull())
-		.addColumn("user_id", "integer", (col) =>
-			col.references("users.id").onDelete("cascade").notNull(),
-		)
-		.execute();
-
-	await db.schema
-		.createTable("tutorials")
-		.ifNotExists()
-		.addColumn("id", "integer", (col) => col.autoIncrement().primaryKey())
-		.addColumn("content", "text", (col) => col.notNull())
-		.addColumn("metadata", "json", (col) => col.notNull()) // Storing JSON as JSON
-		.execute();
-}
-
-// Call the function to create tables
-createTables().catch((error) => {
-	console.error(error);
-});
+export const db = drizzle(client, { schema });

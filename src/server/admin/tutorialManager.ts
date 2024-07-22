@@ -1,7 +1,8 @@
 import express from "express";
-import { type NewTutorial, Tutorial, UpdatedTutorial } from "../../type.js";
 import { extractMetadata } from "../../utils/markdown.js";
 import { db } from "../db/index.js";
+import { type TutorialMetadata, tutorials } from "../db/schema.js";
+import { eq } from "drizzle-orm";
 
 //内部向けのチュートリアルエンドポイント(編集可能)
 const tutorialsManager = express.Router();
@@ -10,8 +11,12 @@ tutorialsManager.use(express.json());
 //全てのチュートリアルを取得
 tutorialsManager.get("/", async (req, res) => {
 	try {
-		const tutorials = await db.selectFrom("tutorials").selectAll().execute();
-		res.json(tutorials);
+		const getAlltutorials = await db
+			//.selectFrom("tutorials").selectAll().execute();
+			.select()
+			.from(tutorials);
+
+		res.json(getAlltutorials);
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to fetch tutorials");
@@ -23,10 +28,13 @@ tutorialsManager.get("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
 		const tutorial = await db
-			.selectFrom("tutorials")
-			.select(["id", "metadata", "content"])
-			.where("id", "=", id)
-			.executeTakeFirst();
+			// .selectFrom("tutorials")
+			// .select(["id", "metadata", "content"])
+			// .where("id", "=", id)
+			// .executeTakeFirst();
+			.select()
+			.from(tutorials)
+			.where(eq(tutorials.id, id));
 		if (tutorial) {
 			res.json(tutorial);
 		} else {
@@ -42,7 +50,10 @@ tutorialsManager.get("/:id", async (req, res) => {
 tutorialsManager.delete("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
-		await db.deleteFrom("tutorials").where("id", "=", id).execute();
+		await db
+			//.deleteFrom("tutorials").where("id", "=", id).execute();
+			.delete(tutorials)
+			.where(eq(tutorials.id, id));
 		res.send(`Tutorial ${id} deleted`);
 	} catch (e) {
 		console.error(e);
@@ -65,12 +76,17 @@ tutorialsManager.post("/new", async (req, res) => {
 	//新しいチュートリアルを作成
 	try {
 		await db
-			.insertInto("tutorials")
+			// .insertInto("tutorials")
+			// .values({
+			// 	content: content,
+			// 	metadata: JSON.stringify(metadata),
+			// } as InsertTutorial)
+			// .execute();
+			.insert(tutorials)
 			.values({
 				content: content,
-				metadata: JSON.stringify(metadata),
-			} as NewTutorial)
-			.execute();
+				metadata: metadata as TutorialMetadata,
+			});
 		res.status(201).send("Tutorial created");
 	} catch (e) {
 		console.error(e);
@@ -83,10 +99,13 @@ tutorialsManager.put("/:id", async (req, res) => {
 	const id = Number.parseInt(req.params.id, 10);
 	try {
 		const tutorial = await db
-			.selectFrom("tutorials")
-			.selectAll()
-			.where("id", "=", id)
-			.executeTakeFirst();
+			// .selectFrom("tutorials")
+			// .selectAll()
+			// .where("id", "=", id)
+			// .executeTakeFirst();
+			.select()
+			.from(tutorials)
+			.where(eq(tutorials.id, id));
 		if (!tutorial) {
 			res.status(404).send("Not Found");
 			return;
@@ -101,13 +120,19 @@ tutorialsManager.put("/:id", async (req, res) => {
 		const metadata = extractMetadataToUpdate.metadata;
 		//チュートリアルの内容を更新
 		await db
-			.updateTable("tutorials")
+			// .updateTable("tutorials")
+			// .set({
+			// 	content: content,
+			// 	metadata: JSON.stringify(metadata),
+			// })
+			// .where("id", "=", id)
+			// .execute();
+			.update(tutorials)
 			.set({
 				content: content,
-				metadata: JSON.stringify(metadata),
+				metadata: metadata as TutorialMetadata,
 			})
-			.where("id", "=", id)
-			.execute();
+			.where(eq(tutorials.id, id));
 		res.send(`Tutorial ${id} updated`);
 	} catch (e) {
 		console.error(e);

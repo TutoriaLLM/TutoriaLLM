@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import sqlite from "better-sqlite3";
-import type { NewUser } from "../../type.js";
 import { saltAndHashPassword } from "../../utils/password.js";
 import { db } from "./index.js";
+import { users } from "./schema.js";
 
 // ユーザーの認証情報をリセット
 export async function resetCredentials(
@@ -13,18 +13,20 @@ export async function resetCredentials(
 	console.log("resetCredentials");
 
 	// Clear the users table
-	db.deleteFrom("users").executeTakeFirstOrThrow();
+	db.delete(users).execute();
 
 	// Create the initial admin user
 	const result = await db
-		.insertInto("users")
+		.insert(users)
 		.values({
 			username: adminUsername,
 			password: adminPasswordHash,
-		} as NewUser)
-		.executeTakeFirstOrThrow();
+		})
+		.returning({
+			id: users.id,
+		});
 	return {
-		id: result.insertId,
+		id: result[0].id,
 		username: adminUsername,
 		password: adminPasswordHash,
 	};

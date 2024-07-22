@@ -5,6 +5,10 @@ RUN npm install
 COPY . .
 RUN npm run build
 ENV PORT=80 \
-NODE_ENV=production
+    DATABASE_HOST="db" \
+    DATABASE_USER="postgres" \
+    DATABASE_PASSWORD="postgres" \
+    DATABASE_NAME="code_tutorial_db"\
+    NODE_ENV=production
 EXPOSE 80
 CMD ["npm", "start"]

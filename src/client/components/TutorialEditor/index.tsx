@@ -2,8 +2,8 @@ import * as Label from "@radix-ui/react-label";
 import React, { useState, useEffect } from "react";
 import MdEditor from "./mdEditor";
 import Popup from "../Popup";
-import type { Tutorial } from "../../../type";
 import { removeFrontMatter } from "../../../utils/markdown";
+import type { Tutorial } from "../../../server/db/schema";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content">;
 
