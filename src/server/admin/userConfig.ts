@@ -55,15 +55,9 @@ usersConfiguration.get("/:id", async (req, res) => {
 			res.status(400).json({ error: "ID is required" });
 			return;
 		}
-		// const user = userDB
-		//   .prepare("SELECT * FROM users WHERE id = ?")
-		//   .get(id) as DatabaseUser;
-		const user = await db// .selectAll() // .where("id", "=", id) // .selectFrom("users")
-		// .executeTakeFirstOrThrow()) as User;
-		.query.users
-			.findFirst({
-				where: eq(users.id, id),
-			});
+		const user = await db.query.users.findFirst({
+			where: eq(users.id, id),
+		});
 		if (user) {
 			const { password, ...userWithoutPassword } = user;
 			res.json(userWithoutPassword);
@@ -86,14 +80,7 @@ usersConfiguration.put("/:id", async (req, res) => {
 			// パスワードが空でない場合はハッシュ化して更新
 			const hashedPassword = await saltAndHashPassword(password);
 			const result = await db
-				// .updateTable("users")
-				// .set({
-				// 	username: username,
-				// 	password: hashedPassword,
-				// } as InsertUser)
-				// .where("id", "=", id)
-				// .returning("id")
-				// .executeTakeFirstOrThrow();
+
 				.update(users)
 				.set({
 					username: username,
@@ -114,13 +101,6 @@ usersConfiguration.put("/:id", async (req, res) => {
 			//   "UPDATE users SET username = ? WHERE id = ?"
 			// );
 			const result = await db
-				// .updateTable("users")
-				// .set({
-				// 	username: username,
-				// } as InsertUser)
-				// .where("id", "=", id)
-				// .returning("id")
-				// .executeTakeFirstOrThrow();
 				.update(users)
 				.set({
 					username: username,
@@ -145,18 +125,9 @@ usersConfiguration.delete("/:id", async (req, res) => {
 	console.log("delete user");
 	const id = Number(req.params.id);
 	try {
-		// const remove = userDB.prepare("DELETE FROM users WHERE id = ?");
-		// const result = remove.run(id);
-		const result = await db
-			// .deleteFrom("users")
-			// .where("id", "=", id)
-			// .returning("id")
-			// .executeTakeFirstOrThrow();
-			.delete(users)
-			.where(eq(users.id, id))
-			.returning({
-				id: users.id,
-			});
+		const result = await db.delete(users).where(eq(users.id, id)).returning({
+			id: users.id,
+		});
 
 		if (result !== undefined) {
 			res.json({ message: "User deleted successfully" });

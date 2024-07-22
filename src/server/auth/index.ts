@@ -56,10 +56,6 @@ auth.post("/login", async (req, res) => {
 	const { username, password } = req.body;
 
 	try {
-		// const existingUserQuery = await pool.query(
-		// 	"SELECT * FROM users WHERE username = $1",
-		// 	[username],
-		// );
 		const existingUserQuery = await db
 			.select()
 			.from(users)

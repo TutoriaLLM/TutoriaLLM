@@ -11,10 +11,7 @@ tutorialsManager.use(express.json());
 //全てのチュートリアルを取得
 tutorialsManager.get("/", async (req, res) => {
 	try {
-		const getAlltutorials = await db
-			//.selectFrom("tutorials").selectAll().execute();
-			.select()
-			.from(tutorials);
+		const getAlltutorials = await db.select().from(tutorials);
 
 		res.json(getAlltutorials);
 	} catch (e) {
@@ -28,10 +25,6 @@ tutorialsManager.get("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
 		const tutorial = await db
-			// .selectFrom("tutorials")
-			// .select(["id", "metadata", "content"])
-			// .where("id", "=", id)
-			// .executeTakeFirst();
 			.select()
 			.from(tutorials)
 			.where(eq(tutorials.id, id));
@@ -50,10 +43,7 @@ tutorialsManager.get("/:id", async (req, res) => {
 tutorialsManager.delete("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
-		await db
-			//.deleteFrom("tutorials").where("id", "=", id).execute();
-			.delete(tutorials)
-			.where(eq(tutorials.id, id));
+		await db.delete(tutorials).where(eq(tutorials.id, id));
 		res.send(`Tutorial ${id} deleted`);
 	} catch (e) {
 		console.error(e);
@@ -75,18 +65,10 @@ tutorialsManager.post("/new", async (req, res) => {
 	console.log(metadata);
 	//新しいチュートリアルを作成
 	try {
-		await db
-			// .insertInto("tutorials")
-			// .values({
-			// 	content: content,
-			// 	metadata: JSON.stringify(metadata),
-			// } as InsertTutorial)
-			// .execute();
-			.insert(tutorials)
-			.values({
-				content: content,
-				metadata: metadata as TutorialMetadata,
-			});
+		await db.insert(tutorials).values({
+			content: content,
+			metadata: metadata as TutorialMetadata,
+		});
 		res.status(201).send("Tutorial created");
 	} catch (e) {
 		console.error(e);
@@ -99,10 +81,6 @@ tutorialsManager.put("/:id", async (req, res) => {
 	const id = Number.parseInt(req.params.id, 10);
 	try {
 		const tutorial = await db
-			// .selectFrom("tutorials")
-			// .selectAll()
-			// .where("id", "=", id)
-			// .executeTakeFirst();
 			.select()
 			.from(tutorials)
 			.where(eq(tutorials.id, id));
@@ -120,13 +98,6 @@ tutorialsManager.put("/:id", async (req, res) => {
 		const metadata = extractMetadataToUpdate.metadata;
 		//チュートリアルの内容を更新
 		await db
-			// .updateTable("tutorials")
-			// .set({
-			// 	content: content,
-			// 	metadata: JSON.stringify(metadata),
-			// })
-			// .where("id", "=", id)
-			// .execute();
 			.update(tutorials)
 			.set({
 				content: content,
