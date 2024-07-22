@@ -3,10 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ENV PORT=3000 \
-    DATABASE_HOST="db" \
-    DATABASE_USER="postgres" \
-    DATABASE_PASSWORD="postgres" \
-    DATABASE_NAME="code_tutorial_db"
+ENV PORT=3000
 EXPOSE 3000
 CMD ["npm", "run", "dev"]
