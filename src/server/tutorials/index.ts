@@ -29,8 +29,7 @@ tutorialsAPI.get("/", async (req, res) => {
 tutorialsAPI.get("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
-		const tutorial = await db// .selectFrom("tutorials")
-		// .select(["id", "metadata", "content"])
+		const tutorial = await db// .select(["id", "metadata", "content"]) // .selectFrom("tutorials")
 		// .where("id", "=", id)
 		// .executeTakeFirst();
 		.query.tutorials

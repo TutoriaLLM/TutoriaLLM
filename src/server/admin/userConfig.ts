@@ -58,8 +58,7 @@ usersConfiguration.get("/:id", async (req, res) => {
 		// const user = userDB
 		//   .prepare("SELECT * FROM users WHERE id = ?")
 		//   .get(id) as DatabaseUser;
-		const user = await db// .where("id", "=", id) // .selectFrom("users")
-		// .selectAll()
+		const user = await db// .selectAll() // .where("id", "=", id) // .selectFrom("users")
 		// .executeTakeFirstOrThrow()) as User;
 		.query.users
 			.findFirst({
