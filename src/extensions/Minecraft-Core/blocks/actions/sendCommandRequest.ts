@@ -1,13 +1,12 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
-import image from "../../media/minecraft.png";
 export const block = {
 	type: "ext_minecraft_sendcommandrequest",
 	message0: "%{BKY_MINECRAFT_SENDCOMMANDREQUEST}",
 	args0: [
 		{
 			type: "field_input",
-			name: "NAME",
+			name: "COMMAND",
 			text: "/say hello",
 		},
 	],
@@ -24,11 +23,11 @@ export function code() {
 		generator,
 	) => {
 		const text_command = block.getFieldValue("COMMAND");
-		// todo: Assemble javascript into code variable.
 		const code = /* javascript */ `
-    commandMsg("${text_command}");
-    
-    `;
+		console.log("send command request");
+		const message = commandMsg("${text_command}");
+		wss.send(JSON.stringify(message));
+		`;
 
 		return code;
 	};

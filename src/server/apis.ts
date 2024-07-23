@@ -4,7 +4,7 @@ import expressWs from "express-ws";
 import admin from "./admin/index.js";
 import auth from "./auth/index.js";
 import session from "./session/index.js";
-import tutorials from "./tutorials/index.js";
+import tutorialsAPI from "./tutorials/index.js";
 import { getConfigApp } from "./getConfig.js";
 import { vmExpress } from "./session/websocket/vm/index.js";
 
@@ -14,7 +14,7 @@ const api = express();
 api.use("/session", session);
 
 // Tutorial routes
-api.use("/tutorial", tutorials);
+api.use("/tutorial", tutorialsAPI);
 
 // config fetch route
 api.use("/config", getConfigApp);

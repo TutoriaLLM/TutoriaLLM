@@ -7,10 +7,17 @@ export const category = {
 			kind: "block",
 			type: "ext_minecraft_onplayerchatcommand",
 		},
-
+		{
+			kind: "block",
+			type: "ext_minecraft_onplayertransform",
+		},
 		{
 			kind: "block",
 			type: "ext_minecraft_sendcommandrequest",
+		},
+		{
+			kind: "block",
+			type: "ext_minecraft_debugmessage",
 		},
 	],
 };

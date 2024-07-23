@@ -28,37 +28,39 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 
 ### 開発サーバーの起動
 
-サーバーはフロントエンドもバックエンドも単一の node.js でホストされています。また、以下の主要な技術を使用しています。（詳しくは package.json をご覧ください）
+> 現在Dockerへの移行を進めています。
 
-- [Vite-Express](https://github.com/szymmis/vite-express)フロントエンドとバックエンドに使用。
-- [Express.js](https://expressjs.com/)フロントエンドとバックエンドのルーティング。
-  - [express-ws](https://github.com/HenningM/express-ws)セッションごとの websocket 通信に使用。
-- [Vite](https://vitejs.dev/)開発サーバーとビルドに使用。
-- [Tailwind CSS](https://tailwindcss.com/)スタイリングに使用。
-- [Level](https://github.com/Level/level)ユーザーのセッションデータの保存に使用。
-- [better-sqlite-3](https://github.com/WiseLibs/better-sqlite3)ユーザーの認証に使用。チュートリアルの保存にも使用する予定。
-- [lucia-auth](https://lucia-auth.com/)ユーザーの認証に使用。
-- [Jotai](https://jotai.org/)フロントエンドの状態管理。
-- [react-i18next](https://react.i18next.com/)多言語対応に使用。バックエンドは通常の i18n を使用。
-
-リポジトリを複製し、以下のコマンドを使用します。
-
+VSCodeなどを利用してコードを編集することができます。
 ```
 npm i
-npm run dev
 ```
 
-### アプリを稼働させる
+サーバーはDockerを利用してホストすることができます。以下のコマンドで開発サーバーを起動します：
+```
+docker build --nocache
+docker compose up
+```
 
-以下のコマンドでアプリをビルドし、起動させます。
+### サーバーでアプリを稼働させる（実稼働）
+
+> 7月時点でこの機能はまだ開発中です
+
+自前のサーバーで稼働させる場合は以下のコマンドで実稼働アプリをビルドし、起動させます。アプリを稼働させるには以下の環境変数が必要です：
+ - AUTH_SECRET - 認証設定で使用するシークレット
+ - OPENAI_API_KEY - GPTを使用するためのキー
+ - POSTGRES_USER - データベースのユーザー名
+ - POSTGRES_PASSWORD - データベースのパスワード
+ - PORT - アプリが使用するポート番号
 
 ```
-npm run build
-npm run start
+docker compose -f docker-compose.prod.yml up
 ```
+
+### Docker Hubから取得する
+[Docker Hub](https://hub.docker.com/r/soumame/code-tutorial-app)からイメージを取得することも可能です。PostgreSQL, Redisと接続する必要があります。
+
 
 認証情報は以下の方法でリセットできます。
-
 ```
 npm run reset-user
 ```

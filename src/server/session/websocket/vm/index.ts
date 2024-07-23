@@ -174,7 +174,7 @@ export async function ExecCodeTest(
 
 	let script: Script | null = null;
 	const extScript = await loadScript();
-	console.log("extScript", extScript);
+	console.log("Script to execute: ", extScript, userScript);
 	try {
 		script = new vm.Script(
 			`

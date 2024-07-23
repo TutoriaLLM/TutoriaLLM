@@ -1,8 +1,8 @@
 import yaml from "js-yaml";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { Tutorial } from "../../../../type";
 import TutorialEditor from "../../TutorialEditor";
+import type { Tutorial } from "../../../../server/db/schema";
 
 export default function Tutorials() {
 	const [tutorials, setTutorials] = useState<Tutorial[]>([]);

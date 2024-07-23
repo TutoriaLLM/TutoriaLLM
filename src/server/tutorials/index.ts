@@ -1,18 +1,22 @@
 import express from "express";
 import { db } from "../db/index.js";
+import { tutorials } from "../db/schema.js";
+import { eq } from "drizzle-orm";
 
 //外部向けのチュートリアルエンドポイント(編集不可)
-const tutorials = express();
+const tutorialsAPI = express();
 
 //チュートリアルの一覧を取得。コンテンツは送信しない。
-tutorials.get("/", async (req, res) => {
+tutorialsAPI.get("/", async (req, res) => {
 	try {
-		const tutorials = await db
-			.selectFrom("tutorials")
-			.select(["id", "metadata"])
-			.execute();
+		const getTutorials = await db
 
-		res.json(tutorials);
+			.select({
+				id: tutorials.id,
+				metadata: tutorials.metadata,
+			})
+			.from(tutorials);
+		res.json(getTutorials);
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to fetch tutorials");
@@ -20,14 +24,13 @@ tutorials.get("/", async (req, res) => {
 });
 
 //チュートリアルの内容を取得
-tutorials.get("/:id", async (req, res) => {
+tutorialsAPI.get("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
-		const tutorial = await db
-			.selectFrom("tutorials")
-			.select(["id", "metadata", "content"])
-			.where("id", "=", id)
-			.executeTakeFirst();
+		const tutorial = await db.query.tutorials.findFirst({
+			where: eq(tutorials.id, id),
+		});
+
 		if (tutorial) {
 			res.json(tutorial);
 		} else {
@@ -39,8 +42,8 @@ tutorials.get("/:id", async (req, res) => {
 	}
 });
 
-tutorials.all("*", (req, res) => {
+tutorialsAPI.all("*", (req, res) => {
 	res.status(404).send("Not Found");
 });
 
-export default tutorials;
+export default tutorialsAPI;

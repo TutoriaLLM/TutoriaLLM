@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  redis:
+  #実稼働ではredis/redis-stack-serverを使用する
+    container_name: code-tutorial-redis-dev
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+  db:
+    container_name: code-tutorial-db-dev
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: code_tutorial_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: UTC
+    ports:
+      - "5432:5432"
+  app: 
+    container_name: code-tutorial-app-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    command: npm run dev
+    depends_on:
+      - db
+volumes:
+  pgdata:

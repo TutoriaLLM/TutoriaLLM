@@ -3,8 +3,6 @@ import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
 import path from "node:path";
 
-/// <reference types="vite/client" />
-
 export default async function codeGen(
 	serializedWorkspace: {
 		[key: string]: any;

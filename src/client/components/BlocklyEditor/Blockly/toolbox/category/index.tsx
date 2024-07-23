@@ -48,6 +48,17 @@ export function translateCategories(language: string) {
 					Blockly.Msg[key] = ext.locale[language][key];
 				}
 			}
+		} else {
+			// localeが記述されていない場合は英語を登録する
+			for (const key in ext.locale?.en) {
+				if (Object.prototype.hasOwnProperty.call(ext.locale.en, key)) {
+					Blockly.Msg[key] = ext.locale.en[key];
+				}
+			}
+			//英語も登録されていない場合はエラーを出力
+			if (!ext.locale?.en) {
+				console.error("No English locale found for", ext);
+			}
 		}
 	}
 }

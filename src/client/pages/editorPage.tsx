@@ -114,8 +114,7 @@ export default function EditorPage() {
 
 	// WebSocketに接続する関数
 	async function connectWebSocket(data: SessionValue) {
-		const protocol = process.env.NODE_ENV === "production" ? "wss" : "ws";
-		const host = `${protocol}://${window.location.host}/api/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
+		const host = `wss://${window.location.host}/api/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
 
 		console.log(`processing websocket connection: ${host}`);
 

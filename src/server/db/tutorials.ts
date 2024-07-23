@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import { type NewTutorial, Tutorial, UpdatedTutorial } from "../../type.js";
 import { extractMetadata } from "../../utils/markdown.js";
 import { db } from "./index.js";
+import { type TutorialMetadata, tutorials } from "./schema.js";
 
 // マークダウンファイルを取得する関数
 function getMarkdownFiles(dir: string): string[] {
@@ -25,8 +25,7 @@ function getMarkdownFiles(dir: string): string[] {
 // デフォルトチュートリアル(拡張機能から提供されたもの)を再読み込み
 export async function reloadDefaultTutorials() {
 	// すべてのチュートリアルを削除
-	db.deleteFrom("tutorials").executeTakeFirstOrThrow();
-
+	db.delete(tutorials);
 	// マークダウンファイルのパスを取得
 	const tutorialFiles = getMarkdownFiles(path.resolve("src/extensions"));
 
@@ -36,12 +35,10 @@ export async function reloadDefaultTutorials() {
 		const { metadata, content: fullContent } = extractMetadata(content);
 
 		if (metadata.title && metadata.description) {
-			db.insertInto("tutorials")
-				.values({
-					content: fullContent,
-					metadata: JSON.stringify(metadata),
-				} as NewTutorial)
-				.executeTakeFirstOrThrow();
+			db.insert(tutorials).values({
+				content: fullContent,
+				metadata: metadata as TutorialMetadata,
+			});
 		} else {
 			console.log(`File ${file} does not contain valid metadata.
         please include'title' and 'description' in the metadata.`);

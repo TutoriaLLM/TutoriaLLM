@@ -1,7 +1,8 @@
 import { Clock, History } from "lucide-react";
 import { msToTime, timeAgo } from "../../../utils/time";
-import type { SessionValue, Tutorial } from "../../../type";
+import type { SessionValue } from "../../../type";
 import { useEffect, useState } from "react";
+import type { Tutorial } from "../../../server/db/schema";
 
 export default function SelectedTutorial(props: { session: SessionValue }) {
 	const { session } = props;

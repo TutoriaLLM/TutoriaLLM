@@ -17,10 +17,12 @@ export default defineConfig({
 		commonjsOptions: {
 			include: [/node_modules/],
 		},
-	},
-	define: {
-		"process.env.VITE_AUTH_SECRET": JSON.stringify(
-			process.env.VITE_AUTH_SECRET,
-		),
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					blockly: ["blockly"],
+				},
+			},
+		},
 	},
 });

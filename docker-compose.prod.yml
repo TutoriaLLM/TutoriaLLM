@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  redis:
+    container_name: code-tutorial-redis-prod
+    image: redis/redis-stack-server:latest
+    ports:
+      - "6379:6379"
+  db:
+    container_name: code-tutorial-db-prod
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+
+      TZ: UTC
+  app: 
+    container_name: code-tutorial-app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    command: npm run dev
+    depends_on:
+      - db
