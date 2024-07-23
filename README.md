@@ -50,6 +50,9 @@ docker compose up
  - OPENAI_API_KEY - GPTを使用するためのキー
  - POSTGRES_USER - データベースのユーザー名
  - POSTGRES_PASSWORD - データベースのパスワード
+ - POSTGRES_HOST
+ - POSTGRES_NAME
+
  - PORT - アプリが使用するポート番号
 
 ```
