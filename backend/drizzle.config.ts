@@ -8,11 +8,11 @@ export default defineConfig({
 	out: "./migrations",
 	dialect: "postgresql",
 	dbCredentials: {
-		user: process.env.DATABASE_USER || "postgres",
-		password: process.env.DATABASE_PASSWORD || "postgres",
-		host: process.env.DATABASE_HOST || "localhost",
-		port: 5432,
-		database: process.env.DATABASE_NAME || "code_tutorial_db",
+		user: process.env.DB_USER || "postgres",
+		password: process.env.DB_PASSWORD || "postgres",
+		host: process.env.DB_HOST || "localhost",
+		port: (process.env.DB_PORT as unknown as number) || 5432,
+		database: process.env.DB_NAME || "code_tutorial_db",
 		ssl: process.env.NODE_ENV === "production",
 	},
 });

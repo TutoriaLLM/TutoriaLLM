@@ -18,20 +18,33 @@ services:
       TZ: UTC
     ports:
       - "5432:5432"
-  app: 
-    container_name: code-tutorial-app-dev
+  backend: 
+    container_name: code-tutorial-backend-dev
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
     env_file:
       - .env
     command: npm run dev
     depends_on:
       - db
+      - redis
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+  # frontend:
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - "3001:3001"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   environment:
+  #     - PORT=3001
+
 volumes:
   pgdata:
