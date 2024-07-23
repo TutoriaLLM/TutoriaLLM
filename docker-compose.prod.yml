@@ -12,7 +12,6 @@ services:
     ports:
       - "5432:5432"
     environment:
-
       TZ: UTC
   app: 
     container_name: code-tutorial-app-prod
@@ -21,9 +20,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
-    volumes:
-      - .:/app
-      - /app/node_modules
     env_file:
       - .env
     command: npm run dev

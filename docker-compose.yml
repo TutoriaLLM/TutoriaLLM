@@ -34,17 +34,6 @@ services:
     environment:
       - PORT=3000
       - DB_HOST=db
-  # frontend:
-  #   build: 
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.dev
-  #   ports:
-  #     - "3001:3001"
-  #   volumes:
-  #     - ./frontend:/app
-  #     - /app/node_modules
-  #   environment:
-  #     - PORT=3001
 
 volumes:
   pgdata:
