@@ -11,6 +11,7 @@ RUN npm install
 
 # Copy all files from the backend directory to the working directory
 COPY . .
+RUN npm run build
 ENV PORT=${PORT} \
     #シークレット
     NODE_ENV=production
@@ -19,4 +20,4 @@ ENV PORT=${PORT} \
 EXPOSE ${PORT}
 
 # Command to run the application
-CMD ["npm", "run", "build"]
+CMD ["npm", "run", "start"]
