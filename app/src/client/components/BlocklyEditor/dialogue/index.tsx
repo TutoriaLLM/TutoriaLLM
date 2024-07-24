@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { Bot, PlusCircle, Send } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import type { Dialogue } from "../../../../type";
 import { currentSessionState } from "../../../state";
 import TextBubble from "./parts/textbubble";
@@ -14,44 +14,48 @@ export default function DialogueView() {
 	const [session, setSession] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
-	function sendMessage(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault(); // デフォルトのフォーム送信を防止
-		if (message) {
-			setSession((prev) => {
-				if (prev) {
-					const lastId =
-						prev.dialogue.length > 0
-							? prev.dialogue[prev.dialogue.length - 1].id
-							: 0;
-					return {
-						...prev,
-						dialogue: [
-							...prev.dialogue,
-							{
-								id: lastId + 1,
-								contentType: "user",
-								isuser: true,
-								content: message,
-							},
-						],
-						isReplying: true,
-						stats: updateStats(
-							{
-								totalUserMessages: prev.stats.totalUserMessages + 1,
-							},
-							prev,
-						).stats,
-					};
-				}
-				return prev;
-			});
-			setMessage(""); // メッセージ送信後にフィールドをクリア
-		}
-	}
 
-	function handleQuickReply(reply: string) {
+	const sendMessage = useCallback(
+		(e: React.FormEvent<HTMLFormElement>) => {
+			e.preventDefault(); // デフォルトのフォーム送信を防止
+			if (message) {
+				setSession((prev) => {
+					if (prev) {
+						const lastId =
+							prev.dialogue.length > 0
+								? prev.dialogue[prev.dialogue.length - 1].id
+								: 0;
+						return {
+							...prev,
+							dialogue: [
+								...prev.dialogue,
+								{
+									id: lastId + 1,
+									contentType: "user",
+									isuser: true,
+									content: message,
+								},
+							],
+							isReplying: true,
+							stats: updateStats(
+								{
+									totalUserMessages: prev.stats.totalUserMessages + 1,
+								},
+								prev,
+							).stats,
+						};
+					}
+					return prev;
+				});
+				setMessage(""); // メッセージ送信後にフィールドをクリア
+			}
+		},
+		[message, setSession],
+	);
+
+	const handleQuickReply = useCallback((reply: string) => {
 		setMessage(reply);
-	}
+	}, []);
 
 	useEffect(() => {
 		if (messagesEndRef.current) {
@@ -66,7 +70,7 @@ export default function DialogueView() {
 				{session?.dialogue.map((item: Dialogue) => {
 					return <TextBubble key={item.id} item={item} />;
 				})}
-				{/*/返信中のアニメーションを表示*/}
+				{/*返信中のアニメーションを表示*/}
 				{session?.isReplying && (
 					<div className="flex justify-start items-end gap-2 animate-pulse">
 						<div className="text-gray-600 flex flex-col items-center">
