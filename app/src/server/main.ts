@@ -74,16 +74,16 @@ ViteExpress.listen(app as unknown as Express, port, () =>
 );
 
 // メモリ監視
-const monitorMemoryUsage = (interval: number) => {
-	setInterval(() => {
-		const memoryUsage = process.memoryUsage();
-		console.log(
-			`プロセスの総使用量: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`,
-		);
-		console.log("-------------------------");
-	}, interval);
-};
-monitorMemoryUsage(5000);
+// const monitorMemoryUsage = (interval: number) => {
+// 	setInterval(() => {
+// 		const memoryUsage = process.memoryUsage();
+// 		console.log(
+// 			`プロセスの総使用量: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`,
+// 		);
+// 		console.log("-------------------------");
+// 	}, interval);
+// };
+// monitorMemoryUsage(5000);
 process.on("uncaughtException", (err) => {
 	console.log(err);
 });
