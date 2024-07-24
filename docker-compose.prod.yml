@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - "80:80"
+      - $PORT:$PORT
     env_file:
       - .env
     command: npm run dev
