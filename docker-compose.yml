@@ -18,22 +18,27 @@ services:
       TZ: UTC
     ports:
       - "5432:5432"
-  backend: 
-    container_name: code-tutorial-backend-dev
+  app: 
+    container_name: code-tutorial-app-dev
     build:
-      context: ./backend
+      context: ./app
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     env_file:
       - .env
-    command: npm run dev
+    command: >
+      sh -c "npm install &&
+             npm run drizzle:generate &&
+             npm run drizzle:push &&
+             npm run dev"
     depends_on:
       - db
       - redis
+    #開発環境ではホットリロードを使用するため、ボリュームをマウントする
+    volumes:
+      - /app
+      - /app/node_modules
     environment:
       - PORT=3000
       - DB_HOST=db
-
-volumes:
-  pgdata:
