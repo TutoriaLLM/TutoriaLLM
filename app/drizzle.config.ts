@@ -13,6 +13,6 @@ export default defineConfig({
 		host: process.env.DB_HOST || "localhost",
 		port: (process.env.DB_PORT as unknown as number) || 5432,
 		database: process.env.DB_NAME || "code_tutorial_db",
-		ssl: (process.env.SSL as unknown as boolean) || false,
+		ssl: (process.env.DB_SSL as unknown as boolean) || false,
 	},
 });

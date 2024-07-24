@@ -12,16 +12,27 @@ services:
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      PGDATA: /var/lib/postgresql/data/pgdata
       TZ: UTC
   app: 
     container_name: code-tutorial-app-prod
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile.prod
     ports:
       - $PORT:$PORT
     env_file:
       - .env
-    command: npm run dev
+    command: >
+      sh -c "npm install &&
+             npm run drizzle:generate &&
+             npm run drizzle:push &&
+             npm run start"    
     depends_on:
       - db
+    environment:
+      - PORT=$PORT
+      - DB_HOST=db
