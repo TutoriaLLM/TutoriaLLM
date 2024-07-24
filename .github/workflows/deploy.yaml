@@ -25,6 +25,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: ./app
-        file: Dockerfile.prod
+        file: ./app/Dockerfile.prod
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/code-tutorial-app:latest
