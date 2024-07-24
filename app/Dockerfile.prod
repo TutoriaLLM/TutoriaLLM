@@ -12,6 +12,7 @@ RUN npm install
 # Copy all files from the backend directory to the working directory
 COPY . .
 RUN npm run build
+
 ARG PORT=8080
 ENV PORT=${PORT} \
     #シークレット
@@ -21,4 +22,4 @@ ENV PORT=${PORT} \
 EXPOSE ${PORT}
 
 # Command to run the application
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npm run drizzle:generate && npm run drizzle:push && npm run start"]
