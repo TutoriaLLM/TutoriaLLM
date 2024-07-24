@@ -3,7 +3,7 @@ import path from "node:path";
 import express from "express";
 import { get } from "node:http";
 
-const configPath = path.resolve("dist/appConfig.json");
+const configPath = path.resolve("appConfig.json");
 const defaultConfigPath = path.resolve(
 	"src/server/admin/defaultAppConfig.json",
 );
