@@ -50,5 +50,7 @@ export async function reloadDefaultTutorials() {
 if (process.argv.includes("--reset-tutorials")) {
 	(async () => {
 		await reloadDefaultTutorials();
+		console.log("Tutorials reset");
+		process.exit();
 	})();
 }

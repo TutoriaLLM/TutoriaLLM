@@ -42,9 +42,11 @@ if (process.argv.includes("--reset-credentials")) {
 		resetCredentials(adminUsername, adminPasswordHash)
 			.then((result) => {
 				console.log("Admin user created:", result);
+				process.exit();
 			})
 			.catch((error) => {
 				console.error("Error creating admin user:", error);
+				process.exit();
 			});
 	})();
 }
