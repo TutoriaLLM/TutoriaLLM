@@ -18,6 +18,12 @@ services:
       POSTGRES_DB: $DB_NAME
       PGDATA: /var/lib/postgresql/data/pgdata
       TZ: UTC
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USER} -d ${DB_NAME}'"]
+      interval: 5s
+      timeout: 60s
+      retries: 5
+      start_period: 5s  
 
   app: 
     container_name: code-tutorial-app-dev
@@ -29,13 +35,25 @@ services:
     env_file:
       - .env
     command: >
-      sh -c "npm install &&
-             npm run drizzle:generate &&
-             npm run drizzle:push &&
-             npm run dev"
+      sh -c "
+        if [ ! -f /app/.initialized ]; then
+          npm install &&
+          npm run drizzle:generate &&
+          npm run drizzle:push &&
+          npm run reset-credential &&
+          npm run reset-tutorials &&
+          touch /app/.initialized &&
+          npm run dev 
+        else
+          npm install &&
+          npm run drizzle:generate &&
+          npm run drizzle:push &&
+          npm run dev;
+        fi
+      "
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
     #開発環境ではホットリロードを使用するため、ボリュームをマウントする
     volumes:
       - /app

@@ -19,4 +19,8 @@ ENV PORT=3000
 EXPOSE 3000
 
 # Command to run the application
+# If you need to reset tutorial and credential, you can add the following options when its start.:
+# If you need to reset tutorial and credential, you can add the following options when its start.:
+# npm run reset-credential
+# npm run reset-tutorials
 CMD ["npm", "run", "dev"]

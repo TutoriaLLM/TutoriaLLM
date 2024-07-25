@@ -22,4 +22,7 @@ ENV PORT=${PORT} \
 EXPOSE ${PORT}
 
 # Command to run the application
+# If you need to reset tutorial and credential, you can add the following options when its start.:
+# npm run reset-credential
+# npm run reset-tutorials
 CMD ["sh", "-c", "npm run drizzle:generate && npm run drizzle:push && npm run start"]

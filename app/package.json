@@ -11,7 +11,9 @@
 		"drizzle:generate": "drizzle-kit generate --config=drizzle.config.ts",
 		"drizzle:push": "drizzle-kit push --config=drizzle.config.ts",
 		"drizzle:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
-		"drizzle:studio": "drizzle-kit studio --config=drizzle.config.ts"
+		"drizzle:studio": "drizzle-kit studio --config=drizzle.config.ts",
+		"reset-credential": "tsx src/server/db/users.ts --reset-credentials",
+		"reset-tutorials": "tsx src/server/db/tutorials.ts --reset-tutorials"
 	},
 	"dependencies": {
 		"@blockly/continuous-toolbox": "^6.0.1",
@@ -65,7 +67,9 @@
 		"vite-express": "*",
 		"vite-plugin-svgr": "^4.2.0",
 		"zod": "^3.23.8",
-		"drizzle-kit": "^0.23.0"
+		"drizzle-kit": "^0.23.0",
+		"nodemon": "^3.0.1",
+		"vite": "^5.0.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
@@ -77,8 +81,6 @@
 		"@types/pg": "^8.11.6",
 		"@types/react": "^18.0.38",
 		"@types/react-dom": "^18.2.16",
-		"@types/uuid": "^9.0.8",
-		"nodemon": "^3.0.1",
-		"vite": "^5.0.2"
+		"@types/uuid": "^9.0.8"
 	}
 }

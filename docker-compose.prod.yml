@@ -6,6 +6,7 @@ services:
     image: redis/redis-stack-server:latest
     ports:
       - "6379:6379"
+
   db:
     container_name: code-tutorial-db-prod
     image: postgres:14
@@ -17,6 +18,12 @@ services:
       POSTGRES_DB: $DB_NAME
       PGDATA: /var/lib/postgresql/data/pgdata
       TZ: UTC
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USER} -d ${DB_NAME}'"]
+      interval: 10s
+      timeout: 60s
+      retries: 5
+      start_period: 10s  
   app: 
     container_name: code-tutorial-app-prod
     build:
@@ -27,12 +34,25 @@ services:
     env_file:
       - .env
     command: >
-      sh -c "npm install &&
-             npm run drizzle:generate &&
-             npm run drizzle:push &&
-             npm run start"    
+      sh -c "
+        if [ ! -f /app/.initialized ]; then
+          npm install &&
+          npm run drizzle:generate &&
+          npm run drizzle:push &&
+          npm run reset-credential &&
+          npm run reset-tutorials &&
+          touch /app/.initialized &&
+          npm run start 
+        else
+          npm install &&
+          npm run drizzle:generate &&
+          npm run drizzle:push &&
+          npm run start;
+        fi
+      "
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       - PORT=$PORT
       - DB_HOST=db
