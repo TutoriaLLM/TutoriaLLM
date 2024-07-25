@@ -5,7 +5,7 @@ import { ExitButton } from "../ui/exitButton";
 export default function Navbar() {
 	const handleSignOut = async () => {
 		console.log("signing out");
-		const res = await fetch("api/auth/logout", {
+		const res = await fetch("/api/auth/logout", {
 			method: "POST",
 		});
 		if (res.status === 200) {
