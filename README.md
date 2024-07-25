@@ -28,12 +28,20 @@ Kids Code Tutorial は、小中学生を対象とした、Web 上で使用でき
 
 ### 開発サーバーの起動
 
+> コマンドの詳細は[docker-compose.yml](docker-compose.yml)を参照してください。
+
 VSCodeなどを利用してコードを編集することができます。
 
 また、サーバーはDockerを利用してホストすることができます。以下のコマンドで開発サーバーを起動します：
 ```
 docker compose up --build
 ```
+
+HMR(Hot Module Replacement)を使用したい場合は、以下のコマンドで起動します。ファイルを変更すると自動的にリロードされます。
+```
+docker compose watch
+```
+
 また、以下の環境変数をプロジェクトのルートフォルダ内に作成した`.env`に記載してください：
  - AUTH_SECRET - 認証設定で使用するシークレット
  - OPENAI_API_KEY - GPTを使用するためのキー
@@ -47,6 +55,8 @@ docker compose up --build
  - SSL - SSLの設定（true/false）
 
 ### サーバーでアプリを稼働させる（実稼働）
+
+> コマンドの詳細は[docker-compose.prod.yml](docker-compose.prod.yml)を参照してください。
 
 自前のサーバーで稼働させる場合は以下のコマンドで実稼働アプリをビルドし、起動させます。アプリを稼働させるには以下の環境変数が必要です：
  - AUTH_SECRET - 認証設定で使用するシークレット

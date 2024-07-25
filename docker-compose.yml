@@ -51,11 +51,15 @@ services:
           npm run dev;
         fi
       "
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+          target: /app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
     depends_on:
       db:
         condition: service_healthy
-    #開発環境ではホットリロードを使用するため、ボリュームをマウントする
-    volumes:
-      - /app
-      - /app/node_modules
-
