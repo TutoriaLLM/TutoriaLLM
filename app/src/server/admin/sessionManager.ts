@@ -12,9 +12,14 @@ sessionManager.get("/list", async (req, res) => {
 		for await (const key of await sessionDB.keys("*")) {
 			keys.push(key);
 		}
+		if (keys.length === 0) {
+			res.json([]);
+			return;
+		}
 		const allSessions = await sessionDB.mGet(keys);
 		res.json(allSessions);
 	} catch (err) {
+		console.error(err);
 		res.status(500).json({ error: (err as Error).message });
 	}
 });
