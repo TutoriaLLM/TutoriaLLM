@@ -35,6 +35,7 @@ export async function reloadDefaultTutorials() {
 		const { metadata, content: fullContent } = extractMetadata(content);
 
 		if (metadata.title && metadata.description) {
+			console.log(`Adding tutorial: ${metadata.title}`);
 			db.insert(tutorials).values({
 				content: fullContent,
 				metadata: metadata as TutorialMetadata,
