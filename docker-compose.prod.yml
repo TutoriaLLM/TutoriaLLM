@@ -53,6 +53,3 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      - PORT=$PORT
-      - DB_HOST=db

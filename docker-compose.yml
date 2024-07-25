@@ -31,7 +31,7 @@ services:
       context: ./app
       dockerfile: Dockerfile.dev
     ports:
-      - "3000:3000"
+      - "$PORT:$PORT"
     env_file:
       - .env
     command: >
@@ -58,6 +58,4 @@ services:
     volumes:
       - /app
       - /app/node_modules
-    environment:
-      - PORT=3000
-      - DB_HOST=db
+
