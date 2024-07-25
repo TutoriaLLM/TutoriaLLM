@@ -300,18 +300,35 @@ export default function Sessions() {
 						))}
 					</thead>
 					<tbody className="gap-2">
-						{table.getRowModel().rows.map((row) => (
+						{table.getRowModel().rows.length > 0 ? (
+							table.getRowModel().rows.map((row) => (
+								<tr
+									key={row.id}
+									className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+								>
+									{row.getVisibleCells().map((cell) => (
+										<td key={cell.id} className="px-6 py-4">
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext(),
+											)}
+										</td>
+									))}
+								</tr>
+							))
+						) : (
 							<tr
-								key={row.id}
+								key={0}
 								className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 							>
-								{row.getVisibleCells().map((cell) => (
-									<td key={cell.id} className="px-6 py-4">
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</td>
-								))}
+								<td
+									colSpan={columns.length}
+									className="w-full flex justify-center items-center text-xl font-semibold text-center py-4"
+								>
+									No Session on this server...
+								</td>
 							</tr>
-						))}
+						)}
 					</tbody>
 				</table>
 			</div>
