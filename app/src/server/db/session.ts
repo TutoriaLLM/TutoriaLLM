@@ -91,6 +91,10 @@ DBrouter.get("/:key", async (req, res) => {
 	try {
 		//const value = await sessionDB.get(req.params.key);
 		const value = await sessionDB.get(req.params.key);
+		if (value === null || undefined) {
+			res.status(404).send(null);
+			return;
+		}
 		res.send(value);
 	} catch (e) {
 		res.status(404).send(null);

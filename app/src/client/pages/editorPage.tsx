@@ -90,7 +90,7 @@ export default function EditorPage() {
 	useEffect(() => {
 		async function checkSession() {
 			if (sessionCode !== "") {
-				const response = await fetch(`api/session/${sessionCode}`);
+				const response = await fetch(`/api/session/${sessionCode}`);
 				if (response.status === 404) {
 					// セッションが存在しない場合はスキップする
 					console.log("code is invalid!");
