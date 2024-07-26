@@ -21,6 +21,7 @@
 		"@lucia-auth/adapter-drizzle": "^1.0.7",
 		"@lucia-auth/adapter-postgresql": "^3.1.2",
 		"@lucia-auth/adapter-sqlite": "^3.0.1",
+		"@radix-ui/react-accordion": "^1.2.0",
 		"@radix-ui/react-dialog": "^1.0.5",
 		"@radix-ui/react-label": "^2.1.0",
 		"@radix-ui/react-popover": "^1.1.1",
@@ -35,6 +36,7 @@
 		"better-sqlite3": "^9.6.0",
 		"blockly": "^11.1.0",
 		"dotenv": "^16.4.5",
+		"drizzle-kit": "^0.23.0",
 		"drizzle-orm": "^0.32.0",
 		"express": "^4.18.2",
 		"express-ws": "^5.0.2",
@@ -49,6 +51,7 @@
 		"lexical": "^0.16.1",
 		"lucia": "^3.2.0",
 		"lucide-react": "^0.381.0",
+		"nodemon": "^3.0.1",
 		"openai": "^4.52.7",
 		"pg": "^8.12.0",
 		"postcss": "^8.4.39",
@@ -64,12 +67,10 @@
 		"typescript": "^5.3.2",
 		"uuid": "^9.0.1",
 		"vectra": "^0.7.6",
+		"vite": "^5.0.2",
 		"vite-express": "*",
 		"vite-plugin-svgr": "^4.2.0",
-		"zod": "^3.23.8",
-		"drizzle-kit": "^0.23.0",
-		"nodemon": "^3.0.1",
-		"vite": "^5.0.2"
+		"zod": "^3.23.8"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",

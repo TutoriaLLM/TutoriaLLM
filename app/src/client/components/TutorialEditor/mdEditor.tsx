@@ -8,7 +8,7 @@ import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import type { EditorState } from "lexical";
 import { useState, useEffect } from "react";
 import { HeadingNode } from "@lexical/rich-text";
-import { CodeNode, $createCodeNode } from "@lexical/code";
+import { $createCodeNode, CodeNode } from "@lexical/code";
 import { $createParagraphNode, ParagraphNode } from "lexical"; // 追加
 import type { Transformer } from "@lexical/markdown";
 import { HEADING, CODE } from "@lexical/markdown";
@@ -18,6 +18,8 @@ import {
 	$convertToMarkdownString,
 } from "@lexical/markdown";
 import ToolbarPlugin from "./toolbar.js";
+import { block } from "../../../extensions/Example/blocks/consoleLog.js";
+import { CustomCodeNode } from "./plugins/customCodenode.js";
 
 const placeholder = "Enter some rich text...";
 
@@ -66,10 +68,19 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 	const TRANSFORMERS: Array<Transformer> = [HEADING, CODE];
 
 	const [markdownState, setMarkdownState] = useState<string>(mdContent);
-
 	const editorConfig = {
 		namespace: "tutorial-editor",
-		nodes: [HeadingNode, CodeNode, ParagraphNode], // 追加
+		nodes: [
+			HeadingNode,
+			ParagraphNode,
+			CustomCodeNode,
+			{
+				replace: CodeNode,
+				with: (node: CodeNode) => {
+					return new CustomCodeNode();
+				},
+			},
+		], // 追加
 		onError(error: Error) {
 			throw error;
 		},
@@ -79,8 +90,8 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 				h2: "text-2xl font-bold",
 				h3: "text-1xl font-bold",
 			},
-			paragraph: "text-sm font-normal",
-			code: "px-2 rounded-lg text-gray-600 font-mono text-xs",
+			paragraph: "text-sm font-normal mt-2",
+			code: "w-full rounded-2xl p-2 rounded-lg font-mono text-xs",
 		},
 	};
 
@@ -99,7 +110,7 @@ const SlideEditor: React.FC<SlideEditorProps> = ({
 							<RichTextPlugin
 								contentEditable={
 									<ContentEditable
-										className="editor-input min-h-[200px] w-full" // ここに最小高さを追加
+										className="editor-input min-h-[200px] w-full p-2 md:p-3.5" // ここに最小高さを追加
 										aria-placeholder={placeholder}
 										placeholder={`<div className="">${placeholder}</div>`}
 									/>
