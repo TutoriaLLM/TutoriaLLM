@@ -4,6 +4,8 @@ import type { AppConfig, SessionValue } from "../../../type.js";
 import { langToStr } from "../../../utils/langToStr.js";
 import { db } from "../../db/index.js";
 import { getConfig } from "../../getConfig.js";
+import { tutorials } from "../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 // Fetches the tutorial content based on the session value.
 async function getTutorialContent(session: SessionValue) {
@@ -13,10 +15,11 @@ async function getTutorialContent(session: SessionValue) {
 	) {
 		try {
 			const tutorial = await db
-				.selectFrom("tutorials")
-				.select(["id", "metadata", "content"])
-				.where("id", "=", session.tutorial.tutorialId)
-				.executeTakeFirst();
+				.query
+				.tutorials
+				.findFirst({
+					where: (eq(tutorials.id, session.tutorial.tutorialId)),
+				});
 			return tutorial
 				? tutorial
 				: {
