@@ -23,8 +23,9 @@ services:
       interval: 5s
       timeout: 60s
       retries: 5
-      start_period: 5s  
-
+      start_period: 5s 
+    volumes:
+      - db_data_db:/var/lib/postgresql/data
   app: 
     container_name: code-tutorial-app-dev
     build:
@@ -63,3 +64,5 @@ services:
     depends_on:
       db:
         condition: service_healthy
+volumes:
+  db_data_db:

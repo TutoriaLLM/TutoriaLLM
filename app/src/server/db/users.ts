@@ -4,6 +4,7 @@ import sqlite from "better-sqlite3";
 import { saltAndHashPassword } from "../../utils/password.js";
 import { db } from "./index.js";
 import { users } from "./schema.js";
+import { eq } from "drizzle-orm";
 
 // ユーザーの認証情報をリセット
 export async function resetCredentials(
@@ -12,9 +13,6 @@ export async function resetCredentials(
 ) {
 	console.log("resetCredentials");
 
-	// Clear the users table
-	db.delete(users).execute();
-
 	// Create the initial admin user
 	const result = await db
 		.insert(users)
@@ -22,9 +20,11 @@ export async function resetCredentials(
 			username: adminUsername,
 			password: adminPasswordHash,
 		})
+		.onConflictDoNothing()
 		.returning({
 			id: users.id,
 		});
+
 	return {
 		id: result[0].id,
 		username: adminUsername,
