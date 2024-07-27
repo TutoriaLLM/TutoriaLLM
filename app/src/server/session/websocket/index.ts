@@ -13,11 +13,13 @@ import {
 } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
+import updateDatabase from "./updateDB.js";
+import ws from "ws";
 
 const websocketserver = express();
 const wsServer = expressWs(websocketserver).app;
 
-const clients = new Map<string, any>(); // WebSocketクライアントを管理するマップ
+const clients = new Map<string, ws>(); // WebSocketクライアントを管理するマップ
 
 // i18n configuration
 i18next.use(FsBackend).init<FsBackendOptions>(
@@ -64,6 +66,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		if (!data.clients.includes(clientId)) {
 			data.clients.push(clientId);
 			await sessionDB.set(code, JSON.stringify(data));
+			console.log("client connected");
 		}
 
 		// Change language based on DB settings
@@ -86,15 +89,11 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		}, pingTimeMs);
 
 		ws.on("message", async (message) => {
-			const messageJson: SessionValue | WSMessage = JSON.parse(
-				message.toString(),
-			);
+			const messageJson: SessionValue | WSMessage = JSON.parse(message.toString());
 			console.log("message received in ws session");
-
-			// pongを受信したらpongReceivedをtrueに設定する
+		
 			if ((messageJson as WSMessage).request === "pong") {
 				pongReceived = true;
-				//statsの接続時間を更新
 				const currentData = await sessionDB.get(code);
 				if (!currentData) {
 					return;
@@ -102,18 +101,14 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				const currentDataJson: SessionValue = JSON.parse(currentData);
 				const currentDataJsonWithupdatedStats = updateStats(
 					{
-						totalConnectingTime:
-							currentDataJson.stats.totalConnectingTime + pingTimeMs,
+						totalConnectingTime: currentDataJson.stats.totalConnectingTime + pingTimeMs,
 					},
 					currentDataJson,
 				);
-				await sessionDB.set(
-					code,
-					JSON.stringify(currentDataJsonWithupdatedStats),
-				);
+				await sessionDB.set(code, JSON.stringify(currentDataJsonWithupdatedStats));
 				return;
 			}
-
+		
 			try {
 				const currentData = await sessionDB.get(code);
 				if (!currentData) {
@@ -122,322 +117,305 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					return;
 				}
 				const currentDataJson: SessionValue = JSON.parse(currentData);
-
-				let isRunning = currentDataJson.isVMRunning;
-
-				const updateDatabase = async (newData: SessionValue) => {
-					await sessionDB.set(code, JSON.stringify(newData));
-					// 全クライアントに更新を通知
-					for (const id of newData.clients) {
-						if (clients.has(id)) {
-							clients.get(id).send(JSON.stringify(newData));
+		
+				// セッションデータが変更されたかをチェック
+				const isUpdated = JSON.stringify(messageJson) !== JSON.stringify(currentDataJson);
+				if (isUpdated) {
+					let isRunning = currentDataJson.isVMRunning;
+		
+					updateDatabase(code, currentDataJson, clients);
+		
+					if ((messageJson as SessionValue).workspace) {
+						const messageJson: SessionValue = JSON.parse(message.toString());
+						if (currentDataJson.uuid !== messageJson.uuid) {
+							ws.send("Invalid uuid");
+							ws.close();
 						}
-					}
-				};
-
-				if ((messageJson as SessionValue).workspace) {
-					const messageJson: SessionValue = JSON.parse(message.toString());
-					if (currentDataJson.uuid !== messageJson.uuid) {
-						ws.send("Invalid uuid");
-						ws.close();
-					}
-					const {
-						sessioncode,
-						uuid,
-						workspace,
-						tutorial,
-						llmContext,
-						dialogue,
-						stats,
-					} = messageJson;
-
-					// 非同期関数を宣言する
-					async function updateSession() {
-						//dialogueが更新されている場合は、LLMによって応答が生成される
-						//ユーザーが更新した場合のみ、LLMを呼び出したものを追加し、それ以外はそのまま処理をせず返す
-						async function updateDialogueLLM(data: SessionValue): Promise<{
-							dialogue: Dialogue[];
-							isreplying: boolean;
-							progress: number;
-						}> {
-							const lastMessage = data.dialogue[data.dialogue.length - 1];
-							if (
-								data.dialogue !== currentDataJson.dialogue &&
-								data.dialogue.length > 0 &&
-								lastMessage.isuser
-							) {
-								const message = await invokeLLM(messageJson);
-
-								if (message.blockId && message.blockName) {
-									// 両方のブロックIDとブロック名が存在する場合の処理
-									console.log(message);
-									const response = message.response;
-									const newDialogueWithResponse = updateDialogue(
-										response,
-										messageJson,
-										"ai",
-									);
-									const blockId = message.blockId;
-									const newDialogueWithBlockId = updateDialogue(
-										blockId,
-										newDialogueWithResponse,
-										"blockId",
-									);
-									const blockName = message.blockName;
-									const newDialogueWithBlockName = updateDialogue(
-										blockName,
-										newDialogueWithBlockId,
-										"blockName",
-									);
-									return {
-										dialogue: newDialogueWithBlockName.dialogue,
-										isreplying: false,
-										progress: message.progress,
-									};
+		
+						const {
+							sessioncode,
+							uuid,
+							workspace,
+							tutorial,
+							llmContext,
+							dialogue,
+							stats,
+						} = messageJson;
+		
+						async function updateSession() {
+							async function updateDialogueLLM(data: SessionValue): Promise<{
+								dialogue: Dialogue[];
+								isreplying: boolean;
+								progress: number;
+							}> {
+								const lastMessage = data.dialogue[data.dialogue.length - 1];
+								if (
+									data.dialogue !== currentDataJson.dialogue &&
+									data.dialogue.length > 0 &&
+									lastMessage.isuser
+								) {
+									const message = await invokeLLM(messageJson);
+		
+									if (message.blockId && message.blockName) {
+										console.log(message);
+										const response = message.response;
+										const newDialogueWithResponse = updateDialogue(
+											response,
+											messageJson,
+											"ai",
+										);
+										const blockId = message.blockId;
+										const newDialogueWithBlockId = updateDialogue(
+											blockId,
+											newDialogueWithResponse,
+											"blockId",
+										);
+										const blockName = message.blockName;
+										const newDialogueWithBlockName = updateDialogue(
+											blockName,
+											newDialogueWithBlockId,
+											"blockName",
+										);
+										return {
+											dialogue: newDialogueWithBlockName.dialogue,
+											isreplying: false,
+											progress: message.progress,
+										};
+									}
+									if (message.blockId) {
+										console.log(message);
+										const response = message.response;
+										const newDialogueWithResponse = updateDialogue(
+											response,
+											messageJson,
+											"ai",
+										);
+										const blockId = message.blockId;
+										const newDialogueWithBlockId = updateDialogue(
+											blockId,
+											newDialogueWithResponse,
+											"blockId",
+										);
+										return {
+											dialogue: newDialogueWithBlockId.dialogue,
+											isreplying: false,
+											progress: message.progress,
+										};
+									}
+									if (message.blockName) {
+										console.log(message);
+										const response = message.response;
+										const newDialogueWithResponse = updateDialogue(
+											response,
+											messageJson,
+											"ai",
+										);
+										const blockName = message.blockName;
+										const newDialogueWithBlockName = updateDialogue(
+											blockName,
+											newDialogueWithResponse,
+											"blockName",
+										);
+										return {
+											dialogue: newDialogueWithBlockName.dialogue,
+											isreplying: false,
+											progress: message.progress,
+										};
+									}
+		
+									if (message) {
+										const newDialogue = updateDialogue(
+											message.response,
+											messageJson,
+											"ai",
+										);
+										return {
+											dialogue: newDialogue.dialogue,
+											isreplying: false,
+											progress: message.progress,
+										};
+									}
 								}
-								if (message.blockId) {
-									// ブロックIDが存在する場合の処理
-									console.log(message);
-									const response = message.response;
-									const newDialogueWithResponse = updateDialogue(
-										response,
-										messageJson,
-										"ai",
-									);
-									const blockId = message.blockId;
-									const newDialogueWithBlockId = updateDialogue(
-										blockId,
-										newDialogueWithResponse,
-										"blockId",
-									);
-									return {
-										dialogue: newDialogueWithBlockId.dialogue,
-										isreplying: false,
-										progress: message.progress,
-									};
-								}
-								if (message.blockName) {
-									// ブロック名が存在する場合の処理
-									console.log(message);
-									const response = message.response;
-									const newDialogueWithResponse = updateDialogue(
-										response,
-										messageJson,
-										"ai",
-									);
-									const blockName = message.blockName;
-									const newDialogueWithBlockName = updateDialogue(
-										blockName,
-										newDialogueWithResponse,
-										"blockName",
-									);
-									return {
-										dialogue: newDialogueWithBlockName.dialogue,
-										isreplying: false,
-										progress: message.progress,
-									};
-								}
-
-								if (message) {
-									// 他のメッセージが存在する場合の処理
-									const newDialogue = updateDialogue(
-										message.response,
-										messageJson,
-										"ai",
-									);
-									return {
-										dialogue: newDialogue.dialogue,
-										isreplying: false,
-										progress: message.progress,
-									};
-								}
+								return {
+									dialogue: data.dialogue,
+									isreplying: false,
+									progress: data.tutorial.progress,
+								};
 							}
-							return {
-								dialogue: data.dialogue,
-								isreplying: false,
-								progress: data.tutorial.progress,
-							};
-						}
-
-						// LLMの更新が必要かどうかをチェックする
-						const llmUpdateNeeded =
-							messageJson.dialogue !== currentDataJson.dialogue &&
-							messageJson.dialogue.length > 0 &&
-							messageJson.dialogue[messageJson.dialogue.length - 1].isuser;
-
-						if (llmUpdateNeeded) {
-							// LLMの更新を開始するが、結果を待たない
-							const llmUpdatePromise = updateDialogueLLM(messageJson);
-
-							// Workspaceの更新を行う
-							const dataToPut: SessionValue = {
-								sessioncode: sessioncode,
-								uuid: uuid,
-								workspace: workspace, // 既存のワークスペース値を保持
-								dialogue: dialogue, // 現在の対話データを一旦使う
-								isReplying: true, // LLMの更新中であることを示す
-								createdAt: currentDataJson.createdAt,
-								updatedAt: new Date(),
-								isVMRunning: currentDataJson.isVMRunning,
-								clients: currentDataJson.clients,
-								language: currentDataJson.language,
-								llmContext: llmContext,
-								tutorial: {
-									...tutorial,
-									progress: currentDataJson.tutorial.progress, // 現在の進捗を一旦使う
-								},
-								stats: stats,
-							};
-
-							await updateDatabase(dataToPut);
-
-							// LLMの更新結果を待つ
-							const updatedData = await llmUpdatePromise;
-
-							// LLMの更新結果でWorkspaceを再度更新する
-							//最新のデータを取得
-							const latestData = await sessionDB.get(code);
-							if (!latestData) {
-								return;
-							}
-							const latestDataJson: SessionValue = JSON.parse(latestData);
-							const finalDataToPut: SessionValue = {
-								sessioncode: latestDataJson.sessioncode,
-								uuid: latestDataJson.uuid,
-								workspace: latestDataJson.workspace, // 既存のワークスペース値を保持
-								dialogue: updatedData.dialogue,
-								isReplying: updatedData.isreplying,
-								createdAt: latestDataJson.createdAt,
-								updatedAt: new Date(),
-								isVMRunning: latestDataJson.isVMRunning,
-								clients: latestDataJson.clients,
-								language: latestDataJson.language,
-								llmContext: llmContext,
-								tutorial: {
-									...tutorial,
-									progress: updatedData.progress,
-								},
-								stats: updateStats(
-									{
-										totalInvokedLLM: latestDataJson.stats.totalInvokedLLM + 1,
+		
+							const llmUpdateNeeded =
+								messageJson.dialogue !== currentDataJson.dialogue &&
+								messageJson.dialogue.length > 0 &&
+								messageJson.dialogue[messageJson.dialogue.length - 1].isuser;
+		
+							if (llmUpdateNeeded) {
+								const llmUpdatePromise = updateDialogueLLM(messageJson);
+		
+								const dataToPut: SessionValue = {
+									sessioncode: sessioncode,
+									uuid: uuid,
+									workspace: workspace,
+									dialogue: dialogue,
+									isReplying: true,
+									createdAt: currentDataJson.createdAt,
+									updatedAt: new Date(),
+									isVMRunning: currentDataJson.isVMRunning,
+									clients: currentDataJson.clients,
+									language: currentDataJson.language,
+									llmContext: llmContext,
+									tutorial: {
+										...tutorial,
+										progress: currentDataJson.tutorial.progress,
 									},
-									latestDataJson,
-								).stats,
-							};
-
-							await updateDatabase(finalDataToPut);
+									stats: stats,
+								};
+		
+								await updateDatabase(code, dataToPut, clients);
+		
+								const updatedData = await llmUpdatePromise;
+		
+								const latestData = await sessionDB.get(code);
+								if (!latestData) {
+									return;
+								}
+								const latestDataJson: SessionValue = JSON.parse(latestData);
+								const finalDataToPut: SessionValue = {
+									sessioncode: latestDataJson.sessioncode,
+									uuid: latestDataJson.uuid,
+									workspace: latestDataJson.workspace,
+									dialogue: updatedData.dialogue,
+									isReplying: updatedData.isreplying,
+									createdAt: latestDataJson.createdAt,
+									updatedAt: new Date(),
+									isVMRunning: latestDataJson.isVMRunning,
+									clients: latestDataJson.clients,
+									language: latestDataJson.language,
+									llmContext: llmContext,
+									tutorial: {
+										...tutorial,
+										progress: updatedData.progress,
+									},
+									stats: updateStats(
+										{
+											totalInvokedLLM: latestDataJson.stats.totalInvokedLLM + 1,
+										},
+										latestDataJson,
+									).stats,
+								};
+		
+								await updateDatabase(code, finalDataToPut, clients);
+							} else {
+								const dataToPut: SessionValue = {
+									sessioncode: sessioncode,
+									uuid: uuid,
+									workspace: workspace,
+									dialogue: dialogue,
+									isReplying: false,
+									createdAt: currentDataJson.createdAt,
+									updatedAt: new Date(),
+									isVMRunning: currentDataJson.isVMRunning,
+									clients: currentDataJson.clients,
+									language: currentDataJson.language,
+									llmContext: llmContext,
+									tutorial: {
+										...tutorial,
+										progress: messageJson.tutorial.progress,
+									},
+									stats: messageJson.stats,
+								};
+		
+								await updateDatabase(code, dataToPut, clients);
+							}
+						}
+		
+						updateSession()
+							.then(() => {
+								console.log("Session updated");
+							})
+							.catch((error) => {
+								console.error("Error updating session:", error);
+							});
+					}
+		
+					if ((messageJson as WSMessage).request === "open") {
+						const seializedWorkspace = currentDataJson.workspace;
+		
+						const generatedCode = await codeGen(
+							seializedWorkspace,
+							currentDataJson.language,
+						);
+		
+						if (generatedCode === (undefined || null || "")) {
+							isRunning = false;
+							currentDataJson.isVMRunning = isRunning;
+							await updateDatabase(code, currentDataJson, clients);
+							updateDatabase(
+								code,
+								updateDialogue(
+									i18next.t("error.empty_code"),
+									currentDataJson,
+									"log",
+								),
+								clients,
+							);
+							sendToAllClients(
+								currentDataJson,
+								SendIsWorkspaceRunning(isRunning),
+							);
+							return;
+						}
+						console.log("test code received. Executing...");
+						const result = await ExecCodeTest(
+							code,
+							currentDataJson.uuid,
+							generatedCode,
+							`/vm/${code}`,
+							clients,
+							updateDatabase,
+						);
+						if (result === "Valid uuid") {
+							console.log("Script is running...");
+							isRunning = true;
+							currentDataJson.isVMRunning = isRunning;
+							await updateDatabase(code, currentDataJson, clients);
+							sendToAllClients(
+								currentDataJson,
+								SendIsWorkspaceRunning(isRunning),
+							);
 						} else {
-							// LLMの更新が必要ない場合は、一回の更新で済ます
-							const dataToPut: SessionValue = {
-								sessioncode: sessioncode,
-								uuid: uuid,
-								workspace: workspace, // 既存のワークスペース値を保持
-								dialogue: dialogue, // ユーザーからの更新をそのまま使う
-								isReplying: false, // LLMの更新が不要なためfalseに設定
-								createdAt: currentDataJson.createdAt,
-								updatedAt: new Date(),
-								isVMRunning: currentDataJson.isVMRunning,
-								clients: currentDataJson.clients,
-								language: currentDataJson.language,
-								llmContext: llmContext,
-								tutorial: {
-									...tutorial,
-									progress: messageJson.tutorial.progress, // ユーザーからの更新をそのまま使う
-								},
-								//最後のメッセージがユーザーの場合は、ユーザーメッセージの数を更新する
-								stats: messageJson.stats,
-							};
-
-							await updateDatabase(dataToPut);
+							console.log(result);
+							isRunning = false;
+							currentDataJson.isVMRunning = isRunning;
+							await updateDatabase(code, currentDataJson, clients);
+							sendToAllClients(
+								currentDataJson,
+								SendIsWorkspaceRunning(isRunning),
+							);
 						}
 					}
-
-					updateSession()
-						.then(() => {
-							console.log("Session updated");
-						})
-						.catch((error) => {
-							console.error("Error updating session:", error);
-						});
-				}
-
-				if ((messageJson as WSMessage).request === "open") {
-					//ワークスペースを取得
-					const seializedWorkspace = currentDataJson.workspace;
-
-					const generatedCode = await codeGen(
-						seializedWorkspace,
-						currentDataJson.language,
-					);
-
-					if (generatedCode === (undefined || null || "")) {
-						isRunning = false;
-						currentDataJson.isVMRunning = isRunning;
-						await updateDatabase(currentDataJson);
-						updateDatabase(
-							updateDialogue(
-								i18next.t("error.empty_code"),
-								currentDataJson,
-								"log",
-							),
-						);
-						sendToAllClients(
-							currentDataJson,
-							SendIsWorkspaceRunning(isRunning),
-						);
-						return;
-					}
-					console.log("test code received. Executing...");
-					const result = await ExecCodeTest(
-						code,
-						currentDataJson.uuid,
-						generatedCode,
-						`/vm/${code}`,
-						updateDatabase,
-					);
-					if (result === "Valid uuid") {
-						console.log("Script is running...");
-						isRunning = true;
-						currentDataJson.isVMRunning = isRunning;
-						await updateDatabase(currentDataJson);
-						sendToAllClients(
-							currentDataJson,
-							SendIsWorkspaceRunning(isRunning),
-						);
-					} else {
+		
+					if ((messageJson as WSMessage).request === "stop") {
+						const result = await StopCodeTest(code, uuid);
 						console.log(result);
 						isRunning = false;
 						currentDataJson.isVMRunning = isRunning;
-						await updateDatabase(currentDataJson);
-						sendToAllClients(
+		
+						sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
+						const currentDataJsonWithupdatedStats = updateStats(
+							{
+								totalCodeExecutions: currentDataJson.stats.totalCodeExecutions + 1,
+							},
 							currentDataJson,
-							SendIsWorkspaceRunning(isRunning),
 						);
+						await updateDatabase(code, currentDataJsonWithupdatedStats, clients);
 					}
-				}
-
-				if ((messageJson as WSMessage).request === "stop") {
-					const result = await StopCodeTest(code, uuid);
-					console.log(result);
-					isRunning = false;
-					currentDataJson.isVMRunning = isRunning;
-
-					sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
-					//statsの更新
-					const currentDataJsonWithupdatedStats = updateStats(
-						{
-							totalCodeExecutions:
-								currentDataJson.stats.totalCodeExecutions + 1,
-						},
-						currentDataJson,
-					);
-					await updateDatabase(currentDataJsonWithupdatedStats);
 				}
 			} catch (error) {
 				console.error("Error handling message:", error);
 				ws.send("Server error");
 			}
 		});
+		
 
 		ws.on("close", async () => {
 			clearInterval(pingInterval);
@@ -508,8 +486,8 @@ wsServer.get("/hello", async (req, res) => {
 
 function sendToAllClients(session: SessionValue, message?: WSMessage) {
 	for (const id of session.clients) {
-		if (clients.has(id)) {
-			clients.get(id).send(JSON.stringify(message ? message : session));
+		if (clients !== undefined && clients.has(id)) {
+			clients.get(id)?.send(JSON.stringify(message ? message : session));
 		}
 	}
 }
