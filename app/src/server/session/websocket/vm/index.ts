@@ -6,7 +6,9 @@ import vm, { type Context, type Script } from "node:vm";
 import type { SessionValue, WSMessage } from "../../../../type.js";
 import { sessionDB } from "../../../db/session.js";
 import { ExtensionLoader } from "../extentionLoader.js";
-
+// `__dirname` を取得
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // VMのインスタンスを管理するためのインターフェース
 interface VMInstance {
 	context: Context;
