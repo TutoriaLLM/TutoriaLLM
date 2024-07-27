@@ -97,6 +97,9 @@ export async function ExecCodeTest(
 ): Promise<string> {
 	// verify session with uuid
 	const session = await sessionDB.get(code);
+	if (!session) {
+		return "Invalid session";
+	}
 	const sessionValue: SessionValue = JSON.parse(session);
 	if (sessionValue.uuid !== uuid) {
 		return "Invalid uuid";
@@ -105,6 +108,9 @@ export async function ExecCodeTest(
 	// ログバッファのインスタンスを作成
 	const logBuffer = new LogBuffer(async (code, logs: string[]) => {
 		const session = await sessionDB.get(code);
+		if (!session) {
+			return;
+		}
 		const sessionValue: SessionValue = JSON.parse(session);
 		for (const log of logs) {
 			sessionValue.dialogue.push({
@@ -206,6 +212,12 @@ export async function StopCodeTest(
 	if (instance?.running) {
 		instance.running = false;
 		const session = await sessionDB.get(code);
+		if (!session) {
+			return {
+				message: "Invalid session",
+				error: "Invalid session",
+			};
+		}
 		if (JSON.parse(session).uuid !== uuid) {
 			return {
 				message: "Invalid uuid",
