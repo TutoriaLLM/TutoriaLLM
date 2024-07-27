@@ -14,12 +14,12 @@ import {
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import updateDatabase from "./updateDB.js";
-import ws from "ws";
+import websocket from "ws";
 
 const websocketserver = express();
 const wsServer = expressWs(websocketserver).app;
 
-const clients = new Map<string, ws>(); // WebSocketクライアントを管理するマップ
+const clients = new Map<string, websocket>(); // WebSocketクライアントを管理するマップ
 
 // i18n configuration
 i18next.use(FsBackend).init<FsBackendOptions>(
@@ -75,7 +75,6 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		ws.send(JSON.stringify(SendIsWorkspaceRunning(data.isVMRunning)));
 
 		let pongReceived = true;
-
 		// pingを送信する
 		const pingTimeMs = 5000;
 		const pingInterval = setInterval(() => {
@@ -84,14 +83,15 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				pongReceived = false; // pongが受信されるのを待つ
 			} else {
 				// pongが受信されなかった場合、接続を切断する
-				ws.close();
+				ws.terminate();
+				console.log("ping timeout");
 			}
 		}, pingTimeMs);
 
 		ws.on("message", async (message) => {
 			const messageJson: SessionValue | WSMessage = JSON.parse(message.toString());
 			console.log("message received in ws session");
-		
+
 			if ((messageJson as WSMessage).request === "pong") {
 				pongReceived = true;
 				const currentData = await sessionDB.get(code);
@@ -108,7 +108,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				await sessionDB.set(code, JSON.stringify(currentDataJsonWithupdatedStats));
 				return;
 			}
-		
+
 			try {
 				const currentData = await sessionDB.get(code);
 				if (!currentData) {
@@ -117,21 +117,21 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 					return;
 				}
 				const currentDataJson: SessionValue = JSON.parse(currentData);
-		
+
 				// セッションデータが変更されたかをチェック
 				const isUpdated = JSON.stringify(messageJson) !== JSON.stringify(currentDataJson);
 				if (isUpdated) {
 					let isRunning = currentDataJson.isVMRunning;
-		
+
 					updateDatabase(code, currentDataJson, clients);
-		
+
 					if ((messageJson as SessionValue).workspace) {
 						const messageJson: SessionValue = JSON.parse(message.toString());
 						if (currentDataJson.uuid !== messageJson.uuid) {
 							ws.send("Invalid uuid");
 							ws.close();
 						}
-		
+
 						const {
 							sessioncode,
 							uuid,
@@ -141,7 +141,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 							dialogue,
 							stats,
 						} = messageJson;
-		
+
 						async function updateSession() {
 							async function updateDialogueLLM(data: SessionValue): Promise<{
 								dialogue: Dialogue[];
@@ -155,7 +155,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									lastMessage.isuser
 								) {
 									const message = await invokeLLM(messageJson);
-		
+
 									if (message.blockId && message.blockName) {
 										console.log(message);
 										const response = message.response;
@@ -222,7 +222,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 											progress: message.progress,
 										};
 									}
-		
+
 									if (message) {
 										const newDialogue = updateDialogue(
 											message.response,
@@ -242,15 +242,15 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									progress: data.tutorial.progress,
 								};
 							}
-		
+
 							const llmUpdateNeeded =
 								messageJson.dialogue !== currentDataJson.dialogue &&
 								messageJson.dialogue.length > 0 &&
 								messageJson.dialogue[messageJson.dialogue.length - 1].isuser;
-		
+
 							if (llmUpdateNeeded) {
 								const llmUpdatePromise = updateDialogueLLM(messageJson);
-		
+
 								const dataToPut: SessionValue = {
 									sessioncode: sessioncode,
 									uuid: uuid,
@@ -269,11 +269,11 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									},
 									stats: stats,
 								};
-		
+
 								await updateDatabase(code, dataToPut, clients);
-		
+
 								const updatedData = await llmUpdatePromise;
-		
+
 								const latestData = await sessionDB.get(code);
 								if (!latestData) {
 									return;
@@ -302,7 +302,7 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 										latestDataJson,
 									).stats,
 								};
-		
+
 								await updateDatabase(code, finalDataToPut, clients);
 							} else {
 								const dataToPut: SessionValue = {
@@ -323,11 +323,11 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 									},
 									stats: messageJson.stats,
 								};
-		
+
 								await updateDatabase(code, dataToPut, clients);
 							}
 						}
-		
+
 						updateSession()
 							.then(() => {
 								console.log("Session updated");
@@ -336,15 +336,15 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 								console.error("Error updating session:", error);
 							});
 					}
-		
+
 					if ((messageJson as WSMessage).request === "open") {
 						const seializedWorkspace = currentDataJson.workspace;
-		
+
 						const generatedCode = await codeGen(
 							seializedWorkspace,
 							currentDataJson.language,
 						);
-		
+
 						if (generatedCode === (undefined || null || "")) {
 							isRunning = false;
 							currentDataJson.isVMRunning = isRunning;
@@ -393,13 +393,13 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 							);
 						}
 					}
-		
+
 					if ((messageJson as WSMessage).request === "stop") {
 						const result = await StopCodeTest(code, uuid);
 						console.log(result);
 						isRunning = false;
 						currentDataJson.isVMRunning = isRunning;
-		
+
 						sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
 						const currentDataJsonWithupdatedStats = updateStats(
 							{
@@ -415,8 +415,8 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				ws.send("Server error");
 			}
 		});
-		
 
+		// closeイベントのリスナーを設定
 		ws.on("close", async () => {
 			clearInterval(pingInterval);
 			console.log("disconnected client");
