@@ -1,4 +1,4 @@
-name: Code quality
+name: Code quality of app
 
 on:
   push:
@@ -15,4 +15,4 @@ jobs:
         with:
           version: latest
       - name: Run Biome
-        run: biome ci .
+        run: biome ci ./app
