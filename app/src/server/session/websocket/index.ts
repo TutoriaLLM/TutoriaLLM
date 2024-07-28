@@ -14,7 +14,7 @@ import {
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import updateDatabase from "./updateDB.js";
-import websocket from "ws";
+import type websocket from "ws";
 
 const websocketserver = express();
 const wsServer = expressWs(websocketserver).app;
@@ -89,7 +89,9 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 		}, pingTimeMs);
 
 		ws.on("message", async (message) => {
-			const messageJson: SessionValue | WSMessage = JSON.parse(message.toString());
+			const messageJson: SessionValue | WSMessage = JSON.parse(
+				message.toString(),
+			);
 			console.log("message received in ws session");
 
 			if ((messageJson as WSMessage).request === "pong") {
@@ -101,11 +103,15 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				const currentDataJson: SessionValue = JSON.parse(currentData);
 				const currentDataJsonWithupdatedStats = updateStats(
 					{
-						totalConnectingTime: currentDataJson.stats.totalConnectingTime + pingTimeMs,
+						totalConnectingTime:
+							currentDataJson.stats.totalConnectingTime + pingTimeMs,
 					},
 					currentDataJson,
 				);
-				await sessionDB.set(code, JSON.stringify(currentDataJsonWithupdatedStats));
+				await sessionDB.set(
+					code,
+					JSON.stringify(currentDataJsonWithupdatedStats),
+				);
 				return;
 			}
 
@@ -119,7 +125,8 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 				const currentDataJson: SessionValue = JSON.parse(currentData);
 
 				// セッションデータが変更されたかをチェック
-				const isUpdated = JSON.stringify(messageJson) !== JSON.stringify(currentDataJson);
+				const isUpdated =
+					JSON.stringify(messageJson) !== JSON.stringify(currentDataJson);
 				if (isUpdated) {
 					let isRunning = currentDataJson.isVMRunning;
 
@@ -400,14 +407,22 @@ wsServer.ws("/connect/:code", async (ws, req) => {
 						isRunning = false;
 						currentDataJson.isVMRunning = isRunning;
 
-						sendToAllClients(currentDataJson, SendIsWorkspaceRunning(isRunning));
+						sendToAllClients(
+							currentDataJson,
+							SendIsWorkspaceRunning(isRunning),
+						);
 						const currentDataJsonWithupdatedStats = updateStats(
 							{
-								totalCodeExecutions: currentDataJson.stats.totalCodeExecutions + 1,
+								totalCodeExecutions:
+									currentDataJson.stats.totalCodeExecutions + 1,
 							},
 							currentDataJson,
 						);
-						await updateDatabase(code, currentDataJsonWithupdatedStats, clients);
+						await updateDatabase(
+							code,
+							currentDataJsonWithupdatedStats,
+							clients,
+						);
 					}
 				}
 			} catch (error) {
@@ -486,7 +501,7 @@ wsServer.get("/hello", async (req, res) => {
 
 function sendToAllClients(session: SessionValue, message?: WSMessage) {
 	for (const id of session.clients) {
-		if (clients !== undefined && clients.has(id)) {
+		if (clients?.has(id)) {
 			clients.get(id)?.send(JSON.stringify(message ? message : session));
 		}
 	}

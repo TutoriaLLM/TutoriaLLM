@@ -17,5 +17,8 @@
 				"noArrayIndexKey": "info"
 			}
 		}
+	},
+	"files": {
+		"ignore": ["node_modules", "dist"]
 	}
 }

@@ -70,7 +70,11 @@ export async function ExecCodeTest(
 	userScript: string,
 	serverRootPath: string,
 	clients: Map<string, any>,
-	DBupdator: (code:string, newData: SessionValue, clients:Map<string, any>) => Promise<void>,
+	DBupdator: (
+		code: string,
+		newData: SessionValue,
+		clients: Map<string, any>,
+	) => Promise<void>,
 ): Promise<string> {
 	// verify session with uuid
 	const session = await sessionDB.get(code);

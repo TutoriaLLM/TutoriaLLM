@@ -14,12 +14,9 @@ async function getTutorialContent(session: SessionValue) {
 		typeof session.tutorial.tutorialId === "number"
 	) {
 		try {
-			const tutorial = await db
-				.query
-				.tutorials
-				.findFirst({
-					where: (eq(tutorials.id, session.tutorial.tutorialId)),
-				});
+			const tutorial = await db.query.tutorials.findFirst({
+				where: eq(tutorials.id, session.tutorial.tutorialId),
+			});
 			return tutorial
 				? tutorial
 				: {

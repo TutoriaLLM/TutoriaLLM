@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { type Context } from "node:vm";
+import type { Context } from "node:vm";
 
 export class ExtensionLoader {
 	private extensionsDir: string;
