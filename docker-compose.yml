@@ -29,7 +29,7 @@ services:
   app: 
     container_name: code-tutorial-app-dev
     build:
-      context: ./app
+      context: .
       dockerfile: Dockerfile.dev
     ports:
       - "$PORT:$PORT"
@@ -55,8 +55,8 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./app
-          target: /app
+          path: .
+          target: /
           ignore:
             - node_modules/
         - action: rebuild
