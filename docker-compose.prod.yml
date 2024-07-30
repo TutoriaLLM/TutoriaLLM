@@ -38,18 +38,18 @@ services:
     command: >
       sh -c "
         if [ ! -f /.initialized ]; then
-          npm install &&
-          npm run drizzle:generate &&
-          npm run drizzle:push &&
-          npm run reset-credential &&
-          npm run reset-tutorials &&
-          touch /app/.initialized &&
-          npm run start 
+          pnpm install &&
+          pnpm run drizzle:generate &&
+          pnpm run drizzle:push &&
+          pnpm run reset-credential &&
+          pnpm run reset-tutorials &&
+          touch /.initialized &&
+          pnpm run start 
         else
-          npm install &&
-          npm run drizzle:generate &&
-          npm run drizzle:push &&
-          npm run start;
+          pnpm install &&
+          pnpm run drizzle:generate &&
+          pnpm run drizzle:push &&
+          pnpm run start;
         fi
       "
     depends_on:

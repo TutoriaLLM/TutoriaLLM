@@ -1,26 +1,26 @@
+# ベースイメージとして Node.js 20.14.0 を使用
 FROM node:20.14.0
 
-# Set the working directory to /
-WORKDIR /app
+# 作業ディレクトリを / に設定
+WORKDIR /tutorial_app_dev
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# package.json と pnpm-lock.yaml を作業ディレクトリにコピー
+COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
-RUN npm install
+# 依存関係をインストール
+RUN npm install -g pnpm && pnpm install
 
-# Copy all files from the backend directory to the working directory
+# 全てのファイルを作業ディレクトリにコピー
 COPY . .
 
-# Set environment variable
+# 環境変数を設定
 ENV PORT=3000
 
-# Expose the port 3000
+# ポート3000を公開
 EXPOSE 3000
 
-# Command to run the application
-# If you need to reset tutorial and credential, you can add the following options when its start.:
-# If you need to reset tutorial and credential, you can add the following options when its start.:
-# npm run reset-credential
-# npm run reset-tutorials
-CMD ["npm", "run", "dev"]
+# アプリケーションを実行するコマンド
+# チュートリアルと認証情報をリセットする場合は、以下のオプションを追加できます：
+# pnpm run reset-credential
+# pnpm run reset-tutorials
+CMD ["pnpm", "run", "dev"]

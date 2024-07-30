@@ -37,19 +37,19 @@ services:
       - .env
     command: >
       sh -c "
-        if [ ! -f /app/.initialized ]; then
-          npm install &&
-          npm run drizzle:generate &&
-          npm run drizzle:push &&
-          npm run reset-credential &&
-          npm run reset-tutorials &&
-          touch /app/.initialized &&
-          npm run dev 
+        if [ ! -f /.initialized ]; then
+          pnpm install &&
+          pnpm run drizzle:generate &&
+          pnpm run drizzle:push &&
+          pnpm run reset-credential &&
+          pnpm run reset-tutorials &&
+          touch /.initialized &&
+          pnpm run dev 
         else
-          npm install &&
-          npm run drizzle:generate &&
-          npm run drizzle:push &&
-          npm run dev;
+          pnpm install &&
+          pnpm run drizzle:generate &&
+          pnpm run drizzle:push &&
+          pnpm run dev;
         fi
       "
     develop:

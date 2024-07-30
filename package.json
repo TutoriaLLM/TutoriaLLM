@@ -25,7 +25,11 @@
 	},
 	"dependencies": {
 		"@blockly/continuous-toolbox": "^6.0.5",
+		"@lexical/code": "^0.16.1",
+		"@lexical/markdown": "^0.16.1",
 		"@lexical/react": "^0.16.1",
+		"@lexical/rich-text": "^0.16.1",
+		"@lexical/selection": "^0.16.1",
 		"@lucia-auth/adapter-drizzle": "^1.0.7",
 		"@lucia-auth/adapter-postgresql": "^3.1.2",
 		"@lucia-auth/adapter-sqlite": "^3.0.2",
