@@ -7,6 +7,7 @@ export type ContentType =
 	| "user"
 	| "ai"
 	| "log"
+	| "group_log"
 	| "image"
 	| "request"
 	| "blockId"
@@ -16,7 +17,7 @@ export type Dialogue = {
 	id: number;
 	contentType: ContentType;
 	isuser: boolean;
-	content: string;
+	content: string | Dialogue[];
 };
 
 //フロントエンドでのチュートリアルの進行度を管理するための型

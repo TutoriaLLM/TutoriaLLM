@@ -3,7 +3,12 @@ import * as http from "node:http";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import vm, { type Context, type Script } from "node:vm";
-import type { SessionValue, WSMessage } from "../../../../type.js";
+import type {
+	SessionValue,
+	WSMessage,
+	Dialogue,
+	ContentType,
+} from "../../../../type.js";
 import { sessionDB } from "../../../db/session.js";
 import { ExtensionLoader } from "../extentionLoader.js";
 // `__dirname` を取得
@@ -25,8 +30,9 @@ class LogBuffer {
 	private interval: NodeJS.Timeout | null = null;
 
 	constructor(
-		private dbUpdater: (code: string, logs: string[]) => Promise<void>,
+		private dbUpdater: (code: string, logs: Dialogue) => Promise<void>,
 		private code: string,
+		private getSessionValue: () => Promise<SessionValue | null>,
 	) {}
 
 	start() {
@@ -47,7 +53,20 @@ class LogBuffer {
 
 	private async flush() {
 		if (this.buffer.length === 0) return;
-		const logsToSave = [...this.buffer];
+		const sessionValue = await this.getSessionValue();
+		if (!sessionValue) return;
+
+		const logsToSave: Dialogue = {
+			id: sessionValue.dialogue.length + 1, // グループのIDを設定
+			contentType: "group_log",
+			isuser: false,
+			content: this.buffer.map((log, index) => ({
+				id: index + 1,
+				contentType: "log" as ContentType,
+				isuser: false,
+				content: log,
+			})),
+		};
 		this.buffer = [];
 		try {
 			await this.dbUpdater(this.code, logsToSave);
@@ -87,22 +106,22 @@ export async function ExecCodeTest(
 	}
 
 	// ログバッファのインスタンスを作成
-	const logBuffer = new LogBuffer(async (code, logs: string[]) => {
-		const session = await sessionDB.get(code);
-		if (!session) {
-			return;
-		}
-		const sessionValue: SessionValue = JSON.parse(session);
-		for (const log of logs) {
-			sessionValue.dialogue.push({
-				id: sessionValue.dialogue.length + 1,
-				contentType: "log",
-				isuser: false,
-				content: log,
-			});
-		}
-		await DBupdator(code, sessionValue, clients);
-	}, code);
+	const logBuffer = new LogBuffer(
+		async (code, logs: Dialogue) => {
+			const session = await sessionDB.get(code);
+			if (!session) {
+				return;
+			}
+			const sessionValue: SessionValue = JSON.parse(session);
+			sessionValue.dialogue.push(logs);
+			await DBupdator(code, sessionValue, clients);
+		},
+		code,
+		async () => {
+			const session = await sessionDB.get(code);
+			return session ? JSON.parse(session) : null;
+		},
+	);
 
 	// コンテキストの設定
 	const context = vm.createContext({

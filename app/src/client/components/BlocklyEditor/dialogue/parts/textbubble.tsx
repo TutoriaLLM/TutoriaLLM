@@ -15,6 +15,7 @@ import {
 	blockNameFromMenuState,
 	highlightedBlockState,
 } from "../../../../state";
+import * as Accordion from "@radix-ui/react-accordion";
 
 export default function TextBubble(props: { item: Dialogue }) {
 	const [highlightedBlock, setHighlightedBlock] = useAtom(
@@ -48,6 +49,8 @@ export default function TextBubble(props: { item: Dialogue }) {
 		}
 	};
 
+	const content = props.item.content as string;
+
 	if (props.item.contentType === "user") {
 		return (
 			<div
@@ -62,7 +65,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 				</div>
 				<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-xs">
 					<p className="prose">
-						<Markdown>{props.item.content}</Markdown>
+						<Markdown>{content}</Markdown>
 					</p>{" "}
 				</div>
 			</div>
@@ -79,7 +82,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 				</div>
 				<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-xs">
 					<p className="prose">
-						<Markdown>{props.item.content}</Markdown>
+						<Markdown>{content}</Markdown>
 					</p>{" "}
 				</div>
 			</div>
@@ -99,8 +102,35 @@ export default function TextBubble(props: { item: Dialogue }) {
 						{t("textbubble.log")}:
 					</p>
 					<p className="prose">
-						<Markdown>{props.item.content}</Markdown>
+						<Markdown>{content}</Markdown>
 					</p>
+				</div>
+			</div>
+		);
+	}
+	if (
+		props.item.contentType === "group_log" &&
+		Array.isArray(props.item.content)
+	) {
+		return (
+			<div key={props.item.id} className="flex justify-start items-end gap-2">
+				<div className="text-gray-600 flex flex-col items-center">
+					<span className="bg-gray-200 rounded-full p-2">
+						<Server />
+					</span>
+					<p className="text-xs">{t("textbubble.server")}</p>
+				</div>
+				<div className="text-gray-200 bg-gray-800 rounded-2xl p-3 max-w-xs w-full">
+					<p className="text-xs font-semibold text-gray-200 w-full rounded-full p-2 bg-gray-700">
+						{t("textbubble.log")}:
+					</p>
+					<div className="prose-invert flex flex-col gap-2">
+						{props.item.content.map((logItem, index) => (
+							<p className="text-sm font-mono" key={logItem.id}>
+								{logItem.content as string}
+							</p>
+						))}
+					</div>
 				</div>
 			</div>
 		);
@@ -126,7 +156,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 								? "bg-red-500 hover:bg-red-600"
 								: "bg-orange-500 hover:bg-orange-600"
 						} text-white font-bold py-2 px-4 rounded-full`}
-						onClick={() => handleHighlightClick(props.item.content)}
+						onClick={() => handleHighlightClick(content)}
 					>
 						<span
 							className={`transition-transform duration-300 ease-in-out transform ${
@@ -162,7 +192,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 								? "bg-red-500 hover:bg-red-600"
 								: "bg-orange-500 hover:bg-orange-600"
 						} text-white font-bold py-2 px-4 rounded-full`}
-						onClick={() => handleBlockNameClick(props.item.content)}
+						onClick={() => handleBlockNameClick(content)}
 					>
 						<span
 							className={`transition-transform duration-300 ease-in-out transform ${
@@ -177,5 +207,6 @@ export default function TextBubble(props: { item: Dialogue }) {
 			</div>
 		);
 	}
+
 	return null; // エラー回避のためにデフォルトでnullを返す
 }
