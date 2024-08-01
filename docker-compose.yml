@@ -55,8 +55,8 @@ services:
     develop:
       watch:
         - action: sync
-          path: .
-          target: /
+          path: ./src
+          target: /tutorial_app_dev/src
           ignore:
             - node_modules/
         - action: rebuild
