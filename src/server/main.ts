@@ -5,10 +5,11 @@ import { verifyRequestOrigin } from "lucia";
 import { lucia } from "./auth/index.js";
 import api from "./apis.js";
 import ViteExpress from "vite-express";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import { vmExpress } from "./session/websocket/vm/index.js";
 
 // Initialize express and express-ws on the main app
-const { app } = expressWs(express());
-
+const app = expressWs(express()).app;
 // Cookieの読み込み
 app.use((req, res, next) => {
 	if (req.method === "GET") {
@@ -54,6 +55,24 @@ app.use(async (req, res, next) => {
 
 app.use("/api", api);
 
+let port = 3000;
+if (process.env.PORT) {
+	const basePort = Number.parseInt(process.env.PORT, 10); // 10進数として解釈
+	if (!Number.isNaN(basePort)) {
+		// basePortがNaNでないか確認
+		port = basePort;
+	}
+}
+
+app.use("/vm", vmExpress);
+//expressが使えないので、http-proxy-middlewareを使ってアクセスする
+// const vmProxy = createProxyMiddleware({
+// 	target: `http://localhost:${(port + 1).toString()}`,
+// 	changeOrigin: true,
+// 	ws: true,
+// });
+// app.use("/vm", vmProxy);
+
 //不正なwebsocketリクエストを拒否
 app.ws("**", (ws, req) => {
 	console.log("Invalid websocket request");
@@ -61,17 +80,14 @@ app.ws("**", (ws, req) => {
 });
 
 ViteExpress.config({
-	ignorePaths: /^\/api/,
+	ignorePaths: /^\/api|^\/vm/,
 });
 
-let port = process.env.PORT as unknown as number;
-if (!port) {
-	port = 3000;
-}
-
-ViteExpress.listen(app as unknown as Express, port, () =>
-	console.log(`Server is listening with port: ${port}`),
+export const server = app.listen(port, () =>
+	console.log(`Main Server is listening with port: ${port}`),
 );
+
+ViteExpress.bind(app as unknown as Express, server);
 
 // メモリ監視
 // const monitorMemoryUsage = (interval: number) => {
@@ -87,3 +103,5 @@ ViteExpress.listen(app as unknown as Express, port, () =>
 process.on("uncaughtException", (err) => {
 	console.log(err);
 });
+
+export default app;

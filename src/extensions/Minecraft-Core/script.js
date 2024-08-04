@@ -96,7 +96,7 @@ const events = [
 ];
 
 // vmExpressはコンテキストとして利用可能
-vmExpress.ws(`/${code}`, async (ws, req) => {
+workerExpress.ws("/", async (ws, req) => {
 	wss = ws;
 
 	console.log("Connection established with Minecraft.");

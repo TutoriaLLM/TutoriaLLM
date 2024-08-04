@@ -6,9 +6,9 @@ import auth from "./auth/index.js";
 import session from "./session/index.js";
 import tutorialsAPI from "./tutorials/index.js";
 import { getConfigApp } from "./getConfig.js";
-import { vmExpress } from "./session/websocket/vm/index.js";
 
 const api = express();
+expressWs(api);
 
 // session routes
 api.use("/session", session);
@@ -20,7 +20,7 @@ api.use("/tutorial", tutorialsAPI);
 api.use("/config", getConfigApp);
 
 // vm proxy
-api.use("/vm", vmExpress);
+// api.use("/vm", vmExpress);
 
 // admin routes
 api.use("/admin", admin);
