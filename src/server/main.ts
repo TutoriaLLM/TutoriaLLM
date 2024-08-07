@@ -88,16 +88,16 @@ const vmServer = vmApp.listen(vmPort, () => {
 });
 
 // メモリ監視
-// const monitorMemoryUsage = (interval: number) => {
-// 	setInterval(() => {
-// 		const memoryUsage = process.memoryUsage();
-// 		console.log(
-// 			`プロセスの総使用量: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`,
-// 		);
-// 		console.log("-------------------------");
-// 	}, interval);
-// };
-// monitorMemoryUsage(5000);
+const monitorMemoryUsage = (interval: number) => {
+	setInterval(() => {
+		const memoryUsage = process.memoryUsage();
+		console.log(
+			`プロセスの総使用量: ${(memoryUsage.rss / 1024 / 1024).toFixed(2)} MB`,
+		);
+		console.log("-------------------------");
+	}, interval);
+};
+monitorMemoryUsage(2000);
 
 process.on("uncaughtException", (err) => {
 	console.log(err);
@@ -110,12 +110,8 @@ serverEmitter.on("server-started", () => {
 		app.use("/api", api.default);
 		console.log("API routes added");
 	});
-	//VMのルーティングをサーバー起動後に追加。別のサーバーなのでプロキシを使う
-	// import("./session/websocket/vm/index.js").then((vm) => {
-	// 	app.use("/vm", vm.default);
-	// 	console.log("VM routes added");
-	// });
 
+	// VMのプロキシを設定
 	const vmProxy = createProxyMiddleware({
 		target: `http://localhost:${vmPort}`,
 		pathFilter: (path) => {

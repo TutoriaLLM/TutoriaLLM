@@ -1,4 +1,5 @@
 import { Worker } from "node:worker_threads";
+import { exec } from "node:child_process";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 //import nodeHttpProxy from "http-proxy";
@@ -22,16 +23,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // VMのインスタンスを管理するインターフェース
+// VMのインスタンスを管理するインターフェースにWorkerを追加
 interface VMInstance {
 	running: boolean;
+	worker: Worker;
 }
+
+// VMのインスタンスを管理するオブジェクト
+const vmInstances: { [key: string]: VMInstance } = {};
 
 const vmExpress = vmApp;
 
-// Expressアプリケーションを作成し、WebSocketサーバーを設定
-
-const vmInstances: { [key: string]: VMInstance } = {};
-
+// 修正されたExecCodeTest関数
 export async function ExecCodeTest(
 	code: string,
 	uuid: string,
@@ -88,12 +91,13 @@ export async function ExecCodeTest(
 				console.log("VM server received on port", msg.port);
 
 				const port = msg.port;
+				const ip = msg.ip;
 				if (!port) {
 					return;
 				}
 
 				const proxy = createProxyMiddleware({
-					target: `http://localhost:${port}`,
+					target: `http://${ip}:${port}`,
 					changeOrigin: true,
 					ws: true,
 					logger: console,
@@ -103,6 +107,9 @@ export async function ExecCodeTest(
 						},
 						proxyReqWs: (proxyReq, req, socket, options, head) => {
 							console.log("proxyReqWs");
+						},
+						proxyReq: (proxyReq, req, res) => {
+							console.log("proxyReq");
 						},
 					},
 				});
@@ -123,19 +130,21 @@ export async function ExecCodeTest(
 			logBuffer.stop();
 			StopCodeTest(code, uuid);
 		});
+
+		// workerインスタンスを保存
+		vmInstances[uuid] = { running: true, worker: worker };
 	} catch (e) {
 		console.log("error on VM execution");
 		console.log(e);
 		await StopCodeTest(code, uuid);
 	}
 
-	vmInstances[uuid] = { running: true };
-
 	logBuffer.start();
 
 	return "Valid uuid";
 }
 
+// 修正されたStopCodeTest関数
 export async function StopCodeTest(
 	code: string,
 	uuid: string,
@@ -157,6 +166,10 @@ export async function StopCodeTest(
 			};
 		}
 		console.log("updating session result");
+
+		// Workerを終了
+		await instance.worker.terminate();
+
 		delete vmInstances[uuid];
 
 		const stack = vmExpress._router.stack;

@@ -1,6 +1,10 @@
 # ベースイメージとして Node.js 20.14.0 を使用
 FROM node:20.14.0
 
+# 必要なパッケージをインストール
+RUN apt-get update && apt-get install -y iproute2 net-tools
+
+
 # 作業ディレクトリを / に設定
 WORKDIR /tutorial_app_prod
 
