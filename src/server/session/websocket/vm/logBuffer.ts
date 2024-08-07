@@ -1,14 +1,20 @@
 import type { ContentType, Dialogue, SessionValue } from "../../../../type.js";
+import { getConfig } from "../../../getConfig.js";
 
+const config = getConfig();
 export default class LogBuffer {
 	private buffer: string[] = [];
 	private interval: NodeJS.Timeout | null = null;
+	private readonly maxBufferSize: number;
 
 	constructor(
 		private dbUpdater: (code: string, logs: Dialogue) => Promise<void>,
 		private code: string,
 		private getSessionValue: () => Promise<SessionValue | null>,
-	) {}
+		maxBufferSize = config.Code_Execution_Limits.Max_Num_Message_Queue,
+	) {
+		this.maxBufferSize = maxBufferSize;
+	}
 
 	start() {
 		if (this.interval) return;
@@ -23,6 +29,10 @@ export default class LogBuffer {
 	}
 
 	add(log: string) {
+		if (this.buffer.length >= this.maxBufferSize) {
+			// バッファサイズが上限に達した場合、古いログから削除
+			this.buffer.shift();
+		}
 		this.buffer.push(log);
 	}
 

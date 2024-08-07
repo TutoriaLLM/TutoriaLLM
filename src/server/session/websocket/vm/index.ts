@@ -14,9 +14,13 @@ import LogBuffer from "./logBuffer.js";
 import cors from "cors";
 import { request } from "node:http";
 import { vmApp, vmServer } from "../../../main.js";
+import { getConfig } from "../../../getConfig.js";
 
 //debug
 console.log("vm/index.js: Loading vm app");
+
+//configを読み込む
+const config = getConfig();
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -77,9 +81,11 @@ export async function ExecCodeTest(
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
 			workerData: { code, uuid, serverRootPath, userScript },
 			resourceLimits: {
-				codeRangeSizeMb: 128,
-				maxOldGenerationSizeMb: 128,
-				maxYoungGenerationSizeMb: 32,
+				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
+				maxOldGenerationSizeMb:
+					config.Code_Execution_Limits.Max_OldGenerationSizeMb,
+				maxYoungGenerationSizeMb:
+					config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
 			},
 		});
 

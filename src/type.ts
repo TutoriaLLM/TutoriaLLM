@@ -78,4 +78,10 @@ export type AppConfig = {
 		AutoReply: boolean;
 		Reply_Time_ms: number;
 	};
+	Code_Execution_Limits: {
+		Max_CodeRangeSizeMb: number;
+		Max_OldGenerationSizeMb: number;
+		Max_YoungGenerationSizeMb: number;
+		Max_Num_Message_Queue: number;
+	};
 };

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import express from "express";
 import { get } from "node:http";
+import type { AppConfig } from "../type.js";
 
 const configPath = path.resolve("appConfig.json");
 const defaultConfigPath = path.resolve(
@@ -14,7 +15,7 @@ export function getConfig() {
 	if (!fs.existsSync(configPath)) {
 		createConfig();
 	}
-	const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+	const config: AppConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 	return config;
 }
 
