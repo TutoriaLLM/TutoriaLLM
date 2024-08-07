@@ -21,7 +21,8 @@ export const highlightedBlockState = atom<HighlightedBlock>(null);
 export const blockNameFromMenuState = atom<string | null>(null);
 
 //WSインスタンス
-export const websocketInstance = atom<WebSocket | null>(null);
+import type { Socket } from "socket.io-client";
+export const socketIoInstance = atom<Socket | null>(null);
 
 //ワークスペースのコードが実行されているかどうか
 export const isWorkspaceCodeRunning = atom(false);

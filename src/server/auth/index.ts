@@ -9,6 +9,9 @@ import { authSessions, type User, users } from "../db/schema.js";
 import { db } from "../db/index.js";
 import { eq } from "drizzle-orm";
 
+//debug
+console.log("auth/index.ts: Loading auth app");
+
 declare module "lucia" {
 	interface Register {
 		Lucia: typeof lucia;

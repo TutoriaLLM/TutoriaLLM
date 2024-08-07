@@ -7,6 +7,9 @@ import { getConfig } from "../../getConfig.js";
 import { tutorials } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 
+//debug
+console.log("llm/index.ts: Loading llm app");
+
 // Fetches the tutorial content based on the session value.
 async function getTutorialContent(session: SessionValue) {
 	if (

@@ -3,6 +3,9 @@ import { Level } from "level";
 import type { SessionValue } from "../../type.js";
 import joincodeGen from "../../utils/joincodeGen.js";
 
+//debug
+console.log("db/session.ts: Loading db app");
+
 const DBrouter = express.Router();
 
 //複数セッションを管理するのに使用するコードとデータを保存するDB

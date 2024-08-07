@@ -33,6 +33,7 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - $PORT:$PORT
+      - $VM_PORT:$VM_PORT
     env_file:
       - .env
     command: >

@@ -24,7 +24,7 @@ const updateDatabase = async (
 		// 全クライアントに更新を通知
 		for (const id of newData.clients) {
 			if (clients?.has(id)) {
-				clients.get(id)?.send(JSON.stringify(newData));
+				clients.get(id)?.emit("PushCurrentSession", newData);
 			}
 		}
 	}

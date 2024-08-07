@@ -4,13 +4,12 @@ import { javascriptGenerator } from "blockly/javascript";
 
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import type { WSMessage } from "../../type.js";
 import sleep from "../../utils/sleep.js";
 import {
 	currentSessionState,
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
-	websocketInstance,
+	socketIoInstance,
 } from "../state.js";
 
 import { PlayIcon, StopCircleIcon } from "lucide-react";
@@ -21,25 +20,14 @@ export function ExecSwitch() {
 	const { t } = useTranslation();
 	const isCodeRunning = useAtomValue(isWorkspaceCodeRunning);
 	const isConnected = useAtomValue(isWorkspaceConnected);
-	const wsInstance = useAtomValue(websocketInstance);
+	const socketInstance = useAtomValue(socketIoInstance);
 	const currentSession = useAtomValue(currentSessionState);
 
 	//スイッチの無効化を管理
 	const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
 
-	//チェックの有無は、確実に状態を表示するため、コンポーネント側で状態を用意せず、サーバーの状態を元に表示する。
-	function WSreq(request: string, value?: string): WSMessage | undefined {
-		if (!currentSession) {
-			return;
-		}
-		return {
-			request: request,
-			value: value,
-		};
-	}
-
 	function ChangeSwitch() {
-		if (!isConnected || !wsInstance || !currentSession) {
+		if (!isConnected || !socketInstance || !currentSession) {
 			console.log("An error occurred. Please try again later.");
 			return;
 		}
@@ -54,12 +42,12 @@ export function ExecSwitch() {
 			//スイッチがオンのとき
 			console.log("stop");
 			//スクリプトの実行を停止する処理を書く
-			wsInstance.send(JSON.stringify(WSreq("stop")));
+			socketInstance.emit("stopVM");
 		}
 		if (!isCodeRunning) {
 			//スイッチがオフのとき
 			console.log("start");
-			wsInstance.send(JSON.stringify(WSreq("open")));
+			socketInstance.emit("openVM");
 		}
 		setIsSwitchDisabled(true);
 	}

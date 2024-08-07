@@ -1,20 +1,21 @@
 import { Worker } from "node:worker_threads";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import nodeHttpProxy from "http-proxy";
+//import nodeHttpProxy from "http-proxy";
+//import proxy from "express-http-proxy";
+import { WebSocketServer, type WebSocket } from "ws";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type {
-	SessionValue,
-	WSMessage,
-	Dialogue,
-	ContentType,
-} from "../../../../type.js";
+import type { SessionValue, Dialogue, ContentType } from "../../../../type.js";
 import { sessionDB } from "../../../db/session.js";
-import expressWs from "express-ws";
-import Websocket from "ws";
 import type { vmMessage } from "./tsWorker.js";
 import LogBuffer from "./logBuffer.js";
+import cors from "cors";
+import { request } from "node:http";
+import { vmApp, vmServer } from "../../../main.js";
+
+//debug
+console.log("vm/index.js: Loading vm app");
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -25,13 +26,10 @@ interface VMInstance {
 	running: boolean;
 }
 
-// Expressアプリケーションを作成
-//const app = express();
-export const vmExpress = expressWs(express()).app;
-//export const vmExpress = express();
-// vmExpress.use("/", vmExpressWs);
+const vmExpress = vmApp;
 
-// VMのインスタンスを管理するオブジェクト
+// Expressアプリケーションを作成し、WebSocketサーバーを設定
+
 const vmInstances: { [key: string]: VMInstance } = {};
 
 export async function ExecCodeTest(
@@ -93,42 +91,30 @@ export async function ExecCodeTest(
 				if (!port) {
 					return;
 				}
-				const httpProxy = createProxyMiddleware({
-					target: {
-						host: "localhost",
-						port: port,
-						protocol: "http:",
-					},
+
+				const proxy = createProxyMiddleware({
+					target: `http://localhost:${port}`,
 					changeOrigin: true,
-					secure: false,
 					ws: true,
-					pathFilter: (path) => path.includes(code),
-					pathRewrite: (path) => path.replace(`/${code}`, ""),
 					logger: console,
 					on: {
-						proxyReq: (proxyReq, req, res) => {
-							console.log("proxyReq");
-							console.log("Proxy request:", req.url);
-							console.log("Proxy request port:", msg.port);
+						error: (err, req, res) => {
+							console.log("error on proxy", err);
 						},
 						proxyReqWs: (proxyReq, req, socket, options, head) => {
 							console.log("proxyReqWs");
-							console.log("Proxy request:", req.url);
-							console.log("Proxy request port:", msg.port);
-						},
-						error: (err, req, res) => {
-							console.error("Proxy error:", err);
-						},
-						open: (proxySocket) => {
-							console.log("Proxy open");
-						},
-						close: (res, socket, head) => {
-							console.log("Proxy close");
 						},
 					},
 				});
 
-				vmExpress.use(httpProxy);
+				// HTTPとWebSocketの両方のプロキシを設定
+				vmExpress.use((req, res, next) => {
+					if (req.originalUrl.includes(`/${code}`)) {
+						proxy(req, res, next);
+					} else {
+						next();
+					}
+				});
 			}
 		});
 
@@ -188,12 +174,5 @@ export async function StopCodeTest(
 	return {
 		message: "Script is not running.",
 		error: "Script is not running.",
-	};
-}
-
-export function SendIsWorkspaceRunning(isrunning: boolean): WSMessage {
-	return {
-		request: "updateState_isrunning",
-		value: isrunning,
 	};
 }

@@ -17,13 +17,17 @@ COPY . .
 RUN pnpm run build
 
 # ビルド時に使用するポートを設定
-ARG PORT=8080
+ARG PORT=80
+ARG VM_PORT=8080
+
 ENV PORT=${PORT} \
+    # VMのポート
+    VM_PORT=${VM_PORT} \
     # シークレット
     NODE_ENV=production
 
 # ポートを公開
-EXPOSE ${PORT}
+EXPOSE ${PORT} ${VM_PORT}
 
 # アプリケーションを実行するコマンド
 # チュートリアルと認証情報をリセットする場合は、以下のオプションを追加できます：

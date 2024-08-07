@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
-import type { AppConfig, SessionValue, WSMessage } from "../../type.js";
+import type { AppConfig, SessionValue } from "../../type.js";
 import Editor from "../components/BlocklyEditor/Blockly/index.js";
 import Navbar from "../components/BlocklyEditor/Navbar.js";
 
@@ -22,8 +22,11 @@ import {
 	prevSessionState,
 	settingState,
 	userSessionCode,
-	websocketInstance,
+	socketIoInstance,
 } from "../state.js";
+
+import { io, Socket } from "socket.io-client";
+import { set } from "zod";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -36,10 +39,10 @@ export default function EditorPage() {
 	const [showPopup, setShowPopup] = useAtom(isPopupOpen);
 	const [WorkspaceConnection, setWorkspaceConnection] =
 		useAtom(isWorkspaceConnected);
-	const [wsInstance, setWsInstance] = useAtom(websocketInstance);
+	const [socketInstance, setSocketInstance] = useAtom(socketIoInstance);
 	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
 
-	//設定の保存をするstatte
+	//設定の保存をするstate
 	const [settings, setSettings] = useAtom(settingState);
 
 	const devicewidth = window.innerWidth;
@@ -56,7 +59,7 @@ export default function EditorPage() {
 	//設定をAPIから取得
 	useEffect(() => {
 		async function fetchConfig() {
-			const result = await fetch("api/config");
+			const result = await fetch("/api/config");
 			const response = (await result.json()) as AppConfig;
 			if (!response) {
 				throw new Error("Failed to fetch config");
@@ -86,7 +89,7 @@ export default function EditorPage() {
 		}
 	}, [codeFromPath, languageToStart]);
 
-	// セッションが存在するか確認する。一回目だけDBから取得し、以降はWebSocketで更新する
+	// セッションが存在するか確認する。一回目だけDBから取得し、以降はsocket.ioで更新する
 	useEffect(() => {
 		async function checkSession() {
 			if (sessionCode !== "") {
@@ -101,7 +104,7 @@ export default function EditorPage() {
 					console.log(`code is valid!${JSON.stringify(data)}`);
 					setCurrentSession(data);
 					setPrevSession(data);
-					connectWebSocket(data);
+					connectSocket(data);
 					i18next.changeLanguage(data.language);
 				}
 			}
@@ -112,54 +115,41 @@ export default function EditorPage() {
 		}
 	}, [sessionCode, languageToStart]);
 
-	// WebSocketに接続する関数
-	async function connectWebSocket(data: SessionValue) {
-		// プロトコルを取得
-		const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-		const host = `${protocol}://${window.location.host}/api/session/ws/connect/${sessionCode}?uuid=${data.uuid}&language=${data.language}`;
+	// Socket.ioに接続する関数
+	async function connectSocket(data: SessionValue) {
+		const host = `${window.location.host}`;
+		console.log(`processing socket.io connection: ${host}`);
 
-		console.log(`processing websocket connection: ${host}`);
+		const socket = io(host, {
+			path: "/api/session/socket/connect",
+			query: {
+				code: sessionCode,
+				uuid: data.uuid,
+			},
+		});
 
-		const ws = new WebSocket(host);
-		ws.onopen = () => {
+		socket.on("connect", () => {
 			console.log("connected");
 			setWorkspaceConnection(true);
-			setWsInstance(ws); // WebSocketインスタンスを保存
-		};
-		ws.onmessage = (event) => {
-			const message = event.data;
-			const messageJson: WSMessage | SessionValue = JSON.parse(message);
-			console.log("Message from server ", messageJson);
-			//コードの実行状況
-			if ((messageJson as WSMessage).request === "updateState_isrunning") {
-				console.log("isrunning updated");
-				setIsCodeRunning((messageJson as WSMessage).value as boolean);
-			}
-			//pingを受信したらpongを返す
-			if ((messageJson as WSMessage).request === "ping") {
-				console.log("Received ping from server");
-				ws.send(JSON.stringify({ request: "pong" } as WSMessage));
-			}
-			//セッション内容を受信したらワークスペース内容をprevSessionと比較して内容が違う場合は更新する
-			if ((messageJson as SessionValue).workspace !== prevSession?.workspace) {
-				console.log("Received changed session data from server!");
-				setCurrentSession(messageJson as SessionValue);
-			}
-		};
-		ws.onclose = () => {
+			setSocketInstance(socket); // Socketインスタンスを保存
+		});
+
+		socket.on("PushCurrentSession", (message: SessionValue) => {
+			console.log("Received changed session data from server!");
+			setCurrentSession(message);
+			setIsCodeRunning(message.isVMRunning);
+		});
+
+		socket.on("disconnect", () => {
 			console.log("disconnected");
 			setWorkspaceConnection(false);
-			setWsInstance(null); // WebSocketインスタンスをクリア
-		};
+			setSocketInstance(null); // Socketインスタンスをクリア
+		});
 	}
 
-	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はWebSocketに送信する
+	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はSocketに送信する
 	useEffect(() => {
-		if (
-			wsInstance &&
-			wsInstance.readyState === WebSocket.OPEN &&
-			currentSession
-		) {
+		if (socketInstance && currentSession) {
 			// 前回のセッションのワークスペース、対話の内容が違う場合のみ送信
 			if (
 				JSON.stringify(currentSession.workspace) !==
@@ -167,10 +157,10 @@ export default function EditorPage() {
 				JSON.stringify(currentSession.dialogue) !==
 					JSON.stringify(prevSession?.dialogue)
 			) {
-				wsInstance.send(JSON.stringify(currentSession));
+				socketInstance.emit("UpdateCurrentSession", currentSession);
 				setPrevSession(currentSession);
 				console.log(
-					"Sent currentSession to WebSocket and save prev session:",
+					"Sent currentSession to Socket and save prev session:",
 					currentSession,
 				);
 			}
@@ -218,7 +208,7 @@ export default function EditorPage() {
 				}, settings?.Client_Settings.Reply_Time_ms); // 例として5秒後に送信
 			}
 		}
-	}, [currentSession, wsInstance]);
+	}, [currentSession, socketInstance]);
 
 	// 接続が切れた場合に再接続を試みる
 	useEffect(() => {
@@ -240,7 +230,7 @@ export default function EditorPage() {
 							console.log("Reconnected successfully");
 							setCurrentSession(data);
 							setPrevSession(data);
-							connectWebSocket(data);
+							connectSocket(data);
 						})
 						.catch((error) => {
 							console.error("Reconnection failed:", error);

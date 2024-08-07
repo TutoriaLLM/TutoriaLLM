@@ -1,8 +1,3 @@
-export type WSMessage = {
-	request: string;
-	value?: string | number | boolean | object | null;
-};
-
 export type ContentType =
 	| "user"
 	| "ai"

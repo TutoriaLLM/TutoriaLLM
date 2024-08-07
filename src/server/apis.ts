@@ -1,5 +1,4 @@
 import express from "express";
-import expressWs from "express-ws";
 
 import admin from "./admin/index.js";
 import auth from "./auth/index.js";
@@ -7,8 +6,10 @@ import session from "./session/index.js";
 import tutorialsAPI from "./tutorials/index.js";
 import { getConfigApp } from "./getConfig.js";
 
+//debug
+console.log("apis.ts: Loading apis app");
+
 const api = express();
-expressWs(api);
 
 // session routes
 api.use("/session", session);
@@ -18,9 +19,6 @@ api.use("/tutorial", tutorialsAPI);
 
 // config fetch route
 api.use("/config", getConfigApp);
-
-// vm proxy
-// api.use("/vm", vmExpress);
 
 // admin routes
 api.use("/admin", admin);

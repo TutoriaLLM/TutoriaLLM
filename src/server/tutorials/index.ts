@@ -3,6 +3,9 @@ import { db } from "../db/index.js";
 import { tutorials } from "../db/schema.js";
 import { eq } from "drizzle-orm";
 
+//debug
+console.log("tutorials/index.ts: Loading tutorial api app");
+
 //外部向けのチュートリアルエンドポイント(編集不可)
 const tutorialsAPI = express();
 
