@@ -36,6 +36,11 @@ export default class LogBuffer {
 		this.buffer.push(log);
 	}
 
+	error(error: string) {
+		this.add(`Error: ${error}`);
+		this.flush();
+	}
+
 	async flush() {
 		if (this.buffer.length === 0) return;
 		const sessionValue = await this.getSessionValue();
@@ -47,7 +52,9 @@ export default class LogBuffer {
 			isuser: false,
 			content: this.buffer.map((log, index) => ({
 				id: index + 1,
-				contentType: "log" as ContentType,
+				contentType: log.startsWith("Error:")
+					? ("error" as ContentType)
+					: ("log" as ContentType),
 				isuser: false,
 				content: log,
 			})),

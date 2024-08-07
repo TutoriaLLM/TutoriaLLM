@@ -88,26 +88,6 @@ export default function TextBubble(props: { item: Dialogue }) {
 			</div>
 		);
 	}
-	if (props.item.contentType === "log") {
-		return (
-			<div key={props.item.id} className="flex justify-start items-end gap-2">
-				<div className="text-gray-600 flex flex-col items-center">
-					<span className="bg-gray-200 rounded-full p-2">
-						<Server />
-					</span>
-					<p className="text-xs">{t("textbubble.server")}</p>
-				</div>
-				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-xs w-full">
-					<p className="text-xs font-semibold text-gray-600">
-						{t("textbubble.log")}:
-					</p>
-					<p className="prose">
-						<Markdown>{content}</Markdown>
-					</p>
-				</div>
-			</div>
-		);
-	}
 	if (
 		props.item.contentType === "group_log" &&
 		Array.isArray(props.item.content)
@@ -126,7 +106,10 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</p>
 					<div className="prose-invert flex flex-col gap-2">
 						{props.item.content.map((logItem, index) => (
-							<p className="text-sm font-mono" key={logItem.id}>
+							<p
+								className={`text-sm font-mono ${logItem.contentType === "error" ? "text-red-500" : ""}`}
+								key={logItem.id}
+							>
 								{logItem.content as string}
 							</p>
 						))}

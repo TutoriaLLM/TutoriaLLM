@@ -184,7 +184,7 @@ io.on("connection", async (socket) => {
 				return;
 			}
 			let isRunning = currentDataJson.isVMRunning;
-			const result = await StopCodeTest(code, uuid);
+			const result = await StopCodeTest(code, uuid, clients, updateDatabase);
 			console.log(result);
 			isRunning = false;
 			currentDataJson.isVMRunning = isRunning;
@@ -221,7 +221,12 @@ io.on("connection", async (socket) => {
 					currentDataJson.isVMRunning &&
 					currentDataJson.clients.length === 0
 				) {
-					const result = await StopCodeTest(code, uuid);
+					const result = await StopCodeTest(
+						code,
+						uuid,
+						clients,
+						updateDatabase,
+					);
 					console.log(`${result.message} VM stopped. no clients connected.`);
 					currentDataJson.isVMRunning = false;
 				}

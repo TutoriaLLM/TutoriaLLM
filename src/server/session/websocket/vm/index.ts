@@ -15,6 +15,7 @@ import cors from "cors";
 import { request } from "node:http";
 import { vmApp, vmServer } from "../../../main.js";
 import { getConfig } from "../../../getConfig.js";
+import updateDatabase from "../updateDB.js";
 
 //debug
 console.log("vm/index.js: Loading vm app");
@@ -91,7 +92,7 @@ export async function ExecCodeTest(
 
 		worker.on("message", (msg: vmMessage) => {
 			if (msg.type === "log") logBuffer.add(msg.content);
-			if (msg.type === "error") logBuffer.add(msg.content);
+			if (msg.type === "error") logBuffer.error(msg.content);
 
 			if (msg.type === "openVM") {
 				console.log("VM server received on port", msg.port);
@@ -131,10 +132,15 @@ export async function ExecCodeTest(
 			}
 		});
 
+		worker.on("error", (err) => {
+			console.log("Worker error:", err);
+			logBuffer.error(err.message);
+		});
+
 		worker.on("exit", (exitcode) => {
 			console.log(`Worker stopped with exit code ${exitcode}`);
 			logBuffer.stop();
-			StopCodeTest(code, uuid);
+			StopCodeTest(code, uuid, clients, DBupdator);
 		});
 
 		// workerインスタンスを保存
@@ -142,7 +148,7 @@ export async function ExecCodeTest(
 	} catch (e) {
 		console.log("error on VM execution");
 		console.log(e);
-		await StopCodeTest(code, uuid);
+		await StopCodeTest(code, uuid, clients, DBupdator);
 	}
 
 	logBuffer.start();
@@ -154,6 +160,12 @@ export async function ExecCodeTest(
 export async function StopCodeTest(
 	code: string,
 	uuid: string,
+	clients: Map<string, any>,
+	DBupdator: (
+		code: string,
+		newData: SessionValue,
+		clients: Map<string, any>,
+	) => Promise<void>,
 ): Promise<{ message: string; error: string }> {
 	const instance = vmInstances[uuid];
 	if (instance?.running) {
@@ -185,6 +197,10 @@ export async function StopCodeTest(
 				stack.splice(i, 1);
 			}
 		}
+		//DBを更新し、クライアントに通知
+		const sessionValue: SessionValue = JSON.parse(session);
+		sessionValue.isVMRunning = false;
+		await DBupdator(code, sessionValue, clients);
 		return {
 			message: "Script execution stopped successfully.",
 			error: "",
