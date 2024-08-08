@@ -1,5 +1,7 @@
+import i18next from "i18next";
 import type { ContentType, Dialogue, SessionValue } from "../../../../type.js";
 import { getConfig } from "../../../getConfig.js";
+import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 
 const config = getConfig();
 export default class LogBuffer {
@@ -29,8 +31,7 @@ export default class LogBuffer {
 	}
 
 	add(log: string) {
-		if (this.buffer.length >= this.maxBufferSize) {
-			// バッファサイズが上限に達した場合、古いログから削除
+		if (this.buffer.length - 1 >= this.maxBufferSize) {
 			this.buffer.shift();
 		}
 		this.buffer.push(log);

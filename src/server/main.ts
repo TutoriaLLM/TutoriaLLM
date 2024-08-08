@@ -7,10 +7,14 @@ import { lucia } from "./auth/index.js";
 import ViteExpress from "vite-express";
 import { EventEmitter } from "node:events";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { getConfig } from "./getConfig.js";
 
 // Initialize express and on the main app
 const app = express();
 const vmApp = express();
+
+//load config
+const config = getConfig();
 
 // Cookieの読み込み
 ViteExpress.config({
@@ -97,7 +101,9 @@ const monitorMemoryUsage = (interval: number) => {
 		console.log("-------------------------");
 	}, interval);
 };
-monitorMemoryUsage(2000);
+if (config.General_Settings.Enable_Memory_Use_Log === true) {
+	monitorMemoryUsage(2000);
+}
 
 process.on("uncaughtException", (err) => {
 	console.log(err);

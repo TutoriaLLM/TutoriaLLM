@@ -70,6 +70,7 @@ export type AppConfig = {
 	General_Settings: {
 		Enable_Join_by_code: boolean;
 		Enable_Create_Room: boolean;
+		Enable_Memory_Use_Log: boolean;
 	};
 	AI_Settings: {
 		Chat_AI_Model: string;

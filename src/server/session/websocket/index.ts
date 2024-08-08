@@ -144,7 +144,11 @@ io.on("connection", async (socket) => {
 				await updateDatabase(code, currentDataJson, clients);
 				updateDatabase(
 					code,
-					updateDialogue(i18next.t("error.empty_code"), currentDataJson, "log"),
+					updateDialogue(
+						i18next.t("error.empty_code"),
+						currentDataJson,
+						"error",
+					),
 					clients,
 				);
 				sendToAllClients(currentDataJson);

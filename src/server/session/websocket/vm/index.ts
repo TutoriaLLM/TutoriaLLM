@@ -13,15 +13,34 @@ import type { vmMessage } from "./tsWorker.js";
 import LogBuffer from "./logBuffer.js";
 import cors from "cors";
 import { request } from "node:http";
-import { vmApp, vmServer } from "../../../main.js";
+import { vmApp } from "../../../main.js";
 import { getConfig } from "../../../getConfig.js";
 import updateDatabase from "../updateDB.js";
+import i18next from "i18next";
+import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 
 //debug
 console.log("vm/index.js: Loading vm app");
 
 //configを読み込む
 const config = getConfig();
+
+//i18nの設定
+// i18n configuration
+i18next.use(I18NexFsBackend).init<FsBackendOptions>(
+	{
+		backend: {
+			loadPath: "src/i18n/{{lng}}.json",
+		},
+		fallbackLng: "en",
+		preload: ["ja", "en", "zh", "ms"], // Add the languages you want to preload
+	},
+	(err, t) => {
+		if (err) return console.error(err);
+		console.log("i18next initialized");
+	},
+);
+const { t } = i18next;
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -133,8 +152,14 @@ export async function ExecCodeTest(
 		});
 
 		worker.on("error", (err) => {
+			if (err.toString().includes("ERR_WORKER_OUT_OF_MEMORY")) {
+				logBuffer.error(
+					`${t("error.error")}: ${t("vm.outOfMemory")} (${err.message})`,
+				);
+			} else {
+				logBuffer.error(`${t("error.error")}: ${err.message}`);
+			}
 			console.log("Worker error:", err);
-			logBuffer.error(err.message);
 		});
 
 		worker.on("exit", (exitcode) => {

@@ -1,69 +1,77 @@
 {
-	"session": {
-		"creating": "creating...",
-		"joinsession": "join with code",
-		"sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
-		"hello": "Hello",
-		"or": "or",
-		"createSession": "Create new room",
-		"typecodeMsg": "Type your code, or create new room to start.",
-		"about": "About this app",
-		"welcome": "Study coding with AI"
-	},
-	"navbar": {
-		"leave": "leave",
-		"connected": "connected",
-		"reconnecting": "disconnected. attempting to reconnect.",
-		"home": "Home",
-		"signout": "Sign out",
-		"noTutorial": "No tutorial has selected",
-		"joinCode": "Join Code"
-	},
-	"execSwitch": {
-		"label": "Run code",
-		"Running": "Running",
-		"Stopped": "Stopped"
-	},
-	"error": {
-		"empty_code": "Code is invalid or empty"
-	},
-	"login": {
-		"welcome": "Login to continue",
-		"title": "Login",
-		"username": "Username",
-		"password": "Password",
-		"login": "Login",
-		"loginFailed": "Login failed"
-	},
-	"sidebar": {
-		"dashboard": "Dashboard",
-		"tutorials": "Tutorials",
-		"users": "Users",
-		"settings": "Settings",
-		"sessions": "Sessions",
-		"toggle": "Sidebar"
-	},
-	"textbubble": {
-		"log": "Log",
-		"server": "Server",
-		"ai": "AI",
-		"you": "You",
-		"block": "Block",
-		"findBlock": "Find block",
-		"findBlockFromMenu": "Find from menu",
-		"replying": "Replying...",
-		"ask": "Ask anything..."
-	},
-	"tutorial": {
-		"title": "Pick Tutorial",
-		"description": "Choose what you want to learn",
-		"start": "Start Tutorial",
-		"startTutorial": "Tutorial has selected"
-	},
-	"quickReply": {
-		"done": "I'm done",
-		"iDontKnow": "I don't know",
-		"explainThis": "Explain this",
-		"whatToDo": "What do I need to?"
-	}
+  "session": {
+    "creating": "creating...",
+    "joinsession": "join with code",
+    "sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
+    "hello": "Hello",
+    "or": "or",
+    "createSession": "Create new room",
+    "typecodeMsg": "Type your code, or create new room to start.",
+    "about": "About this app",
+    "welcome": "Study coding with AI"
+  },
+  "navbar": {
+    "leave": "leave",
+    "connected": "connected",
+    "reconnecting": "disconnected. attempting to reconnect.",
+    "home": "Home",
+    "signout": "Sign out",
+    "noTutorial": "No tutorial has selected",
+    "joinCode": "Join Code"
+  },
+  "execSwitch": {
+    "label": "Run code",
+    "Running": "Running",
+    "Stopped": "Stopped"
+  },
+  "error": {
+    "empty_code": "Code is invalid or empty",
+    "error": "Error"
+  },
+  "login": {
+    "welcome": "Login to continue",
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "loginFailed": "Login failed"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "tutorials": "Tutorials",
+    "users": "Users",
+    "settings": "Settings",
+    "sessions": "Sessions",
+    "toggle": "Sidebar"
+  },
+  "textbubble": {
+    "log": "Log",
+    "server": "Server",
+    "ai": "AI",
+    "you": "You",
+    "block": "Block",
+    "findBlock": "Find block",
+    "findBlockFromMenu": "Find from menu",
+    "replying": "Replying...",
+    "ask": "Ask anything...",
+    "showingLatest": "Showing latest {{count}} messages"
+  },
+  "tutorial": {
+    "title": "Pick Tutorial",
+    "description": "Choose what you want to learn",
+    "start": "Start Tutorial",
+    "startTutorial": "Tutorial has selected"
+  },
+  "quickReply": {
+    "done": "I'm done",
+    "iDontKnow": "I don't know",
+    "explainThis": "Explain this",
+    "whatToDo": "What do I need to?"
+  },
+  "vm": {
+    "outOfMemory": "Machine reached memory limit"
+  },
+  "logbuffer": {
+    "tooManyLogs": "Too many messages. old logs removed."
+  }
 }
