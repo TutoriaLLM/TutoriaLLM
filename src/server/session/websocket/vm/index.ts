@@ -99,7 +99,7 @@ export async function ExecCodeTest(
 
 	try {
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
-			workerData: { code, uuid, serverRootPath, userScript },
+			workerData: { code, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
 				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
 				maxOldGenerationSizeMb:
@@ -125,17 +125,24 @@ export async function ExecCodeTest(
 				const proxy = createProxyMiddleware({
 					target: `http://${ip}:${port}`,
 					changeOrigin: true,
+					pathFilter(pathname, req) {
+						return pathname.includes(`/${code}`);
+					},
+					pathRewrite: { [`^/${code}`]: "" },
 					ws: true,
 					logger: console,
 					on: {
+						close: (res, socket, head) => {
+							console.log("vm manager close");
+						},
 						error: (err, req, res) => {
-							console.log("error on proxy", err);
+							console.log("vm manager error on proxy", err);
 						},
 						proxyReqWs: (proxyReq, req, socket, options, head) => {
-							console.log("proxyReqWs");
+							console.log("vm manager proxyReqWs");
 						},
 						proxyReq: (proxyReq, req, res) => {
-							console.log("proxyReq");
+							console.log("vm manager proxyReq");
 						},
 					},
 				});

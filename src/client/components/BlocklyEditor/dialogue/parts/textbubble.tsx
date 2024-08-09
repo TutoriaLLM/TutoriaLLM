@@ -165,7 +165,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 						</span>
 					) : (
 						<span className="text-xs font-semibold text-green-200 w-full rounded-2xl flex justify-between items-center p-2 bg-green-600">
-							<p className="text-base">{t("textbubble.log")}</p>
+							<p className="text-base flex-grow">{t("textbubble.log")}</p>
 							<p className="text-xs text-red-300">
 								{t("textbubble.showingLatest", {
 									count: setting?.Code_Execution_Limits?.Max_Num_Message_Queue,

@@ -1,15 +1,16 @@
 import vm from "node:vm";
 import path from "node:path";
-import http, { createServer } from "node:http";
-import { workerData, parentPort } from "node:worker_threads";
+import { parentPort, workerData } from "node:worker_threads";
 import { ExtensionLoader } from "../extentionLoader.js";
 import { fileURLToPath } from "node:url";
-import { WebSocketServer, WebSocket } from "ws";
 import getPort from "get-port";
 import { exec } from "node:child_process";
 import os from "node:os";
+import { Hono } from "hono";
+import { serve } from "@hono/node-server";
+import { createNodeWebSocket } from "@hono/node-ws";
 
-const { code, uuid, serverRootPath, userScript } = workerData;
+const { code, sessionValue, serverRootPath, userScript } = workerData;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,25 +26,37 @@ export type vmMessage = {
 	ip: string;
 };
 
-const server = createServer((req, res) => {
-	// CORSヘッダーを追加
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+const app = new Hono();
+const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app });
 
-	if (req.method === "OPTIONS") {
-		res.writeHead(204);
-		res.end();
-		return;
-	}
-
-	res.writeHead(200, { "Content-Type": "text/plain" });
-	res.end(`Hello, world from VM server!: ${code}`);
+app.get("/test", (c) => {
+	console.log("Hello, World on vm");
+	return c.text("Hello, World!");
 });
+app.get(
+	"/wstest",
+	upgradeWebSocket((c) => ({
+		onOpen: (event, ws) => {
+			ws.send("Hello from server!");
+			console.log("Connection opened from client");
+		},
+		onMessage(event, ws) {
+			console.log(`Message from client: ${event.data}`);
+			ws.send("Hello from server!");
+		},
+		onClose: () => {
+			console.log("Connection closed from client");
+		},
+	})),
+);
+
+const sessionOnStarting = sessionValue;
 
 const context = vm.createContext({
+	app,
+	upgradeWebSocket,
 	code,
-	uuid,
+	sessionOnStarting,
 	console: {
 		log: (...args: string[]) => {
 			const logMessage = args.join(" ");
@@ -62,18 +75,14 @@ const context = vm.createContext({
 			} as vmMessage);
 		},
 	},
-	http,
 	serverRootPath,
-	WebSocket,
 });
 
-// 有効なIPアドレスを取得する関数
 function getValidIp() {
 	const interfaces = os.networkInterfaces();
 	for (const name of Object.keys(interfaces)) {
 		if (!interfaces[name]) continue;
 		for (const net of interfaces[name]) {
-			// IPv4で内部ネットワークではないアドレスを選択
 			if (net.family === "IPv4" && !net.internal) {
 				return net.address;
 			}
@@ -90,10 +99,10 @@ function isPortAvailable(ip: string, port: number) {
 				if (stderr) {
 					reject(stderr);
 				} else {
-					resolve(true); // 使用されていない場合
+					resolve(true);
 				}
 			} else {
-				resolve(stdout === ""); // 出力が空なら使用されていない
+				resolve(stdout === "");
 			}
 		});
 	});
@@ -104,58 +113,26 @@ async function startServer() {
 	const isAvailable = await isPortAvailable(ip, port);
 
 	if (isAvailable) {
-		const server = http.createServer((req, res) => {
-			res.statusCode = 200;
-			res.setHeader("Content-Type", "text/plain");
-			res.end("Hello World\n");
+		const server = serve({
+			fetch: app.fetch,
+			port: port,
+			hostname: ip,
 		});
+		injectWebSocket(server);
 
-		server.listen(port, ip, () => {
-			console.log(`Server is listening with address: ${ip}:${port}`);
-			parentPort?.postMessage({
-				type: "openVM",
-				port,
-				ip,
-			} as vmMessage);
-		});
+		console.log(`Server with ws is listening with address: ${ip}:${port}`);
+		parentPort?.postMessage({
+			type: "openVM",
+			port: port,
+			ip: ip,
+		} as vmMessage);
 	} else {
 		console.error(`Port ${port} at IP ${ip} is already in use`);
-		process.exit(1); // ワーカースレッドを終了
+		process.exit(1);
 	}
 }
 
 startServer();
-// WebSocketサーバーの作成
-const wss = new WebSocketServer({ server });
-
-wss.on("connection", (ws) => {
-	console.log("WebSocket connection established");
-
-	ws.on("message", (message) => {
-		const logMessage = message.toString();
-		console.log(`message from WebSocket: ${logMessage}`);
-		ws.send(`message received: ${logMessage}`);
-		parentPort?.postMessage({
-			type: "log",
-			content: logMessage,
-		} as vmMessage);
-
-		// 受信したメッセージをVM内のスクリプトに渡す処理を追加する場合、ここにそのロジックを追加します
-		// context に WebSocket インスタンスを追加して、VM内で直接使用できるようにすることも可能です
-	});
-
-	ws.on("close", () => {
-		console.log("WebSocket connection closed");
-	});
-
-	ws.on("error", (error) => {
-		console.error(`WebSocket error: ${error.message}`);
-		parentPort?.postMessage({
-			type: "error",
-			content: `WebSocket error: ${error.message}`,
-		} as vmMessage);
-	});
-});
 
 const extensionsDir = path.resolve(__dirname, "../../../../extensions");
 const extensionLoader = new ExtensionLoader(extensionsDir);
@@ -163,7 +140,10 @@ await extensionLoader.loadExtensions(context);
 const extScript = await extensionLoader.loadScript();
 
 const script = new vm.Script(`
-  ${userScript}
+	${extScript}
+  	${userScript}
 `);
 
 script.runInContext(context);
+
+export default app;

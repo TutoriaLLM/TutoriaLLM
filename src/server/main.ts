@@ -121,17 +121,24 @@ serverEmitter.on("server-started", () => {
 	const vmProxy = createProxyMiddleware({
 		target: `http://localhost:${vmPort}`,
 		pathFilter: (path) => {
-			return path.startsWith("/vm");
+			return path.includes("/vm");
 		},
+		pathRewrite: { "^/vm": "" },
 		changeOrigin: true,
 		ws: true,
 		logger: console,
 		on: {
+			close: (res, socket, head) => {
+				console.log("root close");
+			},
+			proxyReq: (proxyReq, req, res) => {
+				console.log("root proxyReq");
+			},
 			error: (err, req, res) => {
-				console.log("error on proxy", err);
+				console.log("root error on proxy", err);
 			},
 			proxyReqWs: (proxyReq, req, socket, options, head) => {
-				console.log("proxyReqWs");
+				console.log("root proxyReqWs");
 			},
 		},
 	});
