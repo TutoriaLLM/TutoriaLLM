@@ -6,7 +6,7 @@ services:
     image: redis/redis-stack-server:latest
     ports:
       - "6379:6379"
-
+    restart: always
   db:
     container_name: code-tutorial-db-prod
     image: postgres:14
@@ -26,6 +26,7 @@ services:
       start_period: 10s 
     volumes:
       - db_data_db:/var/lib/postgresql/data
+    restart: always
   app: 
     container_name: code-tutorial-app-prod
     build:
@@ -34,6 +35,7 @@ services:
     ports:
       - $PORT:$PORT
       - $VM_PORT:$VM_PORT
+    restart: always
     env_file:
       - .env
     command: >
