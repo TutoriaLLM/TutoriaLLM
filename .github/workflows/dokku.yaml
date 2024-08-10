@@ -6,9 +6,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy Staging
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-22.04
     steps:
       - name: Cloning repo
         uses: actions/checkout@v3
@@ -16,9 +14,7 @@ jobs:
           fetch-depth: 0
 
       - name: Push to dokku
-        uses: dokku/github-action@v1.4.0
+        uses: dokku/github-action@master
         with:
-          git_remote_url: ${{ vars.DOKKU_GIT_REMOTE_URL_FOR_PRODUCTION }}
-          ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY_FOR_PRODUCTION }}
-          branch: 'main'
-          git_push_flags: '--force'
+          git_remote_url: 'ssh://root@https://163.44.101.56:22/tutoriallm-beta'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
