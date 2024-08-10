@@ -1,31 +1,23 @@
-import type { UpgradeWebSocket } from "hono/ws";
-
-// context.d.ts
 declare module "extentionContext" {
-	import type http from "node:http";
-	import type { WebSocket } from "ws";
-	import type * as Blockly from "blockly";
 	import type { Hono } from "hono";
+	import type { UpgradeWebSocket } from "hono/ws";
+	import type { SessionValue } from "../type.ts";
+	import type { i18n } from "i18next";
 
-	/**
-	 * スクリプト実行時に使用できる型定義を提供します
-	 * @param code スクリプトのコード
-	 * @param uuid スクリプトのUUID
-	 * @param console コンソール
-	 * @param http HTTPモジュール
-	 * @param serverRootPath サーバーのルートパス
-	 * @param WebSocket WebSocketモジュール
-	 */
-	export interface extScriptContext {
-		code: string;
-		session: string;
-		console: {
+	//エディター内で宣言を直接使用できるようにする
+	declare global {
+		const context: extScriptContext;
+		const app: Hono;
+		const code: string;
+		const session: SessionValue;
+		const serverRootPath: string;
+		const upgradeWebSocket: UpgradeWebSocket;
+		const console: {
 			log: (...args: string[]) => void;
 			error: (...args: string[]) => void;
+			info: (...args: string[]) => void;
 		};
-		app: Hono;
-		upgradeWebSocket: UpgradeWebSocket;
-		serverRootPath: string;
+		const { t }: i18n;
 	}
 
 	/**

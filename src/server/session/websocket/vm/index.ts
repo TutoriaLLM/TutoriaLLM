@@ -2,8 +2,6 @@ import { Worker } from "node:worker_threads";
 import { exec } from "node:child_process";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-//import nodeHttpProxy from "http-proxy";
-//import proxy from "express-http-proxy";
 import { WebSocketServer, type WebSocket } from "ws";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,20 +11,17 @@ import type { vmMessage } from "./tsWorker.js";
 import LogBuffer from "./logBuffer.js";
 import cors from "cors";
 import { request } from "node:http";
-import { vmApp } from "../../../main.js";
+import { serverEmitter, vmPort } from "../../../main.js";
 import { getConfig } from "../../../getConfig.js";
 import updateDatabase from "../updateDB.js";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import { log } from "node:console";
 
 //debug
 console.log("vm/index.js: Loading vm app");
 
-//configを読み込む
-const config = getConfig();
-
 //i18nの設定
-// i18n configuration
 i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 	{
 		backend: {
@@ -47,17 +42,72 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // VMのインスタンスを管理するインターフェース
-// VMのインスタンスを管理するインターフェースにWorkerを追加
 interface VMInstance {
 	running: boolean;
 	worker: Worker;
+	port?: number;
+	ip?: string;
 }
 
 // VMのインスタンスを管理するオブジェクト
 const vmInstances: { [key: string]: VMInstance } = {};
 
-const vmExpress = vmApp;
+const vmExpress = express();
+const vmProxies = new Map();
 
+// すべてのリクエストを処理する単一のミドルウェア
+vmExpress.use((req, res, next) => {
+	const code = req.originalUrl.split("/")[1]; // URLから最初のパスセグメントを取得
+	const proxy = vmProxies.get(code);
+
+	if (proxy) {
+		proxy(req, res, next);
+	} else {
+		res.status(404).send("Invalid code or VM not running");
+	}
+});
+
+vmExpress.listen(vmPort, () => {
+	console.log(`VM Manager running on port ${vmPort}`);
+});
+
+// VMインスタンス作成時にプロキシを設定する関数
+function setupVMProxy(code: string, ip: string, port: number) {
+	console.log("setting up proxy for", code, ip, port);
+	// プロキシの設定
+	const proxy = createProxyMiddleware({
+		target: `http://${ip}:${port}`,
+		changeOrigin: true,
+		pathFilter(pathname, req) {
+			return pathname.includes(`/${code}`);
+		},
+		pathRewrite: { [`^/${code}`]: "" },
+		ws: true,
+		logger: console,
+		on: {
+			close: (res, socket, head) => {
+				console.log("vm manager close");
+			},
+			error: (err, req, res) => {
+				console.log("vm manager error on proxy", err);
+			},
+			proxyReqWs: (proxyReq, req, socket, options, head) => {
+				console.log("vm manager proxyReqWs");
+			},
+			proxyReq: (proxyReq, req, res) => {
+				console.log("vm manager proxyReq");
+			},
+		},
+	});
+
+	vmProxies.set(code, proxy);
+}
+// VMインスタンス停止時にプロキシを削除する関数
+function removeVMProxy(code: string) {
+	vmProxies.delete(code);
+}
+
+vmExpress.use(cors());
 // 修正されたExecCodeTest関数
 export async function ExecCodeTest(
 	code: string,
@@ -98,6 +148,9 @@ export async function ExecCodeTest(
 	);
 
 	try {
+		//configを読み込む
+		const config = getConfig();
+
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
 			workerData: { code, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
@@ -108,10 +161,12 @@ export async function ExecCodeTest(
 					config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
 			},
 		});
+		console.log("resourceLimits", worker.resourceLimits);
 
 		worker.on("message", (msg: vmMessage) => {
 			if (msg.type === "log") logBuffer.add(msg.content);
 			if (msg.type === "error") logBuffer.error(msg.content);
+			if (msg.type === "info") logBuffer.info(msg.content);
 
 			if (msg.type === "openVM") {
 				console.log("VM server received on port", msg.port);
@@ -122,39 +177,12 @@ export async function ExecCodeTest(
 					return;
 				}
 
-				const proxy = createProxyMiddleware({
-					target: `http://${ip}:${port}`,
-					changeOrigin: true,
-					pathFilter(pathname, req) {
-						return pathname.includes(`/${code}`);
-					},
-					pathRewrite: { [`^/${code}`]: "" },
-					ws: true,
-					logger: console,
-					on: {
-						close: (res, socket, head) => {
-							console.log("vm manager close");
-						},
-						error: (err, req, res) => {
-							console.log("vm manager error on proxy", err);
-						},
-						proxyReqWs: (proxyReq, req, socket, options, head) => {
-							console.log("vm manager proxyReqWs");
-						},
-						proxyReq: (proxyReq, req, res) => {
-							console.log("vm manager proxyReq");
-						},
-					},
-				});
+				// vmInstancesにIPとポートを保存
+				vmInstances[uuid].port = port;
+				vmInstances[uuid].ip = ip;
 
-				// HTTPとWebSocketの両方のプロキシを設定
-				vmExpress.use((req, res, next) => {
-					if (req.originalUrl.includes(`/${code}`)) {
-						proxy(req, res, next);
-					} else {
-						next();
-					}
-				});
+				// プロキシの設定
+				setupVMProxy(code, ip, port);
 			}
 		});
 
@@ -220,8 +248,7 @@ export async function StopCodeTest(
 		// Workerを終了
 		await instance.worker.terminate();
 
-		delete vmInstances[uuid];
-
+		// プロキシをクリア
 		const stack = vmExpress._router.stack;
 		for (let i = stack.length - 1; i >= 0; i--) {
 			const layer = stack[i];
@@ -229,7 +256,12 @@ export async function StopCodeTest(
 				stack.splice(i, 1);
 			}
 		}
-		//DBを更新し、クライアントに通知
+
+		// プロキシを削除
+		removeVMProxy(code);
+		delete vmInstances[uuid];
+
+		// DBを更新し、クライアントに通知
 		const sessionValue: SessionValue = JSON.parse(session);
 		sessionValue.isVMRunning = false;
 		await DBupdator(code, sessionValue, clients);

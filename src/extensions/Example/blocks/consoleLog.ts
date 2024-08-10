@@ -1,6 +1,7 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+import type { extBlock, extLocale } from "extentionContext";
 
-export const block = {
+export const block: extBlock = {
 	type: "ext_example_console_log",
 	message0: "%{BKY_EXAMPLE_CONSOLE_LOG} %1 %2",
 	args0: [
@@ -34,7 +35,7 @@ export function code() {
 	};
 }
 
-export const locale = {
+export const locale: extLocale = {
 	ja: {
 		EXAMPLE_CONSOLE_LOG: "コンソールにテキストを送信",
 	},

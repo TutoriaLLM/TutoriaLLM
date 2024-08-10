@@ -42,6 +42,11 @@ export default class LogBuffer {
 		this.flush();
 	}
 
+	info(info: string) {
+		this.add(`Info: ${info}`);
+		this.flush();
+	}
+
 	async flush() {
 		if (this.buffer.length === 0) return;
 		const sessionValue = await this.getSessionValue();
@@ -55,7 +60,10 @@ export default class LogBuffer {
 				id: index + 1,
 				contentType: log.startsWith("Error:")
 					? ("error" as ContentType)
-					: ("log" as ContentType),
+					: log.startsWith("Info:")
+						? ("info" as ContentType)
+						: ("log" as ContentType),
+
 				isuser: false,
 				content: log,
 			})),

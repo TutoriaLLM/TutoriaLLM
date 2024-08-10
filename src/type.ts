@@ -3,6 +3,7 @@ export type ContentType =
 	| "ai"
 	| "log"
 	| "error"
+	| "info"
 	| "group_log"
 	| "image"
 	| "request"

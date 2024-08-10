@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import type { Context } from "node:vm";
+import ts from "typescript";
 
 export class ExtensionLoader {
 	private extensionsDir: string;
@@ -31,6 +32,7 @@ export class ExtensionLoader {
 	}
 
 	public async loadScript(): Promise<string | null> {
+		console.log("loading script...");
 		function findScriptFiles(dir: string): string[] {
 			let results: string[] = [];
 			const list = fs.readdirSync(dir);
@@ -48,13 +50,57 @@ export class ExtensionLoader {
 		}
 
 		const scriptFiles = findScriptFiles(this.extensionsDir);
-		let ExtscriptContent = "";
+		let extScriptContent = "";
+
 		for (const scriptFile of scriptFiles) {
 			const scriptContent = fs.readFileSync(scriptFile, "utf-8");
-			// Optionally, add a check here to ensure the content contains a default function export
 			console.log("loading extension script", scriptFile);
-			ExtscriptContent += scriptContent;
+
+			const result = ts.transpileModule(scriptContent, {
+				compilerOptions: {
+					module: ts.ModuleKind.ES2020, // ES Module形式の出力に変更
+					isolatedModules: true,
+					target: ts.ScriptTarget.ES2020,
+					removeComments: true,
+				},
+			});
+
+			// モジュール関連のコードを削除
+			const cleanedCode = result.outputText
+				.replace(/^export /gm, "")
+				.replace(/^import .* from .*$/gm, "");
+
+			extScriptContent += cleanedCode;
 		}
-		return ExtscriptContent;
+
+		return extScriptContent;
 	}
+}
+
+function removeImportsTransformer<T extends ts.Node>(
+	context: ts.TransformationContext,
+) {
+	return (rootNode: T): T => {
+		function visit(node: ts.Node): ts.Node {
+			// Import 宣言を削除
+			if (ts.isImportDeclaration(node)) {
+				return undefined as any;
+			}
+			// 他のノードを再帰的に処理
+			return ts.visitEachChild(node, visit, context);
+		}
+		return ts.visitNode(rootNode, visit) as T;
+	};
+}
+
+export function transpileWithRemoveImports(source: string): string {
+	const result = ts.transpileModule(source, {
+		compilerOptions: {
+			module: ts.ModuleKind.ESNext,
+		},
+		transformers: {
+			before: [removeImportsTransformer],
+		},
+	});
+	return result.outputText;
 }

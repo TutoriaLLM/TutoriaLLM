@@ -154,30 +154,40 @@ export default function TextBubble(props: { item: Dialogue }) {
 						(logItem) => logItem.contentType === "error",
 					) ? (
 						<span className="text-xs font-semibold text-red-200 w-full rounded-2xl flex justify-between items-center p-2 bg-red-600">
-							<p className="text-base">{t("textbubble.log")}</p>
-							<p className="text-xs text-red-300">
+							<span className="text-xs text-red-300">
+								<p className="text-base flex-grow">
+									{t("textbubble.errorLog")}
+								</p>
+
 								{t("textbubble.showingLatest", {
 									count: setting?.Code_Execution_Limits?.Max_Num_Message_Queue,
 								})}
-							</p>
+							</span>
 
 							<TriangleAlert />
 						</span>
 					) : (
 						<span className="text-xs font-semibold text-green-200 w-full rounded-2xl flex justify-between items-center p-2 bg-green-600">
-							<p className="text-base flex-grow">{t("textbubble.log")}</p>
-							<p className="text-xs text-red-300">
+							<span className="text-xs text-green-300">
+								<p className="text-base flex-grow">{t("textbubble.log")}</p>
+
 								{t("textbubble.showingLatest", {
 									count: setting?.Code_Execution_Limits?.Max_Num_Message_Queue,
 								})}
-							</p>
+							</span>
 							<CircleCheck />
 						</span>
 					)}
 					<div className="prose-invert flex flex-col gap-2">
 						{props.item.content.map((logItem, index) => (
 							<p
-								className={`text-sm font-mono ${logItem.contentType === "error" ? "text-red-500" : ""}`}
+								className={`text-sm font-mono ${
+									logItem.contentType === "error"
+										? "text-red-300 pl-2 border-l-2 border-red-400"
+										: logItem.contentType === "info"
+											? "text-blue-300 pl-2 border-l-2 border-blue-400"
+											: ""
+								}`}
 								key={logItem.id}
 							>
 								{logItem.content as string}

@@ -1,4 +1,6 @@
-export const category = {
+import type { extCategory, extLocale } from "extentionContext";
+
+export const category: extCategory = {
 	kind: "category",
 	name: "%{BKY_EXAMPLE}",
 	colour: "#a855f7",
@@ -10,7 +12,7 @@ export const category = {
 	],
 };
 
-export const locale = {
+export const locale: extLocale = {
 	ja: {
 		EXAMPLE: "開発例",
 	},

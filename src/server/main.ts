@@ -11,7 +11,6 @@ import { getConfig } from "./getConfig.js";
 
 // Initialize express and on the main app
 const app = express();
-const vmApp = express();
 
 //load config
 const config = getConfig();
@@ -87,10 +86,6 @@ const server = ViteExpress.listen(app, port, () => {
 	serverEmitter.emit("server-started", server);
 });
 
-const vmServer = vmApp.listen(vmPort, () => {
-	console.log(`VM Server running on port ${vmPort}`);
-});
-
 // メモリ監視
 const monitorMemoryUsage = (interval: number) => {
 	setInterval(() => {
@@ -121,7 +116,7 @@ serverEmitter.on("server-started", () => {
 	const vmProxy = createProxyMiddleware({
 		target: `http://localhost:${vmPort}`,
 		pathFilter: (path) => {
-			return path.includes("/vm");
+			return path.startsWith("/vm");
 		},
 		pathRewrite: { "^/vm": "" },
 		changeOrigin: true,
@@ -142,8 +137,7 @@ serverEmitter.on("server-started", () => {
 			},
 		},
 	});
-	app.use("/vm", vmApp);
-	vmApp.use(vmProxy);
+	app.use(vmProxy);
 });
 
-export { app, vmApp, server, vmServer, serverEmitter };
+export { app, server, vmPort, serverEmitter };

@@ -54,7 +54,8 @@
 		"findBlockFromMenu": "Find from menu",
 		"replying": "Replying...",
 		"ask": "Ask anything...",
-		"showingLatest": "Showing latest {{count}} messages"
+		"showingLatest": "Showing latest {{count}} messages",
+		"errorLog": "Error Log"
 	},
 	"tutorial": {
 		"title": "Pick Tutorial",
@@ -73,5 +74,8 @@
 	},
 	"logbuffer": {
 		"tooManyLogs": "Too many messages. old logs removed."
+	},
+	"generic": {
+		"connected": "Connected"
 	}
 }

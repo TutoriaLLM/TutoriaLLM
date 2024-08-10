@@ -45,7 +45,7 @@
 		"sessions": "セッション"
 	},
 	"textbubble": {
-		"log": "記録",
+		"log": "ログ",
 		"server": "サーバー",
 		"ai": "AI",
 		"you": "あなた",
@@ -54,7 +54,8 @@
 		"findBlockFromMenu": "メニューから探す",
 		"replying": "返信中...",
 		"ask": "質問してみる...",
-		"showingLatest": "最後の{{count}}件のメッセージを表示しています"
+		"showingLatest": "最後の{{count}}件のメッセージを表示しています",
+		"errorLog": "エラーログ"
 	},
 	"tutorial": {
 		"title": "チュートリアルを選択",
@@ -73,5 +74,8 @@
 	},
 	"logbuffer": {
 		"tooManyLogs": "メッセージが多すぎます。古いログは削除されました。"
+	},
+	"generic": {
+		"connected": "接続しました"
 	}
 }

@@ -1,9 +1,5 @@
-let wss;
-const onMessageEvents = [];
-const onConnectEvents = [];
-const onDisconnectEvents = [];
-
-console.log(`Connect your Minecraft at: api/vm/${code}`);
+import type { WSContext } from "hono/ws";
+import commandMsg from "./context/commandMsg.js";
 
 const events = [
 	"AdditionalContentLoaded",
@@ -95,35 +91,33 @@ const events = [
 	"WorldUnloaded",
 ];
 
-// vmExpressはコンテキストとして利用可能
-workerExpress.ws("/", async (ws, req) => {
-	wss = ws;
+const onConnectEvents = [] as (() => void)[];
+const onMessageEvents = [] as ((message: string) => void)[];
+const onDisconnectEvents = [] as (() => void)[];
+let wss: WSContext;
 
-	console.log("Connection established with Minecraft.");
+console.info(`Connect your Minecraft from /connect url/vm/${code}/mc`);
 
-	for (const eventName of events) {
-		ws.send(JSON.stringify(subscribeMsg(eventName)));
-	}
-
-	for (const event of onConnectEvents) {
-		event();
-	}
-	ws.send(JSON.stringify(commandMsg("/say Connected!")));
-
-	ws.on("message", async (message) => {
-		for (const event of onMessageEvents) {
-			event(message);
-		}
-	});
-
-	ws.on("close", () => {
-		for (const event of onDisconnectEvents) {
-			event();
-		}
-	});
-
-	ws.on("error", (err) => {
-		console.log(err);
-		ws.close();
-	});
-});
+app.get(
+	"/mc",
+	upgradeWebSocket((c) => ({
+		onOpen: (message, ws) => {
+			wss = ws;
+			ws.send(JSON.stringify(commandMsg("/say Connected!")));
+			console.log("Minectaft: ", t("generic.connected"));
+			for (const event of onConnectEvents) {
+				event();
+			}
+		},
+		onMessage(message, ws) {
+			for (const event of onMessageEvents) {
+				event(message.data.toString());
+			}
+		},
+		onClose: () => {
+			for (const event of onDisconnectEvents) {
+				event();
+			}
+		},
+	})),
+);
