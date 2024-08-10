@@ -6,7 +6,6 @@ import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Dialogue, SessionValue } from "../../../type.js";
 import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { sessionDB } from "../../db/session.js";
-import { invokeLLM } from "../llm/index.js";
 import { ExecCodeTest, StopCodeTest } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";

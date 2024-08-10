@@ -51,9 +51,51 @@ const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function invokeLLM(session: SessionValue) {
+export async function invokeLLM(
+	session: SessionValue,
+	availableBlocks: string[],
+) {
 	console.log("invokeLLM");
 	const config: AppConfig = await getConfig();
+
+	const basicBlocks = [
+		"controls_repeat_ext",
+		"controls_whileUntil",
+		"controls_for",
+		"controls_forEach",
+		"controls_flow_statements",
+		"controls_if",
+		"logic_compare",
+		"logic_operation",
+		"logic_negate",
+		"logic_boolean",
+		"logic_null",
+		"logic_ternary",
+		"math_number",
+		"math_arithmetic",
+		"math_single",
+		"math_trig",
+		"math_constant",
+		"math_number_property",
+		"math_round",
+		"math_on_list",
+		"math_modulo",
+		"math_constrain",
+		"math_random_int",
+		"math_random_float",
+		"math_atan2",
+		"lists_create_empty",
+		"lists_create_with",
+		"lists_repeat",
+		"lists_length",
+		"lists_isEmpty",
+		"lists_indexOf",
+		"lists_getIndex",
+		"lists_setIndex",
+	];
+
+	const allBlocks = basicBlocks.concat(availableBlocks);
+	console.log(allBlocks);
 
 	const zodSchema = z.object({
 		response: z.string().describe("response for dialogue."),
@@ -80,7 +122,7 @@ You are required to provide both teaching and instruction to the user based on t
 If a tutorial document is provided, teach and instruct the user with appropriate methods. If it is not chosen, encourage the user to select a tutorial, or start creating their own code.
 User will be using Blockly to create code, and you will be guiding them through the process. The created code will be executed on the server by converting the blocks to JavaScript code.
 Explicitly instruct the user on what to do next, based on the provided tutorial content and advance the session accordingly.
-Response must be in JSON format with the following structure. BlockId and BlockName arr used on system and response is the message to the user.:
+Response must be in JSON format with the following structure. BlockId and BlockName can be used to instruct system which block are you targeted and response is the message to the user. BlockId and BlockName are optional fields and only used by sytem to display the block to the user.:
 {
   "response": "string",
   "blockId": "string (optional)",
@@ -91,10 +133,13 @@ Response must be in JSON format with the following structure. BlockId and BlockN
 Tutorial content: ${JSON.stringify(await getTutorialContent(session))}
 
 Format Instructions: The response must be in JSON format.
+
+Also, these are the blocks that are available for this session. Do not use BlockID and BlockName that are not listed here: ${JSON.stringify(allBlocks)}
   `;
 
 	const userTemplate = `
-This is the past record of messages including user chat, server log, and AI responses: ${JSON.stringify(await simplifyDialogue(session))}
+This is the past record of messages including user chat, server log, error, and AI responses: ${JSON.stringify(await simplifyDialogue(session))}
+If there is any error, provide a message to the user to help them understand the issue.
 If there is no question, provide feedback based on past messages, or explain what is happening on the server.
 Use the provided tutorial content to guide the user explicitly on what they should do next.
 

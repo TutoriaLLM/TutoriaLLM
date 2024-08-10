@@ -1,7 +1,6 @@
-import fastGlob from "fast-glob";
-import * as Blockly from "blockly";
 import { javascriptGenerator } from "blockly/javascript";
-import path from "node:path";
+import { registerBlocks } from "../registerBlocks.js";
+import * as Blockly from "blockly";
 
 export default async function codeGen(
 	serializedWorkspace: {
@@ -23,48 +22,4 @@ export default async function codeGen(
 	console.log("generated code", generatedCode);
 
 	return generatedCode;
-}
-
-async function registerBlocks(language: string) {
-	const rootDir = process.cwd();
-	const blockFiles = await fastGlob(
-		path.join(rootDir, "src/extensions/*/blocks/**/*.*"),
-	);
-
-	await Promise.all(
-		blockFiles.map(async (file) => {
-			try {
-				const filePath = path.resolve(file);
-				const mod = await import(filePath);
-
-				if (mod.block && mod.code) {
-					const { block, code, locale } = mod;
-					console.log("registerBlocks", block);
-
-					Blockly.Blocks[block.type] = {
-						init: function () {
-							this.jsonInit(block);
-						},
-					};
-
-					code();
-
-					if (locale?.[language]) {
-						// localeが記述されている場合は登録する(json形式)
-						console.log("register locale", locale);
-						console.log("register language", language);
-						for (const key in locale[language]) {
-							if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
-								Blockly.Msg[key] = locale[language][key];
-							}
-						}
-					}
-				} else {
-					console.warn(`Module ${filePath} does not export 'block' or 'code'`);
-				}
-			} catch (error) {
-				console.error(`Error loading block file ${file}:`, error);
-			}
-		}),
-	);
 }
