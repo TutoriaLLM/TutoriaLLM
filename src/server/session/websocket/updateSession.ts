@@ -3,6 +3,7 @@ import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import { sessionDB } from "../../db/session.js";
 import { invokeLLM } from "../llm/index.js";
+import { getAvailableBlocks, getBlockFiles } from "../registerBlocks.js";
 import updateDatabase from "./updateDB.js";
 
 export async function updateSession(
@@ -18,6 +19,7 @@ export async function updateSession(
 		llmContext,
 		dialogue,
 		stats,
+		language,
 	} = messageJson;
 
 	const code = sessioncode;
@@ -38,7 +40,13 @@ export async function updateSession(
 			newData.dialogue.length > 0 &&
 			lastMessage.isuser
 		) {
-			const message = await invokeLLM(messageJson);
+			const blockFiles = await getBlockFiles();
+			const availableBlocks = await getAvailableBlocks(blockFiles, language);
+			const extreactedBlockNames = availableBlocks.map(
+				(block) => block.block.type,
+			);
+
+			const message = await invokeLLM(messageJson, extreactedBlockNames);
 
 			if (message.blockId && message.blockName) {
 				console.log(message);
