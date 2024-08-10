@@ -35,8 +35,8 @@ export async function resetCredentials(
 // Adminユーザーの認証情報をリセット
 if (process.argv.includes("--reset-credentials")) {
 	(async () => {
-		const adminUsername = "admin"; // Set your admin username here
-		const defaultAdminPassword = "admin"; // Set your admin password here
+		const adminUsername = process.env.DEFAULT_USER_PASSWORD as string; // Set your admin username here
+		const defaultAdminPassword = process.env.DEFAULT_USER_NAME as string; // Set your admin password here
 		const adminPasswordHash = await saltAndHashPassword(defaultAdminPassword); // Save this hashed password securely
 
 		resetCredentials(adminUsername, adminPasswordHash)
