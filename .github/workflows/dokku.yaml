@@ -16,5 +16,5 @@ jobs:
       - name: Push to dokku
         uses: dokku/github-action@master
         with:
-          git_remote_url: 'ssh://root@https://163.44.101.56:22/tutoriallm-beta'
+          git_remote_url: 'ssh://root@163.44.101.56:22/tutoriallm-beta'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
