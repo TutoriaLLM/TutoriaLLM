@@ -120,6 +120,7 @@ serverEmitter.on("server-started", () => {
 		},
 		pathRewrite: { "^/vm": "" },
 		changeOrigin: true,
+		secure: false,
 		ws: true,
 		logger: console,
 		on: {
