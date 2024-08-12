@@ -12,7 +12,7 @@ export default function Navbar(props: {
 }) {
 	const { t } = useTranslation();
 	return (
-		<div className="w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex justify-between gap-2">
+		<div className="navbar w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex justify-between gap-2">
 			<ExitButton
 				text={t("navbar.leave")}
 				onClick={() => {
@@ -20,7 +20,7 @@ export default function Navbar(props: {
 				}}
 			/>
 			<div className="flex justify-center items-center gap-2">
-				<span className="text-xs">
+				<span className="text-xs joinCode">
 					<p>{t("navbar.joinCode")}</p>
 					<p className="font-semibold text-xl tracking-widest">{props.code}</p>
 					{props.isConnected ? null : (

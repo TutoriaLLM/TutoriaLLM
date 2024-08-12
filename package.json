@@ -41,6 +41,7 @@
 		"@radix-ui/react-popover": "^1.1.1",
 		"@radix-ui/react-progress": "^1.1.0",
 		"@radix-ui/react-switch": "^1.1.0",
+		"@reactour/tour": "^3.7.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@tanstack/react-table": "^8.20.1",
 		"@types/js-yaml": "^4.0.9",

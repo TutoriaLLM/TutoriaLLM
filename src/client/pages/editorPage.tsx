@@ -1,5 +1,5 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
 import type { AppConfig, SessionValue } from "../../type.js";
@@ -9,7 +9,11 @@ import Navbar from "../components/BlocklyEditor/Navbar.js";
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-import i18next from "i18next";
+//ツアーの読み込み
+import { TourProvider, useTour, type StepType } from "@reactour/tour";
+import { tourSteps } from "./editorTour";
+
+import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
 import SessionPopup from "../components/BlocklyEditor/sessionOverlay/index.js";
 //stateの読み込み
@@ -50,8 +54,8 @@ export default function EditorPage() {
 	const direction = isMobile ? "vertical" : "horizontal";
 
 	//言語
-	const { t } = useTranslation();
 	const languageToStart = useAtomValue(LanguageToStart);
+	const { t } = useTranslation();
 
 	const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
 	const timerRef = useRef<NodeJS.Timeout | null>(null); // タイマーを保持するためのref
@@ -243,42 +247,62 @@ export default function EditorPage() {
 	}, [WorkspaceConnection, sessionCode]);
 
 	return (
-		<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
-			<Navbar
-				code={sessionCode}
-				isConnected={WorkspaceConnection}
-				isTutorial={currentSession?.tutorial?.isTutorial ?? false}
-				tutorialProgress={currentSession?.tutorial?.progress ?? 0}
-			/>
-			{!showPopup && WorkspaceConnection && (
-				// ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
-				<PanelGroup autoSaveId="workspace" direction={direction}>
-					<Panel
-						id="workspaceArea"
-						defaultSize={75}
-						order={1}
-						maxSize={80}
-						minSize={20}
-					>
-						<Editor />
-					</Panel>
-					<PanelResizeHandle className="md:h-full md:w-3 h-5 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
-						<span className="rounded-full p-1 bg-gray-50" />
-						<span className="rounded-full p-1 bg-gray-50" />
-						<span className="rounded-full p-1 bg-gray-50" />
-					</PanelResizeHandle>
-					<Panel
-						id="dialogueArea"
-						defaultSize={25}
-						order={2}
-						maxSize={80}
-						minSize={20}
-					>
-						<DialogueView />
-					</Panel>
-				</PanelGroup>
-			)}
-			<SessionPopup isPopupOpen={showPopup} message={statusMessage} />
-		</div>
+		<TourProvider
+			steps={tourSteps()}
+			className="w-64 sm:w-full font-medium text-base border"
+			padding={{
+				popover: [-10, 0],
+			}}
+			styles={{
+				popover: (base) => ({
+					...base,
+					"--reactour-accent": "#38bdf8",
+					borderRadius: 10,
+					padding: "16px",
+					paddingTop: "42px",
+					gap: "16px",
+					zIndex: 100000,
+				}),
+				maskArea: (base) => ({ ...base, rx: 10 }),
+			}}
+		>
+			<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800 app">
+				<Navbar
+					code={sessionCode}
+					isConnected={WorkspaceConnection}
+					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
+					tutorialProgress={currentSession?.tutorial?.progress ?? 0}
+				/>
+				{!showPopup && WorkspaceConnection && (
+					// ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
+					<PanelGroup autoSaveId="workspace" direction={direction}>
+						<Panel
+							id="workspaceArea"
+							defaultSize={75}
+							order={1}
+							maxSize={80}
+							minSize={20}
+						>
+							<Editor />
+						</Panel>
+						<PanelResizeHandle className="md:h-full md:w-3 h-5 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
+							<span className="rounded-full p-1 bg-gray-50" />
+							<span className="rounded-full p-1 bg-gray-50" />
+							<span className="rounded-full p-1 bg-gray-50" />
+						</PanelResizeHandle>
+						<Panel
+							id="dialogueArea"
+							defaultSize={25}
+							order={2}
+							maxSize={80}
+							minSize={20}
+						>
+							<DialogueView />
+						</Panel>
+					</PanelGroup>
+				)}
+				<SessionPopup isPopupOpen={showPopup} message={statusMessage} />
+			</div>
+		</TourProvider>
 	);
 }

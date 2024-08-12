@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import type { Dialogue } from "../../../../type.js";
 import { currentSessionState } from "../../../state.js";
 import TextBubble from "./parts/textbubble.js";
-import TutorialPicker from "./tutorialPicker.js";
+import OnBoarding from "./onBoarding.js";
 import { useTranslation } from "react-i18next";
 import QuickReply from "./parts/quickreply.js";
 import { updateStats } from "../../../../utils/statsUpdater.js";
@@ -64,9 +64,9 @@ export default function DialogueView() {
 	}, [session?.dialogue]);
 
 	return (
-		<div className="w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
+		<div className="dialogue w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
 			<div className="w-full h-full overflow-scroll flex flex-col gap-4 p-4 py-8">
-				<TutorialPicker />
+				<OnBoarding />
 				{session?.dialogue.map((item: Dialogue) => {
 					return <TextBubble key={item.id} item={item} />;
 				})}

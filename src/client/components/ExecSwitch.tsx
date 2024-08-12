@@ -58,7 +58,7 @@ export function ExecSwitch() {
 		});
 	}, [isCodeRunning, currentSession?.workspace]);
 	return (
-		<form className="justify-center items-center">
+		<form className="justify-center items-center execSwitch">
 			{isConnected ? (
 				<div className="flex items-center p-2 gap-2 rounded-2xl border border-gray-300">
 					<span className="flex flex-col">

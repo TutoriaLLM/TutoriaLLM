@@ -61,7 +61,10 @@
 		"title": "Pick Tutorial",
 		"description": "Choose what you want to learn",
 		"start": "Start Tutorial",
-		"startTutorial": "Tutorial has selected"
+		"startTutorial": "Tutorial has selected",
+		"tour": "Start Tour",
+		"startTour": "Look what you can do.",
+		"startTourButton": "Begin Tour"
 	},
 	"quickReply": {
 		"done": "I'm done",
@@ -77,5 +80,14 @@
 	},
 	"generic": {
 		"connected": "Connected"
+	},
+	"tour": {
+		"joinCode": "This is code for this session. You can return back here with saving this code for next time.",
+		"blocklyWorkspace": "Workspace is place to make your code.",
+		"dialogue": "You can talk with AI for any help, or take a lesson from AI with tutorial.",
+		"tourAgain": "You can take this tour again with click this button.",
+		"execSwitch": "You can run your code on workspace. You need to run again if you edited.",
+		"tutorialSelector": "You can select any tutorial that you want to make.",
+		"welcome": "Welcome on board! This tour provides a brief overview of how to use this application."
 	}
 }
