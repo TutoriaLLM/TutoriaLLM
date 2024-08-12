@@ -20,5 +20,8 @@
 	"editor.codeActionsOnSave": {
 		"quickfix.biome": "explicit",
 		"source.organizeImports.biome": "never"
+	},
+	"yaml.schemas": {
+		"https://json.schemastore.org/github-workflow.json": "file:///Users/soumame/Documents/GitHub/kids-code-tutorial/.github/workflows/deploy.yaml"
 	}
 }
