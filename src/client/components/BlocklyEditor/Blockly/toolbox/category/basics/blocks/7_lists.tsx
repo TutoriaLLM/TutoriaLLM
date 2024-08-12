@@ -1,7 +1,7 @@
 export const category = {
 	kind: "category",
 	name: "%{BKY_LISTS_CATEGORY}",
-	categorystyle: "list_category",
+	colour: "#737373",
 	contents: [
 		{
 			kind: "block",

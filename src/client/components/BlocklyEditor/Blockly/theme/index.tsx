@@ -34,6 +34,27 @@ const Theme = Blockly.Theme.defineTheme("theme", {
 			colourSecondary: "#34d399",
 			colourTertiary: "#6ee7b7",
 		},
+		variable_blocks: {
+			colourPrimary: "#ef4444",
+			colourSecondary: "#f87171",
+			colourTertiary: "#fca5a5",
+		},
+		text_blocks: {
+			colourPrimary: "#f97316",
+			colourSecondary: "#fb923c",
+			colourTertiary: "#fdba74",
+		},
+		//関数ブロックのこと
+		procedure_blocks: {
+			colourPrimary: "#6366f1",
+			colourSecondary: "#818cf8",
+			colourTertiary: "#a5b4fc",
+		},
+		list_blocks: {
+			colourPrimary: "#737373",
+			colourSecondary: "#a3a3a3",
+			colourTertiary: "#d4d4d4",
+		},
 	},
 });
 

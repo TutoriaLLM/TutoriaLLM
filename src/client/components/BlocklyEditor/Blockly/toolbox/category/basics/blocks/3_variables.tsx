@@ -1,8 +1,8 @@
 export const category = {
 	kind: "category",
 	name: "%{BKY_VARIABLE_CATEGORY}",
-	categorystyle: "variable_category",
 	custom: "VARIABLE",
+	colour: "#ef4444",
 };
 
 export const locale = {

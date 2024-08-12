@@ -1,8 +1,8 @@
 export const category = {
 	kind: "category",
 	name: "%{BKY_FUNCTION_CATEGORY}",
-	categorystyle: "procedure_category",
 	custom: "PROCEDURE",
+	colour: "#6366f1",
 };
 
 export const locale = {
