@@ -10,7 +10,7 @@ const Theme = Blockly.Theme.defineTheme("theme", {
 		toolboxForegroundColour: "#374151",
 		flyoutBackgroundColour: "#f3f4f6",
 		flyoutForegroundColour: "#ccc",
-		flyoutOpacity: 0.4,
+		flyoutOpacity: 1,
 		scrollbarColour: "#797979",
 		insertionMarkerColour: "#fff",
 		insertionMarkerOpacity: 0.3,
