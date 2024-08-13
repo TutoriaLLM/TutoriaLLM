@@ -83,7 +83,6 @@ function setupVMProxy(code: string, ip: string, port: number) {
 		},
 		pathRewrite: { [`^/${code}`]: "" },
 		ws: true,
-		secure: false,
 		logger: console,
 		on: {
 			close: (res, socket, head) => {
