@@ -7,11 +7,16 @@ services:
     # Enables the web UI and tells Traefik to listen to docker
     command:
       - --api.insecure=true
-      - --providers.docker
+      - --accesslog=true
+      - --accesslog.addinternals
+      - --metrics.addinternals
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
-      - --certificatesresolvers.myresolver.acme.tlschallenge=true
-      - --certificatesresolvers.myresolver.acme.email=$ACME_EMAIL
+      - --certificatesresolvers.myresolver.acme.httpchallenge=true
+      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.myresolver.acme.email=$EMAIL
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     ports:
       # The HTTP port
@@ -24,6 +29,8 @@ services:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
       - /letsencrypt:/letsencrypt
+    depends_on:
+      - app
   redis:
     container_name: code-tutorial-redis-prod
     image: redis/redis-stack-server:latest
@@ -57,7 +64,11 @@ services:
       dockerfile: Dockerfile.prod
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.code-tutorial-app-prod.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.code-tutorial-app-prod-http.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.code-tutorial-app-prod-http.entrypoints=web" # HTTP用のエントリーポイントを指定
+      - "traefik.http.routers.code-tutorial-app-prod-https.rule=Host(`$DOMAIN`)"
+      - "traefik.http.routers.code-tutorial-app-prod-https.entrypoints=websecure" # HTTPS用のエントリーポイントを指定
+      - "traefik.http.routers.code-tutorial-app-prod-https.tls.certresolver=myresolver"
     restart: always
     env_file:
       - .env

@@ -1,8 +1,8 @@
 # ベースイメージとして Node.js 20.14.0 を使用
 FROM node:20.14.0
 
-# 必要なパッケージをインストール。prodではSSL証明書の取得に必要な certbot を追加
-RUN apt-get update && apt-get install -y iproute2 net-tools certbot
+# 必要なパッケージをインストール
+RUN apt-get update && apt-get install -y iproute2 net-tools
 
 
 # 作業ディレクトリを / に設定
@@ -20,9 +20,9 @@ COPY . .
 # ビルドを実行
 RUN pnpm run build
 
-# ビルド時に使用するポートを設定
-ARG PORT=80
-ARG VM_PORT=8080
+# ビルド時に使用するポートを設定。envと一致させる
+ARG PORT=3000
+ARG VM_PORT=3001
 
 ENV PORT=${PORT} \
     # VMのポート
