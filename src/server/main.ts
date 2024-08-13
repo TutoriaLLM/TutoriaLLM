@@ -8,28 +8,11 @@ import ViteExpress from "vite-express";
 import { EventEmitter } from "node:events";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { getConfig } from "./getConfig.js";
-import { execSync } from "node:child_process";
-import fs from "node:fs";
-import https from "node:https";
-import http from "node:http";
-
-// SSL証明書の設定
-const DOMAIN = process.env.DOMAIN || "example.com";
-const EMAIL = process.env.EMAIL || "your-email@example.com";
-const CERT_PATH = `/etc/letsencrypt/live/${DOMAIN}`;
-
-// SSL証明書が存在しない場合は取得
-if (!fs.existsSync(`${CERT_PATH}/fullchain.pem`)) {
-	console.log("SSL証明書を取得しています...");
-	execSync(
-		`certbot certonly --standalone -d ${DOMAIN} --email ${EMAIL} --agree-tos --non-interactive`,
-	);
-}
 
 // Initialize express and on the main app
 const app = express();
 
-// Load config
+//load config
 const config = getConfig();
 
 // Cookieの読み込み
@@ -37,26 +20,19 @@ ViteExpress.config({
 	ignorePaths: /^\/api|^\/vm/,
 });
 
-const isProduction = process.env.NODE_ENV === "production";
-
-let httpPort = 80;
-let httpsPort = 443;
-let vmPort = 8080;
-if (process.env.HTTP_PORT) {
-	const basePort = Number.parseInt(process.env.HTTP_PORT, 10); // 10進数として解釈
+let port = 3000;
+let vmPort = 3001;
+if (process.env.SERVER_PORT) {
+	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // 10進数として解釈
 	if (!Number.isNaN(basePort)) {
-		httpPort = basePort;
-	}
-}
-if (process.env.HTTPS_PORT) {
-	const basePort = Number.parseInt(process.env.HTTPS_PORT, 10); // 10進数として解釈
-	if (!Number.isNaN(basePort)) {
-		httpsPort = basePort;
+		// basePortがNaNでないか確認
+		port = basePort;
 	}
 }
 if (process.env.VM_PORT) {
 	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
 	if (!Number.isNaN(basePort)) {
+		// basePortがNaNでないか確認
 		vmPort = basePort;
 	}
 }
@@ -105,28 +81,10 @@ app.use(async (req, res, next) => {
 	return next();
 });
 
-// HTTPS server options
-const httpsOptions = {
-	key: fs.readFileSync(`${CERT_PATH}/privkey.pem`),
-	cert: fs.readFileSync(`${CERT_PATH}/fullchain.pem`),
-};
-
-// HTTPSサーバーの起動
-const httpsServer = https.createServer(httpsOptions, app).listen(443, () => {
-	console.log(`HTTPS Server running on port ${process.env.HTTPS_PORT}`);
-	serverEmitter.emit("server-started");
+const server = ViteExpress.listen(app, port, () => {
+	console.log(`Server running on port ${port}`);
+	serverEmitter.emit("server-started", server);
 });
-
-// HTTPサーバーの起動
-const httpServer = http.createServer(app).listen(80, () => {
-	console.log(`HTTP Server running on port ${process.env.HTTP_PORT}`);
-});
-
-// ViteExpressのバインド
-if (isProduction) {
-	ViteExpress.bind(app, httpsServer);
-}
-ViteExpress.bind(app, httpServer);
 
 // メモリ監視
 const monitorMemoryUsage = (interval: number) => {
@@ -154,7 +112,7 @@ serverEmitter.on("server-started", () => {
 		console.log("API routes added");
 	});
 
-	// VMのプロキシ設定 (/vm以下のパスはHTTPでもHTTPSでもアクセス可能)
+	// VMのプロキシを設定
 	const vmProxy = createProxyMiddleware({
 		target: `http://localhost:${vmPort}`,
 		pathFilter: (path) => {
@@ -162,6 +120,7 @@ serverEmitter.on("server-started", () => {
 		},
 		pathRewrite: { "^/vm": "" },
 		changeOrigin: true,
+		secure: false,
 		ws: true,
 		logger: console,
 		on: {
@@ -182,4 +141,4 @@ serverEmitter.on("server-started", () => {
 	app.use(vmProxy);
 });
 
-export { app, httpsServer, httpServer, vmPort, serverEmitter };
+export { app, server, vmPort, serverEmitter };

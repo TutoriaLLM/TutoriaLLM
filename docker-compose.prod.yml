@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  reverse-proxy:
+      # The official v3 Traefik docker image
+      image: traefik:v3.1
+      # Enables the web UI and tells Traefik to listen to docker
+      command: --api.insecure=true --providers.docker
+      ports:
+        # The HTTP port
+        - "80:80"
+        # The Web UI (enabled by --api.insecure=true)
+        - "8080:8080"
+      volumes:
+        # So that Traefik can listen to the Docker events
+        - /var/run/docker.sock:/var/run/docker.sock
   redis:
     container_name: code-tutorial-redis-prod
     image: redis/redis-stack-server:latest
@@ -32,10 +45,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    ports:
-      - $HTTP_PORT:$HTTP_PORT
-      - $HTTPS_PORT:$HTTPS_PORT
-      - $VM_PORT:$VM_PORT
+    # ports:
+    #   - $SERVER_PORT:$SERVER_PORT
+    #   - $VM_PORT:$VM_PORT
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.code-tutorial-app-prod.rule=Host(`$DOMAIN_NAME`)"
+      - "traefik.http.routers.code-tutorial-app-prod.entrypoints=web"
     restart: always
     env_file:
       - .env
