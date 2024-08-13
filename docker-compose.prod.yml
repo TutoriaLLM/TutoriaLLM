@@ -57,11 +57,7 @@ services:
       dockerfile: Dockerfile.prod
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.code-tutorial-app-prod.rule=Host(`$DOMAIN_NAME`)"
-      - "traefik.http.routers.code-tutorial-app-prod.entrypoints=websecure"
-      - "traefik.http.routers.code-tutorial-app-prod.tls.certresolver=myresolver"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.code-tutorial-app-prod.middlewares=redirect-to-https"
+      - "traefik.http.routers.code-tutorial-app-prod.rule=Host(`$DOMAIN`)"
     restart: always
     env_file:
       - .env
