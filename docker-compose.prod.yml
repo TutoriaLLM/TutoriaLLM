@@ -2,18 +2,28 @@ version: '3.8'
 
 services:
   reverse-proxy:
-      # The official v3 Traefik docker image
-      image: traefik:v3.1
-      # Enables the web UI and tells Traefik to listen to docker
-      command: --api.insecure=true --providers.docker
-      ports:
-        # The HTTP port
-        - "80:80"
-        # The Web UI (enabled by --api.insecure=true)
-        - "8080:8080"
-      volumes:
-        # So that Traefik can listen to the Docker events
-        - /var/run/docker.sock:/var/run/docker.sock
+    # The official v3 Traefik docker image
+    image: traefik:v3.1
+    # Enables the web UI and tells Traefik to listen to docker
+    command:
+      - --api.insecure=true
+      - --providers.docker
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=$ACME_EMAIL
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The HTTPS port
+      - "443:443"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /letsencrypt:/letsencrypt
   redis:
     container_name: code-tutorial-redis-prod
     image: redis/redis-stack-server:latest
@@ -45,13 +55,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    # ports:
-    #   - $SERVER_PORT:$SERVER_PORT
-    #   - $VM_PORT:$VM_PORT
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.code-tutorial-app-prod.rule=Host(`$DOMAIN_NAME`)"
-      - "traefik.http.routers.code-tutorial-app-prod.entrypoints=web"
+      - "traefik.http.routers.code-tutorial-app-prod.entrypoints=websecure"
+      - "traefik.http.routers.code-tutorial-app-prod.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.code-tutorial-app-prod.middlewares=redirect-to-https"
     restart: always
     env_file:
       - .env
@@ -79,3 +89,4 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
 volumes:
   db_data_db:
+  letsencrypt:
