@@ -65,7 +65,7 @@ export default function DialogueView() {
 
 	return (
 		<div className="dialogue w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
-			<div className="w-full h-full overflow-scroll flex flex-col gap-4 p-4 py-8">
+			<div className="w-full h-full flex flex-col overflow-x-scroll gap-4 p-4 py-8">
 				<OnBoarding />
 				{session?.dialogue.map((item: Dialogue) => {
 					return <TextBubble key={item.id} item={item} />;
@@ -79,7 +79,7 @@ export default function DialogueView() {
 							</span>
 							<p className="text-xs">{t("textbubble.ai")}</p>
 						</div>
-						<div className="rounded-2xl rounded-bl-none bg-gray-300 text-gray-800 p-3 shadow max-w-xs">
+						<div className="rounded-2xl rounded-bl-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
 							<p className="prose">{t("textbubble.replying")}</p>
 						</div>
 					</div>
