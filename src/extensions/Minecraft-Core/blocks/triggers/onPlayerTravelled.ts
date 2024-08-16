@@ -26,16 +26,6 @@ export function code() {
 
 		const code = /*javascript*/ `
 
-        onConnectEvents.push(
-			async () => {
-				if (wss) {
-					wss.send(JSON.stringify(subscribeMsg("PlayerTravelled")));
-				} else {
-					console.error("WebSocket is not connected.");
-				}
-			}
-		);
-
         onMessageEvents.push(
 			async (message) => {
 				const data = JSON.parse(message);

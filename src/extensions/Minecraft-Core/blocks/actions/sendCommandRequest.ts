@@ -26,6 +26,7 @@ export function code() {
 		const code = /* javascript */ `
 		console.log("send command request");
 		const message = commandMsg("${text_command}");
+		console.log("message to send:" , message);
 		wss.send(JSON.stringify(message));
 		`;
 

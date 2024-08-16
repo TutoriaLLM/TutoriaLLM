@@ -2,8 +2,8 @@ import type { extCategory, extLocale } from "extentionContext";
 
 export const category: extCategory = {
 	kind: "category",
-	name: "%{BKY_EXAMPLE}",
-	colour: "#a855f7",
+	name: "%{BKY_SERVER}",
+	colour: "#57534e",
 	contents: [
 		{
 			kind: "block",
@@ -14,9 +14,9 @@ export const category: extCategory = {
 
 export const locale: extLocale = {
 	ja: {
-		EXAMPLE: "開発例",
+		SERVER: "サーバー",
 	},
 	en: {
-		EXAMPLE: "Example",
+		SERVER: "Server",
 	},
 };

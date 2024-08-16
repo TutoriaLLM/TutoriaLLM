@@ -17,7 +17,7 @@ export const block: extBlock = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: 230,
+	colour: "#57534e",
 	tooltip: "",
 	helpUrl: "",
 };

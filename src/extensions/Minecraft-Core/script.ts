@@ -1,5 +1,6 @@
 import type { WSContext } from "hono/ws";
 import commandMsg from "./context/commandMsg.js";
+import subscribeMsg from "./context/subscribeMsg.js";
 
 const events = [
 	"AdditionalContentLoaded",
@@ -96,7 +97,24 @@ const onMessageEvents = [] as ((message: string) => void)[];
 const onDisconnectEvents = [] as (() => void)[];
 let wss: WSContext;
 
-console.info(`Connect your Minecraft from /connect url/vm/${code}/mc`);
+//ワールドの状態のグローバルな変数
+const minecraftWorldState = {
+	player: {
+		position: {
+			x: 0,
+			y: 0,
+			z: 0,
+		},
+		isunderwater: false,
+	},
+};
+
+console.info(
+	t("extention.minecraft-core.connectInfo", {
+		host: serverRootPath,
+		userCode: code,
+	}),
+);
 
 app.get(
 	"/mc",
@@ -121,3 +139,24 @@ app.get(
 		},
 	})),
 );
+
+onConnectEvents.push(async () => {
+	if (wss) {
+		wss.send(JSON.stringify(subscribeMsg("PlayerTravelled")));
+	} else {
+		console.error("WebSocket is not connected.");
+	}
+});
+onMessageEvents.push(async (message) => {
+	const data = JSON.parse(message);
+	if (data?.body && data.header.eventName === "PlayerTravelled") {
+		minecraftWorldState.player = {
+			position: {
+				x: data.body.player.position.x,
+				y: data.body.player.position.y,
+				z: data.body.player.position.z,
+			},
+			isunderwater: data.body.player.isUnderwater,
+		};
+	}
+});

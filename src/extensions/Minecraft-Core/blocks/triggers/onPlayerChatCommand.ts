@@ -46,7 +46,6 @@ export function code() {
 			async (message) => {
 				const data = JSON.parse(message);
 				if (data && data.body && data.header.eventName === "PlayerMessage") {
-					console.log("PlayerMessage", data.body.message);
 					const messageText = data.body.message;
 					if (messageText === "${field_input}") {
 						console.log("message matched");

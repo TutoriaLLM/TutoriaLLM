@@ -8,6 +8,7 @@ export default async function codeGen(
 	},
 	language: string,
 ) {
+	console.log("codeGen running");
 	// ワークスペースの定義
 	const workspace = new Blockly.Workspace();
 
