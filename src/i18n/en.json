@@ -89,5 +89,10 @@
 		"execSwitch": "You can run your code on workspace. You need to run again if you edited.",
 		"tutorialSelector": "You can select any tutorial that you want to make.",
 		"welcome": "Welcome on board! This tour provides a brief overview of how to use this application."
+	},
+	"extention": {
+		"minecraft-core": {
+			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**"
+		}
 	}
 }
