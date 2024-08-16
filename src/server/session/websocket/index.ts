@@ -154,11 +154,13 @@ io.on("connection", async (socket) => {
 				return;
 			}
 			console.log("test code received. Executing...");
+			const clientURL = socket.handshake.headers.referer;
+			const serverRootPath = `http://${clientURL}/`;
 			const result = await ExecCodeTest(
 				code,
 				currentDataJson.uuid,
 				generatedCode,
-				`/vm/${code}`,
+				serverRootPath,
 				clients,
 				updateDatabase,
 			);
