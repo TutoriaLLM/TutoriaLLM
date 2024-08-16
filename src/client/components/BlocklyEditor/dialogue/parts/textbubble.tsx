@@ -1,6 +1,7 @@
 import {
 	Bot,
 	CircleCheck,
+	Info,
 	MenuSquare,
 	Puzzle,
 	ScanSearch,
@@ -193,6 +194,13 @@ export default function TextBubble(props: { item: Dialogue }) {
 								}`}
 								key={logItem.id}
 							>
+								{logItem.contentType === "error" ? (
+									<TriangleAlert />
+								) : logItem.contentType === "info" ? (
+									<Info />
+								) : (
+									""
+								)}
 								<Markdown>{logItem.content as string}</Markdown>
 							</p>
 						))}
