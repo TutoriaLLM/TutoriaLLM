@@ -89,5 +89,10 @@
 		"execSwitch": "ワークスペースで作ったプログラムをここから動かすことができます。プログラムの内容が変わったら、もう一度実行する必要があります。",
 		"tutorialSelector": "作りたい作品のチュートリアルをここから選択できます。",
 		"welcome": "ようこそ！このツアーでは、このアプリの使用方法について簡単に説明します。"
+	},
+	"extention": {
+		"minecraft-core": {
+			"connectInfo": "Minecraftで **/connect {{host}}/vm/{{userCode}}/mc** と入力して接続可能です。"
+		}
 	}
 }

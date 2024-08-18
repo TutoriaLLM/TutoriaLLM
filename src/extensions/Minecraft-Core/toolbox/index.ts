@@ -17,6 +17,10 @@ export const category = {
 		},
 		{
 			kind: "block",
+			type: "ext_minecraft_sendMsg",
+		},
+		{
+			kind: "block",
 			type: "ext_minecraft_debugmessage",
 		},
 	],

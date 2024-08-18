@@ -32,8 +32,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "$PORT:$PORT"
-      - "$VM_PORT:$VM_PORT"
+      - "3000:3000"
+      - "3001:3001"
     env_file:
       - .env
     command: >

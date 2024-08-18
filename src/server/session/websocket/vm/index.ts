@@ -188,11 +188,9 @@ export async function ExecCodeTest(
 
 		worker.on("error", (err) => {
 			if (err.toString().includes("ERR_WORKER_OUT_OF_MEMORY")) {
-				logBuffer.error(
-					`${t("error.error")}: ${t("vm.outOfMemory")} (${err.message})`,
-				);
+				logBuffer.error(`${t("vm.outOfMemory")} (${err.message})`);
 			} else {
-				logBuffer.error(`${t("error.error")}: ${err.message}`);
+				logBuffer.error(`${err.message}`);
 			}
 			console.log("Worker error:", err);
 		});

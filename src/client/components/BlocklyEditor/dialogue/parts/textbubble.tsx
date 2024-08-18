@@ -1,6 +1,7 @@
 import {
 	Bot,
 	CircleCheck,
+	Info,
 	MenuSquare,
 	Puzzle,
 	ScanSearch,
@@ -69,7 +70,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.you")}</p>
 				</div>
-				<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-xs">
+				<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
 					<p className="prose">
 						<Markdown>{content}</Markdown>
 					</p>{" "}
@@ -86,7 +87,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.ai")}</p>
 				</div>
-				<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-xs">
+				<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-sm">
 					<p className="prose">
 						<Markdown>{content}</Markdown>
 					</p>{" "}
@@ -104,7 +105,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.server")}</p>
 				</div>
-				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-xs w-full">
+				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-sm w-full">
 					<p className="text-xs font-semibold text-gray-600">
 						{t("textbubble.log")}:
 					</p>
@@ -125,7 +126,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.server")}</p>
 				</div>
-				<div className="text-red-800 bg-red-200 rounded-2xl p-3 max-w-xs w-full">
+				<div className="text-red-800 bg-red-200 rounded-2xl p-3 max-w-sm w-full">
 					<p className="text-xs font-semibold text-red-600">
 						{t("error.error")}:
 					</p>
@@ -142,18 +143,21 @@ export default function TextBubble(props: { item: Dialogue }) {
 		Array.isArray(props.item.content)
 	) {
 		return (
-			<div key={props.item.id} className="flex justify-start items-end gap-2">
-				<div className="text-gray-600 flex flex-col items-center">
+			<div
+				key={props.item.id}
+				className="flex justify-start items-end gap-2 w-full break-all"
+			>
+				<div className="text-gray-600 flex flex-col items-center shrink">
 					<span className="bg-gray-200 rounded-full p-2">
 						<Server />
 					</span>
 					<p className="text-xs">{t("textbubble.server")}</p>
 				</div>
-				<div className="text-gray-200 bg-gray-800 rounded-2xl p-3 gap-3 flex flex-col max-w-xs w-full">
+				<div className="rounded-2xl text-gray-200 bg-gray-800 p-3 gap-3 flex flex-col shadow max-w-sm w-full grow">
 					{props.item.content.some(
 						(logItem) => logItem.contentType === "error",
 					) ? (
-						<span className="text-xs font-semibold text-red-200 w-full rounded-2xl flex justify-between items-center p-2 bg-red-600">
+						<span className="text-xs w-full font-semibold text-red-200 rounded-2xl flex justify-between items-center p-2 bg-red-600">
 							<span className="text-xs text-red-300">
 								<p className="text-base flex-grow">
 									{t("textbubble.errorLog")}
@@ -167,7 +171,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 							<TriangleAlert />
 						</span>
 					) : (
-						<span className="text-xs font-semibold text-green-200 w-full rounded-2xl flex justify-between items-center p-2 bg-green-600">
+						<span className="text-xs w-full font-semibold text-green-200 rounded-2xl flex justify-between items-center p-2 bg-green-600">
 							<span className="text-xs text-green-300">
 								<p className="text-base flex-grow">{t("textbubble.log")}</p>
 
@@ -178,10 +182,10 @@ export default function TextBubble(props: { item: Dialogue }) {
 							<CircleCheck />
 						</span>
 					)}
-					<div className="prose-invert flex flex-col gap-2">
+					<div className="prose-invert flex flex-col w-full gap-2">
 						{props.item.content.map((logItem, index) => (
 							<p
-								className={`text-sm font-mono ${
+								className={`text-sm font-mono break-words ${
 									logItem.contentType === "error"
 										? "text-red-300 pl-2 border-l-2 border-red-400"
 										: logItem.contentType === "info"
@@ -190,7 +194,14 @@ export default function TextBubble(props: { item: Dialogue }) {
 								}`}
 								key={logItem.id}
 							>
-								{logItem.content as string}
+								{logItem.contentType === "error" ? (
+									<TriangleAlert />
+								) : logItem.contentType === "info" ? (
+									<Info />
+								) : (
+									""
+								)}
+								<Markdown>{logItem.content as string}</Markdown>
 							</p>
 						))}
 					</div>
@@ -211,7 +222,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.block")}</p>
 				</div>
-				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-xs w-full">
+				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-sm w-full">
 					<button
 						type="button"
 						className={`flex gap-2 items-center transition-colors ${
@@ -247,7 +258,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 					</span>
 					<p className="text-xs">{t("textbubble.block")}</p>
 				</div>
-				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-xs w-full">
+				<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-sm w-full">
 					<button
 						type="button"
 						className={`flex gap-2 items-center transition-colors ${

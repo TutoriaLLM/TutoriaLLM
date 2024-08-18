@@ -74,6 +74,9 @@ i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 	},
 );
 
+//言語設定
+i18next.changeLanguage(sessionValue.language);
+
 const { t } = i18next;
 
 const context = vm.createContext({

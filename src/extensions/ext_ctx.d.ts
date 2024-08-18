@@ -65,7 +65,7 @@ declare module "extentionContext" {
 		}>;
 		previousStatement: any;
 		nextStatement: any;
-		colour: number;
+		colour: string;
 		tooltip: string;
 		helpUrl: string;
 	}

@@ -18,11 +18,15 @@ RUN npm install -g pnpm && pnpm install
 COPY . .
 
 # 環境変数を設定
-ENV PORT=3000 \
-    VM_PORT=3001
+ENV PORT=3000
+ENV VM_PORT=3001
 
+ENV PORT=${PORT} \
+    # VMのポート
+    VM_PORT=${VM_PORT}
+    
 # ポート3000を公開
-EXPOSE 3000 3001
+EXPOSE 3000
 
 # アプリケーションを実行するコマンド
 # チュートリアルと認証情報をリセットする場合は、以下のオプションを追加できます：
