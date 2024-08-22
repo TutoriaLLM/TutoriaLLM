@@ -92,7 +92,11 @@
 	},
 	"extention": {
 		"minecraft-core": {
-			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**"
+			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed."
 		}
+	},
+	"editor": {
+		"workspaceTab": "Workspace",
+		"dialogueTab": "Chat"
 	}
 }
