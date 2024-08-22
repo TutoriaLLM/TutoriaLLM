@@ -24,8 +24,9 @@ export default defineConfig({
 				name: "TutoriaLLM",
 				short_name: "TutoriaLLM",
 				description: "Study Code with AI Tutor",
+				screenshots: [],
 				theme_color: "#e5e7eb",
-				display: "standalone",
+				display: "minimal-ui",
 				icons: [
 					{
 						src: "/pwa-192x192.png",
