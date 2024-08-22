@@ -100,7 +100,7 @@ export default function DialogueView() {
 						<input
 							type="text"
 							placeholder={t("textbubble.ask")}
-							className="flex-1 p-3 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500"
+							className="flex-1 p-3 border rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500"
 							value={message}
 							onChange={(e) => setMessage(e.target.value)}
 						/>

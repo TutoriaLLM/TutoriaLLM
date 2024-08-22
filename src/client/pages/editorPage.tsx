@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import type { AppConfig, SessionValue } from "../../type.js";
 import Editor from "../components/BlocklyEditor/Blockly/index.js";
 import Navbar from "../components/BlocklyEditor/Navbar.js";
+//モバイル利用時のタブ切り替え
+import * as Tabs from "@radix-ui/react-tabs";
 
 //言語の読み込み
 import { useTranslation } from "react-i18next";
@@ -31,6 +33,7 @@ import {
 
 import { io, Socket } from "socket.io-client";
 import { set } from "zod";
+import { is } from "drizzle-orm";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -49,9 +52,20 @@ export default function EditorPage() {
 	//設定の保存をするstate
 	const [settings, setSettings] = useAtom(settingState);
 
-	const devicewidth = window.innerWidth;
-	const isMobile = devicewidth < 768;
-	const direction = isMobile ? "vertical" : "horizontal";
+	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+
+		window.addEventListener("resize", handleResize);
+
+		// クリーンアップ関数
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
 	//言語
 	const languageToStart = useAtomValue(LanguageToStart);
@@ -273,34 +287,71 @@ export default function EditorPage() {
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}
 				/>
-				{!showPopup && WorkspaceConnection && (
-					// ポップアップが表示されている場合や接続が確立されていない場合はエディタを表示しない
-					<PanelGroup autoSaveId="workspace" direction={direction}>
-						<Panel
-							id="workspaceArea"
-							defaultSize={75}
-							order={1}
-							maxSize={80}
-							minSize={20}
+				{!showPopup &&
+					WorkspaceConnection &&
+					(isMobile ? (
+						<Tabs.Root
+							defaultValue="workspaceTab"
+							className="w-full h-full flex flex-col"
 						>
-							<Editor />
-						</Panel>
-						<PanelResizeHandle className="md:h-full md:w-3 h-5 w-full transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex md:flex-col justify-center items-center gap-1">
-							<span className="rounded-full p-1 bg-gray-50" />
-							<span className="rounded-full p-1 bg-gray-50" />
-							<span className="rounded-full p-1 bg-gray-50" />
-						</PanelResizeHandle>
-						<Panel
-							id="dialogueArea"
-							defaultSize={25}
-							order={2}
-							maxSize={80}
-							minSize={20}
-						>
-							<DialogueView />
-						</Panel>
-					</PanelGroup>
-				)}
+							<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold">
+								<Tabs.Trigger
+									className="p-2 rounded-lg hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+									value="workspaceTab"
+								>
+									{t("editor.workspaceTab")}
+								</Tabs.Trigger>
+								<Tabs.Trigger
+									className="p-2 rounded-lg hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+									value="dialogueTab"
+								>
+									{t("editor.dialogueTab")}
+								</Tabs.Trigger>
+							</Tabs.List>
+							<div className="flex-grow overflow-y-auto">
+								<Tabs.Content
+									className="w-full h-full"
+									value="workspaceTab"
+									asChild
+								>
+									<Editor />
+								</Tabs.Content>
+								<Tabs.Content
+									className="w-full h-full"
+									value="dialogueTab"
+									asChild
+								>
+									<DialogueView />
+								</Tabs.Content>
+							</div>
+						</Tabs.Root>
+					) : (
+						<PanelGroup autoSaveId="workspace" direction="horizontal">
+							<Panel
+								id="workspaceArea"
+								defaultSize={75}
+								order={1}
+								maxSize={80}
+								minSize={20}
+							>
+								<Editor />
+							</Panel>
+							<PanelResizeHandle className="h-full w-3 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
+								<span className="rounded-full p-1 bg-gray-50" />
+								<span className="rounded-full p-1 bg-gray-50" />
+								<span className="rounded-full p-1 bg-gray-50" />
+							</PanelResizeHandle>
+							<Panel
+								id="dialogueArea"
+								defaultSize={25}
+								order={2}
+								maxSize={80}
+								minSize={20}
+							>
+								<DialogueView />
+							</Panel>
+						</PanelGroup>
+					))}
 				<SessionPopup isPopupOpen={showPopup} message={statusMessage} />
 			</div>
 		</TourProvider>

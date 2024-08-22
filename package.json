@@ -41,6 +41,7 @@
 		"@radix-ui/react-popover": "^1.1.1",
 		"@radix-ui/react-progress": "^1.1.0",
 		"@radix-ui/react-switch": "^1.1.0",
+		"@radix-ui/react-tabs": "^1.1.0",
 		"@reactour/tour": "^3.7.0",
 		"@tailwindcss/typography": "^0.5.13",
 		"@tanstack/react-table": "^8.20.1",
@@ -93,8 +94,8 @@
 		"vectra": "^0.7.6",
 		"vite": "^5.3.5",
 		"vite-express": "^0.17.0",
-		"vite-plugin-svgr": "^4.2.0",
 		"vite-plugin-pwa": "^0.20.0",
+		"vite-plugin-svgr": "^4.2.0",
 		"ws": "^8.18.0",
 		"zod": "^3.23.8"
 	},
