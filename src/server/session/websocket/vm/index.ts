@@ -1,22 +1,17 @@
 import { Worker } from "node:worker_threads";
-import { exec } from "node:child_process";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { WebSocketServer, type WebSocket } from "ws";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { SessionValue, Dialogue, ContentType } from "../../../../type.js";
+import type { SessionValue } from "../../../../type.js";
 import { sessionDB } from "../../../db/session.js";
 import type { vmMessage } from "./tsWorker.js";
 import LogBuffer from "./logBuffer.js";
 import cors from "cors";
-import { request } from "node:http";
-import { serverEmitter, vmPort } from "../../../main.js";
+import { vmPort } from "../../../main.js";
 import { getConfig } from "../../../getConfig.js";
-import updateDatabase from "../updateDB.js";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
-import { log } from "node:console";
 
 //debug
 console.log("vm/index.js: Loading vm app");
@@ -53,14 +48,63 @@ interface VMInstance {
 const vmInstances: { [key: string]: VMInstance } = {};
 
 const vmExpress = express();
-const vmProxies = new Map();
+vmExpress.use(cors());
+//参加コードに対してプロキシを保存するマップ
+const vmProxies = new Map<string, any>();
+
+const proxy = createProxyMiddleware({
+	router: async (req) => {
+		const code = req.url?.split("/")[1];
+		if (!code) {
+			console.log("Invalid code");
+			throw new Error("Invalid code");
+		}
+		const session = await sessionDB.get(code);
+		const uuid = session ? JSON.parse(session).uuid : undefined;
+		const instance = vmInstances[uuid];
+		if (instance) {
+			console.log(
+				"instance found on vm manager. proxying to: ",
+				instance.ip,
+				instance.port,
+			);
+			return `http://${instance.ip}:${instance.port}`;
+		}
+		// VMが見つからない場合は、undefined を返す
+		// これにより、後続の処理で 404 を返すことができる
+		console.log("VM not found");
+		throw new Error("VM not found");
+	},
+	pathRewrite: (path, req) => {
+		return path.replace(req.url?.split("/")[1] || "", "");
+	},
+	ws: true,
+	logger: console,
+	on: {
+		close: (res, socket, head) => {
+			console.log("vm manager close");
+		},
+		error: (err, req, res) => {
+			console.log("vm manager error on proxy", err);
+		},
+		proxyReqWs: (proxyReq, req, socket, options, head) => {
+			console.log("vm manager proxyReqWs");
+		},
+		proxyReq: (proxyReq, req, res) => {
+			console.log("vm manager proxyReq");
+		},
+	},
+});
 
 // すべてのリクエストを処理する単一のミドルウェア
-vmExpress.use((req, res, next) => {
-	const code = req.originalUrl.split("/")[1]; // URLから最初のパスセグメントを取得
-	const proxy = vmProxies.get(code);
-
-	if (proxy) {
+vmExpress.use(async (req, res, next) => {
+	const code = req.url?.split("/")[1];
+	if (!code) {
+		res.status(404).send("Invalid code");
+		return;
+	}
+	console.log("vm manager proxying to", code);
+	if (vmProxies.has(code)) {
 		proxy(req, res, next);
 	} else {
 		res.status(404).send("Invalid code or VM not running");
@@ -71,43 +115,16 @@ vmExpress.listen(vmPort, () => {
 	console.log(`VM Manager running on port ${vmPort}`);
 });
 
-// VMインスタンス作成時にプロキシを設定する関数
+// VMインスタンス作成時に新しいプロキシをリストに追加する関数
 function setupVMProxy(code: string, ip: string, port: number) {
 	console.log("setting up proxy for", code, ip, port);
-	// プロキシの設定
-	const proxy = createProxyMiddleware({
-		target: `http://${ip}:${port}`,
-		changeOrigin: true,
-		pathFilter(pathname, req) {
-			return pathname.includes(`/${code}`);
-		},
-		pathRewrite: { [`^/${code}`]: "" },
-		ws: true,
-		logger: console,
-		on: {
-			close: (res, socket, head) => {
-				console.log("vm manager close");
-			},
-			error: (err, req, res) => {
-				console.log("vm manager error on proxy", err);
-			},
-			proxyReqWs: (proxyReq, req, socket, options, head) => {
-				console.log("vm manager proxyReqWs");
-			},
-			proxyReq: (proxyReq, req, res) => {
-				console.log("vm manager proxyReq");
-			},
-		},
-	});
-
 	vmProxies.set(code, proxy);
+	console.log("new vmProxies", vmProxies);
 }
 // VMインスタンス停止時にプロキシを削除する関数
 function removeVMProxy(code: string) {
 	vmProxies.delete(code);
 }
-
-vmExpress.use(cors());
 // 修正されたExecCodeTest関数
 export async function ExecCodeTest(
 	code: string,
