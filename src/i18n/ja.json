@@ -92,7 +92,11 @@
 	},
 	"extention": {
 		"minecraft-core": {
-			"connectInfo": "Minecraftで **/connect {{host}}/vm/{{userCode}}/mc** と入力して接続可能です。"
+			"connectInfo": "Minecraftで **/connect {{host}}/vm/{{userCode}}/mc** と入力して接続可能です。接続が失敗する時はもう一度試してください。"
 		}
+	},
+	"editor": {
+		"workspaceTab": "ワークスペース",
+		"dialogueTab": "チャット"
 	}
 }
