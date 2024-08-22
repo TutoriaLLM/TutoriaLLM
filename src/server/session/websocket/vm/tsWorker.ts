@@ -33,8 +33,8 @@ const app = new Hono();
 const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app });
 
 app.get("/test", (c) => {
-	console.log("Hello, World on vm");
-	return c.text("Hello, World!");
+	console.log("Hello, World on vm", code);
+	return c.text(`Hello, World! from vm: ${code}`);
 });
 app.get(
 	"/wstest",
