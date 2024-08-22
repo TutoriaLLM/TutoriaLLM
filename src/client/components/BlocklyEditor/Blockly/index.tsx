@@ -62,6 +62,16 @@ export default function Editor() {
 			toolbox: toolboxCategories,
 			theme: Theme,
 			renderer: "zelos",
+			media: "/",
+			zoom: {
+				controls: true,
+				wheel: true,
+				startScale: 1.0,
+				maxScale: 3,
+				minScale: 0.3,
+				scaleSpeed: 1.2,
+			},
+			trashcan: false,
 			move: {
 				scrollbars: true,
 				drag: true,
