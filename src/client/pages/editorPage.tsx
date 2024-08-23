@@ -34,6 +34,7 @@ import {
 import { io, Socket } from "socket.io-client";
 import { set } from "zod";
 import { is } from "drizzle-orm";
+import { MessageCircleMore, Puzzle } from "lucide-react";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -294,17 +295,19 @@ export default function EditorPage() {
 							defaultValue="workspaceTab"
 							className="w-full h-full flex flex-col"
 						>
-							<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold">
+							<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs">
 								<Tabs.Trigger
-									className="p-2 rounded-lg hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+									className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
 									value="workspaceTab"
 								>
+									<Puzzle className="w-4 h-4" />
 									{t("editor.workspaceTab")}
 								</Tabs.Trigger>
 								<Tabs.Trigger
-									className="p-2 rounded-lg hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+									className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
 									value="dialogueTab"
 								>
+									<MessageCircleMore className="w-4 h-4" />
 									{t("editor.dialogueTab")}
 								</Tabs.Trigger>
 							</Tabs.List>

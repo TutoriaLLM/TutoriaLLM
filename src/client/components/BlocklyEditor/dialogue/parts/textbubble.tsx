@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
 	Bot,
 	CircleCheck,
@@ -13,6 +14,8 @@ import {
 import { useTranslation } from "react-i18next";
 import type { Dialogue } from "../../../../../type.js";
 import Markdown from "react-markdown";
+import type { Components } from "react-markdown";
+
 import { useAtom, useAtomValue } from "jotai";
 import {
 	blockNameFromMenuState,
@@ -58,6 +61,30 @@ export default function TextBubble(props: { item: Dialogue }) {
 
 	const content = props.item.content as string;
 
+	// <code>タグの内容をコピーするための関数
+	const handleCodeCopy = (code: string) => {
+		navigator.clipboard.writeText(code).then(() => {
+			alert(t("textbubble.copiedToClipboard"));
+		});
+	};
+
+	// Markdownのカスタムレンダリング設定
+	const markdownComponents: Components = {
+		strong({ node, className, children, ...props }) {
+			return (
+				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+				<span
+					className="cursor-pointer text-blue-400"
+					onClick={() => handleCodeCopy(String(children))}
+				>
+					<code className={className} {...props}>
+						{children}
+					</code>
+				</span>
+			);
+		},
+	};
+
 	if (props.item.contentType === "user") {
 		return (
 			<div
@@ -72,7 +99,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 				</div>
 				<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
 					<p className="prose">
-						<Markdown>{content}</Markdown>
+						<Markdown components={markdownComponents}>{content}</Markdown>
 					</p>{" "}
 				</div>
 			</div>
@@ -89,7 +116,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 				</div>
 				<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-sm">
 					<p className="prose">
-						<Markdown>{content}</Markdown>
+						<Markdown components={markdownComponents}>{content}</Markdown>
 					</p>{" "}
 				</div>
 			</div>
@@ -110,7 +137,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 						{t("textbubble.log")}:
 					</p>
 					<p className="prose">
-						<Markdown>{content}</Markdown>
+						<Markdown components={markdownComponents}>{content}</Markdown>
 					</p>
 				</div>
 			</div>
@@ -131,7 +158,7 @@ export default function TextBubble(props: { item: Dialogue }) {
 						{t("error.error")}:
 					</p>
 					<p className="prose text-red-800">
-						<Markdown>{content}</Markdown>
+						<Markdown components={markdownComponents}>{content}</Markdown>
 					</p>
 				</div>
 			</div>
@@ -201,7 +228,9 @@ export default function TextBubble(props: { item: Dialogue }) {
 								) : (
 									""
 								)}
-								<Markdown>{logItem.content as string}</Markdown>
+								<Markdown components={markdownComponents}>
+									{logItem.content as string}
+								</Markdown>
 							</p>
 						))}
 					</div>

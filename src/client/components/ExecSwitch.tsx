@@ -73,7 +73,7 @@ export function ExecSwitch() {
 					<label
 						className={`${
 							isCodeRunning ? "text-green-600 animate-pulse" : "text-red-400"
-						} text-xs leading-none font-semibold`}
+						} text-xs leading-none font-semibold hidden md:block`}
 					>
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
 					</label>
@@ -81,9 +81,9 @@ export function ExecSwitch() {
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
 						onCheckedChange={() => ChangeSwitch()}
-						className="w-16 h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100"
+						className="w-10 h-6 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100"
 					>
-						<Switch.Thumb className="shadow block w-8 h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
+						<Switch.Thumb className="shadow block w-4 h-4 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
 					</Switch.Root>
 				</div>
 			) : null}

@@ -22,7 +22,9 @@ export default function Navbar(props: {
 			<div className="flex justify-center items-center gap-2">
 				<span className="text-xs joinCode">
 					<p>{t("navbar.joinCode")}</p>
-					<p className="font-semibold text-xl tracking-widest">{props.code}</p>
+					<p className="font-semibold text-base md:text-xl tracking-widest">
+						{props.code}
+					</p>
 					{props.isConnected ? null : (
 						<p className="p-0.5 px-2 rounded-full bg-red-300 flex flex-nowrap">
 							{t("navbar.reconnecting")}
