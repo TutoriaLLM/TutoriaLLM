@@ -55,7 +55,8 @@
 		"replying": "Replying...",
 		"ask": "Ask anything...",
 		"showingLatest": "Showing latest {{count}} messages",
-		"errorLog": "Error Log"
+		"errorLog": "Error Log",
+		"copiedToClipboard": "Copied!"
 	},
 	"tutorial": {
 		"title": "Pick Tutorial",
@@ -92,7 +93,7 @@
 	},
 	"extention": {
 		"minecraft-core": {
-			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed."
+			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed. Turn off encryption request."
 		}
 	},
 	"editor": {
