@@ -4,6 +4,7 @@ import LLMContext from "./llmContext.js";
 import Stats from "./stats.js";
 import Time from "./time.js";
 import SelectedTutorial from "./tutorial.js";
+import WorkspacePreview from "./workspacePreview.js";
 
 export function SessionValueView(props: { session: SessionValue }) {
 	const { session } = props;
@@ -15,7 +16,7 @@ export function SessionValueView(props: { session: SessionValue }) {
 			<p className="text-gray-600 text-base">
 				language: {langToStr(session?.language)}
 			</p>
-
+			<WorkspacePreview session={session} />
 			<LLMContext session={session} />
 			<Stats session={session} />
 			<Time session={session} />
