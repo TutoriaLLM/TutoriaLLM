@@ -16,6 +16,7 @@ export function SessionValueView(props: { session: SessionValue }) {
 			<p className="text-gray-600 text-base">
 				language: {langToStr(session?.language)}
 			</p>
+			<p className="text-gray-600 text-base">easyMode: {session?.easyMode}</p>
 			<WorkspacePreview session={session} />
 			<LLMContext session={session} />
 			<Stats session={session} />
