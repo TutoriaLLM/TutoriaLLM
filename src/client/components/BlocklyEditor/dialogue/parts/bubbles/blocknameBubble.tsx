@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import * as Blockly from "blockly";
 import type { TFunction } from "i18next";
 import { MenuSquare, Puzzle, X } from "lucide-react";
-import { workspaceToPngBase64 } from "../workspaceToPng";
+import { workspaceToPngBase64 } from "../../../../workspaceToPng";
 import Theme from "../../../Blockly/theme";
 import "../../../../../styles/blockly.css";
 
