@@ -1,5 +1,10 @@
+import { useState, useEffect, useRef } from "react";
+import * as Blockly from "blockly";
 import type { TFunction } from "i18next";
 import { MenuSquare, Puzzle, X } from "lucide-react";
+import { workspaceToPngBase64 } from "../workspaceToPng";
+import Theme from "../../../Blockly/theme";
+import "../../../../../styles/blockly.css";
 
 function renderBlockNameBubble(
 	content: string,
@@ -8,7 +13,51 @@ function renderBlockNameBubble(
 	handleBlockNameClick: (blockName: string) => void,
 	id: number,
 ) {
+	const [base64, setBase64] = useState<string>("");
+	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
+
+	useEffect(() => {
+		if (!hiddenWorkspaceRef.current) {
+			const hiddenDiv = document.createElement("div");
+			hiddenDiv.style.width = "100vw"; // 適切な幅を設定
+			hiddenDiv.style.height = "100vh"; // 適切な高さを設定
+			hiddenDiv.style.position = "absolute";
+			hiddenDiv.style.top = "-100vh"; // 画面外に配置
+			hiddenDiv.style.left = "-100vw"; // 画面外に配置
+			hiddenDiv.style.visibility = "hidden"; // 画面外に配置
+
+			document.body.appendChild(hiddenDiv);
+
+			hiddenWorkspaceRef.current = Blockly.inject(hiddenDiv, {
+				readOnly: true,
+				renderer: "zelos",
+				theme: Theme,
+			});
+		}
+
+		const workspaceSvg = hiddenWorkspaceRef.current;
+
+		// ブロックを追加
+		const block = workspaceSvg.newBlock(content);
+		block.initSvg();
+
+		// ブロックをレンダリング
+		block.render();
+
+		// ワークスペースの画像を生成
+		workspaceToPngBase64(workspaceSvg).then((base64) => {
+			console.log("base64", base64);
+			setBase64(base64);
+		});
+
+		// クリーンアップ
+		return () => {
+			workspaceSvg.clear(); // ワークスペースを破棄してメモリリークを防ぐ
+		};
+	}, [content]);
+
 	const isHighlighted = blockNameFromMenu === content;
+
 	return (
 		<div key={id} className="flex justify-start items-end gap-2">
 			<div className="text-gray-600 flex flex-col items-center">
@@ -17,27 +66,36 @@ function renderBlockNameBubble(
 				</span>
 				<p className="text-xs">{t("textbubble.block")}</p>
 			</div>
-			<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-sm w/full">
-				<img src="https://via.placeholder.com/150" alt="block" />
-
-				<button
-					type="button"
-					className={`flex gap-2 items-center transition-colors ${
-						isHighlighted
-							? "bg-red-500 hover:bg-red-600"
-							: "bg-orange-500 hover:bg-orange-600"
-					} text-white font-bold py-2 px-4 rounded-full`}
-					onClick={() => handleBlockNameClick(content)}
-				>
-					<span
-						className={`transition-transform duration-300 ease-in-out transform ${
-							isHighlighted ? "rotate-90" : "rotate-0"
-						}`}
+			<div className="text-gray-800 bg-gray-200 rounded-2xl p-3 max-w-sm w-full justify-between">
+				{base64 && (
+					<img
+						src={base64}
+						alt="block"
+						className="flex w-full h-full max-w-48"
+					/>
+				)}
+				<span className="w-full justify-between flex">
+					<button
+						type="button"
+						className={`flex gap-2 items-center transition-all ${
+							isHighlighted
+								? "bg-red-500 hover:bg-red-600"
+								: "bg-orange-500 shadow-md shadow-red-500 hover:bg-orange-600"
+						} text-white font-bold py-2 px-4 rounded-2xl`}
+						onClick={() => handleBlockNameClick(content)}
 					>
-						{isHighlighted ? <X /> : <MenuSquare />}
-					</span>
-					{t("textbubble.findBlockFromMenu")}
-				</button>
+						<span
+							className={`transition-transform duration-300 ease-in-out transform ${
+								isHighlighted ? "rotate-90" : "rotate-0"
+							}`}
+						>
+							{isHighlighted ? <X /> : <MenuSquare />}
+						</span>
+						<span>
+							<p>{t("textbubble.findBlockFromMenu")}</p>
+						</span>
+					</button>
+				</span>
 			</div>
 		</div>
 	);
