@@ -6,6 +6,7 @@ import { currentSessionState } from "../../../state.js";
 import type { Tutorial } from "../../../../server/db/schema.js";
 import { useTour } from "@reactour/tour";
 import { set } from "zod";
+import * as Switch from "@radix-ui/react-switch";
 
 type TutorialType = Pick<Tutorial, "id" | "metadata">;
 
@@ -58,22 +59,53 @@ export default function OnBoarding() {
 		});
 	}
 	const { setIsOpen } = useTour();
+	function toggleIsEasyMode() {
+		setSessionState((prev) => {
+			if (!prev) {
+				return null;
+			}
+			if (prev) {
+				return {
+					...prev,
+					easyMode: !prev.easyMode,
+				};
+			}
+			return prev;
+		});
+	}
 
 	return (
 		<div className="w-full flex flex-col gap-3 rounded-2xl bg-white drop-shadow-md text-gray-800 p-3">
-			<span>
-				<h3 className="font-semibold text-lg">{t("tutorial.tour")}</h3>
-				<p className="text-sm text-gray-600">{t("tutorial.startTour")}</p>
-			</span>
-			<button
-				type="button"
-				onClick={() => setIsOpen(true)}
-				className="bg-sky-500 group text-white flex justify-center items-center text-sm max-w-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all startTour"
-			>
-				<p>{t("tutorial.startTourButton")}</p>
-				<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 transition" />
-			</button>
-			<div className="tutorialSelector">
+			<div className="gap-2 bg-gray-100 p-2 rounded-2xl">
+				<span>
+					<h3 className="font-semibold text-lg">{t("tutorial.easyMode")}</h3>
+					<p className="text-sm text-gray-600">
+						{t("tutorial.easyModeDescription")}
+					</p>
+				</span>
+				<Switch.Root
+					className="w-10 h-6 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100"
+					onCheckedChange={toggleIsEasyMode} // スイッチの状態変更時に実行する関数を設定
+				>
+					<Switch.Thumb className="shadow block w-4 h-4 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
+				</Switch.Root>
+			</div>
+
+			<div className="gap-2 bg-gray-100 p-2 rounded-2xl">
+				<span>
+					<h3 className="font-semibold text-lg">{t("tutorial.tour")}</h3>
+					<p className="text-sm text-gray-600">{t("tutorial.startTour")}</p>
+				</span>
+				<button
+					type="button"
+					onClick={() => setIsOpen(true)}
+					className="bg-sky-500 group text-white flex justify-center items-center text-sm max-w-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all startTour"
+				>
+					<p>{t("tutorial.startTourButton")}</p>
+					<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 transition" />
+				</button>
+			</div>
+			<div className="tutorialSelector gap-2 bg-gray-100 p-2 rounded-2xl">
 				<span>
 					<h3 className="font-semibold text-lg">{t("tutorial.title")}</h3>
 					<p className="text-sm text-gray-600">{t("tutorial.description")}</p>

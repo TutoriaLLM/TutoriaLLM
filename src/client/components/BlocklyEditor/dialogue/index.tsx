@@ -68,7 +68,13 @@ export default function DialogueView() {
 			<div className="w-full h-full flex flex-col overflow-x-scroll gap-4 p-4 py-8">
 				<OnBoarding />
 				{session?.dialogue.map((item: Dialogue) => {
-					return <TextBubble key={item.id} item={item} />;
+					return (
+						<TextBubble
+							key={item.id}
+							item={item}
+							easyMode={session?.easyMode}
+						/>
+					);
 				})}
 				{/*返信中のアニメーションを表示*/}
 				{session?.isReplying && (

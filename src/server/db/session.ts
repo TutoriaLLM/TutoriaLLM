@@ -40,6 +40,7 @@ function intitialData(code: string, language: string): SessionValue {
 			},
 		],
 		isReplying: false,
+		easyMode: false,
 		workspace: {},
 		isVMRunning: false,
 		clients: [],

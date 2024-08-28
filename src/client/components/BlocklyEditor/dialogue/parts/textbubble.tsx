@@ -18,7 +18,10 @@ import { renderGroupLogBubble } from "./bubbles/groupLogBubble.js";
 import { renderBlockIdBubble } from "./bubbles/blockidBubble.js";
 import { renderBlockNameBubble } from "./bubbles/blocknameBubble.js";
 
-export default function TextBubble(props: { item: Dialogue }) {
+export default function TextBubble(props: {
+	item: Dialogue;
+	easyMode: boolean;
+}) {
 	//load setting
 	const setting = useAtomValue(settingState);
 
@@ -84,7 +87,13 @@ export default function TextBubble(props: { item: Dialogue }) {
 			{props.item.contentType === "user" &&
 				renderUserBubble(content, markdownComponents, t, props.item.id)}
 			{props.item.contentType === "ai" &&
-				renderAIBubble(content, markdownComponents, t, props.item.id)}
+				renderAIBubble(
+					content,
+					markdownComponents,
+					t,
+					props.item.id,
+					props.easyMode,
+				)}
 			{props.item.contentType === "log" &&
 				renderLogBubble(content, markdownComponents, t, props.item.id)}
 			{props.item.contentType === "error" &&

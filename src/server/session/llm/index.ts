@@ -6,6 +6,7 @@ import { db } from "../../db/index.js";
 import { getConfig } from "../../getConfig.js";
 import { tutorials } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
+import { applyRuby } from "../../../utils/japaneseWithRuby.js";
 
 //debug
 console.log("llm/index.ts: Loading llm app");
@@ -180,6 +181,9 @@ If there is no workspace, encourage the user to start coding and provide a messa
 		throw new Error("Failed to generate response from the AI model.");
 	}
 	const parsedContent = zodSchema.parse(JSON.parse(response));
+
+	//振り仮名をparsedContentに適用
+	parsedContent.response = await applyRuby(parsedContent.response);
 
 	return parsedContent;
 }
