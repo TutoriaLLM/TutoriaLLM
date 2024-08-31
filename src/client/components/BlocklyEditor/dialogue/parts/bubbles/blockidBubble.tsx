@@ -1,6 +1,6 @@
 import type { TFunction } from "i18next";
 import { Puzzle, ScanSearch, X } from "lucide-react";
-import type { HighlightedBlock } from "../../../../../../type";
+import type { HighlightedBlock } from "../../../../../../type.js";
 
 function renderBlockIdBubble(
 	content: string,

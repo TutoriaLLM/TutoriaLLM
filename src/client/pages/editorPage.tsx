@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 //ツアーの読み込み
 import { TourProvider, useTour, type StepType } from "@reactour/tour";
-import { tourSteps } from "./editorTour";
+import { tourSteps } from "./editorTour.js";
 
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue/index.js";

@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import * as Blockly from "blockly";
 import type { TFunction } from "i18next";
 import { MenuSquare, Puzzle, X } from "lucide-react";
-import { workspaceToPngBase64 } from "../../../../workspaceToPng";
-import Theme from "../../../Blockly/theme";
+import { workspaceToPngBase64 } from "../../../../workspaceToPng.js";
+import Theme from "../../../Blockly/theme/index.js";
 import "../../../../../styles/blockly.css";
 
 function renderBlockNameBubble(

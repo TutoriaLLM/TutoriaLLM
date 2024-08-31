@@ -1,7 +1,7 @@
 import type { TFunction } from "i18next";
 import { CircleCheck, Info, Server, TriangleAlert } from "lucide-react";
 import Markdown, { type Components } from "react-markdown";
-import type { AppConfig } from "../../../../../../type";
+import type { AppConfig } from "../../../../../../type.js";
 
 function renderGroupLogBubble(
 	content: Array<any>,
