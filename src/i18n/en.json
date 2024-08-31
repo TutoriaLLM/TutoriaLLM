@@ -68,7 +68,8 @@
 		"startTour": "Look what you can do.",
 		"startTourButton": "Begin Tour",
 		"easyMode": "Easy Mode",
-		"easyModeDescription": "AI's response will be more easier."
+		"easyModeDescription": "AI's response will be more easier.",
+		"easyModeChanged": "Turn Easy mode to {{status}}"
 	},
 	"quickReply": {
 		"done": "I'm done",
@@ -102,5 +103,7 @@
 	"editor": {
 		"workspaceTab": "Workspace",
 		"dialogueTab": "Chat"
-	}
+	},
+	"on": "On",
+	"off": "Off"
 }

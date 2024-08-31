@@ -68,7 +68,8 @@
 		"startTour": "何ができるか見てみましょう。",
 		"startTourButton": "ツアーを始める",
 		"easyMode": "かんたんモード",
-		"easyModeDescription": "AIからのチャットがかんたんになります"
+		"easyModeDescription": "AIからのチャットがかんたんになります",
+		"easyModeChanged": "かんたんモードを{{status}}にしました"
 	},
 	"quickReply": {
 		"iDontKnow": "わかりません",
@@ -102,5 +103,7 @@
 	"editor": {
 		"workspaceTab": "ワークスペース",
 		"dialogueTab": "チャット"
-	}
+	},
+	"off": "オフ",
+	"on": "オン"
 }
