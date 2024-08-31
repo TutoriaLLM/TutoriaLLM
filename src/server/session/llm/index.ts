@@ -160,6 +160,9 @@ Use the provided tutorial content to guide the user explicitly on what they shou
 
 Answer the user's latest question based on past messages if they are asking: ${session.dialogue[session.dialogue.length - 1]?.content}
 
+If the value of easy mode is true, provide a message to the user to help them understand the issue with using simple language. For Japanese, use only Hiragana and Katakana Instead of Kanji.
+Easy mode: ${session.easyMode}
+
 This is the current user workspace of Blockly; it is rendered as blocks on the user's screen and will be converted to code to execute: ${JSON.stringify(session.workspace)}
 You may attach blockId from the workspace that you are referring to.
 Also, you may attach blockName to display the block that is needed to proceed with the next steps.

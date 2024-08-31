@@ -25,7 +25,13 @@ async function applyRuby(content: string): Promise<string> {
 			const tokens = tokenizer.tokenize(content);
 			const rubyContent = tokens
 				.map((token) => {
-					if (token.reading && token.surface_form !== token.reading) {
+					// 漢字のトークンのみを対象にする
+					if (
+						token.pos === "名詞" &&
+						token.pos_detail_1 === "一般" &&
+						token.reading &&
+						token.surface_form !== token.reading
+					) {
 						// カタカナをひらがなに変換してルビを適用
 						const hiraganaReading = katakanaToHiragana(token.reading);
 						return `<ruby>${token.surface_form}<rt>${hiraganaReading}</rt></ruby>`;
