@@ -18,7 +18,7 @@ RUN npm install -g pnpm && pnpm install
 COPY . .
 
 # ビルドを実行
-RUN tsc --nocache && pnpm run build
+RUN pnpm exec tsc --nocache && pnpm run build
 
 # ビルド時に使用するポートを設定。envと一致させる
 ARG PORT=3000
