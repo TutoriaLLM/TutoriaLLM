@@ -6,6 +6,7 @@ import { db } from "../../db/index.js";
 import { getConfig } from "../../getConfig.js";
 import { tutorials } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
+import { applyRuby } from "../../../utils/japaneseWithRuby.js";
 
 //debug
 console.log("llm/index.ts: Loading llm app");
@@ -159,6 +160,9 @@ Use the provided tutorial content to guide the user explicitly on what they shou
 
 Answer the user's latest question based on past messages if they are asking: ${session.dialogue[session.dialogue.length - 1]?.content}
 
+If the value of easy mode is true, provide a message to the user to help them understand the issue with using simple language. For Japanese, use only Hiragana and Katakana Instead of Kanji.
+Easy mode: ${session.easyMode}
+
 This is the current user workspace of Blockly; it is rendered as blocks on the user's screen and will be converted to code to execute: ${JSON.stringify(session.workspace)}
 You may attach blockId from the workspace that you are referring to.
 Also, you may attach blockName to display the block that is needed to proceed with the next steps.
@@ -180,6 +184,9 @@ If there is no workspace, encourage the user to start coding and provide a messa
 		throw new Error("Failed to generate response from the AI model.");
 	}
 	const parsedContent = zodSchema.parse(JSON.parse(response));
+
+	//振り仮名をparsedContentに適用
+	parsedContent.response = await applyRuby(parsedContent.response);
 
 	return parsedContent;
 }

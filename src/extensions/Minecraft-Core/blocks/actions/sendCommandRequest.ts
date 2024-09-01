@@ -25,9 +25,9 @@ export function code() {
 		const text_command = block.getFieldValue("COMMAND");
 		const code = /* javascript */ `
 		console.log("send command request");
-		const message = commandMsg("${text_command}");
-		console.log("message to send:" , message);
-		wss.send(JSON.stringify(message));
+		const messageCommandRequest = commandMsg("${text_command}");
+		console.log("message to send:" , messageCommandRequest);
+		wss.send(JSON.stringify(messageCommandRequest));
 		`;
 
 		return code;

@@ -56,7 +56,8 @@
 		"ask": "Ask anything...",
 		"showingLatest": "Showing latest {{count}} messages",
 		"errorLog": "Error Log",
-		"copiedToClipboard": "Copied!"
+		"copiedToClipboard": "Copied!",
+		"blocksuggestions": "Suggested block"
 	},
 	"tutorial": {
 		"title": "Pick Tutorial",
@@ -65,7 +66,10 @@
 		"startTutorial": "Tutorial has selected",
 		"tour": "Start Tour",
 		"startTour": "Look what you can do.",
-		"startTourButton": "Begin Tour"
+		"startTourButton": "Begin Tour",
+		"easyMode": "Easy Mode",
+		"easyModeDescription": "AI's response will be more easier.",
+		"easyModeChanged": "Turn Easy mode to {{status}}"
 	},
 	"quickReply": {
 		"done": "I'm done",
@@ -99,5 +103,7 @@
 	"editor": {
 		"workspaceTab": "Workspace",
 		"dialogueTab": "Chat"
-	}
+	},
+	"on": "On",
+	"off": "Off"
 }

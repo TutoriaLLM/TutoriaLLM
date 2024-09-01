@@ -2,7 +2,7 @@ name: Build and Deploy to Docker Hub
 
 on:
   push:
-    branches: [ master, development, docker ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -27,4 +27,4 @@ jobs:
         context: .
         file: ./Dockerfile.prod
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/code-tutorial-app:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/tutoriallm:latest

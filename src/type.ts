@@ -47,6 +47,8 @@ export type SessionValue = {
 	isVMRunning: boolean;
 	clients: string[];
 	language: string;
+	//簡単モードかどうかを保存し、簡単モードの場合はAIの返答を簡略化したり、ルビを振ったりする
+	easyMode: boolean;
 	//AIへ与えるコンテキスト
 	llmContext: string;
 	//チュートリアルの有無や設定を保存する

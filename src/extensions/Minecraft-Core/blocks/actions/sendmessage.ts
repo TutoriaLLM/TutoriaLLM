@@ -25,8 +25,8 @@ export function code() {
 			Order.ATOMIC,
 		);
 		const code = /* javascript */ `
-		const message = commandMsg("/say ${message_to_send}");
-		wss.send(JSON.stringify(message));
+		const messageToSend = commandMsg("/say ${message_to_send}");
+		wss.send(JSON.stringify(messageToSend));
 		`;
 
 		return code;
