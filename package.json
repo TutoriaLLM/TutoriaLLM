@@ -99,11 +99,10 @@
 		"vite-plugin-pwa": "^0.20.0",
 		"vite-plugin-svgr": "^4.2.0",
 		"ws": "^8.18.0",
-		"zod": "^3.23.8"
+		"zod": "^3.23.8",
+		"typescript": "^5.5.4"
 	},
 	"devDependencies": {
-		"typescript": "^5.5.4",
-
 		"@biomejs/biome": "1.8.3",
 		"@types/bcrypt": "^5.0.2",
 		"@types/better-sqlite3": "^7.6.11",
