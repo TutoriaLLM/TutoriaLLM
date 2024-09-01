@@ -1,8 +1,8 @@
-name: Build and Deploy to Docker Hub
+name: Build and Deploy to Docker Hub from dev branch (preview version)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ dev ]
 
 jobs:
   build:
@@ -27,4 +27,4 @@ jobs:
         context: .
         file: ./Dockerfile.prod
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/tutoriallm:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview

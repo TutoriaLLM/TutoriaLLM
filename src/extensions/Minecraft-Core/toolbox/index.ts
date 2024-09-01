@@ -23,6 +23,14 @@ export const category = {
 			kind: "block",
 			type: "ext_minecraft_debugmessage",
 		},
+		{
+			kind: "block",
+			type: "ext_minecraft_TeleportAgentToPlayer",
+		},
+		{
+			kind: "block",
+			type: "ext_minecraft_createAgent",
+		},
 	],
 };
 
