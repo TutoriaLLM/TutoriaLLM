@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@blockly/continuous-toolbox':
-        specifier: ^6.0.6
-        version: 6.0.6(blockly@11.1.1)
       '@hono/node-server':
         specifier: ^1.12.0
         version: 1.12.0
@@ -935,12 +932,6 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
-
-  '@blockly/continuous-toolbox@6.0.6':
-    resolution: {integrity: sha512-/GaG8VCfozo+OpPhKlLIHK84aaCp8SwoNnLppRhXQVB0Ep6Lc5ykrXbloxjk7EPKhPbvvnQ+lDjHwbJvEwHNmQ==}
-    engines: {node: '>=8.17.0'}
-    peerDependencies:
-      blockly: ^11.0.0
 
   '@drizzle-team/brocli@0.8.2':
     resolution: {integrity: sha512-zTrFENsqGvOkBOuHDC1pXCkDXNd2UhP4lI3gYGhQ1R1SPeAAfqzPsV1dcpMy4uNU6kB5VpU5NGhvwxVNETR02A==}
@@ -6153,10 +6144,6 @@ snapshots:
 
   '@biomejs/cli-win32-x64@1.8.3':
     optional: true
-
-  '@blockly/continuous-toolbox@6.0.6(blockly@11.1.1)':
-    dependencies:
-      blockly: 11.1.1
 
   '@drizzle-team/brocli@0.8.2': {}
 

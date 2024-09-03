@@ -14,7 +14,6 @@
   /*override tailwindcss reset*/
   box-sizing: content-box;
   /*until here*/
-
   border: 0;
   padding: 0.9rem;
   margin-bottom: 0.5em;
@@ -29,7 +28,10 @@
 }
 
 .blocklyTreeRow .blocklyTreeRowContentContainer > .blocklyTreeLabel {
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 1rem;
   font-weight: 600;
   transition: all 0.15s ease; /* アニメーションを追加 */
 }
