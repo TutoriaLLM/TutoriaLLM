@@ -178,7 +178,7 @@ const extensionsDir = path.resolve(__dirname, "../../../../extensions");
 const extensionLoader = new ExtensionLoader(extensionsDir);
 await extensionLoader.loadExtensions(context);
 const extScript = await extensionLoader.loadScript();
-console.log("extScript", extScript);
+console.log("userScript", userScript);
 
 const script = new vm.Script(`
 	${extScript}
