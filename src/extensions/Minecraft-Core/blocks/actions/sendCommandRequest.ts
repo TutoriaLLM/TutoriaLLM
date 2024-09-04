@@ -5,7 +5,12 @@ export const block = {
 	message0: "%{BKY_MINECRAFT_SENDCOMMANDREQUEST}",
 	args0: [
 		{
-			type: "field_input",
+			type: "input_value",
+			value: {
+				type: "text",
+				name: "COMMAND",
+				text: "/say hello",
+			},
 			name: "COMMAND",
 			text: "/say hello",
 		},
@@ -24,10 +29,11 @@ export function code() {
 	) => {
 		const text_command = block.getFieldValue("COMMAND");
 		const code = /* javascript */ `
-		console.log("send command request");
+		function sendCmdReq() {
 		const messageCommandRequest = commandMsg("${text_command}");
-		console.log("message to send:" , messageCommandRequest);
 		wss.send(JSON.stringify(messageCommandRequest));
+		}
+		sendCmdReq();
 		`;
 
 		return code;
