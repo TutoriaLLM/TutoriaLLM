@@ -99,6 +99,13 @@ let wss: WSContext;
 
 //ワールドの状態のグローバルな変数
 const minecraftWorldState = {
+	agent: {
+		position: {
+			x: 0,
+			y: 0,
+			z: 0,
+		},
+	},
 	player: {
 		position: {
 			x: 0,
@@ -156,7 +163,7 @@ onMessageEvents.push(async (message) => {
 				y: data.body.player.position.y,
 				z: data.body.player.position.z,
 			},
-			isunderwater: data.body.player.isUnderwater,
+			isunderwater: data.body.isUnderwater,
 		};
 	}
 });

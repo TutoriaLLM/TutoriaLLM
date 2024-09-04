@@ -20,6 +20,22 @@ export const category = {
 					kind: "block",
 					type: "ext_minecraft_onplayertransform",
 				},
+				{
+					kind: "block",
+					type: "ext_minecraft_var_PlayerXPos",
+				},
+				{
+					kind: "block",
+					type: "ext_minecraft_var_PlayerYPos",
+				},
+				{
+					kind: "block",
+					type: "ext_minecraft_var_PlayerZPos",
+				},
+				{
+					kind: "block",
+					type: "ext_minecraft_isPlayerUnderWater",
+				},
 			],
 		},
 		{
@@ -40,6 +56,13 @@ export const category = {
 					kind: "block",
 					type: "ext_minecraft_debugmessage",
 				},
+			],
+		},
+		{
+			kind: "category",
+			name: "%{BKY_MINECRAFT_AGENT}",
+			colour: "#a855f7",
+			contents: [
 				{
 					kind: "block",
 					type: "ext_minecraft_TeleportAgentToPlayer",
@@ -58,10 +81,12 @@ export const locale = {
 		MINECRAFT: "マインクラフト",
 		MINECRAFT_ACTIONS: "アクション",
 		MINECRAFT_PLAYER_EVENTS: "プレイヤー",
+		MINECRAFT_AGENT: "エージェント",
 	},
 	en: {
 		MINECRAFT: "Minecraft",
 		MINECRAFT_ACTIONS: "Actions",
 		MINECRAFT_PLAYER_EVENTS: "Player",
+		MINECRAFT_AGENT: "Agent",
 	},
 };

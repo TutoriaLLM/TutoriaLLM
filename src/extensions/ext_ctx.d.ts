@@ -18,6 +18,23 @@ declare module "extentionContext" {
 			info: (...args: string[]) => void;
 		};
 		const { t }: i18n;
+		const minecraftWorldState: {
+			agent: {
+				position: {
+					x: number;
+					y: number;
+					z: number;
+				};
+			};
+			player: {
+				position: {
+					x: number;
+					y: number;
+					z: number;
+				};
+				isunderwater: boolean;
+			};
+		};
 	}
 
 	/**

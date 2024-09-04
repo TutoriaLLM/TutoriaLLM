@@ -17,7 +17,13 @@ export function code() {
 		generator,
 	) => {
 		const code = /* javascript */ `
-		wss.send(JSON.stringify(commandMsg("/agent tp @p")));
+		const playerPos = {
+			x: minecraftWorldState.player.position.x,
+			y: minecraftWorldState.player.position.y,
+			z: minecraftWorldState.player.position.z,
+		};
+		const message = commandMsg("/agent tp" + " " + playerPos.x + " " + ((playerPos.y)-2) + " " + playerPos.z);
+		wss.send(JSON.stringify(message));
 		`;
 
 		return code;

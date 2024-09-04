@@ -6,13 +6,7 @@ export const block = {
 	args0: [
 		{
 			type: "input_value",
-			value: {
-				type: "text",
-				name: "COMMAND",
-				text: "/say hello",
-			},
 			name: "COMMAND",
-			text: "/say hello",
 		},
 	],
 	previousStatement: null,
@@ -27,10 +21,11 @@ export function code() {
 		block,
 		generator,
 	) => {
-		const text_command = block.getFieldValue("COMMAND");
+		const text_command = generator.valueToCode(block, "COMMAND", Order.ATOMIC);
+		console.log(text_command);
 		const code = /* javascript */ `
 		function sendCmdReq() {
-		const messageCommandRequest = commandMsg("${text_command}");
+		const messageCommandRequest = commandMsg(${text_command});
 		wss.send(JSON.stringify(messageCommandRequest));
 		}
 		sendCmdReq();
