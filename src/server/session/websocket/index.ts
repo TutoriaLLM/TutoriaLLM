@@ -6,7 +6,7 @@ import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Dialogue, SessionValue } from "../../../type.js";
 import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { sessionDB } from "../../db/session.js";
-import { ExecCodeTest, StopCodeTest } from "./vm/index.js";
+import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import updateDatabase from "./updateDB.js";
@@ -178,6 +178,25 @@ io.on("connection", async (socket) => {
 				console.log("sending to all clients false");
 				sendToAllClients(currentDataJson);
 			}
+		});
+		socket.on("updateVM", async () => {
+			console.log("updateVM");
+			const currentDataJson = await getCurrentDataJson(code);
+			if (!currentDataJson) {
+				console.log("Session not found");
+				socket.disconnect();
+				return;
+			}
+			const generatedCode = await codeGen(
+				currentDataJson.workspace,
+				currentDataJson.language,
+			);
+			const result = await UpdateCodeTest(
+				code,
+				currentDataJson.uuid,
+				generatedCode,
+			);
+			console.log(result);
 		});
 		socket.on("stopVM", async () => {
 			console.log("stopVM");
