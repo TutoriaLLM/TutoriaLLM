@@ -30,6 +30,10 @@ export function tourSteps() {
 			content: () => t("tour.execSwitch"),
 		},
 		{
+			selector: ".push",
+			content: () => t("tour.pushCode"),
+		},
+		{
 			selector: ".startTour",
 			content: () => t("tour.tourAgain"),
 		},
