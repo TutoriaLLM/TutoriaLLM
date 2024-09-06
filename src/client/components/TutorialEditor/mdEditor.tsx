@@ -18,7 +18,7 @@ import {
 	$convertToMarkdownString,
 } from "@lexical/markdown";
 import ToolbarPlugin from "./toolbar.js";
-import { block } from "../../../extensions/Example/blocks/consoleLog.js";
+import { block } from "../../../extensions/Server/blocks/consoleLog.js";
 import { CustomCodeNode } from "./plugins/customCodenode.js";
 
 const placeholder = "Enter some rich text...";
