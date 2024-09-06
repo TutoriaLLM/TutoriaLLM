@@ -56,6 +56,14 @@ export const category = {
 					kind: "block",
 					type: "ext_minecraft_debugmessage",
 				},
+				{
+					kind: "block",
+					type: "ext_minecraft_summon_mob",
+				},
+				{
+					kind: "block",
+					type: "ext_minecraft_summon_monster",
+				},
 			],
 		},
 		{
