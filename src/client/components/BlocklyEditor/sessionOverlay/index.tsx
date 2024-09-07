@@ -12,6 +12,7 @@ import { useAtom } from "jotai";
 import { LanguageToStart } from "../../../state.js";
 import { LangPicker } from "../../Langpicker.js";
 import Overlay from "../../Overlay.js";
+import { DebugInfo } from "./debuginfo.js";
 
 export default function SessionPopup(props: {
 	isPopupOpen: boolean;
@@ -70,6 +71,7 @@ export default function SessionPopup(props: {
 								language={languageToStart}
 								setLanguage={setLanguageToStart}
 							/>
+							<DebugInfo />
 						</div>
 					}
 				/>

@@ -19,14 +19,22 @@ export default defineConfig({
 				"icon-512-maskable.png",
 			],
 			registerType: "autoUpdate",
-			devOptions: { enabled: true },
 			manifest: {
 				name: "TutoriaLLM",
 				short_name: "TutoriaLLM",
 				description: "Study Code with AI Tutor",
-				screenshots: [],
 				theme_color: "#e5e7eb",
-				display: "minimal-ui",
+				display: "standalone",
+				id: "/",
+				screenshots: [
+					{
+						src: "/screenshot.webp",
+						sizes: "2944x2098",
+						type: "image/webp",
+						platform: "wide",
+						label: "Workspace of TutoriaLLM",
+					},
+				],
 				icons: [
 					{
 						src: "/pwa-192x192.png",
