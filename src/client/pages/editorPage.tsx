@@ -15,6 +15,9 @@ import { useTranslation } from "react-i18next";
 import { TourProvider, useTour, type StepType } from "@reactour/tour";
 import { tourSteps } from "./editorTour.js";
 
+//視覚的な統計作成に利用するライブラリ
+import html2canvas from "html2canvas";
+
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
 import SessionPopup from "../components/BlocklyEditor/sessionOverlay/index.js";
@@ -159,6 +162,21 @@ export default function EditorPage() {
 			setIsCodeRunning(message.isVMRunning);
 		});
 
+		//スクリーンショットのリクエストを受信
+		socket.on("RequestScreenshot", async () => {
+			console.log("Received screenshot request");
+			const image = await takeScreenshot();
+			setCurrentSession((prev) => {
+				if (prev) {
+					return {
+						...prev,
+						screenshot: image,
+					};
+				}
+				return prev;
+			});
+		});
+
 		socket.on("disconnect", () => {
 			console.log("disconnected");
 			setWorkspaceConnection(false);
@@ -169,12 +187,14 @@ export default function EditorPage() {
 	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はSocketに送信する
 	useEffect(() => {
 		if (socketInstance && currentSession) {
-			// 前回のセッションのワークスペース、対話の内容が違う場合のみ送信
+			// 前回のセッションのワークスペース、対話、またはスクリーンショットの内容が違う場合のみ送信
 			if (
 				JSON.stringify(currentSession.workspace) !==
 					JSON.stringify(prevSession?.workspace) ||
 				JSON.stringify(currentSession.dialogue) !==
-					JSON.stringify(prevSession?.dialogue)
+					JSON.stringify(prevSession?.dialogue) ||
+				JSON.stringify(currentSession.screenshot) !==
+					JSON.stringify(prevSession?.screenshot)
 			) {
 				socketInstance.emit("UpdateCurrentSession", currentSession);
 				setPrevSession(currentSession);
@@ -260,6 +280,14 @@ export default function EditorPage() {
 
 		return () => clearInterval(reconnectInterval);
 	}, [WorkspaceConnection, sessionCode]);
+
+	// スクリーンショットの撮影機能
+	async function takeScreenshot() {
+		const element = document.body; // スクリーンショットを撮りたい要素
+		const canvas = (await (html2canvas as any)(element)) as HTMLCanvasElement; // html2canvasの型定義がおかしいためanyで回避
+		const imgData = canvas.toDataURL("image/png", 0.3); // Base64形式の画像データ
+		return imgData;
+	}
 
 	return (
 		<TourProvider

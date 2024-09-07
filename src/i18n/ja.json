@@ -34,7 +34,8 @@
 		"or": "または",
 		"sessionNotFoundMsg": "セッションがありません。\n別のコードを入力するか、新しいセッションを作成して開始してください。",
 		"typecodeMsg": "コードを入れるか、新しいセッションを作ってはじめましょう。",
-		"welcome": "AIを使ってプログラミングを学ぼう。"
+		"welcome": "AIを使ってプログラミングを学ぼう。",
+		"debuginfo": "デバッグ情報"
 	},
 	"sidebar": {
 		"dashboard": "ダッシュボード",
@@ -106,5 +107,14 @@
 		"dialogueTab": "チャット"
 	},
 	"off": "オフ",
-	"on": "オン"
+	"on": "オン",
+	"admin": {
+		"sessionAnalytics": "セッションのアナリティクス",
+		"sessionCode": "セッションコード",
+		"sessionLanguage": "言語",
+		"sessionEasyMode": "かんたんモード",
+		"summary": "サマリー",
+		"workspace": "ワークスペース",
+		"loading": "読み込み中です"
+	}
 }

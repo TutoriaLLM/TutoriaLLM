@@ -8,7 +8,8 @@
 		"createSession": "Create new room",
 		"typecodeMsg": "Type your code, or create new room to start.",
 		"about": "About this app",
-		"welcome": "Study coding with AI"
+		"welcome": "Study coding with AI",
+		"debuginfo": "Debug Info"
 	},
 	"navbar": {
 		"leave": "leave",
@@ -106,5 +107,14 @@
 		"dialogueTab": "Chat"
 	},
 	"on": "On",
-	"off": "Off"
+	"off": "Off",
+	"admin": {
+		"sessionAnalytics": "Session Analytics",
+		"sessionCode": "Session Code",
+		"sessionLanguage": "Language",
+		"sessionEasyMode": "Easy Mode",
+		"summary": "Summary",
+		"workspace": "Workspace",
+		"loading": "Loading"
+	}
 }

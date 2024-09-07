@@ -59,6 +59,7 @@
 		"fast-glob": "^3.3.2",
 		"get-port": "^7.1.0",
 		"hono": "^4.5.4",
+		"html2canvas": "^1.4.1",
 		"http-proxy": "^1.18.1",
 		"http-proxy-middleware": "^3.0.0",
 		"i18next": "^23.12.2",

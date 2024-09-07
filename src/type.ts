@@ -55,6 +55,8 @@ export type SessionValue = {
 	tutorial: TutorialStats;
 	//数値的な統計情報を保存する
 	stats: Stats;
+	//ページの最新のbase64スクリーンショットを保存する
+	screenshot: string;
 };
 
 //ハイライトするブロック
@@ -82,6 +84,7 @@ export type AppConfig = {
 	Client_Settings: {
 		AutoReply: boolean;
 		Reply_Time_ms: number;
+		Screenshot_Interval_min: number;
 	};
 	Code_Execution_Limits: {
 		Max_CodeRangeSizeMb: number;

@@ -11,6 +11,9 @@ import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import updateDatabase from "./updateDB.js";
 import { updateSession } from "./updateSession.js";
+import { getConfig } from "../../getConfig.js";
+
+const config = getConfig();
 
 //debug
 console.log("websocket/index.ts: Loading websocket app");
@@ -87,6 +90,12 @@ io.on("connection", async (socket) => {
 			}
 			return JSON.parse(currentData);
 		}
+
+		//自動的に指定した分おきにスクリーンショットのリクエストを送信する
+		const screenshotInterval = setInterval(() => {
+			console.log(`Sending RequestScreenshot to client ${clientId}`);
+			socket.emit("RequestScreenshot");
+		}, 30 * 1000); // 30秒ごとにスクリーンショットをリクエスト
 
 		socket.on("UpdateCurrentSession", async (message) => {
 			console.log("UpdateCurrentSession");
@@ -224,6 +233,7 @@ io.on("connection", async (socket) => {
 
 		socket.on("disconnect", async () => {
 			console.log("disconnected client");
+			clearInterval(screenshotInterval);
 			try {
 				const currentData = await sessionDB.get(code);
 				if (!currentData) {
