@@ -17,11 +17,7 @@ export async function getAvailableBlocks(
 	blockFiles: string[],
 	language: string,
 ) {
-	const availableBlocks: {
-		block: extBlock;
-		code: () => void;
-		locale: extLocale;
-	}[] = [];
+	const availableBlocks = [] as Array<AvailableBlock>;
 
 	await Promise.all(
 		blockFiles.map(async (file) => {
@@ -45,8 +41,14 @@ export async function getAvailableBlocks(
 }
 
 // 利用可能なブロックをBlocklyに登録する
+type AvailableBlock = {
+	block: extBlock;
+	code: () => void;
+	locale: extLocale;
+};
+
 export function registerAvailableBlocks(
-	availableBlocks: any[],
+	availableBlocks: AvailableBlock[],
 	language: string,
 ) {
 	for (const { block, code, locale } of availableBlocks) {

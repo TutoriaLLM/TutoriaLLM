@@ -12,7 +12,7 @@ export default function Login() {
 
 	const currentPage = window.location.href;
 
-	const handleLogin = async (event: any) => {
+	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;

@@ -43,7 +43,7 @@ export type SessionValue = {
 	dialogue: Dialogue[];
 	isReplying: boolean;
 	//シリアル化したBlockly.Workspaceを保存する
-	workspace: { [key: string]: any };
+	workspace: { [key: string]: string };
 	isVMRunning: boolean;
 	clients: string[];
 	language: string;
