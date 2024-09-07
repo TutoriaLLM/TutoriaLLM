@@ -86,7 +86,7 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SUMMONMONSTER: "モンスター %1 を %2 %3 %4 にスポーンさせる",
+		MINECRAFT_SUMMONMONSTER: "モンスター %1 を座標 %2 %3 %4 にスポーンさせる",
 		BLAZE: "ブレイズ",
 		BOGGED: "ボッグド",
 		BREEZE: "ブリーズ",

@@ -1,13 +1,15 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 import type { extBlock, extLocale } from "extentionContext";
+import type * as Blockly from "blockly";
 
 export const block: extBlock = {
 	type: "ext_server_log",
-	message0: "%{BKY_SERVER_LOG} %1 %2",
+	message0: "%{BKY_SERVER_LOG} %1",
 	args0: [
 		{
 			type: "input_value",
-			name: "VAR",
+			name: "STRING",
+			check: "String",
 		},
 	],
 	previousStatement: null,
@@ -18,9 +20,9 @@ export const block: extBlock = {
 };
 
 export function code() {
-	javascriptGenerator.forBlock.ext_example_console_log = (block, generator) => {
+	javascriptGenerator.forBlock.ext_server_log = (block, generator) => {
 		// Collect argument strings.
-		const var_var = generator.valueToCode(block, "VAR", Order.ATOMIC);
+		const var_var = generator.valueToCode(block, "STRING", Order.ATOMIC);
 
 		const code = `console.log("${var_var}");\n`;
 

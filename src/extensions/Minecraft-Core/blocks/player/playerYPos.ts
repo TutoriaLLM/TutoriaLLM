@@ -8,7 +8,7 @@ export const block = {
 };
 
 export function code() {
-	javascriptGenerator.forBlock.ext_minecraft_var_PlayerXPos = (
+	javascriptGenerator.forBlock.ext_minecraft_var_PlayerYPos = (
 		block,
 		generator,
 	) => {

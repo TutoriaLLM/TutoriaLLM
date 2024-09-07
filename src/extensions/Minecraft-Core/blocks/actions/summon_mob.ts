@@ -86,7 +86,7 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SUMMONMOB: "生き物 %1 を %2 %3 %4 に召喚する",
+		MINECRAFT_SUMMONMOB: "生き物 %1 を座標 %2 %3 %4 に召喚する",
 		ALLAY: "アレイ",
 		ARMADILLO: "アルマジロ",
 		AXOLOTL: "ウーパールーパー",
