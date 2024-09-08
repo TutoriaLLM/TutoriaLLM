@@ -92,10 +92,13 @@ io.on("connection", async (socket) => {
 		}
 
 		//自動的に指定した分おきにスクリーンショットのリクエストを送信する
-		const screenshotInterval = setInterval(() => {
-			console.log(`Sending RequestScreenshot to client ${clientId}`);
-			socket.emit("RequestScreenshot");
-		}, 30 * 1000); // 30秒ごとにスクリーンショットをリクエスト
+		const screenshotInterval = setInterval(
+			() => {
+				console.log(`Sending RequestScreenshot to client ${clientId}`);
+				socket.emit("RequestScreenshot");
+			},
+			config.Client_Settings.Screenshot_Interval_min * 60 * 1000,
+		); // 指定された分ごとにスクリーンショットをリクエスト
 
 		socket.on("UpdateCurrentSession", async (message) => {
 			console.log("UpdateCurrentSession");

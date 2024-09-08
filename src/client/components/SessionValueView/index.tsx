@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { SessionValue } from "../../../type.js";
 import { langToStr } from "../../../utils/langToStr.js";
-import LLMContext from "./llmContext.js";
+import Summary from "./summary.js";
 import Stats from "./stats.js";
 import Time from "./time.js";
 import SelectedTutorial from "./tutorial.js";
@@ -111,11 +111,11 @@ export function SessionValueView(props: { session: string }) {
 						{t("admin.workspace")}
 					</Tabs.Trigger>
 				</Tabs.List>
-				<Tabs.Content className="w-full h-full" value="workspaceView" asChild>
+				<Tabs.Content className="w-full h-full" value="workspaceView">
 					<WorkspacePreview session={session} />
 				</Tabs.Content>
-				<Tabs.Content className="w-full h-full" value="summaryView" asChild>
-					<LLMContext session={session} />
+				<Tabs.Content className="w-full h-full" value="summaryView">
+					<Summary session={session} />
 				</Tabs.Content>
 			</Tabs.Root>
 			<Stats session={session} />

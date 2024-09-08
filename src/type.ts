@@ -35,6 +35,12 @@ export type Stats = {
 	totalUserMessages: number;
 	totalCodeExecutions: number;
 };
+export type Click = {
+	x: number;
+	y: number;
+	value: number;
+	timestamp: number;
+};
 export type SessionValue = {
 	sessioncode: string;
 	uuid: string;
@@ -57,6 +63,8 @@ export type SessionValue = {
 	stats: Stats;
 	//ページの最新のbase64スクリーンショットを保存する
 	screenshot: string;
+	//直近のユーザーのクリック位置を配列で保存する
+	clicks: Click[];
 };
 
 //ハイライトするブロック

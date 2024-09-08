@@ -59,6 +59,7 @@ function initialData(code: string, language: string): SessionValue {
 			totalCodeExecutions: 0,
 		},
 		screenshot: "",
+		clicks: [],
 	};
 }
 

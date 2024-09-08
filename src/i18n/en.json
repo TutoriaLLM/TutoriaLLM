@@ -115,6 +115,9 @@
 		"sessionEasyMode": "Easy Mode",
 		"summary": "Summary",
 		"workspace": "Workspace",
-		"loading": "Loading"
+		"loading": "Loading",
+		"sessionSummary": "Session summary",
+		"showHeatmap": "Show Heatmap",
+		"noScreenshotAvailable": "No screenshot available"
 	}
 }
