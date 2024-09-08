@@ -1,6 +1,5 @@
 import { CodeNode, $createCodeNode } from "@lexical/code";
 import type { EditorConfig } from "lexical";
-import { createRoot } from "react-dom/client";
 import React from "react";
 
 export class CustomCodeNode extends CodeNode {
