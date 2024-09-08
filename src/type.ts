@@ -35,6 +35,12 @@ export type Stats = {
 	totalUserMessages: number;
 	totalCodeExecutions: number;
 };
+export type Click = {
+	x: number;
+	y: number;
+	value: number;
+	timestamp: number;
+};
 export type SessionValue = {
 	sessioncode: string;
 	uuid: string;
@@ -43,7 +49,7 @@ export type SessionValue = {
 	dialogue: Dialogue[];
 	isReplying: boolean;
 	//シリアル化したBlockly.Workspaceを保存する
-	workspace: { [key: string]: any };
+	workspace: { [key: string]: string };
 	isVMRunning: boolean;
 	clients: string[];
 	language: string;
@@ -55,6 +61,10 @@ export type SessionValue = {
 	tutorial: TutorialStats;
 	//数値的な統計情報を保存する
 	stats: Stats;
+	//ページの最新のbase64スクリーンショットを保存する
+	screenshot: string;
+	//直近のユーザーのクリック位置を配列で保存する
+	clicks: Click[];
 };
 
 //ハイライトするブロック
@@ -82,6 +92,7 @@ export type AppConfig = {
 	Client_Settings: {
 		AutoReply: boolean;
 		Reply_Time_ms: number;
+		Screenshot_Interval_min: number;
 	};
 	Code_Execution_Limits: {
 		Max_CodeRangeSizeMb: number;

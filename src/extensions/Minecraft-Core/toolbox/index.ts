@@ -1,35 +1,28 @@
+import playerEvents from "./contents/playerEvents.json";
+import actions from "./contents/actions.json";
+import agent from "./contents/agent.json";
 export const category = {
 	kind: "category",
 	name: "%{BKY_MINECRAFT}",
 	colour: "#a855f7",
 	contents: [
 		{
-			kind: "block",
-			type: "ext_minecraft_onplayerchatcommand",
+			kind: "category",
+			name: "%{BKY_MINECRAFT_PLAYER_EVENTS}",
+			colour: "#a855f7",
+			contents: playerEvents,
 		},
 		{
-			kind: "block",
-			type: "ext_minecraft_onplayertransform",
+			kind: "category",
+			name: "%{BKY_MINECRAFT_ACTIONS}",
+			colour: "#a855f7",
+			contents: actions,
 		},
 		{
-			kind: "block",
-			type: "ext_minecraft_sendcommandrequest",
-		},
-		{
-			kind: "block",
-			type: "ext_minecraft_sendMsg",
-		},
-		{
-			kind: "block",
-			type: "ext_minecraft_debugmessage",
-		},
-		{
-			kind: "block",
-			type: "ext_minecraft_TeleportAgentToPlayer",
-		},
-		{
-			kind: "block",
-			type: "ext_minecraft_createAgent",
+			kind: "category",
+			name: "%{BKY_MINECRAFT_AGENT}",
+			colour: "#a855f7",
+			contents: agent,
 		},
 	],
 };
@@ -37,8 +30,14 @@ export const category = {
 export const locale = {
 	ja: {
 		MINECRAFT: "マインクラフト",
+		MINECRAFT_ACTIONS: "アクション",
+		MINECRAFT_PLAYER_EVENTS: "プレイヤー",
+		MINECRAFT_AGENT: "エージェント",
 	},
 	en: {
 		MINECRAFT: "Minecraft",
+		MINECRAFT_ACTIONS: "Actions",
+		MINECRAFT_PLAYER_EVENTS: "Player",
+		MINECRAFT_AGENT: "Agent",
 	},
 };

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import type { SessionValue } from "../../../../type.js";
 import { langToStr } from "../../../../utils/langToStr.js";
-
 import {
 	type ColumnDef,
 	flexRender,
@@ -19,6 +18,7 @@ import {
 	ChevronsRight,
 	ChevronUp,
 	Clock,
+	LoaderCircle,
 	MessageCircleMore,
 	MoreHorizontal,
 	Play,
@@ -33,7 +33,10 @@ export default function Sessions() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [autoUpdate, setAutoUpdate] = useState(true);
-	const [popupSession, setPopupSession] = useState<SessionValue | null>(null);
+	const [popupSessionFromCode, setPopupSessionFromCode] = useState<
+		string | null
+	>(null);
+	const [showLoader, setShowLoader] = useState(true); // ローディング表示の管理
 
 	const fetchSessions = () => {
 		fetch("/api/admin/sessions/list")
@@ -49,10 +52,12 @@ export default function Sessions() {
 				);
 				setSessions(parsedData);
 				setLoading(false);
+				setShowLoader(true);
 			})
 			.catch((error) => {
 				setError(error.message);
 				setLoading(false);
+				setShowLoader(true);
 			});
 	};
 
@@ -69,6 +74,13 @@ export default function Sessions() {
 		};
 	}, [autoUpdate]);
 
+	useEffect(() => {
+		if (!loading) {
+			const timer = setTimeout(() => setShowLoader(false), 1000); // 1秒後にローディングスピナーを非表示
+			return () => clearTimeout(timer); // クリーンアップ
+		}
+	}, [loading]);
+
 	const handleDeleteSession = (key: string) => {
 		fetch(`/api/admin/sessions/${key}`, {
 			method: "DELETE",
@@ -84,25 +96,16 @@ export default function Sessions() {
 			});
 	};
 
-	async function handleStatsPopup(code: string) {
-		await fetch(`/api/session/${code}`)
-			.then(async (response) => {
-				if (!response.ok || response.status === 404) {
-					throw new Error(response.statusText);
-				}
-				// レスポンスをJSONに変換し、ポップアップで表示
-				const data = (await response.json()) as SessionValue;
-				setPopupSession(data);
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
-	}
-	const handleClosePopup = () => {
-		setPopupSession(null);
+	const handleStatsPopup = (code: string) => {
+		setPopupSessionFromCode(code);
 	};
-	const PopupContent = popupSession ? (
-		<SessionValueView session={popupSession} />
+
+	const handleClosePopup = () => {
+		setPopupSessionFromCode(null);
+	};
+
+	const PopupContent = popupSessionFromCode ? (
+		<SessionValueView session={popupSessionFromCode} />
 	) : (
 		<div>Session not found</div>
 	);
@@ -231,18 +234,9 @@ export default function Sessions() {
 		getPaginationRowModel: getPaginationRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		initialState: {
-			sorting: [
-				{
-					id: "createdAt",
-					desc: false,
-				},
-			],
+			sorting: [{ id: "createdAt", desc: false }],
 		},
 	});
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
 
 	if (error) {
 		alert(error);
@@ -252,18 +246,23 @@ export default function Sessions() {
 	return (
 		<div className="w-full h-full">
 			<Popup
-				openState={popupSession !== null}
+				openState={popupSessionFromCode !== null}
 				onClose={handleClosePopup}
 				Content={PopupContent}
 			/>
 			<div className="flex justify-between p-4 w-full">
 				<h2 className="text-2xl font-semibold">Sessions</h2>
+				{showLoader && (
+					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
+						<LoaderCircle />
+					</span>
+				)}{" "}
 				<label className="flex items-center gap-2">
 					<input
 						type="checkbox"
 						checked={autoUpdate}
 						onChange={() => setAutoUpdate(!autoUpdate)}
-						className="form-checkbox h-4 w-4 "
+						className="form-checkbox h-4 w-4"
 					/>
 					<span>Auto Update</span>
 				</label>

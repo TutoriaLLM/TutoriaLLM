@@ -96,29 +96,75 @@ export default function Editor() {
 
 		//ハイライトするツールボックスの項目がある場合、そのメニュー項目をハイライトする
 		const toolboxItem = toolbox.getToolboxItems();
-		for (const item of toolboxItem) {
-			if (item.isSelectable()) {
-				const category = item as Blockly.ToolboxCategory;
+		// カテゴリとその親カテゴリをハイライトする関数
+		function highlightCategory(category: Blockly.ToolboxCategory) {
+			const div = category.getDiv();
+			const labelDOM = div?.getElementsByClassName(
+				"blocklyTreeRow",
+			)[0] as HTMLElement;
+			if (labelDOM) {
+				labelDOM.style.backgroundColor = "#ef4444";
+				labelDOM.classList.add("highlight"); // highlightはCSSファイル内で定義されている
+			}
+		}
+		//最上位の階層まで全てハイライトする関数
+		function highlightParentCategory(category: Blockly.ToolboxCategory) {
+			let parent = category.getParent();
+			while (parent) {
+				const parentCategory = parent as Blockly.CollapsibleToolboxCategory;
+				parent = parentCategory.getParent();
+				highlightCategory(parentCategory);
+				highlightParentCategory(parentCategory);
+			}
+		}
+		function highlightBlockInToolbox() {
+			for (const item of toolboxItem) {
+				if (item.isSelectable()) {
+					const category = item as
+						| Blockly.ToolboxCategory
+						| Blockly.CollapsibleToolboxCategory;
 
-				const stringifiedContents = JSON.stringify(category.getContents());
-				if (
-					blockNameFromMenu &&
-					stringifiedContents.includes(blockNameFromMenu)
-				) {
-					console.log("Found block in toolbox:", blockNameFromMenu);
-					//カテゴリ名が一致する場合、そのカテゴリの色を変更する
-					const div = category.getDiv();
-					const labelDOM = div?.getElementsByClassName(
-						"blocklyTreeRow",
-					)[0] as HTMLElement;
-					if (labelDOM) {
-						labelDOM.style.backgroundColor = "#ef4444";
-						labelDOM.classList.add("highlight");
-						//highlightはCSSファイル内で定義されている
+					const stringifiedContents = JSON.stringify(category.getContents());
+					if (
+						blockNameFromMenu &&
+						stringifiedContents.includes(blockNameFromMenu)
+					) {
+						console.log("Found block in toolbox:", blockNameFromMenu);
+						//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+						highlightCategory(category);
+					}
+				}
+				if (item.isCollapsible()) {
+					const category = item as Blockly.CollapsibleToolboxCategory;
+					//子アイテムを取得
+					const children = category.getChildToolboxItems();
+					for (const child of children) {
+						const item = child as Blockly.ToolboxCategory;
+						const stringifiedContents = JSON.stringify(item.getContents());
+						if (
+							blockNameFromMenu &&
+							stringifiedContents.includes(blockNameFromMenu)
+						) {
+							console.log("Found block in toolbox:", blockNameFromMenu);
+							//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+							highlightCategory(item);
+							//親カテゴリの色も変更する
+							highlightParentCategory(item);
+						}
+					}
+					const stringifiedContents = JSON.stringify(category.getContents());
+					if (
+						blockNameFromMenu &&
+						stringifiedContents.includes(blockNameFromMenu)
+					) {
+						console.log("Found block in toolbox:", blockNameFromMenu);
+						//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+						highlightCategory(category);
 					}
 				}
 			}
 		}
+		highlightBlockInToolbox();
 
 		const saveWorkspace = (event: Blockly.Events.Abstract) => {
 			try {
@@ -259,10 +305,12 @@ export default function Editor() {
 		}
 
 		if (highlightedBlock) {
+			const currentWorkspace =
+				Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
 			blockHighlightRef.current = new BlockHighlight(
-				highlightedBlock.workspace ||
-					(Blockly.getMainWorkspace() as Blockly.WorkspaceSvg),
+				highlightedBlock.workspace || currentWorkspace,
 			);
+			console.log("highlightedBlock changed", highlightedBlock);
 			blockHighlightRef.current.init(10, highlightedBlock.blockId);
 		} else {
 			blockHighlightRef.current = null;

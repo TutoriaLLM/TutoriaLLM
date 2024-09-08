@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   redis:
   #実稼働ではredis/redis-stack-serverを使用する

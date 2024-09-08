@@ -25,7 +25,7 @@ sessionDB.on("error", (err) => {
 	console.log(`Error ${err}`);
 });
 
-function intitialData(code: string, language: string): SessionValue {
+function initialData(code: string, language: string): SessionValue {
 	return {
 		sessioncode: code,
 		uuid: crypto.randomUUID(),
@@ -58,6 +58,8 @@ function intitialData(code: string, language: string): SessionValue {
 			totalUserMessages: 0,
 			totalCodeExecutions: 0,
 		},
+		screenshot: "",
+		clicks: [],
 	};
 }
 
@@ -80,11 +82,11 @@ DBrouter.get("/new", async (req, res) => {
 	}
 	// await sessionDB.put(
 	// 	code,
-	// 	JSON.stringify(intitialData(code, language.toString())),
+	// 	JSON.stringify(initialData(code, language.toString())),
 	// );
 	await sessionDB.set(
 		code,
-		JSON.stringify(intitialData(code, language.toString())),
+		JSON.stringify(initialData(code, language.toString())),
 	);
 	console.log("session created by api");
 	res.send(code);

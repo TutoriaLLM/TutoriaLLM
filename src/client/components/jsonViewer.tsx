@@ -1,8 +1,8 @@
 import type React from "react";
 
 type JSONFieldProps = {
-	obj: Record<string, any>;
-	setObj: (newObj: Record<string, any>) => void;
+	obj: Record<string, unknown>;
+	setObj: (newObj: Record<string, unknown>) => void;
 	path?: string[];
 };
 
@@ -18,8 +18,9 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			...obj,
 			[key]: e.target.type === "number" ? +value : value,
 		};
+
 		if (typeof index === "number") {
-			const arr = obj[key] as any[];
+			const arr = Array.isArray(obj[key]) ? [...(obj[key] as unknown[])] : [];
 			arr[index] = e.target.type === "number" ? +value : value;
 			setObj({ ...obj, [key]: arr });
 		} else {
@@ -27,7 +28,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 		}
 	};
 
-	const renderInputField = (key: string, value: any, index?: number) => {
+	const renderInputField = (key: string, value: unknown, index?: number) => {
 		if (typeof value === "boolean") {
 			return (
 				<input
@@ -59,12 +60,12 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 	};
 
 	const addItemToArray = (key: string) => {
-		const arr = obj[key] as any[];
+		const arr = Array.isArray(obj[key]) ? [...(obj[key] as unknown[])] : [];
 		setObj({ ...obj, [key]: [...arr, ""] });
 	};
 
 	const removeItemFromArray = (key: string, index: number) => {
-		const arr = obj[key] as any[];
+		const arr = Array.isArray(obj[key]) ? [...(obj[key] as unknown[])] : [];
 		setObj({ ...obj, [key]: arr.filter((_, i) => i !== index) });
 	};
 
@@ -104,7 +105,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 						<div key={index}>
 							<h3 className="font-semibold text-lg">{key}</h3>
 							<JSONField
-								obj={value}
+								obj={value as Record<string, unknown>}
 								setObj={(newSubObj) => {
 									const newObject = { ...obj };
 									newObject[key] = newSubObj;

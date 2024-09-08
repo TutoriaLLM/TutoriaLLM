@@ -8,7 +8,8 @@
 		"createSession": "Create new room",
 		"typecodeMsg": "Type your code, or create new room to start.",
 		"about": "About this app",
-		"welcome": "Study coding with AI"
+		"welcome": "Study coding with AI",
+		"debuginfo": "Debug Info"
 	},
 	"navbar": {
 		"leave": "leave",
@@ -91,9 +92,10 @@
 		"blocklyWorkspace": "Workspace is place to make your code.",
 		"dialogue": "You can talk with AI for any help, or take a lesson from AI with tutorial.",
 		"tourAgain": "You can take this tour again with click this button.",
-		"execSwitch": "You can run your code on workspace. You need to run again if you edited.",
+		"execSwitch": "You can run your code on workspace.",
 		"tutorialSelector": "You can select any tutorial that you want to make.",
-		"welcome": "Welcome on board! This tour provides a brief overview of how to use this application."
+		"welcome": "Welcome on board! This tour provides a brief overview of how to use this application.",
+		"pushCode": "Push your current programs into server when its running."
 	},
 	"extention": {
 		"minecraft-core": {
@@ -105,5 +107,17 @@
 		"dialogueTab": "Chat"
 	},
 	"on": "On",
-	"off": "Off"
+	"off": "Off",
+	"admin": {
+		"sessionAnalytics": "Session Analytics",
+		"sessionCode": "Session Code",
+		"sessionLanguage": "Language",
+		"sessionEasyMode": "Easy Mode",
+		"summary": "Summary",
+		"workspace": "Workspace",
+		"loading": "Loading",
+		"sessionSummary": "Session summary",
+		"showHeatmap": "Show Heatmap",
+		"noScreenshotAvailable": "No screenshot available"
+	}
 }

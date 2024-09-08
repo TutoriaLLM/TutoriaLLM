@@ -19,7 +19,6 @@ function renderBlockIdBubble(
 				<p className="text-xs">{t("textbubble.block")}</p>
 			</div>
 			<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-sm w-full">
-				<img src="https://via.placeholder.com/150" alt="block" />
 				<button
 					type="button"
 					className={`flex gap-2 items-center transition-colors ${

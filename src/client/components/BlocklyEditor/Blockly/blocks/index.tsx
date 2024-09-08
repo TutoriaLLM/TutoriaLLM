@@ -29,6 +29,11 @@ function registerBlocks(language: string) {
 				Blockly.Blocks[block.type] = {
 					init: function () {
 						this.jsonInit(block);
+
+						// `customInit` メソッドが定義されている場合にそれを呼び出す
+						if (typeof block.customInit === "function") {
+							block.customInit.call(this);
+						}
 					},
 				};
 

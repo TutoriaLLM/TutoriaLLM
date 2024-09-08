@@ -18,6 +18,23 @@ declare module "extentionContext" {
 			info: (...args: string[]) => void;
 		};
 		const { t }: i18n;
+		const minecraftWorldState: {
+			agent: {
+				position: {
+					x: number;
+					y: number;
+					z: number;
+				};
+			};
+			player: {
+				position: {
+					x: number;
+					y: number;
+					z: number;
+				};
+				isunderwater: boolean;
+			};
+		};
 	}
 
 	/**
@@ -33,6 +50,8 @@ declare module "extentionContext" {
 		contents: Array<{
 			kind: "block";
 			type: string;
+			field?: any;
+			inputs?: any;
 		}>;
 	}
 
@@ -58,15 +77,17 @@ declare module "extentionContext" {
 	export interface extBlock {
 		type: string;
 		message0: string;
-		args0: Array<{
+		args0?: Array<{
 			type: string;
 			name: string;
 			text?: string;
+			check?: string;
 		}>;
 		previousStatement: any;
 		nextStatement: any;
 		colour: string;
 		tooltip: string;
 		helpUrl: string;
+		customInit?: () => void;
 	}
 }

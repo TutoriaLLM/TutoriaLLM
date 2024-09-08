@@ -1,5 +1,4 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
-
 export const block = {
 	type: "ext_minecraft_sendMsg",
 	message0: "%{BKY_MINECRAFT_SENDMESSAGE}",
@@ -7,6 +6,10 @@ export const block = {
 		{
 			type: "input_value",
 			name: "MESSAGE",
+			field: {
+				type: "text",
+				text: "hello",
+			},
 			check: "String",
 		},
 	],

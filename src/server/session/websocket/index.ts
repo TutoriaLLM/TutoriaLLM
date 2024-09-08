@@ -6,11 +6,14 @@ import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Dialogue, SessionValue } from "../../../type.js";
 import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { sessionDB } from "../../db/session.js";
-import { ExecCodeTest, StopCodeTest } from "./vm/index.js";
+import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import updateDatabase from "./updateDB.js";
 import { updateSession } from "./updateSession.js";
+import { getConfig } from "../../getConfig.js";
+
+const config = getConfig();
 
 //debug
 console.log("websocket/index.ts: Loading websocket app");
@@ -87,6 +90,15 @@ io.on("connection", async (socket) => {
 			}
 			return JSON.parse(currentData);
 		}
+
+		//自動的に指定した分おきにスクリーンショットのリクエストを送信する
+		const screenshotInterval = setInterval(
+			() => {
+				console.log(`Sending RequestScreenshot to client ${clientId}`);
+				socket.emit("RequestScreenshot");
+			},
+			config.Client_Settings.Screenshot_Interval_min * 60 * 1000,
+		); // 指定された分ごとにスクリーンショットをリクエスト
 
 		socket.on("UpdateCurrentSession", async (message) => {
 			console.log("UpdateCurrentSession");
@@ -179,6 +191,25 @@ io.on("connection", async (socket) => {
 				sendToAllClients(currentDataJson);
 			}
 		});
+		socket.on("updateVM", async () => {
+			console.log("updateVM");
+			const currentDataJson = await getCurrentDataJson(code);
+			if (!currentDataJson) {
+				console.log("Session not found");
+				socket.disconnect();
+				return;
+			}
+			const generatedCode = await codeGen(
+				currentDataJson.workspace,
+				currentDataJson.language,
+			);
+			const result = await UpdateCodeTest(
+				code,
+				currentDataJson.uuid,
+				generatedCode,
+			);
+			console.log(result);
+		});
 		socket.on("stopVM", async () => {
 			console.log("stopVM");
 			const currentDataJson = await getCurrentDataJson(code);
@@ -205,6 +236,7 @@ io.on("connection", async (socket) => {
 
 		socket.on("disconnect", async () => {
 			console.log("disconnected client");
+			clearInterval(screenshotInterval);
 			try {
 				const currentData = await sessionDB.get(code);
 				if (!currentData) {

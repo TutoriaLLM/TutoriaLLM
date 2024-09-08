@@ -21,6 +21,8 @@ export async function updateSession(
 		dialogue,
 		stats,
 		language,
+		screenshot,
+		clicks,
 	} = messageJson;
 
 	const code = sessioncode;
@@ -158,6 +160,8 @@ export async function updateSession(
 				progress: currentDataJson.tutorial.progress,
 			},
 			stats: stats,
+			screenshot: screenshot,
+			clicks: clicks,
 		};
 
 		await updateDatabase(code, dataToPut, clients);
@@ -192,6 +196,8 @@ export async function updateSession(
 				},
 				latestDataJson,
 			).stats,
+			screenshot: latestDataJson.screenshot,
+			clicks: latestDataJson.clicks,
 		};
 
 		await updateDatabase(code, finalDataToPut, clients);
@@ -214,6 +220,8 @@ export async function updateSession(
 				progress: messageJson.tutorial.progress,
 			},
 			stats: messageJson.stats,
+			screenshot: screenshot,
+			clicks: clicks,
 		};
 
 		await updateDatabase(code, dataToPut, clients);

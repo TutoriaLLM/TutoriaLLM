@@ -231,6 +231,32 @@ export async function ExecCodeTest(
 	return "Valid uuid";
 }
 
+// ExecCodeTestで実行しているWorkerを通して、コードを更新するための関数
+export async function UpdateCodeTest(
+	code: string,
+	uuid: string,
+	newUserScript: string,
+): Promise<string> {
+	const instance = vmInstances[uuid];
+	if (instance?.running) {
+		const session = await sessionDB.get(code);
+		if (!session) {
+			return "Invalid session";
+		}
+		const sessionValue: SessionValue = JSON.parse(session);
+		if (sessionValue.uuid !== uuid) {
+			return "Invalid uuid";
+		}
+		// Workerに新しいコードを送信
+		instance.worker.postMessage({
+			type: "updateScript",
+			code: newUserScript,
+		});
+		return "Script updated successfully.";
+	}
+	return "Script is not running.";
+}
+
 // 修正されたStopCodeTest関数
 export async function StopCodeTest(
 	code: string,

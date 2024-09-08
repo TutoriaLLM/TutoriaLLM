@@ -4,7 +4,7 @@ import * as Blockly from "blockly";
 
 export default async function codeGen(
 	serializedWorkspace: {
-		[key: string]: any;
+		[key: string]: string;
 	},
 	language: string,
 ) {

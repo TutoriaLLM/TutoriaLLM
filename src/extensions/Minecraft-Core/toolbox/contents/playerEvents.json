@@ -1,0 +1,30 @@
+[
+	{
+		"kind": "block",
+		"type": "ext_minecraft_onplayerchatcommand"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_onminecraftconnection"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_onplayertransform"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_var_PlayerXPos"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_var_PlayerYPos"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_var_PlayerZPos"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_isPlayerUnderWater"
+	}
+]

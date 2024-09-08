@@ -12,7 +12,7 @@ import {
 	socketIoInstance,
 } from "../state.js";
 
-import { PlayIcon, StopCircleIcon } from "lucide-react";
+import { ArrowUpFromLine, PlayIcon, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 //このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。
@@ -51,6 +51,14 @@ export function ExecSwitch() {
 		}
 		setIsSwitchDisabled(true);
 	}
+	//リロードボタンを押した時に、新しいコードを送信する
+	function updateCode() {
+		if (isCodeRunning && socketInstance && currentSession) {
+			console.log("stop");
+			socketInstance.emit("updateVM");
+		}
+	}
+
 	//スイッチの状態が外部から変更されるまで待つ
 	useEffect(() => {
 		sleep(1000).then(() => {
@@ -85,6 +93,15 @@ export function ExecSwitch() {
 					>
 						<Switch.Thumb className="shadow block w-4 h-4 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
 					</Switch.Root>
+
+					<button
+						className={`text-xs push text-gray-400 bg-gray-300 rounded-2xl p-2 underline ${isCodeRunning ? " text-gray-700" : ""}`}
+						type="button"
+						onClick={() => updateCode()}
+						disabled={!isCodeRunning}
+					>
+						<ArrowUpFromLine />
+					</button>
 				</div>
 			) : null}
 		</form>

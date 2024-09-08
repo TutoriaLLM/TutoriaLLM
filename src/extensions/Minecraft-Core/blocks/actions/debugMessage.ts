@@ -1,6 +1,8 @@
+import * as Blockly from "blockly";
 import { Order, javascriptGenerator } from "blockly/javascript";
+import type { extBlock } from "extentionContext";
 
-export const block = {
+export const block: extBlock = {
 	type: "ext_minecraft_debugmessage",
 	message0: "%{BKY_MINECRAFT_DEBUGMESSAGE}",
 	previousStatement: null,
@@ -8,6 +10,9 @@ export const block = {
 	colour: "#a855f7",
 	tooltip: "",
 	helpUrl: "",
+	customInit: function (this: Blockly.Block) {
+		this.setWarningText(Blockly.Msg.THISISFORDEBUGGING);
+	},
 };
 
 export function code() {
@@ -29,8 +34,10 @@ export function code() {
 export const locale = {
 	ja: {
 		MINECRAFT_DEBUGMESSAGE: "メッセージを表示する",
+		THISISFORDEBUGGING: "これはデバッグ用です",
 	},
 	en: {
 		MINECRAFT_DEBUGMESSAGE: "Display message",
+		THISISFORDEBUGGING: "This is for debugging",
 	},
 };

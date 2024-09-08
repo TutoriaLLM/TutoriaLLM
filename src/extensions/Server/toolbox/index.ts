@@ -7,7 +7,18 @@ export const category: extCategory = {
 	contents: [
 		{
 			kind: "block",
-			type: "ext_example_console_log",
+			type: "ext_server_log",
+			//shadowの設定
+			inputs: {
+				STRING: {
+					shadow: {
+						type: "text",
+						fields: {
+							TEXT: "Hello, Server!",
+						},
+					},
+				},
+			},
 		},
 	],
 };

@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
-import type { AppConfig, SessionValue } from "../../type.js";
+import type { AppConfig, Click, SessionValue } from "../../type.js";
 import Editor from "../components/BlocklyEditor/Blockly/index.js";
 import Navbar from "../components/BlocklyEditor/Navbar.js";
 //モバイル利用時のタブ切り替え
@@ -14,6 +14,9 @@ import { useTranslation } from "react-i18next";
 //ツアーの読み込み
 import { TourProvider, useTour, type StepType } from "@reactour/tour";
 import { tourSteps } from "./editorTour.js";
+
+//視覚的な統計作成に利用するライブラリ
+import html2canvas from "html2canvas";
 
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
@@ -44,6 +47,11 @@ export default function EditorPage() {
 	//比較するために前回の値を保存
 	const [prevSession, setPrevSession] = useAtom(prevSessionState);
 
+	//クリックの保存
+	const [recordedClicks, setrecordedClicks] = useState<Click[]>([]);
+	// 最新のクリック情報を保持するためのrefを追加
+	const recordedClicksRef = useRef<Click[]>([]);
+
 	const [showPopup, setShowPopup] = useAtom(isPopupOpen);
 	const [WorkspaceConnection, setWorkspaceConnection] =
 		useAtom(isWorkspaceConnected);
@@ -56,27 +64,6 @@ export default function EditorPage() {
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
 	useEffect(() => {
-		const handleResize = () => {
-			setIsMobile(window.innerWidth < 768);
-		};
-
-		window.addEventListener("resize", handleResize);
-
-		// クリーンアップ関数
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
-
-	//言語
-	const languageToStart = useAtomValue(LanguageToStart);
-	const { t } = useTranslation();
-
-	const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
-	const timerRef = useRef<NodeJS.Timeout | null>(null); // タイマーを保持するためのref
-
-	//設定をAPIから取得
-	useEffect(() => {
 		async function fetchConfig() {
 			const result = await fetch("/api/config");
 			const response = (await result.json()) as AppConfig;
@@ -88,10 +75,57 @@ export default function EditorPage() {
 		try {
 			fetchConfig();
 			console.log("fetching settings...");
+			//クリックの保存
+			window.addEventListener("click", handleClick);
 		} catch (error) {
 			console.error("Error fetching settings:", error);
 		}
 	}, []);
+
+	// 状態更新の関数
+	const handleClick = (event: MouseEvent) => {
+		setrecordedClicks((prev) => {
+			const now = Date.now();
+			const intervalMin =
+				settings?.Client_Settings.Screenshot_Interval_min ?? 1;
+			const updatedClicks = prev.filter(
+				(click) => now - click.timestamp <= intervalMin * 60 * 1000,
+			);
+
+			const target = event.target as HTMLElement;
+			const rect = target.getBoundingClientRect();
+			const x = (event.clientX - rect.left) / rect.width;
+			const y = (event.clientY - rect.top) / rect.height;
+
+			const click = {
+				x: x,
+				y: y,
+				value: 1,
+				timestamp: now,
+			};
+			console.log(click);
+
+			// 新しいクリックを追加して、配列の最後の20件のみを保持する
+			const newClicks = [...updatedClicks, click].slice(-20);
+
+			// 最新のクリック情報をrefに更新
+			recordedClicksRef.current = newClicks;
+
+			return newClicks;
+		});
+	};
+
+	// UseEffect to log the updated recordedClicks after each update
+	useEffect(() => {
+		console.log("Updated recordedClicks:", recordedClicks);
+	}, [recordedClicks]);
+
+	//言語
+	const languageToStart = useAtomValue(LanguageToStart);
+	const { t } = useTranslation();
+
+	const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
+	const timerRef = useRef<NodeJS.Timeout | null>(null); // タイマーを保持するためのref
 
 	// URLパスにコードがあるか確認する
 	useEffect(() => {
@@ -159,6 +193,23 @@ export default function EditorPage() {
 			setIsCodeRunning(message.isVMRunning);
 		});
 
+		// スクリーンショットのリクエストを受信したときに最新のクリック情報を使用する
+		socket.on("RequestScreenshot", async () => {
+			console.log("Received screenshot request");
+			const image = await takeScreenshot();
+
+			setCurrentSession((prev) => {
+				if (prev) {
+					return {
+						...prev,
+						screenshot: image,
+						clicks: recordedClicksRef.current, // 最新のクリック情報を使用
+					};
+				}
+				return prev;
+			});
+		});
+
 		socket.on("disconnect", () => {
 			console.log("disconnected");
 			setWorkspaceConnection(false);
@@ -169,12 +220,16 @@ export default function EditorPage() {
 	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はSocketに送信する
 	useEffect(() => {
 		if (socketInstance && currentSession) {
-			// 前回のセッションのワークスペース、対話の内容が違う場合のみ送信
+			// 前回のセッションのワークスペース、対話、またはスクリーンショットの内容が違う場合のみ送信
 			if (
 				JSON.stringify(currentSession.workspace) !==
 					JSON.stringify(prevSession?.workspace) ||
 				JSON.stringify(currentSession.dialogue) !==
-					JSON.stringify(prevSession?.dialogue)
+					JSON.stringify(prevSession?.dialogue) ||
+				JSON.stringify(currentSession.screenshot) !==
+					JSON.stringify(prevSession?.screenshot) ||
+				JSON.stringify(currentSession.clicks) !==
+					JSON.stringify(prevSession?.clicks)
 			) {
 				socketInstance.emit("UpdateCurrentSession", currentSession);
 				setPrevSession(currentSession);
@@ -260,6 +315,14 @@ export default function EditorPage() {
 
 		return () => clearInterval(reconnectInterval);
 	}, [WorkspaceConnection, sessionCode]);
+
+	// スクリーンショットの撮影機能
+	async function takeScreenshot() {
+		const element = document.body; // スクリーンショットを撮りたい要素
+		const canvas = (await (html2canvas as any)(element)) as HTMLCanvasElement; // html2canvasの型定義がおかしいためanyで回避
+		const imgData = canvas.toDataURL("image/png", 0.3); // Base64形式の画像データ
+		return imgData;
+	}
 
 	return (
 		<TourProvider

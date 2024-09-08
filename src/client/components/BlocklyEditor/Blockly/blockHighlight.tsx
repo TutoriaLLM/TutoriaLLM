@@ -231,8 +231,10 @@ export class BlockHighlight {
 				blockSvg.style.transition = `opacity ${animationTime}s`;
 				if (block.id !== this.targetBlockId) {
 					blockSvg.setAttribute("opacity", "0.5");
+					this.updatePathStroke(blockSvg, "none"); // 非対象ブロックはボーダーなし
 				} else {
 					blockSvg.setAttribute("opacity", "1");
+					this.updatePathStroke(blockSvg, "red", "3px"); // 対象ブロックは赤いボーダー
 				}
 			}
 		}
@@ -245,7 +247,21 @@ export class BlockHighlight {
 			if (blockSvg) {
 				blockSvg.style.transition = `opacity ${animationTime}s`;
 				blockSvg.setAttribute("opacity", "1");
+				this.updatePathStroke(blockSvg, "none"); // ボーダーを消す
 			}
+		}
+	}
+
+	// <path>のstrokeとstrokeWidthを更新するためのヘルパーメソッド
+	private updatePathStroke(
+		blockSvg: SVGElement,
+		strokeColor: string,
+		strokeWidth = "3px",
+	) {
+		const paths = blockSvg.getElementsByTagName("path");
+		for (const path of paths) {
+			path.style.stroke = strokeColor;
+			path.style.strokeWidth = strokeWidth;
 		}
 	}
 }

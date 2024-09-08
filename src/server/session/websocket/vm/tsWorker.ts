@@ -1,4 +1,4 @@
-import vm from "node:vm";
+import vm, { createContext } from "node:vm";
 import path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
 import { ExtensionLoader } from "../extentionLoader.js";
@@ -9,7 +9,6 @@ import os from "node:os";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
-import { info } from "node:console";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 
@@ -32,41 +31,14 @@ export type vmMessage = {
 const app = new Hono();
 const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app });
 
-app.get("/test", (c) => {
-	console.log("Hello, World on vm", code);
-	return c.text(`Hello, World! from vm: ${code}`);
-});
-app.get(
-	"/wstest",
-	upgradeWebSocket((c) => ({
-		onOpen: (event, ws) => {
-			ws.send("Hello from server!");
-			console.log("Connection opened from client");
-		},
-		onMessage(event, ws) {
-			console.log(`Message from client: ${event.data}`);
-			ws.send("Hello from server!");
-		},
-		onClose: (event) => {
-			console.log("Connection closed from client");
-			console.log(event);
-		},
-		onError: (event) => {
-			console.error(`Error from client: ${event}`);
-		},
-	})),
-);
-
-const sessionOnStarting = sessionValue;
-
-// i18n configuration
+// i18nの設定
 i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 	{
 		backend: {
 			loadPath: "src/i18n/{{lng}}.json",
 		},
 		fallbackLng: "en",
-		preload: ["ja", "en", "zh", "ms"], // Add the languages you want to preload
+		preload: ["ja", "en", "zh", "ms"],
 	},
 	(err, t) => {
 		if (err) return console.error(err);
@@ -74,16 +46,15 @@ i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 	},
 );
 
-//言語設定
 i18next.changeLanguage(sessionValue.language);
 
 const { t } = i18next;
 
-const context = vm.createContext({
+// 新しいコンテキストを生成する関数
+const context = createContext({
 	app,
 	upgradeWebSocket,
 	code,
-	sessionOnStarting,
 	console: {
 		log: (...args: string[]) => {
 			const logMessage = args.join(" ");
@@ -127,49 +98,27 @@ function getValidIp() {
 	throw new Error("No valid IP address found");
 }
 
-function isPortAvailable(ip: string, port: number) {
-	return new Promise((resolve, reject) => {
-		exec(`netstat -tuln | grep ${ip}:${port}`, (error, stdout, stderr) => {
-			if (error) {
-				if (stderr) {
-					reject(stderr);
-				} else {
-					resolve(true);
-				}
-			} else {
-				resolve(stdout === "");
-			}
-		});
-	});
-}
-
 async function startServer() {
 	const ip = getValidIp();
 	const port = await getPort({
 		port: portNumbers(40000, 50000),
 		host: ip,
 	});
-	const isAvailable = await isPortAvailable(ip, port);
 
-	if (isAvailable) {
-		const server = serve({
-			fetch: app.fetch,
-			port: port,
-			hostname: ip,
-			overrideGlobalObjects: true,
-		});
-		injectWebSocket(server);
+	const server = serve({
+		fetch: app.fetch,
+		port: port,
+		hostname: ip,
+		overrideGlobalObjects: true,
+	});
+	injectWebSocket(server);
 
-		console.log(`Server with ws is listening with address: ${ip}:${port}`);
-		parentPort?.postMessage({
-			type: "openVM",
-			port: port,
-			ip: ip,
-		} as vmMessage);
-	} else {
-		console.error(`Port ${port} at IP ${ip} is already in use`);
-		process.exit(1);
-	}
+	console.log(`Server with ws is listening with address: ${ip}:${port}`);
+	parentPort?.postMessage({
+		type: "openVM",
+		port: port,
+		ip: ip,
+	} as vmMessage);
 }
 
 startServer();
@@ -178,14 +127,38 @@ const extensionsDir = path.resolve(__dirname, "../../../../extensions");
 const extensionLoader = new ExtensionLoader(extensionsDir);
 await extensionLoader.loadExtensions(context);
 const extScript = await extensionLoader.loadScript();
-console.log("extScript", extScript);
+console.log("userScript", userScript);
 
-const script = new vm.Script(`
-	${extScript}
-  	${userScript}
-`);
+const initialScript = `
+    ${extScript}
+    ${userScript}
+`;
 
+const script = new vm.Script(initialScript);
 script.runInContext(context);
+
+// 新しいコードを受信した場合、そのコードの差分を適用する
+parentPort.on("message", (message) => {
+	if (message.type === "updateScript") {
+		try {
+			const newScriptContent = `
+			${message.code}
+			`;
+			const newScript = new vm.Script(newScriptContent);
+			newScript.runInContext(context);
+
+			parentPort?.postMessage({
+				type: "log",
+				content: "Updated script executed successfully.",
+			});
+		} catch (error) {
+			parentPort?.postMessage({
+				type: "error",
+				content: `Error executing updated script: ${error}`,
+			});
+		}
+	}
+});
 
 app.all("**", (c) => {
 	return c.text("Not Found", 404);
