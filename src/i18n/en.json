@@ -9,7 +9,8 @@
 		"typecodeMsg": "Type your code, or create new room to start.",
 		"about": "About this app",
 		"welcome": "Study coding with AI",
-		"debuginfo": "Debug Info"
+		"debuginfo": "Debug Info",
+		"serverDownMsg": "Can not connect server. Check your internet or ask system administrator."
 	},
 	"navbar": {
 		"leave": "leave",

@@ -20,7 +20,9 @@ import html2canvas from "html2canvas";
 
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
-import SessionPopup from "../components/BlocklyEditor/sessionOverlay/index.js";
+import SessionPopup, {
+	type sessionPopupMessageTypes,
+} from "../components/BlocklyEditor/sessionOverlay/index.js";
 //stateの読み込み
 import {
 	LanguageToStart,
@@ -68,7 +70,9 @@ export default function EditorPage() {
 			const result = await fetch("/api/config");
 			const response = (await result.json()) as AppConfig;
 			if (!response) {
-				throw new Error("Failed to fetch config");
+				//Configが取得できない場合は、基本的にサーバーがダウンしているので、エラーを投げる
+				setStatusMessage(t("session.serverDownMsg"));
+				setMessageType("error");
 			}
 			setSettings(response);
 		}
@@ -130,6 +134,8 @@ export default function EditorPage() {
 	const { t } = useTranslation();
 
 	const [statusMessage, setStatusMessage] = useState(t("session.typecodeMsg"));
+	const [messageType, setMessageType] =
+		useState<sessionPopupMessageTypes>("info");
 	const timerRef = useRef<NodeJS.Timeout | null>(null); // タイマーを保持するためのref
 
 	// URLパスにコードがあるか確認する
@@ -137,6 +143,7 @@ export default function EditorPage() {
 		console.log("useEffect");
 		//言語に応じたメッセージを表示
 		setStatusMessage(t("session.typecodeMsg"));
+		setMessageType("info");
 		// URLにコードがある場合は状態を更新
 		if (codeFromPath) {
 			setSessionCode(codeFromPath);
@@ -156,6 +163,7 @@ export default function EditorPage() {
 					// セッションが存在しない場合はスキップする
 					console.log("code is invalid!");
 					setStatusMessage(t("session.sessionNotFoundMsg"));
+					setMessageType("error");
 					setShowPopup(true);
 				} else {
 					const data: SessionValue = await response.json();
@@ -423,7 +431,11 @@ export default function EditorPage() {
 							</Panel>
 						</PanelGroup>
 					))}
-				<SessionPopup isPopupOpen={showPopup} message={statusMessage} />
+				<SessionPopup
+					isPopupOpen={showPopup}
+					message={statusMessage}
+					messageType={messageType}
+				/>
 			</div>
 		</TourProvider>
 	);
