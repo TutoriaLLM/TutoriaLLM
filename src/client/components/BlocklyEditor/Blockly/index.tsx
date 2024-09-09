@@ -124,46 +124,64 @@ export default function Editor() {
 						| Blockly.ToolboxCategory
 						| Blockly.CollapsibleToolboxCategory;
 
-					const stringifiedContents = JSON.stringify(category.getContents());
+					const contents = category.getContents();
 					if (
+						typeof contents !== "string" &&
 						blockNameFromMenu &&
-						stringifiedContents.includes(blockNameFromMenu)
+						containsBlockType(contents, blockNameFromMenu)
 					) {
-						console.log("Found block in toolbox:", blockNameFromMenu);
-						//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+						// カテゴリ名が一致する場合、そのカテゴリの色を変更する
 						highlightCategory(category);
 					}
 				}
 				if (item.isCollapsible()) {
 					const category = item as Blockly.CollapsibleToolboxCategory;
-					//子アイテムを取得
+					// 子アイテムを取得
 					const children = category.getChildToolboxItems();
 					for (const child of children) {
 						const item = child as Blockly.ToolboxCategory;
-						const stringifiedContents = JSON.stringify(item.getContents());
+						const contents = item.getContents();
 						if (
+							typeof contents !== "string" &&
 							blockNameFromMenu &&
-							stringifiedContents.includes(blockNameFromMenu)
+							containsBlockType(contents, blockNameFromMenu)
 						) {
-							console.log("Found block in toolbox:", blockNameFromMenu);
-							//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+							// カテゴリ名が一致する場合、そのカテゴリの色を変更する
 							highlightCategory(item);
-							//親カテゴリの色も変更する
+							// 親カテゴリの色も変更する
 							highlightParentCategory(item);
 						}
 					}
-					const stringifiedContents = JSON.stringify(category.getContents());
+					const contents = category.getContents();
 					if (
+						typeof contents !== "string" &&
 						blockNameFromMenu &&
-						stringifiedContents.includes(blockNameFromMenu)
+						containsBlockType(contents, blockNameFromMenu)
 					) {
-						console.log("Found block in toolbox:", blockNameFromMenu);
-						//カテゴリ名が一致する場合、そのカテゴリの色を変更する
+						// カテゴリ名が一致する場合、そのカテゴリの色を変更する
 						highlightCategory(category);
 					}
 				}
 			}
 		}
+
+		function containsBlockType(
+			contents: Blockly.utils.toolbox.FlyoutItemInfoArray,
+			blockType: string,
+		): boolean {
+			for (const content of contents) {
+				// content がブロックであり、type プロパティを持つ場合をチェック
+				if (
+					content.kind === "block" &&
+					"type" in content &&
+					content.type === blockType
+				) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		highlightBlockInToolbox();
 
 		const saveWorkspace = (event: Blockly.Events.Abstract) => {
