@@ -24,7 +24,7 @@ export function code() {
 		// Collect argument strings.
 		const var_var = generator.valueToCode(block, "STRING", Order.ATOMIC);
 
-		const code = `console.log("${var_var}");\n`;
+		const code = `console.log(\`${var_var}\`);\n`;
 
 		// Return code.
 		return code;
