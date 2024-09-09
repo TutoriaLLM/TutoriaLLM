@@ -61,7 +61,7 @@ export default function EditorPage() {
 	//設定の保存をするstate
 	const [settings, setSettings] = useAtom(settingState);
 
-	const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
 	useEffect(() => {
 		async function fetchConfig() {
@@ -77,6 +77,11 @@ export default function EditorPage() {
 			console.log("fetching settings...");
 			//クリックの保存
 			window.addEventListener("click", handleClick);
+
+			//デバイス幅の変更を監視
+			window.addEventListener("resize", () => {
+				setIsMobile(window.innerWidth < 1024);
+			});
 		} catch (error) {
 			console.error("Error fetching settings:", error);
 		}
