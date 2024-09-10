@@ -95,7 +95,7 @@ export function ExecSwitch() {
 					</Switch.Root>
 
 					<button
-						className={`text-xs push text-gray-400 bg-gray-300 rounded-2xl p-2 underline ${isCodeRunning ? " text-gray-700" : ""}`}
+						className={`text-xs push text-gray-400 bg-gray-300 rounded-2xl p-2 underline ${isCodeRunning ? " text-gray-700" : "cursor-not-allowed"}`}
 						type="button"
 						onClick={() => updateCode()}
 						disabled={!isCodeRunning}
