@@ -17,7 +17,7 @@ export default function Tutorials() {
 			})
 			.then((data) => {
 				setTutorials(data);
-				setLoading(false)
+				setLoading(false);
 			})
 			.catch((error) => {
 				setError(error.message);
@@ -67,14 +67,16 @@ export default function Tutorials() {
 							<th scope="col" className="px-6 py-4">
 								Keywords
 							</th>
-							<th scope="col" className="px-6 py-4">Actions</th>
+							<th scope="col" className="px-6 py-4">
+								Actions
+							</th>
 						</tr>
 					</thead>
 					<tbody className="gap-2">
 						{loading ? (
 							<SkeletonRows />
-						) : (
-							tutorials.length > 0 ? (tutorials.map((tutorial) => {
+						) : tutorials.length > 0 ? (
+							tutorials.map((tutorial) => {
 								const metadata = tutorial.metadata;
 								return (
 									<tr
@@ -100,19 +102,19 @@ export default function Tutorials() {
 									</tr>
 								);
 							})
-							) : (
-								<tr
-									key={0}
-									className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+						) : (
+							<tr
+								key={0}
+								className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+							>
+								<td
+									colSpan={4}
+									className="w-full text-xl font-semibold text-center py-4 h-60"
 								>
-									<td
-										colSpan={4}
-										className="w-full text-xl font-semibold text-center py-4 h-60"
-									>
-										No Tutorials on this server...
-									</td>
-								</tr>
-							))}
+									No Tutorials on this server...
+								</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
@@ -126,30 +128,28 @@ export default function Tutorials() {
 }
 
 const SkeletonRows = () => {
-	return (
-		Array.from({ length: 3 }).map((_, index) => (
-			<tr
-				key={index}
-				className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
-			>
-				<td className="px-6 py-4">
-					<div className="h-4 bg-gray-300 rounded"></div>
-				</td>
-				<td className="px-6 py-4 w-full">
-					<div className="h-4 bg-gray-300 rounded"></div>
-				</td>
-				<td className="px-6 py-4">
-					<div className="h-4 bg-gray-300 rounded"></div>
-				</td>
-				<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
-					<div className="min-w-16">
-						<div className="h-8 bg-gray-300 rounded"></div>
-					</div>
-					<div className="min-w-16">
-						<div className="h-8 bg-gray-300 rounded"></div>
-					</div>
-				</td>
-			</tr>
-		))
-	);
+	return Array.from({ length: 3 }).map((_, index) => (
+		<tr
+			key={index}
+			className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+		>
+			<td className="px-6 py-4">
+				<div className="h-4 bg-gray-300 rounded"></div>
+			</td>
+			<td className="px-6 py-4 w-full">
+				<div className="h-4 bg-gray-300 rounded"></div>
+			</td>
+			<td className="px-6 py-4">
+				<div className="h-4 bg-gray-300 rounded"></div>
+			</td>
+			<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
+				<div className="min-w-16">
+					<div className="h-8 bg-gray-300 rounded"></div>
+				</div>
+				<div className="min-w-16">
+					<div className="h-8 bg-gray-300 rounded"></div>
+				</div>
+			</td>
+		</tr>
+	));
 };
