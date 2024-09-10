@@ -76,7 +76,7 @@ export default function Tutorials() {
 						{loading ? (
 							<SkeletonRows />
 						) : (
-							tutorials.map((tutorial) => {
+							tutorials.length > 0 ? (tutorials.map((tutorial) => {
 								const metadata = tutorial.metadata;
 								return (
 									<tr
@@ -102,13 +102,25 @@ export default function Tutorials() {
 									</tr>
 								);
 							})
-						)}
+							) : (
+								<tr
+									key={0}
+									className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+								>
+									<td
+										colSpan={4}
+										className="w-full text-xl font-semibold text-center py-4 h-60"
+									>
+										No Tutorials on this server...
+									</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</div>
 
-			<div className="p-2 border-b-2 border-gray-300 bg-gray-300 flex flex-col items-center">
-				<h2 className="py-2 font-semibold">Create New Tutorial</h2>
+			<div className="p-2 border-b-2 border-gray-300 bg-gray-300 flex flex-col items-center gap-2 w-full">
+				<h2 className="font-semibold">Create New Tutorial</h2>
 				<TutorialEditor id={null} buttonText="New Tutorial" />
 			</div>
 		</div>
