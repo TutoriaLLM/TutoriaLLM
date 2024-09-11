@@ -91,6 +91,7 @@ export default function Editor() {
 				workspace,
 			);
 		}
+		workspace.addChangeListener(Blockly.Events.disableOrphans);
 
 		const toolbox = workspace.getToolbox() as Blockly.Toolbox;
 

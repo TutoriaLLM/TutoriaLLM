@@ -66,6 +66,7 @@ declare module "extentionContext" {
 			text?: string;
 			check?: string;
 		}>;
+		inputsInline?: boolean;
 		previousStatement: any;
 		nextStatement: any;
 		colour: string;
