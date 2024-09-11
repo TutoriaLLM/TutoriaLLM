@@ -17,27 +17,27 @@ export const category = {
 				OP: "ADD",
 			},
 		},
-		{
-			kind: "block",
-			type: "math_single",
-			fields: {
-				OP: "ROOT",
-			},
-		},
-		{
-			kind: "block",
-			type: "math_trig",
-			fields: {
-				OP: "SIN",
-			},
-		},
-		{
-			kind: "block",
-			type: "math_constant",
-			fields: {
-				CONSTANT: "PI",
-			},
-		},
+		// {
+		// 	kind: "block",
+		// 	type: "math_single",
+		// 	fields: {
+		// 		OP: "ROOT",
+		// 	},
+		// },
+		// {
+		// 	kind: "block",
+		// 	type: "math_trig",
+		// 	fields: {
+		// 		OP: "SIN",
+		// 	},
+		// },
+		// {
+		// 	kind: "block",
+		// 	type: "math_constant",
+		// 	fields: {
+		// 		CONSTANT: "PI",
+		// 	},
+		// },
 		{
 			kind: "block",
 			type: "math_number_property",
@@ -113,10 +113,10 @@ export const category = {
 			kind: "block",
 			type: "math_random_float",
 		},
-		{
-			kind: "block",
-			type: "math_atan2",
-		},
+		// {
+		// 	kind: "block",
+		// 	type: "math_atan2",
+		// },
 	],
 };
 

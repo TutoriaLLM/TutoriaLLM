@@ -74,9 +74,9 @@ export async function invokeLLM(
 		"logic_ternary",
 		"math_number",
 		"math_arithmetic",
-		"math_single",
-		"math_trig",
-		"math_constant",
+		//"math_single",
+		//"math_trig",
+		//"math_constant",
 		"math_number_property",
 		"math_round",
 		"math_on_list",
@@ -84,7 +84,7 @@ export async function invokeLLM(
 		"math_constrain",
 		"math_random_int",
 		"math_random_float",
-		"math_atan2",
+		//"math_atan2",
 		"text",
 		"text_join",
 		"text_append",
@@ -98,7 +98,7 @@ export async function invokeLLM(
 		"text_count",
 		"text_replace",
 		"text_reverse",
-		"text_print",
+		//"text_print",
 		"lists_create_empty",
 		"lists_create_with",
 		"lists_repeat",
@@ -137,7 +137,7 @@ You are required to provide both teaching and instruction to the user based on t
 If a tutorial document is provided, teach and instruct the user with appropriate methods. If it is not chosen, encourage the user to select a tutorial, or start creating their own code.
 User will be using Blockly to create code, and you will be guiding them through the process. The created code will be executed on the server by converting the blocks to JavaScript code.
 Explicitly instruct the user on what to do next, based on the provided tutorial content and advance the session accordingly.
-Response must be in JSON format with the following structure. BlockId and BlockName can be used to instruct system which block are you targeted and response is the message to the user. BlockId and BlockName are optional fields and only used by sytem to display the block to the user.:
+Response must be in JSON format with the following structure. BlockId and BlockName can be used to instruct system which block are you targeted and response is the message to the user. Do not respond BlockId and BlockName on response fields, and use blockId or BlockName field instead as system will display these block automatically.:
 {
   "response": "string",
   "blockId": "string (optional)",

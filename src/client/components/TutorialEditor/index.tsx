@@ -218,10 +218,10 @@ keywords: ${tutorialData.metadata.keywords}
 	);
 
 	return (
-		<div className="w-full h-full flex flex-col gap-4 p-3">
+		<>
 			<button
 				type="button"
-				className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
+				className="rounded-2xl max-w-60 w-full bg-blue-500 p-2 text-white font-semibold"
 				onClick={handleOpenPopup}
 			>
 				{props.buttonText}
@@ -231,6 +231,6 @@ keywords: ${tutorialData.metadata.keywords}
 				onClose={handleClosePopup}
 				Content={popupContent}
 			/>
-		</div>
+		</>
 	);
 }

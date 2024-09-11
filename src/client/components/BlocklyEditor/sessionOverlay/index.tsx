@@ -14,9 +14,11 @@ import { LangPicker } from "../../Langpicker.js";
 import Overlay from "../../Overlay.js";
 import { DebugInfo } from "./debuginfo.js";
 
+export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {
 	isPopupOpen: boolean;
 	message: string;
+	messageType: "error" | "info";
 }) {
 	const { t } = useTranslation();
 	const showPopup = props.isPopupOpen;

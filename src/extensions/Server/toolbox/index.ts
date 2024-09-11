@@ -10,7 +10,7 @@ export const category: extCategory = {
 			type: "ext_server_log",
 			//shadowの設定
 			inputs: {
-				STRING: {
+				INPUT: {
 					shadow: {
 						type: "text",
 						fields: {

@@ -46,13 +46,13 @@ export default function AdminPage() {
 	}, [languageToStart]);
 
 	return (
-		<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800">
+		<div className="min-h-screen flex flex-col bg-gray-200 text-gray-800">
 			{isAuthenticated ? (
-				<div className="w-full h-full">
+				<div className="w-full h-full max-w-[96rem]">
 					<Navbar />
 					<div className="h-full flex w-full">
 						<SideBar />
-						<div className="w-full h-full">
+						<div className="w-full h-full overflow-auto">
 							<Routes>
 								<Route path="/" element={<Dashboard />} />
 								<Route path="/users" element={<Users />} />

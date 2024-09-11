@@ -72,13 +72,22 @@ export function code() {
 		//dropdown
 		const dropdown = block.getFieldValue("MONSTER");
 		//pos
-		const x = generator.valueToCode(block, "PosX", Order.ATOMIC);
-		const y = generator.valueToCode(block, "PosY", Order.ATOMIC);
-		const z = generator.valueToCode(block, "PosZ", Order.ATOMIC);
+		let x = generator.valueToCode(block, "PosX", Order.ATOMIC);
+		let y = generator.valueToCode(block, "PosY", Order.ATOMIC);
+		let z = generator.valueToCode(block, "PosZ", Order.ATOMIC);
+
+		// Remove parentheses if present
+		x = x.startsWith("(") && x.endsWith(")") ? x.slice(1, -1) : x;
+		y = y.startsWith("(") && y.endsWith(")") ? y.slice(1, -1) : y;
+		z = z.startsWith("(") && z.endsWith(")") ? z.slice(1, -1) : z;
 		const code = /* javascript */ `
-		const messageToSend = commandMsg("/summon ${dropdown} ${x} ${y} ${z}");
-		wss.send(JSON.stringify(messageToSend));
-		`;
+				function summonMonster() {
+				const position = { x: ${x}, y: ${y}, z: ${z} };
+				const messageToSend = commandMsg("/summon ${dropdown} " + position.x + " " + position.y + " " + position.z);
+				wss.send(JSON.stringify(messageToSend));
+				}
+				summonMonster();
+				`;
 
 		return code;
 	};

@@ -115,13 +115,11 @@ const minecraftWorldState = {
 		isunderwater: false,
 	},
 };
-
-console.info(
-	t("extention.minecraft-core.connectInfo", {
-		host: serverRootPath,
-		userCode: code,
-	}),
-);
+const translatedMessage = t("extention.minecraft-core.connectInfo", {
+	host: serverRootPath,
+	userCode: code,
+});
+console.info(translatedMessage);
 
 app.get(
 	"/mc",

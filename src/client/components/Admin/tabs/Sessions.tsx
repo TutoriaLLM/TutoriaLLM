@@ -117,7 +117,11 @@ export default function Sessions() {
 			cell: ({ row }) => {
 				return (
 					<div
-						className={`text-base font-semibold flex ${row.original?.clients[0] ? "text-green-700 font-bold" : "text-black"}`}
+						className={`text-base font-semibold flex ${
+							row.original?.clients[0]
+								? "text-green-700 font-bold"
+								: "text-black"
+						}`}
 					>
 						{row.original.sessioncode}
 						{row.original?.clients[0] ? (
@@ -244,13 +248,13 @@ export default function Sessions() {
 	}
 
 	return (
-		<div className="w-full h-full">
+		<div className="w-full h-full overflow-auto">
 			<Popup
 				openState={popupSessionFromCode !== null}
 				onClose={handleClosePopup}
 				Content={PopupContent}
 			/>
-			<div className="flex justify-between p-4 w-full">
+			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Sessions</h2>
 				{showLoader && (
 					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
@@ -267,7 +271,7 @@ export default function Sessions() {
 					<span>Auto Update</span>
 				</label>
 			</div>
-			<div className="overflow-scroll">
+			<div className="overflow--auto">
 				<table className="w-full text-left text-sm ">
 					<thead className="font-semibold border-b-2 border-gray-300">
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -322,7 +326,7 @@ export default function Sessions() {
 							>
 								<td
 									colSpan={columns.length}
-									className="w-full flex justify-center items-center text-xl font-semibold text-center py-4"
+									className="w-full text-xl font-semibold text-center py-4"
 								>
 									No Session on this server...
 								</td>

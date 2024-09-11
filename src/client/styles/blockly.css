@@ -5,10 +5,6 @@
 .blocklyTreeLabel {
   color: white;
 }
-/* Adds padding around the group of categories and separators. */
-.blocklyToolboxContents {
-  padding: 1rem;
-}
 /* Adds space between the categories, rounds the corners and adds space around the label. */
 .blocklyTreeRow {
   /*override tailwindcss reset*/
@@ -16,6 +12,11 @@
   /*until here*/
   border: 0;
   padding: 0.9rem;
+  @media screen and (max-width: 640px) {
+    padding: 0.1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.7rem;
+  }
   margin-bottom: 0.5em;
   border-radius: 1rem;
   transition: all 0.15s ease; /* アニメーションを追加 */
@@ -25,6 +26,25 @@
   opacity: 75%;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.blocklyTreeIcon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  @media screen and (max-width: 640px) {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.1rem;
+  }
+}
+
+.blocklyTreeLabel {
+  rotate: 90deg;
+  font-size: 1rem;
+  font-weight: 600;
+  @media screen and (max-width: 640px) {
+    font-size: 0.8rem
+  }
 }
 
 .blocklyTreeRow .blocklyTreeRowContentContainer > .blocklyTreeLabel {
@@ -38,6 +58,13 @@
 
 .blocklyToolboxDiv {
   border-right: 2.5px solid #d1d5db;
+  padding: 1rem;
+  @media screen and (max-width: 640px) {
+    padding: 0.5rem;
+  }
+  .blocklyToolboxCategory > .blocklyToolboxContents {
+    margin-left: 0.5rem;
+  }
 }
 
 .blocklySeparator {
@@ -68,5 +95,4 @@
 
 .highlight {
   animation: highlightCategoryButton 1s infinite;
-
 }

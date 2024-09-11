@@ -14,6 +14,8 @@ export default function SideBar() {
 	const { t } = useTranslation();
 
 	const [isOpen, setIsOpen] = useState(false);
+	const [path, setPath] = useState(window.location.pathname.split("/"));
+	const [currentSegment, setCurrentSegment] = useState(path[path.length - 1]);
 
 	const toggleSidebar = () => {
 		setIsOpen(!isOpen);
@@ -27,18 +29,27 @@ export default function SideBar() {
 		href: string;
 		icon: React.FC;
 		label: string;
-	}) => (
-		<Link
-			to={href}
-			className="hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap"
-		>
-			<Icon />
-			{label}
-		</Link>
-	);
+	}) => {
+		const linkList = href.split("/");
+		return (
+			<Link
+				to={href}
+				className={`hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap ${
+					currentSegment === linkList[linkList.length - 1] ? "bg-gray-300" : ""
+				}`}
+				onClick={() => {
+					setIsOpen(false);
+					setCurrentSegment(linkList[linkList.length - 1]);
+				}}
+			>
+				<Icon />
+				{label}
+			</Link>
+		);
+	};
 
 	return (
-		<div className=" flex">
+		<div className="flex">
 			<div
 				className={`bg-gray-200 text-gray-800 border-r-2 border-gray-300 h-full w-full p-2 transition-transform transform ${
 					isOpen ? "translate-x-0" : "-translate-x-full"

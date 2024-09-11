@@ -8,8 +8,7 @@ export const block: extBlock = {
 	args0: [
 		{
 			type: "input_value",
-			name: "STRING",
-			check: "String",
+			name: "INPUT",
 		},
 	],
 	previousStatement: null,
@@ -22,9 +21,9 @@ export const block: extBlock = {
 export function code() {
 	javascriptGenerator.forBlock.ext_server_log = (block, generator) => {
 		// Collect argument strings.
-		const var_var = generator.valueToCode(block, "STRING", Order.ATOMIC);
+		const var_var = generator.valueToCode(block, "INPUT", Order.ATOMIC);
 
-		const code = `console.log("${var_var}");\n`;
+		const code = `console.log(${var_var});\n`;
 
 		// Return code.
 		return code;

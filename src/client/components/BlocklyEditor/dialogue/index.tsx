@@ -95,7 +95,7 @@ export default function DialogueView() {
 			<div className="w-full p-2">
 				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
 					<div className="relative w-full py-2.5 overflow-clip">
-						<div className="flex flex-wrap w-full overflow-x-scroll">
+						<div className="flex flex-wrap w-full overflow-x-auto">
 							<QuickReply onReply={handleQuickReply} />
 						</div>
 						<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />

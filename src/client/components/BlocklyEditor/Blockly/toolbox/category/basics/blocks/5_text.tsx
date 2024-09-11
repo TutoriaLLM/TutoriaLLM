@@ -170,20 +170,20 @@ export const category = {
 				},
 			},
 		},
-		{
-			kind: "block",
-			type: "text_print",
-			inputs: {
-				TEXT: {
-					shadow: {
-						type: "text",
-						fields: {
-							TEXT: "string",
-						},
-					},
-				},
-			},
-		},
+		// {
+		// 	kind: "block",
+		// 	type: "text_print",
+		// 	inputs: {
+		// 		TEXT: {
+		// 			shadow: {
+		// 				type: "text",
+		// 				fields: {
+		// 					TEXT: "string",
+		// 				},
+		// 			},
+		// 		},
+		// 	},
+		// },
 	],
 };
 
