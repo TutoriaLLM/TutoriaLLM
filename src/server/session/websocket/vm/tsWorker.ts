@@ -130,8 +130,11 @@ const extScript = await extensionLoader.loadScript();
 console.log("userScript", userScript);
 
 const initialScript = `
-    ${extScript}
+	${extScript}
+function script() {
     ${userScript}
+}
+script();
 `;
 
 const script = new vm.Script(initialScript);
@@ -142,7 +145,11 @@ parentPort.on("message", (message) => {
 	if (message.type === "updateScript") {
 		try {
 			const newScriptContent = `
+			removeListener();
+			function script() {
 			${message.code}
+			}
+			script();
 			`;
 			const newScript = new vm.Script(newScriptContent);
 			newScript.runInContext(context);

@@ -192,7 +192,7 @@ io.on("connection", async (socket) => {
 				sendToAllClients(currentDataJson);
 			}
 		});
-		socket.on("updateVM", async () => {
+		socket.on("updateVM", async (callback) => {
 			console.log("updateVM");
 			const currentDataJson = await getCurrentDataJson(code);
 			if (!currentDataJson) {
@@ -209,6 +209,7 @@ io.on("connection", async (socket) => {
 				currentDataJson.uuid,
 				generatedCode,
 			);
+			callback("ok");
 			console.log(result);
 		});
 		socket.on("stopVM", async () => {
