@@ -12,9 +12,8 @@ import {
 	socketIoInstance,
 } from "../state.js";
 
-import { ArrowUpFromLine, PlayIcon, StopCircleIcon } from "lucide-react";
+import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
 //このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。
 export function ExecSwitch() {
 	const { t } = useTranslation();
@@ -25,6 +24,11 @@ export function ExecSwitch() {
 
 	//スイッチの無効化を管理
 	const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
+
+	//再読み込みボタンのステータス
+	type reloadButtonStatusType = "idle" | "reloading" | "disabled";
+	const [reloadButtonStatus, setReloadButtonStatus] =
+		useState<reloadButtonStatusType>("disabled");
 
 	function ChangeSwitch() {
 		if (!isConnected || !socketInstance || !currentSession) {
@@ -43,19 +47,46 @@ export function ExecSwitch() {
 			console.log("stop");
 			//スクリプトの実行を停止する処理を書く
 			socketInstance.emit("stopVM");
+			setReloadButtonStatus("disabled");
 		}
 		if (!isCodeRunning) {
 			//スイッチがオフのとき
 			console.log("start");
 			socketInstance.emit("openVM");
+			setReloadButtonStatus("idle");
 		}
 		setIsSwitchDisabled(true);
 	}
-	//リロードボタンを押した時に、新しいコードを送信する
+	// リロードボタンを押した時に、新しいコードを送信する
 	function updateCode() {
+		if (reloadButtonStatus === "reloading") {
+			// reloading の場合、クリックを無視する
+			return;
+		}
+
 		if (isCodeRunning && socketInstance && currentSession) {
-			console.log("stop");
-			socketInstance.emit("updateVM");
+			setReloadButtonStatus("reloading");
+
+			// 1秒間 reloading 状態を維持する
+			setTimeout(() => {
+				// タイムアウト処理を追加（例えば5秒）
+				const timeout = setTimeout(() => {
+					setReloadButtonStatus("disabled");
+					console.log("Timeout occurred, reloading failed.");
+				}, 5000);
+
+				socketInstance.emit("updateVM", (response: string) => {
+					clearTimeout(timeout); // タイムアウトのクリア
+
+					if (response === "ok") {
+						setReloadButtonStatus("idle");
+					} else {
+						// エラーが起きた際はボタンを無効化する（エラーを防ぐため、ユーザーはサーバーの停止処理で対応する）
+						console.error("Error occurred while updating VM:", response);
+						setReloadButtonStatus("disabled");
+					}
+				});
+			}, 1000); // 1秒間待機する
 		}
 	}
 
@@ -95,12 +126,16 @@ export function ExecSwitch() {
 					</Switch.Root>
 
 					<button
-						className={`text-xs push text-gray-400 bg-gray-300 rounded-2xl p-2 underline ${isCodeRunning ? " text-gray-700" : "cursor-not-allowed"}`}
+						className={`text-xs push bg-gray-300 relative rounded-2xl p-2 underline ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400" : reloadButtonStatus === "reloading" ? "cursor-wait " : "cursor-pointer"}`}
 						type="button"
 						onClick={() => updateCode()}
-						disabled={!isCodeRunning}
+						disabled={reloadButtonStatus === ("disabled" || "reloading")}
 					>
-						<ArrowUpFromLine />
+						<RefreshCcw
+							className={
+								reloadButtonStatus === "reloading" ? "animate-spin" : ""
+							}
+						/>
 					</button>
 				</div>
 			) : null}
