@@ -5,13 +5,6 @@
 .blocklyTreeLabel {
   color: white;
 }
-/* Adds padding around the group of categories and separators. */
-.blocklyToolboxContents {
-  padding: 0 0 0 1rem;
-  @media screen and (max-width: 640px) {
-    padding: 0.5rem;
-  }
-}
 /* Adds space between the categories, rounds the corners and adds space around the label. */
 .blocklyTreeRow {
   /*override tailwindcss reset*/
@@ -65,6 +58,13 @@
 
 .blocklyToolboxDiv {
   border-right: 2.5px solid #d1d5db;
+  padding: 1rem;
+  @media screen and (max-width: 640px) {
+    padding: 0.5rem;
+  }
+  .blocklyToolboxCategory > .blocklyToolboxContents {
+    margin-left: 0.5rem;
+  }
 }
 
 .blocklySeparator {
