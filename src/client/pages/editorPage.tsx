@@ -357,7 +357,7 @@ export default function EditorPage() {
 				maskArea: (base) => ({ ...base, rx: 10 }),
 			}}
 		>
-			<div className="w-screen h-screen flex flex-col bg-gray-200 text-gray-800 app">
+			<div className="h-screen flex flex-col bg-gray-200 text-gray-800 app">
 				<Navbar
 					code={sessionCode}
 					isConnected={WorkspaceConnection}

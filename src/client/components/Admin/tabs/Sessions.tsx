@@ -117,7 +117,11 @@ export default function Sessions() {
 			cell: ({ row }) => {
 				return (
 					<div
-						className={`text-base font-semibold flex ${row.original?.clients[0] ? "text-green-700 font-bold" : "text-black"}`}
+						className={`text-base font-semibold flex ${
+							row.original?.clients[0]
+								? "text-green-700 font-bold"
+								: "text-black"
+						}`}
 					>
 						{row.original.sessioncode}
 						{row.original?.clients[0] ? (
@@ -322,7 +326,7 @@ export default function Sessions() {
 							>
 								<td
 									colSpan={columns.length}
-									className="w-full flex justify-center items-center text-xl font-semibold text-center py-4"
+									className="w-full text-xl font-semibold text-center py-4"
 								>
 									No Session on this server...
 								</td>
