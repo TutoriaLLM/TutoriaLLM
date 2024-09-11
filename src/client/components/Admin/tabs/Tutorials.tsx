@@ -134,20 +134,20 @@ const SkeletonRows = () => {
 			className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 		>
 			<td className="px-6 py-4">
-				<div className="h-4 bg-gray-300 rounded"></div>
+				<div className="h-4 bg-gray-300 rounded" />
 			</td>
 			<td className="px-6 py-4 w-full">
-				<div className="h-4 bg-gray-300 rounded"></div>
+				<div className="h-4 bg-gray-300 rounded" />
 			</td>
 			<td className="px-6 py-4">
-				<div className="h-4 bg-gray-300 rounded"></div>
+				<div className="h-4 bg-gray-300 rounded" />
 			</td>
 			<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
 				<div className="min-w-16">
-					<div className="h-8 bg-gray-300 rounded"></div>
+					<div className="h-8 bg-gray-300 rounded" />
 				</div>
 				<div className="min-w-16">
-					<div className="h-8 bg-gray-300 rounded"></div>
+					<div className="h-8 bg-gray-300 rounded" />
 				</div>
 			</td>
 		</tr>
