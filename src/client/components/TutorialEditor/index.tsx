@@ -12,6 +12,8 @@ export default function llTutorialEditor(props: {
 	buttonText: string;
 }) {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false); // ローディング状態を追加
+
 	const [tutorialData, setTutorialData] = useState<TutorialType>({
 		metadata: {
 			title: "",
@@ -23,19 +25,23 @@ export default function llTutorialEditor(props: {
 
 	const handleOpenPopup = () => {
 		if (props.id !== null) {
-			// Fetch existing tutorial data
+			setIsLoading(true); // データ取得開始時にローディングを開始
 			fetch(`/api/admin/tutorials/${props.id}`)
 				.then((response) => response.json() as Promise<Tutorial>)
 				.then((data) => {
-					//フロントマターを削除してcontentをセット
+					console.log(data);
 					const content = removeFrontMatter(data.content);
-					setTutorialData({ metadata: data.metadata, content });
+					setTutorialData({ metadata: data.metadata, content: content });
+					setIsLoading(false); // データ取得完了後にローディングを終了
+					setIsPopupOpen(true);
 				})
 				.catch((error) => {
 					console.error("Error fetching tutorial data:", error);
+					setIsLoading(false); // エラー時もローディングを終了
 				});
+		} else {
+			setIsPopupOpen(true);
 		}
-		setIsPopupOpen(true);
 	};
 
 	const handleClosePopup = () => {
@@ -226,6 +232,7 @@ keywords: ${tutorialData.metadata.keywords}
 			>
 				{props.buttonText}
 			</button>
+			{isLoading && <div>Loading...</div>} {/* ローディング中の表示 */}
 			<Popup
 				openState={isPopupOpen}
 				onClose={handleClosePopup}

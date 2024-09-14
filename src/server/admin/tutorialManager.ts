@@ -20,7 +20,7 @@ tutorialsManager.get("/", async (req, res) => {
 	}
 });
 
-//チュートリアルの内容を取得
+// チュートリアルの内容を取得
 tutorialsManager.get("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
@@ -28,8 +28,10 @@ tutorialsManager.get("/:id", async (req, res) => {
 			.select()
 			.from(tutorials)
 			.where(eq(tutorials.id, id));
-		if (tutorial) {
-			res.json(tutorial);
+
+		if (tutorial.length > 0) {
+			// 配列の最初の要素だけを返す
+			res.json(tutorial[0]);
 		} else {
 			res.status(404).send("Not Found");
 		}

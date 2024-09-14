@@ -18,8 +18,12 @@ export function extractMetadata(content: string): {
 	return { metadata: {}, content };
 }
 
-//フロントマターを削除する関数
+// フロントマターを削除する関数
 export function removeFrontMatter(content: string): string {
+	if (!content) {
+		// contentがundefinedまたはnullの場合は空文字列を返す
+		return "";
+	}
 	const metadataDelimiter = "---";
 	const parts = content.split(metadataDelimiter);
 	if (parts.length >= 3) {
