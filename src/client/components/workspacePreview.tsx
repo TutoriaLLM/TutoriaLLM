@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import type { SessionValue } from "../../../type.js";
+import type { SessionValue } from "../../type.js";
 import * as Blockly from "blockly";
-import Theme from "../BlocklyEditor/Blockly/theme/index.js";
-import { translateCategories } from "../BlocklyEditor/Blockly/toolbox/index.js";
-import registerBlocks from "../BlocklyEditor/Blockly/blocks/index.js";
+import Theme from "./BlocklyEditor/Blockly/theme/index.js";
+import { translateCategories } from "./BlocklyEditor/Blockly/toolbox/index.js";
+import registerBlocks from "./BlocklyEditor/Blockly/blocks/index.js";
 
 export default function WorkspacePreview(props: { session: SessionValue }) {
 	const { session } = props;
@@ -26,6 +26,11 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 				snap: true,
 			},
 			readOnly: true,
+			move: {
+				scrollbars: true,
+				wheel: true,
+				drag: true,
+			},
 		});
 
 		// シリアライズされたワークスペースをロード

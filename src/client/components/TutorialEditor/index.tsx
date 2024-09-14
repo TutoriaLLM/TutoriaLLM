@@ -1,11 +1,34 @@
-import * as Label from "@radix-ui/react-label";
-import React, { useState, useEffect } from "react";
-import MdEditor from "./mdEditor.js";
+import React, { useState, useEffect, useCallback } from "react";
 import Popup from "../Popup.js";
-import { removeFrontMatter } from "../../../utils/markdown.js";
 import type { Tutorial } from "../../../server/db/schema.js";
 
-type TutorialType = Pick<Tutorial, "metadata" | "content">;
+import {
+	ReactFlow,
+	useNodesState,
+	useEdgesState,
+	addEdge,
+	Controls,
+	Panel,
+	MiniMap,
+	Background,
+	Edge,
+	Connection,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
+import { Markdown } from "./nodes/markdown.js";
+import { Metadata } from "./nodes/metadata.js";
+import Output from "./nodes/output.js";
+import Toolbar from "./toolbar.js";
+import { ExampleCode } from "./nodes/exampleCode.js";
+
+type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
+
+const nodeTypes = {
+	md: Markdown,
+	metadata: Metadata,
+	blockly: ExampleCode,
+	output: Output,
+};
 
 export default function llTutorialEditor(props: {
 	id: number | null;
@@ -13,213 +36,145 @@ export default function llTutorialEditor(props: {
 }) {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false); // ローディング状態を追加
+	const [tutorialData, setTutorialData] = useState<TutorialType | null>(null);
 
-	const [tutorialData, setTutorialData] = useState<TutorialType>({
-		metadata: {
-			title: "",
-			description: "",
-			keywords: [],
+	const initialNodes = [
+		{
+			id: "1",
+			type: "metadata",
+			data: {
+				title: "",
+				description: "",
+				keywords: [],
+			},
+			position: { x: 100, y: 100 },
 		},
-		content: "",
-	});
+		{
+			id: "2",
+			type: "md",
+			position: { x: 300, y: 400 },
+			dragHandle: ".custom-drag-handle",
+			data: { source: "", editorContent: "" },
+		},
+		{
+			id: "3",
+			type: "blockly",
+			dragHandle: ".custom-drag-handle",
+			data: {
+				code: "",
+			},
+			position: { x: 500, y: 300 },
+		},
+		{
+			id: "output",
+			type: "output",
+			data: {
+				label: "Output",
+				targetHandles: [{ id: "output-metadata" }, { id: "output-markdown" }],
+			},
+			position: { x: 500, y: 300 },
+		},
+	];
 
-	const handleOpenPopup = () => {
+	const initialEdges = [
+		{
+			id: "1-output",
+			source: "1",
+			target: "output",
+			targetHandle: "metadata",
+		},
+		{
+			id: "2-output",
+			source: "2",
+			target: "output",
+			targetHandle: "markdown",
+		},
+	];
+
+	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+	// チュートリアルデータの取得とエディタへの反映を担当
+	const fetchTutorialData = useCallback(async () => {
 		if (props.id !== null) {
 			setIsLoading(true); // データ取得開始時にローディングを開始
-			fetch(`/api/admin/tutorials/${props.id}`)
-				.then((response) => response.json() as Promise<Tutorial>)
-				.then((data) => {
-					console.log(data);
-					const content = removeFrontMatter(data.content);
-					setTutorialData({ metadata: data.metadata, content: content });
-					setIsLoading(false); // データ取得完了後にローディングを終了
-					setIsPopupOpen(true);
-				})
-				.catch((error) => {
-					console.error("Error fetching tutorial data:", error);
-					setIsLoading(false); // エラー時もローディングを終了
+			try {
+				const response = await fetch(`/api/admin/tutorials/${props.id}`);
+				const data = (await response.json()) as Tutorial;
+				console.log(data);
+				setTutorialData({
+					metadata: data.metadata,
+					content: data.content,
+					serializednodes: data.serializednodes,
 				});
+				setIsLoading(false); // データ取得完了後にローディングを終了
+				setIsPopupOpen(true);
+			} catch (error) {
+				console.error("Error fetching tutorial data:", error);
+				setIsLoading(false); // エラー時もローディングを終了
+			}
 		} else {
+			// 新規作成の場合はデフォルトのデータを使用
+			setTutorialData({
+				metadata: {
+					title: "",
+					description: "",
+					keywords: [],
+				},
+				content: "",
+				serializednodes: "",
+			});
 			setIsPopupOpen(true);
 		}
+	}, [props.id]);
+
+	useEffect(() => {
+		if (tutorialData?.serializednodes) {
+			const flow = JSON.parse(tutorialData.serializednodes) as {
+				nodes: any[];
+				edges: any[];
+			};
+			setNodes(flow.nodes || []);
+			setEdges(flow.edges || []);
+		}
+	}, [tutorialData, setNodes, setEdges]);
+
+	const onConnect = useCallback(
+		(params: any) => setEdges((eds) => addEdge(params, eds)),
+		[setEdges],
+	);
+
+	const handleOpenPopup = () => {
+		fetchTutorialData(); // データを取得してポップアップを開く
 	};
 
 	const handleClosePopup = () => {
 		setIsPopupOpen(false);
 	};
 
-	const handleInputChange = (
-		field: keyof Tutorial["metadata"],
-		value: string | string[],
-	) => {
-		setTutorialData((prevData) => ({
-			...prevData,
-			metadata: { ...prevData.metadata, [field]: value },
-		}));
-	};
-
-	const handleContentChange = (content: string) => {
-		setTutorialData((prevData) => ({
-			...prevData,
-			content,
-		}));
-	};
-
-	const handleSave = () => {
-		const url =
-			props.id === null
-				? "/api/admin/tutorials/new"
-				: `/api/admin/tutorials/${props.id}`;
-		const method = props.id === null ? "POST" : "PUT";
-
-		//mdのフロントマターを作成して結合
-		const content = `
----
-title: ${tutorialData.metadata.title}
-description: ${tutorialData.metadata.description}
-keywords: ${tutorialData.metadata.keywords}
----
-		${tutorialData.content}
-		
-		`;
-
-		fetch(url, {
-			method,
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				content: content,
-				metadata: tutorialData.metadata,
-			}),
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Network response was not ok");
-				}
-				return response.text();
-			})
-			.then((data) => {
-				console.log(data);
-				alert("Tutorial saved successfully!");
-				handleClosePopup();
-			})
-			.catch((error) => {
-				console.error("Error saving tutorial:", error);
-				alert("Failed to save tutorial");
-			});
-	};
-
 	const popupContent = (
-		<div className="w-full h-full flex flex-col gap-4 p-3">
-			<div className="flex flex-col gap-2">
-				<span>
-					<h2 className="font-semibold text-2xl text-gray-800">
-						Metadata Editor
-					</h2>
-					<p className="text-sm text-gray-600">
-						Edit the metadata of the tutorial.
-					</p>
-				</span>
-				<div className="flex items-center gap-4 px-5">
-					<Label.Root
-						className="text-gray-800 border-l-2 border-blue-500 pl-3"
-						htmlFor="title"
-					>
-						<h3 className="font-semibold text-base">Title</h3>
-						<p className="font-medium text-xs">Title of the tutorial</p>
-					</Label.Root>
-					<input
-						className="p-2 w-full border rounded-2xl bg-white"
-						type="text"
-						id="title"
-						value={tutorialData.metadata.title}
-						onChange={(e) => handleInputChange("title", e.target.value)}
+		<div className="w-[100vh] h-[100vh] flex-grow max-w-full max-h-full">
+			<ReactFlow
+				nodes={nodes}
+				edges={edges}
+				nodeTypes={nodeTypes}
+				onNodesChange={onNodesChange}
+				onEdgesChange={onEdgesChange}
+				onConnect={onConnect}
+				panOnScroll
+				zoomOnPinch
+			>
+				<Panel>
+					<Toolbar
+						id={props.id}
+						nodes={nodes}
+						edges={edges}
+						handleClosePopup={handleClosePopup}
 					/>
-				</div>
-				<div className="flex items-center gap-4 px-5">
-					<Label.Root
-						className="text-gray-800 border-l-2 border-blue-500 pl-3"
-						htmlFor="description"
-					>
-						<h3 className="font-semibold text-base">Description</h3>
-						<p className="font-medium text-xs">
-							Brief description of the tutorial
-						</p>
-					</Label.Root>
-					<input
-						className="p-2 w-full border rounded-2xl bg-white"
-						type="text"
-						id="description"
-						value={tutorialData.metadata.description}
-						onChange={(e) => handleInputChange("description", e.target.value)}
-					/>
-				</div>
-				<div className="flex items-center gap-4 px-5">
-					<Label.Root
-						className="text-gray-800 border-l-2 border-blue-500 pl-3"
-						htmlFor="keywords"
-					>
-						<h3 className="font-semibold text-base">Keywords</h3>
-						<p className="font-medium text-xs">Separated by comma</p>
-					</Label.Root>
-					<input
-						className="p-2 w-full border rounded-2xl bg-white"
-						type="text"
-						id="keywords"
-						value={tutorialData.metadata.keywords}
-						onChange={(e) =>
-							handleInputChange(
-								"keywords",
-								e.target.value.split(",").map((k) => k.trim()),
-							)
-						}
-					/>
-				</div>
-			</div>
-			<div className="flex flex-col gap-2">
-				<span>
-					<h2 className="font-semibold text-2xl text-gray-800">
-						Tutorial Generator
-					</h2>
-					<p className="text-sm text-gray-600">
-						Generate Tutorial Template from metadata.
-					</p>
-				</span>
-				<span>
-					<button
-						type="button"
-						className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
-					>
-						Generate
-					</button>
-				</span>
-			</div>
-			<div className="flex flex-col gap-2">
-				<span>
-					<h2 className="font-semibold text-2xl text-gray-800">
-						Tutorial Editor
-					</h2>
-					<p className="text-sm text-gray-600">
-						Edit the tutorial content after generation.
-					</p>
-				</span>
-				<MdEditor
-					mdContent={tutorialData.content}
-					onContentChange={handleContentChange}
-				/>
-			</div>
-			<div className="flex flex-col gap-2">
-				<span>
-					<button
-						type="button"
-						className="rounded-2xl bg-blue-500 p-2 text-white font-semibold"
-						onClick={() => handleSave()}
-					>
-						Save
-					</button>
-				</span>
-			</div>
+				</Panel>
+				<Controls />
+				<Background gap={12} size={1} />
+			</ReactFlow>
 		</div>
 	);
 

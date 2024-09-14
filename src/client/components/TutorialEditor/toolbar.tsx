@@ -1,163 +1,90 @@
-import { $getSelection, $isRangeSelection, TextNode, $getRoot } from "lexical";
-import { $createHeadingNode } from "@lexical/rich-text";
-import type { HeadingTagType } from "@lexical/rich-text";
-import { $setBlocksType } from "@lexical/selection";
-import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $createCodeNode } from "@lexical/code";
-import { $createParagraphNode } from "lexical";
-import { useRef } from "react";
-import { Heading1, Heading2, Heading3, Pilcrow, Puzzle } from "lucide-react";
-import type { SessionValue } from "../../../type.js";
-import CodeInput from "../ui/Codeinput.js";
-import * as Popover from "@radix-ui/react-popover";
+export default function Toolbar(props: {
+	id: number | null;
+	nodes: any[];
+	edges: any[];
+	handleClosePopup: () => void;
+}) {
+	const { nodes, edges, handleClosePopup } = props;
+	const handleSave = () => {
+		const url =
+			props.id === null
+				? "/api/admin/tutorials/new"
+				: `/api/admin/tutorials/${props.id}`;
+		const method = props.id === null ? "POST" : "PUT";
 
-const SupportedBlockType = {
-	paragraph: "Paragraph",
-	h1: "Heading 1",
-	h2: "Heading 2",
-	h3: "Heading 3",
-	h4: "Heading 4",
-	h5: "Heading 5",
-	h6: "Heading 6",
-	code: "Code Block",
-} as const;
-type BlockType = keyof typeof SupportedBlockType;
+		// Outputノードからデータを取得
+		const outputNode = nodes.find((node) => node.type === "output");
 
-export default function ToolbarPlugin() {
-	const [editor] = useLexicalComposerContext();
-	const inputRef = useRef<HTMLInputElement>(null);
+		if (outputNode) {
+			// Outputノードに接続されているエッジを取得
+			const connectedEdges = edges.filter(
+				(edge) => edge.target === outputNode.id,
+			);
 
-	const formatHeading = (headingSize: HeadingTagType) => {
-		editor.update(() => {
-			const selection = $getSelection();
-			if ($isRangeSelection(selection)) {
-				$setBlocksType(selection, () => $createHeadingNode(headingSize));
-			} else {
-				// No range selection, append at the end
-				const root = $getRoot();
-				const headingNode = $createHeadingNode(headingSize);
-				headingNode.append(new TextNode("New heading"));
-				root.append(headingNode);
-			}
-		});
-	};
+			// 接続されているノードのIDを取得
+			const connectedNodeIds = connectedEdges.map((edge) => edge.source);
 
-	const formatCodeBlock = (codeContent: string) => {
-		editor.update(() => {
-			console.log("formatCodeBlock", codeContent);
-			const selection = $getSelection();
-			if ($isRangeSelection(selection)) {
-				const codeNode = $createCodeNode();
-				$setBlocksType(selection, () => codeNode);
-			} else {
-				// No range selection, append at the end
-				const root = $getRoot();
-				const codeNode = $createCodeNode();
-				const textNode = new TextNode(codeContent);
-				codeNode.append(textNode);
-				root.append(codeNode);
-			}
-		});
-	};
+			// 接続されているノードを取得
+			const connectedNodes = nodes.filter((node) =>
+				connectedNodeIds.includes(node.id),
+			);
 
-	const formatParagraph = () => {
-		editor.update(() => {
-			const selection = $getSelection();
-			if ($isRangeSelection(selection)) {
-				$setBlocksType(selection, () => $createParagraphNode());
-			} else {
-				// No range selection, append at the end
-				const root = $getRoot();
-				const paragraphNode = $createParagraphNode();
-				paragraphNode.append(new TextNode("New paragraph"));
-				root.append(paragraphNode);
-			}
-		});
-	};
+			// contentとmetadataを初期化
+			let content = "";
+			let metadata = {};
 
-	const fetchCodeData = async () => {
-		if (inputRef.current) {
-			try {
-				const response = await fetch(`/api/session/${inputRef.current.value}`);
-				if (!response.ok) {
-					if (response.status === 404) {
-						alert("Session not found");
-					}
-					inputRef.current.value = "";
+			// 接続されているノードからデータを取得
+			for (const node of connectedNodes) {
+				if (node.type === "md") {
+					content = node.data.source || ""; // Provide a default value
+				} else if (node.type === "metadata") {
+					metadata = node.data;
 				}
-				const data: SessionValue = await response.json();
-				const workspace = data.workspace;
-				formatCodeBlock(
-					`This is converted code of Blockly workspace: ${JSON.stringify(workspace, null, 2)}`,
-				);
-				inputRef.current.value = "";
-			} catch (error) {
-				console.error("Error fetching data:", error);
 			}
+
+			// ノードをシリアライズ
+			const serializednodes = JSON.stringify({ nodes, edges });
+
+			// APIにデータを送信
+			fetch(url, {
+				method,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					serializednodes: serializednodes,
+					metadata: metadata,
+					content: content,
+				}),
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Network response was not ok");
+					}
+					return response.text();
+				})
+				.then((data) => {
+					console.log(data);
+					alert("Tutorial saved successfully!");
+					handleClosePopup();
+				})
+				.catch((error) => {
+					console.error("Error saving tutorial:", error);
+					alert("Failed to save tutorial");
+				});
+		} else {
+			alert("Output node not found.");
 		}
 	};
-
 	return (
-		<div className="flex justify-between items-center x-4 py-2 border-b border-gray-300">
-			<div className="flex space-x-4 ">
-				<button
-					className="text-gray-400"
-					type="button"
-					role="checkbox"
-					aria-checked="false"
-					onClick={() => formatHeading("h1")}
-				>
-					<Heading1 />
-				</button>
-				<button
-					className="text-gray-400"
-					type="button"
-					role="checkbox"
-					aria-checked="false"
-					onClick={() => formatHeading("h2")}
-				>
-					<Heading2 />
-				</button>
-				<button
-					className="text-gray-400"
-					type="button"
-					role="checkbox"
-					aria-checked="false"
-					onClick={() => formatHeading("h3")}
-				>
-					<Heading3 />
-				</button>
-
-				<button
-					className="text-gray-400"
-					type="button"
-					role="checkbox"
-					aria-checked="false"
-					onClick={formatParagraph}
-				>
-					<Pilcrow />
-				</button>
-			</div>
-			<div className="flex space-x-4 ">
-				<Popover.Root>
-					<Popover.Trigger asChild>
-						<button className="text-gray-400" type="button">
-							<Puzzle />
-						</button>
-					</Popover.Trigger>
-					<Popover.Portal>
-						<Popover.Content
-							className="rounded-2xl z-[999] p-5  bg-white shadow-lg flex justify-center items-center"
-							sideOffset={5}
-						>
-							<CodeInput onComplete={() => fetchCodeData()} ref={inputRef} />
-							<Popover.PopoverClose />
-
-							<Popover.Arrow className="fill-white" />
-						</Popover.Content>
-					</Popover.Portal>
-				</Popover.Root>
-			</div>
+		<div className="w-full flex bg-gray-300 rounded-2xl p-1.5">
+			<button
+				type="button"
+				onClick={handleSave}
+				className="p-2 bg-green-500 text-white rounded-xl"
+			>
+				Save
+			</button>
 		</div>
 	);
 }
