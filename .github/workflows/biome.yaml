@@ -14,5 +14,10 @@ jobs:
         uses: biomejs/setup-biome@v2
         with:
           version: latest
+      - name: Install dependencies
+        run: |
+          pnpm pkg delete scripts.postinstall
+          pnpm install --frozen-lockfile
+
       - name: Run Biome
         run: biome ci .
