@@ -91,6 +91,7 @@ export default function Editor() {
 				workspace,
 			);
 		}
+		workspace.addChangeListener(Blockly.Events.disableOrphans);
 
 		const toolbox = workspace.getToolbox() as Blockly.Toolbox;
 
@@ -228,7 +229,8 @@ export default function Editor() {
 					//カテゴリを開いている際に、Stateからツールボックス内の探す必要のあるブロックがある場合は、そのブロックを探し、ツールボックス内のワークスペースでハイライトする
 					if (
 						blockNameFromMenu &&
-						toolbox.getSelectedItem() !== (null || undefined)
+						toolbox.getSelectedItem() !== null &&
+						toolbox.getSelectedItem() !== undefined
 					) {
 						console.log(
 							"Toolbox item selected, highlighting block. selected item:",

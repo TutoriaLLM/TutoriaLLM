@@ -80,7 +80,7 @@ services:
           pnpm run drizzle:generate &&
           pnpm run drizzle:push &&
           pnpm run reset-credential &&
-          pnpm run reset-tutorials &&
+          
           touch /.initialized &&
           pnpm run start 
         else

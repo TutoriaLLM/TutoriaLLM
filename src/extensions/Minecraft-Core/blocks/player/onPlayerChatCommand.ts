@@ -41,6 +41,10 @@ export function code() {
 				}
 			}
 		);
+
+		if (wss) {
+			wss.send(JSON.stringify(subscribeMsg("PlayerMessage")));
+		}
 		
         onMessageEvents.push(
 			async (message) => {

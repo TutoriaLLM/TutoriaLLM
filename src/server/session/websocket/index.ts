@@ -150,7 +150,11 @@ io.on("connection", async (socket) => {
 				currentDataJson.language,
 			);
 
-			if (generatedCode === (undefined || null || "")) {
+			if (
+				generatedCode === undefined ||
+				generatedCode === null ||
+				generatedCode === ""
+			) {
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
 				await updateDatabase(code, currentDataJson, clients);
@@ -192,7 +196,7 @@ io.on("connection", async (socket) => {
 				sendToAllClients(currentDataJson);
 			}
 		});
-		socket.on("updateVM", async () => {
+		socket.on("updateVM", async (callback) => {
 			console.log("updateVM");
 			const currentDataJson = await getCurrentDataJson(code);
 			if (!currentDataJson) {
@@ -209,6 +213,7 @@ io.on("connection", async (socket) => {
 				currentDataJson.uuid,
 				generatedCode,
 			);
+			callback("ok");
 			console.log(result);
 		});
 		socket.on("stopVM", async () => {

@@ -97,6 +97,18 @@ const onMessageEvents = [] as ((message: string) => void)[];
 const onDisconnectEvents = [] as (() => void)[];
 let wss: WSContext;
 
+function removeListener() {
+	onConnectEvents.length = 0;
+	onMessageEvents.length = 0;
+	onDisconnectEvents.length = 0;
+}
+
+function reRegisterOnConnectEvents() {
+	for (const event of onConnectEvents) {
+		event();
+	}
+}
+
 //ワールドの状態のグローバルな変数
 const minecraftWorldState = {
 	agent: {

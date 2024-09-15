@@ -6,5 +6,9 @@
 	{
 		"kind": "block",
 		"type": "ext_minecraft_createAgent"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_moveAgent"
 	}
 ]

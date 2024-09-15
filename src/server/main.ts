@@ -20,6 +20,9 @@ ViteExpress.config({
 	ignorePaths: /^\/api|^\/vm/,
 });
 
+//POSTリクエストの上限を設定
+app.use(express.json({ limit: "5mb" }));
+
 let port = 3000;
 let vmPort = 3001;
 if (process.env.SERVER_PORT) {

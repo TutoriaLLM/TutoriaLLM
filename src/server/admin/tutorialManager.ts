@@ -1,7 +1,10 @@
 import express from "express";
-import { extractMetadata } from "../../utils/markdown.js";
 import { db } from "../db/index.js";
-import { type TutorialMetadata, tutorials } from "../db/schema.js";
+import {
+	type Tutorial,
+	type TutorialMetadata,
+	tutorials,
+} from "../db/schema.js";
 import { eq } from "drizzle-orm";
 
 //内部向けのチュートリアルエンドポイント(編集可能)
@@ -20,7 +23,7 @@ tutorialsManager.get("/", async (req, res) => {
 	}
 });
 
-//チュートリアルの内容を取得
+// チュートリアルの内容を取得
 tutorialsManager.get("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
@@ -28,8 +31,10 @@ tutorialsManager.get("/:id", async (req, res) => {
 			.select()
 			.from(tutorials)
 			.where(eq(tutorials.id, id));
-		if (tutorial) {
-			res.json(tutorial);
+
+		if (tutorial.length > 0) {
+			// 配列の最初の要素だけを返す
+			res.json(tutorial[0]);
 		} else {
 			res.status(404).send("Not Found");
 		}
@@ -53,21 +58,17 @@ tutorialsManager.delete("/:id", async (req, res) => {
 
 //新しいチュートリアルを作成
 tutorialsManager.post("/new", async (req, res) => {
-	if (!req.body.content) {
+	if (!req.body) {
 		res.status(400).send("Body is required");
 		return;
 	}
-	const tutorial = req.body.content as string;
-	const extractMetadataToInsert = extractMetadata(tutorial);
-	const content = extractMetadataToInsert.content;
-	const metadata = extractMetadataToInsert.metadata;
-	console.log(content);
-	console.log(metadata);
+	const tutorial = req.body as Tutorial;
 	//新しいチュートリアルを作成
 	try {
 		await db.insert(tutorials).values({
-			content: content,
-			metadata: metadata as TutorialMetadata,
+			content: tutorial.content,
+			metadata: tutorial.metadata,
+			serializednodes: tutorial.serializednodes,
 		});
 		res.status(201).send("Tutorial created");
 	} catch (e) {
@@ -88,20 +89,18 @@ tutorialsManager.put("/:id", async (req, res) => {
 			res.status(404).send("Not Found");
 			return;
 		}
-		if (!req.body.content) {
+		if (!req.body) {
 			res.status(400).send("Bad Request");
 			return;
 		}
-		const tutorialToUpdate = req.body.content as string;
-		const extractMetadataToUpdate = extractMetadata(tutorialToUpdate);
-		const content = extractMetadataToUpdate.content;
-		const metadata = extractMetadataToUpdate.metadata;
+		const tutorialToUpdate = req.body as Tutorial;
 		//チュートリアルの内容を更新
 		await db
 			.update(tutorials)
 			.set({
-				content: content,
-				metadata: metadata as TutorialMetadata,
+				content: tutorialToUpdate.content,
+				metadata: tutorialToUpdate.metadata,
+				serializednodes: tutorialToUpdate.serializednodes,
 			})
 			.where(eq(tutorials.id, id));
 		res.send(`Tutorial ${id} updated`);

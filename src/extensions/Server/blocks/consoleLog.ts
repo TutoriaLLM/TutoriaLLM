@@ -1,6 +1,5 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 import type { extBlock, extLocale } from "extentionContext";
-import type * as Blockly from "blockly";
 
 export const block: extBlock = {
 	type: "ext_server_log",
@@ -13,6 +12,7 @@ export const block: extBlock = {
 	],
 	previousStatement: null,
 	nextStatement: null,
+	inputsInline: true,
 	colour: "#57534e",
 	tooltip: "",
 	helpUrl: "",

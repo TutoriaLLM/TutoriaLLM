@@ -37,6 +37,7 @@ export const tutorials = pgTable("tutorials", {
 	id: serial("id").primaryKey(),
 	content: text("content").notNull(),
 	metadata: json("metadata").$type<TutorialMetadata>().notNull(),
+	serializednodes: text("serializednodes").notNull(), // 新しく追加
 });
 
 export type InsertUser = typeof users.$inferInsert;
