@@ -33,13 +33,13 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 			},
 		});
 
-		// シリアライズされたワークスペースをロード
-		Blockly.serialization.workspaces.load(session.workspace, workspace);
-
 		//拡張ブロックの登録
 		console.log("registerBlocks");
 		registerBlocks(session.language as string);
 		translateCategories(session.language as string);
+
+		// シリアライズされたワークスペースをロード
+		Blockly.serialization.workspaces.load(session.workspace, workspace);
 
 		// クリーンアップ用の関数を返す（コンポーネントがアンマウントされたときに実行される）
 		return () => {
