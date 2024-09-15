@@ -20,6 +20,10 @@ export const category: extCategory = {
 				},
 			},
 		},
+		// {
+		// 	kind: "block",
+		// 	type: "ext_server_onServerStart",
+		// },
 	],
 };
 

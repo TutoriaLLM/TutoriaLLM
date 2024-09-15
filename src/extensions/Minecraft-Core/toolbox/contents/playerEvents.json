@@ -9,7 +9,7 @@
 	},
 	{
 		"kind": "block",
-		"type": "ext_minecraft_onplayertransform"
+		"type": "ext_minecraft_onplayerlisten"
 	},
 	{
 		"kind": "block",

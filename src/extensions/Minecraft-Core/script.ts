@@ -103,6 +103,12 @@ function removeListener() {
 	onDisconnectEvents.length = 0;
 }
 
+function reRegisterOnConnectEvents() {
+	for (const event of onConnectEvents) {
+		event();
+	}
+}
+
 //ワールドの状態のグローバルな変数
 const minecraftWorldState = {
 	agent: {

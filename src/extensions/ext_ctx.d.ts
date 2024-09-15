@@ -62,7 +62,7 @@ declare module "extentionContext" {
 		message0: string;
 		args0?: Array<{
 			type: string;
-			name: string;
+			name?: string;
 			text?: string;
 			check?: string;
 		}>;

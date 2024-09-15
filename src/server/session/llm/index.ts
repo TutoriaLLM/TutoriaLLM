@@ -21,8 +21,9 @@ async function getTutorialContent(session: SessionValue) {
 			const tutorial = await db.query.tutorials.findFirst({
 				where: eq(tutorials.id, session.tutorial.tutorialId),
 			});
-			return tutorial
-				? tutorial
+
+			return tutorial?.content
+				? tutorial.content
 				: {
 						content:
 							"No tutorial content found for the user. Please check the tutorial section.",
