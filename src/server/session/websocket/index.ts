@@ -150,7 +150,11 @@ io.on("connection", async (socket) => {
 				currentDataJson.language,
 			);
 
-			if (generatedCode === (undefined || null || "")) {
+			if (
+				generatedCode === undefined ||
+				generatedCode === null ||
+				generatedCode === ""
+			) {
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
 				await updateDatabase(code, currentDataJson, clients);
