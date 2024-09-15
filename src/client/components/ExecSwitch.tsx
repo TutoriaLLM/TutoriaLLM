@@ -101,21 +101,21 @@ export function ExecSwitch() {
 			{isConnected ? (
 				<div className="flex items-center p-2 gap-2 rounded-2xl border border-gray-300">
 					<span className="flex flex-col">
-						<label
+						<span
 							className={`${
 								isCodeRunning ? "text-green-600" : "text-red-400"
 							} text-base leading-none font-semibold`}
 						>
 							{isCodeRunning ? <PlayIcon /> : <StopCircleIcon />}
-						</label>
+						</span>
 					</span>
-					<label
+					<span
 						className={`${
 							isCodeRunning ? "text-green-600 animate-pulse" : "text-red-400"
 						} text-xs leading-none font-semibold hidden md:block`}
 					>
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
-					</label>
+					</span>
 					<Switch.Root
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}

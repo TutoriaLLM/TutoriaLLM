@@ -118,9 +118,9 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 				}
 				return (
 					<div className="flex flex-col mb-2" key={index}>
-						<label>
+						<span>
 							{key}:{renderInputField(key, value)}
-						</label>
+						</span>
 					</div>
 				);
 			})}
