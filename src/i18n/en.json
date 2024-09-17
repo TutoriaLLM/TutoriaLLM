@@ -73,7 +73,6 @@
 		"easyModeDescription": "AI's response will be more easier.",
 		"easyModeChanged": "Turn Easy mode to {{status}}"
 	},
-
 	"vm": {
 		"outOfMemory": "Machine reached memory limit"
 	},
@@ -91,7 +90,10 @@
 		"execSwitch": "You can run your code on workspace.",
 		"tutorialSelector": "You can select any tutorial that you want to make.",
 		"welcome": "Welcome on board! This tour provides a brief overview of how to use this application.",
-		"pushCode": "Push your current programs into server when its running."
+		"tabs": "You can switch the tabs to move between chat and workspace.",
+		"switchToWorkspace": "Let's switch to workspace.",
+		"syncCode": "You can update code from here",
+		"switchToDialogue": "Okay, let's back to chat tab."
 	},
 	"extention": {
 		"minecraft-core": {

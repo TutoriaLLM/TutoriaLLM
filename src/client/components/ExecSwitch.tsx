@@ -126,7 +126,7 @@ export function ExecSwitch() {
 					</Switch.Root>
 
 					<button
-						className={`text-xs push bg-gray-300 relative rounded-2xl p-2 underline ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400" : reloadButtonStatus === "reloading" ? "cursor-wait " : "cursor-pointer"}`}
+						className={`text-xs sync bg-gray-300 relative rounded-2xl p-2 underline ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400" : reloadButtonStatus === "reloading" ? "cursor-wait " : "cursor-pointer"}`}
 						type="button"
 						onClick={() => updateCode()}
 						disabled={

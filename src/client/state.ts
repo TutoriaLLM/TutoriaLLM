@@ -9,9 +9,12 @@ export const isPopupOpen = atom(false);
 //ワークスペースが接続されているかどうか
 export const isWorkspaceConnected = atom(false);
 //現在のセッション/比較に使用する１つ前のセッションの状態
-import type { AppConfig, SessionValue } from "../type.js";
+import type { AppConfig, SessionValue, Tab } from "../type.js";
 export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
+
+//現在のタブ状態
+export const currentTabState = atom<Tab>("workspaceTab");
 
 //ハイライトするブロックの状態
 import type { HighlightedBlock } from "../type.js";

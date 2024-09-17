@@ -2,7 +2,7 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
-import type { AppConfig, Click, SessionValue } from "../../type.js";
+import type { AppConfig, Click, SessionValue, Tab } from "../../type.js";
 import Editor from "../components/BlocklyEditor/Blockly/index.js";
 import Navbar from "../components/BlocklyEditor/Navbar.js";
 //モバイル利用時のタブ切り替え
@@ -17,6 +17,9 @@ import { tourSteps } from "./editorTour.js";
 
 //視覚的な統計作成に利用するライブラリ
 import html2canvas from "html2canvas";
+
+//cookieの読み込み
+import { useCookies } from "react-cookie";
 
 import i18next, { use } from "i18next";
 import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
@@ -34,6 +37,7 @@ import {
 	settingState,
 	userSessionCode,
 	socketIoInstance,
+	currentTabState,
 } from "../state.js";
 
 import { io, Socket } from "socket.io-client";
@@ -48,6 +52,9 @@ export default function EditorPage() {
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
 	//比較するために前回の値を保存
 	const [prevSession, setPrevSession] = useAtom(prevSessionState);
+
+	//タブ切り替えのための状態
+	const [activeTab, setActiveTab] = useAtom(currentTabState);
 
 	//クリックの保存
 	const [recordedClicks, setrecordedClicks] = useState<Click[]>([]);
@@ -64,6 +71,8 @@ export default function EditorPage() {
 	const [settings, setSettings] = useAtom(settingState);
 
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+	const [cookie, setCookie, removeCookie] = useCookies();
 
 	useEffect(() => {
 		async function fetchConfig() {
@@ -90,6 +99,29 @@ export default function EditorPage() {
 			console.error("Error fetching settings:", error);
 		}
 	}, []);
+
+	//オンボーディングを起動するために内部に挿入するコンポーネント
+	function OnboardingComponent() {
+		const { setIsOpen } = useTour();
+		const now = new Date();
+		function startOnboarding() {
+			console.log("start onboarding");
+			setIsOpen(true);
+			setCookie("lastonBoarding", now);
+		}
+		if (cookie.lastonBoarding) {
+			const lastOnboarding = new Date(cookie.lastonBoarding);
+			if (now.getTime() - lastOnboarding.getTime() > 1000 * 60 * 60 * 24) {
+				console.log("cookie expired");
+				startOnboarding();
+			}
+		}
+		if (!cookie.lastonBoarding) {
+			console.log("cookie not found");
+			startOnboarding();
+		}
+		return null;
+	}
 
 	// 状態更新の関数
 	const handleClick = (event: MouseEvent) => {
@@ -339,7 +371,7 @@ export default function EditorPage() {
 
 	return (
 		<TourProvider
-			steps={tourSteps()}
+			steps={tourSteps(isMobile)}
 			className="w-64 sm:w-full font-medium text-base border"
 			padding={{
 				popover: [-10, 0],
@@ -357,6 +389,7 @@ export default function EditorPage() {
 				maskArea: (base) => ({ ...base, rx: 10 }),
 			}}
 		>
+			<OnboardingComponent />
 			<div className="max-h-svh h-svh w-svw overflow-hidden flex flex-col bg-gray-200 text-gray-800 app">
 				<Navbar
 					code={sessionCode}
@@ -370,25 +403,27 @@ export default function EditorPage() {
 						(isMobile ? (
 							<Tabs.Root
 								defaultValue="workspaceTab"
+								value={activeTab}
+								onValueChange={(value) => setActiveTab(value as Tab)}
 								className="w-full h-full flex flex-col"
 							>
-								<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs">
+								<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs tabs">
 									<Tabs.Trigger
-										className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+										className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner workspaceTab"
 										value="workspaceTab"
 									>
 										<Puzzle className="w-4 h-4" />
 										{t("editor.workspaceTab")}
 									</Tabs.Trigger>
 									<Tabs.Trigger
-										className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+										className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner dialogueTab"
 										value="dialogueTab"
 									>
 										<MessageCircleMore className="w-4 h-4" />
 										{t("editor.dialogueTab")}
 									</Tabs.Trigger>
 								</Tabs.List>
-								<div className="flex-grow overflow-hidden h-full w-full">
+								<div className="flex-grow overflow-hidden h-full ßw-full">
 									<Tabs.Content
 										className="w-full h-full overflow-auto"
 										value="workspaceTab"

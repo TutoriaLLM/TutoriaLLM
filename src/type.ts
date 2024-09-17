@@ -17,6 +17,9 @@ export type Dialogue = {
 	content: string | Dialogue[];
 };
 
+//タブの種類を定義するための型
+export type Tab = "workspaceTab" | "dialogueTab";
+
 //フロントエンドでのチュートリアルの進行度を管理するための型
 export type TutorialStats = {
 	//チュートリアルの有無

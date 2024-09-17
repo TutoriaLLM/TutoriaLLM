@@ -1,7 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { useTour, type StepType } from "@reactour/tour";
-export function tourSteps() {
-	console.log("tourSteps");
+import { useAtom } from "jotai";
+import { currentTabState } from "../state.js";
+import { set } from "zod";
+export function tourSteps(isMobile: boolean) {
+	const [activeTab, setActiveTab] = useAtom(currentTabState);
 	const { t } = useTranslation();
 	return [
 		{
@@ -12,11 +15,47 @@ export function tourSteps() {
 			selector: ".joinCode",
 			content: () => t("tour.joinCode"),
 		},
+		//mobileの場合はワークスペースに移動する
+		...(isMobile
+			? [
+					{
+						selector: ".tabs",
+						content: () => t("tour.tabs"),
+						mutationObservables: [".tabs"],
+					},
+					{
+						selector: ".workspaceTab",
+						content: () => t("tour.switchToWorkspace"),
+						mutationObservables: [".workspaceTab"],
+						action: () => setActiveTab("workspaceTab"),
+					},
+				]
+			: []),
 		{
 			selector: ".blocklyWorkspace",
 			content: () => t("tour.blocklyWorkspace"),
 			mutationObservables: [".blocklyWorkspace"],
 		},
+		{
+			selector: ".execSwitch",
+			content: () => t("tour.execSwitch"),
+		},
+		{
+			selector: ".sync",
+			content: () => t("tour.syncCode"),
+		},
+		//mobileの場合はDialogに移動する
+		...(isMobile
+			? [
+					{
+						selector: ".dialogueTab",
+						content: () => t("tour.switchToDialogue"),
+						mutationObservables: [".dialogueTab"],
+						action: () => setActiveTab("dialogueTab"),
+					},
+				]
+			: []),
+
 		{
 			selector: ".dialogue",
 			content: () => t("tour.dialogue"),
@@ -24,14 +63,6 @@ export function tourSteps() {
 		{
 			selector: ".tutorialSelector",
 			content: () => t("tour.tutorialSelector"),
-		},
-		{
-			selector: ".execSwitch",
-			content: () => t("tour.execSwitch"),
-		},
-		{
-			selector: ".push",
-			content: () => t("tour.pushCode"),
 		},
 		{
 			selector: ".startTour",
