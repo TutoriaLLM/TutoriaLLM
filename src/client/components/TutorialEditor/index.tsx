@@ -9,10 +9,7 @@ import {
 	addEdge,
 	Controls,
 	Panel,
-	MiniMap,
 	Background,
-	Edge,
-	Connection,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Markdown } from "./nodes/markdown.js";
@@ -33,10 +30,13 @@ const nodeTypes = {
 export default function llTutorialEditor(props: {
 	id: number | null;
 	buttonText: string;
+	json?: TutorialType | null; // JSONを引数として追加
 }) {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false); // ローディング状態を追加
-	const [tutorialData, setTutorialData] = useState<TutorialType | null>(null);
+	const [tutorialData, setTutorialData] = useState<TutorialType | null>(
+		props.json || null,
+	); // jsonがあれば初期化
 
 	const initialNodes = [
 		{
@@ -113,6 +113,29 @@ export default function llTutorialEditor(props: {
 				console.error("Error fetching tutorial data:", error);
 				setIsLoading(false); // エラー時もローディングを終了
 			}
+		} else if (props.json) {
+			// 新規作成時にJSONデータがある場合はそれを使用
+			//JSONが指定したフォーマットでない場合はalertを表示し、初期データを使用
+			if (
+				!props.json.metadata ||
+				!props.json.content ||
+				!props.json.serializednodes
+			) {
+				alert("Invalid JSON format. Using default data.");
+				setTutorialData({
+					metadata: {
+						title: "",
+						description: "",
+						keywords: [],
+					},
+					content: "",
+					serializednodes: "",
+				});
+				setIsPopupOpen(true);
+				return;
+			}
+			setTutorialData(props.json);
+			setIsPopupOpen(true);
 		} else {
 			// 新規作成の場合はデフォルトのデータを使用
 			setTutorialData({
@@ -126,7 +149,7 @@ export default function llTutorialEditor(props: {
 			});
 			setIsPopupOpen(true);
 		}
-	}, [props.id]);
+	}, [props.id, props.json]);
 
 	useEffect(() => {
 		if (tutorialData?.serializednodes) {
