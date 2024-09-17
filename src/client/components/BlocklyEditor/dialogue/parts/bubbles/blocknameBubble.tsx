@@ -15,6 +15,7 @@ function renderBlockNameBubble(
 ) {
 	const [base64, setBase64] = useState<string>("");
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
+	const hiddenDivRef = useRef<HTMLDivElement | null>(null); // divを参照するためのref
 
 	useEffect(() => {
 		if (!hiddenWorkspaceRef.current) {
@@ -27,6 +28,7 @@ function renderBlockNameBubble(
 			hiddenDiv.style.visibility = "hidden"; // 画面外に配置
 
 			document.body.appendChild(hiddenDiv);
+			hiddenDivRef.current = hiddenDiv; // refにdivを保持
 
 			hiddenWorkspaceRef.current = Blockly.inject(hiddenDiv, {
 				readOnly: true,
@@ -52,7 +54,13 @@ function renderBlockNameBubble(
 
 		// クリーンアップ
 		return () => {
-			workspaceSvg.clear(); // ワークスペースを破棄してメモリリークを防ぐ
+			if (workspaceSvg) {
+				workspaceSvg.clear(); // ワークスペースを破棄してメモリリークを防ぐ
+			}
+			if (hiddenDivRef.current) {
+				document.body.removeChild(hiddenDivRef.current); // divを削除
+				hiddenDivRef.current = null; // refをリセット
+			}
 		};
 	}, [content]);
 
