@@ -357,80 +357,84 @@ export default function EditorPage() {
 				maskArea: (base) => ({ ...base, rx: 10 }),
 			}}
 		>
-			<div className="h-screen flex flex-col bg-gray-200 text-gray-800 app">
+			<div className="max-h-svh h-svh w-svw overflow-hidden flex flex-col bg-gray-200 text-gray-800 app">
 				<Navbar
 					code={sessionCode}
 					isConnected={WorkspaceConnection}
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}
 				/>
-				{!showPopup &&
-					WorkspaceConnection &&
-					(isMobile ? (
-						<Tabs.Root
-							defaultValue="workspaceTab"
-							className="w-full h-full flex flex-col"
-						>
-							<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs">
-								<Tabs.Trigger
-									className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
-									value="workspaceTab"
-								>
-									<Puzzle className="w-4 h-4" />
-									{t("editor.workspaceTab")}
-								</Tabs.Trigger>
-								<Tabs.Trigger
-									className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
-									value="dialogueTab"
-								>
-									<MessageCircleMore className="w-4 h-4" />
-									{t("editor.dialogueTab")}
-								</Tabs.Trigger>
-							</Tabs.List>
-							<div className="flex-grow overflow-y-auto">
-								<Tabs.Content
-									className="w-full h-full"
-									value="workspaceTab"
-									asChild
+				<div className="flex-1 overflow-hidden">
+					{!showPopup &&
+						WorkspaceConnection &&
+						(isMobile ? (
+							<Tabs.Root
+								defaultValue="workspaceTab"
+								className="w-full h-full flex flex-col"
+							>
+								<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs">
+									<Tabs.Trigger
+										className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+										value="workspaceTab"
+									>
+										<Puzzle className="w-4 h-4" />
+										{t("editor.workspaceTab")}
+									</Tabs.Trigger>
+									<Tabs.Trigger
+										className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
+										value="dialogueTab"
+									>
+										<MessageCircleMore className="w-4 h-4" />
+										{t("editor.dialogueTab")}
+									</Tabs.Trigger>
+								</Tabs.List>
+								<div className="flex-grow overflow-hidden h-full w-full">
+									<Tabs.Content
+										className="w-full h-full overflow-auto"
+										value="workspaceTab"
+										asChild
+									>
+										<Editor />
+									</Tabs.Content>
+									<Tabs.Content
+										className="w-full h-full overflow-auto"
+										value="dialogueTab"
+										asChild
+									>
+										<DialogueView />
+									</Tabs.Content>
+								</div>
+							</Tabs.Root>
+						) : (
+							<PanelGroup autoSaveId="workspace" direction="horizontal">
+								<Panel
+									id="workspaceArea"
+									defaultSize={75}
+									order={1}
+									maxSize={80}
+									minSize={20}
 								>
 									<Editor />
-								</Tabs.Content>
-								<Tabs.Content
-									className="w-full h-full"
-									value="dialogueTab"
-									asChild
+								</Panel>
+								<PanelResizeHandle className="h-full group w-1 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
+									<div className="rounded-full py-2 px-1 z-50 flex flex-col gap-1 bg-gray-300">
+										<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
+										<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
+										<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
+									</div>
+								</PanelResizeHandle>
+								<Panel
+									id="dialogueArea"
+									defaultSize={25}
+									order={2}
+									maxSize={80}
+									minSize={20}
 								>
 									<DialogueView />
-								</Tabs.Content>
-							</div>
-						</Tabs.Root>
-					) : (
-						<PanelGroup autoSaveId="workspace" direction="horizontal">
-							<Panel
-								id="workspaceArea"
-								defaultSize={75}
-								order={1}
-								maxSize={80}
-								minSize={20}
-							>
-								<Editor />
-							</Panel>
-							<PanelResizeHandle className="h-full w-3 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
-								<span className="rounded-full p-1 bg-gray-50" />
-								<span className="rounded-full p-1 bg-gray-50" />
-								<span className="rounded-full p-1 bg-gray-50" />
-							</PanelResizeHandle>
-							<Panel
-								id="dialogueArea"
-								defaultSize={25}
-								order={2}
-								maxSize={80}
-								minSize={20}
-							>
-								<DialogueView />
-							</Panel>
-						</PanelGroup>
-					))}
+								</Panel>
+							</PanelGroup>
+						))}
+				</div>
 				<SessionPopup
 					isPopupOpen={showPopup}
 					message={statusMessage}

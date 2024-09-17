@@ -68,8 +68,8 @@ export default function DialogueView() {
 	}, [session?.dialogue]);
 
 	return (
-		<div className="dialogue w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
-			<div className="w-full h-full flex flex-col overflow-x-scroll gap-4 p-4 py-8">
+		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium ">
+			<div className="w-full h-full flex flex-col overflow-y-scroll gap-4 p-4 py-8 ">
 				<OnBoarding />
 				{session?.dialogue.map((item: Dialogue) => {
 					return (
