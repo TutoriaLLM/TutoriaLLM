@@ -7,11 +7,13 @@ import type { Tutorial } from "../../../../server/db/schema.js";
 import { useTour } from "@reactour/tour";
 import { set } from "zod";
 import * as Switch from "@radix-ui/react-switch";
-
+import { useCookies } from "react-cookie";
 type TutorialType = Pick<Tutorial, "id" | "metadata">;
 
 export default function OnBoarding() {
 	const { t } = useTranslation();
+	//ユーザーのオンボーディングの表示を記録するcookie
+	const [cookie, setCookie, removeCookie] = useCookies();
 
 	//選択可能なチュートリアルのリストを取得
 	const [tutorials, setTutorials] = useState<TutorialType[]>([]);
@@ -58,7 +60,18 @@ export default function OnBoarding() {
 			return prev;
 		});
 	}
+	//Cookieが存在しない場合、オンボーディングを表示
+
 	const { setIsOpen } = useTour();
+	function startOnboarding() {
+		setIsOpen(true);
+		setCookie("onBoarding", "true");
+	}
+	useEffect(() => {
+		if (!cookie.onBoarding) {
+			startOnboarding();
+		}
+	}, []);
 	function toggleIsEasyMode() {
 		setSessionState((prev) => {
 			if (!prev) {
@@ -110,7 +123,7 @@ export default function OnBoarding() {
 				</span>
 				<button
 					type="button"
-					onClick={() => setIsOpen(true)}
+					onClick={() => startOnboarding()}
 					className="bg-sky-500 group text-white flex justify-center items-center text-sm max-w-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all startTour"
 				>
 					<p>{t("tutorial.startTourButton")}</p>
