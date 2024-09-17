@@ -8,6 +8,10 @@ import OnBoarding from "./onBoarding.js";
 import { useTranslation } from "react-i18next";
 import QuickReply from "./parts/quickreply.js";
 import { updateStats } from "../../../../utils/statsUpdater.js";
+import {
+	HorizontalScrollProvider,
+	useHorizontalScroll,
+} from "../../horizontalScroll.js";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
@@ -95,12 +99,13 @@ export default function DialogueView() {
 			<div className="w-full p-2">
 				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
 					<div className="relative w-full py-2.5 overflow-clip">
-						<div className="flex flex-wrap w-full overflow-x-auto scroll">
-							<QuickReply
+						{/* HorizontalScrollProviderでコンテキストを提供 */}
+						<HorizontalScrollProvider>
+							<QuickReplyContainer
 								onReply={handleQuickReply}
 								quickReplies={session?.quickReplies || null}
 							/>
-						</div>
+						</HorizontalScrollProvider>
 						<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
 						<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
 					</div>
@@ -114,7 +119,7 @@ export default function DialogueView() {
 							onChange={(e) => setMessage(e.target.value)}
 						/>
 						<button
-							type="submit" // buttonのtypeを'submit'に変更
+							type="submit"
 							className={`p-3 text-white rounded-2xl flex ${
 								message === ""
 									? "bg-gray-300 transition"
@@ -130,3 +135,20 @@ export default function DialogueView() {
 		</div>
 	);
 }
+
+// QuickReplyをラップするコンテナコンポーネントを作成
+const QuickReplyContainer: React.FC<{
+	onReply: (reply: string) => void;
+	quickReplies: string[] | null;
+}> = ({ onReply, quickReplies }) => {
+	const scrollRef = useHorizontalScroll(); // useHorizontalScrollをここで使用
+
+	return (
+		<div
+			className="flex flex-wrap w-full overflow-x-auto no-scrollbar"
+			ref={scrollRef}
+		>
+			<QuickReply onReply={onReply} quickReplies={quickReplies} />
+		</div>
+	);
+};
