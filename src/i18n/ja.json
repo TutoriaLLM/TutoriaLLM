@@ -73,12 +73,6 @@
 		"easyModeDescription": "AIからのチャットがかんたんになります",
 		"easyModeChanged": "かんたんモードを{{status}}にしました"
 	},
-	"quickReply": {
-		"iDontKnow": "わかりません",
-		"done": "できました",
-		"explainThis": "説明してください",
-		"whatToDo": "何をしたらいいですか"
-	},
 	"vm": {
 		"outOfMemory": "マシンが使えるメモリの上限に達しました"
 	},

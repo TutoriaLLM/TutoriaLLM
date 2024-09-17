@@ -47,6 +47,7 @@ export type SessionValue = {
 	createdAt: Date;
 	updatedAt: Date;
 	dialogue: Dialogue[];
+	quickReplies: string[];
 	isReplying: boolean;
 	//シリアル化したBlockly.Workspaceを保存する
 	workspace: { [key: string]: string };

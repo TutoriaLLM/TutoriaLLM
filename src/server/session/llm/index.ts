@@ -130,6 +130,7 @@ export async function invokeLLM(
 		progress: z
 			.number()
 			.describe("progress of the tutorial shown by 10 to 100."),
+		quickReplies: z.array(z.string()).describe("quick replies for the user."),
 	});
 
 	const systemTemplate = `
@@ -143,7 +144,8 @@ Response must be in JSON format with the following structure. BlockId and BlockN
   "response": "string",
   "blockId": "string (optional)",
   "blockName": "string (optional)",
-  "progress": number (10 to 100)
+  "progress": number (10 to 100),
+  "quickReplies": string[] (provide least 3 to maximum 5 quick replies for the user to choose from)
 }
 
 Tutorial content: ${JSON.stringify(await getTutorialContent(session))}
