@@ -13,3 +13,8 @@
         scrollbar-width: none;  /* Firefox */
   }
 }
+
+/* prevent pinch zoom */
+html {
+    touch-action: none;
+}
