@@ -38,12 +38,13 @@ import {
 	userSessionCode,
 	socketIoInstance,
 	currentTabState,
+	blockNameFromMenuState,
 } from "../state.js";
 
 import { io, Socket } from "socket.io-client";
 import { set } from "zod";
 import { is } from "drizzle-orm";
-import { MessageCircleMore, Puzzle } from "lucide-react";
+import { MessageCircleMore, Puzzle, PanelRightClose } from "lucide-react";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -55,7 +56,6 @@ export default function EditorPage() {
 
 	//タブ切り替えのための状態
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
-
 	//クリックの保存
 	const [recordedClicks, setrecordedClicks] = useState<Click[]>([]);
 	// 最新のクリック情報を保持するためのrefを追加
@@ -66,6 +66,12 @@ export default function EditorPage() {
 		useAtom(isWorkspaceConnected);
 	const [socketInstance, setSocketInstance] = useAtom(socketIoInstance);
 	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
+
+	//メニューのハイライトを管理するstate
+	const blockNameFromMenu = useAtomValue(blockNameFromMenuState);
+
+	//ワークスペースのメニュー表示を管理するstate
+	const [isMenuOpen, setIsMenuOpen] = useState(true);
 
 	//設定の保存をするstate
 	const [settings, setSettings] = useAtom(settingState);
@@ -370,6 +376,15 @@ export default function EditorPage() {
 		return imgData;
 	}
 
+	function handleToggle() {
+		if (isMobile) setIsMenuOpen((prev) => !prev);
+	}
+
+	useEffect(() => {
+		if (blockNameFromMenu) setIsMenuOpen(true);
+		if (!isMobile) setIsMenuOpen(true);
+	}, [blockNameFromMenu, isMobile]);
+
 	return (
 		<TourProvider
 			steps={tourSteps(isMobile)}
@@ -398,7 +413,14 @@ export default function EditorPage() {
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}
 				/>
-				<div className="flex-1 overflow-hidden">
+				<div className="flex-1 overflow-hidden relative">
+					<button
+						type="button"
+						onClick={handleToggle}
+						className={`absolute sm:hidden w-8 h-8 top-2 left-4 flex items-center justify-center transition-transform ${isMenuOpen ? "rotate-180" : ""}`}
+					>
+						<PanelRightClose />
+					</button>
 					{!showPopup &&
 						WorkspaceConnection &&
 						(isMobile ? (
@@ -424,13 +446,13 @@ export default function EditorPage() {
 										{t("editor.dialogueTab")}
 									</Tabs.Trigger>
 								</Tabs.List>
-								<div className="flex-grow overflow-hidden h-full ßw-full">
+								<div className="flex-grow overflow-hidden h-full w-full">
 									<Tabs.Content
 										className="w-full h-full overflow-auto"
 										value="workspaceTab"
 										asChild
 									>
-										<Editor />
+										<Editor menuOpen={isMenuOpen} />
 									</Tabs.Content>
 									<Tabs.Content
 										className="w-full h-full overflow-auto"
@@ -450,10 +472,10 @@ export default function EditorPage() {
 									maxSize={80}
 									minSize={20}
 								>
-									<Editor />
+									<Editor menuOpen={isMenuOpen} />
 								</Panel>
-								<PanelResizeHandle className="h-full group w-1 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
-									<div className="rounded-full py-2 px-1 z-50 flex flex-col gap-1 bg-gray-300">
+								<PanelResizeHandle className="h-full group w-3 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
+									<div className="py-2 px-1 z-50 flex flex-col gap-1">
 										<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
 										<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
 										<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
