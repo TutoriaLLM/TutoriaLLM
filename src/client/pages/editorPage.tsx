@@ -109,14 +109,15 @@ export default function EditorPage() {
 			setIsOpen(true);
 			setCookie("lastonBoarding", now);
 		}
-		if (cookie.lastonBoarding) {
+		//セッション開始後にトリガーする
+		if (cookie.lastonBoarding && currentSession) {
 			const lastOnboarding = new Date(cookie.lastonBoarding);
 			if (now.getTime() - lastOnboarding.getTime() > 1000 * 60 * 60 * 24) {
 				console.log("cookie expired");
 				startOnboarding();
 			}
 		}
-		if (!cookie.lastonBoarding) {
+		if (!cookie.lastonBoarding && currentSession) {
 			console.log("cookie not found");
 			startOnboarding();
 		}
