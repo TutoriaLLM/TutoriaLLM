@@ -40,7 +40,7 @@ services:
     restart: always
   db:
     container_name: code-tutorial-db-prod
-    image: postgres:14
+    image: pgvector/pgvector:pg14
     ports:
       - "5432:5432"
     environment:
