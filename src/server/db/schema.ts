@@ -1,4 +1,3 @@
-import { desc } from "drizzle-orm";
 import {
 	integer,
 	varchar,
