@@ -19,7 +19,9 @@
 		"home": "Home",
 		"signout": "Sign out",
 		"noTutorial": "No tutorial has selected",
-		"joinCode": "Join Code"
+		"joinCode": "Join Code",
+		"reload": "Reload",
+		"execSwitch": "Run Code"
 	},
 	"execSwitch": {
 		"label": "Run code",
@@ -44,7 +46,8 @@
 		"users": "Users",
 		"settings": "Settings",
 		"sessions": "Sessions",
-		"toggle": "Sidebar"
+		"toggle": "Sidebar",
+		"trainingForAI": "AI Training"
 	},
 	"textbubble": {
 		"log": "Log",

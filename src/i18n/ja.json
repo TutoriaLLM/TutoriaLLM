@@ -23,7 +23,9 @@
 		"home": "ホーム",
 		"signout": "サインアウト",
 		"noTutorial": "チュートリアルを選んでいません",
-		"joinCode": "参加コード"
+		"joinCode": "参加コード",
+		"reload": "リロード",
+		"execSwitch": "コードを実行"
 	},
 	"session": {
 		"about": "このアプリについて",
@@ -44,7 +46,8 @@
 		"users": "ユーザー",
 		"settings": "設定",
 		"toggle": "サイドバー",
-		"sessions": "セッション"
+		"sessions": "セッション",
+		"trainingForAI": "AIトレーニング"
 	},
 	"textbubble": {
 		"log": "ログ",
