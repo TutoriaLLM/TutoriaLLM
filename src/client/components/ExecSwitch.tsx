@@ -25,6 +25,9 @@ export function ExecSwitch() {
 	//スイッチの無効化を管理
 	const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
 
+	//実行中のワークスペース内容の変更を管理
+	const [runningWorkspaceContent, setRunningWorkspaceContent] = useState("");
+
 	//再読み込みボタンのステータス
 	type reloadButtonStatusType = "idle" | "reloading" | "disabled";
 	const [reloadButtonStatus, setReloadButtonStatus] =
@@ -53,7 +56,7 @@ export function ExecSwitch() {
 			//スイッチがオフのとき
 			console.log("start");
 			socketInstance.emit("openVM");
-			setReloadButtonStatus("idle");
+			setRunningWorkspaceContent(JSON.stringify(currentSession.workspace));
 		}
 		setIsSwitchDisabled(true);
 	}
@@ -79,7 +82,7 @@ export function ExecSwitch() {
 					clearTimeout(timeout); // タイムアウトのクリア
 
 					if (response === "ok") {
-						setReloadButtonStatus("idle");
+						setReloadButtonStatus("disabled");
 					} else {
 						// エラーが起きた際はボタンを無効化する（エラーを防ぐため、ユーザーはサーバーの停止処理で対応する）
 						console.error("Error occurred while updating VM:", response);
@@ -89,6 +92,16 @@ export function ExecSwitch() {
 			}, 1000); // 1秒間待機する
 		}
 	}
+	//ワークスペース変更時にリロードボタンを有効化するかどうかを判定する
+	useEffect(() => {
+		const newWorkspaceContent = JSON.stringify(currentSession?.workspace);
+		if (runningWorkspaceContent !== newWorkspaceContent && isCodeRunning) {
+			console.log("Workspace content has changed.");
+			setReloadButtonStatus("idle");
+		}
+		// ワークスペースの内容を更新
+		setRunningWorkspaceContent(newWorkspaceContent);
+	}, [currentSession?.workspace, runningWorkspaceContent]);
 
 	//スイッチの状態が外部から変更されるまで待つ
 	useEffect(() => {
@@ -96,10 +109,11 @@ export function ExecSwitch() {
 			setIsSwitchDisabled(false);
 		});
 	}, [isCodeRunning, currentSession?.workspace]);
+
 	return (
-		<form className="justify-center items-center execSwitch">
+		<form className="flex justify-center items-center execSwitch">
 			{isConnected ? (
-				<div className="flex items-center p-2 gap-2 rounded-2xl border border-gray-300">
+				<div className="flex items-center sm:p-2 gap-2 rounded-2xl sm:border border-gray-300">
 					<span className="flex flex-col">
 						<span
 							className={`${
@@ -112,34 +126,45 @@ export function ExecSwitch() {
 					<span
 						className={`${
 							isCodeRunning ? "text-green-600 animate-pulse" : "text-red-400"
-						} text-xs leading-none font-semibold hidden md:block`}
+						} text-xs leading-none font-semibold hidden sm:block`}
 					>
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
 					</span>
 					<Switch.Root
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
-						onCheckedChange={() => ChangeSwitch()}
-						className="w-10 h-6 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100"
+						onCheckedChange={ChangeSwitch}
+						className="w-10 h-6 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100 group"
 					>
-						<Switch.Thumb className="shadow block w-4 h-4 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
+						<Switch.Thumb className="shadow block w-4 h-4 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-5 md:data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
+						<p className="group-hover:flex hidden absolute text-xs bg-gray-300 p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+							{t("navbar.execSwitch")}
+						</p>
 					</Switch.Root>
 
-					<button
-						className={`text-xs sync bg-gray-300 relative rounded-2xl p-2 underline ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400" : reloadButtonStatus === "reloading" ? "cursor-wait " : "cursor-pointer"}`}
-						type="button"
-						onClick={() => updateCode()}
-						disabled={
-							reloadButtonStatus === "disabled" ||
-							reloadButtonStatus === "reloading"
-						}
-					>
-						<RefreshCcw
-							className={
-								reloadButtonStatus === "reloading" ? "animate-spin" : ""
+					<div className="group relative">
+						<button
+							className={`text-xs sync bg-gray-300 relative rounded-2xl p-1.5 md:p-2 underline transition-colors duration-300 ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400 bg-gray-300" : reloadButtonStatus === "reloading" ? "cursor-wait bg-gray-300" : "cursor-pointer bg-green-500 text-green-200"}`}
+							type="button"
+							onClick={updateCode}
+							disabled={
+								reloadButtonStatus === "disabled" ||
+								reloadButtonStatus === "reloading"
 							}
-						/>
-					</button>
+							aria-label={t("navbar.reload")}
+						>
+							<RefreshCcw
+								className={
+									reloadButtonStatus === "reloading"
+										? "animate-spin ease-in-out"
+										: ""
+								}
+							/>
+						</button>
+						<p className="group-hover:visible invisible absolute text-xs bg-gray-300 p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+							{t("navbar.reload")}
+						</p>
+					</div>
 				</div>
 			) : null}
 		</form>
