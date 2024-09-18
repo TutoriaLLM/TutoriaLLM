@@ -1,3 +1,4 @@
+import { desc } from "drizzle-orm";
 import {
 	integer,
 	varchar,
@@ -6,14 +7,19 @@ import {
 	serial,
 	text,
 	timestamp,
+	vector,
+	index,
 } from "drizzle-orm/pg-core";
 
-// テーブルの定義
+// ユーザーの定義
+
 export const users = pgTable("user", {
 	id: serial("id").primaryKey(),
 	username: varchar("username", { length: 255 }).notNull(),
 	password: varchar("password", { length: 255 }).notNull(),
 });
+
+// ログインセッションの定義
 
 export const authSessions = pgTable("session", {
 	id: text("id").primaryKey(),
@@ -25,6 +31,8 @@ export const authSessions = pgTable("session", {
 		mode: "date",
 	}).notNull(),
 });
+
+// チュートリアルの保存
 
 export type TutorialMetadata = {
 	title: string;
@@ -39,6 +47,25 @@ export const tutorials = pgTable("tutorials", {
 	metadata: json("metadata").$type<TutorialMetadata>().notNull(),
 	serializednodes: text("serializednodes").notNull(), // 新しく追加
 });
+
+// AIのベース知識の埋め込み
+
+export const guides = pgTable(
+	"guides",
+	{
+		id: serial("id").primaryKey(),
+		title: text("title").notNull(),
+		description: text("description").notNull(),
+		source: text("source").notNull(),
+		embedding: vector("embedding", { dimensions: 1536 }),
+	},
+	(table) => ({
+		embeddingIndex: index("embeddingIndex").using(
+			"hnsw",
+			table.embedding.op("vector_cosine_ops"),
+		),
+	}),
+);
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
