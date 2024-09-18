@@ -98,17 +98,19 @@ export default function DialogueView() {
 			</div>
 			<div className="w-full p-2">
 				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
-					<div className="relative w-full py-2.5 overflow-clip">
-						{/* HorizontalScrollProviderでコンテキストを提供 */}
-						<HorizontalScrollProvider>
-							<QuickReplyContainer
-								onReply={handleQuickReply}
-								quickReplies={session?.quickReplies || null}
-							/>
-						</HorizontalScrollProvider>
-						<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-						<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
-					</div>
+					{session?.quickReplies && (
+						<div className="relative w-full py-2.5 overflow-clip">
+							{/* HorizontalScrollProviderでコンテキストを提供 */}
+							<HorizontalScrollProvider>
+								<QuickReplyContainer
+									onReply={handleQuickReply}
+									quickReplies={session?.quickReplies || null}
+								/>
+							</HorizontalScrollProvider>
+							<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+							<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+						</div>
+					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
 						<input
@@ -144,10 +146,7 @@ const QuickReplyContainer: React.FC<{
 	const scrollRef = useHorizontalScroll(); // useHorizontalScrollをここで使用
 
 	return (
-		<div
-			className="flex flex-wrap w-full overflow-x-auto no-scrollbar"
-			ref={scrollRef}
-		>
+		<div className="flex flex-wrap w-full overflow-auto pb-2" ref={scrollRef}>
 			<QuickReply onReply={onReply} quickReplies={quickReplies} />
 		</div>
 	);
