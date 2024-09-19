@@ -11,6 +11,7 @@ import Tutorials from "../components/Admin/tabs/Tutorials.js";
 import Users from "../components/Admin/tabs/Users.js";
 import LoginPopup from "../components/loginOverlay/index.js";
 import { LanguageToStart } from "../state.js";
+import Training from "../components/Admin/tabs/Training.js";
 
 export default function AdminPage() {
 	const languageToStart = useAtomValue(LanguageToStart);
@@ -59,6 +60,7 @@ export default function AdminPage() {
 								<Route path="/tutorials" element={<Tutorials />} />
 								<Route path="/sessions" element={<Sessions />} />
 								<Route path="/settings" element={<Settings />} />
+								<Route path="/training" element={<Training />} />
 							</Routes>
 						</div>
 					</div>

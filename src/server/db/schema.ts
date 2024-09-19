@@ -47,15 +47,22 @@ export const tutorials = pgTable("tutorials", {
 	serializednodes: text("serializednodes").notNull(), // 新しく追加
 });
 
-// AIのベース知識の埋め込み
+// トレーニングに利用する質問データを保存
 
+export type TrainingMetadata = {
+	author?: string;
+	date?: string;
+	sessionCode?: string;
+};
+
+// AIのベース知識の埋め込み
 export const guides = pgTable(
 	"guides",
 	{
 		id: serial("id").primaryKey(),
-		title: text("title").notNull(),
-		description: text("description").notNull(),
-		source: text("source").notNull(),
+		metadata: json("metadata").$type<TrainingMetadata>().notNull(),
+		question: text("question").notNull(),
+		answer: text("answer").notNull(),
 		embedding: vector("embedding", { dimensions: 1536 }),
 	},
 	(table) => ({
@@ -66,6 +73,13 @@ export const guides = pgTable(
 	}),
 );
 
+export const trainingData = pgTable("training_data", {
+	id: serial("id").primaryKey(),
+	metadata: json("metadata").$type<TrainingMetadata>().notNull(),
+	question: text("question").notNull(),
+	answer: text("answer").notNull(),
+});
+
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;
 
@@ -75,7 +89,15 @@ export type SelectAuthSession = typeof authSessions.$inferSelect;
 export type InsertTutorial = typeof tutorials.$inferInsert;
 export type SelectTutorial = typeof tutorials.$inferSelect;
 
+export type InsertGuide = typeof guides.$inferInsert;
+export type SelectGuide = typeof guides.$inferSelect;
+
+export type InsertTrainingData = typeof trainingData.$inferInsert;
+export type SelectTrainingData = typeof trainingData.$inferSelect;
+
 //移行が完了するまでの暫定的な型エイリアス
 export type User = SelectUser;
 export type AuthSession = SelectAuthSession;
 export type Tutorial = SelectTutorial;
+export type Guide = SelectGuide;
+export type TrainingData = SelectTrainingData;

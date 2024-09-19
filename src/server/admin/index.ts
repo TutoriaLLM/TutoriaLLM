@@ -3,6 +3,7 @@ import appConfiguration from "./appConfig.js";
 import sessionManager from "./sessionManager.js";
 import tutorialsManager from "./tutorialManager.js";
 import usersConfiguration from "./userConfig.js";
+import trainingManager from "./training/index.js";
 
 // 管理者ページが使用するAPIのエントリーポイント
 const admin = express.Router();
@@ -23,9 +24,11 @@ admin.use("/sessions", sessionManager);
 
 //チュートリアルのガイドのDBを操作するAPI
 admin.use("/tutorials", tutorialsManager);
-//ガイドの追加、削除、編集、インポート、エクスポートなど
 
 //ユーザーの管理を行うAPI
 admin.use("/users", usersConfiguration);
+
+//AIのトレーニングデータの管理を行うAPI
+admin.use("/training", trainingManager);
 
 export default admin;
