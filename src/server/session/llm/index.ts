@@ -156,6 +156,8 @@ export async function invokeLLM(
 		}
 	}
 
+	const tutorialContent = await getTutorialContent(session);
+	console.log(tutorialContent);
 	const systemTemplate = `
 You are a coding tutor using the following language: ${langToStr(session.language)}
 Provide both teaching and instruction to the user based on the tutorial document and knowledge: ${stringifyKnowledge(knowledge)}
@@ -171,7 +173,7 @@ Response must be in JSON format with the following structure. Do not respond Blo
   "quickReplies": string[] (provide least 3 to maximum 5 quick replies for the user to choose from) // quick replies for the user. Provide easy to understand options, such as "yes" ,"no", "I don't know", or "What do I need to do?". do not include blockId and blockName in this field.
 }
 
-Tutorial content: ${JSON.stringify(await getTutorialContent(session))}
+Tutorial content: ${JSON.stringify(tutorialContent)}
 Also, these are the blocks that are available for this session. Do not use BlockID and BlockName that are not listed here: ${JSON.stringify(allBlocks)}
   `;
 
