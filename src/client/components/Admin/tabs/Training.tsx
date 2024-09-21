@@ -37,7 +37,20 @@ export default function Training() {
 	const handleConfirm = () => {
 		if (!trainingData) return;
 
-		const updatedData = { ...trainingData, answer };
+		const updatedData = {
+			...trainingData,
+			metadata: {
+				...trainingData.metadata,
+				date: new Date().toISOString(), // Update the date
+
+				//answerが変更された場合、authorを更新
+				author:
+					answer !== trainingData.answer
+						? "AI, Edited by Admin"
+						: trainingData.metadata.author,
+			},
+			answer,
+		};
 
 		// Send the updated data to the API
 		fetch("/api/admin/training/guide/new", {
