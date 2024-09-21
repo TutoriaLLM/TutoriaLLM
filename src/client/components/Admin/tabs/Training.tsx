@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import type { Guide, TrainingData } from "../../../../server/db/schema.js";
 import {
 	CalendarClock,
+	CheckCircle2,
 	Ellipsis,
 	MessageCircleQuestion,
+	Shuffle,
+	Trash2,
 	UserRound,
 } from "lucide-react";
 
@@ -182,27 +185,27 @@ export default function Training() {
 								onChange={(e) => setAnswer(e.target.value)}
 							/>
 						</div>
-						<div className="flex gap-2 p-2">
+						<div className="flex items-center justify-center w-full gap-2 p-2">
 							<button
 								className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl"
 								type="button"
 								onClick={handleConfirm}
 							>
-								Confirm
+								<CheckCircle2 />
 							</button>
 							<button
 								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
 								type="button"
 								onClick={handleDelete}
 							>
-								Delete
+								<Trash2 />
 							</button>
 							<button
 								className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl"
 								type="button"
 								onClick={fetchTrainingData}
 							>
-								Shuffle
+								<Shuffle />
 							</button>
 						</div>
 					</div>
