@@ -10,6 +10,8 @@
 		"build": "vite build",
 		"check": "biome check --apply --max-diagnostics=50 ./src ",
 		"drizzle:generate": "drizzle-kit generate --config=drizzle.config.ts",
+		"drizzle:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+		"drizzle:migrate:local": "drizzle-kit migrate --config=drizzle.studio.config.ts",
 		"drizzle:push": "drizzle-kit push --config=drizzle.config.ts",
 		"drizzle:push:local": "drizzle-kit push --config=drizzle.studio.config.ts",
 		"drizzle:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
