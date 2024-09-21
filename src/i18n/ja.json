@@ -23,7 +23,9 @@
 		"home": "ホーム",
 		"signout": "サインアウト",
 		"noTutorial": "チュートリアルを選んでいません",
-		"joinCode": "参加コード"
+		"joinCode": "参加コード",
+		"reload": "リロード",
+		"execSwitch": "コードを実行"
 	},
 	"session": {
 		"about": "このアプリについて",
@@ -44,7 +46,8 @@
 		"users": "ユーザー",
 		"settings": "設定",
 		"toggle": "サイドバー",
-		"sessions": "セッション"
+		"sessions": "セッション",
+		"trainingForAI": "AIトレーニング"
 	},
 	"textbubble": {
 		"log": "ログ",
@@ -73,12 +76,6 @@
 		"easyModeDescription": "AIからのチャットがかんたんになります",
 		"easyModeChanged": "かんたんモードを{{status}}にしました"
 	},
-	"quickReply": {
-		"iDontKnow": "わかりません",
-		"done": "できました",
-		"explainThis": "説明してください",
-		"whatToDo": "何をしたらいいですか"
-	},
 	"vm": {
 		"outOfMemory": "マシンが使えるメモリの上限に達しました"
 	},
@@ -96,7 +93,10 @@
 		"execSwitch": "ワークスペースで作ったプログラムをここから動かすことができます。",
 		"tutorialSelector": "作りたい作品のチュートリアルをここから選択できます。",
 		"welcome": "ようこそ！このツアーでは、このアプリの使用方法について簡単に説明します。",
-		"pushCode": "作ったプログラムを、実行中に適用させることができます。"
+		"tabs": "タブを切り替えて、ワークスペースとチャットの間を移動できます。",
+		"switchToWorkspace": "ワークスペースに切り替えてみましょう。",
+		"syncCode": "ここから作ったプログラムをアップデートすることができます。",
+		"switchToDialogue": "では、チャットのタブへ戻りましょう。"
 	},
 	"extention": {
 		"minecraft-core": {

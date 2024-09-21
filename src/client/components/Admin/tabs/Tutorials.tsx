@@ -6,6 +6,7 @@ export default function Tutorials() {
 	const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // アップロードしたJSONを管理する状態
 
 	const fetchTutorials = () => {
 		fetch("/api/admin/tutorials")
@@ -45,6 +46,24 @@ export default function Tutorials() {
 			.catch((error) => {
 				setError(error.message);
 			});
+	};
+
+	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				try {
+					const json = JSON.parse(e.target?.result as string) as Tutorial;
+					setUploadedJson(json); // JSONデータを状態にセット
+				} catch (error) {
+					alert(
+						"ファイルの読み込みに失敗しました。正しいJSONファイルを選択してください。",
+					);
+				}
+			};
+			reader.readAsText(file);
+		}
 	};
 
 	if (error) {
@@ -122,6 +141,23 @@ export default function Tutorials() {
 			<div className="p-2 border-b-2 border-gray-300 bg-gray-300 flex flex-col items-center gap-2 w-full">
 				<h2 className="font-semibold">Create New Tutorial</h2>
 				<TutorialEditor id={null} buttonText="New Tutorial" />
+
+				<h2 className="font-semibold">Import Tutorial</h2>
+				<div className="flex gap-2">
+					<input
+						type="file"
+						accept=".json"
+						onChange={handleFileUpload}
+						className="flex rounded-2xl border-2 border-gray-400 p-2"
+					/>
+					{uploadedJson && (
+						<TutorialEditor
+							id={null}
+							buttonText="Import Tutorial"
+							json={uploadedJson}
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);

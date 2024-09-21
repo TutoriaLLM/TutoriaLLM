@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="google" content="notranslate" />
     <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>TutoriaLLM</title>
     <meta name="theme-color" content="#e5e7eb">
@@ -25,6 +25,8 @@
       }
       #root {
         display: none;
+        touch-action: manipulation;
+        -ms-touch-action: manipulation ;
       }
 
 .lds-spinner,

@@ -26,7 +26,7 @@ export default function SessionPopup(props: {
 
 	useEffect(() => {
 		if (languageToStart === "") {
-			setLanguageToStart(i18n.language);
+			setLanguageToStart(navigator.language ?? i18n.language);
 		}
 	}, [languageToStart, setLanguageToStart]);
 

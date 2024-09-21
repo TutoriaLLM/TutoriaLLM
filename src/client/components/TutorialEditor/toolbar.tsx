@@ -5,6 +5,7 @@ export default function Toolbar(props: {
 	handleClosePopup: () => void;
 }) {
 	const { nodes, edges, handleClosePopup } = props;
+
 	const handleSave = () => {
 		const url =
 			props.id === null
@@ -76,6 +77,46 @@ export default function Toolbar(props: {
 			alert("Output node not found.");
 		}
 	};
+
+	const handleDownload = () => {
+		if (props.id === null) {
+			alert("IDがありません。ダウンロードはできません。");
+			return;
+		}
+
+		const url = `/api/admin/tutorials/${props.id}`;
+
+		// APIからデータを取得してダウンロード
+		fetch(url, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				return response.json();
+			})
+			.then((data) => {
+				// Blobを作成してダウンロードリンクをクリックさせる
+				const blob = new Blob([JSON.stringify(data, null, 2)], {
+					type: "application/json",
+				});
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = `tutorial_${props.id}.json`;
+				a.click();
+				URL.revokeObjectURL(url);
+			})
+			.catch((error) => {
+				console.error("Error downloading tutorial:", error);
+				alert("Failed to download tutorial");
+			});
+	};
+
 	return (
 		<div className="w-full flex bg-gray-300 rounded-2xl p-1.5">
 			<button
@@ -85,6 +126,15 @@ export default function Toolbar(props: {
 			>
 				Save
 			</button>
+			{props.id !== null && (
+				<button
+					type="button"
+					onClick={handleDownload}
+					className="p-2 bg-red-500 text-white rounded-xl"
+				>
+					Download
+				</button>
+			)}
 		</div>
 	);
 }

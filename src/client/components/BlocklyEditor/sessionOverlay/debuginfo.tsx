@@ -108,6 +108,7 @@ export function DebugInfo() {
 								{t("session.debuginfo")}
 							</h2>
 							<div className="flex flex-col gap-2">
+								<p>Default Language : {navigator.language}</p>
 								<p>
 									PWA Status: {isPWAInstalled ? "Installed" : "Not Installed"}
 								</p>

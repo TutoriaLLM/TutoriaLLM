@@ -12,29 +12,33 @@ export default function Navbar(props: {
 }) {
 	const { t } = useTranslation();
 	return (
-		<div className="navbar w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex justify-between gap-2">
-			<ExitButton
-				text={t("navbar.leave")}
-				onClick={() => {
-					location.href = "/";
-				}}
-			/>
-			<div className="flex justify-center items-center gap-2">
-				<span className="text-xs joinCode">
-					<p>{t("navbar.joinCode")}</p>
-					<p className="font-semibold text-base md:text-xl tracking-widest">
-						{props.code}
-					</p>
-					{props.isConnected ? null : (
-						<p className="p-0.5 px-2 rounded-full bg-red-300 flex flex-nowrap">
-							{t("navbar.reconnecting")}
+		<div className="navbar flex-col sm:flex-row shrink w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex gap-2">
+			<div className="flex flex-row justify-between gap-4">
+				<ExitButton
+					text={t("navbar.leave")}
+					onClick={() => {
+						location.href = "/";
+					}}
+				/>
+				<div className="flex justify-center items-center gap-2">
+					<span className="text-xs joinCode">
+						<p>{t("navbar.joinCode")}</p>
+						<p className="font-semibold text-base md:text-xl tracking-widest">
+							{props.code}
 						</p>
-					)}
-				</span>
-				<span className="border border-gray-300 h-full" />
-				<span className="text-xs flex">
+						{props.isConnected ? null : (
+							<p className="p-0.5 px-2 rounded-full bg-red-300 flex flex-nowrap">
+								{t("navbar.reconnecting")}
+							</p>
+						)}
+					</span>
+				</div>
+			</div>
+			<hr className="border border-gray-300 h-full" />
+			<div className="flex flex-row gap-2 justify-between items-center w-full">
+				<span className="text-xs flex w-fit h-fit">
 					{props.isTutorial && typeof props.tutorialProgress === "number" ? (
-						<p className="p-0.5 px-2">
+						<p className="p-2">
 							<Progress.Root
 								max={100}
 								value={props.tutorialProgress}
@@ -50,13 +54,13 @@ export default function Navbar(props: {
 							<p className="text-base">{props.tutorialProgress}%</p>
 						</p>
 					) : (
-						<p className="p-0.5 px-2 rounded-full bg-red-300 w-full line-clamp-2">
+						<p className="px-2 py-1.5 rounded-full bg-red-300 w-full line-clamp-2">
 							{t("navbar.noTutorial")}
 						</p>
 					)}
 				</span>
+				<ExecSwitch />
 			</div>
-			<ExecSwitch />
 		</div>
 	);
 }

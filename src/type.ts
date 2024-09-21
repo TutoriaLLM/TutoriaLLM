@@ -17,6 +17,9 @@ export type Dialogue = {
 	content: string | Dialogue[];
 };
 
+//タブの種類を定義するための型
+export type Tab = "workspaceTab" | "dialogueTab";
+
 //フロントエンドでのチュートリアルの進行度を管理するための型
 export type TutorialStats = {
 	//チュートリアルの有無
@@ -47,6 +50,7 @@ export type SessionValue = {
 	createdAt: Date;
 	updatedAt: Date;
 	dialogue: Dialogue[];
+	quickReplies: string[];
 	isReplying: boolean;
 	//シリアル化したBlockly.Workspaceを保存する
 	workspace: { [key: string]: string };

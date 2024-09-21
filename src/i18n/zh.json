@@ -43,12 +43,7 @@
 		"tutorials": "教程",
 		"users": "用户"
 	},
-	"quickReply": {
-		"done": "我受够了",
-		"explainThis": "解释一下这个",
-		"iDontKnow": "我不知道",
-		"whatToDo": "我需要做什么？"
-	},
+
 	"textbubble": {
 		"ai": "人工智能",
 		"ask": "随便问...",

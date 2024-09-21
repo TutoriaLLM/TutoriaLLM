@@ -19,6 +19,7 @@ export async function updateSession(
 		llmContext,
 		easyMode,
 		dialogue,
+		quickReplies,
 		stats,
 		language,
 		screenshot,
@@ -32,12 +33,12 @@ export async function updateSession(
 		newData: SessionValue,
 	): Promise<{
 		dialogue: Dialogue[];
+		quickReplies: string[];
 		isreplying: boolean;
 		progress: number;
 	}> {
-		//最後のメッセージをとりだす
 		const lastMessage = newData.dialogue[newData.dialogue.length - 1];
-		//最後のメッセージがユーザーからのメッセージであるかを確認
+
 		if (
 			newData.dialogue !== oldData.dialogue &&
 			newData.dialogue.length > 0 &&
@@ -45,90 +46,58 @@ export async function updateSession(
 		) {
 			const blockFiles = await getBlockFiles();
 			const availableBlocks = await getAvailableBlocks(blockFiles, language);
-			const extreactedBlockNames = availableBlocks.map(
+			const extractedBlockNames = availableBlocks.map(
 				(block) => block.block.type,
 			);
 
-			const message = await invokeLLM(messageJson, extreactedBlockNames);
-
-			if (message.blockId && message.blockName) {
-				console.log(message);
-				const response = message.response;
-				const newDialogueWithResponse = updateDialogue(
-					response,
-					messageJson,
-					"ai",
-				);
-				const blockId = message.blockId;
-				const newDialogueWithBlockId = updateDialogue(
-					blockId,
-					newDialogueWithResponse,
-					"blockId",
-				);
-				const blockName = message.blockName;
-				const newDialogueWithBlockName = updateDialogue(
-					blockName,
-					newDialogueWithBlockId,
-					"blockName",
-				);
-				return {
-					dialogue: newDialogueWithBlockName.dialogue,
-					isreplying: false,
-					progress: message.progress,
-				};
-			}
-			if (message.blockId) {
-				console.log(message);
-				const response = message.response;
-				const newDialogueWithResponse = updateDialogue(
-					response,
-					messageJson,
-					"ai",
-				);
-				const blockId = message.blockId;
-				const newDialogueWithBlockId = updateDialogue(
-					blockId,
-					newDialogueWithResponse,
-					"blockId",
-				);
-				return {
-					dialogue: newDialogueWithBlockId.dialogue,
-					isreplying: false,
-					progress: message.progress,
-				};
-			}
-			if (message.blockName) {
-				console.log(message);
-				const response = message.response;
-				const newDialogueWithResponse = updateDialogue(
-					response,
-					messageJson,
-					"ai",
-				);
-				const blockName = message.blockName;
-				const newDialogueWithBlockName = updateDialogue(
-					blockName,
-					newDialogueWithResponse,
-					"blockName",
-				);
-				return {
-					dialogue: newDialogueWithBlockName.dialogue,
-					isreplying: false,
-					progress: message.progress,
-				};
-			}
+			const message = await invokeLLM(messageJson, extractedBlockNames);
 
 			if (message) {
-				const newDialogue = updateDialogue(message.response, messageJson, "ai");
+				console.log(message);
+				let updatedDialogue = updateDialogue(
+					message.response,
+					messageJson,
+					"ai",
+				);
+
+				// quick replies
+				const updatedQuickReplies = [...quickReplies];
+				if (message.quickReplies) {
+					// 既存の配列を上書きする
+					updatedQuickReplies.splice(0, updatedQuickReplies.length);
+					for (const reply of message.quickReplies) {
+						updatedQuickReplies.push(reply);
+					}
+				}
+
+				if (message.blockId) {
+					updatedDialogue = updateDialogue(
+						message.blockId,
+						updatedDialogue,
+						"blockId",
+					);
+				}
+
+				if (message.blockName) {
+					updatedDialogue = updateDialogue(
+						message.blockName,
+						updatedDialogue,
+						"blockName",
+					);
+				}
+
 				return {
-					dialogue: newDialogue.dialogue,
+					dialogue: updatedDialogue.dialogue,
+					quickReplies: updatedQuickReplies,
 					isreplying: false,
 					progress: message.progress,
 				};
 			}
 		}
+
 		return {
 			dialogue: newData.dialogue,
+			quickReplies: quickReplies, // unchanged if no update is needed
 			isreplying: false,
 			progress: newData.tutorial.progress,
 		};
@@ -147,6 +116,7 @@ export async function updateSession(
 			uuid: uuid,
 			workspace: workspace,
 			dialogue: dialogue,
+			quickReplies: quickReplies,
 			isReplying: true,
 			easyMode: easyMode,
 			createdAt: currentDataJson.createdAt,
@@ -178,6 +148,7 @@ export async function updateSession(
 			uuid: latestDataJson.uuid,
 			workspace: latestDataJson.workspace,
 			dialogue: updatedData.dialogue,
+			quickReplies: updatedData.quickReplies, // 更新された quickReplies を使用
 			isReplying: updatedData.isreplying,
 			easyMode: latestDataJson.easyMode,
 			createdAt: latestDataJson.createdAt,
@@ -207,6 +178,7 @@ export async function updateSession(
 			uuid: uuid,
 			workspace: workspace,
 			dialogue: dialogue,
+			quickReplies: quickReplies,
 			isReplying: false,
 			easyMode: easyMode,
 			createdAt: currentDataJson.createdAt,

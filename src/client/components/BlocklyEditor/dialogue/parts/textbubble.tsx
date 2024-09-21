@@ -2,9 +2,10 @@ import { useTranslation } from "react-i18next";
 import type { Dialogue } from "../../../../../type.js";
 import type { Components } from "react-markdown";
 
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import {
 	blockNameFromMenuState,
+	currentTabState,
 	highlightedBlockState,
 	settingState,
 } from "../../../../state.js";
@@ -31,6 +32,7 @@ export default function TextBubble(props: {
 	const [blockNameFromMenu, setBlockNameFromMenu] = useAtom(
 		blockNameFromMenuState,
 	);
+	const setActiveTab = useSetAtom(currentTabState);
 
 	const { t } = useTranslation();
 
@@ -42,6 +44,7 @@ export default function TextBubble(props: {
 			//スイッチオン
 			setHighlightedBlock({ blockId, workspace: null });
 			setBlockNameFromMenu(null);
+			setActiveTab("workspaceTab");
 		}
 	};
 
@@ -53,6 +56,7 @@ export default function TextBubble(props: {
 			//スイッチオン
 			setBlockNameFromMenu(blockName);
 			setHighlightedBlock(null);
+			setActiveTab("workspaceTab");
 		}
 	};
 

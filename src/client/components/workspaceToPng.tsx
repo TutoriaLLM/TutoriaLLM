@@ -66,6 +66,10 @@ export async function workspaceToPngBase64(
 				if (context) {
 					context.drawImage(img, 0, 0, canvas.width, canvas.height);
 					const dataUri = canvas.toDataURL("image/png");
+
+					// Use canvas and then remove it
+					canvas.remove(); // <- ここでcanvasを削除
+
 					resolve(dataUri);
 				} else {
 					reject(new Error("Failed to get canvas context"));

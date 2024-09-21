@@ -16,7 +16,7 @@ import {
 import { BlockHighlight } from "./blockHighlight.js";
 import { updateStats } from "../../../../utils/statsUpdater.js";
 
-export default function Editor() {
+export default function Editor(props: { menuOpen: boolean }) {
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
 	const prevSession = useAtomValue(prevSessionState);
 	const [blockNameFromMenu, setBlockNameFromMenu] = useAtom(
@@ -295,6 +295,15 @@ export default function Editor() {
 		};
 	}, [blockNameFromMenu]);
 
+	//ツールボックスを非表示/表示する
+	useEffect(() => {
+		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
+		if (workspace) {
+			workspace.getToolbox()?.setVisible(props.menuOpen);
+			workspace.getToolbox()?.getFlyout()?.setVisible(props.menuOpen);
+		}
+	}, [props.menuOpen]);
+
 	useEffect(() => {
 		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
 		if (
@@ -337,5 +346,5 @@ export default function Editor() {
 		}
 	}, [highlightedBlock]);
 
-	return <div id="blocklyDiv" className="w-full h-full" />;
+	return <div id="blocklyDiv" className="w-full h-full relative" />;
 }

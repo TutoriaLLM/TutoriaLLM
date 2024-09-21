@@ -53,8 +53,9 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 			mdxEditorRef.current.setMarkdown(data.editorContent);
 			console.log("setMarkdown", nodesData);
 		}
-		//blocklyのノードと結合し、sourceとして出力する
-		if (nodesData) {
+
+		// Blocklyノードが接続されているか確認
+		if (nodesData && nodesData.length > 0) {
 			const blocklyNode = nodesData.find((node) => node.type === "blockly");
 			if (blocklyNode?.data) {
 				console.log("blocklyNode", blocklyNode);
@@ -66,6 +67,9 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 					`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(sessionValue.workspace)}`,
 				);
 			}
+		} else {
+			// Blocklyノードが接続されていない場合でも出力を行う
+			handleSourceChange("source", data.editorContent);
 		}
 	}, [data.editorContent, nodesData]);
 

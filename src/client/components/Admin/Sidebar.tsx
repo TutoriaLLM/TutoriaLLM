@@ -1,5 +1,6 @@
 import {
 	Activity,
+	Bot,
 	Cog,
 	GraduationCap,
 	LayoutDashboard,
@@ -72,6 +73,11 @@ export default function SideBar() {
 						href="/admin/sessions"
 						icon={Activity}
 						label={t("sidebar.sessions")}
+					/>
+					<SidebarItem
+						href="/admin/training"
+						icon={Bot}
+						label={t("sidebar.trainingForAI")}
 					/>
 
 					<span className="w-full border-t-2 border-gray-300 text-gray-500" />

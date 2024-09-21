@@ -39,6 +39,7 @@ function initialData(code: string, language: string): SessionValue {
 				content: "Welcome to the session! ",
 			},
 		],
+		quickReplies: [],
 		isReplying: false,
 		easyMode: false,
 		workspace: {},

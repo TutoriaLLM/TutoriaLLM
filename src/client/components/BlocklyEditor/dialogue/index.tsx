@@ -8,6 +8,10 @@ import OnBoarding from "./onBoarding.js";
 import { useTranslation } from "react-i18next";
 import QuickReply from "./parts/quickreply.js";
 import { updateStats } from "../../../../utils/statsUpdater.js";
+import {
+	HorizontalScrollProvider,
+	useHorizontalScroll,
+} from "../../horizontalScroll.js";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
@@ -64,8 +68,8 @@ export default function DialogueView() {
 	}, [session?.dialogue]);
 
 	return (
-		<div className="dialogue w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
-			<div className="w-full h-full flex flex-col overflow-x-scroll gap-4 p-4 py-8">
+		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium ">
+			<div className="w-full h-full flex flex-col overflow-y-scroll gap-4 p-4 py-8 ">
 				<OnBoarding />
 				{session?.dialogue.map((item: Dialogue) => {
 					return (
@@ -94,13 +98,19 @@ export default function DialogueView() {
 			</div>
 			<div className="w-full p-2">
 				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
-					<div className="relative w-full py-2.5 overflow-clip">
-						<div className="flex flex-wrap w-full overflow-x-auto">
-							<QuickReply onReply={handleQuickReply} />
+					{session?.quickReplies && (
+						<div className="relative w-full py-2.5 overflow-clip">
+							{/* HorizontalScrollProviderでコンテキストを提供 */}
+							<HorizontalScrollProvider>
+								<QuickReplyContainer
+									onReply={handleQuickReply}
+									quickReplies={session?.quickReplies || null}
+								/>
+							</HorizontalScrollProvider>
+							<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+							<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
 						</div>
-						<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-						<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
-					</div>
+					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
 						<input
@@ -111,7 +121,7 @@ export default function DialogueView() {
 							onChange={(e) => setMessage(e.target.value)}
 						/>
 						<button
-							type="submit" // buttonのtypeを'submit'に変更
+							type="submit"
 							className={`p-3 text-white rounded-2xl flex ${
 								message === ""
 									? "bg-gray-300 transition"
@@ -127,3 +137,17 @@ export default function DialogueView() {
 		</div>
 	);
 }
+
+// QuickReplyをラップするコンテナコンポーネントを作成
+const QuickReplyContainer: React.FC<{
+	onReply: (reply: string) => void;
+	quickReplies: string[] | null;
+}> = ({ onReply, quickReplies }) => {
+	const scrollRef = useHorizontalScroll(); // useHorizontalScrollをここで使用
+
+	return (
+		<div className="flex flex-wrap w-full overflow-auto pb-2" ref={scrollRef}>
+			<QuickReply onReply={onReply} quickReplies={quickReplies} />
+		</div>
+	);
+};

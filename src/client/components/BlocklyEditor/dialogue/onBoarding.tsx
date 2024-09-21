@@ -7,12 +7,10 @@ import type { Tutorial } from "../../../../server/db/schema.js";
 import { useTour } from "@reactour/tour";
 import { set } from "zod";
 import * as Switch from "@radix-ui/react-switch";
-
 type TutorialType = Pick<Tutorial, "id" | "metadata">;
 
 export default function OnBoarding() {
 	const { t } = useTranslation();
-
 	//選択可能なチュートリアルのリストを取得
 	const [tutorials, setTutorials] = useState<TutorialType[]>([]);
 	useEffect(() => {
@@ -58,7 +56,9 @@ export default function OnBoarding() {
 			return prev;
 		});
 	}
+	//Cookieが存在しない場合、オンボーディングを表示
 	const { setIsOpen } = useTour();
+
 	function toggleIsEasyMode() {
 		setSessionState((prev) => {
 			if (!prev) {
