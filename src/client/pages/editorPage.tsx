@@ -272,6 +272,37 @@ export default function EditorPage() {
 	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はSocketに送信する
 	useEffect(() => {
 		if (socketInstance && currentSession) {
+			//チュートリアルが設定された場合、AIに初期メッセージの送信を要求する
+			if (
+				prevSession?.tutorial?.isTutorial !==
+				currentSession?.tutorial?.isTutorial
+			) {
+				setCurrentSession((prev) => {
+					if (prev) {
+						setPrevSession(prev);
+						const lastId =
+							prev.dialogue.length > 0
+								? prev.dialogue[prev.dialogue.length - 1].id
+								: 0;
+						return {
+							...prev,
+							dialogue: [
+								...prev.dialogue,
+								{
+									id: lastId + 1,
+									contentType: "request",
+									isuser: true,
+									content:
+										"request for instructions for the tutorial. This message is automatically generated on the client side.",
+								},
+							],
+							isReplying: true,
+						};
+					}
+					return prev;
+				});
+			}
+
 			// 前回のセッションのワークスペース、対話、またはスクリーンショットの内容が違う場合のみ送信
 			if (
 				JSON.stringify(currentSession.workspace) !==
