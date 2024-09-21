@@ -1,6 +1,6 @@
 {
-	"id": "7460511b-d8b1-4d47-a908-fd85bb60541a",
-	"prevId": "015799ab-f82b-4a7a-9862-6c4099493f5f",
+	"id": "fc06f433-2de3-4083-8ff9-cc23b6a6c2e9",
+	"prevId": "7b8f490f-b046-4378-8646-e1ccbd9bfefc",
 	"version": "7",
 	"dialect": "postgresql",
 	"tables": {
@@ -16,7 +16,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "text",
+					"type": "integer",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -42,6 +42,97 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
+		"public.guides": {
+			"name": "guides",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"metadata": {
+					"name": "metadata",
+					"type": "json",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"question": {
+					"name": "question",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"answer": {
+					"name": "answer",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"embedding": {
+					"name": "embedding",
+					"type": "vector(1536)",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {
+				"embeddingIndex": {
+					"name": "embeddingIndex",
+					"columns": [
+						{
+							"expression": "embedding",
+							"isExpression": false,
+							"asc": true,
+							"nulls": "last",
+							"opclass": "vector_cosine_ops"
+						}
+					],
+					"isUnique": false,
+					"concurrently": false,
+					"method": "hnsw",
+					"with": {}
+				}
+			},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.training_data": {
+			"name": "training_data",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"metadata": {
+					"name": "metadata",
+					"type": "json",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"question": {
+					"name": "question",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"answer": {
+					"name": "answer",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
 		"public.tutorials": {
 			"name": "tutorials",
 			"schema": "",
@@ -63,6 +154,12 @@
 					"type": "json",
 					"primaryKey": false,
 					"notNull": true
+				},
+				"serializednodes": {
+					"name": "serializednodes",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
 				}
 			},
 			"indexes": {},
@@ -76,8 +173,20 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "text",
+					"type": "serial",
 					"primaryKey": true,
+					"notNull": true
+				},
+				"username": {
+					"name": "username",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"password": {
+					"name": "password",
+					"type": "varchar(255)",
+					"primaryKey": false,
 					"notNull": true
 				}
 			},

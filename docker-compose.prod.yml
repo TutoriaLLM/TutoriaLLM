@@ -78,14 +78,14 @@ services:
         if [ ! -f /initialized/.initialized ]; then
           pnpm install &&
           pnpm run drizzle:generate &&
-          pnpm run drizzle:push &&
+          pnpm run drizzle:migrate &&
           pnpm run reset-credential &&
           touch /initialized/.initialized &&
           pnpm run start 
         else
           pnpm install &&
           pnpm run drizzle:generate &&
-          pnpm run drizzle:push &&
+          pnpm run drizzle:migrate &&
           pnpm run start;
         fi
       "

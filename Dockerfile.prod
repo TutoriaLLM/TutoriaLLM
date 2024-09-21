@@ -37,4 +37,4 @@ EXPOSE ${PORT} ${VM_PORT}
 # チュートリアルと認証情報をリセットする場合は、以下のオプションを追加できます：
 # pnpm run reset-credential
 # pnpm run reset-tutorials
-CMD ["sh", "-c", "pnpm run drizzle:generate && pnpm run drizzle:push && pnpm run start"]
+CMD ["sh", "-c", "pnpm run drizzle:generate && pnpm run drizzle:migrate && pnpm run start"]
