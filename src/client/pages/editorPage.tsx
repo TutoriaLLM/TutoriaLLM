@@ -3,8 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
 import type { AppConfig, Click, SessionValue, Tab } from "../../type.js";
-import Editor from "../components/BlocklyEditor/Blockly/index.js";
-import Navbar from "../components/BlocklyEditor/Navbar.js";
+import Editor from "../components/Editor/Blockly/index.js";
+import Navbar from "../components/Editor/Navbar.js";
 //モバイル利用時のタブ切り替え
 import * as Tabs from "@radix-ui/react-tabs";
 
@@ -22,10 +22,10 @@ import html2canvas from "html2canvas";
 import { useCookies } from "react-cookie";
 
 import i18next, { use } from "i18next";
-import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
+import DialogueView from "../components/Editor/dialogue/index.js";
 import SessionPopup, {
 	type sessionPopupMessageTypes,
-} from "../components/BlocklyEditor/sessionOverlay/index.js";
+} from "../components/Editor/sessionOverlay/index.js";
 //stateの読み込み
 import {
 	LanguageToStart,
