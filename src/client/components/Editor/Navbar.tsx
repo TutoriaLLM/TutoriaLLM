@@ -1,7 +1,7 @@
 import * as Progress from "@radix-ui/react-progress";
 import { DoorOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import ExecSwitch from "../ExecSwitch.js";
+import ExecSwitch from "../ui/ExecSwitch.js";
 import { ExitButton } from "../ui/exitButton.js";
 
 export default function Navbar(props: {

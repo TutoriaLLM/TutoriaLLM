@@ -4,8 +4,8 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageToStart } from "../../state.js";
-import { LangPicker } from "../Langpicker.js";
-import Overlay from "../Overlay.js";
+import { LangPicker } from "../ui/Langpicker.js";
+import Overlay from "../ui/Overlay.js";
 import Login from "./login.js";
 
 export default function LoginPopup(props: {

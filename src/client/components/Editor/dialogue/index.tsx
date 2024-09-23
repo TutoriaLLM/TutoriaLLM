@@ -11,7 +11,7 @@ import { updateStats } from "../../../../utils/statsUpdater.js";
 import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
-} from "../../horizontalScroll.js";
+} from "../../ui/horizontalScroll.js";
 
 export default function DialogueView() {
 	const { t } = useTranslation();

@@ -10,8 +10,8 @@ import { useTranslation } from "react-i18next";
 
 import { useAtom } from "jotai";
 import { LanguageToStart } from "../../../state.js";
-import { LangPicker } from "../../Langpicker.js";
-import Overlay from "../../Overlay.js";
+import { LangPicker } from "../../ui/Langpicker.js";
+import Overlay from "../../ui/Overlay.js";
 import { DebugInfo } from "./debuginfo.js";
 
 export type sessionPopupMessageTypes = "error" | "info";

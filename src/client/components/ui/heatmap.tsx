@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Click } from "../../type.js";
+import type { Click } from "../../../type.js";
 
 function Heatmap({
 	clicks,

@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { Globe } from "lucide-react";
-import { langToStr } from "../../utils/langToStr.js";
+import { langToStr } from "../../../utils/langToStr.js";
 
 // ユーザーは言語一覧から選択する。
 export function LangPicker(props: {

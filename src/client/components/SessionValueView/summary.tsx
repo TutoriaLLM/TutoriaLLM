@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { msToTime } from "../../../utils/time.js";
 import type { SessionValue, Click } from "../../../type.js";
-import Heatmap from "../heatmap.js";
+import Heatmap from "../ui/heatmap.js";
 import { timestamp } from "drizzle-orm/mysql-core";
 import { useTranslation } from "react-i18next";
 

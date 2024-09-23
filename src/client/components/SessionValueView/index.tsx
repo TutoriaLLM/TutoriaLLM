@@ -5,7 +5,7 @@ import Summary from "./summary.js";
 import Stats from "./stats.js";
 import Time from "./time.js";
 import SelectedTutorial from "./tutorial.js";
-import WorkspacePreview from "../workspacePreview.js";
+import WorkspacePreview from "../ui/workspacePreview.js";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useState, useEffect } from "react";
 import { LoaderCircle } from "lucide-react";

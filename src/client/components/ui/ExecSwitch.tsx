@@ -4,13 +4,13 @@ import { javascriptGenerator } from "blockly/javascript";
 
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import sleep from "../../utils/sleep.js";
+import sleep from "../../../utils/sleep.js";
 import {
 	currentSessionState,
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	socketIoInstance,
-} from "../state.js";
+} from "../../state.js";
 
 import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
