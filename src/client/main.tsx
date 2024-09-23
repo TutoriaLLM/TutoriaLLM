@@ -7,7 +7,6 @@ import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import EditorPage from "./pages/editorPage.js";
 
 import "../i18n/client_i18nConfig.js";
-import NotFoundPage from "./pages/404.js";
 import AdminPage from "./pages/adminPage.js";
 
 export default function App(): React.ReactElement {
@@ -17,9 +16,9 @@ export default function App(): React.ReactElement {
 		<React.StrictMode>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/:code" element={<EditorPage />} />
-					<Route path="/" element={<EditorPage />} />
 					<Route path="/admin/*" element={<AdminPage />} />
+					<Route path="/:code" element={<EditorPage />} />
+					<Route path="/*" element={<EditorPage />} />
 				</Routes>
 			</BrowserRouter>
 		</React.StrictMode>
