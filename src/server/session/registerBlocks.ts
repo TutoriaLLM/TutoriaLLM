@@ -64,7 +64,7 @@ export function registerAvailableBlocks(
 
 		if (locale?.[language]) {
 			// localeが記述されている場合は登録する(json形式)
-			console.log("register locale", locale);
+			//console.log("register locale", locale);
 			console.log("register language", language);
 			for (const key in locale[language]) {
 				if (Object.prototype.hasOwnProperty.call(locale[language], key)) {

@@ -34,7 +34,7 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 		});
 
 		//拡張ブロックの登録
-		console.log("registerBlocks");
+		//console.log("registerBlocks");
 		registerBlocks(session.language as string);
 		translateCategories(session.language as string);
 

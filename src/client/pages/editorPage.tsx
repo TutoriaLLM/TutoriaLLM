@@ -179,7 +179,7 @@ export default function EditorPage() {
 
 	// URLパスにコードがあるか確認する
 	useEffect(() => {
-		console.log("useEffect");
+		//console.log("useEffect");
 		//言語に応じたメッセージを表示
 		setStatusMessage(t("session.typecodeMsg"));
 		setMessageType("info");
@@ -206,7 +206,7 @@ export default function EditorPage() {
 					setShowPopup(true);
 				} else {
 					const data: SessionValue = await response.json();
-					console.log(`code is valid!${JSON.stringify(data)}`);
+					//console.log(`code is valid!${JSON.stringify(data)}`);
 					setCurrentSession(data);
 					setPrevSession(data);
 					connectSocket(data);
