@@ -10,7 +10,7 @@ const extensionModules = import.meta.glob(
 
 // 基本カテゴリをインポート
 const basicModules = import.meta.glob(
-	"/src/client/components/BlocklyEditor/Blockly/toolbox/category/basics/blocks/*.*",
+	"/src/client/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
 	{
 		eager: true,
 	},
