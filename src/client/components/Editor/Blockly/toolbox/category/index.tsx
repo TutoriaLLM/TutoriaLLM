@@ -57,7 +57,7 @@ export function translateCategories(language: string) {
 			}
 			//英語も登録されていない場合はエラーを出力
 			if (!ext.locale?.en) {
-				console.error("No English locale found for", ext);
+				console.log("No locale found for", ext);
 			}
 		}
 	}
