@@ -92,9 +92,9 @@ const events = [
 	"WorldUnloaded",
 ];
 
-const onConnectEvents = [] as (() => void)[];
-const onMessageEvents = [] as ((message: string) => void)[];
-const onDisconnectEvents = [] as (() => void)[];
+const onConnectEvents: (() => void)[] = [];
+const onMessageEvents: ((message: string) => void)[] = [];
+const onDisconnectEvents: (() => void)[] = [];
 let wss: WSContext;
 
 function removeListener() {
