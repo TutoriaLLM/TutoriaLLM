@@ -104,6 +104,12 @@ function removeListener() {
 }
 
 function reRegisterOnConnectEvents() {
+	onConnectEvents.push(async () => {
+		defaultOnConnectEvents();
+	});
+	onMessageEvents.push(async (message) => {
+		defaultOnMessageEvents(message);
+	});
 	for (const event of onConnectEvents) {
 		event();
 	}
@@ -158,13 +164,22 @@ app.get(
 );
 
 onConnectEvents.push(async () => {
+	defaultOnConnectEvents();
+});
+onMessageEvents.push(async (message) => {
+	defaultOnMessageEvents(message);
+});
+
+function defaultOnConnectEvents() {
 	if (wss) {
+		//座標などのグローバル変数を取得する際に必要なリスナーを登録
 		wss.send(JSON.stringify(subscribeMsg("PlayerTravelled")));
 	} else {
 		console.error("WebSocket is not connected.");
 	}
-});
-onMessageEvents.push(async (message) => {
+}
+
+function defaultOnMessageEvents(message: string) {
 	const data = JSON.parse(message);
 	if (data?.body && data.header.eventName === "PlayerTravelled") {
 		minecraftWorldState.player = {
@@ -176,4 +191,4 @@ onMessageEvents.push(async (message) => {
 			isunderwater: data.body.isUnderwater,
 		};
 	}
-});
+}
