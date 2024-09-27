@@ -18,6 +18,8 @@ import { renderErrorBubble } from "./bubbles/renderErrorBubble.js";
 import { renderGroupLogBubble } from "./bubbles/groupLogBubble.js";
 import { renderBlockIdBubble } from "./bubbles/blockidBubble.js";
 import { renderBlockNameBubble } from "./bubbles/blocknameBubble.js";
+import { SelectTutorialUI } from "./ui/tutorialSelectorUI.js";
+import { BeginTourUI } from "./ui/beginTourUI.js";
 
 export default function TextBubble(props: {
 	item: Dialogue;
@@ -98,6 +100,12 @@ export default function TextBubble(props: {
 					props.item.id,
 					props.easyMode,
 				)}
+			{props.item.contentType === "ui" && (
+				<>
+					{props.item.ui === "selectTutorial" && <SelectTutorialUI />}
+					{props.item.ui === "BeginTour" && <BeginTourUI />}
+				</>
+			)}
 			{props.item.contentType === "log" &&
 				renderLogBubble(content, markdownComponents, t, props.item.id)}
 			{props.item.contentType === "error" &&
