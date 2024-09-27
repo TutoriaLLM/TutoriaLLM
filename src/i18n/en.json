@@ -122,5 +122,9 @@
 		"sessionSummary": "Session summary",
 		"showHeatmap": "Show Heatmap",
 		"noScreenshotAvailable": "No screenshot available"
+	},
+	"quickReply": {
+		"WhatINeed": "What I need to do?",
+		"HowToUse": "How to use this?"
 	}
 }
