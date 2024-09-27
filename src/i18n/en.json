@@ -126,5 +126,8 @@
 	"quickReply": {
 		"WhatINeed": "What I need to do?",
 		"HowToUse": "How to use this?"
+	},
+	"dialogue": {
+		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!"
 	}
 }

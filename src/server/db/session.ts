@@ -45,7 +45,7 @@ function initialData(code: string, language: string): SessionValue {
 				id: 0,
 				contentType: "ai",
 				isuser: false,
-				content: "Welcome to the session! ",
+				content: t("dialogue.Introduction"),
 			},
 		],
 		quickReplies: quickReplyByLang,
