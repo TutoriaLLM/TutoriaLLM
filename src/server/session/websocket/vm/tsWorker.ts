@@ -11,6 +11,7 @@ import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content.js";
 
 const { code, sessionValue, serverRootPath, userScript } = workerData;
 
@@ -158,12 +159,13 @@ parentPort.on("message", (message) => {
 
 			parentPort?.postMessage({
 				type: "log",
-				content: "Updated script executed successfully.",
+				content: t("vm.updatedScriptSuccess"),
 			});
 		} catch (error) {
 			parentPort?.postMessage({
 				type: "error",
-				content: `Error executing updated script: ${error}`,
+				//content: `Error executing updated script: ${error}`,
+				content: t("vm.updatedScriptError", { error }),
 			});
 		}
 	}
