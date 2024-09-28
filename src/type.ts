@@ -15,7 +15,7 @@ export type Dialogue = {
 	contentType: ContentType;
 	isuser: boolean;
 	content: string | Dialogue[];
-	ui?: "selectTutorial" | "BeginTour" | undefined;
+	ui?: string;
 };
 
 //タブの種類を定義するための型
