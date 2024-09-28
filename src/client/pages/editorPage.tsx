@@ -110,23 +110,39 @@ export default function EditorPage() {
 	function OnboardingComponent() {
 		const { setIsOpen } = useTour();
 		const now = new Date();
-		function startOnboarding() {
-			console.log("start onboarding");
-			setIsOpen(true);
-			setCookie("lastonBoarding", now);
-		}
-		//セッション開始後にトリガーする
-		if (cookie.lastonBoarding && currentSession) {
-			const lastOnboarding = new Date(cookie.lastonBoarding);
-			if (now.getTime() - lastOnboarding.getTime() > 1000 * 60 * 60 * 24) {
-				console.log("cookie expired");
-				startOnboarding();
+		const [cookie, setCookie] = useCookies();
+		const [hasStartedOnboarding, setHasStartedOnboarding] = useState(false);
+
+		useEffect(() => {
+			if (currentSession && !hasStartedOnboarding) {
+				const lastOnboardingTime = cookie.lastonBoarding
+					? new Date(cookie.lastonBoarding)
+					: null;
+				const timeSinceLastOnboarding = lastOnboardingTime
+					? now.getTime() - lastOnboardingTime.getTime()
+					: null;
+				const oneDayInMs = 1000 * 60 * 60 * 24;
+
+				if (
+					!lastOnboardingTime ||
+					(timeSinceLastOnboarding !== null &&
+						timeSinceLastOnboarding > oneDayInMs)
+				) {
+					console.log("Starting onboarding");
+					setIsOpen(true);
+					setCookie("lastonBoarding", now);
+					setHasStartedOnboarding(true);
+				}
 			}
-		}
-		if (!cookie.lastonBoarding && currentSession) {
-			console.log("cookie not found");
-			startOnboarding();
-		}
+		}, [
+			currentSession,
+			cookie.lastonBoarding,
+			setCookie,
+			setIsOpen,
+			hasStartedOnboarding,
+			now,
+		]);
+
 		return null;
 	}
 
@@ -388,6 +404,7 @@ export default function EditorPage() {
 	return (
 		<TourProvider
 			steps={tourSteps(isMobile)}
+			disableFocusLock
 			className="w-64 sm:w-full font-medium text-base border"
 			padding={{
 				popover: [-10, 0],
