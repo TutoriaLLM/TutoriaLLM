@@ -87,7 +87,7 @@ export async function invokeLLM(
 			.number()
 			.describe("progress of the tutorial shown by 10 to 100."),
 		ui: z
-			.enum(["selectTutorial", "BeginTour"])
+			.string()
 			.optional()
 			.describe(
 				"Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response.",
