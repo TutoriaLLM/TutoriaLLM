@@ -3,8 +3,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
 import type { AppConfig, Click, SessionValue, Tab } from "../../type.js";
-import Editor from "../components/BlocklyEditor/Blockly/index.js";
-import Navbar from "../components/BlocklyEditor/Navbar.js";
+import Editor from "../components/Editor/Blockly/index.js";
+import Navbar from "../components/Editor/Navbar.js";
 //モバイル利用時のタブ切り替え
 import * as Tabs from "@radix-ui/react-tabs";
 
@@ -22,10 +22,10 @@ import html2canvas from "html2canvas";
 import { useCookies } from "react-cookie";
 
 import i18next, { use } from "i18next";
-import DialogueView from "../components/BlocklyEditor/dialogue/index.js";
+import DialogueView from "../components/Editor/dialogue/index.js";
 import SessionPopup, {
 	type sessionPopupMessageTypes,
-} from "../components/BlocklyEditor/sessionOverlay/index.js";
+} from "../components/Editor/sessionOverlay/index.js";
 //stateの読み込み
 import {
 	LanguageToStart,
@@ -110,23 +110,39 @@ export default function EditorPage() {
 	function OnboardingComponent() {
 		const { setIsOpen } = useTour();
 		const now = new Date();
-		function startOnboarding() {
-			console.log("start onboarding");
-			setIsOpen(true);
-			setCookie("lastonBoarding", now);
-		}
-		//セッション開始後にトリガーする
-		if (cookie.lastonBoarding && currentSession) {
-			const lastOnboarding = new Date(cookie.lastonBoarding);
-			if (now.getTime() - lastOnboarding.getTime() > 1000 * 60 * 60 * 24) {
-				console.log("cookie expired");
-				startOnboarding();
+		const [cookie, setCookie] = useCookies();
+		const [hasStartedOnboarding, setHasStartedOnboarding] = useState(false);
+
+		useEffect(() => {
+			if (currentSession && !hasStartedOnboarding) {
+				const lastOnboardingTime = cookie.lastonBoarding
+					? new Date(cookie.lastonBoarding)
+					: null;
+				const timeSinceLastOnboarding = lastOnboardingTime
+					? now.getTime() - lastOnboardingTime.getTime()
+					: null;
+				const oneDayInMs = 1000 * 60 * 60 * 24;
+
+				if (
+					!lastOnboardingTime ||
+					(timeSinceLastOnboarding !== null &&
+						timeSinceLastOnboarding > oneDayInMs)
+				) {
+					console.log("Starting onboarding");
+					setIsOpen(true);
+					setCookie("lastonBoarding", now);
+					setHasStartedOnboarding(true);
+				}
 			}
-		}
-		if (!cookie.lastonBoarding && currentSession) {
-			console.log("cookie not found");
-			startOnboarding();
-		}
+		}, [
+			currentSession,
+			cookie.lastonBoarding,
+			setCookie,
+			setIsOpen,
+			hasStartedOnboarding,
+			now,
+		]);
+
 		return null;
 	}
 
@@ -179,7 +195,7 @@ export default function EditorPage() {
 
 	// URLパスにコードがあるか確認する
 	useEffect(() => {
-		console.log("useEffect");
+		//console.log("useEffect");
 		//言語に応じたメッセージを表示
 		setStatusMessage(t("session.typecodeMsg"));
 		setMessageType("info");
@@ -206,7 +222,7 @@ export default function EditorPage() {
 					setShowPopup(true);
 				} else {
 					const data: SessionValue = await response.json();
-					console.log(`code is valid!${JSON.stringify(data)}`);
+					//console.log(`code is valid!${JSON.stringify(data)}`);
 					setCurrentSession(data);
 					setPrevSession(data);
 					connectSocket(data);
@@ -272,37 +288,6 @@ export default function EditorPage() {
 	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はSocketに送信する
 	useEffect(() => {
 		if (socketInstance && currentSession) {
-			//チュートリアルが設定された場合、AIに初期メッセージの送信を要求する
-			if (
-				prevSession?.tutorial?.isTutorial !==
-				currentSession?.tutorial?.isTutorial
-			) {
-				setCurrentSession((prev) => {
-					if (prev) {
-						setPrevSession(prev);
-						const lastId =
-							prev.dialogue.length > 0
-								? prev.dialogue[prev.dialogue.length - 1].id
-								: 0;
-						return {
-							...prev,
-							dialogue: [
-								...prev.dialogue,
-								{
-									id: lastId + 1,
-									contentType: "request",
-									isuser: true,
-									content:
-										"request for instructions for the tutorial. This message is automatically generated on the client side.",
-								},
-							],
-							isReplying: true,
-						};
-					}
-					return prev;
-				});
-			}
-
 			// 前回のセッションのワークスペース、対話、またはスクリーンショットの内容が違う場合のみ送信
 			if (
 				JSON.stringify(currentSession.workspace) !==
@@ -419,6 +404,7 @@ export default function EditorPage() {
 	return (
 		<TourProvider
 			steps={tourSteps(isMobile)}
+			disableFocusLock
 			className="w-64 sm:w-full font-medium text-base border"
 			padding={{
 				popover: [-10, 0],

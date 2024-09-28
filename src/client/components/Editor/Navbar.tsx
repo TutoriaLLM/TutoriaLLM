@@ -1,7 +1,7 @@
 import * as Progress from "@radix-ui/react-progress";
 import { DoorOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import ExecSwitch from "../ExecSwitch.js";
+import ExecSwitch from "../ui/ExecSwitch.js";
 import { ExitButton } from "../ui/exitButton.js";
 
 export default function Navbar(props: {
@@ -38,7 +38,7 @@ export default function Navbar(props: {
 			<div className="flex flex-row gap-2 justify-between items-center w-full">
 				<span className="text-xs flex w-fit h-fit">
 					{props.isTutorial && typeof props.tutorialProgress === "number" ? (
-						<p className="p-2">
+						<div className="p-2">
 							<Progress.Root
 								max={100}
 								value={props.tutorialProgress}
@@ -52,7 +52,7 @@ export default function Navbar(props: {
 								/>
 							</Progress.Root>
 							<p className="text-base">{props.tutorialProgress}%</p>
-						</p>
+						</div>
 					) : (
 						<p className="px-2 py-1.5 rounded-full bg-red-300 w-full line-clamp-2">
 							{t("navbar.noTutorial")}

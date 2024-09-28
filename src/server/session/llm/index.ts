@@ -9,6 +9,10 @@ import { eq } from "drizzle-orm";
 import { applyRuby } from "../../../utils/japaneseWithRuby.js";
 import generateTrainingData from "../../admin/training/data_gen.js";
 import { getKnowledge } from "../../admin/training/guides.js";
+import { generateUserTemplate } from "./userTemplate.js";
+import { generateSystemTemplate } from "./systemTemplate.js";
+import { listAllBlocks } from "./allBlocks.js";
+import stringifyKnowledge from "../../../utils/stringifyKnowledge.js";
 
 //debug
 console.log("llm/index.ts: Loading llm app");
@@ -43,14 +47,6 @@ async function getTutorialContent(session: SessionValue) {
 	};
 }
 
-// Simplifies the dialogue by mapping the session dialogue to a simpler format.
-async function simplifyDialogue(session: SessionValue) {
-	return session.dialogue.map((d) => ({
-		role: d.contentType,
-		content: d.content,
-	}));
-}
-
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 });
@@ -62,58 +58,7 @@ export async function invokeLLM(
 	console.log("invokeLLM");
 	const config: AppConfig = await getConfig();
 
-	const basicBlocks = [
-		"controls_repeat_ext",
-		"controls_whileUntil",
-		"controls_for",
-		"controls_forEach",
-		"controls_flow_statements",
-		"controls_if",
-		"logic_compare",
-		"logic_operation",
-		"logic_negate",
-		"logic_boolean",
-		"logic_null",
-		"logic_ternary",
-		"math_number",
-		"math_arithmetic",
-		//"math_single",
-		//"math_trig",
-		//"math_constant",
-		"math_number_property",
-		"math_round",
-		"math_on_list",
-		"math_modulo",
-		"math_constrain",
-		"math_random_int",
-		"math_random_float",
-		//"math_atan2",
-		"text",
-		"text_join",
-		"text_append",
-		"text_length",
-		"text_isEmpty",
-		"text_indexOf",
-		"text_charAt",
-		"text_getSubstring",
-		"text_changeCase",
-		"text_trim",
-		"text_count",
-		"text_replace",
-		"text_reverse",
-		//"text_print",
-		"lists_create_empty",
-		"lists_create_with",
-		"lists_repeat",
-		"lists_length",
-		"lists_isEmpty",
-		"lists_indexOf",
-		"lists_getIndex",
-		"lists_setIndex",
-	];
-
-	const allBlocks = basicBlocks.concat(availableBlocks);
-	console.log(allBlocks);
+	const allBlocks = listAllBlocks(availableBlocks);
 
 	const zodSchema = z.object({
 		isQuestion: z
@@ -121,7 +66,11 @@ export async function invokeLLM(
 			.describe(
 				"true if the user asked a question, false if it is a statement or just comment of user",
 			),
-		response: z.string().describe("response for dialogue."),
+		response: z
+			.string()
+			.describe(
+				"response for user. Do not include blockId, blockName, and any unreadable characters in this field.",
+			),
 		blockId: z
 			.string()
 			.optional()
@@ -137,6 +86,12 @@ export async function invokeLLM(
 		progress: z
 			.number()
 			.describe("progress of the tutorial shown by 10 to 100."),
+		ui: z
+			.enum(["selectTutorial", "BeginTour"])
+			.optional()
+			.describe(
+				"Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response.",
+			),
 		quickReplies: z.array(z.string()).describe("quick replies for the user."),
 	});
 
@@ -144,55 +99,18 @@ export async function invokeLLM(
 		session.dialogue[session.dialogue.length - 1]?.content.toString();
 
 	const knowledge = (await getKnowledge(lastMessage)) as Guide[] | string;
-	function stringifyKnowledge(knowledge: Guide[] | string) {
-		if (typeof knowledge === "string") {
-			return knowledge;
-		}
-		try {
-			return JSON.stringify((knowledge as Guide[]).map((k) => k.answer));
-		} catch (e) {
-			console.error(e);
-			return "Failed to stringify knowledge.";
-		}
-	}
 
 	const tutorialContent = await getTutorialContent(session);
 	console.log(tutorialContent);
-	const systemTemplate = `
-You are a coding tutor using the following language: ${langToStr(session.language)}
-Provide both teaching and instruction to the user based on the tutorial document and knowledge: ${stringifyKnowledge(knowledge)}
-If a tutorial document is provided, teach and instruct the user with using simple language. If it is not chosen, encourage the user to select a tutorial, or start creating their own code.
-User will be using Blockly workspace to create code, and can be executed to see the result with pressing the run button.
-Response must be in JSON format with the following structure. Do not respond BlockId and BlockName on response fields, and use blockId or BlockName field instead as system will display these block automatically.:
-{
-  "isQuestion": boolean, // true if the user asked a question, false if it is a statement or just comment of user
-  "response": "string", // response for dialogue. do not include blockId and blockName in this field.
-  "blockId": "string (optional)", // optional field to specify the blocks on the workspace
-  "blockName": "string (optional)", // optional field to specify the block name to be used for code
-  "progress": number (10 to 100), // progress of the tutorial shown by 10 to 100
-  "quickReplies": string[] (provide least 3 to maximum 5 quick replies for the user to choose from) // quick replies for the user. Provide easy to understand options, such as "yes" ,"no", "I don't know", or "What do I need to do?". do not include blockId and blockName in this field.
-}
 
-Tutorial content: ${JSON.stringify(tutorialContent)}
-Also, these are the blocks that are available for this session. Do not use BlockID and BlockName that are not listed here: ${JSON.stringify(allBlocks)}
-  `;
+	const systemTemplate = generateSystemTemplate(
+		knowledge,
+		session,
+		JSON.stringify(tutorialContent),
+		allBlocks,
+	);
 
-	const userTemplate = `
-This is the past record of messages including user chat, server log, error, and AI responses: ${JSON.stringify(await simplifyDialogue(session))}
-If there is any error, provide a message to the user to help them understand the issue.
-If there is no question, provide feedback based on past messages, or explain what is happening on the server.
-Use the provided tutorial content to guide the user explicitly on what they should do next.
-
-Answer the user's latest question based on past messages if they are asking: ${lastMessage}
-
-If the value of easy mode is true, provide a message to the user to help them understand the issue with using simple language. For Japanese, use only Hiragana and Katakana Instead of Kanji.
-Easy mode: ${session.easyMode}
-
-This is the current user workspace of Blockly; it is rendered as blocks on the user's screen and will be converted to code to execute: ${JSON.stringify(session.workspace)}
-You may attach blockId from the workspace that you are referring to.
-Also, you may attach blockName to display the block that is needed to proceed with the next steps.
-If there is no workspace, encourage the user to start coding and provide a message to help them begin.
-  `;
+	const userTemplate = await generateUserTemplate(session, lastMessage);
 
 	const completion = await openai.chat.completions.create({
 		messages: [

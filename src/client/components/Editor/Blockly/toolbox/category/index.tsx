@@ -10,7 +10,7 @@ const extensionModules = import.meta.glob(
 
 // 基本カテゴリをインポート
 const basicModules = import.meta.glob(
-	"/src/client/components/BlocklyEditor/Blockly/toolbox/category/basics/blocks/*.*",
+	"/src/client/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
 	{
 		eager: true,
 	},
@@ -57,7 +57,7 @@ export function translateCategories(language: string) {
 			}
 			//英語も登録されていない場合はエラーを出力
 			if (!ext.locale?.en) {
-				console.error("No English locale found for", ext);
+				console.log("No locale found for", ext);
 			}
 		}
 	}

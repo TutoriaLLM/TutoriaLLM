@@ -12,6 +12,8 @@ const DBrouter = express.Router();
 //export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
 //Redisに移行
 import redis from "redis";
+import i18next from "i18next";
+import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 export const sessionDB = redis.createClient({
 	username: process.env.REDIS_USERNAME,
 	password: process.env.REDIS_PASSWORD,
@@ -26,6 +28,13 @@ sessionDB.on("error", (err) => {
 });
 
 function initialData(code: string, language: string): SessionValue {
+	i18next.changeLanguage(language);
+
+	const { t } = i18next;
+	const quickReplyByLang = [
+		t("quickReply.WhatINeed"),
+		t("quickReply.HowToUse"),
+	];
 	return {
 		sessioncode: code,
 		uuid: crypto.randomUUID(),
@@ -36,10 +45,10 @@ function initialData(code: string, language: string): SessionValue {
 				id: 0,
 				contentType: "ai",
 				isuser: false,
-				content: "Welcome to the session! ",
+				content: t("dialogue.Introduction"),
 			},
 		],
-		quickReplies: [],
+		quickReplies: quickReplyByLang,
 		isReplying: false,
 		easyMode: false,
 		workspace: {},

@@ -52,7 +52,6 @@ export function code() {
 				if (data && data.body && data.header.eventName === "PlayerMessage") {
 					const messageText = data.body.message;
 					if (messageText === "${field_input}") {
-						console.log("message matched");
 						${run_input}
 					}
 				}

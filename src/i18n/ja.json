@@ -77,7 +77,9 @@
 		"easyModeChanged": "かんたんモードを{{status}}にしました"
 	},
 	"vm": {
-		"outOfMemory": "マシンが使えるメモリの上限に達しました"
+		"outOfMemory": "マシンが使えるメモリの上限に達しました",
+		"updatedScriptSuccess": "新しいコードの実行に成功しました",
+		"updatedScriptError": "新しいコード実行中にエラーが発生："
 	},
 	"logbuffer": {
 		"tooManyLogs": "メッセージが多すぎます。古いログは削除されました。"
@@ -120,5 +122,12 @@
 		"sessionSummary": "セッションのサマリー",
 		"showHeatmap": "ヒートマップを表示",
 		"noScreenshotAvailable": "スクリーンショットが利用できません"
+	},
+	"quickReply": {
+		"HowToUse": "どうやって使うの？",
+		"WhatINeed": "何をしたらいいの？"
+	},
+	"dialogue": {
+		"Introduction": "こんにちは！まずは画面下のボタンや、チャット欄から、何をしたいか決めましょう！"
 	}
 }

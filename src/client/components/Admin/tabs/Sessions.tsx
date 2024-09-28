@@ -24,7 +24,7 @@ import {
 	Play,
 	Puzzle,
 } from "lucide-react";
-import Popup from "../../Popup.js";
+import Popup from "../../ui/Popup.js";
 import { msToTime, timeAgo } from "../../../../utils/time.js";
 import { SessionValueView } from "../../SessionValueView/index.js";
 

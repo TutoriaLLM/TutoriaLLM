@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Popup from "../Popup.js";
+import Popup from "../ui/Popup.js";
 import type { Tutorial } from "../../../server/db/schema.js";
 
 import {

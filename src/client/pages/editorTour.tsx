@@ -60,13 +60,5 @@ export function tourSteps(isMobile: boolean) {
 			selector: ".dialogue",
 			content: () => t("tour.dialogue"),
 		},
-		{
-			selector: ".tutorialSelector",
-			content: () => t("tour.tutorialSelector"),
-		},
-		{
-			selector: ".startTour",
-			content: () => t("tour.tourAgain"),
-		},
 	] as StepType[];
 }

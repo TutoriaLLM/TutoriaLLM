@@ -86,6 +86,22 @@ export async function updateSession(
 					);
 				}
 
+				if (message.ui) {
+					updatedDialogue = {
+						...updatedDialogue,
+						dialogue: [
+							...updatedDialogue.dialogue,
+							{
+								id: updatedDialogue.dialogue.length + 1,
+								contentType: "ui",
+								ui: message.ui,
+								isuser: false,
+								content: "",
+							},
+						],
+					};
+				}
+
 				return {
 					dialogue: updatedDialogue.dialogue,
 					quickReplies: updatedQuickReplies,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import JSONField from "../../jsonViewer.js";
+import JSONField from "../../ui/jsonViewer.js";
 
 function ConfigManager() {
 	const [config, setConfig] = useState({});

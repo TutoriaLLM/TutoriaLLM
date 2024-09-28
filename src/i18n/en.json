@@ -77,7 +77,9 @@
 		"easyModeChanged": "Turn Easy mode to {{status}}"
 	},
 	"vm": {
-		"outOfMemory": "Machine reached memory limit"
+		"outOfMemory": "Machine reached memory limit",
+		"updatedScriptSuccess": "Updated script executed successfully.",
+		"updatedScriptError": "Error executing updated script: {{error}}"
 	},
 	"logbuffer": {
 		"tooManyLogs": "Too many messages. old logs removed."
@@ -120,5 +122,12 @@
 		"sessionSummary": "Session summary",
 		"showHeatmap": "Show Heatmap",
 		"noScreenshotAvailable": "No screenshot available"
+	},
+	"quickReply": {
+		"WhatINeed": "What I need to do?",
+		"HowToUse": "How to use this?"
+	},
+	"dialogue": {
+		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!"
 	}
 }

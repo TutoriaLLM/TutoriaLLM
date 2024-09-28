@@ -9,6 +9,24 @@
 	},
 	{
 		"kind": "block",
-		"type": "ext_minecraft_moveAgent"
+		"type": "ext_minecraft_agentDestroy"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_moveAgent",
+		"inputs": {
+			"DISTANCE": {
+				"shadow": {
+					"type": "math_number",
+					"fields": {
+						"NUM": "1"
+					}
+				}
+			}
+		}
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_turnAgent"
 	}
 ]

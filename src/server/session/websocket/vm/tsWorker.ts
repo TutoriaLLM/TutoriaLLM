@@ -11,6 +11,7 @@ import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content.js";
 
 const { code, sessionValue, serverRootPath, userScript } = workerData;
 
@@ -129,7 +130,7 @@ await extensionLoader.loadExtensions(context);
 const extScript = await extensionLoader.loadScript();
 console.log("userScript", userScript);
 
-const initialScript = `
+const initialScript = /* javascript */ `
 	${extScript}
 function script() {
     ${userScript}
@@ -140,28 +141,31 @@ script();
 const script = new vm.Script(initialScript);
 script.runInContext(context);
 
-// 新しいコードを受信した場合、そのコードの差分を適用する
+// 新しいコードを受信した場合、古いリスナーを削除して新しいコードを実行する
 parentPort.on("message", (message) => {
 	if (message.type === "updateScript") {
 		try {
-			const newScriptContent = `
+			const newScriptContent = /* javascript */ `
 			removeListener();
+			reRegisterOnConnectEvents();
 			function script() {
 			${message.code}
 			}
 			script();
 			`;
+
 			const newScript = new vm.Script(newScriptContent);
 			newScript.runInContext(context);
 
 			parentPort?.postMessage({
 				type: "log",
-				content: "Updated script executed successfully.",
+				content: t("vm.updatedScriptSuccess"),
 			});
 		} catch (error) {
 			parentPort?.postMessage({
 				type: "error",
-				content: `Error executing updated script: ${error}`,
+				//content: `Error executing updated script: ${error}`,
+				content: t("vm.updatedScriptError", { error }),
 			});
 		}
 	}

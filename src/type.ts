@@ -5,7 +5,7 @@ export type ContentType =
 	| "error"
 	| "info"
 	| "group_log"
-	| "image"
+	| "ui" // AIによって動的に生成されるUI要素
 	| "request"
 	| "blockId"
 	| "blockName";
@@ -15,6 +15,7 @@ export type Dialogue = {
 	contentType: ContentType;
 	isuser: boolean;
 	content: string | Dialogue[];
+	ui?: "selectTutorial" | "BeginTour" | undefined;
 };
 
 //タブの種類を定義するための型

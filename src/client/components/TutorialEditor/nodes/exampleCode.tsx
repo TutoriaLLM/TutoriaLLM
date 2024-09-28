@@ -11,7 +11,7 @@ import type { SessionValue } from "../../../../type.js";
 import React, { useEffect } from "react";
 import * as Blockly from "blockly";
 import "blockly/javascript";
-import WorkspacePreview from "../../workspacePreview.js";
+import WorkspacePreview from "../../ui/workspacePreview.js";
 import { set } from "zod";
 import { use } from "i18next";
 import { ArrowBigDownIcon } from "lucide-react";
