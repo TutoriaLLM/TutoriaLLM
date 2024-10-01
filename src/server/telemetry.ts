@@ -1,6 +1,6 @@
 //sentry support with opentelemetry
 
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import { GenericPoolInstrumentation } from "@opentelemetry/instrumentation-generic-pool";
 
 import * as opentelemetry from "@opentelemetry/sdk-node";
