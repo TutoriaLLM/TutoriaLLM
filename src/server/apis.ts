@@ -11,6 +11,8 @@ console.log("apis.ts: Loading apis app");
 
 const api = express();
 
+api.set("trust proxy", 1 /* number of proxies between user and server */);
+
 // session routes
 api.use("/session", session);
 

@@ -4,7 +4,8 @@ import { sessionDB } from "../../db/session.js";
 import { createPatch } from "rfc6902";
 
 //変更点をブロードキャストし、データベースを更新する関数
-const broadcastDiff = async (
+//注意：変更を行なったクライアントには値は返されない
+const updateAndBroadcastDiff = async (
 	code: string,
 	newData: SessionValue,
 	socket: Socket,
@@ -24,7 +25,7 @@ const broadcastDiff = async (
 };
 
 //すべてのクライアントに対して新しい変更点をブロードキャストする
-const broadcastDiffToAll = async (
+const updateAndBroadcastDiffToAll = async (
 	code: string,
 	newData: SessionValue,
 	socket: Socket,
@@ -38,9 +39,10 @@ const broadcastDiffToAll = async (
 	console.log("diff", diff);
 
 	if (diff.length > 0) {
+		await sessionDB.set(code, JSON.stringify(newData));
 		socket.emit("PushSessionDiff", diff);
 		socket.broadcast.emit("PushSessionDiff", diff);
 	}
 };
 
-export { broadcastDiff, broadcastDiffToAll };
+export { updateAndBroadcastDiff, updateAndBroadcastDiffToAll };
