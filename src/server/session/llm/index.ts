@@ -49,6 +49,7 @@ async function getTutorialContent(session: SessionValue) {
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
+	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
 });
 
 export async function invokeLLM(
