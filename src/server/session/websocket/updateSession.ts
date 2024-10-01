@@ -5,7 +5,7 @@ import { updateStats } from "../../../utils/statsUpdater.js";
 import { sessionDB } from "../../db/session.js";
 import { invokeLLM } from "../llm/index.js";
 import { getAvailableBlocks, getBlockFiles } from "../registerBlocks.js";
-import { updateDatabase, broadcastDiffToAll } from "./updateDB.js";
+import { broadcastDiff, broadcastDiffToAll } from "./updateDB.js";
 
 export async function updateSession(
 	currentDataJson: SessionValue,
@@ -163,7 +163,7 @@ export async function updateSession(
 			clicks: clicks,
 		};
 
-		await updateDatabase(code, dataToPut, socket);
+		await broadcastDiff(code, dataToPut, socket);
 
 		const updatedData = await llmUpdatePromise;
 
@@ -225,6 +225,6 @@ export async function updateSession(
 			clicks: clicks,
 		};
 
-		await updateDatabase(code, dataToPut, socket);
+		await broadcastDiff(code, dataToPut, socket);
 	}
 }

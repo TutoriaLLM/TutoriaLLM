@@ -4,7 +4,7 @@ import { sessionDB } from "../../db/session.js";
 import { createPatch } from "rfc6902";
 
 //変更点をブロードキャストし、データベースを更新する関数
-const updateDatabase = async (
+const broadcastDiff = async (
 	code: string,
 	newData: SessionValue,
 	socket: Socket,
@@ -43,4 +43,4 @@ const broadcastDiffToAll = async (
 	}
 };
 
-export { updateDatabase, broadcastDiffToAll };
+export { broadcastDiff, broadcastDiffToAll };
