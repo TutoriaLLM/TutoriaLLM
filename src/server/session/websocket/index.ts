@@ -14,6 +14,7 @@ import { getConfig } from "../../getConfig.js";
 import { applyPatch, type Operation } from "rfc6902";
 import { Socket } from "socket.io-client";
 import { updateDatabase } from "./updateDB.js";
+import apiLimiter from "../../ratelimit.js";
 
 const config = getConfig();
 
@@ -21,6 +22,7 @@ const config = getConfig();
 console.log("websocket/index.ts: Loading websocket app");
 
 const wsServer = express.Router();
+wsServer.use(apiLimiter(1 * 1000, 10)); // 10 requests per second
 const clients = new Map<string, any>(); // socket.ioクライアントを管理するマップ
 
 // i18n configuration

@@ -7,6 +7,7 @@ import joincodeGen from "../../utils/joincodeGen.js";
 console.log("db/session.ts: Loading db app");
 
 const DBrouter = express.Router();
+DBrouter.use(apiLimiter());
 
 //複数セッションを管理するのに使用するコードとデータを保存するDB
 //export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
@@ -14,6 +15,7 @@ const DBrouter = express.Router();
 import redis from "redis";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import apiLimiter from "../ratelimit.js";
 export const sessionDB = redis.createClient({
 	username: process.env.REDIS_USERNAME,
 	password: process.env.REDIS_PASSWORD,

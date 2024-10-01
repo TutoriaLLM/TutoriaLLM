@@ -67,6 +67,7 @@
 		"drizzle-orm": "^0.32.2",
 		"express": "^4.21.0",
 		"express-http-proxy": "^2.1.1",
+		"express-rate-limit": "^7.4.0",
 		"fast-glob": "^3.3.2",
 		"get-port": "^7.1.0",
 		"hono": "^4.6.2",

@@ -131,6 +131,9 @@ importers:
       express-http-proxy:
         specifier: ^2.1.1
         version: 2.1.1
+      express-rate-limit:
+        specifier: ^7.4.0
+        version: 7.4.0(express@4.21.0)
       fast-glob:
         specifier: ^3.3.2
         version: 3.3.2
@@ -4582,6 +4585,12 @@ packages:
   express-http-proxy@2.1.1:
     resolution: {integrity: sha512-4aRQRqDQU7qNPV5av0/hLcyc0guB9UP71nCYrQEYml7YphTo8tmWf3nDZWdTJMMjFikyz9xKXaURor7Chygdwg==}
     engines: {node: '>=6.0.0'}
+
+  express-rate-limit@7.4.0:
+    resolution: {integrity: sha512-v1204w3cXu5gCDmAvgvzI6qjzZzoMWKnyVDk3ACgfswTQLYiGen+r8w0VnXnGMmzEN/g8fwIQ4JrFFd4ZP6ssg==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      express: 4 || 5 || ^5.0.0-beta.1
 
   express@4.21.0:
     resolution: {integrity: sha512-VqcNGcj/Id5ZT1LZ/cfihi3ttTn+NJmkli2eZADigjq29qTlWi/hAQ43t/VLPq8+UX06FCEx3ByOYet6ZFblng==}
@@ -12137,6 +12146,10 @@ snapshots:
       raw-body: 2.5.2
     transitivePeerDependencies:
       - supports-color
+
+  express-rate-limit@7.4.0(express@4.21.0):
+    dependencies:
+      express: 4.21.0
 
   express@4.21.0:
     dependencies:
