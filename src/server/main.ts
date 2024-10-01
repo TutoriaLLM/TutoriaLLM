@@ -1,6 +1,9 @@
 //debug
 console.log("main.ts: Loading main app");
 
+//telemetryをアプリ実行前に読み込む
+import "./telemetry.js";
+
 import express from "express";
 import { verifyRequestOrigin } from "lucia";
 import { lucia } from "./auth/index.js";
