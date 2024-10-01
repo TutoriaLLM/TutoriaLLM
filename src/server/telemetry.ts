@@ -14,6 +14,7 @@ import { Resource } from "@opentelemetry/resources";
 Sentry.init({
 	dsn: process.env.SENTRY_DSN,
 	tracesSampleRate: 1.0,
+	registerEsmLoaderHooks: { onlyIncludeInstrumentedModules: true }, //これを追加しないと一部のモジュールが読み込まれないエラーを起こす
 });
 
 Sentry.addOpenTelemetryInstrumentation(new GenericPoolInstrumentation());
