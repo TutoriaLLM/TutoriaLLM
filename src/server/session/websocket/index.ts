@@ -9,9 +9,11 @@ import { sessionDB } from "../../db/session.js";
 import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
-import updateDatabase from "./updateDB.js";
 import { updateSession } from "./updateSession.js";
 import { getConfig } from "../../getConfig.js";
+import { applyPatch, type Operation } from "rfc6902";
+import { Socket } from "socket.io-client";
+import { updateDatabase } from "./updateDB.js";
 
 const config = getConfig();
 
@@ -44,6 +46,8 @@ io.on("connection", async (socket) => {
 	console.log("new connection request from client");
 	const code = socket.handshake.query.code as string;
 	const uuid = socket.handshake.query.uuid as string;
+
+	const senderClient = socket;
 
 	console.log("on connect:", code, uuid);
 	try {
@@ -101,37 +105,48 @@ io.on("connection", async (socket) => {
 			interval * 60 * 1000,
 		); // 指定された分ごとにスクリーンショットをリクエスト
 
-		socket.on("UpdateCurrentSession", async (message) => {
-			console.log("UpdateCurrentSession");
-			const messageJson: SessionValue = message;
+		socket.on("UpdateCurrentSessionDiff", async (diff) => {
 			const currentDataJson = await getCurrentDataJson(code);
 			if (!currentDataJson) {
 				console.log("Session not found");
 				socket.disconnect();
 				return;
 			}
-			const isUpdated =
-				JSON.stringify(messageJson) !== JSON.stringify(currentDataJson);
 
-			if (isUpdated) {
-				try {
-					const messageJson: SessionValue = message;
-					if (currentDataJson.uuid !== messageJson.uuid) {
-						socket.emit("error", "Invalid uuid");
-						socket.disconnect();
-					}
-
-					updateSession(clients, currentDataJson, messageJson)
-						.then(() => {
-							console.log("Session updated");
-						})
-						.catch((error) => {
-							console.error("Error updating session:", error);
-						});
-				} catch (error) {
-					console.error("Error handling message:", error);
-					socket.emit("error", "Server error");
+			function updateSessionValue(
+				currentDataJson: SessionValue,
+				diff: Operation[],
+			): SessionValue {
+				const newDataJson = JSON.parse(JSON.stringify(currentDataJson));
+				const success = applyPatch(newDataJson, diff);
+				if (!success) {
+					console.error("Failed to apply patch");
+					socket.emit("error", "Failed to apply patch");
+					return currentDataJson;
 				}
+				return newDataJson;
+			}
+
+			const newDataJson = updateSessionValue(currentDataJson, diff);
+
+			const success = applyPatch(newDataJson, diff);
+			if (!success) {
+				console.error("Failed to apply patch");
+				socket.emit("error", "Failed to apply patch");
+				return;
+			}
+
+			if (currentDataJson.uuid !== newDataJson.uuid) {
+				socket.emit("error", "Invalid uuid");
+				socket.disconnect();
+				return;
+			}
+
+			try {
+				await updateSession(currentDataJson, newDataJson, socket);
+			} catch (error) {
+				console.error("Error updating session:", error);
+				socket.emit("error", "Server error");
 			}
 		});
 		socket.on("openVM", async () => {
@@ -157,7 +172,7 @@ io.on("connection", async (socket) => {
 			) {
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
-				await updateDatabase(code, currentDataJson, clients);
+				await updateDatabase(code, currentDataJson, socket);
 				updateDatabase(
 					code,
 					updateDialogue(
@@ -165,7 +180,7 @@ io.on("connection", async (socket) => {
 						currentDataJson,
 						"error",
 					),
-					clients,
+					socket,
 				);
 				sendToAllClients(currentDataJson);
 				return;
@@ -178,20 +193,21 @@ io.on("connection", async (socket) => {
 				generatedCode,
 				serverRootPath,
 				clients,
+				socket,
 				updateDatabase,
 			);
 			if (result === "Valid uuid") {
 				console.log("Script is running...");
 				isRunning = true;
 				currentDataJson.isVMRunning = isRunning;
-				await updateDatabase(code, currentDataJson, clients);
+				await updateDatabase(code, currentDataJson, socket);
 				console.log("sending to all clients true");
 				sendToAllClients(currentDataJson);
 			} else {
 				console.log(result);
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
-				await updateDatabase(code, currentDataJson, clients);
+				await updateDatabase(code, currentDataJson, socket);
 				console.log("sending to all clients false");
 				sendToAllClients(currentDataJson);
 			}
@@ -225,7 +241,7 @@ io.on("connection", async (socket) => {
 				return;
 			}
 			let isRunning = currentDataJson.isVMRunning;
-			const result = await StopCodeTest(code, uuid, clients, updateDatabase);
+			const result = await StopCodeTest(code, uuid, socket, updateDatabase);
 			console.log(result);
 			isRunning = false;
 			currentDataJson.isVMRunning = isRunning;
@@ -237,7 +253,7 @@ io.on("connection", async (socket) => {
 				},
 				currentDataJson,
 			);
-			await updateDatabase(code, currentDataJsonWithUpdatedStats, clients);
+			await updateDatabase(code, currentDataJsonWithUpdatedStats, socket);
 		});
 
 		socket.on("disconnect", async () => {
@@ -263,12 +279,7 @@ io.on("connection", async (socket) => {
 					currentDataJson.isVMRunning &&
 					currentDataJson.clients.length === 0
 				) {
-					const result = await StopCodeTest(
-						code,
-						uuid,
-						clients,
-						updateDatabase,
-					);
+					const result = await StopCodeTest(code, uuid, socket, updateDatabase);
 					console.log(`${result.message} VM stopped. no clients connected.`);
 					currentDataJson.isVMRunning = false;
 				}

@@ -1,16 +1,18 @@
+import type { Socket } from "socket.io";
 import type { Dialogue, SessionValue } from "../../../type.js";
 import { updateDialogue } from "../../../utils/dialogueUpdater.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
 import { sessionDB } from "../../db/session.js";
 import { invokeLLM } from "../llm/index.js";
 import { getAvailableBlocks, getBlockFiles } from "../registerBlocks.js";
-import updateDatabase from "./updateDB.js";
+import { updateDatabase, broadcastDiffToAll } from "./updateDB.js";
 
 export async function updateSession(
-	clients: Map<string, any>,
 	currentDataJson: SessionValue,
-	messageJson: SessionValue,
+	newDataJson: SessionValue,
+	socket: Socket,
 ) {
+	console.log("updateSession");
 	const {
 		sessioncode,
 		uuid,
@@ -24,7 +26,7 @@ export async function updateSession(
 		language,
 		screenshot,
 		clicks,
-	} = messageJson;
+	} = newDataJson;
 
 	const code = sessioncode;
 
@@ -37,6 +39,7 @@ export async function updateSession(
 		isreplying: boolean;
 		progress: number;
 	}> {
+		console.log("updateDialogueLLM");
 		const lastMessage = newData.dialogue[newData.dialogue.length - 1];
 
 		if (
@@ -50,13 +53,13 @@ export async function updateSession(
 				(block) => block.block.type,
 			);
 
-			const message = await invokeLLM(messageJson, extractedBlockNames);
+			const message = await invokeLLM(newDataJson, extractedBlockNames);
 
 			if (message) {
 				console.log(message);
 				let updatedDialogue = updateDialogue(
 					message.response,
-					messageJson,
+					newDataJson,
 					"ai",
 				);
 
@@ -120,12 +123,22 @@ export async function updateSession(
 	}
 
 	const llmUpdateNeeded =
-		messageJson.dialogue !== currentDataJson.dialogue &&
-		messageJson.dialogue.length > 0 &&
-		messageJson.dialogue[messageJson.dialogue.length - 1].isuser;
+		newDataJson.dialogue !== currentDataJson.dialogue &&
+		newDataJson.dialogue.length > 0 &&
+		newDataJson.dialogue[newDataJson.dialogue.length - 1].isuser;
+
+	console.log(
+		"isdialoguedifferent",
+		newDataJson.dialogue !== currentDataJson.dialogue,
+	);
+	console.log("dialoguelength", newDataJson.dialogue.length > 0);
+	console.log(
+		"islastmessageuser",
+		newDataJson.dialogue[newDataJson.dialogue.length - 1].isuser,
+	);
 
 	if (llmUpdateNeeded) {
-		const llmUpdatePromise = updateDialogueLLM(currentDataJson, messageJson);
+		const llmUpdatePromise = updateDialogueLLM(currentDataJson, newDataJson);
 
 		const dataToPut: SessionValue = {
 			sessioncode: sessioncode,
@@ -150,7 +163,7 @@ export async function updateSession(
 			clicks: clicks,
 		};
 
-		await updateDatabase(code, dataToPut, clients);
+		await updateDatabase(code, dataToPut, socket);
 
 		const updatedData = await llmUpdatePromise;
 
@@ -187,7 +200,7 @@ export async function updateSession(
 			clicks: latestDataJson.clicks,
 		};
 
-		await updateDatabase(code, finalDataToPut, clients);
+		await broadcastDiffToAll(code, finalDataToPut, socket);
 	} else {
 		const dataToPut: SessionValue = {
 			sessioncode: sessioncode,
@@ -205,13 +218,13 @@ export async function updateSession(
 			llmContext: llmContext,
 			tutorial: {
 				...tutorial,
-				progress: messageJson.tutorial.progress,
+				progress: newDataJson.tutorial.progress,
 			},
-			stats: messageJson.stats,
+			stats: newDataJson.stats,
 			screenshot: screenshot,
 			clicks: clicks,
 		};
 
-		await updateDatabase(code, dataToPut, clients);
+		await updateDatabase(code, dataToPut, socket);
 	}
 }

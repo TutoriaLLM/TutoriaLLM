@@ -89,6 +89,7 @@
 		"react-router-dom": "^6.26.2",
 		"redis": "^4.7.0",
 		"rehype-raw": "^7.0.0",
+		"rfc6902": "^5.1.1",
 		"simple-git-hooks": "^2.11.1",
 		"socket.io": "^4.7.5",
 		"socket.io-client": "^4.7.5",

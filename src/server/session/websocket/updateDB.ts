@@ -1,33 +1,46 @@
-// updateDB.ts
+import type { Socket } from "socket.io";
 import type { SessionValue } from "../../../type.js";
 import { sessionDB } from "../../db/session.js";
-import type ws from "ws";
+import { createPatch } from "rfc6902";
 
+//変更点をブロードキャストし、データベースを更新する関数
 const updateDatabase = async (
 	code: string,
 	newData: SessionValue,
-	clients: Map<string, ws>,
+	socket: Socket,
 ) => {
-	// 既存のセッションデータを取得
 	const existingDataJson = await sessionDB.get(code);
 	const existingData: SessionValue = existingDataJson
 		? JSON.parse(existingDataJson)
 		: null;
 
-	// セッションデータに変更がある場合のみ更新
-	if (
-		existingData &&
-		JSON.stringify(existingData) !== JSON.stringify(newData)
-	) {
-		await sessionDB.set(code, JSON.stringify(newData));
+	const diff = existingData ? createPatch(existingData, newData) : [];
+	console.log("diff", diff);
 
-		// 全クライアントに更新を通知
-		for (const id of newData.clients) {
-			if (clients?.has(id)) {
-				clients.get(id)?.emit("PushCurrentSession", newData);
-			}
-		}
+	if (diff.length > 0) {
+		await sessionDB.set(code, JSON.stringify(newData));
+		socket.broadcast.emit("PushSessionDiff", diff);
 	}
 };
 
-export default updateDatabase;
+//すべてのクライアントに対して新しい変更点をブロードキャストする
+const broadcastDiffToAll = async (
+	code: string,
+	newData: SessionValue,
+	socket: Socket,
+) => {
+	const existingDataJson = await sessionDB.get(code);
+	const existingData: SessionValue = existingDataJson
+		? JSON.parse(existingDataJson)
+		: null;
+
+	const diff = existingData ? createPatch(existingData, newData) : [];
+	console.log("diff", diff);
+
+	if (diff.length > 0) {
+		socket.emit("PushSessionDiff", diff);
+		socket.broadcast.emit("PushSessionDiff", diff);
+	}
+};
+
+export { updateDatabase, broadcastDiffToAll };
