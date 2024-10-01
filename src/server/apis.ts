@@ -31,6 +31,11 @@ api.get("/hello", (req, res) => {
 	res.send("Hello, world!");
 });
 
+//死活監視用のエンドポイント
+api.get("/ping", (req, res) => {
+	res.send("OK");
+});
+
 // 存在しないルートへのリクエストへは404を返す
 api.use("*", (req, res) => {
 	res.status(404).send("Not Found");
