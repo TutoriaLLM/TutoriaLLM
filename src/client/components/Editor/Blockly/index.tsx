@@ -311,12 +311,13 @@ const Editor = forwardRef<HTMLDivElement, { menuOpen: boolean }>(
 		}, [props.menuOpen]);
 
 		useEffect(() => {
+			console.log("currentSession changed", currentSession);
 			const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-			if (
-				currentSession &&
-				prevSession &&
-				currentSession.workspace !== prevSession.workspace
-			) {
+			console.log("current", currentSession);
+			console.log("prev", prevSession);
+			console.log("diff", currentSession !== prevSession);
+
+			if (currentSession && prevSession) {
 				try {
 					Blockly.serialization.workspaces.load(
 						currentSession.workspace,

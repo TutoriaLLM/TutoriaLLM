@@ -11,6 +11,8 @@ console.log("apis.ts: Loading apis app");
 
 const api = express();
 
+api.set("trust proxy", 1 /* number of proxies between user and server */);
+
 // session routes
 api.use("/session", session);
 
@@ -29,6 +31,11 @@ api.use("/auth", auth);
 //hello world
 api.get("/hello", (req, res) => {
 	res.send("Hello, world!");
+});
+
+//死活監視用のエンドポイント
+api.get("/ping", (req, res) => {
+	res.send("OK");
 });
 
 // 存在しないルートへのリクエストへは404を返す

@@ -26,7 +26,15 @@ export default function SessionPopup(props: {
 
 	useEffect(() => {
 		if (languageToStart === "") {
-			setLanguageToStart(navigator.language ?? i18n.language);
+			const detectedLanguage = navigator.language || i18n.language;
+			const baseLanguage = detectedLanguage.split("-")[0]; // Get the base language code
+			const supportedLanguages = i18n.languages;
+			console.log("Detected language: ", baseLanguage);
+			console.log("Supported languages: ", supportedLanguages);
+			const language = supportedLanguages.includes(baseLanguage)
+				? baseLanguage
+				: "en"; // Default to English if the detected language is not supported
+			setLanguageToStart(language);
 		}
 	}, [languageToStart, setLanguageToStart]);
 
@@ -48,13 +56,6 @@ export default function SessionPopup(props: {
 								<Dialog.Description className="text-md font-medium text-gray-600">
 									{t("session.welcome")}
 								</Dialog.Description>
-								{/* <a
-              href="about"
-              className=" p-2 rounded-xl bg-gray-200 hover:bg-gray-300 flex gap-1.5 justify-center items-center"
-            >
-              <HelpCircle className="w-6 h-6" />
-              {t("session.about")}
-            </a> */}
 							</div>
 
 							<div className="bg-gray-50 rounded-3xl shadow p-3 w-full">

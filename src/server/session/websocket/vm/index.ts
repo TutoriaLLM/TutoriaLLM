@@ -12,6 +12,7 @@ import { vmPort } from "../../../main.js";
 import { getConfig } from "../../../getConfig.js";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import type { Socket } from "socket.io";
 
 //debug
 console.log("vm/index.js: Loading vm app");
@@ -132,10 +133,11 @@ export async function ExecCodeTest(
 	userScript: string,
 	serverRootPath: string,
 	clients: Map<string, any>,
+	socket: Socket,
 	DBupdator: (
 		code: string,
 		newData: SessionValue,
-		clients: Map<string, any>,
+		socket: Socket,
 	) => Promise<void>,
 ): Promise<string> {
 	const session = await sessionDB.get(code);
@@ -155,7 +157,7 @@ export async function ExecCodeTest(
 			}
 			const sessionValue: SessionValue = JSON.parse(session);
 			sessionValue.dialogue.push(logs);
-			await DBupdator(code, sessionValue, clients);
+			await DBupdator(code, sessionValue, socket);
 		},
 		code,
 		async () => {
@@ -215,7 +217,7 @@ export async function ExecCodeTest(
 		worker.on("exit", (exitcode) => {
 			console.log(`Worker stopped with exit code ${exitcode}`);
 			logBuffer.stop();
-			StopCodeTest(code, uuid, clients, DBupdator);
+			StopCodeTest(code, uuid, socket, DBupdator);
 		});
 
 		// workerインスタンスを保存
@@ -223,7 +225,7 @@ export async function ExecCodeTest(
 	} catch (e) {
 		console.log("error on VM execution");
 		console.log(e);
-		await StopCodeTest(code, uuid, clients, DBupdator);
+		await StopCodeTest(code, uuid, socket, DBupdator);
 	}
 
 	logBuffer.start();
@@ -261,11 +263,11 @@ export async function UpdateCodeTest(
 export async function StopCodeTest(
 	code: string,
 	uuid: string,
-	clients: Map<string, any>,
+	socket: Socket,
 	DBupdator: (
 		code: string,
 		newData: SessionValue,
-		clients: Map<string, any>,
+		socket: Socket,
 	) => Promise<void>,
 ): Promise<{ message: string; error: string }> {
 	const instance = vmInstances[uuid];
@@ -305,7 +307,7 @@ export async function StopCodeTest(
 		// DBを更新し、クライアントに通知
 		const sessionValue: SessionValue = JSON.parse(session);
 		sessionValue.isVMRunning = false;
-		await DBupdator(code, sessionValue, clients);
+		await DBupdator(code, sessionValue, socket);
 		return {
 			message: "Script execution stopped successfully.",
 			error: "",

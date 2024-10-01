@@ -11,6 +11,8 @@ import * as Tabs from "@radix-ui/react-tabs";
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
+//差分の検知
+import { applyPatch, createPatch, type Operation } from "rfc6902";
 //ツアーの読み込み
 import { TourProvider, useTour, type StepType } from "@reactour/tour";
 import { tourSteps } from "./editorTour.js";
@@ -51,8 +53,10 @@ export default function EditorPage() {
 	const [sessionCode, setSessionCode] = useAtom(userSessionCode);
 	// 現在のセッション情報
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
+	const currentSessionRef = useRef<SessionValue | null>(null);
 	//比較するために前回の値を保存
 	const [prevSession, setPrevSession] = useAtom(prevSessionState);
+	const isInternalUpdateRef = useRef(true); // useRef でフラグを管理
 
 	//タブ切り替えのための状態
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
@@ -255,10 +259,31 @@ export default function EditorPage() {
 			setSocketInstance(socket); // Socketインスタンスを保存
 		});
 
-		socket.on("PushCurrentSession", (message: SessionValue) => {
-			console.log("Received changed session data from server!");
-			setCurrentSession(message);
-			setIsCodeRunning(message.isVMRunning);
+		socket.on("PushCurrentSession", (data: SessionValue) => {
+			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
+			console.log("Received current session from server!", data);
+			setCurrentSession(data);
+			setPrevSession(data);
+			setIsCodeRunning(data?.isVMRunning ?? false);
+			isInternalUpdateRef.current = true; // フラグをリセット
+		});
+
+		socket.on("PushSessionDiff", (diff: Operation[]) => {
+			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
+			console.log("Received session diff from server!", diff);
+
+			// 差分を currentSession に適用
+			setCurrentSession((prevSession) => {
+				if (prevSession) {
+					const updatedSession = { ...prevSession }; // 現在のセッションのコピーを作成
+					applyPatch(updatedSession, diff); // 差分を適用
+					return updatedSession; // 更新されたセッションを返す
+				}
+				console.error("Current session is null.");
+				return prevSession;
+			});
+
+			isInternalUpdateRef.current = true; // フラグをリセット
 		});
 
 		// スクリーンショットのリクエストを受信したときに最新のクリック情報を使用する
@@ -285,10 +310,12 @@ export default function EditorPage() {
 		});
 	}
 
-	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はSocketに送信する
+	// currentSessionが変更されたら、内容をprevSessionと比較して内容が違う場合はsendDataToServerを利用する
 	useEffect(() => {
+		// currentSession が変更されるたびに ref を更新する
+		currentSessionRef.current = currentSession;
 		if (socketInstance && currentSession) {
-			// 前回のセッションのワークスペース、対話、またはスクリーンショットの内容が違う場合のみ送信
+			//アップデートの対象となるデータがあるか確認
 			if (
 				JSON.stringify(currentSession.workspace) !==
 					JSON.stringify(prevSession?.workspace) ||
@@ -299,55 +326,35 @@ export default function EditorPage() {
 				JSON.stringify(currentSession.clicks) !==
 					JSON.stringify(prevSession?.clicks)
 			) {
-				socketInstance.emit("UpdateCurrentSession", currentSession);
-				setPrevSession(currentSession);
-				console.log(
-					"Sent currentSession to Socket and save prev session:",
-					currentSession,
-				);
-			}
+				// セッションの差分を計算し、sendDataToServerを利用する
+				if (prevSession && isInternalUpdateRef.current) {
+					// 差分を計算
+					const diff = createPatch(prevSession, currentSession);
+					console.log("diff:", diff);
 
-			// ワークスペースの内容が変更されかつ自動返信が有効の場合、一定時間後にAIにユーザーのワークスペースのフィードバックを要求する
-			if (
-				JSON.stringify(currentSession.workspace) !==
-					JSON.stringify(prevSession?.workspace) &&
-				settings?.Client_Settings.AutoReply
-			) {
-				if (timerRef.current) {
-					clearTimeout(timerRef.current);
-				}
-				timerRef.current = setTimeout(() => {
-					// ワークスペース更新後、最後のメッセージがユーザーでないかつ入力中でない場合
-					if (
-						currentSession?.dialogue.findLast((item) => !item.isuser) &&
-						!currentSession.isReplying
-					) {
-						setCurrentSession((prev) => {
-							if (prev) {
-								setPrevSession(prev);
-								const lastId =
-									prev.dialogue.length > 0
-										? prev.dialogue[prev.dialogue.length - 1].id
-										: 0;
-								return {
-									...prev,
-									dialogue: [
-										...prev.dialogue,
-										{
-											id: lastId + 1,
-											contentType: "request",
-											isuser: true,
-											content:
-												"request for AI feedback. This message is automatically generated on the client side.",
-										},
-									],
-									isReplying: true,
-								};
-							}
-							return prev;
-						});
+					// 差分がある場合のみ送信し、prevSessionを更新
+					if (diff.length > 0) {
+						socketInstance?.emit("UpdateCurrentSessionDiff", diff);
+						console.log(
+							"Sent session diff to server and saved prev session:",
+							diff,
+						);
+						setPrevSession(currentSession);
 					}
-				}, settings?.Client_Settings.Reply_Time_ms); // 例として5秒後に送信
+				} else {
+					// 前回のセッションがない場合、空のオブジェクトと比較
+					const diff = createPatch({}, currentSession);
+
+					console.log("diff for empty session:", diff);
+
+					// 差分を送信
+					socketInstance?.emit("UpdateCurrentSessionDiff", diff);
+					setPrevSession(currentSession);
+					console.log(
+						"Sent initial session diff to server and saved prev session:",
+						diff,
+					);
+				}
 			}
 		}
 	}, [currentSession, socketInstance]);
@@ -434,7 +441,9 @@ export default function EditorPage() {
 					<button
 						type="button"
 						onClick={handleToggle}
-						className={`absolute sm:hidden w-8 h-8 top-2 left-4 flex items-center justify-center transition-transform ${isMenuOpen ? "rotate-180" : ""}`}
+						className={`absolute sm:hidden w-8 h-8 top-2 left-4 flex items-center justify-center transition-transform ${
+							isMenuOpen ? "rotate-180" : ""
+						}`}
 					>
 						<PanelRightClose />
 					</button>

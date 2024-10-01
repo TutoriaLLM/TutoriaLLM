@@ -96,7 +96,7 @@ export function DebugInfo() {
 				}`}
 				onClick={switchDebugInfo}
 			>
-				{t("session.debuginfo")}
+				{t("session.about")}
 			</button>
 			{isDebugInfoOpen ? (
 				<Popup
@@ -104,6 +104,8 @@ export function DebugInfo() {
 					onClose={switchDebugInfo}
 					Content={
 						<div className="flex flex-col gap-4">
+							<h2 className="text-2xl text-gray-700">{t("session.about")}</h2>
+							<p className="">{t("session.aboutText")}</p>
 							<h2 className="text-2xl text-gray-700">
 								{t("session.debuginfo")}
 							</h2>
@@ -124,6 +126,15 @@ export function DebugInfo() {
 								)}
 								{/* 他のデバッグ情報をここに追加する */}
 							</div>
+							<p className="italic font-bold">
+								&#9829;Developed by So Tokumaru with many contributors. <br />
+								<a
+									className="text-blue-400 hover:text-blue-300 transition-colors"
+									href="https://tutoriallm.com"
+								>
+									check tutoriallm.com for more info
+								</a>
+							</p>
 						</div>
 					}
 				/>

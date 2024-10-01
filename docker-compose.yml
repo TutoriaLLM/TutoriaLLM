@@ -1,4 +1,12 @@
 services:
+  jaeger: # telemetry collector
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "16687:16687"
+      - "4317:4317"
+      - "4318:4318"
+      - "9411:9411"
   redis:
   #実稼働ではredis/redis-stack-serverを使用する
     container_name: code-tutorial-redis-dev

@@ -9,9 +9,12 @@ import { sessionDB } from "../../db/session.js";
 import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
-import updateDatabase from "./updateDB.js";
-import { updateSession } from "./updateSession.js";
+import { updateSession } from "./sessionUpdator/index.js";
 import { getConfig } from "../../getConfig.js";
+import { applyPatch, type Operation } from "rfc6902";
+import { Socket } from "socket.io-client";
+import { updateAndBroadcastDiff } from "./updateDB.js";
+import apiLimiter from "../../ratelimit.js";
 
 const config = getConfig();
 
@@ -19,6 +22,7 @@ const config = getConfig();
 console.log("websocket/index.ts: Loading websocket app");
 
 const wsServer = express.Router();
+wsServer.use(apiLimiter(1 * 1000, 10)); // 10 requests per second
 const clients = new Map<string, any>(); // socket.ioクライアントを管理するマップ
 
 // i18n configuration
@@ -44,6 +48,8 @@ io.on("connection", async (socket) => {
 	console.log("new connection request from client");
 	const code = socket.handshake.query.code as string;
 	const uuid = socket.handshake.query.uuid as string;
+
+	const senderClient = socket;
 
 	console.log("on connect:", code, uuid);
 	try {
@@ -101,37 +107,19 @@ io.on("connection", async (socket) => {
 			interval * 60 * 1000,
 		); // 指定された分ごとにスクリーンショットをリクエスト
 
-		socket.on("UpdateCurrentSession", async (message) => {
-			console.log("UpdateCurrentSession");
-			const messageJson: SessionValue = message;
+		socket.on("UpdateCurrentSessionDiff", async (diff: Operation[]) => {
 			const currentDataJson = await getCurrentDataJson(code);
 			if (!currentDataJson) {
 				console.log("Session not found");
 				socket.disconnect();
 				return;
 			}
-			const isUpdated =
-				JSON.stringify(messageJson) !== JSON.stringify(currentDataJson);
 
-			if (isUpdated) {
-				try {
-					const messageJson: SessionValue = message;
-					if (currentDataJson.uuid !== messageJson.uuid) {
-						socket.emit("error", "Invalid uuid");
-						socket.disconnect();
-					}
-
-					updateSession(clients, currentDataJson, messageJson)
-						.then(() => {
-							console.log("Session updated");
-						})
-						.catch((error) => {
-							console.error("Error updating session:", error);
-						});
-				} catch (error) {
-					console.error("Error handling message:", error);
-					socket.emit("error", "Server error");
-				}
+			try {
+				await updateSession(currentDataJson, diff, socket);
+			} catch (error) {
+				console.error("Error updating session:", error);
+				socket.emit("error", "Server error");
 			}
 		});
 		socket.on("openVM", async () => {
@@ -157,15 +145,15 @@ io.on("connection", async (socket) => {
 			) {
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
-				await updateDatabase(code, currentDataJson, clients);
-				updateDatabase(
+				await updateAndBroadcastDiff(code, currentDataJson, socket);
+				updateAndBroadcastDiff(
 					code,
 					updateDialogue(
 						i18next.t("error.empty_code"),
 						currentDataJson,
 						"error",
 					),
-					clients,
+					socket,
 				);
 				sendToAllClients(currentDataJson);
 				return;
@@ -178,20 +166,21 @@ io.on("connection", async (socket) => {
 				generatedCode,
 				serverRootPath,
 				clients,
-				updateDatabase,
+				socket,
+				updateAndBroadcastDiff,
 			);
 			if (result === "Valid uuid") {
 				console.log("Script is running...");
 				isRunning = true;
 				currentDataJson.isVMRunning = isRunning;
-				await updateDatabase(code, currentDataJson, clients);
+				await updateAndBroadcastDiff(code, currentDataJson, socket);
 				console.log("sending to all clients true");
 				sendToAllClients(currentDataJson);
 			} else {
 				console.log(result);
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
-				await updateDatabase(code, currentDataJson, clients);
+				await updateAndBroadcastDiff(code, currentDataJson, socket);
 				console.log("sending to all clients false");
 				sendToAllClients(currentDataJson);
 			}
@@ -225,7 +214,12 @@ io.on("connection", async (socket) => {
 				return;
 			}
 			let isRunning = currentDataJson.isVMRunning;
-			const result = await StopCodeTest(code, uuid, clients, updateDatabase);
+			const result = await StopCodeTest(
+				code,
+				uuid,
+				socket,
+				updateAndBroadcastDiff,
+			);
 			console.log(result);
 			isRunning = false;
 			currentDataJson.isVMRunning = isRunning;
@@ -237,7 +231,11 @@ io.on("connection", async (socket) => {
 				},
 				currentDataJson,
 			);
-			await updateDatabase(code, currentDataJsonWithUpdatedStats, clients);
+			await updateAndBroadcastDiff(
+				code,
+				currentDataJsonWithUpdatedStats,
+				socket,
+			);
 		});
 
 		socket.on("disconnect", async () => {
@@ -266,8 +264,8 @@ io.on("connection", async (socket) => {
 					const result = await StopCodeTest(
 						code,
 						uuid,
-						clients,
-						updateDatabase,
+						socket,
+						updateAndBroadcastDiff,
 					);
 					console.log(`${result.message} VM stopped. no clients connected.`);
 					currentDataJson.isVMRunning = false;

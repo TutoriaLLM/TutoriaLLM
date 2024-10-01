@@ -19,10 +19,14 @@ export default function DialogueView() {
 	const [message, setMessage] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
+	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
+
 	const sendMessage = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault(); // デフォルトのフォーム送信を防止
-			if (message) {
+			if (message && !isSending) {
+				// すでに送信中でないことを確認
+				setIsSending(true); // 送信中フラグを立てる
 				setSession((prev) => {
 					if (prev) {
 						const lastId =
@@ -52,9 +56,10 @@ export default function DialogueView() {
 					return prev;
 				});
 				setMessage(""); // メッセージ送信後にフィールドをクリア
+				setIsSending(false); // 送信完了後に送信中フラグをリセット
 			}
 		},
-		[message, setSession],
+		[message, isSending, setSession],
 	);
 
 	const handleQuickReply = useCallback((reply: string) => {
@@ -123,11 +128,11 @@ export default function DialogueView() {
 						<button
 							type="submit"
 							className={`p-3 text-white rounded-2xl flex ${
-								message === ""
+								message === "" || session?.isReplying
 									? "bg-gray-300 transition"
 									: "bg-sky-600 hover:bg-sky-700 transition"
 							}`}
-							disabled={message === ""}
+							disabled={message === "" || session?.isReplying}
 						>
 							<Send />
 						</button>
