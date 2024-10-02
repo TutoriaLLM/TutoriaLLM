@@ -19,6 +19,9 @@ export default defineConfig({
 				"icon-512-maskable.png",
 			],
 			registerType: "autoUpdate",
+			workbox: {
+				maximumFileSizeToCacheInBytes: 4000000,
+			},
 			manifest: {
 				name: "TutoriaLLM",
 				short_name: "TutoriaLLM",
