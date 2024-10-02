@@ -132,7 +132,6 @@ export async function ExecCodeTest(
 	uuid: string,
 	userScript: string,
 	serverRootPath: string,
-	clients: Map<string, any>,
 	socket: Socket,
 	DBupdator: (
 		code: string,

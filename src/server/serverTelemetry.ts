@@ -11,19 +11,20 @@ import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { Resource } from "@opentelemetry/resources";
 
 // Make sure to call "Sentry.init" BEFORE initializing the OpenTelemetry SDK
-Sentry.init({
-	dsn: process.env.SENTRY_DSN,
-	tracesSampleRate: 1.0,
-	registerEsmLoaderHooks: { onlyIncludeInstrumentedModules: true }, //これを追加しないと一部のモジュールが読み込まれないエラーを起こす
-});
-
-Sentry.addOpenTelemetryInstrumentation(new GenericPoolInstrumentation());
+if (process.env.SENTRY_DSN) {
+	Sentry.init({
+		dsn: process.env.SENTRY_DSN,
+		tracesSampleRate: 1.0,
+		registerEsmLoaderHooks: { onlyIncludeInstrumentedModules: true }, //これを追加しないと一部のモジュールが読み込まれないエラーを起こす
+	});
+	Sentry.addOpenTelemetryInstrumentation(new GenericPoolInstrumentation());
+}
 
 // Sentryが有効でない場合は、ローカルでのテレメトリを利用するため、OpenTelemetry SDKを初期化する
-if (!process.env.SENTRY_DSN) {
+if (process.env.TELEMETRY_EXPORT_URL) {
 	const sdk = new opentelemetry.NodeSDK({
 		resource: new Resource({
-			"service.name": "tutoriallm",
+			"service.name": "tutoriallm-server",
 		}),
 		traceExporter: new OTLPTraceExporter({
 			url: process.env.TELEMETRY_EXPORT_URL || undefined,
