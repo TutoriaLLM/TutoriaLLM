@@ -6,12 +6,28 @@ import {
 	useLocation,
 	useNavigationType,
 } from "react-router-dom";
+import type { AppConfig } from "../type.js";
 
 const FrontendTracer = async () => {
-	console.log("FrontendTracer", import.meta.env.VITE_FRONT_SENTRY_DSN);
-	if (import.meta.env.VITE_FRONT_SENTRY_DSN) {
+	async function fetchConfig(): Promise<AppConfig> {
+		try {
+			const response = await fetch("/api/admin/config/");
+			const data = (await response.json()) as AppConfig;
+			return data;
+		} catch (error) {
+			console.error("Failed to fetch config:", error);
+		}
+		return {} as AppConfig;
+	}
+
+	const config = await fetchConfig();
+
+	const sentryDsn = config.General_Settings.Sentry_DSN;
+
+	if (sentryDsn !== "" && sentryDsn !== undefined) {
+		console.log("sentry is enabled");
 		Sentry.init({
-			dsn: import.meta.env.VITE_FRONT_SENTRY_DSN,
+			dsn: sentryDsn,
 			tracesSampleRate: 1.0,
 			integrations: [
 				Sentry.reactRouterV6BrowserTracingIntegration({
@@ -24,6 +40,8 @@ const FrontendTracer = async () => {
 				Sentry.replayIntegration(),
 			],
 		});
+	} else {
+		console.log("sentry is disabled");
 	}
 };
 

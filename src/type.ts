@@ -89,6 +89,7 @@ export type AppConfig = {
 		Enable_Join_by_code: boolean;
 		Enable_Create_Room: boolean;
 		Enable_Memory_Use_Log: boolean;
+		Sentry_DSN: string;
 	};
 	AI_Settings: {
 		Chat_AI_Model: string;
