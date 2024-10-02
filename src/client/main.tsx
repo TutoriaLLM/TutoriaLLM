@@ -8,8 +8,11 @@ import EditorPage from "./pages/editorPage.js";
 
 import "../i18n/client_i18nConfig.js";
 import AdminPage from "./pages/adminPage.js";
+import FrontendTracer from "./clientTelemetry.js";
 
 export default function App(): React.ReactElement {
+	//Sentry/Opentelemetryの実行
+	if (typeof window !== "undefined") FrontendTracer();
 	// アプリのページ定義
 
 	return (
