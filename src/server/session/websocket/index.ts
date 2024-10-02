@@ -12,8 +12,11 @@ import { updateStats } from "../../../utils/statsUpdater.js";
 import { updateSession } from "./sessionUpdator/index.js";
 import { getConfig } from "../../getConfig.js";
 import { applyPatch, type Operation } from "rfc6902";
-import { Socket } from "socket.io-client";
-import { updateAndBroadcastDiff } from "./updateDB.js";
+import type { Socket } from "socket.io";
+import {
+	updateAndBroadcastDiff,
+	updateAndBroadcastDiffToAll,
+} from "./updateDB.js";
 import apiLimiter from "../../ratelimit.js";
 
 const config = getConfig();
@@ -23,7 +26,6 @@ console.log("websocket/index.ts: Loading websocket app");
 
 const wsServer = express.Router();
 wsServer.use(apiLimiter(1 * 1000, 10)); // 10 requests per second
-const clients = new Map<string, any>(); // socket.ioクライアントを管理するマップ
 
 // i18n configuration
 i18next.use(FsBackend).init<FsBackendOptions>(
@@ -49,8 +51,6 @@ io.on("connection", async (socket) => {
 	const code = socket.handshake.query.code as string;
 	const uuid = socket.handshake.query.uuid as string;
 
-	const senderClient = socket;
-
 	console.log("on connect:", code, uuid);
 	try {
 		// コードが存在しない場合は接続を拒否
@@ -69,21 +69,22 @@ io.on("connection", async (socket) => {
 			return;
 		}
 
-		// WebSocketクライアントのIDを生成
-		const clientId = `${uuid}-${Math.random().toString(36).substr(2, 9)}`;
-		clients.set(clientId, socket);
-
-		// クライアントIDをセッションに追加
-		if (!data.clients.includes(clientId)) {
-			data.clients.push(clientId);
-			await sessionDB.set(code, JSON.stringify(data));
-			console.log("client connected");
-		}
-
 		// Change language based on DB settings
 		i18next.changeLanguage(data.language);
 
-		socket.emit("PushCurrentSession", data);
+		const dataWithNewClient = {
+			...data,
+			clients: [...data.clients, socket.id],
+		};
+
+		socket.emit("PushCurrentSession", dataWithNewClient);
+
+		// クライアントを追加
+		updateAndBroadcastDiffToAll(
+			code,
+			dataWithNewClient, // クライアントを追加したデータ
+			socket,
+		);
 
 		async function getCurrentDataJson(
 			code: string,
@@ -101,7 +102,6 @@ io.on("connection", async (socket) => {
 		const interval = config.Client_Settings.Screenshot_Interval_min || 1;
 		const screenshotInterval = setInterval(
 			() => {
-				console.log(`Sending RequestScreenshot to client ${clientId}`);
 				socket.emit("RequestScreenshot");
 			},
 			interval * 60 * 1000,
@@ -145,8 +145,7 @@ io.on("connection", async (socket) => {
 			) {
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
-				await updateAndBroadcastDiff(code, currentDataJson, socket);
-				updateAndBroadcastDiff(
+				updateAndBroadcastDiffToAll(
 					code,
 					updateDialogue(
 						i18next.t("error.empty_code"),
@@ -155,7 +154,6 @@ io.on("connection", async (socket) => {
 					),
 					socket,
 				);
-				sendToAllClients(currentDataJson);
 				return;
 			}
 			console.log("test code received. Executing...");
@@ -165,24 +163,21 @@ io.on("connection", async (socket) => {
 				currentDataJson.uuid,
 				generatedCode,
 				serverRootPath,
-				clients,
 				socket,
-				updateAndBroadcastDiff,
+				updateAndBroadcastDiffToAll,
 			);
 			if (result === "Valid uuid") {
 				console.log("Script is running...");
 				isRunning = true;
 				currentDataJson.isVMRunning = isRunning;
-				await updateAndBroadcastDiff(code, currentDataJson, socket);
+				await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
 				console.log("sending to all clients true");
-				sendToAllClients(currentDataJson);
 			} else {
 				console.log(result);
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
-				await updateAndBroadcastDiff(code, currentDataJson, socket);
+				await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
 				console.log("sending to all clients false");
-				sendToAllClients(currentDataJson);
 			}
 		});
 		socket.on("updateVM", async (callback) => {
@@ -224,14 +219,13 @@ io.on("connection", async (socket) => {
 			isRunning = false;
 			currentDataJson.isVMRunning = isRunning;
 
-			sendToAllClients(currentDataJson);
 			const currentDataJsonWithUpdatedStats = updateStats(
 				{
 					totalCodeExecutions: currentDataJson.stats.totalCodeExecutions + 1,
 				},
 				currentDataJson,
 			);
-			await updateAndBroadcastDiff(
+			await updateAndBroadcastDiffToAll(
 				code,
 				currentDataJsonWithUpdatedStats,
 				socket,
@@ -247,10 +241,10 @@ io.on("connection", async (socket) => {
 					return;
 				}
 				const currentDataJson: SessionValue = JSON.parse(currentData);
+
 				currentDataJson.clients = currentDataJson.clients.filter(
-					(id) => id !== clientId,
+					(id) => id !== socket.id,
 				);
-				clients.delete(clientId); // マップから削除
 
 				//VMが実行中かつすべてのクライアントが切断された場合、VMを停止する
 				console.log(
@@ -270,7 +264,8 @@ io.on("connection", async (socket) => {
 					console.log(`${result.message} VM stopped. no clients connected.`);
 					currentDataJson.isVMRunning = false;
 				}
-				await sessionDB.set(code, JSON.stringify(currentDataJson));
+				// await sessionDB.set(code, JSON.stringify(currentDataJson));
+				await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
 			} catch (error) {
 				console.error("Error closing connection:", error);
 			}
@@ -309,13 +304,5 @@ wsServer.get("/get/:code", async (req, res) => {
 wsServer.get("/hello", async (req, res) => {
 	res.send("hello");
 });
-
-function sendToAllClients(session: SessionValue) {
-	for (const id of session.clients) {
-		if (clients?.has(id)) {
-			clients.get(id)?.emit("PushCurrentSession", session);
-		}
-	}
-}
 
 export default wsServer;

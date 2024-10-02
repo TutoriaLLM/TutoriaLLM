@@ -259,6 +259,7 @@ export default function EditorPage() {
 			setSocketInstance(socket); // Socketインスタンスを保存
 		});
 
+		//初回接続時に現在のすべてのセッション情報を受信
 		socket.on("PushCurrentSession", (data: SessionValue) => {
 			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
 			console.log("Received current session from server!", data);
@@ -274,9 +275,11 @@ export default function EditorPage() {
 
 			// 差分を currentSession に適用
 			setCurrentSession((prevSession) => {
+				setPrevSession(prevSession); // 前回のセッションを保存
 				if (prevSession) {
 					const updatedSession = { ...prevSession }; // 現在のセッションのコピーを作成
 					applyPatch(updatedSession, diff); // 差分を適用
+					setIsCodeRunning(updatedSession?.isVMRunning ?? false);
 					return updatedSession; // 更新されたセッションを返す
 				}
 				console.error("Current session is null.");
