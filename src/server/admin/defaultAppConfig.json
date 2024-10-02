@@ -2,7 +2,8 @@
 	"General_Settings": {
 		"Enable_Join_by_code": true,
 		"Enable_Create_Room": true,
-		"Enable_Memory_Use_Log": false
+		"Enable_Memory_Use_Log": false,
+		"Sentry_DSN": ""
 	},
 	"AI_Settings": {
 		"Chat_AI_Model": "gpt-4o",
