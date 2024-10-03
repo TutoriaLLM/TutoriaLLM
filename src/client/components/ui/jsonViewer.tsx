@@ -35,6 +35,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			return (
 				<input
 					type="checkbox"
+					className="w-5 h-5 rounded-md p-1.5 px-2"
 					checked={value}
 					onChange={(e) => handleChange(e, key, index)}
 				/>
@@ -44,6 +45,8 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			return (
 				<input
 					type="number"
+					className="w-20 rounded-md p-1.5 px-2"
+					step={0.1}
 					value={value}
 					onChange={(e) => handleChange(e, key, index)}
 				/>
@@ -53,6 +56,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			return (
 				<input
 					type="text"
+					className="w-full rounded-md p-1.5 px-2"
 					value={value}
 					onChange={(e) => handleChange(e, key, index)}
 				/>
@@ -72,7 +76,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 	};
 
 	return (
-		<div>
+		<div className="bg-gray-300 p-2 md:p-3 flex flex-col gap-2 rounded-2xl">
 			{Object.keys(obj).map((key, index) => {
 				const value = obj[key];
 
@@ -108,7 +112,9 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 					}
 					return (
 						<div key={index}>
-							<h3 className="font-semibold text-lg">{localizedKey}</h3>
+							<h3 className="font-semibold text-lg border-l-4 border-gray-200 pl-2">
+								{localizedKey}
+							</h3>
 							<JSONField
 								obj={value as Record<string, unknown>}
 								setObj={(newSubObj) => {
