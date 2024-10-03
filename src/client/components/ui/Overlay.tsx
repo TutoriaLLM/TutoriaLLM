@@ -19,7 +19,7 @@ export default function Overlay(props: {
 							onInteractOutside={avoidDefaultDomBehavior}
 							asChild
 						>
-							<div className="fixed flex flex-col justify-center items-center max-w-md w-full gap-3 bg-transparent p-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[999] font-semibold">
+							<div className="flex justify-center items-center w-full h-full">
 								{props.Content}
 							</div>
 						</Dialog.Content>
