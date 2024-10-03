@@ -35,7 +35,14 @@ export async function updateSession(
 		isDialogueChanged(currentDataJson, newDataJson) &&
 		isLastMessageByUser(newDataJson.dialogue)
 	) {
-		updateAndBroadcastDiff(code, newDataJson, socket);
+		updateAndBroadcastDiff(
+			code,
+			{
+				...newDataJson,
+				isReplying: true,
+			},
+			socket,
+		);
 		updateDialogueWithLLM(newDataJson)
 			.then(async (responseorError) => {
 				updateAndBroadcastDiffToAll(code, responseorError, socket);
