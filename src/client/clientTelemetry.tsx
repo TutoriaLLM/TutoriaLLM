@@ -11,7 +11,7 @@ import type { AppConfig } from "../type.js";
 const FrontendTracer = async () => {
 	async function fetchConfig(): Promise<AppConfig> {
 		try {
-			const response = await fetch("/api/admin/config/");
+			const response = await fetch("/api/config/");
 			const data = (await response.json()) as AppConfig;
 			return data;
 		} catch (error) {
