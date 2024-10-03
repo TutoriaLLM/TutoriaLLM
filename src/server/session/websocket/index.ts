@@ -213,7 +213,7 @@ io.on("connection", async (socket) => {
 				code,
 				uuid,
 				socket,
-				updateAndBroadcastDiff,
+				updateAndBroadcastDiffToAll,
 			);
 			console.log(result);
 			isRunning = false;
