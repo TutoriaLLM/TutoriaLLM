@@ -1,4 +1,6 @@
 import type React from "react";
+import { Trans } from "react-i18next";
+import { t } from "i18next";
 
 type JSONFieldProps = {
 	obj: Record<string, unknown>;
@@ -74,11 +76,14 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			{Object.keys(obj).map((key, index) => {
 				const value = obj[key];
 
+				// Trans を使ってローカライズされた文字列を取得
+				const localizedKey = <Trans t={t}>AppConfig.{key}</Trans>;
+
 				if (typeof value === "object" && value !== null) {
 					if (Array.isArray(value)) {
 						return (
 							<div key={index}>
-								<h3 className="font-semibold text-lg">{key}</h3>
+								<h3 className="font-semibold text-lg">{localizedKey}</h3>
 								{value.map((item, itemIndex) => (
 									<div key={itemIndex} className="flex items-center mb-2">
 										{renderInputField(key, item, itemIndex)}
@@ -103,7 +108,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 					}
 					return (
 						<div key={index}>
-							<h3 className="font-semibold text-lg">{key}</h3>
+							<h3 className="font-semibold text-lg">{localizedKey}</h3>
 							<JSONField
 								obj={value as Record<string, unknown>}
 								setObj={(newSubObj) => {
@@ -119,7 +124,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 				return (
 					<div className="flex flex-col mb-2" key={index}>
 						<span>
-							{key}:{renderInputField(key, value)}
+							{localizedKey}:{renderInputField(key, value)}
 						</span>
 					</div>
 				);

@@ -130,5 +130,29 @@
 	},
 	"dialogue": {
 		"Introduction": "こんにちは！まずは画面下のボタンや、チャット欄から、何をしたいか決めましょう！"
+	},
+	"AppConfig": {
+		"AI_Settings": "AI設定",
+		"AutoReply": "AIによる自動返信",
+		"Chat_AI_Model": "チャットに利用するAIモデル",
+		"Chat_AI_Temperature": "チャットAIのTemperature",
+		"Client_Sentry_Settings": "Sentry設定",
+		"Client_Settings": "クライアント設定",
+		"Code_Execution_Limits": "コード実行(VM)の制限",
+		"Enable_Create_Room": "ルームの作成を有効にする",
+		"Enable_Join_by_code": "コードによる参加を有効にする",
+		"Enable_Memory_Use_Log": "メモリ使用ログを有効にする",
+		"General_Settings": "一般設定",
+		"Max_CPU_Usage": "VM の最大 CPU 使用率",
+		"Max_CodeRangeSizeMb": "最大コード範囲サイズ (Mb)",
+		"Max_Num_Message_Queue": "VM 上のメッセージ キューの最大数",
+		"Max_OldGenerationSizeMb": "OldGeneration の最大サイズ (Mb)",
+		"Max_YoungGenerationSizeMb": "Max YoungGeneration サイズ (Mb)",
+		"Reply_Time_ms": "応答時間ミリ秒",
+		"Screenshot_Interval_min": "スクリーンショット間隔（分）",
+		"Sentry_DSN": "Sentry DSN (無効にする場合は空のままにします)",
+		"replaysOnErrorSampleRate": "Sentryのエラー時のリプレイのサンプルレート",
+		"replaysSessionSampleRate": "Sentryのセッションでのリプレイのサンプルレート",
+		"tracesSampleRate": "Sentryのトレースのサンプルレート"
 	}
 }
