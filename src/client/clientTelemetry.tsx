@@ -30,10 +30,10 @@ const FrontendTracer = async () => {
 	) {
 		console.log("sentry is enabled");
 		Sentry.init({
-			dsn: sentrysetting.Sentry_DSN,
-			tracesSampleRate: sentrysetting.tracesSampleRate,
-			replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate,
-			replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate,
+			dsn: sentrysetting.Sentry_DSN || "",
+			tracesSampleRate: sentrysetting.tracesSampleRate || 0,
+			replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate || 0,
+			replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate || 0,
 			integrations: [
 				Sentry.reactRouterV6BrowserTracingIntegration({
 					useEffect,
