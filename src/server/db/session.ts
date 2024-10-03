@@ -8,13 +8,13 @@ console.log("db/session.ts: Loading db app");
 
 const DBrouter = express.Router();
 DBrouter.use(apiLimiter());
+DBrouter.use(express.json());
 
 //複数セッションを管理するのに使用するコードとデータを保存するDB
 //export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
 //Redisに移行
 import redis from "redis";
 import i18next from "i18next";
-import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import apiLimiter from "../ratelimit.js";
 export const sessionDB = redis.createClient({
 	username: process.env.REDIS_USERNAME,
@@ -75,14 +75,53 @@ function initialData(code: string, language: string): SessionValue {
 	};
 }
 
-DBrouter.get("/new", async (req, res) => {
-	//参加コードを生成
-	const code = joincodeGen();
+DBrouter.post("/new", async (req, res) => {
 	//言語をクエリから取得し、存在しない場合は英語をデフォルトとする
 	let language = req.query.language;
+
+	const sessionData = req.body as SessionValue | undefined;
+
+	//Languageが存在せず、Bodyにセッションデータがある場合はセッションデータを使用してセッションを作成する
+	if (sessionData?.uuid && !language) {
+		console.log("session created with data");
+		const code = joincodeGen();
+		console.log("sessionData", sessionData);
+
+		const { t } = i18next;
+		i18next.changeLanguage(sessionData.language);
+		await sessionDB.set(
+			sessionData.sessioncode,
+			JSON.stringify({
+				...sessionData,
+				sessioncode: code,
+				// uuid: crypto.randomUUID(),
+				dialogue: [
+					...sessionData.dialogue,
+					{
+						id: sessionData.dialogue.length + 1,
+						contentType: "log",
+						isuser: false,
+						content: t("dialogue.NewSessionWithData"),
+					},
+				],
+				clients: [],
+				updatedAt: new Date(),
+				screenShot: "",
+				clicks: [],
+			}),
+		);
+		res.send(sessionData.sessioncode);
+		return;
+	}
+
 	if (language === undefined || !language) {
 		language = "en";
 	}
+	//参加コードを生成
+	const code = joincodeGen();
+
+	console.log("session created with initial data");
+
 	//生成したコードが重複していないか確認
 	//const value = await sessionDB.get(code).catch(() => null);
 	const value = await sessionDB.get(code);
@@ -92,10 +131,7 @@ DBrouter.get("/new", async (req, res) => {
 			.send("Failed to create session by api: code already exists");
 		return;
 	}
-	// await sessionDB.put(
-	// 	code,
-	// 	JSON.stringify(initialData(code, language.toString())),
-	// );
+
 	await sessionDB.set(
 		code,
 		JSON.stringify(initialData(code, language.toString())),

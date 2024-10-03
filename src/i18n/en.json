@@ -11,10 +11,15 @@
 		"welcome": "Study coding with AI",
 		"debuginfo": "Debug Info",
 		"serverDownMsg": "Can not connect server. Check your internet or ask system administrator.",
-		"aboutText": "This application is self-hosted software that provides tutorials using LLM (AI).  The application allows the site administrator to collect data on user usage and statements made in a non-personally identifiable form, and the data collected is used to learn the chat function in the app and to improve the AI's behaviour.  For further information on the handling of data provided by the app, please contact the website administrator. As the application is published as open source and the source code may have been modified, it is recommended not to use the application if the website administrator is unknown.  Data on information about sessions created may be deleted."
+		"aboutText": "This application is self-hosted software that provides tutorials using LLM (AI).  The application allows the site administrator to collect data on user usage and statements made in a non-personally identifiable form, and the data collected is used to learn the chat function in the app and to improve the AI's behaviour.  For further information on the handling of data provided by the app, please contact the website administrator. As the application is published as open source and the source code may have been modified, it is recommended not to use the application if the website administrator is unknown.  Data on information about sessions created may be deleted.",
+		"findSavedSession": "Use saved data",
+		"noSavedSession": "No saved session found",
+		"savedSession": "Saved Session",
+		"continueSession": "Continue this session"
 	},
 	"navbar": {
 		"leave": "leave",
+		"saveAndLeave": "save and leave",
 		"connected": "connected",
 		"reconnecting": "disconnected. attempting to reconnect.",
 		"home": "Home",
@@ -129,7 +134,8 @@
 		"HowToUse": "How to use this?"
 	},
 	"dialogue": {
-		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!"
+		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!",
+		"NewSessionWithData": "Starting new sesssion with saved data"
 	},
 	"AppConfig": {
 		"General_Settings": "General Settings",
