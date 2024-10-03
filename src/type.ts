@@ -89,7 +89,6 @@ export type AppConfig = {
 		Enable_Join_by_code: boolean;
 		Enable_Create_Room: boolean;
 		Enable_Memory_Use_Log: boolean;
-		Sentry_DSN: string;
 	};
 	AI_Settings: {
 		Chat_AI_Model: string;
@@ -105,5 +104,11 @@ export type AppConfig = {
 		Max_OldGenerationSizeMb: number;
 		Max_YoungGenerationSizeMb: number;
 		Max_Num_Message_Queue: number;
+	};
+	Client_Sentry_Settings: {
+		Sentry_DSN: string;
+		replaysOnErrorSampleRate: number;
+		replaysSessionSampleRate: number;
+		tracesSampleRate: number;
 	};
 };

@@ -22,13 +22,18 @@ const FrontendTracer = async () => {
 
 	const config = await fetchConfig();
 
-	const sentryDsn = config.General_Settings.Sentry_DSN;
+	const sentrysetting = config.Client_Sentry_Settings;
 
-	if (sentryDsn !== "" && sentryDsn !== undefined) {
+	if (
+		sentrysetting.Sentry_DSN !== "" &&
+		sentrysetting.Sentry_DSN !== undefined
+	) {
 		console.log("sentry is enabled");
 		Sentry.init({
-			dsn: sentryDsn,
-			tracesSampleRate: 1.0,
+			dsn: sentrysetting.Sentry_DSN,
+			tracesSampleRate: sentrysetting.tracesSampleRate,
+			replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate,
+			replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate,
 			integrations: [
 				Sentry.reactRouterV6BrowserTracingIntegration({
 					useEffect,
