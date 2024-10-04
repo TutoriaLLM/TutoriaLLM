@@ -180,7 +180,7 @@ export default function Users() {
 					{users.map((user) => (
 						<tr
 							key={user.id}
-							className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+							className="border-y-2 border-gray-300 rounded-2xl bg-gray-200 sentry-block"
 						>
 							<th className="px-6 py-4">{user.username}</th>
 

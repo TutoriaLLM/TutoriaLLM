@@ -42,7 +42,9 @@ const FrontendTracer = async () => {
 					createRoutesFromChildren,
 					matchRoutes,
 				}),
-				Sentry.replayIntegration(),
+				Sentry.replayIntegration({
+					maskAllText: false,
+				}),
 			],
 		});
 	} else {
