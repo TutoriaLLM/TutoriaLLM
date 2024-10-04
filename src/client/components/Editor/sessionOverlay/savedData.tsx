@@ -1,10 +1,18 @@
 import { useRef, useState, useEffect } from "react";
-import Popup from "../../../ui/Popup.js";
+import Popup from "../../ui/Popup.js";
 import { Clock, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { SessionValue } from "../../../../../type.js";
-import getImageFromSerializedWorkspace from "./generateImageURL.js";
+import type { SessionValue } from "../../../../type.js";
+import getImageFromSerializedWorkspace from "../generateImageURL.js";
+import { openDB } from "idb";
 import type * as Blockly from "blockly";
+
+// IndexedDBをオープンする関数
+const dbPromise = openDB("session-data", 1, {
+	upgrade(db) {
+		db.createObjectStore("sessions", { keyPath: "key" });
+	},
+});
 
 export default function SavedData() {
 	const [isSavedDataOpen, setIsSavedDataOpen] = useState(false);
@@ -12,7 +20,6 @@ export default function SavedData() {
 		[key: string]: { sessionValue: SessionValue; base64image: string };
 	}>({});
 	const { t } = useTranslation();
-	// Move useRef inside the component function
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
@@ -20,16 +27,15 @@ export default function SavedData() {
 		setIsSavedDataOpen(!isSavedDataOpen);
 	}
 
-	async function getAllSavedData() {
-		const allData = { ...localStorage };
-		const filteredData: {
+	// IndexedDBからセッションデータを取得する関数
+	async function getSessionDataFromIndexedDB() {
+		const db = await dbPromise;
+		const allSessions = await db.getAll("sessions");
+		const data: {
 			[key: string]: { sessionValue: SessionValue; base64image: string };
 		} = {};
-		const filteredKeys = Object.keys(allData).filter((key) => {
-			return key.startsWith("session-");
-		});
-		for (const key of filteredKeys) {
-			const sessionValue = JSON.parse(allData[key]) as SessionValue;
+		for (const session of allSessions) {
+			const sessionValue = session.sessionValue as SessionValue;
 			const imageURL = await getImageFromSerializedWorkspace(
 				sessionValue.workspace,
 
@@ -37,12 +43,15 @@ export default function SavedData() {
 				hiddenWorkspaceRef,
 				hiddenDivRef,
 			);
-			filteredData[key] = { sessionValue, base64image: imageURL };
+			data[session.key] = {
+				sessionValue: session.sessionValue,
+				base64image: imageURL,
+			};
 		}
-		return filteredData;
+		return data;
 	}
 
-	//サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する。残っている場合はそのセッションにアクセスし、残っていない場合は自動的に新しい番号を割り当てる
+	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
 	async function createOrContinueSession(localSessionValue: SessionValue) {
 		const sessionCode = localSessionValue.sessioncode;
 
@@ -103,7 +112,7 @@ export default function SavedData() {
 
 	useEffect(() => {
 		async function fetchData() {
-			const data = await getAllSavedData();
+			const data = await getSessionDataFromIndexedDB();
 			setSavedData(data);
 		}
 
@@ -113,6 +122,7 @@ export default function SavedData() {
 	function dateToString(date: Date) {
 		return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 	}
+
 	const popupContent = (
 		<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-scroll">
 			<h2 className="w-[100vw] font-bold text-2xl">

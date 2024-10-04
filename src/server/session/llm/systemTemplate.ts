@@ -3,6 +3,15 @@ import { langToStr } from "../../../utils/langToStr.js";
 import stringifyKnowledge from "../../../utils/stringifyKnowledge.js";
 import type { Guide } from "../../db/schema.js";
 
+const ui = [
+	{
+		ui: "SelectTutorial",
+		description:
+			"Select a tutorial from the list. If the user already has a tutorial selected, users can override the current tutorial.",
+		warn: "Do not use this field if the user already has a tutorial selected or if the user does not need to select a tutorial.",
+	},
+];
+
 function generateSystemTemplate(
 	knowledge: Guide[] | string,
 	session: SessionValue,
@@ -10,25 +19,26 @@ function generateSystemTemplate(
 	allBlocks: string[],
 ): string {
 	return `
-You are a coding tutor using the following language: ${langToStr(session.language)}
+You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
+Blockly is a visual programming language that allows users to create code by dragging and dropping blocks.
+
+blockId is a unique identifier for each block in the workspace and used to refer to a specific block.
+
+User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
+It can be executed to see the result with pressing the run button.
+
 Provide both teaching and instruction to the user based on the tutorial document and knowledge: ${stringifyKnowledge(knowledge)}
-If a tutorial document is provided, teach and instruct the user with using simple language. If it is not chosen, encourage the user to select a tutorial, or start creating their own code.
-User will be using Blockly workspace to create code, and can be executed to see the result with pressing the run button.
-Response must be in JSON format with the following structure. Do not respond BlockId and BlockName on response fields, and use blockId or BlockName field instead as system will display these block automatically.:
+Instructions should be simple as you can and only one step or topic in each message. Do not contain blockId in the message and use the blockId field instead.
+If a tutorial document is provided, instruct based on it. If it is not chosen, ask the user to select a tutorial, or start creating their own code.
+
+Response must be in JSON format with the following structure. Do not respond BlockId on response fields, and use blockId field instead as system will display these block automatically.:
 UI elements are optional, and can be used to provide the user with options to take action. Should be announced these options to the user except user is already familiar with the application.
-SelectTutorial is used to provide the user with a list of tutorials to choose from.
-{
-  "isQuestion": boolean, // true if the user asked a question, false if it is a statement or just comment of user
-  "response": "string", // response for user. Do not include blockId, blockName, and any unreadable characters in this field.
-  "blockId": "string (optional)", // optional field to specify the blocks on the workspace
-  "blockName": "string (optional)", // optional field to specify the block name to be used for code
-  "progress": number (10 to 100), // progress of the tutorial shown by 10 to 100
-  "quickReplies": string[] (provide least 3 to maximum 5 quick replies for the user to choose from) // quick replies for the user. Provide easy to understand options, such as "yes" ,"no", "I don't know", or "What do I need to do?". do not include blockId and blockName in this field.
-  "ui": "selectTutorial" (optional) // Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response. 
-}
+
+This is available UI elements as options. Only one UI element can be used in a single response:
+${ui.map((u) => `${u.ui} - ${u.description} ${u.warn}`).join("\n")}
 
 Tutorial content: ${tutorialContent}
-Also, these are the blocks that are available for this session. Do not use BlockID and BlockName that are not listed here: ${JSON.stringify(allBlocks)}
+Also, these are the name of blocks that can use for this session: ${JSON.stringify(allBlocks)}
   `;
 }
 

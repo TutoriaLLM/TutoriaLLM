@@ -70,4 +70,15 @@ function registerBlocks(language: string) {
 	}
 }
 
+export function getExternalBlocks() {
+	//フロントエンドで利用可能な拡張ブロックのリストを取得
+	//block, code, localeを持つモジュールから、blockだけを取り出したリストを作成
+	const blockList: string[] = [];
+	const availableBlocks = loadedExtensions.map((module: any) => module);
+	for (const block of availableBlocks) {
+		blockList.push(block.block.type);
+	}
+	return blockList;
+}
+
 export default registerBlocks;

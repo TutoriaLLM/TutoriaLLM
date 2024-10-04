@@ -11,7 +11,6 @@ export async function workspaceToPngBase64(
 	try {
 		// Calculate block dimensions and create an SVG element.
 		const bBox = workspace.getBlocksBoundingBox();
-		console.log("bBox", bBox);
 		const padding = 10; // Set appropriate padding value
 		const x = bBox.left - padding;
 		const y = bBox.top - padding;
@@ -20,12 +19,10 @@ export async function workspaceToPngBase64(
 		const blockCanvas = workspace.getCanvas();
 
 		const clone = blockCanvas.cloneNode(true) as SVGSVGElement;
-		console.log("clone", clone);
 		clone.removeAttribute("transform");
 		Blockly.utils.dom.removeClass(clone, "blocklySelected");
 
 		const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-		console.log("svg", svg);
 		svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 		svg.appendChild(clone);
 		svg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
@@ -58,7 +55,6 @@ export async function workspaceToPngBase64(
 		let svgAsXML = new XMLSerializer().serializeToString(svg);
 		svgAsXML = svgAsXML.replace(/&nbsp/g, "&#160");
 		const data = `data:image/svg+xml,${encodeURIComponent(svgAsXML)}`;
-		console.log(data);
 
 		// Convert SVG to PNG.
 		return new Promise<string>((resolve, reject) => {

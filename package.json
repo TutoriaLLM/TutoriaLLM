@@ -85,6 +85,7 @@
 		"http-proxy-middleware": "^3.0.2",
 		"i18next": "^23.15.1",
 		"i18next-fs-backend": "^2.3.2",
+		"idb": "^8.0.0",
 		"input-otp": "^1.2.4",
 		"jotai": "^2.9.3",
 		"js-yaml": "^4.1.0",

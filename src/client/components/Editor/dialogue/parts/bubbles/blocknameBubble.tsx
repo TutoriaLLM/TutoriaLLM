@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import * as Blockly from "blockly";
+import type * as Blockly from "blockly";
 import type { TFunction } from "i18next";
 import { MenuSquare, Puzzle, X } from "lucide-react";
 import { workspaceToPngBase64 } from "../../../../ui/workspaceToPng.js";
 import Theme from "../../../Blockly/theme/index.js";
 import "../../../../../styles/blockly.css";
+import generateImageFromBlockName from "../../../generateImageFromBlockName.js";
 
 function renderBlockNameBubble(
 	content: string,
@@ -18,50 +19,19 @@ function renderBlockNameBubble(
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null); // divを参照するためのref
 
 	useEffect(() => {
-		if (!hiddenWorkspaceRef.current) {
-			const hiddenDiv = document.createElement("div");
-			hiddenDiv.style.width = "100vw"; // 適切な幅を設定
-			hiddenDiv.style.height = "100vh"; // 適切な高さを設定
-			hiddenDiv.style.position = "absolute";
-			hiddenDiv.style.top = "-100vh"; // 画面外に配置
-			hiddenDiv.style.left = "-100vw"; // 画面外に配置
-			hiddenDiv.style.visibility = "hidden"; // 画面外に配置
-
-			document.body.appendChild(hiddenDiv);
-			hiddenDivRef.current = hiddenDiv; // refにdivを保持
-
-			hiddenWorkspaceRef.current = Blockly.inject(hiddenDiv, {
-				readOnly: true,
-				renderer: "zelos",
-				theme: Theme,
-			});
+		generateImageFromBlockName(hiddenWorkspaceRef, hiddenDivRef, content).then(
+			(base64) => {
+				setBase64(base64);
+			},
+		);
+		if (hiddenDivRef.current) {
+			try {
+				hiddenDivRef.current.remove();
+			} catch (error) {
+				console.warn("Failed to remove hidden div", error);
+			}
+			hiddenDivRef.current = null;
 		}
-
-		const workspaceSvg = hiddenWorkspaceRef.current;
-
-		// ブロックを追加
-		const block = workspaceSvg.newBlock(content);
-		block.initSvg();
-
-		// ブロックをレンダリング
-		block.render();
-
-		// ワークスペースの画像を生成
-		workspaceToPngBase64(workspaceSvg).then((base64) => {
-			console.log("base64", base64);
-			setBase64(base64);
-		});
-
-		// クリーンアップ
-		return () => {
-			if (workspaceSvg) {
-				workspaceSvg.clear(); // ワークスペースを破棄してメモリリークを防ぐ
-			}
-			if (hiddenDivRef.current) {
-				document.body.removeChild(hiddenDivRef.current); // divを削除
-				hiddenDivRef.current = null; // refをリセット
-			}
-		};
 	}, [content]);
 
 	const isHighlighted = blockNameFromMenu === content;

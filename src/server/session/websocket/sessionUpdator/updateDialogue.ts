@@ -47,13 +47,13 @@ export async function updateDialogueWithLLM(
 			);
 		}
 
-		if (message.blockName) {
-			updatedDialogue = updateDialogue(
-				message.blockName,
-				updatedDialogue,
-				"blockName",
-			);
-		}
+		// if (message.blockName) {
+		// 	updatedDialogue = updateDialogue(
+		// 		message.blockName,
+		// 		updatedDialogue,
+		// 		"blockName",
+		// 	);
+		// }
 
 		if (message.ui) {
 			updatedDialogue = {

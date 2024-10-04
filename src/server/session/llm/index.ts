@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { z } from "zod";
+import { zodResponseFormat } from "openai/helpers/zod";
 import type { AppConfig, SessionValue } from "../../../type.js";
 import { langToStr } from "../../../utils/langToStr.js";
 import { db } from "../../db/index.js";
@@ -11,8 +11,8 @@ import generateTrainingData from "../../admin/training/data_gen.js";
 import { getKnowledge } from "../../admin/training/guides.js";
 import { generateUserTemplate } from "./userTemplate.js";
 import { generateSystemTemplate } from "./systemTemplate.js";
-import { listAllBlocks } from "./allBlocks.js";
-import stringifyKnowledge from "../../../utils/stringifyKnowledge.js";
+import { zodSchema } from "./responseFormat.js";
+import { listAllBlocks } from "../../../utils/blockList.js";
 
 //debug
 console.log("llm/index.ts: Loading llm app");
@@ -61,40 +61,7 @@ export async function invokeLLM(
 
 	const allBlocks = listAllBlocks(availableBlocks);
 
-	const zodSchema = z.object({
-		isQuestion: z
-			.boolean()
-			.describe(
-				"true if the user asked a question, false if it is a statement or just comment of user",
-			),
-		response: z
-			.string()
-			.describe(
-				"response for user. Do not include blockId, blockName, and any unreadable characters in this field.",
-			),
-		blockId: z
-			.string()
-			.optional()
-			.describe(
-				"block id from user's Blockly workspace if needed. Skip this response if not needed.",
-			),
-		blockName: z
-			.string()
-			.optional()
-			.describe(
-				"block name to being used for code. It is defined from Blockly Workspace, and can refer from tutorial. Skip this response if not needed.",
-			),
-		progress: z
-			.number()
-			.describe("progress of the tutorial shown by 10 to 100."),
-		ui: z
-			.string()
-			.optional()
-			.describe(
-				"Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response.",
-			),
-		quickReplies: z.array(z.string()).describe("quick replies for the user."),
-	});
+	const schema = zodSchema;
 
 	const lastMessage =
 		session.dialogue[session.dialogue.length - 1]?.content.toString();
@@ -113,23 +80,23 @@ export async function invokeLLM(
 
 	const userTemplate = await generateUserTemplate(session, lastMessage);
 
-	const completion = await openai.chat.completions.create({
+	const completion = await openai.beta.chat.completions.parse({
 		messages: [
 			{ role: "system", content: systemTemplate },
 			{ role: "user", content: userTemplate },
 		],
 		model: config.AI_Settings.Chat_AI_Model,
-		response_format: { type: "json_object" },
+		response_format: zodResponseFormat(schema, "response_schema"),
 		temperature: config.AI_Settings.Chat_AI_Temperature,
 	});
 
-	const response = completion.choices[0].message.content;
+	const response = completion.choices[0].message.parsed;
+
 	if (!response) {
 		throw new Error("Failed to generate response from the AI model.");
 	}
-	const parsedContent = zodSchema.parse(JSON.parse(response));
 
-	if (parsedContent.isQuestion) {
+	if (response.isQuestion) {
 		//ユーザーからの質問である場合、その質問を別のAIがトレーニングデータとして生成する
 		console.log("User asked a question. Generating training data for the AI.");
 		generateTrainingData(
@@ -139,12 +106,12 @@ export async function invokeLLM(
 				date: new Date().toISOString(),
 				sessionCode: session.sessioncode,
 			},
-			stringifyKnowledge(knowledge),
+			response.response,
 		);
 	}
 
 	//振り仮名をparsedContentに適用
-	parsedContent.response = await applyRuby(parsedContent.response);
+	response.response = await applyRuby(response.response);
 
-	return parsedContent;
+	return response;
 }

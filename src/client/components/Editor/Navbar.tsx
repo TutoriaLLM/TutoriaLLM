@@ -6,6 +6,8 @@ import { ExitButton } from "../ui/exitButton.js";
 import { useAtomValue } from "jotai";
 import { currentSessionState } from "../../state.js";
 import { useTour } from "@reactour/tour";
+import { saveSessionDataToIndexedDB } from "../../indexedDB.js";
+import type { SessionValue } from "../../../type.js";
 
 export default function Navbar(props: {
 	code: string;
@@ -24,11 +26,11 @@ export default function Navbar(props: {
 		clients: [],
 		screenshot: "",
 		clicks: [],
-	};
+	} as SessionValue;
 	if (sessionValue) {
-		localStorage.setItem(
+		saveSessionDataToIndexedDB(
 			`session-${sessionValue.uuid}`,
-			JSON.stringify(sessionValueToSave),
+			sessionValueToSave,
 		);
 	}
 	const { setIsOpen } = useTour(); // ツアーの開始/終了を管理するフック
