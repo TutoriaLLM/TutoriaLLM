@@ -1,10 +1,11 @@
 import * as Progress from "@radix-ui/react-progress";
-import { DoorOpen } from "lucide-react";
+import { DoorOpen, HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import ExecSwitch from "../ui/ExecSwitch.js";
 import { ExitButton } from "../ui/exitButton.js";
 import { useAtomValue } from "jotai";
 import { currentSessionState } from "../../state.js";
+import { useTour } from "@reactour/tour";
 
 export default function Navbar(props: {
 	code: string;
@@ -30,6 +31,8 @@ export default function Navbar(props: {
 			JSON.stringify(sessionValueToSave),
 		);
 	}
+	const { setIsOpen } = useTour(); // ツアーの開始/終了を管理するフック
+
 	return (
 		<div className="navbar flex-col sm:flex-row shrink w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex gap-2">
 			<div className="flex flex-row justify-between gap-4">
@@ -74,7 +77,17 @@ export default function Navbar(props: {
 						</p>
 					)}
 				</span>
-				<ExecSwitch />
+				<span className="flex gap-1.5 justify-center items-center">
+					<button
+						type="button"
+						onClick={() => setIsOpen(true)} // ツアーを開始する
+						className="bg-gray-300 group text-gray-500 flex justify-center items-center text-sm max-w-sm rounded-2xl p-1.5 md:p-4 hover:text-gray-200 gap-2 transition-all startTour"
+					>
+						<HelpCircle className="group-hover:text" />
+					</button>
+					<span className="border border-gray-300 h-4 md:h-8" />
+					<ExecSwitch />
+				</span>
 			</div>
 		</div>
 	);

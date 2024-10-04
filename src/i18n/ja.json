@@ -77,7 +77,6 @@
 		"startTutorial": "チュートリアルを選びました",
 		"tour": "ツアーを始める",
 		"startTour": "何ができるか見てみましょう。",
-		"startTourButton": "ツアーを始める",
 		"easyMode": "かんたんモード",
 		"easyModeDescription": "AIからのチャットがかんたんになります",
 		"easyModeChanged": "かんたんモードを{{status}}にしました"

@@ -77,7 +77,6 @@
 		"startTutorial": "Tutorial has selected",
 		"tour": "Start Tour",
 		"startTour": "Look what you can do.",
-		"startTourButton": "Begin Tour",
 		"easyMode": "Easy Mode",
 		"easyModeDescription": "AI's response will be more easier.",
 		"easyModeChanged": "Turn Easy mode to {{status}}"
