@@ -45,7 +45,7 @@ function renderGroupLogBubble(
 				)}
 				<div className="prose-invert flex flex-col w-full gap-2">
 					{content.map((logItem, index) => (
-						<p
+						<span
 							className={`text-sm font-mono break-words ${
 								logItem.contentType === "error"
 									? "text-red-300 pl-2 border-l-2 border-red-400"
@@ -65,7 +65,7 @@ function renderGroupLogBubble(
 							<Markdown components={markdownComponents}>
 								{logItem.content as string}
 							</Markdown>
-						</p>
+						</span>
 					))}
 				</div>
 			</div>
