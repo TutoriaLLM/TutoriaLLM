@@ -3,6 +3,8 @@ import { DoorOpen } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import ExecSwitch from "../ui/ExecSwitch.js";
 import { ExitButton } from "../ui/exitButton.js";
+import { useAtomValue } from "jotai";
+import { currentSessionState } from "../../state.js";
 
 export default function Navbar(props: {
 	code: string;
@@ -11,15 +13,28 @@ export default function Navbar(props: {
 	tutorialProgress: number | null | undefined;
 }) {
 	const { t } = useTranslation();
+	const sessionValue = useAtomValue(currentSessionState);
+	function handleExit() {
+		location.href = "/";
+	}
+	//可能な場合はローカルストレージにデータを保存
+	const sessionValueToSave = {
+		...sessionValue,
+		clients: [],
+		screenshot: "",
+		clicks: [],
+	};
+	if (sessionValue) {
+		localStorage.setItem(
+			`session-${sessionValue.uuid}`,
+			JSON.stringify(sessionValueToSave),
+		);
+	}
 	return (
 		<div className="navbar flex-col sm:flex-row shrink w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex gap-2">
 			<div className="flex flex-row justify-between gap-4">
-				<ExitButton
-					text={t("navbar.leave")}
-					onClick={() => {
-						location.href = "/";
-					}}
-				/>
+				<ExitButton text={t("navbar.saveAndLeave")} onClick={handleExit} />
+
 				<div className="flex justify-center items-center gap-2">
 					<span className="text-xs joinCode">
 						<p>{t("navbar.joinCode")}</p>

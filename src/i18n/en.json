@@ -11,10 +11,15 @@
 		"welcome": "Study coding with AI",
 		"debuginfo": "Debug Info",
 		"serverDownMsg": "Can not connect server. Check your internet or ask system administrator.",
-		"aboutText": "This application is self-hosted software that provides tutorials using LLM (AI).  The application allows the site administrator to collect data on user usage and statements made in a non-personally identifiable form, and the data collected is used to learn the chat function in the app and to improve the AI's behaviour.  For further information on the handling of data provided by the app, please contact the website administrator. As the application is published as open source and the source code may have been modified, it is recommended not to use the application if the website administrator is unknown.  Data on information about sessions created may be deleted."
+		"aboutText": "This application is self-hosted software that provides tutorials using LLM (AI).  The application allows the site administrator to collect data on user usage and statements made in a non-personally identifiable form, and the data collected is used to learn the chat function in the app and to improve the AI's behaviour.  For further information on the handling of data provided by the app, please contact the website administrator. As the application is published as open source and the source code may have been modified, it is recommended not to use the application if the website administrator is unknown.  Data on information about sessions created may be deleted.",
+		"findSavedSession": "Use saved data",
+		"noSavedSession": "No saved session found",
+		"savedSession": "Saved Session",
+		"continueSession": "Continue this session"
 	},
 	"navbar": {
 		"leave": "leave",
+		"saveAndLeave": "save and leave",
 		"connected": "connected",
 		"reconnecting": "disconnected. attempting to reconnect.",
 		"home": "Home",
@@ -129,6 +134,31 @@
 		"HowToUse": "How to use this?"
 	},
 	"dialogue": {
-		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!"
+		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!",
+		"NewSessionWithData": "Starting new sesssion with saved data"
+	},
+	"AppConfig": {
+		"General_Settings": "General Settings",
+		"Enable_Join_by_code": "Enable Join by code",
+		"Enable_Create_Room": "Enable Create Room",
+		"Enable_Memory_Use_Log": "Enable Memory Use Log",
+		"AI_Settings": "AI Settings",
+		"Chat_AI_Model": "Chat AI Model",
+		"Chat_AI_Temperature": "Chat AI Temperature",
+		"Client_Settings": "Client Settings",
+		"AutoReply": "Auto Reply from AI",
+		"Reply_Time_ms": "Reply Time ms",
+		"Screenshot_Interval_min": "Screenshot Interval min",
+		"Code_Execution_Limits": "Code Execution(VM) Limits",
+		"Max_CodeRangeSizeMb": "Max CodeRangeSize in Mb",
+		"Max_OldGenerationSizeMb": "Max OldGenerationSize in Mb",
+		"Max_YoungGenerationSizeMb": "Max YoungGenerationSize in Mb",
+		"Max_Num_Message_Queue": "Max Num Message Queue on VM",
+		"Max_CPU_Usage": "Max CPU Usage on VM",
+		"Client_Sentry_Settings": "Client Sentry Settings",
+		"Sentry_DSN": "Sentry DSN(Leave empty to disable)",
+		"replaysOnErrorSampleRate": "Sample Rate for Replays on Error",
+		"replaysSessionSampleRate": "Sample Rate for Replays on Session",
+		"tracesSampleRate": "Sample Rate for Traces"
 	}
 }

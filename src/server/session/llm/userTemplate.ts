@@ -20,7 +20,7 @@ Use the provided tutorial content to guide the user explicitly on what they shou
 
 Answer the user's latest question based on past messages if they are asking: ${lastMessage}
 
-If the value of easy mode is true, provide a message to the user to help them understand the issue with using simple language. Use only simple vocabulary and use ruby for all kanji.
+If the value of easy mode is true, provide a message to the user to help them understand the issue with using simple language. Use only simple vocabulary for all kanji.
 Easy mode: ${session.easyMode}
 
 This is the current user workspace of Blockly; it is rendered as blocks on the user's screen and will be converted to code to execute: ${JSON.stringify(session.workspace)}

@@ -1,6 +1,7 @@
-import { Plus } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import SavedData from "./savedData/index.js";
 
 export default function CreateNewSession(props: { language: string }) {
 	const { t } = useTranslation();
@@ -12,7 +13,7 @@ export default function CreateNewSession(props: { language: string }) {
 		const language = props.language; // ここで状態を取得する
 		try {
 			const response = await fetch(`api/session/new?language=${language}`, {
-				method: "GET",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -35,15 +36,18 @@ export default function CreateNewSession(props: { language: string }) {
 	};
 
 	return (
-		<button
-			type="button"
-			className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center ${
-				loading ? "opacity-50 cursor-not-allowed" : ""
-			}`}
-			onClick={handleCreateSession}
-			disabled={loading}
-		>
-			{loading ? t("session.creating") : t("session.createSession")} <Plus />
-		</button>
+		<div className="flex gap-2">
+			<button
+				type="button"
+				className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center ${
+					loading ? "opacity-50 cursor-not-allowed" : ""
+				}`}
+				onClick={handleCreateSession}
+				disabled={loading}
+			>
+				{loading ? t("session.creating") : t("session.createSession")} <Plus />
+			</button>
+			<SavedData />
+		</div>
 	);
 }

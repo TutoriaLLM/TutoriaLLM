@@ -12,7 +12,7 @@ export async function workspaceToPngBase64(
 		// Calculate block dimensions and create an SVG element.
 		const bBox = workspace.getBlocksBoundingBox();
 		console.log("bBox", bBox);
-		const padding = 10; // 適切なパディング値を設定
+		const padding = 10; // Set appropriate padding value
 		const x = bBox.left - padding;
 		const y = bBox.top - padding;
 		const width = bBox.right - bBox.left + padding * 2;
@@ -32,20 +32,26 @@ export async function workspaceToPngBase64(
 		svg.setAttribute("width", width.toString());
 		svg.setAttribute("height", height.toString());
 
-		// Include styles from specific style tag and Blockly's styles
-		const zerosClassicStyle = document.getElementById(
-			"blockly-renderer-style-zeros-classic",
-		) as HTMLStyleElement;
-		const blocklySvgStyle = Array.from(
-			document.head.querySelectorAll("style"),
-		).find((el) =>
-			/\.blocklySvg/.test(el.textContent || ""),
-		) as HTMLStyleElement;
+		// Set the class attribute on the SVG element
+		svg.setAttribute(
+			"class",
+			`blocklySvg ${workspace.options.renderer || "geras"}-renderer ${
+				workspace.getTheme ? `${workspace.getTheme().name}-theme` : ""
+			}`,
+		);
+		svg.style.backgroundColor = "transparent";
 
+		// Include all relevant styles
+		const css = Array.from(document.head.querySelectorAll("style"))
+			.filter(
+				(el) =>
+					/\.blocklySvg/.test(el.textContent || "") ||
+					el.id?.startsWith("blockly-"),
+			)
+			.map((el) => el.textContent || "")
+			.join("\n");
 		const style = document.createElement("style");
-		style.textContent = `${zerosClassicStyle?.textContent || ""}\n${
-			blocklySvgStyle?.textContent || ""
-		}`;
+		style.textContent = css;
 		svg.insertBefore(style, svg.firstChild);
 
 		// Serialize SVG and convert to PNG.
@@ -68,7 +74,7 @@ export async function workspaceToPngBase64(
 					const dataUri = canvas.toDataURL("image/png");
 
 					// Use canvas and then remove it
-					canvas.remove(); // <- ここでcanvasを削除
+					canvas.remove();
 
 					resolve(dataUri);
 				} else {

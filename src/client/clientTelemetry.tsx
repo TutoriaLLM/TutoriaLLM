@@ -11,7 +11,7 @@ import type { AppConfig } from "../type.js";
 const FrontendTracer = async () => {
 	async function fetchConfig(): Promise<AppConfig> {
 		try {
-			const response = await fetch("/api/admin/config/");
+			const response = await fetch("/api/config/");
 			const data = (await response.json()) as AppConfig;
 			return data;
 		} catch (error) {
@@ -22,13 +22,18 @@ const FrontendTracer = async () => {
 
 	const config = await fetchConfig();
 
-	const sentryDsn = config.General_Settings.Sentry_DSN;
+	const sentrysetting = config.Client_Sentry_Settings;
 
-	if (sentryDsn !== "" && sentryDsn !== undefined) {
+	if (
+		sentrysetting.Sentry_DSN !== "" &&
+		sentrysetting.Sentry_DSN !== undefined
+	) {
 		console.log("sentry is enabled");
 		Sentry.init({
-			dsn: sentryDsn,
-			tracesSampleRate: 1.0,
+			dsn: sentrysetting.Sentry_DSN || "",
+			tracesSampleRate: sentrysetting.tracesSampleRate || 0,
+			replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate || 0,
+			replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate || 0,
 			integrations: [
 				Sentry.reactRouterV6BrowserTracingIntegration({
 					useEffect,

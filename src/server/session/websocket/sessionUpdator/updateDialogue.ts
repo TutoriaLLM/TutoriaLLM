@@ -70,13 +70,6 @@ export async function updateDialogueWithLLM(
 				],
 			};
 		}
-
-		// return {
-		// 	dialogue: updatedDialogue.dialogue,
-		// 	quickReplies: updatedQuickReplies,
-		// 	isreplying: false,
-		// 	progress: message.progress,
-		// };
 		return {
 			...data,
 			dialogue: updatedDialogue.dialogue,

@@ -12,6 +12,7 @@ appConfiguration.use(express.json());
 appConfiguration.post("/update", (req, res) => {
 	const newConfig: AppConfig = req.body;
 	updateConfig(newConfig);
+	res.send("Config updated");
 });
 
 //設定ファイルを取得し、存在しない場合は作成する
