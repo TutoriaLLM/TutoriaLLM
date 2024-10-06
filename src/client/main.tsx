@@ -2,7 +2,13 @@ import "./styles/index.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import {
+	BrowserRouter,
+	Link,
+	Route,
+	Routes,
+	useLocation,
+} from "react-router-dom";
 
 import EditorPage from "./pages/editorPage.js";
 
@@ -11,10 +17,10 @@ import AdminPage from "./pages/adminPage.js";
 import FrontendTracer from "./clientTelemetry.js";
 
 export default function App(): React.ReactElement {
-	//Sentry/Opentelemetryの実行
+	//Sentry/Opentelemetry/GAの実行
 	if (typeof window !== "undefined") FrontendTracer();
-	// アプリのページ定義
 
+	// アプリのページ定義
 	return (
 		<React.StrictMode>
 			<BrowserRouter>

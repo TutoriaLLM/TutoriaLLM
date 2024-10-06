@@ -96,6 +96,7 @@ export type AppConfig = {
 		AutoReply: boolean;
 		Reply_Time_ms: number;
 		Screenshot_Interval_min: number;
+		GA_Tracking_ID: string;
 	};
 	Code_Execution_Limits: {
 		Max_CodeRangeSizeMb: number;

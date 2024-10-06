@@ -7,6 +7,7 @@ import {
 	useNavigationType,
 } from "react-router-dom";
 import type { AppConfig } from "../type.js";
+import ReactGA from "react-ga4";
 
 const FrontendTracer = async () => {
 	async function fetchConfig(): Promise<AppConfig> {
@@ -21,6 +22,23 @@ const FrontendTracer = async () => {
 	}
 
 	const config = await fetchConfig();
+
+	//Google Analyticsの実行
+	//Googleアナリティクスの実行(タグがある場合)
+	const pageLocation = useLocation();
+	const id = config.Client_Settings.GA_Tracking_ID;
+	useEffect(() => {
+		if (id === "" || id === undefined) {
+			return;
+		}
+		ReactGA.default.initialize(id);
+		ReactGA.default.send({
+			hitType: "pageview",
+			page: pageLocation.pathname + pageLocation.search,
+		}); // アクセスしたパス (pathname) とクエリ文字列 (search) を送付する (必要に応じて編集する)
+	}, [pageLocation]);
+
+	//Sentryの実行
 
 	const sentrysetting = config.Client_Sentry_Settings;
 
