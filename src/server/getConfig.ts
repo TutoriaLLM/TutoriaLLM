@@ -4,7 +4,12 @@ import express from "express";
 import { get } from "node:http";
 import type { AppConfig } from "../type.js";
 
-const configPath = path.resolve("appConfig.json");
+const volumePath = "/app_data";
+const configPath = fs.existsSync(volumePath)
+	? `${volumePath}/appConfig.json`
+	: fs.existsSync(path.resolve("appConfig.json"))
+		? path.resolve("appConfig.json")
+		: volumePath;
 const defaultConfigPath = path.resolve(
 	"src/server/admin/defaultAppConfig.json",
 );
@@ -34,6 +39,14 @@ export function updateConfig(newConfig: any) {
 }
 
 function createConfig() {
-	fs.copyFileSync(defaultConfigPath, configPath);
-	console.log("Config file created");
+	// Check if the volume directory exists
+	if (fs.existsSync(path.dirname(volumePath))) {
+		// Create a new config file in the volume if it doesn't exist
+		fs.copyFileSync(defaultConfigPath, `${volumePath}/appConfig.json`);
+		console.log("Config file created in volume");
+	} else {
+		// Fallback to local config if volume is not available
+		fs.copyFileSync(defaultConfigPath, path.resolve("appConfig.json"));
+		console.log("Config file created locally");
+	}
 }
