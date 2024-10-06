@@ -3,11 +3,12 @@ import stringifyKnowledge from "../../../utils/stringifyKnowledge.js";
 import type { Guide } from "../../db/schema.js";
 
 // Simplifies the dialogue by mapping the session dialogue to a simpler format.
-async function simplifyDialogue(session: SessionValue) {
-	return session.dialogue.map((d) => ({
+async function simplifyDialogue(session: SessionValue, limit: number) {
+	const dialogue = session.dialogue.map((d) => ({
 		role: d.contentType,
 		content: d.content,
 	}));
+	return limit > 0 ? dialogue.slice(-limit) : dialogue;
 }
 
 async function generateUserTemplate(
@@ -17,7 +18,7 @@ async function generateUserTemplate(
 	lastMessage: string,
 ): Promise<string> {
 	return `
-This is the past record of messages including user chat, server log, error, and AI responses: ${JSON.stringify(await simplifyDialogue(session))}
+This is the past record of messages including user chat, server log, error, and AI responses: ${JSON.stringify(await simplifyDialogue(session, 50))}
 Use the provided tutorial content to guide the user explicitly on what they should do next, step by step(Do not provide the entire tutorial content at once).
 
 Selected tutorial content: ${tutorialContent}
