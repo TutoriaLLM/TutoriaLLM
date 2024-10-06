@@ -71,14 +71,14 @@ export async function invokeLLM(
 	const tutorialContent = await getTutorialContent(session);
 	console.log(tutorialContent);
 
-	const systemTemplate = generateSystemTemplate(
-		knowledge,
+	const systemTemplate = generateSystemTemplate(session, allBlocks);
+
+	const userTemplate = await generateUserTemplate(
 		session,
 		JSON.stringify(tutorialContent),
-		allBlocks,
+		knowledge,
+		lastMessage,
 	);
-
-	const userTemplate = await generateUserTemplate(session, lastMessage);
 
 	const completion = await openai.beta.chat.completions.parse({
 		messages: [
@@ -93,14 +93,15 @@ export async function invokeLLM(
 	const response = completion.choices[0].message.parsed;
 
 	if (!response) {
-		throw new Error("Failed to generate response from the AI model.");
+		console.error("No response from the AI model.");
+		return null;
 	}
 
-	if (response.isQuestion) {
+	if (response.isQuestion && response.formattedUserQuestion) {
 		//ユーザーからの質問である場合、その質問を別のAIがトレーニングデータとして生成する
 		console.log("User asked a question. Generating training data for the AI.");
 		generateTrainingData(
-			lastMessage,
+			response.formattedUserQuestion,
 			{
 				author: "AI",
 				date: new Date().toISOString(),
@@ -109,6 +110,8 @@ export async function invokeLLM(
 			response.response,
 		);
 	}
+
+	console.log("Response from the AI model: ", response);
 
 	//振り仮名をparsedContentに適用
 	response.response = await applyRuby(response.response);

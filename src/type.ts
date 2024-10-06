@@ -6,9 +6,7 @@ export type ContentType =
 	| "info"
 	| "group_log"
 	| "ui" // AIによって動的に生成されるUI要素
-	| "request"
-	| "blockId"
-	| "blockName";
+	| "request";
 
 export type Dialogue = {
 	id: number;
