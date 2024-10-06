@@ -238,7 +238,7 @@ export default function Sessions() {
 		getPaginationRowModel: getPaginationRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		initialState: {
-			sorting: [{ id: "createdAt", desc: false }],
+			sorting: [{ id: "updatedAt", desc: true }],
 		},
 	});
 
