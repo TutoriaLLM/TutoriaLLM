@@ -10,7 +10,7 @@ export const zodSchema = z.object({
 		.string()
 		.optional()
 		.describe(
-			"Formatted user question for training data, in user's language. Contain background information of the question, such as what user doing. only if isQuestion is true.",
+			"Formatted user question for training data. Contain background information of the question, such as what user doing. only if isQuestion is true. Use user's language for this field.",
 		),
 	response: z.string().describe("response for user."),
 	progress: z.number().describe("progress of the tutorial shown by 10 to 100."),
