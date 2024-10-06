@@ -18,12 +18,14 @@ import FrontendTracer from "./clientTelemetry.js";
 
 export default function App(): React.ReactElement {
 	//Sentry/Opentelemetry/GAの実行
-	if (typeof window !== "undefined") FrontendTracer();
+	// if (typeof window !== "undefined") FrontendTracer();
 
 	// アプリのページ定義
 	return (
 		<React.StrictMode>
 			<BrowserRouter>
+				<FrontendTracer />
+
 				<Routes>
 					<Route path="/admin/*" element={<AdminPage />} />
 					<Route path="/:code" element={<EditorPage />} />
