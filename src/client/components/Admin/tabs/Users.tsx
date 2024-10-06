@@ -163,7 +163,7 @@ export default function Users() {
 	}
 
 	return (
-		<div className="overflow-x-auto">
+		<div className="overflow-x-auto bg-gray-300 rounded-2xl">
 			<table className="min-w-full text-left text-sm whitespace-nowrap">
 				<thead className="font-semibold border-b-2 border-gray-300">
 					<tr>

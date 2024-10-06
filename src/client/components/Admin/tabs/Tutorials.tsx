@@ -72,8 +72,8 @@ export default function Tutorials() {
 	}
 
 	return (
-		<div>
-			<div className="overflow-x-auto max-w-screen">
+		<div className="bg-gray-300 rounded-2xl overflow-clip">
+			<div className="overflow-x-auto max-w-screen ">
 				<table className="min-w-full text-left text-sm whitespace-nowrap">
 					<thead className="font-semibold border-b-2 border-gray-300">
 						<tr>

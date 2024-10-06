@@ -248,7 +248,7 @@ export default function Sessions() {
 	}
 
 	return (
-		<div className="w-full h-full overflow-auto">
+		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
 			<Popup
 				openState={popupSessionFromCode !== null}
 				onClose={handleClosePopup}

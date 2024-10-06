@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { ExitButton } from "../ui/exitButton.js";
 
 export default function SideBar() {
 	const { t } = useTranslation();
@@ -49,14 +50,35 @@ export default function SideBar() {
 		);
 	};
 
+	const handleSignOut = async () => {
+		console.log("signing out");
+		const res = await fetch("/api/auth/logout", {
+			method: "POST",
+		});
+		if (res.status === 200) {
+			window.location.href = "/";
+		}
+	};
+
 	return (
-		<div className="flex">
+		<div className="flex flex-col">
+			<div className="z-[60]">
+				<button
+					onClick={toggleSidebar}
+					type="button"
+					className="md:hidden p-2 fixed top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-gray-100 hover:bg-gray-300 shadow transition rounded-full border-gray-300"
+				>
+					<Sidebar />
+					<span>{t("sidebar.toggle")}</span>
+				</button>
+			</div>
 			<div
 				className={`bg-gray-200 text-gray-800 border-r-2 border-gray-300 h-full w-full p-2 transition-transform transform ${
 					isOpen ? "translate-x-0" : "-translate-x-full"
 				} md:translate-x-0 fixed md:static z-50`}
 			>
-				<div className="flex flex-col gap-2 p-2 font-semibold">
+				<div className="flex flex-col gap-2 p-2 pt-16 md:p-2 font-semibold">
+					<ExitButton text={t("navbar.signout")} onClick={handleSignOut} />
 					<SidebarItem
 						href="/admin"
 						icon={LayoutDashboard}
@@ -95,14 +117,6 @@ export default function SideBar() {
 					/>
 				</div>
 			</div>
-			<button
-				onClick={toggleSidebar}
-				type="button"
-				className="fixed bottom-4 left-4 md:hidden p-2 gap-0.5 font-semibold text-xs justify-center items-center flex z-50 bg-gray-100 hover:bg-gray-300 shadow transition rounded-full border-gray-300"
-			>
-				<Sidebar />
-				<span>{t("sidebar.toggle")}</span>
-			</button>
 		</div>
 	);
 }
