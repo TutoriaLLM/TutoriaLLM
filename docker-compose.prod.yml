@@ -75,12 +75,12 @@ services:
       - .env
     command: >
       sh -c "
-        if [ ! -f /initialized/.initialized ]; then
+        if [ ! -f /app_data/.app_data ]; then
           pnpm install &&
           pnpm run drizzle:generate &&
           pnpm run drizzle:migrate &&
           pnpm run reset-credential &&
-          touch /initialized/.initialized &&
+          touch /app_data/.app_data &&
           pnpm run start 
         else
           pnpm install &&
@@ -94,7 +94,7 @@ services:
         condition: service_healthy
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
-      - ./app_data:/initialized
+      - ./app_data:/app_data
 volumes:
   db_data_db:
   letsencrypt:

@@ -27,12 +27,12 @@ function renderAIBubble(
 				<p className="text-xs">{t("textbubble.ai")}</p>
 			</div>
 			<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-sm">
-				<p className="prose">
+				<span className="prose">
 					{/* rehypeRawを追加してHTMLを許可 */}
 					<Markdown components={markdownComponents} rehypePlugins={[rehypeRaw]}>
 						{displayContent}
 					</Markdown>
-				</p>
+				</span>
 			</div>
 		</div>
 	);

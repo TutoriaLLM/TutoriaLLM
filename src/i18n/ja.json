@@ -77,7 +77,6 @@
 		"startTutorial": "チュートリアルを選びました",
 		"tour": "ツアーを始める",
 		"startTour": "何ができるか見てみましょう。",
-		"startTourButton": "ツアーを始める",
 		"easyMode": "かんたんモード",
 		"easyModeDescription": "AIからのチャットがかんたんになります",
 		"easyModeChanged": "かんたんモードを{{status}}にしました"
@@ -131,7 +130,8 @@
 	},
 	"quickReply": {
 		"HowToUse": "どうやって使うの？",
-		"WhatINeed": "何をしたらいいの？"
+		"WhatINeed": "何をしたらいいの？",
+		"BeginTutorial": "チュートリアルを始めたい"
 	},
 	"dialogue": {
 		"Introduction": "こんにちは！まずは画面下のボタンや、チャット欄から、何をしたいか決めましょう！",

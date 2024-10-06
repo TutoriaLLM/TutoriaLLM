@@ -2,7 +2,6 @@ import i18next from "i18next";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import Navbar from "../components/Admin/Navbar.js";
 import SideBar from "../components/Admin/Sidebar.js";
 import Dashboard from "../components/Admin/tabs/Dashboard.js";
 import Sessions from "../components/Admin/tabs/Sessions.js";
@@ -50,10 +49,9 @@ export default function AdminPage() {
 		<div className="min-h-screen flex flex-col bg-gray-200 text-gray-800">
 			{isAuthenticated ? (
 				<div className="w-full h-full max-w-[96rem]">
-					<Navbar />
 					<div className="h-full flex w-full">
 						<SideBar />
-						<div className="w-full h-full overflow-auto">
+						<div className="w-full h-full max-h-svh overflow-auto p-2 pt-16 md:p-4">
 							<Routes>
 								<Route path="/" element={<Dashboard />} />
 								<Route path="/users" element={<Users />} />

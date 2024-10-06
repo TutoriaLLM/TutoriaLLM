@@ -37,7 +37,7 @@ export default function Login() {
 	return (
 		<form
 			onSubmit={handleLogin}
-			className="flex flex-col justify-center items-center gap-3"
+			className="flex flex-col justify-center items-center gap-3 sentry-block"
 		>
 			{loginWarning === "" ? null : (
 				<div className="p-1.5 py-2 bg-yellow-200 text-gray-600 font-normal border rounded-2xl w-full h-full flex justify-center items-center">

@@ -1,16 +1,10 @@
-import { useRef } from "react";
+import { workspaceToPngBase64 } from "../ui/workspaceToPng.js";
+import Theme from "./Blockly/theme/index.js";
 import * as Blockly from "blockly";
-import registerBlocks from "../../Blockly/blocks/index.js";
-import Theme from "../../Blockly/theme/index.js";
-import { workspaceToPngBase64 } from "../../../ui/workspaceToPng.js";
-
-async function getImageFromSerializedWorkspace(
-	serializedWorkspace: {
-		[key: string]: any;
-	},
-	language: string,
+async function generateImageFromBlockName(
 	hiddenWorkspaceRef: React.MutableRefObject<Blockly.WorkspaceSvg | null>,
 	hiddenDivRef: React.MutableRefObject<HTMLDivElement | null>,
+	blockName: string,
 ) {
 	if (!hiddenWorkspaceRef.current) {
 		const hiddenDiv = document.createElement("div");
@@ -29,14 +23,19 @@ async function getImageFromSerializedWorkspace(
 			renderer: "zelos",
 			theme: Theme,
 		});
-		registerBlocks(language as string);
 	}
+
 	const workspaceSvg = hiddenWorkspaceRef.current;
 
-	Blockly.serialization.workspaces.load(serializedWorkspace, workspaceSvg);
+	// Add block
+	const block = workspaceSvg.newBlock(blockName);
+	block.initSvg();
 
-	const imageURL = workspaceToPngBase64(workspaceSvg);
-	return imageURL;
+	// Render block
+	block.render();
+
+	// Generate image of workspace
+	return await workspaceToPngBase64(workspaceSvg);
 }
 
-export default getImageFromSerializedWorkspace;
+export default generateImageFromBlockName;

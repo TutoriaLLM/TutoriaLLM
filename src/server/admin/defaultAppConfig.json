@@ -11,7 +11,8 @@
 	"Client_Settings": {
 		"AutoReply": false,
 		"Reply_Time_ms": 5000,
-		"Screenshot_Interval_min": 2
+		"Screenshot_Interval_min": 2,
+		"GA_Tracking_ID": ""
 	},
 	"Code_Execution_Limits": {
 		"Max_CodeRangeSizeMb": 50,

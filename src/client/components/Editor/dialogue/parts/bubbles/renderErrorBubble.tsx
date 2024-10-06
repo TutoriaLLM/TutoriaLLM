@@ -20,9 +20,9 @@ function renderErrorBubble(
 				<p className="text-xs font-semibold text-red-600">
 					{t("error.error")}:
 				</p>
-				<p className="prose text-red-800">
+				<span className="prose text-red-800">
 					<Markdown components={markdownComponents}>{content}</Markdown>
-				</p>
+				</span>
 			</div>
 		</div>
 	);

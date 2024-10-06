@@ -15,6 +15,10 @@ trainingDataManager.get("/random", async (req, res) => {
 			.from(trainingData)
 			.orderBy(sql`random()`)
 			.limit(1);
+		if (data.length === 0) {
+			res.status(404).send("No data found");
+			return;
+		}
 		res.json(data[0]);
 	} catch (e) {
 		console.error(e);
@@ -27,6 +31,10 @@ trainingDataManager.get("/list", async (req, res) => {
 	try {
 		const data = await db.select().from(trainingData);
 		res.json(data);
+		if (data.length === 0) {
+			res.status(404).send("No data found");
+			return;
+		}
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to fetch data");

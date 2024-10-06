@@ -19,18 +19,31 @@ export default function Training() {
 	);
 
 	const fetchTrainingData = () => {
+		console.log("Fetching training data...");
 		// Fetch data from the API
 		fetch("/api/admin/training/data/random")
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.status === 404) {
+					throw new Error("Data not found (404)");
+				}
+				return response.json();
+			})
 			.then((data: TrainingData) => {
 				if (data?.question && data.answer) {
+					console.log("Training data fetched:", data);
 					setTrainingData(data);
 					setAnswer(data.answer); // Set the initial answer
 				} else {
 					setTrainingData(null); // No valid data available
 				}
 			})
-			.catch((error) => console.error("Error fetching training data:", error));
+			.catch((error) => {
+				if (error.message === "Data not found (404)") {
+					console.error("Error: Data not found (404)");
+				} else {
+					console.error("Error fetching training data:", error);
+				}
+			});
 	};
 
 	useEffect(() => {
@@ -68,6 +81,11 @@ export default function Training() {
 				console.log("Data successfully updated:", data);
 			})
 			.catch((error) => console.error("Error updating training data:", error));
+
+		setTrainingData(null); // Clear the data after confirmation
+
+		// Fetch new data
+		fetchTrainingData();
 	};
 
 	const handleDelete = () => {
@@ -89,7 +107,27 @@ export default function Training() {
 	};
 
 	const handleSearch = () => {
-		if (!searchText) return;
+		if (!searchText) {
+			//検索テキストが空の場合、ガイドのリストを取得
+			fetch("/api/admin/training/guide/list")
+				.then((response) => {
+					if (response.status === 404) {
+						throw new Error("Guides not found (404)");
+					}
+					return response.json();
+				})
+				.then((result) => {
+					setSearchResult(result);
+				})
+				.catch((error) => {
+					if (error.message === "Guides not found (404)") {
+						console.error("Error: Guides not found (404)");
+					} else {
+						console.error("Error fetching guides:", error);
+					}
+				});
+			return;
+		}
 
 		// Send search request to the API
 		fetch("/api/admin/training/guide/search", {
@@ -99,11 +137,22 @@ export default function Training() {
 			},
 			body: JSON.stringify({ query: searchText }),
 		})
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.status === 404) {
+					throw new Error("Search results not found (404)");
+				}
+				return response.json();
+			})
 			.then((result) => {
 				setSearchResult(result);
 			})
-			.catch((error) => console.error("Error fetching search results:", error));
+			.catch((error) => {
+				if (error.message === "Search results not found (404)") {
+					console.error("Error: Search results not found (404)");
+				} else {
+					console.error("Error fetching search results:", error);
+				}
+			});
 	};
 
 	const renderSearchResults = () => {
@@ -127,34 +176,61 @@ export default function Training() {
 								</h3>
 							</div>
 							<p className="text-gray-600">{result.answer}</p>
-							<div className="flex items-center gap-3 flex-wrap">
-								<div className="flex items-center gap-2 text-gray-600">
-									<Ellipsis />
-									<span className="gap-0.5">
-										<p className="text-xs text-gray-500">Session</p>
-										<a href={`/${result.metadata?.sessionCode}`}>
-											{result.metadata?.sessionCode}
-										</a>
-									</span>
-								</div>{" "}
-								<div className="flex items-center gap-2 text-gray-600">
-									<UserRound />
-									<span className="gap-0.5">
-										<p className="text-xs text-gray-500">Author</p>
-										<p> {result.metadata?.author}</p>
-									</span>
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-3 flex-wrap">
+									<div className="flex items-center gap-2 text-gray-600">
+										<Ellipsis />
+										<span className="gap-0.5">
+											<p className="text-xs text-gray-500">Session</p>
+											<a href={`/${result.metadata?.sessionCode}`}>
+												{result.metadata?.sessionCode}
+											</a>
+										</span>
+									</div>{" "}
+									<div className="flex items-center gap-2 text-gray-600">
+										<UserRound />
+										<span className="gap-0.5">
+											<p className="text-xs text-gray-500">Author</p>
+											<p> {result.metadata?.author}</p>
+										</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-600">
+										<CalendarClock />
+										<span className="gap-0.5">
+											<p className="text-xs text-gray-500">Date</p>
+											<p>
+												{" "}
+												{new Date(
+													result.metadata?.date as string,
+												).toLocaleString()}
+											</p>
+										</span>
+									</div>
 								</div>
-								<div className="flex items-center gap-2 text-gray-600">
-									<CalendarClock />
-									<span className="gap-0.5">
-										<p className="text-xs text-gray-500">Date</p>
-										<p>
-											{" "}
-											{new Date(
-												result.metadata?.date as string,
-											).toLocaleString()}
-										</p>
-									</span>
+								<div className="flex items-center gap-3">
+									<button
+										type="button"
+										className="text-red-500"
+										onClick={() => {
+											// Delete the guide
+											fetch(`/api/admin/training/guide/${result.id}`, {
+												method: "DELETE",
+											})
+												.then((response) => {
+													if (response.ok) {
+														console.log("Guide successfully deleted");
+														handleSearch();
+													} else {
+														console.error("Error deleting guide");
+													}
+												})
+												.catch((error) =>
+													console.error("Error deleting guide:", error),
+												);
+										}}
+									>
+										Delete
+									</button>
 								</div>
 							</div>
 						</div>

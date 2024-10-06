@@ -48,16 +48,6 @@ guideManager.post("/new", async (req, res) => {
 		res.status(500).send("Failed to create guide");
 	}
 });
-//ガイドの一覧を取得するAPI（管理用）
-guideManager.get("/list", async (req, res) => {
-	try {
-		const listedGuides = await db.select().from(guides);
-		res.json(guides);
-	} catch (e) {
-		console.error(e);
-		res.status(500).send("Failed to fetch guides");
-	}
-});
 //Vectorをもとに知識を検索するAPI
 export async function getKnowledge(
 	searchString: string,
@@ -68,7 +58,7 @@ export async function getKnowledge(
 		const similarGuides = await db
 			.select()
 			.from(guides)
-			.where(gt(similarity, 0.4))
+			.where(gt(similarity, 0.3))
 			.orderBy((t) => desc(similarity))
 			.limit(5);
 		return similarGuides;
@@ -91,6 +81,20 @@ guideManager.post("/search", async (req, res) => {
 		res.status(500).send(result);
 	}
 	res.json(result);
+});
+//ガイドの一覧を取得するAPI
+guideManager.get("/list", async (req, res) => {
+	try {
+		const guidesList = await db.select().from(guides);
+		if (guidesList.length === 0) {
+			res.status(404).send("No guides found");
+			return;
+		}
+		res.json(guidesList);
+	} catch (e) {
+		console.error(e);
+		res.status(500).send("Failed to fetch guides");
+	}
 });
 //ガイドの詳細を取得するAPI
 guideManager.get("/:id", async (req, res) => {

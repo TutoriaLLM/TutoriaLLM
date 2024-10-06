@@ -7,9 +7,13 @@ import {
 	useNavigationType,
 } from "react-router-dom";
 import type { AppConfig } from "../type.js";
+import ReactGA from "react-ga4";
 
-const FrontendTracer = async () => {
-	async function fetchConfig(): Promise<AppConfig> {
+const FrontendTracer = () => {
+	const pageLocation = useLocation();
+
+	// 設定を非同期で取得する関数
+	const fetchConfig = async (): Promise<AppConfig> => {
 		try {
 			const response = await fetch("/api/config/");
 			const data = (await response.json()) as AppConfig;
@@ -18,36 +22,53 @@ const FrontendTracer = async () => {
 			console.error("Failed to fetch config:", error);
 		}
 		return {} as AppConfig;
-	}
+	};
 
-	const config = await fetchConfig();
+	useEffect(() => {
+		// 非同期処理をuseEffect内で行う
+		const initializeAnalyticsAndSentry = async () => {
+			const config = await fetchConfig();
 
-	const sentrysetting = config.Client_Sentry_Settings;
+			// Google Analyticsの設定
+			const id = config.Client_Settings.GA_Tracking_ID;
+			if (id && id !== "") {
+				ReactGA.default.initialize(id);
+				ReactGA.default.send({
+					hitType: "pageview",
+					page: pageLocation.pathname + pageLocation.search,
+				});
+			}
 
-	if (
-		sentrysetting.Sentry_DSN !== "" &&
-		sentrysetting.Sentry_DSN !== undefined
-	) {
-		console.log("sentry is enabled");
-		Sentry.init({
-			dsn: sentrysetting.Sentry_DSN || "",
-			tracesSampleRate: sentrysetting.tracesSampleRate || 0,
-			replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate || 0,
-			replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate || 0,
-			integrations: [
-				Sentry.reactRouterV6BrowserTracingIntegration({
-					useEffect,
-					useLocation,
-					useNavigationType,
-					createRoutesFromChildren,
-					matchRoutes,
-				}),
-				Sentry.replayIntegration(),
-			],
-		});
-	} else {
-		console.log("sentry is disabled");
-	}
+			// Sentryの設定
+			const sentrysetting = config.Client_Sentry_Settings;
+			if (sentrysetting.Sentry_DSN) {
+				Sentry.init({
+					dsn: sentrysetting.Sentry_DSN,
+					tracesSampleRate: sentrysetting.tracesSampleRate || 0,
+					replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate || 0,
+					replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate || 0,
+					integrations: [
+						Sentry.reactRouterV6BrowserTracingIntegration({
+							useEffect,
+							useLocation,
+							useNavigationType,
+							createRoutesFromChildren,
+							matchRoutes,
+						}),
+						Sentry.replayIntegration({
+							maskAllText: false,
+						}),
+					],
+				});
+			} else {
+				console.log("Sentry is disabled");
+			}
+		};
+
+		initializeAnalyticsAndSentry();
+	}, [pageLocation]);
+
+	return null; // このコンポーネントはUIを持たないので、何も返さない
 };
 
 export default FrontendTracer;

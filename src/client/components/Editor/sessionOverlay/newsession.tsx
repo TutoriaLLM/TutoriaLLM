@@ -1,7 +1,7 @@
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import SavedData from "./savedData/index.js";
+import SavedData from "./savedData.js";
 
 export default function CreateNewSession(props: { language: string }) {
 	const { t } = useTranslation();

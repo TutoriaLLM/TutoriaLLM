@@ -77,7 +77,6 @@
 		"startTutorial": "Tutorial has selected",
 		"tour": "Start Tour",
 		"startTour": "Look what you can do.",
-		"startTourButton": "Begin Tour",
 		"easyMode": "Easy Mode",
 		"easyModeDescription": "AI's response will be more easier.",
 		"easyModeChanged": "Turn Easy mode to {{status}}"
@@ -131,7 +130,8 @@
 	},
 	"quickReply": {
 		"WhatINeed": "What I need to do?",
-		"HowToUse": "How to use this?"
+		"HowToUse": "How to use this?",
+		"BeginTutorial": "Begin tutorial"
 	},
 	"dialogue": {
 		"Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!",

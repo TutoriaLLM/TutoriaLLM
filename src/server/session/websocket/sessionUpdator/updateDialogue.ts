@@ -39,22 +39,6 @@ export async function updateDialogueWithLLM(
 			}
 		}
 
-		if (message.blockId) {
-			updatedDialogue = updateDialogue(
-				message.blockId,
-				updatedDialogue,
-				"blockId",
-			);
-		}
-
-		if (message.blockName) {
-			updatedDialogue = updateDialogue(
-				message.blockName,
-				updatedDialogue,
-				"blockName",
-			);
-		}
-
 		if (message.ui) {
 			updatedDialogue = {
 				...updatedDialogue,
@@ -84,5 +68,6 @@ export async function updateDialogueWithLLM(
 
 	//失敗した場合、最新のデータを取得してそのまま返す
 	const latestData = await getLatestData(code);
+	latestData.isReplying = false;
 	return latestData;
 }
