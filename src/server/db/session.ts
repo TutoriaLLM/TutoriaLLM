@@ -36,6 +36,7 @@ function initialData(code: string, language: string): SessionValue {
 	const quickReplyByLang = [
 		t("quickReply.WhatINeed"),
 		t("quickReply.HowToUse"),
+		t("quickReply.BeginTutorial"),
 	];
 	return {
 		sessioncode: code,

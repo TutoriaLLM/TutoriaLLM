@@ -130,7 +130,8 @@
 	},
 	"quickReply": {
 		"HowToUse": "どうやって使うの？",
-		"WhatINeed": "何をしたらいいの？"
+		"WhatINeed": "何をしたらいいの？",
+		"BeginTutorial": "チュートリアルを始めたい"
 	},
 	"dialogue": {
 		"Introduction": "こんにちは！まずは画面下のボタンや、チャット欄から、何をしたいか決めましょう！",
