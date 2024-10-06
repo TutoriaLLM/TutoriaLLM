@@ -159,6 +159,7 @@
 		"Sentry_DSN": "Sentry DSN(Leave empty to disable)",
 		"replaysOnErrorSampleRate": "Sample Rate for Replays on Error",
 		"replaysSessionSampleRate": "Sample Rate for Replays on Session",
-		"tracesSampleRate": "Sample Rate for Traces"
+		"tracesSampleRate": "Sample Rate for Traces",
+		"GA_Tracking_ID": "Google Analytics Tracking ID"
 	}
 }
