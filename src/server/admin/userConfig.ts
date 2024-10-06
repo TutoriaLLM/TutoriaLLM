@@ -4,7 +4,7 @@ import { saltAndHashPassword } from "../../utils/password.js";
 // 既存のDBに接続する
 import { db } from "../db/index.js";
 import { eq } from "drizzle-orm";
-import { users } from "../db/schema.js";
+import { authSessions, users } from "../db/schema.js";
 
 const usersConfiguration = express.Router();
 
@@ -76,6 +76,9 @@ usersConfiguration.put("/:id", async (req, res) => {
 	const { password, username } = req.body; // ここで必要なフィールドを指定
 
 	try {
+		//まずは関連するセッションを削除
+		// まず関連するセッションを削除する
+		await db.delete(authSessions).where(eq(authSessions.userId, id));
 		if (password) {
 			// パスワードが空でない場合はハッシュ化して更新
 			const hashedPassword = await saltAndHashPassword(password);
@@ -96,10 +99,6 @@ usersConfiguration.put("/:id", async (req, res) => {
 				res.status(404).json({ error: "User not found" });
 			}
 		} else {
-			// パスワードが空の場合はパスワードを更新しない
-			// const update = userDB.prepare(
-			//   "UPDATE users SET username = ? WHERE id = ?"
-			// );
 			const result = await db
 				.update(users)
 				.set({
@@ -125,17 +124,29 @@ usersConfiguration.delete("/:id", async (req, res) => {
 	console.log("delete user");
 	const id = Number(req.params.id);
 	try {
+		// まず関連するセッションを削除する
+		const deleteSessions = await db
+			.delete(authSessions)
+			.where(eq(authSessions.userId, id))
+			.returning({
+				id: authSessions.id,
+			});
+
+		// 次にユーザーを削除する
 		const result = await db.delete(users).where(eq(users.id, id)).returning({
 			id: users.id,
 		});
 
-		if (result !== undefined) {
-			res.json({ message: "User deleted successfully" });
+		if (result.length > 0) {
+			res.json({
+				message: "User and associated sessions deleted successfully",
+				deletedSessions: deleteSessions,
+			});
 		} else {
 			res.status(404).json({ error: "User not found" });
 		}
 	} catch (err) {
-		console.log(`Failed to delete user${err}`);
+		console.log(`Failed to delete user and sessions: ${err}`);
 		res.status(500).json({ error: (err as Error).message });
 	}
 });
