@@ -5,6 +5,7 @@ import auth from "./auth/index.js";
 import session from "./session/index.js";
 import tutorialsAPI from "./tutorials/index.js";
 import { getConfigApp } from "./getConfig.js";
+import status from "./serverStatus.js";
 
 //debug
 console.log("apis.ts: Loading apis app");
@@ -34,9 +35,7 @@ api.get("/hello", (req, res) => {
 });
 
 //死活監視用のエンドポイント
-api.get("/ping", (req, res) => {
-	res.send("OK");
-});
+api.use("/status", status);
 
 // 存在しないルートへのリクエストへは404を返す
 api.use("*", (req, res) => {
