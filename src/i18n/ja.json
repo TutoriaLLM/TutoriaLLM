@@ -159,6 +159,7 @@
 		"Sentry_DSN": "Sentry DSN (無効にする場合は空のままにします)",
 		"replaysOnErrorSampleRate": "Sentryのエラー時のリプレイのサンプルレート",
 		"replaysSessionSampleRate": "Sentryのセッションでのリプレイのサンプルレート",
-		"tracesSampleRate": "Sentryのトレースのサンプルレート"
+		"tracesSampleRate": "Sentryのトレースのサンプルレート",
+		"GA_Tracking_ID": "Google Analytics トラッキング ID"
 	}
 }

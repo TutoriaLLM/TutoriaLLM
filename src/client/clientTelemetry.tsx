@@ -7,10 +7,12 @@ import {
 	useNavigationType,
 } from "react-router-dom";
 import type { AppConfig } from "../type.js";
-import ReactGA from "react-ga4";
+import GA4 from "react-ga4";
 
 const FrontendTracer = () => {
 	const pageLocation = useLocation();
+
+	const ReactGA = GA4 as unknown as typeof GA4.default; // typeが壊れていたので応急処置
 
 	// 設定を非同期で取得する関数
 	const fetchConfig = async (): Promise<AppConfig> => {
@@ -30,10 +32,15 @@ const FrontendTracer = () => {
 			const config = await fetchConfig();
 
 			// Google Analyticsの設定
+			console.log(
+				"Google Analytics Tracking ID:",
+				config.Client_Settings.GA_Tracking_ID,
+			);
 			const id = config.Client_Settings.GA_Tracking_ID;
 			if (id && id !== "") {
-				ReactGA.default.initialize(id);
-				ReactGA.default.send({
+				console.log("Google Analytics is enabled");
+				ReactGA.initialize(id);
+				ReactGA.send({
 					hitType: "pageview",
 					page: pageLocation.pathname + pageLocation.search,
 				});
