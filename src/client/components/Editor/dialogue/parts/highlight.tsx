@@ -76,7 +76,7 @@ function HighlightedBlockName({
 	}, [text]);
 
 	return (
-		<div className="text-red-500 h-full w-full relative">
+		<span className="text-red-500 h-full w-full flex justify-between relative">
 			{image && <img src={image} alt={text} className="max-h-32" />}
 			<button
 				type="button"
@@ -95,7 +95,7 @@ function HighlightedBlockName({
 					{isHighlighted ? <X /> : <Puzzle />}
 				</span>
 			</button>
-		</div>
+		</span>
 	);
 }
 
