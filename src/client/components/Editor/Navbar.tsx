@@ -19,20 +19,20 @@ export default function Navbar(props: {
 	const sessionValue = useAtomValue(currentSessionState);
 	function handleExit() {
 		location.href = "/";
+		const sessionValueToSave = {
+			...sessionValue,
+			clients: [],
+			screenshot: "",
+			clicks: [],
+		} as SessionValue;
+		if (sessionValue) {
+			saveSessionDataToIndexedDB(
+				`session-${sessionValue.uuid}`,
+				sessionValueToSave,
+			);
+		}
 	}
 	//可能な場合はローカルストレージにデータを保存
-	const sessionValueToSave = {
-		...sessionValue,
-		clients: [],
-		screenshot: "",
-		clicks: [],
-	} as SessionValue;
-	if (sessionValue) {
-		saveSessionDataToIndexedDB(
-			`session-${sessionValue.uuid}`,
-			sessionValueToSave,
-		);
-	}
 	const { setIsOpen } = useTour(); // ツアーの開始/終了を管理するフック
 
 	return (
