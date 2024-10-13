@@ -68,7 +68,10 @@ export default function DialogueView() {
 
 	useEffect(() => {
 		if (messagesEndRef.current) {
-			messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+			// 少し遅らせてスクロールを実行
+			setTimeout(() => {
+				messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+			}, 150); // レンダリングを待つために 150ms 遅らせる
 		}
 	}, [session?.dialogue]);
 

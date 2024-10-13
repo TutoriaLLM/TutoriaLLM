@@ -8,7 +8,7 @@ import { openDB } from "idb";
 import type * as Blockly from "blockly";
 
 // IndexedDBをオープンする関数
-const dbPromise = openDB("session-data", 1, {
+const dbPromise = openDB("app-data", 1, {
 	upgrade(db) {
 		db.createObjectStore("sessions", { keyPath: "key" });
 	},
