@@ -12,7 +12,9 @@ const CustomHandle = ({ connectionCount, ...props }: CustomHandleProps) => {
 	});
 
 	return (
-		<Handle {...props} isConnectable={connections.length < connectionCount} />
+		<Handle {...props} isConnectable={connections.length < connectionCount}>
+			{props.children}
+		</Handle>
 	);
 };
 
