@@ -128,12 +128,12 @@ export default function SavedData() {
 			<h2 className="w-[100vw] font-bold text-2xl">
 				{t("session.savedSession")}
 			</h2>
-			<div className="w-full h-full flex flex-col gap-3 flex-grow max-w-3xl">
+			<div className="w-full h-full flex flex-col gap-3 flex-grow max-w-6xl">
 				{Object.entries(savedData).map(([key, value]) => {
 					return (
 						<div
 							key={key}
-							className="w-full h-full flex-grow max-w-3xl bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
+							className="w-full h-full flex-grow max-w-6xl bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
 						>
 							<span className="flex border-b gap-1">
 								<Clock />

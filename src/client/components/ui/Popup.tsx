@@ -21,7 +21,7 @@ export default function Popup(props: {
 					</VisuallyHidden.Root>
 
 					<Dialog.Content asChild>
-						<div className="fixed flex flex-col max-w-3xl w-full max-h-[80vh] gap-3 bg-white rounded-2xl p-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[998] font-semibold overflow-y-auto">
+						<div className="fixed flex flex-col max-w-6xl w-full max-h-[80vh] gap-3 bg-white rounded-2xl p-5 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[998] font-semibold overflow-y-auto">
 							{props.Content}
 						</div>
 					</Dialog.Content>
