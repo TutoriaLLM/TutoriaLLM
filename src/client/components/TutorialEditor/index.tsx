@@ -10,6 +10,8 @@ import {
 	Controls,
 	Panel,
 	Background,
+	useReactFlow,
+	applyNodeChanges,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { Markdown } from "./nodes/markdown.js";
@@ -17,12 +19,17 @@ import { Metadata } from "./nodes/metadata.js";
 import Output from "./nodes/output.js";
 import Toolbar from "./toolbar.js";
 import { ExampleCode } from "./nodes/exampleCode.js";
+import { set } from "zod";
+import { MarkdownGen } from "./nodes/markdownGen.js";
+import { MetadataGen } from "./nodes/metadataGen.js";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
 const nodeTypes = {
 	md: Markdown,
+	mdGen: MarkdownGen,
 	metadata: Metadata,
+	metadataGen: MetadataGen,
 	blockly: ExampleCode,
 	output: Output,
 };
@@ -40,59 +47,88 @@ export default function llTutorialEditor(props: {
 
 	const initialNodes = [
 		{
-			id: "1",
+			id: "metadata",
 			type: "metadata",
 			data: {
 				title: "",
 				description: "",
 				keywords: [],
 			},
+			dragHandle: ".custom-drag-handle",
 			position: { x: 100, y: 100 },
 		},
 		{
-			id: "2",
+			id: "md",
 			type: "md",
 			position: { x: 300, y: 400 },
 			dragHandle: ".custom-drag-handle",
 			data: { source: "", editorContent: "" },
 		},
 		{
-			id: "3",
+			id: "blockly",
 			type: "blockly",
 			dragHandle: ".custom-drag-handle",
 			data: {
 				code: "",
 			},
-			position: { x: 500, y: 300 },
+			position: { x: -200, y: 300 },
 		},
 		{
 			id: "output",
 			type: "output",
 			data: {
-				label: "Output",
+				label: "",
 				targetHandles: [{ id: "output-metadata" }, { id: "output-markdown" }],
 			},
-			position: { x: 500, y: 300 },
+
+			position: { x: 800, y: 500 },
 		},
 	];
 
 	const initialEdges = [
 		{
-			id: "1-output",
-			source: "1",
+			id: "metadata-output-initial",
+			source: "metadata",
 			target: "output",
 			targetHandle: "metadata",
 		},
 		{
-			id: "2-output",
-			source: "2",
+			id: "md-output-initial",
+			source: "md",
 			target: "output",
 			targetHandle: "markdown",
 		},
+		{
+			id: "blockly-md-initial",
+			source: "blockly",
+			target: "md",
+			targetHandle: "blockly",
+		},
 	];
 
-	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+	const [nodes, setNodes, onNodesChangeBase] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+	// Prevent "output" node from being deleted
+	const onNodesChange = useCallback(
+		(changes: any[]) => {
+			setNodes((nds) => {
+				const filteredChanges = changes.filter(
+					(change: { type: string; id: string }) => {
+						// Prevent deletion of the "output" node
+						if (change.type === "remove" && change.id === "output") {
+							alert("The 'output' node cannot be deleted.");
+							return false;
+						}
+						return true;
+					},
+				);
+
+				return applyNodeChanges(filteredChanges, nds);
+			});
+		},
+		[setNodes],
+	);
 
 	// チュートリアルデータの取得とエディタへの反映を担当
 	const fetchTutorialData = useCallback(async () => {
@@ -115,7 +151,7 @@ export default function llTutorialEditor(props: {
 			}
 		} else if (props.json) {
 			// 新規作成時にJSONデータがある場合はそれを使用
-			//JSONが指定したフォーマットでない場合はalertを表示し、初期データを使用
+			// JSONが指定したフォーマットでない場合はalertを表示し、初期データを使用
 			if (
 				!props.json.metadata ||
 				!props.json.content ||
@@ -176,13 +212,14 @@ export default function llTutorialEditor(props: {
 	};
 
 	const popupContent = (
-		<div className="w-[100vh] h-[100vh] flex-grow max-w-full max-h-full">
+		<div className="w-full h-[100vh] flex-grow max-w-full max-h-full">
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}
 				nodeTypes={nodeTypes}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
+				nodeOrigin={[0.5, 0.5]}
 				onConnect={onConnect}
 				panOnScroll
 				zoomOnPinch
@@ -191,8 +228,10 @@ export default function llTutorialEditor(props: {
 					<Toolbar
 						id={props.id}
 						nodes={nodes}
+						setNodes={setNodes}
 						edges={edges}
 						handleClosePopup={handleClosePopup}
+						isPopupOpen={isPopupOpen}
 					/>
 				</Panel>
 				<Controls />

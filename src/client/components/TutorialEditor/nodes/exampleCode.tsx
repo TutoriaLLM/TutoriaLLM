@@ -4,6 +4,7 @@ import {
 	Handle,
 	useReactFlow,
 	type Node,
+	NodeToolbar,
 } from "@xyflow/react";
 import type { workspaceNode } from "./nodetype.js";
 import CodeInput from "../../ui/Codeinput.js";
@@ -14,11 +15,11 @@ import "blockly/javascript";
 import WorkspacePreview from "../../ui/workspacePreview.js";
 import { set } from "zod";
 import { use } from "i18next";
-import { ArrowBigDownIcon } from "lucide-react";
+import { ArrowBigDownIcon, Trash2 } from "lucide-react";
 
 // Component to fetch Blockly code, display it, and generate output code
 export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
-	const { updateNodeData } = useReactFlow();
+	const { updateNodeData, deleteElements } = useReactFlow();
 
 	const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -26,7 +27,7 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 
 	useEffect(() => {
 		if (inputRef.current && data.sessionValue) {
-			inputRef.current.value = data.sessionValue.sessioncode;
+			// inputRef.current.value = data.sessionValue.sessioncode;
 			setSession(data.sessionValue);
 			console.log("session", session);
 		}
@@ -34,6 +35,10 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 
 	const handleChangeSession = (field: string, value: SessionValue) => {
 		updateNodeData(id, { ...data, [field]: value });
+	};
+
+	const handleDelete = () => {
+		deleteElements({ nodes: [{ id: id }] });
 	};
 
 	const fetchCodeData = async () => {
@@ -44,7 +49,9 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 					if (response.status === 404) {
 						alert("Session not found");
 					}
-					inputRef.current.value = "";
+					if (inputRef.current) {
+						inputRef.current.value = "";
+					}
 					return;
 				}
 				const data: SessionValue = await response.json();
@@ -72,6 +79,12 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 			</span>
+			<NodeToolbar>
+				<button type="button" className="text-red-500 " onClick={handleDelete}>
+					<Trash2 className="drop-shadow" />
+				</button>
+			</NodeToolbar>
+
 			<div className="text-wrap p-3 text-center">
 				<div>Fetch External Blockly Code</div>
 				<CodeInput onComplete={() => onComplete()} ref={inputRef} />

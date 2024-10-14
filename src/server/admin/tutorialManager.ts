@@ -6,6 +6,9 @@ import {
 	tutorials,
 } from "../db/schema.js";
 import { eq } from "drizzle-orm";
+import { generateContent } from "./llm/tutorial.js";
+import { getAvailableBlocks } from "../session/registerBlocks.js";
+import { generateMetadata } from "./llm/metadata.js";
 
 //内部向けのチュートリアルエンドポイント(編集可能)
 const tutorialsManager = express.Router();
@@ -108,6 +111,30 @@ tutorialsManager.put("/:id", async (req, res) => {
 		console.error(e);
 		res.status(500).send("Failed to update tutorial");
 	}
+});
+
+//チュートリアル作成の際にAIを使用してコンテンツを生成する
+tutorialsManager.post("/generate-content", async (req, res) => {
+	const content = req.body.content;
+
+	const generatedContent = await generateContent(content);
+	if (!generatedContent) {
+		res.status(500).send("Failed to generate content");
+		return;
+	}
+	res.json(generatedContent);
+});
+
+//チュートリアル作成の際にAIを使用してコンテンツからメタデータを生成する
+tutorialsManager.post("/generate-metadata", async (req, res) => {
+	const content = req.body.content;
+
+	const generatedMetadata = await generateMetadata(content);
+	if (!generatedMetadata) {
+		res.status(500).send("Failed to generate metadata");
+		return;
+	}
+	res.json(generatedMetadata);
 });
 
 tutorialsManager.all("*", (req, res) => {

@@ -6,10 +6,28 @@ export type markdownNode = Node<{
 	source: string;
 }>;
 
+export type mdToMdNode = Node<{
+	source: string;
+	outputFromAI: string;
+}>;
+
+export type outputNode = Node<{
+	output: string;
+}>;
+
 export type metadataNode = Node<{
 	title: string;
 	description: string;
 	keywords: string;
+}>;
+
+export type mdToMetadataNode = Node<{
+	source: string;
+	metaData: {
+		title: string;
+		description: string;
+		keywords: string;
+	};
 }>;
 
 export type workspaceNode = Node<{
