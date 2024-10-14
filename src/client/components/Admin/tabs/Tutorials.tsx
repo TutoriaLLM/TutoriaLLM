@@ -28,7 +28,7 @@ export default function Tutorials() {
 
 	useEffect(() => {
 		fetchTutorials();
-	}, []);
+	}, [fetchTutorials]);
 
 	const handleDeleteTutorial = (id: number) => {
 		fetch(`/api/admin/tutorials/${id}`, {
@@ -102,9 +102,15 @@ export default function Tutorials() {
 										key={tutorial.id}
 										className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 									>
-										<td className="px-6 py-4">{metadata.title}</td>
-										<td className="px-6 py-4 w-full">{metadata.description}</td>
-										<td className="px-6 py-4">{metadata.keywords}</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{metadata.title}
+										</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{metadata.description}
+										</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{metadata.keywords}
+										</td>
 										<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
 											<div className="min-w-16">
 												<TutorialEditor id={tutorial.id} buttonText="Edit" />
@@ -112,7 +118,7 @@ export default function Tutorials() {
 
 											<button
 												type="button"
-												className="p-2 w-full min-w-16  h-full rounded-full bg-red-500 font-semibold text-white hover:bg-red-600"
+												className="p-2 w-full min-w-16 h-full rounded-full bg-red-500 font-semibold text-white hover:bg-red-600"
 												onClick={() => handleDeleteTutorial(tutorial.id)}
 											>
 												Delete
@@ -166,7 +172,7 @@ export default function Tutorials() {
 const SkeletonRows = () => {
 	return Array.from({ length: 3 }).map((_, index) => (
 		<tr
-			key={index}
+			key={`skeleton-${index}`}
 			className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 		>
 			<td className="px-6 py-4">
