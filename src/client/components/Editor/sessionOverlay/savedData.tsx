@@ -51,6 +51,16 @@ export default function SavedData() {
 		return data;
 	}
 
+	// IndexedDBからセッションデータを削除する関数
+	async function deleteSessionDataFromIndexedDB(key: string) {
+		//keyはUUIDを指す
+		const db = await dbPromise;
+		await db.delete("sessions", key);
+		//削除後、再度データを取得する
+		const data = await getSessionDataFromIndexedDB();
+		setSavedData(data);
+	}
+
 	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
 	async function createOrContinueSession(localSessionValue: SessionValue) {
 		const sessionCode = localSessionValue.sessioncode;
@@ -155,6 +165,13 @@ export default function SavedData() {
 								onClick={() => createOrContinueSession(value.sessionValue)}
 							>
 								{t("session.continueSession")}
+							</button>
+							<button
+								type="button"
+								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
+								onClick={() => deleteSessionDataFromIndexedDB(key)}
+							>
+								{t("session.deleteSession")}
 							</button>
 						</div>
 					);

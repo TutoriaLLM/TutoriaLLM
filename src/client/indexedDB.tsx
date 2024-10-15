@@ -51,9 +51,16 @@ async function getSessionDataFromIndexedDB() {
 	return data;
 }
 
+// IndexedDBからセッションデータを削除する関数
+async function deleteSessionDataFromIndexedDB(key: string) {
+	const db = await dbPromise;
+	await db.delete("sessions", key);
+}
+
 export {
 	saveImageToIndexedDB,
 	getImageFromIndexedDB,
 	saveSessionDataToIndexedDB,
 	getSessionDataFromIndexedDB,
+	deleteSessionDataFromIndexedDB,
 };
