@@ -134,10 +134,8 @@ export default function SavedData() {
 	}
 
 	const popupContent = (
-		<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-scroll">
-			<h2 className="w-[100vw] font-bold text-2xl">
-				{t("session.savedSession")}
-			</h2>
+		<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
+			<h2 className="w-full font-bold text-2xl">{t("session.savedSession")}</h2>
 			<div className="w-full h-full flex flex-col gap-3 flex-grow max-w-6xl">
 				{Object.entries(savedData).map(([key, value]) => {
 					return (
