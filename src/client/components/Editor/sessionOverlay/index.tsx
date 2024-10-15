@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { CircleAlert, HelpCircle } from "lucide-react";
+import {
+	CheckCircle,
+	CircleAlert,
+	CircleAlertIcon,
+	HelpCircle,
+	LoaderCircle,
+} from "lucide-react";
 import JoinSession from "./joinsession.js";
 import CreateNewSession from "./newsession.js";
 
@@ -23,6 +29,35 @@ export default function SessionPopup(props: {
 	const { t } = useTranslation();
 	const showPopup = props.isPopupOpen;
 	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
+	const [isServerOnline, setIsServerOnline] = useState<boolean | null>(null);
+
+	useEffect(() => {
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => {
+			controller.abort();
+			setIsServerOnline(false);
+		}, 3000);
+
+		fetch("/api/status", { signal: controller.signal })
+			.then((response) => {
+				clearTimeout(timeoutId);
+				if (response.ok) {
+					setIsServerOnline(true);
+				} else {
+					setIsServerOnline(false);
+				}
+			})
+			.catch((error) => {
+				if (error.name === "AbortError") {
+					console.log("Fetch aborted due to timeout");
+				} else {
+					console.error("Error checking server status:", error);
+				}
+				setIsServerOnline(false);
+			});
+
+		return () => clearTimeout(timeoutId);
+	}, []);
 
 	useEffect(() => {
 		if (languageToStart === "") {
@@ -49,13 +84,33 @@ export default function SessionPopup(props: {
 					openState={showPopup}
 					Content={
 						<div className="flex flex-col justify-center items-center max-w-xl w-full gap-3 bg-transparent p-2 z-[999] font-semibold">
-							<div className="w-full flex flex-col justify-center items-center p-2 gap-2">
-								<Dialog.Title className="text-3xl">
-									{t("session.hello")}
-								</Dialog.Title>
-								<Dialog.Description className="text-md font-medium text-gray-600">
-									{t("session.welcome")}
-								</Dialog.Description>
+							<div className="w-full flex justify-between items-center p-2">
+								<div className="flex flex-col gap-2 w-full flex-nowrap">
+									<Dialog.Title className="text-3xl">
+										{t("session.hello")}
+									</Dialog.Title>
+									<Dialog.Description className="text-md font-medium text-gray-600">
+										{t("session.welcome")}
+									</Dialog.Description>
+								</div>
+								<div className="text-xs md:text-nowrap">
+									{isServerOnline === null ? (
+										<span className="flex gap-2 justify-center items-center text-gray-500">
+											{t("session.checkingServer")}
+											<LoaderCircle className=" text-gray-500 w-8 h-8 animate-spin" />
+										</span>
+									) : isServerOnline ? (
+										<span className="flex gap-2 justify-center items-center text-gray-500">
+											{t("session.available")}
+											<CheckCircle className=" text-green-500 w-8 h-8" />
+										</span>
+									) : (
+										<span className="flex gap-2 justify-center items-center text-red-600">
+											{t("session.serverOffline")}
+											<CircleAlertIcon className=" text-red-500 w-8 h-8 animate-pulse" />
+										</span>
+									)}
+								</div>
 							</div>
 
 							<div className="bg-gray-50 rounded-3xl shadow p-3 w-full">
