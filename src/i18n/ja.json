@@ -48,7 +48,8 @@
 		"deleteSession": "このセッションを削除する",
 		"checkingServer": "サーバーの状態を確認中...",
 		"available": "アプリは利用可能です",
-		"serverOffline": "サーバーはオフラインです - アプリは利用できません"
+		"serverOffline": "サーバーはオフラインです - アプリは利用できません",
+		"serverOnline": "オンライン"
 	},
 	"sidebar": {
 		"dashboard": "ダッシュボード",
