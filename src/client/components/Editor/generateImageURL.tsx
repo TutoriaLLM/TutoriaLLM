@@ -3,6 +3,7 @@ import * as Blockly from "blockly";
 import registerBlocks from "./Blockly/blocks/index.js";
 import Theme from "./Blockly/theme/index.js";
 import { workspaceToPngBase64 } from "../ui/workspaceToPng.js";
+import { blocklyLocale } from "../../../i18n/blocklyLocale.js";
 
 async function getImageFromSerializedWorkspace(
 	serializedWorkspace: {
@@ -29,6 +30,7 @@ async function getImageFromSerializedWorkspace(
 			renderer: "zelos",
 			theme: Theme,
 		});
+		Blockly.setLocale(blocklyLocale[language]);
 		registerBlocks(language as string);
 	}
 	const workspaceSvg = hiddenWorkspaceRef.current;
