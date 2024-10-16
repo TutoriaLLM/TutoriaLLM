@@ -14,7 +14,7 @@ export default function Popup(props: {
 	return (
 		showPopup && (
 			<Dialog.Root open={showPopup} onOpenChange={props.onClose}>
-				<Dialog.Overlay className="fixed w-full h-full inset-0 z-[997] bg-gray-200/10 backdrop-blur-md p-2 data-[state=open]:animate-fade-in data-[state=close]:animate-fade-out">
+				<Dialog.Overlay className="fixed w-full h-full inset-0 z-[997] bg-sky-800/10 backdrop-blur-md p-2 data-[state=open]:animate-fade-in data-[state=close]:animate-fade-out">
 					<VisuallyHidden.Root>
 						<Dialog.Title>Popup</Dialog.Title>
 						<Dialog.Description>Popup contents</Dialog.Description>
