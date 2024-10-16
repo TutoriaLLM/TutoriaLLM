@@ -1,8 +1,9 @@
 import i18next from "i18next";
 import { Globe } from "lucide-react";
 import { langToStr } from "../../../utils/langToStr.js";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-// ユーザーは言語一覧から選択する。
+// ユーザーはドロップダウンから言語を選択する。
 export function LangPicker(props: {
 	language: string;
 	setLanguage: (lang: string) => void;
@@ -10,24 +11,19 @@ export function LangPicker(props: {
 	const languageList = i18next.languages.slice().sort(); // ここでABC順にソートする
 
 	return (
-		<div className="flex flex-col justify-center items-center gap-2 p-2 rounded-2xl w-full">
+		<div className="flex justify-center items-center gap-2 p-2 rounded-2xl w-full">
 			<Globe className="w-6 h-6" />
-			<div className="flex flex-wrap gap-2">
+			<select
+				className="p-2 rounded-xl bg-gray-200 hover:bg-gray-300"
+				value={props.language}
+				onChange={(e) => props.setLanguage(e.target.value)}
+			>
 				{languageList.map((lang, index) => (
-					<button
-						type="button"
-						key={index}
-						className={`p-2 rounded-xl ${
-							lang === props.language
-								? "bg-gray-300"
-								: "bg-gray-200 hover:bg-gray-300"
-						}`}
-						onClick={() => props.setLanguage(lang)}
-					>
+					<option key={index} value={lang}>
 						{langToStr(lang)}
-					</button>
+					</option>
 				))}
-			</div>
+			</select>
 		</div>
 	);
 }
