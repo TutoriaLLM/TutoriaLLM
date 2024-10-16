@@ -24,7 +24,30 @@ i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 			loadPath: "src/i18n/{{lng}}.json",
 		},
 		fallbackLng: "en",
-		preload: ["ja", "en", "zh", "ms"], // Add the languages you want to preload
+		preload: [
+			"en",
+			"ja",
+			"zh",
+			"ms",
+			"id",
+			"ko",
+			"es",
+			"fr",
+			"de",
+			"it",
+			"nl",
+			"pl",
+			"pt",
+			"ru",
+			"tr",
+			"vi",
+			"th",
+			"fa",
+			"hi",
+			"bn",
+			"ta",
+			"te",
+		], // Add the languages you want to preload
 	},
 	(err, t) => {
 		if (err) return console.error(err);
