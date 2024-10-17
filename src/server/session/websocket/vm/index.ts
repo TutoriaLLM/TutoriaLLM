@@ -192,8 +192,10 @@ export async function ExecCodeTest(
 		//configを読み込む
 		const config = getConfig();
 
+		const joinCode = code;
+
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
-			workerData: { code, sessionValue, serverRootPath, userScript },
+			workerData: { joinCode, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
 				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
 				maxOldGenerationSizeMb:
