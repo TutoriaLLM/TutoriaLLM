@@ -1,6 +1,6 @@
 import * as Blockly from "blockly";
 import { Order, javascriptGenerator } from "blockly/javascript";
-import type { extBlock } from "extentionContext";
+import type { extBlock } from "extensionContext";
 
 export const block: extBlock = {
 	type: "ext_minecraft_debugmessage",

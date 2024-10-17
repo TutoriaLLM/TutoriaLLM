@@ -53,7 +53,7 @@
 		"Stopped": "நிறுத்தப்பட்டது",
 		"label": "குறியீட்டை இயக்கவும்"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "**/connect {{host}}/vm/{{userCode}}/mc** இலிருந்து உங்கள் Minecraft ஐ இணைக்கவும். \nஇணைப்பு தோல்வியுற்றால் மீண்டும் முயற்சிக்கவும். \nகுறியாக்க கோரிக்கையை முடக்கு."
 		}

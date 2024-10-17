@@ -1,5 +1,5 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
-import type { extBlock, extLocale } from "extentionContext";
+import type { extBlock, extLocale } from "extensionContext";
 
 export const block = {
 	type: "ext_server_onServerStart",

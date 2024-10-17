@@ -1,4 +1,4 @@
-declare module "extentionContext" {
+declare module "extensionContext" {
 	import type { Hono } from "hono";
 	import type { UpgradeWebSocket } from "hono/ws";
 	import type { SessionValue } from "../type.ts";

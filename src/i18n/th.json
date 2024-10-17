@@ -53,7 +53,7 @@
 		"Stopped": "หยุดแล้ว",
 		"label": "รันโค้ด"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "เชื่อมต่อ Minecraft ของคุณจาก **/เชื่อมต่อ {{host}}/vm/{{userCode}}/mc** \nลองอีกครั้งหากการเชื่อมต่อล้มเหลว \nปิดคำขอเข้ารหัส"
 		}

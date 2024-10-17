@@ -53,7 +53,7 @@
 		"Stopped": "Gestopt",
 		"label": "Voer code uit"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Verbind uw Minecraft vanaf **/connect {{host}}/vm/{{userCode}}/mc**. \nProbeer het opnieuw als de verbinding mislukt is. \nSchakel versleutelingsverzoek uit."
 		}

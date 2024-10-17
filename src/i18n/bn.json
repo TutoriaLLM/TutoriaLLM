@@ -53,7 +53,7 @@
 		"Stopped": "থেমে গেল",
 		"label": "কোড চালান"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "**/connect {{host}}/vm/{{userCode}}/mc** থেকে আপনার Minecraft কানেক্ট করুন। \nসংযোগ ব্যর্থ হলে আবার চেষ্টা করুন. \nএনক্রিপশন অনুরোধ বন্ধ করুন।"
 		}

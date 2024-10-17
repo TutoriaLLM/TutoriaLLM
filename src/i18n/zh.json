@@ -131,7 +131,7 @@
 		"dialogueTab": "聊天",
 		"workspaceTab": "工作空间"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "从 **/connect {{host}}/vm/{{userCode}}/mc** 连接您的 Minecraft。\n如果连接失败请重试。\n关闭加密请求。"
 		}

@@ -1,4 +1,4 @@
-# Example Extention
+# Example extension
 拡張機能を作成するのに必要なすべてのファイルが詰まったリポジトリです。作成方法もここで説明します。
 
 ## 拡張機能でサポートされている機能
@@ -116,7 +116,7 @@ import type {
 	extLocale,
 	extScriptContext,
 	extCategory,
-} from "extentionContext";
+} from "extensionContext";
 
 export const block: Block = {
 	type: "ext_example_console_log",

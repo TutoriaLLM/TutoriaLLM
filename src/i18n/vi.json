@@ -53,7 +53,7 @@
 		"Stopped": "Đã dừng",
 		"label": "Chạy mã"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Kết nối Minecraft của bạn từ **/connect {{host}}/vm/{{userCode}}/mc**. \nHãy thử lại nếu kết nối không thành công. \nTắt yêu cầu mã hóa."
 		}

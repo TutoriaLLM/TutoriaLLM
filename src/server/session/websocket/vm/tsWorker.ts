@@ -1,7 +1,7 @@
 import vm, { createContext } from "node:vm";
 import path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
-import { ExtensionLoader } from "../extentionLoader.js";
+import { ExtensionLoader } from "../extensionLoader.js";
 import { fileURLToPath } from "node:url";
 import getPort, { portNumbers } from "get-port";
 import { exec } from "node:child_process";

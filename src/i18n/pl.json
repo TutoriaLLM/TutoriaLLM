@@ -53,7 +53,7 @@
 		"Stopped": "Zatrzymany",
 		"label": "Uruchom kod"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Połącz swój Minecraft z **/connect {{host}}/vm/{{userCode}}/mc**. \nSpróbuj ponownie, jeśli połączenie nie powiodło się. \nWyłącz żądanie szyfrowania."
 		}

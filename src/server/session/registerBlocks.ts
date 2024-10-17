@@ -1,5 +1,5 @@
 import * as Blockly from "blockly";
-import type { extBlock, extLocale } from "extentionContext";
+import type { extBlock, extLocale } from "extensionContext";
 import FastGlob from "fast-glob";
 import path from "node:path";
 

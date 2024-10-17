@@ -53,7 +53,7 @@
 		"Stopped": "متوقف شد",
 		"label": "کد را اجرا کنید"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Minecraft خود را از **/connect {{host}}/vm/{{userCode}}/mc** وصل کنید. \nاگر اتصال ناموفق بود دوباره امتحان کنید. \nدرخواست رمزگذاری را خاموش کنید."
 		}

@@ -53,7 +53,7 @@
 		"Stopped": "Interrumpido",
 		"label": "Ejecutar código"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Conecte su Minecraft desde **/connect {{host}}/vm/{{userCode}}/mc**. \nInténtalo de nuevo si falla la conexión. \nDesactive la solicitud de cifrado."
 		}

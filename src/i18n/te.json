@@ -53,7 +53,7 @@
 		"Stopped": "ఆగిపోయింది",
 		"label": "కోడ్‌ని అమలు చేయండి"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "మీ Minecraft ను **/connect {{host}}/vm/{{userCode}}/mc** నుండి కనెక్ట్ చేయండి. \nకనెక్షన్ విఫలమైతే మళ్లీ ప్రయత్నించండి. \nఎన్క్రిప్షన్ అభ్యర్థనను ఆఫ్ చేయండి."
 		}

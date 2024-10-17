@@ -53,7 +53,7 @@
 		"Stopped": "Durduruldu",
 		"label": "Kodu çalıştır"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Minecraft'ınızı **/connect {{host}}/vm/{{userCode}}/mc** adresinden bağlayın. \nBağlantı başarısız olursa tekrar deneyin. \nŞifreleme isteğini kapatın."
 		}

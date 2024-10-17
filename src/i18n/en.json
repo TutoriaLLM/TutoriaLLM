@@ -95,7 +95,8 @@
 		"tooManyLogs": "Too many messages. old logs removed."
 	},
 	"generic": {
-		"connected": "Connected"
+		"connected": "Connected",
+		"websocketNotConnected": "Websocket is not connected"
 	},
 	"tour": {
 		"joinCode": "This is code for this session. You can return back here with saving this code for next time.",
@@ -110,7 +111,7 @@
 		"syncCode": "You can update code from here",
 		"switchToDialogue": "Okay, let's back to chat tab."
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed. Turn off encryption request."
 		}

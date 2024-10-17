@@ -131,7 +131,7 @@
 		"dialogueTab": "Sembang",
 		"workspaceTab": "Ruang kerja"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Sambungkan Minecraft anda daripada **/connect {{host}}/vm/{{userCode}}/mc**. \nCuba lagi jika sambungan gagal. \nMatikan permintaan penyulitan."
 		}

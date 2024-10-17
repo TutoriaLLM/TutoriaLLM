@@ -95,7 +95,8 @@
 		"tooManyLogs": "メッセージが多すぎます。古いログは削除されました。"
 	},
 	"generic": {
-		"connected": "接続しました"
+		"connected": "接続しました",
+		"websocketNotConnected": "Websocketが接続されていません"
 	},
 	"tour": {
 		"joinCode": "このセッションのコードです。このコードを覚えておくことで、続きから始めることができます。",
@@ -110,7 +111,7 @@
 		"syncCode": "ここから作ったプログラムをアップデートすることができます。",
 		"switchToDialogue": "では、チャットのタブへ戻りましょう。"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Minecraftのチャットに ***/connect {{host}}/vm/{{userCode}}/mc*** と入力して接続可能です。うまくいかない時はもう一度試してください。暗号化の要求はオフにしてください。"
 		}

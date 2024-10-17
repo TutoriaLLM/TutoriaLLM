@@ -53,7 +53,7 @@
 		"Stopped": "Остановлено",
 		"label": "Запустить код"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Подключите свой Minecraft из **/connect {{host}}/vm/{{userCode}}/mc**. \nПопробуйте еще раз, если соединение не удалось. \nОтключите запрос на шифрование."
 		}

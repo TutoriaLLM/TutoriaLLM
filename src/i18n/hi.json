@@ -53,7 +53,7 @@
 		"Stopped": "रुक गया",
 		"label": "कोड चलाएँ"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "अपने Minecraft को **/कनेक्ट {{host}}/vm/{{userCode}}/mc** से कनेक्ट करें। \nयदि कनेक्शन विफल हो तो पुनः प्रयास करें. \nएन्क्रिप्शन अनुरोध बंद करें."
 		}

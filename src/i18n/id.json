@@ -53,7 +53,7 @@
 		"Stopped": "Berhenti",
 		"label": "Jalankan kode"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
 			"connectInfo": "Hubungkan Minecraft Anda dari **/connect {{host}}/vm/{{userCode}}/mc**. \nCoba lagi jika koneksi gagal. \nMatikan permintaan enkripsi."
 		}
