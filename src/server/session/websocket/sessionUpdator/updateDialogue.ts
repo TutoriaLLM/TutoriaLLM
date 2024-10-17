@@ -67,7 +67,7 @@ export async function updateDialogueWithLLM(
 	}
 
 	//失敗した場合、最新のデータを取得してそのまま返す
-	const latestData = await getLatestData(code);
+	const latestData = await getLatestData(data.sessioncode);
 	latestData.isReplying = false;
 	return latestData;
 }
