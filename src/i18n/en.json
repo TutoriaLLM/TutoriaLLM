@@ -113,7 +113,8 @@
 	},
 	"extension": {
 		"minecraft-core": {
-			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed. Turn off encryption request."
+			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed. Turn off encryption request.",
+			"noConnection": "Minecraft is not connected."
 		}
 	},
 	"editor": {

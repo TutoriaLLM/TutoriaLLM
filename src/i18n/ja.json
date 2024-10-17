@@ -113,7 +113,8 @@
 	},
 	"extension": {
 		"minecraft-core": {
-			"connectInfo": "Minecraftのチャットに ***/connect {{host}}/vm/{{userCode}}/mc*** と入力して接続可能です。うまくいかない時はもう一度試してください。暗号化の要求はオフにしてください。"
+			"connectInfo": "Minecraftのチャットに ***/connect {{host}}/vm/{{userCode}}/mc*** と入力して接続可能です。うまくいかない時はもう一度試してください。暗号化の要求はオフにしてください。",
+			"noConnection": "Minecraftが接続されていません。"
 		}
 	},
 	"editor": {
