@@ -95,7 +95,10 @@ const events = [
 const onConnectEvents: (() => void)[] = [];
 const onMessageEvents: ((message: string) => void)[] = [];
 const onDisconnectEvents: (() => void)[] = [];
-let wss: WSContext;
+let wss: WSContext = {} as WSContext;
+wss.send = (message: string) => {
+	console.log(t("extension.minecraft-core.noConnection"));
+};
 
 function removeListener() {
 	onConnectEvents.length = 0;
@@ -133,9 +136,9 @@ const minecraftWorldState = {
 		isunderwater: false,
 	},
 };
-const translatedMessage = t("extention.minecraft-core.connectInfo", {
+const translatedMessage = t("extension.minecraft-core.connectInfo", {
 	host: serverRootPath,
-	userCode: code,
+	userCode: joinCode,
 });
 console.info(translatedMessage);
 
