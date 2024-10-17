@@ -18,6 +18,7 @@
 		"drizzle:studio": "drizzle-kit studio --config=drizzle.studio.config.ts",
 		"reset-credential": "tsx src/server/db/users.ts --reset-credentials",
 		"format": "biome format . --write",
+		"tsc": "tsc",
 		"lint": "biome check .",
 		"lint:fix": "pnpm lint --write",
 		"prepare": "pnpm simple-git-hooks"
