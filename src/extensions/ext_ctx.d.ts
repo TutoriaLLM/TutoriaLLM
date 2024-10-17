@@ -8,7 +8,7 @@ declare module "extensionContext" {
 	declare global {
 		const context: extScriptContext;
 		const app: Hono;
-		const code: string;
+		const joinCode: string;
 		const session: SessionValue;
 		const serverRootPath: string;
 		const upgradeWebSocket: UpgradeWebSocket;
