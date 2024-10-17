@@ -13,7 +13,7 @@ import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import { content } from "html2canvas/dist/types/css/property-descriptors/content.js";
 
-const { code, sessionValue, serverRootPath, userScript } = workerData;
+const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -78,7 +78,7 @@ const { t } = i18next;
 const context = createContext({
 	app,
 	upgradeWebSocket,
-	code,
+	joinCode,
 	console: {
 		log: (...args: string[]) => {
 			const logMessage = args.join(" ");
