@@ -19,6 +19,8 @@ import translation_ru from "./ru.json";
 import translation_tr from "./tr.json";
 import translation_vi from "./vi.json";
 import translation_th from "./th.json";
+// import translation_ar from "./ar.json";
+// import translation_he from "./he.json";
 import translation_fa from "./fa.json";
 import translation_hi from "./hi.json";
 import translation_bn from "./bn.json";
@@ -77,6 +79,12 @@ const resources = {
 	th: {
 		translation: translation_th,
 	},
+	// ar: {
+	// 	translation: translation_ar,
+	// },
+	// he: {
+	// 	translation: translation_he,
+	// },
 	fa: {
 		translation: translation_fa,
 	},
@@ -116,6 +124,8 @@ i18n
 			"tr",
 			"vi",
 			"th",
+			// "ar",
+			// "he",
 			"fa",
 			"hi",
 			"bn",

@@ -57,6 +57,8 @@ i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 			"tr",
 			"vi",
 			"th",
+			// "ar",
+			// "he",
 			"fa",
 			"hi",
 			"bn",
