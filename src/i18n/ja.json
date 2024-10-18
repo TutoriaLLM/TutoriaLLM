@@ -84,7 +84,10 @@
 		"startTour": "何ができるか見てみましょう。",
 		"easyMode": "かんたんモード",
 		"easyModeDescription": "AIからのチャットがかんたんになります",
-		"easyModeChanged": "かんたんモードを{{status}}にしました"
+		"easyModeChanged": "かんたんモードを{{status}}にしました",
+		"yourLanguage": "あなたの言語のチュートリアル",
+		"otherLanguage": "他の言語のチュートリアル",
+		"otherLanguageDescription": "これらのチュートリアルは、翻訳して提供されるため、正確でない場合があります。"
 	},
 	"vm": {
 		"outOfMemory": "マシンが使えるメモリの上限に達しました",
@@ -96,7 +99,8 @@
 	},
 	"generic": {
 		"connected": "接続しました",
-		"websocketNotConnected": "Websocketが接続されていません"
+		"websocketNotConnected": "Websocketが接続されていません",
+		"open": "開く"
 	},
 	"tour": {
 		"joinCode": "このセッションのコードです。このコードを覚えておくことで、続きから始めることができます。",

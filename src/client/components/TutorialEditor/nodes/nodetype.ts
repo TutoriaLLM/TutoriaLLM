@@ -18,7 +18,8 @@ export type outputNode = Node<{
 export type metadataNode = Node<{
 	title: string;
 	description: string;
-	keywords: string;
+	tags: string[];
+	language: string;
 }>;
 
 export type mdToMetadataNode = Node<{
@@ -26,7 +27,8 @@ export type mdToMetadataNode = Node<{
 	metaData: {
 		title: string;
 		description: string;
-		keywords: string;
+		tags: string[];
+		language: string;
 	};
 }>;
 

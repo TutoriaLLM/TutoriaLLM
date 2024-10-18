@@ -1,13 +1,17 @@
 import express from "express";
 import { db } from "../db/index.js";
-import { tutorials } from "../db/schema.js";
+import { tags, tutorials } from "../db/schema.js";
 import { eq } from "drizzle-orm";
+import tagsAPI from "./tags.js";
 
 //debug
 console.log("tutorials/index.ts: Loading tutorial api app");
 
 //外部向けのチュートリアルエンドポイント(編集不可)
 const tutorialsAPI = express();
+
+//タグAPIを追加
+tutorialsAPI.use("/tags", tagsAPI);
 
 //チュートリアルの一覧を取得。コンテンツは送信しない。
 tutorialsAPI.get("/", async (req, res) => {
@@ -17,6 +21,8 @@ tutorialsAPI.get("/", async (req, res) => {
 			.select({
 				id: tutorials.id,
 				metadata: tutorials.metadata,
+				language: tutorials.language,
+				tags: tutorials.tags,
 			})
 			.from(tutorials);
 		res.json(getTutorials);

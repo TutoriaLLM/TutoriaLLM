@@ -72,8 +72,12 @@ export default function Output() {
 								{node.data.description}
 							</p>
 							<p className="flex flex-wrap">
-								<strong className="text-gray-800">Keywords:</strong>{" "}
-								{node.data.keywords}
+								<strong className="text-gray-800">Tags:</strong>{" "}
+								{node.data.tags.join(", ")}
+							</p>
+							<p className="flex flex-wrap">
+								<strong className="text-gray-800">Language:</strong>{" "}
+								{node.data.language}
 							</p>
 						</div>
 					))}

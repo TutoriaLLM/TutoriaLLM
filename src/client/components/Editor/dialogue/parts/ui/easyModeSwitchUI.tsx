@@ -32,7 +32,7 @@ function SwitchEasyModeUI() {
 	}
 
 	return (
-		<div className="w-full p-2">
+		<div className="w-full p-2 animate-fade-in">
 			<div className="bg-white shadow w-full gap-2 sticky top-0 p-2 rounded-2xl flex justify-between items-center">
 				<span className="shrink">
 					<h3 className="font-semibold text-lg">{t("tutorial.easyMode")}</h3>

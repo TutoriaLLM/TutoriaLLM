@@ -110,6 +110,7 @@
 		"react-remark": "^2.1.0",
 		"react-resizable-panels": "^2.1.3",
 		"react-router-dom": "^6.26.2",
+		"react-tag-input": "^6.10.3",
 		"redis": "^4.7.0",
 		"rehype-raw": "^7.0.0",
 		"rfc6902": "^5.1.1",

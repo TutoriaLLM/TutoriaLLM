@@ -52,7 +52,7 @@ export default function llTutorialEditor(props: {
 			data: {
 				title: "",
 				description: "",
-				keywords: [],
+				tags: [],
 			},
 			dragHandle: ".custom-drag-handle",
 			position: { x: 100, y: 100 },
@@ -162,7 +162,7 @@ export default function llTutorialEditor(props: {
 					metadata: {
 						title: "",
 						description: "",
-						keywords: [],
+						selectCount: 0,
 					},
 					content: "",
 					serializednodes: "",
@@ -178,7 +178,7 @@ export default function llTutorialEditor(props: {
 				metadata: {
 					title: "",
 					description: "",
-					keywords: [],
+					selectCount: 0,
 				},
 				content: "",
 				serializednodes: "",

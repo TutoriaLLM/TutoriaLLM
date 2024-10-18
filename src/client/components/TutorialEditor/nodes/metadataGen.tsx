@@ -19,6 +19,7 @@ import type {
 	MyNode,
 } from "./nodetype.js";
 import { use } from "i18next";
+import { set } from "zod";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
@@ -28,19 +29,22 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const initialMetadata = {
 		title: data?.metaData?.title || "",
 		description: data?.metaData?.description || "",
-		keywords: data?.metaData?.keywords || "",
+		tags: data?.metaData?.tags || "",
+		language: data?.metaData?.language || "",
 	};
 	const [generatedMetadata, setGeneratedMetadata] = useState({
 		title: initialMetadata.title,
 		description: initialMetadata.description,
-		keywords: initialMetadata.keywords,
+		tags: initialMetadata.tags,
+		language: initialMetadata.language,
 	});
 	const [isCompared, setIsCompared] = useState(false);
 
 	const handleDataChange = (metadata: {
 		title: string;
 		description: string;
-		keywords: string;
+		tags: string[];
+		language: string;
 	}) => {
 		updateNodeData(id, { ...data, ...metadata });
 	};
@@ -86,12 +90,14 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 		handleDataChange({
 			title: "",
 			description: "",
-			keywords: "",
+			tags: [],
+			language: "",
 		});
 		setGeneratedMetadata({
 			title: "",
 			description: "",
-			keywords: "",
+			tags: [],
+			language: "",
 		});
 		setContent("");
 		setIsCompared(false);
@@ -100,6 +106,8 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 
 	const handleGenerateAI = async () => {
 		setIsLoading(true);
+		setIsCompared(false);
+		setIsGenerated(false);
 		try {
 			const response = await fetch("/api/admin/tutorials/generate-metadata", {
 				method: "POST",
@@ -112,9 +120,11 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 			const metadata = {
 				title: data.title,
 				description: data.description,
-				keywords: data.keywords,
+				tags: data.tags,
+				language: data.language,
 			};
 			if (metadata && typeof metadata === "object") {
+				console.log("Generated metadata:", metadata);
 				setGeneratedMetadata(metadata);
 				setIsGenerated(true);
 				setIsCompared(true);
@@ -133,7 +143,8 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 			handleDataChange({
 				title: generatedMetadata.title,
 				description: generatedMetadata.description,
-				keywords: generatedMetadata.keywords,
+				tags: generatedMetadata.tags,
+				language: generatedMetadata.language,
 			});
 		}
 	}, [isGenerated]);

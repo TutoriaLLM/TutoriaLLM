@@ -7,6 +7,9 @@ import {
 	updateAndBroadcastDiffToAll,
 } from "../updateDB.js";
 import { updateDialogueWithLLM } from "./updateDialogue.js";
+import { db } from "../../../db/index.js";
+import { tutorials } from "../../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 export async function updateSession(
 	currentDataJson: SessionValue,
@@ -29,6 +32,29 @@ export async function updateSession(
 
 	function isDialogueChanged(oldData: SessionValue, newData: SessionValue) {
 		return newData.dialogue !== oldData.dialogue;
+	}
+
+	//チュートリアルが選択された場合の挙動を追加
+	if (
+		newDataJson.tutorial !== currentDataJson.tutorial &&
+		typeof newDataJson.tutorial.tutorialId === "number"
+	) {
+		//DBのselectCountをインクリメント
+		const id = newDataJson.tutorial.tutorialId;
+		const tutorial = await db
+			.select()
+			.from(tutorials)
+			.where(eq(tutorials.id, id));
+
+		await db
+			.update(tutorials)
+			.set({
+				metadata: {
+					...tutorial[0].metadata,
+					selectCount: tutorial[0].metadata.selectCount + 1,
+				},
+			})
+			.where(eq(tutorials.id, id));
 	}
 
 	if (

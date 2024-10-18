@@ -11,7 +11,7 @@ function renderUserBubble(
 	return (
 		<div
 			key={id}
-			className="flex justify-start flex-row-reverse items-end gap-2"
+			className="flex justify-start flex-row-reverse items-end gap-2 animate-fade-in"
 		>
 			<div className="text-gray-600 flex flex-col items-center">
 				<span className="bg-gray-200 rounded-full p-2">

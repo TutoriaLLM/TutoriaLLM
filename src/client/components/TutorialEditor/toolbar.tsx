@@ -91,13 +91,22 @@ export default function Toolbar(props: {
 			// contentとmetadataを初期化
 			let content = "";
 			let metadata = {};
+			let tags = [];
+			let language = "";
 
 			// 接続されているノードからデータを取得
 			for (const node of connectedNodes) {
 				if (node.type === "md" || node.type === "mdGen") {
 					content = node.data.source || ""; // Provide a default value
 				} else if (node.type === "metadata" || node.type === "metadataGen") {
-					metadata = node.data;
+					//metadataとtagsを分離する
+					metadata = {
+						title: node.data.title,
+						description: node.data.description,
+						selectCount: node.data.selectCount,
+					};
+					language = node.data.language;
+					tags = node.data.tags;
 				}
 			}
 
@@ -113,6 +122,8 @@ export default function Toolbar(props: {
 				body: JSON.stringify({
 					serializednodes: serializednodes,
 					metadata: metadata,
+					tags: tags,
+					language: language,
 					content: content,
 				}),
 			})

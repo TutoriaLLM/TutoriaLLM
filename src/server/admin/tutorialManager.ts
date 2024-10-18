@@ -1,11 +1,7 @@
 import express from "express";
 import { db } from "../db/index.js";
-import {
-	type Tutorial,
-	type TutorialMetadata,
-	tutorials,
-} from "../db/schema.js";
-import { eq } from "drizzle-orm";
+import { type Tutorial, tags, tutorials, tutorialsTags } from "../db/schema.js";
+import { and, eq, isNull } from "drizzle-orm";
 import { generateContent } from "./llm/tutorial.js";
 import { getAvailableBlocks } from "../session/registerBlocks.js";
 import { generateMetadata } from "./llm/metadata.js";
@@ -51,14 +47,29 @@ tutorialsManager.get("/:id", async (req, res) => {
 tutorialsManager.delete("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);
+
+		// 関連する tutorialsTags を先に削除
+		await db.delete(tutorialsTags).where(eq(tutorialsTags.tutorialId, id));
+
+		// tutorials のレコードを削除
 		await db.delete(tutorials).where(eq(tutorials.id, id));
+
+		// 未使用のタグを削除
+		const unusedTags = await db
+			.select({ id: tags.id })
+			.from(tags)
+			.leftJoin(tutorialsTags, eq(tags.id, tutorialsTags.tagId))
+			.where(isNull(tutorialsTags.tutorialId));
+		for (const tag of unusedTags) {
+			await db.delete(tags).where(eq(tags.id, tag.id));
+		}
+
 		res.send(`Tutorial ${id} deleted`);
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to delete tutorial");
 	}
 });
-
 //新しいチュートリアルを作成
 tutorialsManager.post("/new", async (req, res) => {
 	if (!req.body) {
@@ -66,13 +77,53 @@ tutorialsManager.post("/new", async (req, res) => {
 		return;
 	}
 	const tutorial = req.body as Tutorial;
+	console.log(tutorial);
 	//新しいチュートリアルを作成
 	try {
-		await db.insert(tutorials).values({
-			content: tutorial.content,
-			metadata: tutorial.metadata,
-			serializednodes: tutorial.serializednodes,
-		});
+		const insertedTutorial = await db
+			.insert(tutorials)
+			.values({
+				content: tutorial.content,
+				metadata: {
+					...tutorial.metadata,
+					selectCount: 0,
+				},
+				language: tutorial.language,
+				serializednodes: tutorial.serializednodes,
+				tags: tutorial.tags || [], // Add the tags property
+			})
+			.returning({ id: tutorials.id });
+
+		// タグを tutorialsTags テーブルに追加
+		if (tutorial.tags && tutorial.tags.length > 0) {
+			for (const tag of tutorial.tags) {
+				let existingTag = await db
+					.select()
+					.from(tags)
+					.where(eq(tags.name, tag));
+
+				if (existingTag.length === 0) {
+					// タグが存在しない場合は作成
+					const [newTag] = await db
+						.insert(tags)
+						.values({ name: tag })
+						.returning({ id: tags.id });
+					existingTag = [
+						{
+							id: newTag.id,
+							name: tag,
+						},
+					];
+				}
+
+				// tutorialsTags テーブルに関連付けを追加
+				await db.insert(tutorialsTags).values({
+					tutorialId: insertedTutorial[0].id,
+					tagId: existingTag[0].id,
+				});
+			}
+		}
+
 		res.status(201).send("Tutorial created");
 	} catch (e) {
 		console.error(e);
@@ -103,9 +154,55 @@ tutorialsManager.put("/:id", async (req, res) => {
 			.set({
 				content: tutorialToUpdate.content,
 				metadata: tutorialToUpdate.metadata,
+				language: tutorialToUpdate.language,
 				serializednodes: tutorialToUpdate.serializednodes,
 			})
 			.where(eq(tutorials.id, id));
+
+		// タグの更新
+		if (tutorialToUpdate.tags && tutorialToUpdate.tags.length > 0) {
+			// 既存のタグ関連付けを削除
+			await db.delete(tutorialsTags).where(eq(tutorialsTags.tutorialId, id));
+
+			// 新しいタグを tutorialsTags テーブルに追加
+			for (const tag of tutorialToUpdate.tags) {
+				let existingTag = await db
+					.select()
+					.from(tags)
+					.where(eq(tags.name, tag));
+
+				if (existingTag.length === 0) {
+					// タグが存在しない場合は作成
+					const [newTag] = await db
+						.insert(tags)
+						.values({ name: tag })
+						.returning({ id: tags.id });
+					existingTag = [
+						{
+							id: newTag.id,
+							name: tag,
+						},
+					];
+				}
+
+				// tutorialsTags テーブルに関連付けを追加
+				await db.insert(tutorialsTags).values({
+					tutorialId: id,
+					tagId: existingTag[0].id,
+				});
+			}
+		}
+
+		// 未使用のタグを削除
+		const unusedTags = await db
+			.select({ id: tags.id })
+			.from(tags)
+			.leftJoin(tutorialsTags, eq(tags.id, tutorialsTags.tagId))
+			.where(isNull(tutorialsTags.tutorialId));
+		for (const tag of unusedTags) {
+			await db.delete(tags).where(eq(tags.id, tag.id));
+		}
+
 		res.send(`Tutorial ${id} updated`);
 	} catch (e) {
 		console.error(e);
