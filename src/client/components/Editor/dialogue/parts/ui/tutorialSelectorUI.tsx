@@ -157,7 +157,7 @@ function SelectTutorialUI() {
 										key={tag.name}
 										type="button"
 										onClick={() => toggleTagSelection(tag.name)}
-										className={`px-3 py-1 rounded-2xl text-sm transition-all ${
+										className={`p-3 rounded-2xl text-sm transition-all ${
 											selectedTags.includes(tag.name)
 												? "bg-sky-500 text-white"
 												: "bg-gray-300 text-gray-800"
@@ -175,7 +175,7 @@ function SelectTutorialUI() {
 								{userLanguageTutorials.map((tutorial) => (
 									<li
 										key={tutorial.id}
-										className="p-3 rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
+										className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
 									>
 										<span className="flex flex-col gap-2">
 											<h4 className="font-semibold text-xl text-gray-800">
@@ -220,7 +220,7 @@ function SelectTutorialUI() {
 									(_, index) => (
 										<li
 											key={`skeleton-user-${index}`}
-											className="p-3 rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
+											className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
 										>
 											<BookDashed className="w-12 h-12 text-gray-200" />
 										</li>
@@ -238,7 +238,7 @@ function SelectTutorialUI() {
 								{otherLanguageTutorials.map((tutorial) => (
 									<li
 										key={tutorial.id}
-										className="p-3 rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
+										className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
 									>
 										<span className="flex flex-col gap-2">
 											<h4 className="font-semibold text-xl text-gray-800">
@@ -283,7 +283,7 @@ function SelectTutorialUI() {
 									(_, index) => (
 										<li
 											key={`skeleton-other-${index}`}
-											className="p-3 rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
+											className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
 										>
 											<BookDashed className="w-12 h-12 text-gray-200" />
 										</li>
