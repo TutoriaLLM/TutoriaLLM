@@ -4,6 +4,9 @@
 	"organizeImports": {
 		"enabled": false
 	},
+	"formatter": {
+		"enabled": true
+	},
 	"linter": {
 		"ignore": ["node_modules", "dist"],
 		"enabled": true,

@@ -59,9 +59,7 @@ export default function Tutorials() {
 					const partialTutorial = parsePartialTutorial(json);
 					setUploadedJson(partialTutorial as Tutorial); // JSONデータを状態にセット
 				} catch (error) {
-					alert(
-						"Falied to parse JSON. Please check the format and try again.",
-					);
+					alert("Falied to parse JSON. Please check the format and try again.");
 				}
 			};
 			reader.readAsText(file);
@@ -82,8 +80,12 @@ export default function Tutorials() {
 			};
 			if (typeof data === "object" && data !== null) {
 				if (typeof data.id === "number") partialTutorial.id = data.id;
-				if (typeof data.language === "string") partialTutorial.language = data.language;
-				if (Array.isArray(data.tags) && data.tags.every((tag: any) => typeof tag === "string")) {
+				if (typeof data.language === "string")
+					partialTutorial.language = data.language;
+				if (
+					Array.isArray(data.tags) &&
+					data.tags.every((tag: any) => typeof tag === "string")
+				) {
 					partialTutorial.tags = data.tags;
 				}
 				if (typeof data.metadata === "object" && data.metadata !== null) {
@@ -92,9 +94,12 @@ export default function Tutorials() {
 						description: "",
 						selectCount: 0,
 					};
-					if (typeof data.metadata.title === "string") partialTutorial.metadata.title = data.metadata.title;
-					if (typeof data.metadata.description === "string") partialTutorial.metadata.description = data.metadata.description;
-					if (typeof data.metadata.selectCount === "number") partialTutorial.metadata.selectCount = data.metadata.selectCount;
+					if (typeof data.metadata.title === "string")
+						partialTutorial.metadata.title = data.metadata.title;
+					if (typeof data.metadata.description === "string")
+						partialTutorial.metadata.description = data.metadata.description;
+					if (typeof data.metadata.selectCount === "number")
+						partialTutorial.metadata.selectCount = data.metadata.selectCount;
 				}
 			}
 			return partialTutorial;
