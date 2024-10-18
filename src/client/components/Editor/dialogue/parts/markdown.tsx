@@ -16,7 +16,7 @@ import {
 	getImageFromIndexedDB,
 	saveImageToIndexedDB,
 } from "../../../../indexedDB.js";
-import { ScanSearch, X } from "lucide-react";
+import { Copy, ScanSearch, X } from "lucide-react";
 import type { SessionValue } from "../../../../../type.js";
 import { HighlightedBlockId, HighlightedBlockName } from "./highlight.js";
 
@@ -165,7 +165,7 @@ function getMarkdownComponents(
 				? React.createElement(node.tagName, props, highlightedChildren)
 				: null;
 		},
-		[allBlocks, blockIdList],
+		[allBlocks, blockIdList], // 依存配列を最小限にする
 	);
 
 	const handleCodeCopy = useCallback(
@@ -179,14 +179,24 @@ function getMarkdownComponents(
 
 	const markdownComponents: Components = {
 		strong({ node, className, children, ...props }) {
+			const hasNonTextChildren = React.Children.toArray(children).some(
+				(child) => typeof child !== "string",
+			);
+
+			if (hasNonTextChildren) {
+				return <>{children}</>;
+			}
+
+			const text = String(children);
 			return (
 				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 				<span
-					className="cursor-pointer text-blue-400"
-					onClick={() => handleCodeCopy(String(children))}
+					className="cursor-pointer text-blue-400 underline"
+					onClick={() => handleCodeCopy(text)}
 				>
 					<code className={className} {...props}>
 						{children}
+						<Copy className="inline-block w-4 h-4 ml-2" />
 					</code>
 				</span>
 			);
