@@ -92,6 +92,7 @@ function SelectTutorialUI() {
 				],
 			};
 		});
+		setIsTutorialSelectorOpen(false); // ポップアップを閉じる
 	}
 
 	function switchTutorialSelector() {
