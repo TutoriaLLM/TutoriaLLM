@@ -26,7 +26,6 @@ export async function updateDialogueWithLLM(
 	const message = await invokeLLM(data, extractedBlockNames);
 
 	if (message) {
-		console.log(message);
 		let updatedDialogue = updateDialogue(message.response, data, "ai");
 
 		// quick replies
