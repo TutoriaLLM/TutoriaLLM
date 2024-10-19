@@ -59,8 +59,10 @@ export async function updateSession(
 
 	if (
 		isDialogueChanged(currentDataJson, newDataJson) &&
-		isLastMessageByUser(newDataJson.dialogue)
+		isLastMessageByUser(newDataJson.dialogue) &&
+		newDataJson.isReplying === false
 	) {
+		//送信者をのぞくすべてのクライアントにdiffを送信する
 		updateAndBroadcastDiff(
 			code,
 			{
@@ -69,6 +71,9 @@ export async function updateSession(
 			},
 			socket,
 		);
+		//送信者はisReplyingをtrueにするdiffだけを送信する必要がある。それ以外を送信すると、送信者はメッセージが二重に表示される
+		socket.emit("notifyIsReplyingforSender");
+
 		updateDialogueWithLLM(newDataJson)
 			.then(async (responseorError) => {
 				updateAndBroadcastDiffToAll(code, responseorError, socket);

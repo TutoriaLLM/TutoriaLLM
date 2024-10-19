@@ -53,13 +53,14 @@ export async function updateDialogueWithLLM(
 				],
 			};
 		}
+		const latestData = await getLatestData(data.sessioncode);
 		return {
-			...data,
+			...latestData,
 			dialogue: updatedDialogue.dialogue,
 			quickReplies: updatedQuickReplies,
 			isReplying: false,
 			tutorial: {
-				...data.tutorial,
+				...latestData.tutorial,
 				progress: message.progress,
 			},
 		};

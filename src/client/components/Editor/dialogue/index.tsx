@@ -44,7 +44,6 @@ export default function DialogueView() {
 									content: message,
 								},
 							],
-							isReplying: true,
 							stats: updateStats(
 								{
 									totalUserMessages: prev.stats.totalUserMessages + 1,
