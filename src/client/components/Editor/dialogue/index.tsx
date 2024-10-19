@@ -89,7 +89,7 @@ export default function DialogueView() {
 				})}
 				{/*返信中のアニメーションを表示*/}
 				{session?.isReplying && (
-					<div className="flex justify-start items-end gap-2 animate-pulse">
+					<div className="flex justify-start items-end gap-2 animate-loading-blink">
 						<div className="text-gray-600 flex flex-col items-center">
 							<span className="bg-gray-200 rounded-full p-2">
 								<Bot />
@@ -97,7 +97,9 @@ export default function DialogueView() {
 							<p className="text-xs">{t("textbubble.ai")}</p>
 						</div>
 						<div className="rounded-2xl rounded-bl-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
-							<p className="prose">{t("textbubble.replying")}</p>
+							<p className="prose bg-gradient-to-r from-gray-500 from-30% via-gray-700 via-50% to-gray-500 to-70% bg-[size:280%] bg-center flex animate-loading-flow text-transparent bg-clip-text">
+								{t("textbubble.replying")}
+							</p>
 						</div>
 					</div>
 				)}

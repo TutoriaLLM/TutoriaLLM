@@ -1,12 +1,17 @@
-/** @type {import('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
+
 export default {
 	content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
 			keyframes: {
 				"caret-blink": {
-					"0%,70%,100%": { opacity: "1" },
-					"20%,50%": { opacity: "0" },
+					"0%, 70%, 100%": { opacity: "1" },
+					"20%, 50%": { opacity: "0" },
+				},
+				"loading-flow": {
+					"0%": { backgroundPosition: "0% 0%" },
+					"100%": { backgroundPosition: "100% 0%" },
 				},
 				"fade-in": {
 					from: {
@@ -31,6 +36,7 @@ export default {
 			},
 			animation: {
 				"caret-blink": "caret-blink 1.2s ease-out infinite",
+				"loading-flow": "loading-flow 1s ease-in-out infinite",
 				"fade-in": "fade-in 0.15s ease-in forwards",
 				"fade-out": "fade-out 0.15s ease-out forwards",
 			},
@@ -42,4 +48,4 @@ export default {
 			addComponents({});
 		},
 	],
-};
+} satisfies Config;
