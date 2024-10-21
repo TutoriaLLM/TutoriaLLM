@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import type { Dialogue } from "../../../../type.js";
 import { currentSessionState } from "../../../state.js";
 import TextBubble from "./parts/textbubble.js";
-import { SwitchEasyModeUI } from "./parts/ui/easyModeSwitchUI.js";
+import { SwitchModeUI } from "./parts/ui/switchModeUI.js";
 import { useTranslation } from "react-i18next";
 import QuickReply from "./parts/quickreply.js";
 import { updateStats } from "../../../../utils/statsUpdater.js";
@@ -76,7 +76,7 @@ export default function DialogueView() {
 
 	return (
 		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium ">
-			<SwitchEasyModeUI />
+			<SwitchModeUI />
 			<div className="w-full h-full flex flex-col overflow-y-scroll relative gap-4 px-4 py-1.5 ">
 				{session?.dialogue.map((item: Dialogue) => {
 					return (

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../../../../state.js";
 import * as Switch from "@radix-ui/react-switch";
 
-function SwitchEasyModeUI() {
+function SwitchModeUI() {
 	const { t } = useTranslation();
 	const [SessionState, setSessionState] = useAtom(currentSessionState);
 
@@ -52,4 +52,4 @@ function SwitchEasyModeUI() {
 	);
 }
 
-export { SwitchEasyModeUI };
+export { SwitchModeUI };
