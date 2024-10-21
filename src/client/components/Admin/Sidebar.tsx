@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
+import { ExitButton } from "../ui/exitButton.js";
 import {
 	Activity,
 	Bot,
@@ -7,21 +11,23 @@ import {
 	Sidebar,
 	User,
 } from "lucide-react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { ExitButton } from "../ui/exitButton.js";
 
-export default function SideBar() {
+export default function SideBar(props: { path: string[] }) {
 	const { t } = useTranslation();
+	const location = useLocation();
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [path, setPath] = useState(window.location.pathname.split("/"));
+	const path = props.path;
 	const [currentSegment, setCurrentSegment] = useState(path[path.length - 1]);
 
 	const toggleSidebar = () => {
 		setIsOpen(!isOpen);
 	};
+
+	useEffect(() => {
+		const newPath = location.pathname.split("/");
+		setCurrentSegment(newPath[newPath.length - 1]);
+	}, [location]);
 
 	const SidebarItem = ({
 		href,
