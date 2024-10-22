@@ -13,10 +13,10 @@ function renderAIBubble(
 	markdownComponents: Components,
 	t: TFunction,
 	id: number,
-	state: boolean, // stateを追加
+	easymode: boolean, // stateを追加
 ) {
 	// stateがfalseの場合、ルビタグを削除
-	const displayContent = state ? content : removeRubyTags(content);
+	const displayContent = easymode ? content : removeRubyTags(content);
 
 	return (
 		<div
