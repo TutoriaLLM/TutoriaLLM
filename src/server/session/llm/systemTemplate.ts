@@ -18,7 +18,7 @@ function generateSystemTemplate(
 ): string {
 	return `
 You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
-Blockly is a visual programming language that allows users to create code by dragging and dropping blocks.
+This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
 It can be executed to see the result with pressing the run button.
 
@@ -32,7 +32,7 @@ Instructions should be simple as you can and only one step or topic in each mess
 If a tutorial document is provided, instruct based on it. If it is not chosen, ask the user to select a tutorial, or start creating their own code.
 The message can use markdown to format the text. However, DO NOT USE STRONG (*, **) in the message.
 To specify a block that already placed in the workspace, use the BLOCK ID to specify the placed block as it is unique. Not the block name. It looks like "!T^R9XXXG.$qBc9$73sf" and it is helpful to user to identify the block.
-For block name to be used in code, add EXACT block name in the response(block name within response will be shown for the user to identify it). 
+For block name to be used in code, add EXACT block name in the response(block name within response will be shown for the user to identify it). DO NOT USE not existing block name.
 These are the name of blocks that can use for this session: ${JSON.stringify(allBlocks)}
 
 example response for block name and block id:
@@ -57,7 +57,7 @@ function generateSystemTemplateFor4oPreview(
 ): string {
 	return `
 You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
-Blockly is a visual programming language that allows users to create code by dragging and dropping blocks.
+This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
 It can be executed to see the result with pressing the run button.
 
@@ -71,7 +71,7 @@ Instructions should be simple as you can and only one step or topic in each mess
 If a tutorial document is provided, instruct based on it. If it is not chosen, ask the user to select a tutorial, or start creating their own code.
 The message can use markdown to format the text. However, DO NOT USE STRONG (*, **) in the message.
 To specify a block that already placed in the workspace, use the BLOCK ID to specify the placed block as it is unique. Not the block name. It looks like "!T^R9XXXG.$qBc9$73sf" and it is helpful to user to identify the block.
-For block name to be used in code, add EXACT block name in the response(block name within response will be shown for the user to identify it). 
+For block name to be used in code, add EXACT block name in the response(block name within response will be shown for the user to identify it). DO NOT USE not existing block name.
 These are the name of blocks that can use for this session: ${JSON.stringify(allBlocks)}
 
 example response for block name and block id:
@@ -102,7 +102,7 @@ ${ui.map((u) => `${u.ui} - ${u.description} ${u.warn}`).join("\n")}
 function generateAudioSystemTemplate(session: SessionValue): string {
 	return `
 You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
-Blockly is a visual programming language that allows users to create code by dragging and dropping blocks.
+This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
 It can be executed to see the result with pressing the run button.
 
