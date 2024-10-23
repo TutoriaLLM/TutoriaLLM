@@ -21,7 +21,8 @@
 		"tsc": "tsc",
 		"lint": "biome check .",
 		"lint:fix": "pnpm lint --write",
-		"prepare": "pnpm simple-git-hooks"
+		"prepare": "pnpm simple-git-hooks",
+		"cli": "tsx src/server/cli.ts"
 	},
 	"simple-git-hooks": {
 		"pre-commit": "pnpm format && pnpm lint:fix"
@@ -71,6 +72,7 @@
 		"bcrypt": "^5.1.1",
 		"better-sqlite3": "^9.6.0",
 		"blockly": "^11.1.1",
+		"commander": "^12.1.0",
 		"cors": "^2.8.5",
 		"dom-to-image-more": "^3.5.0",
 		"dotenv": "^16.4.5",
@@ -90,6 +92,7 @@
 		"i18next-fs-backend": "^2.3.2",
 		"idb": "^8.0.0",
 		"input-otp": "^1.2.4",
+		"inquirer": "^12.0.0",
 		"jotai": "^2.10.1",
 		"js-yaml": "^4.1.0",
 		"kuromoji": "^0.1.2",

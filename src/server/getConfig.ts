@@ -38,7 +38,14 @@ export function updateConfig(newConfig: any) {
 	console.log("Config updated");
 }
 
-function createConfig() {
+export function deleteConfig() {
+	if (fs.existsSync(configPath)) {
+		fs.unlinkSync(configPath);
+		console.log("Config deleted");
+	}
+}
+
+export function createConfig() {
 	// Check if the volume directory exists
 	if (fs.existsSync(path.dirname(volumePath))) {
 		// Create a new config file in the volume if it doesn't exist
