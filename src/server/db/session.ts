@@ -54,6 +54,7 @@ function initialData(code: string, language: string): SessionValue {
 		quickReplies: quickReplyByLang,
 		isReplying: false,
 		easyMode: false,
+		responseMode: "text",
 		workspace: {},
 		isVMRunning: false,
 		clients: [],
@@ -71,6 +72,8 @@ function initialData(code: string, language: string): SessionValue {
 			totalUserMessages: 0,
 			totalCodeExecutions: 0,
 		},
+		audios: [],
+		userAudio: "",
 		screenshot: "",
 		clicks: [],
 	};

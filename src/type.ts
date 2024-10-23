@@ -1,6 +1,8 @@
 export type ContentType =
 	| "user"
+	| "user_audio"
 	| "ai"
+	| "ai_audio"
 	| "log"
 	| "error"
 	| "info"
@@ -43,6 +45,10 @@ export type Click = {
 	value: number;
 	timestamp: number;
 };
+export type SavedAudio = {
+	id: string;
+	base64: string;
+};
 export type SessionValue = {
 	sessioncode: string;
 	uuid: string;
@@ -58,12 +64,16 @@ export type SessionValue = {
 	language: string;
 	//簡単モードかどうかを保存し、簡単モードの場合はAIの返答を簡略化したり、ルビを振ったりする
 	easyMode: boolean;
+	//AIからの応答モードを保存する
+	responseMode: "text" | "audio";
 	//AIへ与えるコンテキスト
 	llmContext: string;
 	//チュートリアルの有無や設定を保存する
 	tutorial: TutorialStats;
 	//数値的な統計情報を保存する
 	stats: Stats;
+	audios: SavedAudio[];
+	userAudio: string; //これは一時的なものなので、サーバーに着信し、処理されたら削除される
 	//ページの最新のbase64スクリーンショットを保存する
 	screenshot: string;
 	//直近のユーザーのクリック位置を配列で保存する
