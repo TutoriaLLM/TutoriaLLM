@@ -134,9 +134,9 @@ export function ExecSwitch() {
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
 						onCheckedChange={ChangeSwitch}
-						className="w-10 h-6 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100 group"
+						className="w-14 h-8 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100 group"
 					>
-						<Switch.Thumb className="shadow block w-4 h-4 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-5 md:data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
+						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
 						<p className="group-hover:flex hidden absolute text-xs bg-gray-300 p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 							{t("navbar.execSwitch")}
 						</p>
