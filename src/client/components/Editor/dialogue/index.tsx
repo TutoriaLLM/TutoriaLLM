@@ -46,7 +46,9 @@ export default function DialogueView() {
 
 			//オーディオの場合（メッセージは空である必要がある）
 			if (
-				(audioURL && !isSending && !message) ||
+				audioURL &&
+				!isSending &&
+				!message &&
 				config?.AI_Settings.Chat_Audio === true
 			) {
 				// すでに送信中でないことを確認
