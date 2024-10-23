@@ -92,6 +92,8 @@ io.on("connection", async (socket) => {
 			return;
 		}
 
+		socket.join(data.sessioncode);
+
 		// Change language based on DB settings
 		i18next.changeLanguage(data.language);
 

@@ -12,6 +12,8 @@ function removePrivacyInfo(data: SessionValue): SessionValue {
 	return removedData;
 }
 
+//そのままbroadcastすると、全ての部屋に対して通知されてしまうので、ちゃんと部屋を指定すること！
+
 //変更点をブロードキャストし、データベースを更新する関数
 //注意：変更を行なったクライアントには値は返されない
 const updateAndBroadcastDiff = async (
@@ -33,7 +35,8 @@ const updateAndBroadcastDiff = async (
 
 	if (diff.length > 0) {
 		await sessionDB.set(code, JSON.stringify(newData));
-		socket.broadcast.emit("PushSessionDiff", diff);
+		// socket.broadcast.emit("PushSessionDiff", diff);
+		socket.to(code).emit("PushSessionDiff", diff);
 	}
 };
 
@@ -58,7 +61,8 @@ const updateAndBroadcastDiffToAll = async (
 	if (diff.length > 0) {
 		await sessionDB.set(code, JSON.stringify(newData));
 		socket.emit("PushSessionDiff", diff);
-		socket.broadcast.emit("PushSessionDiff", diff);
+		// socket.broadcast.emit("PushSessionDiff", diff);
+		socket.to(code).emit("PushSessionDiff", diff);
 	}
 };
 
