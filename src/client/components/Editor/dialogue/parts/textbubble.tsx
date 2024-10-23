@@ -10,6 +10,8 @@ import { renderGroupLogBubble } from "./bubbles/groupLogBubble.js";
 import { SelectTutorialUI } from "./ui/tutorialSelectorUI.js";
 import React from "react";
 import getMarkdownComponents from "./markdown.js";
+import { renderAIaudioBubble } from "./bubbles/aiAudioBubble.js";
+import { renderUserAudioBubble } from "./bubbles/userAudioBubble.js";
 
 const TextBubble = React.memo(
 	React.forwardRef(function TextBubble(
@@ -38,12 +40,24 @@ const TextBubble = React.memo(
 			<>
 				{props.item.contentType === "user" &&
 					renderUserBubble(content, markdownComponents, t, props.item.id)}
+				{props.item.contentType === "user_audio" &&
+					renderUserAudioBubble(content, t, props.item.id)}
+
 				{props.item.contentType === "ai" &&
 					renderAIBubble(
 						content,
 						markdownComponents,
 						t,
 						props.item.id,
+						props.easyMode,
+					)}
+				{props.item.contentType === "ai_audio" &&
+					renderAIaudioBubble(
+						content,
+						markdownComponents,
+						t,
+						props.item.id,
+						currenSession?.audios,
 						props.easyMode,
 					)}
 				{props.item.contentType === "ui" &&

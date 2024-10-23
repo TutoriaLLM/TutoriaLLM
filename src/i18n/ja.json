@@ -73,7 +73,10 @@
 		"showingLatest": "最後の{{count}}件のメッセージを表示しています",
 		"errorLog": "エラーログ",
 		"copiedToClipboard": "コピーしました！",
-		"blocksuggestions": "提案されたブロック"
+		"blocksuggestions": "提案されたブロック",
+		"audioMode": "音声モード",
+		"transcribing": "文字起こし中...",
+		"transcriptionFailed": "文字起こしが利用できません"
 	},
 	"tutorial": {
 		"title": "チュートリアルを選ぶ",
@@ -87,7 +90,10 @@
 		"easyModeChanged": "かんたんモードを{{status}}にしました",
 		"yourLanguage": "あなたの言語のチュートリアル",
 		"otherLanguage": "他の言語のチュートリアル",
-		"otherLanguageDescription": "これらのチュートリアルは、翻訳して提供されるため、正確でない場合があります。"
+		"otherLanguageDescription": "これらのチュートリアルは、翻訳して提供されるため、正確でない場合があります。",
+		"responseMode": "応答モード",
+		"responseModeDescription": "希望する応答方法を音声やテキストに変更できます",
+		"responseModeChanged": "応答モードを{{mode}}に切り替えました"
 	},
 	"vm": {
 		"outOfMemory": "マシンが使えるメモリの上限に達しました",
@@ -100,7 +106,9 @@
 	"generic": {
 		"connected": "接続しました",
 		"websocketNotConnected": "Websocketが接続されていません",
-		"open": "開く"
+		"open": "開く",
+		"audio": "音声",
+		"text": "テキスト"
 	},
 	"tour": {
 		"joinCode": "このセッションのコードです。このコードを覚えておくことで、続きから始めることができます。",

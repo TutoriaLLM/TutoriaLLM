@@ -74,7 +74,7 @@ export async function updateSession(
 		//送信者はisReplyingをtrueにするdiffだけを送信する必要がある。それ以外を送信すると、送信者はメッセージが二重に表示される
 		socket.emit("notifyIsReplyingforSender");
 
-		updateDialogueWithLLM(newDataJson)
+		updateDialogueWithLLM(newDataJson, socket)
 			.then(async (responseorError) => {
 				updateAndBroadcastDiffToAll(code, responseorError, socket);
 			})

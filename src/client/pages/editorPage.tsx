@@ -338,6 +338,8 @@ export default function EditorPage() {
 					JSON.stringify(prevSession?.workspace) ||
 				JSON.stringify(currentSession.dialogue) !==
 					JSON.stringify(prevSession?.dialogue) ||
+				JSON.stringify(currentSession.userAudio) !==
+					JSON.stringify(prevSession?.userAudio) ||
 				JSON.stringify(currentSession.screenshot) !==
 					JSON.stringify(prevSession?.screenshot) ||
 				JSON.stringify(currentSession.clicks) !==

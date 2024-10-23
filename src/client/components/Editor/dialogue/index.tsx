@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { Bot, PlusCircle, Send } from "lucide-react";
+import { Bot, Send, Mic, Trash, Play, Pause } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
 import type { Dialogue } from "../../../../type.js";
 import { currentSessionState } from "../../../state.js";
@@ -12,19 +12,67 @@ import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
 } from "../../ui/horizontalScroll.js";
+import WaveSurfer from "wavesurfer.js";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
 	const [session, setSession] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
+	const [audioURL, setAudioURL] = useState("");
+	const [isRecording, setIsRecording] = useState(false);
+	const [isPlaying, setIsPlaying] = useState(false);
+	const [recordingTime, setRecordingTime] = useState(0);
+	const [remainingTime, setRemainingTime] = useState(10);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+	const wavesurferRef = useRef<WaveSurfer | null>(null);
+	const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
 	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
 
 	const sendMessage = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault(); // デフォルトのフォーム送信を防止
-			if (message && !isSending) {
+
+			//オーディオの場合（メッセージは空である必要がある）
+			if (audioURL && !isSending && !message) {
+				// すでに送信中でないことを確認
+				setIsSending(true); // 送信中フラグを立てる
+				setSession((prev) => {
+					if (prev) {
+						const lastId =
+							prev.dialogue.length > 0
+								? prev.dialogue[prev.dialogue.length - 1].id
+								: 0;
+						return {
+							...prev,
+							dialogue: [
+								...prev.dialogue,
+								{
+									id: lastId + 1,
+									contentType: "user_audio",
+									isuser: true,
+									content: "",
+								},
+							],
+							stats: updateStats(
+								{
+									totalUserMessages: prev.stats.totalUserMessages + 1,
+								},
+								prev,
+							).stats,
+							userAudio: audioURL, // base64エンコードされたMP3データを設定
+						};
+					}
+					return prev;
+				});
+				setMessage(""); // メッセージ送信後にフィールドをクリア
+				setAudioURL(""); // オーディオURLをクリア
+				setIsSending(false); // 送信完了後に送信中フラグをリセット
+			}
+
+			//メッセージの場合
+			if (message && !isSending && !audioURL) {
 				// すでに送信中でないことを確認
 				setIsSending(true); // 送信中フラグを立てる
 				setSession((prev) => {
@@ -55,10 +103,11 @@ export default function DialogueView() {
 					return prev;
 				});
 				setMessage(""); // メッセージ送信後にフィールドをクリア
+				setAudioURL(""); // オーディオURLをクリア
 				setIsSending(false); // 送信完了後に送信中フラグをリセット
 			}
 		},
-		[message, isSending, setSession],
+		[message, audioURL, isSending, setSession],
 	);
 
 	const handleQuickReply = useCallback((reply: string) => {
@@ -73,6 +122,120 @@ export default function DialogueView() {
 			}, 150); // レンダリングを待つために 150ms 遅らせる
 		}
 	}, [session?.dialogue]);
+
+	const startRecording = () => {
+		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+			const mediaRecorder = new MediaRecorder(stream);
+			mediaRecorderRef.current = mediaRecorder;
+			mediaRecorder.start();
+
+			const audioChunks: Blob[] = [];
+			mediaRecorder.addEventListener("dataavailable", (event) => {
+				audioChunks.push(event.data);
+			});
+
+			mediaRecorder.addEventListener("stop", () => {
+				const audioBlob = new Blob(audioChunks, { type: "audio/mp3" }); // MP3形式に設定
+				const reader = new FileReader();
+				reader.readAsDataURL(audioBlob);
+				reader.onloadend = () => {
+					const base64data = reader.result as string;
+					setAudioURL(base64data);
+
+					// 新しい wavesurfer インスタンスを生成
+					if (wavesurferRef.current) {
+						wavesurferRef.current.destroy();
+					}
+					const wavesurfer = WaveSurfer.create({
+						container: "#waveform",
+						waveColor: "#f87171",
+						progressColor: "#9ca3af",
+						barWidth: 2,
+						barGap: 1,
+						barRadius: 10,
+						height: 32,
+						width: 48,
+					});
+					wavesurferRef.current = wavesurfer;
+
+					wavesurfer.on("finish", () => {
+						setIsPlaying(false);
+					});
+					wavesurfer.load(base64data);
+				};
+			});
+
+			setIsRecording(true);
+			setRecordingTime(0);
+			setRemainingTime(10);
+
+			intervalRef.current = setInterval(() => {
+				setRecordingTime((prev) => {
+					if (prev >= 10) {
+						stopRecording();
+						return prev;
+					}
+					return prev + 1;
+				});
+				setRemainingTime((prev) => prev - 1);
+			}, 1000);
+		});
+	};
+
+	const stopRecording = () => {
+		if (mediaRecorderRef.current) {
+			mediaRecorderRef.current.stop();
+			setIsRecording(false);
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+				intervalRef.current = null;
+			}
+		}
+	};
+
+	const removeAudio = () => {
+		setAudioURL("");
+		if (wavesurferRef.current) {
+			wavesurferRef.current.destroy();
+			wavesurferRef.current = null;
+		}
+	};
+
+	const togglePlayPause = () => {
+		if (wavesurferRef.current) {
+			if (isPlaying) {
+				wavesurferRef.current.pause();
+			} else {
+				wavesurferRef.current.play();
+			}
+			setIsPlaying(!isPlaying);
+		}
+	};
+
+	useEffect(() => {
+		if (audioURL) {
+			if (!wavesurferRef.current) {
+				const wavesurfer = WaveSurfer.create({
+					container: "#waveform",
+					waveColor: "#f87171",
+					progressColor: "#9ca3af",
+					barWidth: 2,
+					barGap: 1,
+					barRadius: 10,
+					height: 32,
+					width: 48,
+				});
+				wavesurferRef.current = wavesurfer;
+
+				wavesurfer.on("finish", () => {
+					setIsPlaying(false);
+				});
+			}
+			wavesurferRef.current.load(audioURL);
+			//テキストメッセージは無効にする
+			setMessage("");
+		}
+	}, [audioURL]);
 
 	return (
 		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium ">
@@ -122,21 +285,87 @@ export default function DialogueView() {
 					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
-						<input
-							type="text"
-							placeholder={t("textbubble.ask")}
-							className="flex-1 p-3 border rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500"
-							value={message}
-							onChange={(e) => setMessage(e.target.value)}
-						/>
+						<button
+							type="button"
+							onClick={isRecording ? stopRecording : startRecording}
+							className={`w-12 h-16 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
+								isRecording ? "bg-red-500" : "bg-green-600 hover:bg-green-700"
+							}`}
+						>
+							{isRecording ? (
+								<div className="flex items-center justify-center">
+									<div className="relative">
+										<svg className="w-12 h-12">
+											<title>Recording Remaining Time</title>
+											<circle
+												className="text-gray-300"
+												strokeWidth="4"
+												stroke="currentColor"
+												fill="transparent"
+												r="18"
+												cx="24"
+												cy="24"
+											/>
+											<circle
+												className="text-rose-600"
+												strokeWidth="4"
+												strokeDasharray="113"
+												strokeDashoffset={(113 * remainingTime) / 10}
+												strokeLinecap="round"
+												stroke="currentColor"
+												fill="transparent"
+												r="18"
+												cx="24"
+												cy="24"
+											/>
+										</svg>
+										<span className="absolute inset-0 flex items-center justify-center text-xs text-red-100">
+											{remainingTime}
+										</span>
+									</div>
+								</div>
+							) : (
+								<Mic />
+							)}
+						</button>
+						<div className="flex-1 flex borde gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
+							{audioURL ? (
+								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-gray-200 animate-fade-in">
+									<button
+										type="button"
+										className="text-gray-400 hover:text-green-400 p-2"
+										onClick={togglePlayPause}
+									>
+										{isPlaying ? <Pause /> : <Play />}
+									</button>
+									<div id="waveform" className="w-12 h-8" />
+									<button
+										type="button"
+										onClick={removeAudio}
+										className="text-gray-400 hover:text-rose-400 p-2"
+									>
+										<Trash />
+									</button>
+								</div>
+							) : (
+								<input
+									type="text"
+									placeholder={t("textbubble.ask")}
+									className="p-3 flex-1 bg-transparent outline-none"
+									value={message}
+									onChange={(e) => setMessage(e.target.value)}
+								/>
+							)}
+						</div>
+
 						<button
 							type="submit"
-							className={`p-3 text-white rounded-2xl flex ${
-								message === "" || session?.isReplying
+							className={`w-12 h-16 text-white rounded-2xl flex justify-center items-center transition-colors ${
+								(message === "" && !audioURL) || session?.isReplying
 									? "bg-gray-300 transition"
 									: "bg-sky-600 hover:bg-sky-700 transition"
 							}`}
-							disabled={message === "" || session?.isReplying}
+							disabled={(message === "" && !audioURL) || session?.isReplying}
 						>
 							<Send />
 						</button>
