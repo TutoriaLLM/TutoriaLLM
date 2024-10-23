@@ -100,6 +100,7 @@ export type AppConfig = {
 	};
 	AI_Settings: {
 		Chat_AI_Model: string;
+		Chat_Audio: boolean;
 		Chat_AI_Temperature: number;
 	};
 	Client_Settings: {

@@ -1,7 +1,7 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { Bot, Send, Mic, Trash, Play, Pause } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import type { Dialogue } from "../../../../type.js";
+import type { AppConfig, Dialogue } from "../../../../type.js";
 import { currentSessionState } from "../../../state.js";
 import TextBubble from "./parts/textbubble.js";
 import { SwitchModeUI } from "./parts/ui/switchModeUI.js";
@@ -17,6 +17,7 @@ import WaveSurfer from "wavesurfer.js";
 export default function DialogueView() {
 	const { t } = useTranslation();
 	const [session, setSession] = useAtom(currentSessionState);
+	const [config, setConfig] = useState<AppConfig>();
 	const [message, setMessage] = useState("");
 	const [audioURL, setAudioURL] = useState("");
 	const [isRecording, setIsRecording] = useState(false);
@@ -30,12 +31,24 @@ export default function DialogueView() {
 
 	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
 
+	useEffect(() => {
+		async function fetchConfig() {
+			const result = await fetch("/api/config");
+			const response = (await result.json()) as AppConfig;
+			setConfig(response);
+		}
+		fetchConfig();
+	}, []);
+
 	const sendMessage = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault(); // デフォルトのフォーム送信を防止
 
 			//オーディオの場合（メッセージは空である必要がある）
-			if (audioURL && !isSending && !message) {
+			if (
+				(audioURL && !isSending && !message) ||
+				config?.AI_Settings.Chat_Audio === true
+			) {
 				// すでに送信中でないことを確認
 				setIsSending(true); // 送信中フラグを立てる
 				setSession((prev) => {
@@ -239,7 +252,7 @@ export default function DialogueView() {
 
 	return (
 		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium ">
-			<SwitchModeUI />
+			<SwitchModeUI audio={config?.AI_Settings.Chat_Audio} />
 			<div className="w-full h-full flex flex-col overflow-y-scroll relative gap-4 px-4 py-1.5 ">
 				{session?.dialogue.map((item: Dialogue) => {
 					return (
@@ -285,49 +298,51 @@ export default function DialogueView() {
 					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
-						<button
-							type="button"
-							onClick={isRecording ? stopRecording : startRecording}
-							className={`w-12 h-16 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
-								isRecording ? "bg-red-500" : "bg-green-600 hover:bg-green-700"
-							}`}
-						>
-							{isRecording ? (
-								<div className="flex items-center justify-center">
-									<div className="relative">
-										<svg className="w-12 h-12">
-											<title>Recording Remaining Time</title>
-											<circle
-												className="text-gray-300"
-												strokeWidth="4"
-												stroke="currentColor"
-												fill="transparent"
-												r="18"
-												cx="24"
-												cy="24"
-											/>
-											<circle
-												className="text-rose-600"
-												strokeWidth="4"
-												strokeDasharray="113"
-												strokeDashoffset={(113 * remainingTime) / 10}
-												strokeLinecap="round"
-												stroke="currentColor"
-												fill="transparent"
-												r="18"
-												cx="24"
-												cy="24"
-											/>
-										</svg>
-										<span className="absolute inset-0 flex items-center justify-center text-xs text-red-100">
-											{remainingTime}
-										</span>
+						{config?.AI_Settings.Chat_Audio && (
+							<button
+								type="button"
+								onClick={isRecording ? stopRecording : startRecording}
+								className={`w-12 h-16 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
+									isRecording ? "bg-red-500" : "bg-green-600 hover:bg-green-700"
+								}`}
+							>
+								{isRecording ? (
+									<div className="flex items-center justify-center">
+										<div className="relative">
+											<svg className="w-12 h-12">
+												<title>Recording Remaining Time</title>
+												<circle
+													className="text-gray-300"
+													strokeWidth="4"
+													stroke="currentColor"
+													fill="transparent"
+													r="18"
+													cx="24"
+													cy="24"
+												/>
+												<circle
+													className="text-rose-600"
+													strokeWidth="4"
+													strokeDasharray="113"
+													strokeDashoffset={(113 * remainingTime) / 10}
+													strokeLinecap="round"
+													stroke="currentColor"
+													fill="transparent"
+													r="18"
+													cx="24"
+													cy="24"
+												/>
+											</svg>
+											<span className="absolute inset-0 flex items-center justify-center text-xs text-red-100">
+												{remainingTime}
+											</span>
+										</div>
 									</div>
-								</div>
-							) : (
-								<Mic />
-							)}
-						</button>
+								) : (
+									<Mic />
+								)}
+							</button>
+						)}
 						<div className="flex-1 flex borde gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
 							{audioURL ? (
 								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-gray-200 animate-fade-in">

@@ -163,6 +163,7 @@
 		"Enable_Memory_Use_Log": "Enable Memory Use Log",
 		"AI_Settings": "AI Settings",
 		"Chat_AI_Model": "Chat AI Model",
+		"Chat_Audio": "Chat audio modality",
 		"Chat_AI_Temperature": "Chat AI Temperature",
 		"Client_Settings": "Client Settings",
 		"AutoReply": "Auto Reply from AI",
