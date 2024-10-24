@@ -13,6 +13,8 @@ async function getImageFromSerializedWorkspace(
 	hiddenWorkspaceRef: React.MutableRefObject<Blockly.WorkspaceSvg | null>,
 	hiddenDivRef: React.MutableRefObject<HTMLDivElement | null>,
 ) {
+	registerBlocks(language as string);
+
 	if (!hiddenWorkspaceRef.current) {
 		const hiddenDiv = document.createElement("div");
 		hiddenDiv.style.width = "100vw"; // Set appropriate width
@@ -31,7 +33,6 @@ async function getImageFromSerializedWorkspace(
 			theme: Theme,
 		});
 		Blockly.setLocale(blocklyLocale[language]);
-		registerBlocks(language as string);
 	}
 	const workspaceSvg = hiddenWorkspaceRef.current;
 

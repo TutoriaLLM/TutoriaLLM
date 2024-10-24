@@ -36,17 +36,23 @@ export default function SavedData() {
 		} = {};
 		for (const session of allSessions) {
 			const sessionValue = session.sessionValue as SessionValue;
-			const imageURL = await getImageFromSerializedWorkspace(
-				sessionValue.workspace,
-
-				sessionValue.language,
-				hiddenWorkspaceRef,
-				hiddenDivRef,
-			);
-			data[session.key] = {
-				sessionValue: session.sessionValue,
-				base64image: imageURL,
-			};
+			try {
+				const imageURL = await getImageFromSerializedWorkspace(
+					sessionValue.workspace,
+					sessionValue.language,
+					hiddenWorkspaceRef,
+					hiddenDivRef,
+				);
+				data[session.key] = {
+					sessionValue: session.sessionValue,
+					base64image: imageURL,
+				};
+			} catch (error) {
+				console.error(
+					`Failed to generate image for session ${session.key}:`,
+					error,
+				);
+			}
 		}
 		return data;
 	}
