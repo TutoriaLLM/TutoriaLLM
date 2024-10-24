@@ -96,3 +96,9 @@
 .highlight {
   animation: highlightCategoryButton 1s infinite;
 }
+
+/* Custom css dropdown */
+.fieldGridDropDownContainer.blocklyMenu .blocklyMenuItem { 
+  min-width: none;
+  justify-items: center;
+}

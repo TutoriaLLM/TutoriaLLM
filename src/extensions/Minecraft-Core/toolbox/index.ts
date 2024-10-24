@@ -1,6 +1,7 @@
 import playerEvents from "./contents/playerEvents.json";
 import actions from "./contents/actions.json";
 import agent from "./contents/agent.json";
+import block from "./contents/block.json";
 export const category = {
 	kind: "category",
 	name: "%{BKY_MINECRAFT}",
@@ -24,6 +25,12 @@ export const category = {
 			colour: "#a855f7",
 			contents: agent,
 		},
+		{
+			kind: "category",
+			name: "%{BKY_MINECRAFT_BLOCK}",
+			colour: "#a855f7",
+			contents: block,
+		},
 	],
 };
 
@@ -33,11 +40,13 @@ export const locale = {
 		MINECRAFT_ACTIONS: "アクション",
 		MINECRAFT_PLAYER_EVENTS: "プレイヤー",
 		MINECRAFT_AGENT: "エージェント",
+		MINECRAFT_BLOCK: "ブロック",
 	},
 	en: {
 		MINECRAFT: "Minecraft",
 		MINECRAFT_ACTIONS: "Actions",
 		MINECRAFT_PLAYER_EVENTS: "Player",
 		MINECRAFT_AGENT: "Agent",
+		MINECRAFT_BLOCK: "Block",
 	},
 };
