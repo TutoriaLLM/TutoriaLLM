@@ -8,6 +8,7 @@ export const block: extBlock = {
 		{
 			type: "input_value",
 			name: "INPUT",
+			check: "String",
 		},
 	],
 	previousStatement: null,
