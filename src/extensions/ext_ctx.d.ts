@@ -3,6 +3,7 @@ declare module "extensionContext" {
 	import type { UpgradeWebSocket } from "hono/ws";
 	import type { SessionValue } from "../type.ts";
 	import type { i18n } from "i18next";
+	import type { randomUUID } from "node:crypto";
 
 	//エディター内で宣言を直接使用できるようにする
 	declare global {
@@ -57,6 +58,7 @@ declare module "extensionContext" {
 	 * @param tooltip ブロックのツールチップ
 	 * @param helpUrl ブロックのヘルプURL
 	 */
+
 	export interface extBlock {
 		type: string;
 		message0: string;
@@ -66,6 +68,7 @@ declare module "extensionContext" {
 			text?: string;
 			check?: string;
 		}>;
+		output?: string;
 		inputsInline?: boolean;
 		previousStatement: any;
 		nextStatement: any;
