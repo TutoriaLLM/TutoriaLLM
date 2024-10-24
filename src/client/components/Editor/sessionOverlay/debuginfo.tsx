@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Popup from "../../ui/Popup.js";
+import { deleteDB } from "idb";
 
 /**
  * The BeforeInstallPromptEvent is fired at the Window.onbeforeinstallprompt handler
@@ -87,6 +88,15 @@ export function DebugInfo() {
 		}
 	};
 
+	// ローカルストレージ(indexedDB)を削除する
+	const handleDeleteStorageClick = () => {
+		deleteDB("app-data"); // indexedDBを削除
+		window.localStorage.clear(); // localStorageを削除
+		window.sessionStorage.clear(); // sessionStorageを削除
+		window.location.reload(); // ページをリロード
+		console.log("Local storage cleared");
+	};
+
 	return (
 		<div className="h-full flex flex-col gap-2 text-xs text-gray-400">
 			<button
@@ -121,9 +131,16 @@ export function DebugInfo() {
 										className="p-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600"
 										onClick={() => handleInstallClick()}
 									>
-										Install PWA
+										{t("session.installPWA")}
 									</button>
 								)}
+								<button
+									type="button"
+									className="p-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600"
+									onClick={() => handleDeleteStorageClick()}
+								>
+									{t("session.deleteStorage")}
+								</button>
 								{/* 他のデバッグ情報をここに追加する */}
 							</div>
 							<p className="italic font-bold">
