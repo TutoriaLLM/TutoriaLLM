@@ -28,6 +28,7 @@
 		"pre-commit": "pnpm format && pnpm lint:fix"
 	},
 	"dependencies": {
+		"@blockly/field-grid-dropdown": "^5.0.9",
 		"@hono/node-server": "^1.13.2",
 		"@hono/node-ws": "^1.0.4",
 		"@lucia-auth/adapter-drizzle": "^1.1.0",
