@@ -99,6 +99,9 @@
 
 /* Custom css dropdown */
 .fieldGridDropDownContainer.blocklyMenu .blocklyMenuItem { 
-  min-width: none;
+  min-width: 32px;
   justify-items: center;
+  .blocklyMenuItemContent {
+    width: max-content;
+  }
 }

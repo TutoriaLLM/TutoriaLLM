@@ -12,7 +12,15 @@ export const block = {
 			type: "field_grid_dropdown",
 			name: "BLOCK",
 			options: [
-				["air", "AIR"],
+				[
+					{
+						src: "/minecraft/structure_air.png",
+						width: 30,
+						height: 30,
+						alt: "Air",
+					},
+					"AIR",
+				],
 				[
 					{
 						src: "/minecraft/stone.png",
@@ -76,8 +84,24 @@ export const block = {
 					},
 					"BEDROCK",
 				],
-				["Water", "WATER"],
-				["Lava", "LAVA"],
+				[
+					{
+						src: "/minecraft/water_placeholder.png",
+						width: 30,
+						height: 30,
+						alt: "Sand",
+					},
+					"WATER",
+				],
+				[
+					{
+						src: "/minecraft/lava_placeholder.png",
+						width: 30,
+						height: 30,
+						alt: "Lava",
+					},
+					"LAVA",
+				],
 				[
 					{
 						src: "/minecraft/sand.png",
@@ -204,7 +228,15 @@ export const block = {
 					},
 					"NOTEBLOCK",
 				],
-				["Bed", "BED"],
+				[
+					{
+						src: "/minecraft/bed_head_top.png",
+						width: 30,
+						height: 30,
+						alt: "Bed",
+					},
+					"BED",
+				],
 				[
 					{
 						src: "/minecraft/powered_rail.png",
@@ -350,8 +382,24 @@ export const block = {
 					},
 					"TORCH",
 				],
-				["Fire", "FIRE"],
-				["Redstone Wire", "REDSTONE_WIRE"],
+				[
+					{
+						src: "/minecraft/fire_0_placeholder.png",
+						width: 30,
+						height: 30,
+						alt: "Fire",
+					},
+					"FIRE",
+				],
+				[
+					{
+						src: "/minecraft/redstone_dust.png",
+						width: 30,
+						height: 30,
+						alt: "Redstone_wire",
+					},
+					"REDSTONE_WIRE",
+				],
 				[
 					{
 						src: "/minecraft/diamond_ore.png",
@@ -424,7 +472,15 @@ export const block = {
 					},
 					"LEVER",
 				],
-				["Stone Plate", "STONE_PRESSURE_PLATE"],
+				[
+					{
+						src: "/minecraft/stone_pressure_plate.png",
+						width: 30,
+						height: 30,
+						alt: "Stone_Pressure_Plate",
+					},
+					"STONE_PRESSURE_PLATE",
+				],
 				[
 					{
 						src: "/minecraft/iron_door_top.png",
@@ -452,7 +508,15 @@ export const block = {
 					},
 					"REDSTONE_TORCH",
 				],
-				["Stone Button", "STONE_BUTTON"],
+				[
+					{
+						src: "/minecraft/stone_button.png",
+						width: 30,
+						height: 30,
+						alt: "Stone_button",
+					},
+					"STONE_BUTTON",
+				],
 				[
 					{
 						src: "/minecraft/ice.png",
@@ -498,7 +562,16 @@ export const block = {
 					},
 					"JUKEBOX",
 				],
-				["Oak Fence", "OAK_FENCE"],
+				[
+					{
+						src: "/minecraft/oak_fence.png",
+						width: 30,
+						height: 30,
+						alt: "Oak_Fence",
+					},
+
+					"OAK_FENCE",
+				],
 				[
 					{
 						src: "/minecraft/netherrack.png",
@@ -526,7 +599,15 @@ export const block = {
 					},
 					"GLOWSTONE",
 				],
-				["Portal", "PORTAL"],
+				[
+					{
+						src: "/minecraft/nether_portal.png",
+						width: 30,
+						height: 30,
+						alt: "Portal",
+					},
+					"PORTAL",
+				],
 				[
 					{
 						src: "/minecraft/cake_top.png",
@@ -645,7 +726,15 @@ export const block = {
 					},
 					"BREWING_STAND",
 				],
-				["End Portal", "END_PORTAL"],
+				[
+					{
+						src: "/minecraft/end_portal_frame_top.png",
+						width: 30,
+						height: 30,
+						alt: "End_Portal",
+					},
+					"END_PORTAL",
+				],
 				[
 					{
 						src: "/minecraft/dragon_egg.png",
@@ -700,7 +789,15 @@ export const block = {
 					},
 					"EMERALD_BLOCK",
 				],
-				["Command Block", "COMMAND_BLOCK"],
+				[
+					{
+						src: "/minecraft/command_block.png",
+						width: 30,
+						height: 30,
+						alt: "Command Block",
+					},
+					"COMMAND_BLOCK",
+				],
 				[
 					{
 						src: "/minecraft/beacon.png",
@@ -710,8 +807,24 @@ export const block = {
 					},
 					"BEACON",
 				],
-				["Wooden Button", "WOODEN_BUTTON"],
-				["Trapped Chest", "TRAPPED_CHEST"],
+				[
+					{
+						src: "/minecraft/oak_button.png",
+						width: 30,
+						height: 30,
+						alt: "Oak_Button",
+					},
+					"oak_button",
+				],
+				[
+					{
+						src: "/minecraft/trapped_chest_front.png",
+						width: 30,
+						height: 30,
+						alt: "Trapped_Chest",
+					},
+					"TRAPPED_CHEST",
+				],
 				[
 					{
 						src: "/minecraft/comparator.png",
@@ -794,7 +907,15 @@ export const block = {
 					},
 					"SLIME",
 				],
-				["Barrier", "BARRIER"],
+				[
+					{
+						src: "/minecraft/barrier.png",
+						width: 30,
+						height: 30,
+						alt: "barrier",
+					},
+					"BARRIER",
+				],
 				[
 					{
 						src: "/minecraft/iron_trapdoor.png",
@@ -823,7 +944,15 @@ export const block = {
 					},
 					"END_ROD",
 				],
-				["End gateway", "END_GATEWAY"],
+				[
+					{
+						src: "/minecraft/end_gateway.png",
+						width: 30,
+						height: 30,
+						alt: "End_Gateway",
+					},
+					"END_GATEWAY",
+				],
 				[
 					{
 						src: "/minecraft/observer_front.png",
