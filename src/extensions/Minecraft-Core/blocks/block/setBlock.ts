@@ -25,22 +25,12 @@ export const block = {
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_setBlock = (block, generator) => {
-		const blockName = generator.valueToCode(block, "BLOCK", Order.ATOMIC);
-		const position = JSON.parse(
-			generator.valueToCode(block, "POS", Order.ATOMIC),
-		);
-		let x = position.x;
-		let y = position.y;
-		let z = position.z;
-
-		// Remove parentheses if present
-		x = x.startsWith("(") && x.endsWith(")") ? x.slice(1, -1) : x;
-		y = y.startsWith("(") && y.endsWith(")") ? y.slice(1, -1) : y;
-		z = z.startsWith("(") && z.endsWith(")") ? z.slice(1, -1) : z;
+		const position = generator.valueToCode(block, "POS", Order.ATOMIC);
 		const code = /* javascript */ `
 		function setBlock() {
-			const positionToSet = { x: ${x}, y: ${y}, z: ${z} };
-            const messageToSend = commandMsg("/setblock" + " " + positionToSet.x + " " + positionToSet.y + " " + positionToSet.z + " " + "${blockName}");
+            const position = ${position};
+			const positionToSet = { x: position.x, y: position.y-1, z: position.z };
+            const messageToSend = commandMsg("/setblock" + " " + positionToSet.x + " " + positionToSet.y + " " + positionToSet.z + " " + "${generator.valueToCode(block, "BLOCK", Order.ATOMIC)}");
 			wss.send(JSON.stringify(messageToSend));
 		}
 		setBlock();
