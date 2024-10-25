@@ -1,4 +1,3 @@
-//Minecraftのブロックのドロップダウンimport { Order, javascriptGenerator } from "blockly/javascript";
 import { inputs } from "blockly";
 import { Order, javascriptGenerator } from "blockly/javascript";
 
