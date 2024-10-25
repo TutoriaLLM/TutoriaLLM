@@ -30,51 +30,24 @@ export const block = {
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_fillBlock = (block, generator) => {
-		const blockName = generator.valueToCode(block, "BLOCK", Order.ATOMIC);
-		const fromPos = JSON.parse(
-			generator.valueToCode(block, "fromPos", Order.ATOMIC),
-		);
-		const toPos = JSON.parse(
-			generator.valueToCode(block, "toPos", Order.ATOMIC),
-		);
-		let fromPosX = fromPos.x;
-		let fromPosY = fromPos.y;
-		let fromPosZ = fromPos.z;
-		let toPosX = toPos.x;
-		let toPosY = toPos.y;
-		let toPosZ = toPos.z;
-
-		// Remove parentheses if present
-		fromPosX =
-			fromPosX.startsWith("(") && fromPosX.endsWith(")")
-				? fromPosX.slice(1, -1)
-				: fromPosX;
-		fromPosY =
-			fromPosY.startsWith("(") && fromPosY.endsWith(")")
-				? fromPosY.slice(1, -1)
-				: fromPosY;
-		fromPosZ =
-			fromPosZ.startsWith("(") && fromPosZ.endsWith(")")
-				? fromPosZ.slice(1, -1)
-				: fromPosZ;
-		toPosX =
-			toPosX.startsWith("(") && toPosX.endsWith(")")
-				? toPosX.slice(1, -1)
-				: toPosX;
-		toPosY =
-			toPosY.startsWith("(") && toPosY.endsWith(")")
-				? toPosY.slice(1, -1)
-				: toPosY;
-		toPosZ =
-			toPosZ.startsWith("(") && toPosZ.endsWith(")")
-				? toPosZ.slice(1, -1)
-				: toPosZ;
+		const fromPos = generator.valueToCode(block, "fromPos", Order.ATOMIC);
+		const toPos = generator.valueToCode(block, "toPos", Order.ATOMIC);
 
 		const code = /* javascript */ `
 		function fillBlock() {
-			const positionFrom = { x: ${fromPosX}, y: ${fromPosY}, z: ${fromPosZ} };
-            const positionTo = { x: ${toPosX}, y: ${toPosY}, z: ${toPosZ} };
-            const messageToSend = commandMsg("/fill" + " " + positionFrom.x + " " + positionFrom.y + " " + positionFrom.z + " " + positionTo.x + " " + positionTo.y + " " + positionTo.z + " " + "${blockName}");
+        //値は可変なため、実行時に取得する
+        const fromPos = ${fromPos};
+        const toPos = ${toPos};
+        let fromX = fromPos.x;
+		let fromY = fromPos.y;
+		let fromZ = fromPos.z;
+		let toX = toPos.x;
+		let toY = toPos.y;
+		let toZ = toPos.z;
+
+            const positionFrom = { x: fromX, y: fromY, z: fromZ };
+            const positionTo = { x: toX, y: toY, z: toZ };
+            const messageToSend = commandMsg("/fill" + " " + positionFrom.x + " " + (positionFrom.y -1) + " " + positionFrom.z + " " + positionTo.x + " " + (positionTo.y -1) + " " + positionTo.z + " " + "${generator.valueToCode(block, "BLOCK", Order.ATOMIC)}");
 			wss.send(JSON.stringify(messageToSend));
 		}
 		fillBlock();

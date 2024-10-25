@@ -12,13 +12,14 @@ export function code() {
 		block,
 		generator,
 	) => {
-		const position = {
-			x: "minecraftWorldState.player.position.x",
-			y: "minecraftWorldState.player.position.y",
-			z: "minecraftWorldState.player.position.z",
+		const code = /* javascript */ `
+        {
+			x: minecraftWorldState.player.position.x,
+			y: minecraftWorldState.player.position.y,
+			z: minecraftWorldState.player.position.z,
 		};
-		const output = JSON.stringify(position);
-		return [output, Order.ATOMIC];
+        `;
+		return [code, Order.ATOMIC];
 	};
 }
 

@@ -28,17 +28,21 @@ export const block = {
 };
 
 export function code() {
-	javascriptGenerator.forBlock.ext_minecraft_var_specificBlockName = (
+	javascriptGenerator.forBlock.ext_minecraft_var_xyzPosition = (
 		block,
 		generator,
 	) => {
-		const PositionX = block.getFieldValue("PosX");
-		const PositionY = block.getFieldValue("PosY");
-		const PositionZ = block.getFieldValue("PosZ");
-
-		const position = { x: PositionX, y: PositionY, z: PositionZ };
-		const stringPosition = JSON.stringify(position);
-		return [stringPosition, Order.ATOMIC];
+		const PositionX = generator.valueToCode(block, "PosX", Order.ATOMIC);
+		const PositionY = generator.valueToCode(block, "PosY", Order.ATOMIC);
+		const PositionZ = generator.valueToCode(block, "PosZ", Order.ATOMIC);
+		const code = /* javascript */ `
+		{
+			x: ${PositionX},
+			y: ${PositionY},
+			z: ${PositionZ},
+		}
+		`;
+		return [code, Order.ATOMIC];
 	};
 }
 

@@ -12,7 +12,10 @@ export function code() {
 		block,
 		generator,
 	) => {
-		return ["minecraftWorldState.player.position.y", Order.ATOMIC];
+		const code = /* javascript */ `
+		minecraftWorldState.player.position.y
+		`;
+		return [code, Order.ATOMIC];
 	};
 }
 
