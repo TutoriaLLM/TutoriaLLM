@@ -888,7 +888,7 @@ export function code() {
 
 export const locale = {
 	en: {
-		BMINECRAFT_VAR_BLOCKDROPDOWN: " %1 Block",
+		MINECRAFT_VAR_BLOCKDROPDOWN: " %1 Block",
 	},
 	ja: {
 		MINECRAFT_VAR_BLOCKDROPDOWN: " %1 ブロック",

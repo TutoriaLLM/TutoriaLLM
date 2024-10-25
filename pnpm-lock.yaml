@@ -11,6 +11,9 @@ importers:
       '@blockly/field-grid-dropdown':
         specifier: ^5.0.9
         version: 5.0.9(blockly@11.1.1)
+      '@blockly/field-slider':
+        specifier: ^7.0.9
+        version: 7.0.9(blockly@11.1.1)
       '@hono/node-server':
         specifier: ^1.13.2
         version: 1.13.2(hono@4.6.5)
@@ -954,6 +957,12 @@ packages:
   '@blockly/field-grid-dropdown@5.0.9':
     resolution: {integrity: sha512-ziVKA1PL4J/n2FeY+CvY8dSzc/sOESBe8xNB/kPCDEe3UOvwhFtpnOvOmIWLixn4VO4B5Wp0aCY/C49SRILP4Q==}
     engines: {node: '>=8.17.0'}
+    peerDependencies:
+      blockly: ^11.0.0
+
+  '@blockly/field-slider@7.0.9':
+    resolution: {integrity: sha512-E+JAvPYAPWm49AUom6Fd5RJJeDdEtd0jW6LVYx8aqHBH3XfYbWseTFOWLs5KLcP7h4s3b91+yf2ppgPo+MBULQ==}
+    engines: {node: '>=8.0.0'}
     peerDependencies:
       blockly: ^11.0.0
 
@@ -7928,6 +7937,10 @@ snapshots:
     optional: true
 
   '@blockly/field-grid-dropdown@5.0.9(blockly@11.1.1)':
+    dependencies:
+      blockly: 11.1.1
+
+  '@blockly/field-slider@7.0.9(blockly@11.1.1)':
     dependencies:
       blockly: 11.1.1
 
