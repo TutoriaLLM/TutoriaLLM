@@ -21,6 +21,7 @@ export const block = {
 			check: "Position",
 		},
 	],
+	inputsInline: true, // インライン入力を有効にする
 	previousStatement: null,
 	nextStatement: null,
 	colour: "#a855f7",
@@ -62,6 +63,6 @@ export const locale = {
 		MINECRAFT_FILLBLOCK: "%1 ブロックを座標 %2 から %3 まで並べる",
 	},
 	en: {
-		MINECRAFT_SETBLOCK: "Place %1 block from position %2 to %3",
+		MINECRAFT_FILLBLOCK: "Place %1 block from position %2 to %3",
 	},
 };
