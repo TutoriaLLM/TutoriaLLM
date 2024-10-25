@@ -24,6 +24,7 @@ export default function DialogueView() {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [recordingTime, setRecordingTime] = useState(0);
 	const [remainingTime, setRemainingTime] = useState(10);
+	const [isHttps, setIsHttps] = useState(false); // HTTPSかどうかを管理
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const wavesurferRef = useRef<WaveSurfer | null>(null);
@@ -38,6 +39,13 @@ export default function DialogueView() {
 			setConfig(response);
 		}
 		fetchConfig();
+	}, []);
+
+	useEffect(() => {
+		// ページがHTTPSで提供されているかどうかを確認
+		if (window.location.protocol === "https:") {
+			setIsHttps(true);
+		}
 	}, []);
 
 	const sendMessage = useCallback(
@@ -300,7 +308,7 @@ export default function DialogueView() {
 					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
-						{config?.AI_Settings.Chat_Audio && (
+						{config?.AI_Settings.Chat_Audio && isHttps && (
 							<button
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
