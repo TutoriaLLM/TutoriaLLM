@@ -11,9 +11,46 @@ import ViteExpress from "vite-express";
 import { EventEmitter } from "node:events";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { getConfig } from "./getConfig.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import { desc } from "drizzle-orm";
 
 // Initialize express and on the main app
 const app = express();
+
+//swaggerの読み込み
+
+const swaggerDefinition = {
+	openapi: "3.0.0",
+	info: {
+		title: "TutoriaLLM API",
+		description: "API for TutoriaLLM server",
+		version: "1.0.0",
+		license: {
+			name: "Licensed Under MIT",
+		},
+		contact: {
+			name: "TutoriaLLM",
+			url: "https://tutoriallm.com",
+		},
+	},
+};
+
+const options = {
+	// failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+	swaggerDefinition,
+	apis: ["src/server/**/*.ts"], // Path to the API docs
+};
+const swaggerSpec = swaggerJSDoc(options);
+
+//開発環境でswaggerを表示
+if (process.env.NODE_ENV !== "production") {
+	app.get("/swagger.json", (req, res) => {
+		res.setHeader("Content-Type", "application/json");
+		res.send(swaggerSpec);
+	});
+	app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+}
 
 //load config
 const config = getConfig();

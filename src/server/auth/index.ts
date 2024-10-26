@@ -45,6 +45,26 @@ declare module "lucia" {
 //ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
 export const auth = express.Router();
 
+/**
+ * @openapi
+ * /auth/session:
+ *   get:
+ *     description: Returns the current session
+ *     responses:
+ *       200:
+ *         description: The current session
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { message: "認証情報がありません" }
+ */
 auth.get("/session", (req, res) => {
 	if (!res.locals.session) {
 		return res.status(401).json({ message: "認証情報がありません" });
@@ -54,6 +74,40 @@ auth.get("/session", (req, res) => {
 
 auth.use(express.json()); // ここでJSONミドルウェアを追加します
 
+/**
+ * @openapi
+ * /auth/login:
+ *   post:
+ *     description: Logs in a user and creates a session
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Redirects to the home page
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { message: "ユーザーが見つかりません" }
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { message: "内部サーバーエラー" }
+ */
 auth.post("/login", async (req, res) => {
 	console.log("login request", req.body);
 	const { username, password } = req.body;
@@ -92,6 +146,22 @@ auth.post("/login", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /auth/logout:
+ *   post:
+ *     description: Logs out a user and invalidates the session
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { message: "ログアウトしました" }
+ *       401:
+ *         description: Unauthorized
+ */
 auth.post("/logout", async (req, res) => {
 	console.log("logout request");
 	if (!res.locals.session) {

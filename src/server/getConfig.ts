@@ -24,6 +24,26 @@ export function getConfig() {
 	return config;
 }
 
+/**
+ * @openapi
+ * /config:
+ *   get:
+ *     description: Returns the app configuration
+ *     responses:
+ *       200:
+ *         description: The app configuration
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Config not found
+ */
 getConfigApp.get("/", async (req, res) => {
 	const config = getConfig();
 	res.json(config);

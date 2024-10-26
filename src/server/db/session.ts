@@ -10,9 +10,7 @@ const DBrouter = express.Router();
 DBrouter.use(apiLimiter());
 DBrouter.use(express.json());
 
-//複数セッションを管理するのに使用するコードとデータを保存するDB
-//export const sessionDB = new Level("dist/session", { valueEncoding: "json" });
-//Redisに移行
+// Redisに移行
 import redis from "redis";
 import i18next from "i18next";
 import apiLimiter from "../ratelimit.js";
@@ -79,13 +77,127 @@ function initialData(code: string, language: string): SessionValue {
 	};
 }
 
-DBrouter.post("/new", async (req, res) => {
-	//言語をクエリから取得し、存在しない場合は英語をデフォルトとする
-	let language = req.query.language;
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     SessionValue:
+ *       type: object
+ *       properties:
+ *         sessioncode:
+ *           type: string
+ *         uuid:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *         dialogue:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *               contentType:
+ *                 type: string
+ *               isuser:
+ *                 type: boolean
+ *               content:
+ *                 type: string
+ *         quickReplies:
+ *           type: array
+ *           items:
+ *             type: string
+ *         isReplying:
+ *           type: boolean
+ *         easyMode:
+ *           type: boolean
+ *         responseMode:
+ *           type: string
+ *         workspace:
+ *           type: object
+ *         isVMRunning:
+ *           type: boolean
+ *         clients:
+ *           type: array
+ *           items:
+ *             type: string
+ *         language:
+ *           type: string
+ *         llmContext:
+ *           type: string
+ *         tutorial:
+ *           type: object
+ *           properties:
+ *             isTutorial:
+ *               type: boolean
+ *             tutorialId:
+ *               type: string
+ *               nullable: true
+ *             progress:
+ *               type: integer
+ *         stats:
+ *           type: object
+ *           properties:
+ *             totalConnectingTime:
+ *               type: integer
+ *             currentNumOfBlocks:
+ *               type: integer
+ *             totalInvokedLLM:
+ *               type: integer
+ *             totalUserMessages:
+ *               type: integer
+ *             totalCodeExecutions:
+ *               type: integer
+ *         audios:
+ *           type: array
+ *           items:
+ *             type: string
+ *         userAudio:
+ *           type: string
+ *         screenshot:
+ *           type: string
+ *         clicks:
+ *           type: array
+ *           items:
+ *             type: string
+ */
 
+/**
+ * @openapi
+ * /session/new:
+ *   post:
+ *     description: Creates a new session with optional session data.
+ *     parameters:
+ *       - name: language
+ *         in: query
+ *         description: Language code to initialize the session.
+ *         required: false
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SessionValue'
+ *     responses:
+ *       200:
+ *         description: Successfully created a new session.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Generated session code
+ *       500:
+ *         description: Failed to create session by API.
+ */
+DBrouter.post("/new", async (req, res) => {
+	let language = req.query.language;
 	const sessionData = req.body as SessionValue | undefined;
 
-	//Languageが存在せず、Bodyにセッションデータがある場合はセッションデータを使用してセッションを作成する
 	if (sessionData?.uuid && !language) {
 		console.log("session created with data");
 		const code = joincodeGen();
@@ -98,7 +210,6 @@ DBrouter.post("/new", async (req, res) => {
 			JSON.stringify({
 				...sessionData,
 				sessioncode: code,
-				// uuid: crypto.randomUUID(),
 				dialogue: [
 					...sessionData.dialogue,
 					{
@@ -121,13 +232,11 @@ DBrouter.post("/new", async (req, res) => {
 	if (language === undefined || !language) {
 		language = "en";
 	}
-	//参加コードを生成
+
 	const code = joincodeGen();
 
 	console.log("session created with initial data");
 
-	//生成したコードが重複していないか確認
-	//const value = await sessionDB.get(code).catch(() => null);
 	const value = await sessionDB.get(code);
 	if (value === code) {
 		res
@@ -144,10 +253,29 @@ DBrouter.post("/new", async (req, res) => {
 	res.send(code);
 });
 
-//get value from key
+/**
+ * @openapi
+ * /session/{key}:
+ *   get:
+ *     description: Retrieves the session data for the given key.
+ *     parameters:
+ *       - name: key
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved session data.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SessionValue'
+ *       404:
+ *         description: Session not found.
+ */
 DBrouter.get("/:key", async (req, res) => {
 	try {
-		//const value = await sessionDB.get(req.params.key);
 		const value = await sessionDB.get(req.params.key);
 		if (value === null || undefined) {
 			res.status(404).send(null);
@@ -159,11 +287,31 @@ DBrouter.get("/:key", async (req, res) => {
 	}
 });
 
-//update value from key
+/**
+ * @openapi
+ * /session/{key}:
+ *   put:
+ *     description: Updates the session data for the given key.
+ *     parameters:
+ *       - name: key
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SessionValue'
+ *     responses:
+ *       200:
+ *         description: Successfully updated session data.
+ *       404:
+ *         description: Session not found.
+ */
 DBrouter.put("/:key", async (req, res) => {
 	const updateData: SessionValue = req.body;
 	try {
-		//await sessionDB.put(req.params.key, JSON.stringify(updateData));
 		await sessionDB.set(req.params.key, JSON.stringify(updateData));
 		res.send("Session updated by api");
 	} catch (e) {
@@ -171,10 +319,25 @@ DBrouter.put("/:key", async (req, res) => {
 	}
 });
 
-//delete value from key
+/**
+ * @openapi
+ * /session/{key}:
+ *   delete:
+ *     description: Deletes the session data for the given key.
+ *     parameters:
+ *       - name: key
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successfully deleted session data.
+ *       404:
+ *         description: Session not found.
+ */
 DBrouter.delete("/:key", async (req, res) => {
 	try {
-		//await sessionDB.get(req.params.key);
 		await sessionDB.del(req.params.key);
 		res.send("Session deleted");
 	} catch (e) {

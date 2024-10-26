@@ -13,6 +13,39 @@ const tutorialsAPI = express();
 //タグAPIを追加
 tutorialsAPI.use("/tags", tagsAPI);
 
+/**
+ * @openapi
+ * /tutorial:
+ *   get:
+ *     description: Returns a list of tutorials without content
+ *     responses:
+ *       200:
+ *         description: A list of tutorials
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   metadata:
+ *                     type: object
+ *                   language:
+ *                     type: string
+ *                   tags:
+ *                     type: array
+ *                     items:
+ *                       type: string
+ *       500:
+ *         description: Failed to fetch tutorials
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Failed to fetch tutorials
+ */
 //チュートリアルの一覧を取得。コンテンツは送信しない。
 tutorialsAPI.get("/", async (req, res) => {
 	try {
@@ -32,6 +65,39 @@ tutorialsAPI.get("/", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /tutorial/{id}:
+ *   get:
+ *     description: Returns the content of a tutorial
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: The content of the tutorial
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Not Found
+ *       500:
+ *         description: Failed to fetch tutorial
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Failed to fetch tutorial
+ */
 //チュートリアルの内容を取得
 tutorialsAPI.get("/:id", async (req, res) => {
 	try {

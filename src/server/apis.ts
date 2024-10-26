@@ -30,6 +30,27 @@ api.use("/admin", admin);
 api.use("/auth", auth);
 
 //hello world
+/**
+ * @openapi
+ * /api/hello:
+ *   get:
+ *     description: Returns a hello world message
+ *     responses:
+ *       200:
+ *         description: A hello world message
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Hello, world!
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Not Found
+ */
 api.get("/hello", (req, res) => {
 	res.send("Hello, world!");
 });
