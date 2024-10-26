@@ -64,7 +64,7 @@ async function createGuideFromTrainingData(
  * @openapi
  * /admin/training/guide/new:
  *   post:
- *     description: トレーニングデータをもとにガイドを作成するAPI
+ *     description: API to create a new guide from training data
  *     requestBody:
  *       required: true
  *       content:
@@ -121,7 +121,7 @@ export async function getKnowledge(
  * @openapi
  * /admin/training/guide/search:
  *   post:
- *     description: Vectorをもとに知識を検索するAPI
+ *     description: API to search knowledge based on vector
  *     requestBody:
  *       required: true
  *       content:
@@ -164,7 +164,7 @@ guideManager.post("/search", async (req, res) => {
  * @openapi
  * /admin/training/guide/list:
  *   get:
- *     description: ガイドの一覧を取得するAPI
+ *     description: API to get a list of guides
  *     responses:
  *       200:
  *         description: A list of guides
@@ -196,7 +196,7 @@ guideManager.get("/list", async (req, res) => {
  * @openapi
  * /admin/training/guide/{id}:
  *   get:
- *     description: ガイドの詳細を取得するAPI
+ *     description: API to get a guide content by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -227,7 +227,7 @@ guideManager.get("/:id", async (req, res) => {
  * @openapi
  * /admin/training/guide/{id}:
  *   put:
- *     description: ガイドを作成or上書きするAPI
+ *     description: API to update or create a guide by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -276,7 +276,7 @@ guideManager.put("/:id", async (req, res) => {
  * @openapi
  * /admin/training/guide/{id}:
  *   delete:
- *     description: ガイドを削除するAPI
+ *     description: API to delete a guide by ID
  *     parameters:
  *       - in: path
  *         name: id

@@ -18,7 +18,7 @@ appConfiguration.use(express.json());
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/AppConfig'
  *     responses:
  *       200:
  *         description: Config updated
@@ -45,7 +45,7 @@ appConfiguration.post("/update", (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: object
+ *               $ref: '#/components/schemas/AppConfig'
  */
 appConfiguration.get("/", async (req, res) => {
 	const config: AppConfig = await getConfig();

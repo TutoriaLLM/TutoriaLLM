@@ -26,6 +26,62 @@ export function getConfig() {
 
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     AppConfig:
+ *       type: object
+ *       properties:
+ *         General_Settings:
+ *           type: object
+ *           properties:
+ *             Enable_Join_by_code:
+ *               type: boolean
+ *             Enable_Create_Room:
+ *               type: boolean
+ *             Enable_Memory_Use_Log:
+ *               type: boolean
+ *         AI_Settings:
+ *           type: object
+ *           properties:
+ *             Chat_AI_Model:
+ *               type: string
+ *             Chat_Audio:
+ *               type: boolean
+ *             Chat_AI_Temperature:
+ *               type: number
+ *         Client_Settings:
+ *           type: object
+ *           properties:
+ *             AutoReply:
+ *               type: boolean
+ *             Reply_Time_ms:
+ *               type: number
+ *             Screenshot_Interval_min:
+ *               type: number
+ *             GA_Tracking_ID:
+ *               type: string
+ *         Code_Execution_Limits:
+ *           type: object
+ *           properties:
+ *             Max_CodeRangeSizeMb:
+ *               type: number
+ *             Max_OldGenerationSizeMb:
+ *               type: number
+ *             Max_YoungGenerationSizeMb:
+ *               type: number
+ *             Max_Num_Message_Queue:
+ *               type: number
+ *         Client_Sentry_Settings:
+ *           type: object
+ *           properties:
+ *             Sentry_DSN:
+ *               type: string
+ *             replaysOnErrorSampleRate:
+ *               type: number
+ *             replaysSessionSampleRate:
+ *               type: number
+ *             tracesSampleRate:
+ *               type: number
  * /config:
  *   get:
  *     description: Returns the app configuration
@@ -35,7 +91,7 @@ export function getConfig() {
  *         content:
  *           application/json:
  *             schema:
- *               type: object
+ *               $ref: '#/components/schemas/AppConfig'
  *       404:
  *         description: Not Found
  *         content:
