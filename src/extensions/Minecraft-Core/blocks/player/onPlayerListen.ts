@@ -12,7 +12,6 @@ export const block = {
 				["%{BKY_MINECRAFT_ONPLAYERDIED}", "PlayerDied"],
 				["%{BKY_MINECRAFT_ONPLAYERPLACEDBLOCK}", "BlockPlaced"],
 				["%{BKY_MINECRAFT_ONPLAYERBROKEDBLOCK}", "BlockBroken"],
-				["%{BKY_MINECRAFT_ONPLAYERUSEITEM}", "ItemUsed"],
 			],
 		},
 		{

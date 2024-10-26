@@ -13,6 +13,10 @@
 	},
 	{
 		"kind": "block",
+		"type": "ext_minecraft_onplayerUsedItem"
+	},
+	{
+		"kind": "block",
 		"type": "ext_minecraft_var_PlayerPos"
 	},
 	{

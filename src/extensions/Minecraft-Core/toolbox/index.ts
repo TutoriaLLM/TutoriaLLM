@@ -3,6 +3,7 @@ import actions from "./contents/actions.json";
 import agent from "./contents/agent.json";
 import block from "./contents/block.json";
 import position from "./contents/position.json";
+import item from "./contents/item.json";
 export const category = {
 	kind: "category",
 	name: "%{BKY_MINECRAFT}",
@@ -34,6 +35,12 @@ export const category = {
 		},
 		{
 			kind: "category",
+			name: "%{BKY_MINECRAFT_ITEM}",
+			colour: "#a855f7",
+			contents: item,
+		},
+		{
+			kind: "category",
 			name: "%{BKY_MINECRAFT_POSITION}",
 			colour: "#a855f7",
 			contents: position,
@@ -48,6 +55,7 @@ export const locale = {
 		MINECRAFT_PLAYER_EVENTS: "プレイヤー",
 		MINECRAFT_AGENT: "エージェント",
 		MINECRAFT_BLOCK: "ブロック",
+		MINECRAFT_ITEM: "アイテム",
 		MINECRAFT_POSITION: "座標",
 	},
 	en: {
@@ -56,6 +64,7 @@ export const locale = {
 		MINECRAFT_PLAYER_EVENTS: "Player",
 		MINECRAFT_AGENT: "Agent",
 		MINECRAFT_BLOCK: "Block",
+		MINECRAFT_ITEM: "Item",
 		MINECRAFT_POSITION: "Position",
 	},
 };
