@@ -56,9 +56,17 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 				}
 				const data: SessionValue = await response.json();
 
-				setSession(data);
+				//容量が大きくなる可能性があるデータを削除
+				const filteredData: SessionValue = {
+					...data,
+					audios: [],
+					screenshot: "",
+					dialogue: [],
+				};
 
-				handleChangeSession("sessionValue", data);
+				setSession(filteredData);
+
+				handleChangeSession("sessionValue", filteredData);
 
 				inputRef.current.value = "";
 			} catch (error) {
