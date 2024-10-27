@@ -28,11 +28,24 @@ export async function updateDialogueWithLLM(
 
 	const message = await invokeLLM(data, extractedBlockNames, socket);
 
-	//テキストがオーディオだった場合の処理
+	//出力が音声だった場合の処理
 	//テスト目的なので、実際には音声ファイルを生成する処理が必要
 	//bae64エンコードされた音声を保存し、DialogueにそのIDを追加する
 	if (typeof message !== "string" && message && "data" in message) {
 		const latestData = await getLatestData(data.sessioncode);
+		const updatedAudios = [
+			...latestData.audios,
+			{
+				id: `${latestData.audios.length + 1}`,
+				base64: message.data,
+			},
+		];
+
+		// オーディオの件数が5件を超えたら最新の5つが残るようにする
+		if (updatedAudios.length > 5) {
+			updatedAudios.splice(0, updatedAudios.length - 5);
+		}
+
 		return {
 			...latestData,
 			dialogue: [
@@ -42,19 +55,13 @@ export async function updateDialogueWithLLM(
 					contentType: "ai_audio",
 					isuser: false,
 					content: JSON.stringify({
-						id: `${latestData.audios.length + 1}`,
+						id: `${updatedAudios.length}`,
 						transcript: message.transcript,
 					}),
 				},
 			],
 			isReplying: false,
-			audios: [
-				...latestData.audios,
-				{
-					id: `${latestData.audios.length + 1}`,
-					base64: message.data,
-				},
-			],
+			audios: updatedAudios,
 		};
 	}
 
