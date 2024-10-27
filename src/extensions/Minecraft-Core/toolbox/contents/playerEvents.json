@@ -13,7 +13,17 @@
 	},
 	{
 		"kind": "block",
-		"type": "ext_minecraft_onplayerUsedItem"
+		"type": "ext_minecraft_onplayerUsedItem",
+		"inputs": {
+			"ITEM": {
+				"shadow": {
+					"type": "ext_minecraft_var_toolsDropdown",
+					"fields": {
+						"ITEM": "STONE"
+					}
+				}
+			}
+		}
 	},
 	{
 		"kind": "block",
