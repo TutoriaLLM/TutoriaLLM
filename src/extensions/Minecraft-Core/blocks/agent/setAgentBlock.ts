@@ -14,6 +14,9 @@ export const block = {
 			check: "Number",
 		},
 		{
+			type: "input_end_row",
+		},
+		{
 			type: "input_value",
 			name: "BLOCK",
 			check: "Block",
@@ -29,7 +32,7 @@ export const block = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#f43f5e",
 	tooltip: "",
 	helpUrl: "",
 };
@@ -62,9 +65,10 @@ export function code() {
 export const locale = {
 	ja: {
 		MINECRAFT_SETAGENTBLOCK:
-			"エージェントのインベントリの %1 つめのスロットに %2 のブロックを %3 個セットする",
+			"エージェントのインベントリの %1 つめのスロットに %2 %3 のブロックを %4 個セットする",
 	},
 	en: {
-		MINECRAFT_SETAGENTBLOCK: "Set blocks %2 of %1 to Agent's inventory slot %3",
+		MINECRAFT_SETAGENTBLOCK:
+			"Set blocks %4 of %3 to %2 Agent's  inventory slot %1",
 	},
 };

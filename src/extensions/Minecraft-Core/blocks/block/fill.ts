@@ -11,6 +11,9 @@ export const block = {
 			check: "Block",
 		},
 		{
+			type: "input_end_row",
+		},
+		{
 			type: "input_value",
 			name: "fromPos", //positionは {x: number, y: number, z: number} という形式のオブジェクト（パースする必要あり）
 			check: "Position",
@@ -24,7 +27,7 @@ export const block = {
 	inputsInline: true, // インライン入力を有効にする
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#22c55e",
 	tooltip: "",
 	helpUrl: "",
 };
@@ -60,9 +63,9 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_FILLBLOCK: "%1 ブロックを座標 %2 から %3 まで並べる",
+		MINECRAFT_FILLBLOCK: "%1 ブロックを座標 %2 %3 から %4 まで並べる",
 	},
 	en: {
-		MINECRAFT_FILLBLOCK: "Place %1 block from position %2 to %3",
+		MINECRAFT_FILLBLOCK: "Place %1 block from position %2 %3 to %4",
 	},
 };

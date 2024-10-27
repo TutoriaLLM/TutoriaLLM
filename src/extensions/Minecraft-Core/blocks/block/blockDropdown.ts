@@ -5,7 +5,7 @@ import "@blockly/field-grid-dropdown";
 export const block = {
 	type: "ext_minecraft_var_blockDropdown",
 	message0: "%{BKY_MINECRAFT_VAR_BLOCKDROPDOWN}",
-	colour: "#a855f7",
+	colour: "#22c55e",
 
 	args0: [
 		{

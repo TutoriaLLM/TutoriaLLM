@@ -2,7 +2,7 @@ import { Order, javascriptGenerator } from "blockly/javascript";
 
 export const block = {
 	type: "ext_minecraft_var_PlayerPos", //XYZ座標を取得するブロック
-	colour: "#a855f7",
+	colour: "#6366f1",
 	message0: "%{BKY_MINECRAFT_VAR_PLAYERPOS}", //プレイヤーの座標
 	output: "Position",
 };

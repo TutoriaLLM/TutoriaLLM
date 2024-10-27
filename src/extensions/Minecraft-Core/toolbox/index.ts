@@ -3,7 +3,6 @@ import actions from "./contents/actions.json";
 import agent from "./contents/agent.json";
 import block from "./contents/block.json";
 import position from "./contents/position.json";
-import item from "./contents/item.json";
 export const category = {
 	kind: "category",
 	name: "%{BKY_MINECRAFT}",
@@ -12,37 +11,31 @@ export const category = {
 		{
 			kind: "category",
 			name: "%{BKY_MINECRAFT_PLAYER_EVENTS}",
-			colour: "#a855f7",
+			colour: "#6366f1",
 			contents: playerEvents,
 		},
 		{
 			kind: "category",
 			name: "%{BKY_MINECRAFT_ACTIONS}",
-			colour: "#a855f7",
+			colour: "#d97706",
 			contents: actions,
 		},
 		{
 			kind: "category",
 			name: "%{BKY_MINECRAFT_AGENT}",
-			colour: "#a855f7",
+			colour: "#f43f5e",
 			contents: agent,
 		},
 		{
 			kind: "category",
 			name: "%{BKY_MINECRAFT_BLOCK}",
-			colour: "#a855f7",
+			colour: "#22c55e",
 			contents: block,
 		},
 		{
 			kind: "category",
-			name: "%{BKY_MINECRAFT_ITEM}",
-			colour: "#a855f7",
-			contents: item,
-		},
-		{
-			kind: "category",
 			name: "%{BKY_MINECRAFT_POSITION}",
-			colour: "#a855f7",
+			colour: "#10b981",
 			contents: position,
 		},
 	],

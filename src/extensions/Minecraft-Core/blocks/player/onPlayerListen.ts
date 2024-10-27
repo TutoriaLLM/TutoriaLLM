@@ -22,7 +22,7 @@ export const block = {
 			name: "INPUT",
 		},
 	],
-	colour: "#a855f7",
+	colour: "#6366f1",
 	tooltip: "",
 	helpUrl: "",
 };

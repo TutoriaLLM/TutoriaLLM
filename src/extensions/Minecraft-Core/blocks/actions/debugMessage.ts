@@ -7,7 +7,7 @@ export const block: extBlock = {
 	message0: "%{BKY_MINECRAFT_DEBUGMESSAGE}",
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#64748b",
 	tooltip: "",
 	helpUrl: "",
 	customInit: function (this: Blockly.Block) {

@@ -11,7 +11,7 @@ export const block = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#d97706",
 	tooltip: "Set time to specific time by game tick (0-24000)",
 	helpUrl: "",
 };

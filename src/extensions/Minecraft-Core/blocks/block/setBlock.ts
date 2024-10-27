@@ -1,5 +1,6 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 import "@blockly/field-slider";
+import { inputs } from "blockly";
 
 export const block = {
 	type: "ext_minecraft_setBlock",
@@ -11,14 +12,18 @@ export const block = {
 			check: "Block",
 		},
 		{
+			type: "input_end_row",
+		},
+		{
 			type: "input_value",
 			name: "POS",
 			check: "Position", //positionは {x: number, y: number, z: number} という形式のオブジェクト（パースする必要あり）
 		},
 	],
+	inputsInline: true, // インライン入力を有効にする
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#22c55e",
 	tooltip: "",
 	helpUrl: "",
 };
@@ -42,9 +47,9 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SETBLOCK: "%1 ブロックを %2 に設置する",
+		MINECRAFT_SETBLOCK: "%1 ブロックを %2 %3 に設置する",
 	},
 	en: {
-		MINECRAFT_SETBLOCK: "Place %1 block at %2",
+		MINECRAFT_SETBLOCK: "Place %1 block %2 at %3",
 	},
 };

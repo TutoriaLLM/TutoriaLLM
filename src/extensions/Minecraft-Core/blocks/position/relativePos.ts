@@ -4,7 +4,7 @@ import { Order, javascriptGenerator } from "blockly/javascript";
 export const block = {
 	type: "ext_minecraft_var_xyzRelativePosition",
 	message0: "%{BKY_MINECRAFT_VAR_XYZRELATIVEPOSITION}",
-	colour: "#a855f7",
+	colour: "#10b981",
 	args0: [
 		{
 			type: "input_value",

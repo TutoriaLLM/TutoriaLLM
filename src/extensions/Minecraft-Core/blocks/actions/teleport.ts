@@ -32,7 +32,7 @@ export const block = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
 };

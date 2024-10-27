@@ -1,6 +1,14 @@
 [
 	{
 		"kind": "block",
+		"type": "ext_minecraft_var_toolsDropdown"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_var_specificItemName"
+	},
+	{
+		"kind": "block",
 		"type": "ext_minecraft_var_blockDropdown"
 	},
 	{
