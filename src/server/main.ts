@@ -34,6 +34,21 @@ const swaggerDefinition = {
 			url: "https://tutoriallm.com",
 		},
 	},
+	servers: [
+		{
+			url: "http://localhost:3000",
+			description: "Development server",
+		},
+		{
+			url: "https://demo.tutoriallm.com",
+			description: "Demo server",
+		},
+		{
+			//ホスト名を取得
+			url: `https://${process.env.DOMAIN}`,
+			description: "Production server",
+		},
+	],
 };
 
 const options = {
