@@ -14,6 +14,8 @@ import {
 } from "../../ui/horizontalScroll.js";
 import WaveSurfer from "wavesurfer.js";
 
+import { useVirtualizer } from "@tanstack/react-virtual";
+
 export default function DialogueView() {
 	const { t } = useTranslation();
 	const [session, setSession] = useAtom(currentSessionState);
@@ -25,7 +27,7 @@ export default function DialogueView() {
 	const [recordingTime, setRecordingTime] = useState(0);
 	const [remainingTime, setRemainingTime] = useState(10);
 	const [isHttps, setIsHttps] = useState(false); // HTTPSかどうかを管理
-	const messagesEndRef = useRef<HTMLDivElement>(null);
+	const parentRef = useRef<HTMLDivElement>(null);
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const wavesurferRef = useRef<WaveSurfer | null>(null);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -137,15 +139,6 @@ export default function DialogueView() {
 		setMessage(reply);
 	}, []);
 
-	useEffect(() => {
-		if (messagesEndRef.current) {
-			// 少し遅らせてスクロールを実行
-			setTimeout(() => {
-				messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-			}, 150); // レンダリングを待つために 150ms 遅らせる
-		}
-	}, [session?.dialogue]);
-
 	const startRecording = () => {
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
 			const mediaRecorder = new MediaRecorder(stream);
@@ -213,6 +206,10 @@ export default function DialogueView() {
 				clearInterval(intervalRef.current);
 				intervalRef.current = null;
 			}
+			if (wavesurferRef.current) {
+				wavesurferRef.current.destroy();
+				wavesurferRef.current = null;
+			}
 		}
 	};
 
@@ -260,19 +257,66 @@ export default function DialogueView() {
 		}
 	}, [audioURL]);
 
+	//仮想スクロールの設定
+	const rowVirtualizer = useVirtualizer({
+		overscan: 5,
+		count: session?.dialogue.length || 0,
+		paddingStart: 16,
+		paddingEnd: 16,
+		getScrollElement: () => parentRef.current,
+		estimateSize: () => 80,
+		enabled: true,
+	});
+	rowVirtualizer.scrollDirection = "forward"; // 逆スクロールを有効にする
+
+	useEffect(() => {
+		if (session?.dialogue) {
+			rowVirtualizer.scrollToIndex(session.dialogue.length - 1, {});
+		}
+	}, [session?.dialogue]);
+
+	const items = rowVirtualizer.getVirtualItems();
 	return (
-		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium ">
+		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
 			<SwitchModeUI audio={config?.AI_Settings.Chat_Audio} />
-			<div className="w-full h-full flex flex-col overflow-y-scroll relative gap-4 px-4 py-1.5 ">
-				{session?.dialogue.map((item: Dialogue) => {
-					return (
-						<TextBubble
-							key={item.id}
-							item={item}
-							easyMode={session?.easyMode}
-						/>
-					);
-				})}
+			<div
+				className="w-full h-full overflow-y-auto contain-strict"
+				ref={parentRef}
+			>
+				<div
+					className={"w-full relative"}
+					style={{ height: rowVirtualizer.getTotalSize() }}
+				>
+					<div
+						className="absolute top-0 left-0 w-full"
+						style={{
+							transform: `translateY(${items[0]?.start ?? 0}px)`,
+						}}
+					>
+						{items.map((virtualRow) => {
+							if (!session) return null;
+							const item = session.dialogue[virtualRow.index];
+							return (
+								<TextBubble
+									className="w-full"
+									ref={(el) => {
+										if (el) {
+											// 要素がマウントされた後に`measureElement`を呼び出す
+											rowVirtualizer.measureElement(el);
+										} else {
+											console.log("el is null");
+										}
+									}}
+									data-index={virtualRow.index}
+									key={virtualRow.key}
+									item={item}
+									easyMode={session?.easyMode}
+								/>
+							);
+						})}
+					</div>
+				</div>
+
 				{/*返信中のアニメーションを表示*/}
 				{session?.isReplying && (
 					<div className="flex justify-start items-end gap-2 animate-loading-blink">
@@ -289,7 +333,6 @@ export default function DialogueView() {
 						</div>
 					</div>
 				)}
-				<div ref={messagesEndRef} />
 			</div>
 			<div className="w-full p-2">
 				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">

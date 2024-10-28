@@ -66,6 +66,7 @@
 		"@sentry/react": "^8.34.0",
 		"@tailwindcss/typography": "^0.5.15",
 		"@tanstack/react-table": "^8.20.5",
+		"@tanstack/react-virtual": "^3.10.8",
 		"@types/fluent-ffmpeg": "^2.1.26",
 		"@types/js-yaml": "^4.0.9",
 		"@vitejs/plugin-react": "^4.3.2",
