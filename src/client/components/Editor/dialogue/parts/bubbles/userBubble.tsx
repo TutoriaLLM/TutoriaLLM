@@ -20,7 +20,7 @@ function renderUserBubble(
 				<p className="text-xs">{t("textbubble.you")}</p>
 			</div>
 			<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
-				<span className="prose">
+				<span className="prose prose-sm md:prose-base">
 					<Markdown components={markdownComponents}>{content}</Markdown>
 				</span>
 			</div>

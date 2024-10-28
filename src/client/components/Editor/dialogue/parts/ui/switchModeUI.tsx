@@ -64,8 +64,10 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 			<div className="bg-white shadow w-full gap-2 sticky top-0 p-2 rounded-2xl flex flex-col ">
 				<div className="flex justify-between items-center w-full">
 					<span className="shrink">
-						<h3 className="font-semibold text-lg">{t("tutorial.easyMode")}</h3>
-						<p className="text-sm text-gray-600">
+						<h3 className="font-semibold text-base md:text-lg">
+							{t("tutorial.easyMode")}
+						</h3>
+						<p className="text-xs md:text-sm text-gray-600">
 							{t("tutorial.easyModeDescription")}
 						</p>
 					</span>
@@ -82,10 +84,10 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 						<span className="w-full h-0.5 bg-gray-200" />
 						<div className="flex justify-between items-center w-full">
 							<span className="shrink">
-								<h3 className="font-semibold text-lg">
+								<h3 className="font-semibold text-base md:text-lg">
 									{t("tutorial.responseMode")}
 								</h3>
-								<p className="text-sm text-gray-600">
+								<p className="text-xs md:text-sm text-gray-600">
 									{t("tutorial.responseModeDescription")}
 								</p>
 							</span>

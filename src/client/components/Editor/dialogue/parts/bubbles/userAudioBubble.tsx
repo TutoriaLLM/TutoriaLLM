@@ -20,7 +20,9 @@ function renderUserAudioBubble(content: string, t: TFunction, id: number) {
 						{t("textbubble.transcribing")}
 					</p>
 				) : (
-					<p className="flex justify-center items-center gap-2">{content}</p>
+					<p className="flex prose prose-sm md:prose-base justify-center items-center gap-2">
+						{content}
+					</p>
 				)}
 			</div>
 		</div>

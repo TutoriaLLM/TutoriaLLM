@@ -355,7 +355,7 @@ export default function DialogueView() {
 							<button
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
-								className={`w-12 h-16 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
+								className={`w-10 h-12 md:w-12 md:h-16 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
 									isRecording ? "bg-red-500" : "bg-green-600 hover:bg-green-700"
 								}`}
 							>
@@ -396,7 +396,7 @@ export default function DialogueView() {
 								)}
 							</button>
 						)}
-						<div className="flex-1 flex borde gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
+						<div className="flex-1 flex border shadow-inner gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
 							{audioURL ? (
 								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-gray-200 animate-fade-in">
 									<button
@@ -419,7 +419,7 @@ export default function DialogueView() {
 								<input
 									type="text"
 									placeholder={t("textbubble.ask")}
-									className="p-3 flex-1 bg-transparent outline-none"
+									className="p-2 md:p-3 flex-1 bg-transparent outline-none"
 									value={message}
 									onChange={(e) => setMessage(e.target.value)}
 								/>
@@ -428,7 +428,7 @@ export default function DialogueView() {
 
 						<button
 							type="submit"
-							className={`w-12 h-16 text-white rounded-2xl flex justify-center items-center transition-colors ${
+							className={`w-10 h-12 md:w-12 md:h-16 text-white rounded-2xl flex justify-center items-center transition-colors ${
 								(message === "" && !audioURL) || session?.isReplying
 									? "bg-gray-300 transition"
 									: "bg-sky-600 hover:bg-sky-700 transition"

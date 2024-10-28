@@ -23,7 +23,7 @@ function renderLogBubble(
 				<p className="text-xs font-semibold text-gray-600">
 					{t("textbubble.log")}:
 				</p>
-				<span className="prose">
+				<span className="prose prose-sm md:prose-base">
 					<Markdown components={markdownComponents}>{content}</Markdown>
 				</span>
 			</div>

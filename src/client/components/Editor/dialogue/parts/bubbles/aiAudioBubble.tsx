@@ -46,7 +46,7 @@ function renderAIaudioBubble(
 					{t("textbubble.audioMode")}
 				</span>
 
-				<p className="text-gray-600 italic shadow p-2 rounded-2xl bg-sky-200/40 backdrop-blur">
+				<p className="text-gray-600 italic prose prose-sm md:prose-base shadow p-2 rounded-2xl bg-sky-200/40 backdrop-blur">
 					{parsedContent.transcript}
 				</p>
 				<audio controls className="w-full">
