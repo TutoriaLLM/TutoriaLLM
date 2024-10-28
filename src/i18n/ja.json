@@ -123,7 +123,8 @@
 		"tabs": "タブを切り替えて、ワークスペースとチャットの間を移動できます。",
 		"switchToWorkspace": "ワークスペースに切り替えてみましょう。",
 		"syncCode": "ここから作ったプログラムをアップデートすることができます。",
-		"switchToDialogue": "では、チャットのタブへ戻りましょう。"
+		"switchToDialogue": "では、チャットのタブへ戻りましょう。",
+		"switchMode": "ここから設定を変更することができます"
 	},
 	"extension": {
 		"minecraft-core": {

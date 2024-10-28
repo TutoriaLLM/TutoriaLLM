@@ -60,7 +60,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 	}
 
 	return (
-		<div className="w-full p-2 animate-fade-in">
+		<div className="w-full p-2 animate-fade-in switchMode">
 			<div className="bg-white shadow w-full gap-2 sticky top-0 p-2 rounded-2xl flex flex-col ">
 				<div className="flex justify-between items-center w-full">
 					<span className="shrink">

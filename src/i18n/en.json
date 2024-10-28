@@ -123,7 +123,8 @@
 		"tabs": "You can switch the tabs to move between chat and workspace.",
 		"switchToWorkspace": "Let's switch to workspace.",
 		"syncCode": "You can update code from here",
-		"switchToDialogue": "Okay, let's back to chat tab."
+		"switchToDialogue": "Okay, let's back to chat tab.",
+		"switchMode": "You can change settings from here"
 	},
 	"extension": {
 		"minecraft-core": {
