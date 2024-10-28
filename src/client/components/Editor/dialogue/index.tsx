@@ -31,6 +31,7 @@ export default function DialogueView() {
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const wavesurferRef = useRef<WaveSurfer | null>(null);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
+	const streamRef = useRef<MediaStream | null>(null); // マイクストリームを管理
 
 	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
 
@@ -141,6 +142,7 @@ export default function DialogueView() {
 
 	const startRecording = () => {
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+			streamRef.current = stream; // ストリームを保存
 			const mediaRecorder = new MediaRecorder(stream);
 			mediaRecorderRef.current = mediaRecorder;
 			mediaRecorder.start();
@@ -209,6 +211,12 @@ export default function DialogueView() {
 			if (wavesurferRef.current) {
 				wavesurferRef.current.destroy();
 				wavesurferRef.current = null;
+			}
+			if (streamRef.current) {
+				for (const track of streamRef.current.getTracks()) {
+					track.stop(); // マイクアクセスを終了
+				}
+				streamRef.current = null;
 			}
 		}
 	};
