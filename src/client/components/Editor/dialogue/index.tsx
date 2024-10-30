@@ -285,7 +285,7 @@ export default function DialogueView() {
 
 	const items = rowVirtualizer.getVirtualItems();
 	return (
-		<div className="dialogue grow w-full h-full flex flex-col justify-end bg-gray-100 font-medium">
+		<div className="dialogue grow w-full h-full flex flex-col bg-gray-100 font-medium">
 			<SwitchModeUI audio={config?.AI_Settings.Chat_Audio} />
 			<div
 				className="w-full h-full overflow-y-auto contain-strict"
@@ -327,7 +327,7 @@ export default function DialogueView() {
 
 				{/*返信中のアニメーションを表示*/}
 				{session?.isReplying && (
-					<div className="flex justify-start items-end gap-2 animate-loading-blink">
+					<div className="flex px-4 py-2 justify-start items-end gap-2 animate-loading-blink">
 						<div className="text-gray-600 flex flex-col items-center">
 							<span className="bg-gray-200 rounded-full p-2">
 								<Bot />
