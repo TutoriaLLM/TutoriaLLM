@@ -123,13 +123,11 @@ function getMarkdownComponents(
 	t: TFunction,
 	workspace: SessionValue["workspace"] | undefined,
 ) {
-	const externalBlocks = useMemo(() => getExternalBlocks(), []);
-	const allBlocks = useMemo(
-		() => listAllBlocks(externalBlocks),
-		[externalBlocks],
-	);
+	console.log("getMarkdownComponents");
+	const externalBlocks = () => getExternalBlocks();
+	const allBlocks = () => listAllBlocks(externalBlocks());
 
-	const blockIdList = useMemo(() => {
+	const blockIdList = (() => {
 		const extractIdsRecursively = (obj: any): string[] => {
 			let ids: string[] = [];
 			if (obj && typeof obj === "object" && "id" in obj) {
@@ -152,30 +150,23 @@ function getMarkdownComponents(
 			return ids;
 		};
 		return workspace ? extractIdsRecursively(workspace) : [];
-	}, [workspace]);
+	})();
+	const handleCodeCopy = (code: string) => {
+		navigator.clipboard.writeText(code).then(() => {
+			alert(t("textbubble.copiedToClipboard"));
+		});
+	};
 
-	const renderWithHighlight = useCallback(
-		(node: any, props: any) => {
-			const highlightedChildren = highlightText(
-				props.children,
-				allBlocks,
-				blockIdList,
-			);
-			return node
-				? React.createElement(node.tagName, props, highlightedChildren)
-				: null;
-		},
-		[allBlocks, blockIdList], // 依存配列を最小限にする
-	);
-
-	const handleCodeCopy = useCallback(
-		(code: string) => {
-			navigator.clipboard.writeText(code).then(() => {
-				alert(t("textbubble.copiedToClipboard"));
-			});
-		},
-		[t],
-	);
+	const renderWithHighlight = (node: any, props: any) => {
+		const highlightedChildren = highlightText(
+			props.children,
+			allBlocks(),
+			blockIdList,
+		);
+		return node
+			? React.createElement(node.tagName, props, highlightedChildren)
+			: null;
+	};
 
 	const markdownComponents: Components = {
 		strong({ node, className, children, ...props }) {
