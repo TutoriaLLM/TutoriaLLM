@@ -142,6 +142,7 @@ function SelectTutorialUI() {
 			{isTutorialSelectorOpen ? (
 				<Popup
 					openState={isTutorialSelectorOpen}
+					container={document.getElementById("root") as HTMLElement}
 					onClose={switchTutorialSelector}
 					Content={
 						<div className="flex flex-col gap-4 p-2 md:p-4 min-h-[70vh]">
