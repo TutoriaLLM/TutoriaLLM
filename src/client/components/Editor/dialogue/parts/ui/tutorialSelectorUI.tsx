@@ -28,6 +28,9 @@ function SelectTutorialUI() {
 		const fetchTutorials = async () => {
 			try {
 				const response = await fetch("api/tutorial");
+				if (response.status === 404) {
+					console.log("Tutorials not found");
+				}
 				const data: Tutorial[] = await response.json();
 				setTutorials(data);
 			} catch (error) {
@@ -38,6 +41,9 @@ function SelectTutorialUI() {
 		const fetchTags = async () => {
 			try {
 				const response = await fetch("api/tutorial/tags");
+				if (response.status === 404) {
+					console.log("Tags not found");
+				}
 				const data: TagType[] = await response.json();
 				setTags(data);
 			} catch (error) {

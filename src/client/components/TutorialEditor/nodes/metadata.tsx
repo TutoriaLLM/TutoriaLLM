@@ -77,6 +77,10 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 		const fetchTags = async () => {
 			try {
 				const response = await fetch("/api/tutorial/tags");
+				if (response.status === 404) {
+					console.error("Tags not found (404)");
+					return;
+				}
 				const result = await response.json();
 				const fetchedTags = result.map((tag: { id: number; name: string }) => ({
 					id: tag.id.toString(), // idを文字列に変換

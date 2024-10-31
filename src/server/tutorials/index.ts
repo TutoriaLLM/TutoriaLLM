@@ -38,6 +38,13 @@ tutorialsAPI.use("/tags", tagsAPI);
  *                     type: array
  *                     items:
  *                       type: string
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Not Found
  *       500:
  *         description: Failed to fetch tutorials
  *         content:
@@ -47,10 +54,10 @@ tutorialsAPI.use("/tags", tagsAPI);
  *               example: Failed to fetch tutorials
  */
 //チュートリアルの一覧を取得。コンテンツは送信しない。
+//チュートリアルがない場合は404を送信する。
 tutorialsAPI.get("/", async (req, res) => {
 	try {
 		const getTutorials = await db
-
 			.select({
 				id: tutorials.id,
 				metadata: tutorials.metadata,
@@ -58,7 +65,12 @@ tutorialsAPI.get("/", async (req, res) => {
 				tags: tutorials.tags,
 			})
 			.from(tutorials);
-		res.json(getTutorials);
+
+		if (getTutorials.length === 0) {
+			res.status(404).send("Not Found");
+		} else {
+			res.json(getTutorials);
+		}
 	} catch (e) {
 		console.error(e);
 		res.status(500).send("Failed to fetch tutorials");
@@ -86,14 +98,14 @@ tutorialsAPI.get("/", async (req, res) => {
  *       404:
  *         description: Not Found
  *         content:
- *           text/plain:
+ *           text/plain
  *             schema:
  *               type: string
  *               example: Not Found
  *       500:
  *         description: Failed to fetch tutorial
  *         content:
- *           text/plain:
+ *           text/plain
  *             schema:
  *               type: string
  *               example: Failed to fetch tutorial
