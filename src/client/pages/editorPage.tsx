@@ -269,6 +269,20 @@ export default function EditorPage() {
 			isInternalUpdateRef.current = true; // フラグをリセット
 		});
 
+		//このクライアントがメッセージを送信後、有効になったisReplyingフラグを受信(notifyIsReplyingforSender)
+		socket.on("notifyIsReplyingforSender", () => {
+			console.log("Received isReplying notification for sender");
+			setCurrentSession((prev) => {
+				if (prev) {
+					return {
+						...prev,
+						isReplying: true,
+					};
+				}
+				return prev;
+			});
+		});
+
 		socket.on("PushSessionDiff", (diff: Operation[]) => {
 			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
 			console.log("Received session diff from server!", diff);
@@ -324,6 +338,8 @@ export default function EditorPage() {
 					JSON.stringify(prevSession?.workspace) ||
 				JSON.stringify(currentSession.dialogue) !==
 					JSON.stringify(prevSession?.dialogue) ||
+				JSON.stringify(currentSession.userAudio) !==
+					JSON.stringify(prevSession?.userAudio) ||
 				JSON.stringify(currentSession.screenshot) !==
 					JSON.stringify(prevSession?.screenshot) ||
 				JSON.stringify(currentSession.clicks) !==

@@ -34,7 +34,30 @@ i18next.use(FsBackend).init<FsBackendOptions>(
 			loadPath: "src/i18n/{{lng}}.json",
 		},
 		fallbackLng: "en",
-		preload: ["ja", "en", "zh", "ms"], // Add the languages you want to preload
+		preload: [
+			"en",
+			"ja",
+			"zh",
+			"ms",
+			"id",
+			"ko",
+			"es",
+			"fr",
+			"de",
+			"it",
+			"nl",
+			"pl",
+			"pt",
+			"ru",
+			"tr",
+			"vi",
+			"th",
+			"fa",
+			"hi",
+			"bn",
+			"ta",
+			"te",
+		],
 	},
 	(err, t) => {
 		if (err) return console.error(err);
@@ -68,6 +91,8 @@ io.on("connection", async (socket) => {
 			socket.disconnect();
 			return;
 		}
+
+		socket.join(data.sessioncode);
 
 		// Change language based on DB settings
 		i18next.changeLanguage(data.language);
@@ -277,7 +302,43 @@ io.on("connection", async (socket) => {
 	}
 });
 
-// 接続コードを元にUUIDを応答する
+/**
+ * @openapi
+ * /session/socket/get/{code}:
+ *   get:
+ *     description: Returns a uuid of the session
+ *     parameters:
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A uuid of the session
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 uuid:
+ *                   type: string
+ *                   example: 12345678-1234-1234-1234-123456789012
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Session not found
+ *       500:
+ *         description: Server error
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Server error
+ */
 wsServer.get("/get/:code", async (req, res) => {
 	const code = req.params.code;
 
@@ -301,6 +362,20 @@ wsServer.get("/get/:code", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /session/socket/hello:
+ *   get:
+ *     description: Returns a hello message
+ *     responses:
+ *       200:
+ *         description: A hello message
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: hello
+ */
 wsServer.get("/hello", async (req, res) => {
 	res.send("hello");
 });

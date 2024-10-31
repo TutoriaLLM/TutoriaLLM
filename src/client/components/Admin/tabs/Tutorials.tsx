@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TutorialEditor from "../../TutorialEditor/index.js";
 import type { Tutorial } from "../../../../server/db/schema.js";
+import { langToStr } from "../../../../utils/langToStr.js";
 
 export default function Tutorials() {
 	const [tutorials, setTutorials] = useState<Tutorial[]>([]);
@@ -54,15 +55,54 @@ export default function Tutorials() {
 			const reader = new FileReader();
 			reader.onload = (e) => {
 				try {
-					const json = JSON.parse(e.target?.result as string) as Tutorial;
-					setUploadedJson(json); // JSONデータを状態にセット
+					const json = JSON.parse(e.target?.result as string);
+					const partialTutorial = parsePartialTutorial(json);
+					setUploadedJson(partialTutorial as Tutorial); // JSONデータを状態にセット
 				} catch (error) {
-					alert(
-						"ファイルの読み込みに失敗しました。正しいJSONファイルを選択してください。",
-					);
+					alert("Falied to parse JSON. Please check the format and try again.");
 				}
 			};
 			reader.readAsText(file);
+		}
+
+		function parsePartialTutorial(data: any): Partial<Tutorial> {
+			const partialTutorial: Tutorial = {
+				id: 0,
+				content: "",
+				tags: [],
+				language: "",
+				metadata: {
+					title: "",
+					description: "",
+					selectCount: 0,
+				},
+				serializednodes: "",
+			};
+			if (typeof data === "object" && data !== null) {
+				if (typeof data.id === "number") partialTutorial.id = data.id;
+				if (typeof data.language === "string")
+					partialTutorial.language = data.language;
+				if (
+					Array.isArray(data.tags) &&
+					data.tags.every((tag: any) => typeof tag === "string")
+				) {
+					partialTutorial.tags = data.tags;
+				}
+				if (typeof data.metadata === "object" && data.metadata !== null) {
+					partialTutorial.metadata = {
+						title: "",
+						description: "",
+						selectCount: 0,
+					};
+					if (typeof data.metadata.title === "string")
+						partialTutorial.metadata.title = data.metadata.title;
+					if (typeof data.metadata.description === "string")
+						partialTutorial.metadata.description = data.metadata.description;
+					if (typeof data.metadata.selectCount === "number")
+						partialTutorial.metadata.selectCount = data.metadata.selectCount;
+				}
+			}
+			return partialTutorial;
 		}
 	};
 
@@ -84,7 +124,13 @@ export default function Tutorials() {
 								Description
 							</th>
 							<th scope="col" className="px-6 py-4">
-								Keywords
+								Language
+							</th>
+							<th scope="col" className="px-6 py-4">
+								Tags
+							</th>
+							<th scope="col" className="px-6 py-4">
+								Select Count
 							</th>
 							<th scope="col" className="px-6 py-4">
 								Actions
@@ -102,9 +148,21 @@ export default function Tutorials() {
 										key={tutorial.id}
 										className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 									>
-										<td className="px-6 py-4">{metadata.title}</td>
-										<td className="px-6 py-4 w-full">{metadata.description}</td>
-										<td className="px-6 py-4">{metadata.keywords}</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{metadata.title}
+										</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{metadata.description}
+										</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{langToStr(tutorial.language)}
+										</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{tutorial.tags.join(", ")}
+										</td>
+										<td className="px-6 py-4 max-w-md truncate">
+											{metadata.selectCount}
+										</td>
 										<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
 											<div className="min-w-16">
 												<TutorialEditor id={tutorial.id} buttonText="Edit" />
@@ -112,7 +170,7 @@ export default function Tutorials() {
 
 											<button
 												type="button"
-												className="p-2 w-full min-w-16  h-full rounded-full bg-red-500 font-semibold text-white hover:bg-red-600"
+												className="p-2 w-full min-w-16 h-full rounded-full bg-red-500 font-semibold text-white hover:bg-red-600"
 												onClick={() => handleDeleteTutorial(tutorial.id)}
 											>
 												Delete
@@ -127,7 +185,7 @@ export default function Tutorials() {
 								className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 							>
 								<td
-									colSpan={4}
+									colSpan={6}
 									className="w-full text-xl font-semibold text-center py-4 h-60"
 								>
 									No Tutorials on this server...
@@ -166,7 +224,7 @@ export default function Tutorials() {
 const SkeletonRows = () => {
 	return Array.from({ length: 3 }).map((_, index) => (
 		<tr
-			key={index}
+			key={`skeleton-${index}`}
 			className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 		>
 			<td className="px-6 py-4">
@@ -175,9 +233,13 @@ const SkeletonRows = () => {
 			<td className="px-6 py-4 w-full">
 				<div className="h-4 bg-gray-300 rounded" />
 			</td>
+			<td className="px-6 py-4 w-full">
+				<div className="h-4 bg-gray-300 rounded" />
+			</td>
 			<td className="px-6 py-4">
 				<div className="h-4 bg-gray-300 rounded" />
 			</td>
+
 			<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
 				<div className="min-w-16">
 					<div className="h-8 bg-gray-300 rounded" />

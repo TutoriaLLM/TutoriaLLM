@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const zodSchema = z.object({
+export const zodTextSchema = z.object({
 	isQuestion: z
 		.boolean()
 		.describe(
@@ -21,4 +21,12 @@ export const zodSchema = z.object({
 			"Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response.",
 		),
 	quickReplies: z.array(z.string()).describe("quick replies for the user."),
+});
+
+export const zodAudioSchema = z.object({
+	//このスキーマはOpenAI側で検証できないので、サーバー側で検証する
+	id: z.string().describe("id of the audio data."),
+	expires_at: z.string().describe("expiration date of the audio data."),
+	data: z.string().describe("base64 encoded audio data."),
+	transcript: z.string().describe("transcript of the audio data."),
 });

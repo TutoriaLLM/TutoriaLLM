@@ -1,6 +1,7 @@
 {
 	"error": {
-		"empty_code": "代码无效或为空"
+		"empty_code": "代码无效或为空",
+		"error": "错误"
 	},
 	"execSwitch": {
 		"Running": "跑步",
@@ -22,7 +23,10 @@
 		"home": "家",
 		"signout": "登出",
 		"joinCode": "加入代码",
-		"noTutorial": "没有选择教程"
+		"noTutorial": "没有选择教程",
+		"execSwitch": "运行代码",
+		"reload": "重新加载",
+		"saveAndLeave": "保存并离开"
 	},
 	"session": {
 		"about": "关于这个应用程序",
@@ -33,7 +37,19 @@
 		"or": "或者",
 		"sessionNotFoundMsg": "未找到会话。\n输入另一个代码或创建一个新会话来启动。",
 		"typecodeMsg": "输入您的代码，或创建新房间来开始。",
-		"welcome": "使用人工智能学习编码"
+		"welcome": "使用人工智能学习编码",
+		"aboutText": "该应用程序是自托管软件，提供使用 LLM (AI) 的教程。  \n该应用程序允许网站管理员收集有关用户使用情况和以非个人身份识别形式做出的声明的数据，收集的数据用于学习应用程序中的聊天功能并改进人工智能的行为。  \n有关处理应用程序提供的数据的更多信息，请联系网站管理员。\n由于该应用程序是开源发布的，并且源代码可能已被修改，因此如果网站管理员未知，建议不要使用该应用程序。  \n关于所创建的会话的信息的数据可以被删除。",
+		"available": "应用程序可用",
+		"checkingServer": "正在检查服务器状态...",
+		"continueSession": "继续本次会议",
+		"debuginfo": "调试信息",
+		"deleteSession": "删除此会话",
+		"findSavedSession": "使用保存的数据",
+		"noSavedSession": "找不到已保存的会话",
+		"savedSession": "已保存的会话",
+		"serverDownMsg": "无法连接服务器。\n检查您的互联网或询问系统管理员。",
+		"serverOffline": "服务器离线 - 应用程序不可用",
+		"serverOnline": "在线的"
 	},
 	"sidebar": {
 		"dashboard": "仪表板",
@@ -41,9 +57,9 @@
 		"settings": "设置",
 		"toggle": "Sidebar",
 		"tutorials": "教程",
-		"users": "用户"
+		"users": "用户",
+		"trainingForAI": "人工智能培训"
 	},
-
 	"textbubble": {
 		"ai": "人工智能",
 		"ask": "随便问...",
@@ -53,12 +69,102 @@
 		"log": "日志",
 		"replying": "正在回复...",
 		"server": "服务器",
-		"you": "你"
+		"you": "你",
+		"blocksuggestions": "建议区块",
+		"copiedToClipboard": "复制了！",
+		"errorLog": "错误日志",
+		"showingLatest": "显示最新的 {{count}} 条消息"
 	},
 	"tutorial": {
 		"description": "选择您想学习的内容",
 		"start": "开始教程",
 		"startTutorial": "教程已选",
-		"title": "选择教程"
+		"title": "选择教程",
+		"easyMode": "简易模式",
+		"easyModeChanged": "将简单模式设为 {{status}}",
+		"easyModeDescription": "AI的反应会更容易。",
+		"startTour": "看看你能做什么。",
+		"tour": "开始游览"
+	},
+	"AppConfig": {
+		"AI_Settings": "人工智能设置",
+		"AutoReply": "AI自动回复",
+		"Chat_AI_Model": "聊天AI模型",
+		"Chat_AI_Temperature": "聊天AI温度",
+		"Client_Sentry_Settings": "客户端哨兵设置",
+		"Client_Settings": "客户端设置",
+		"Code_Execution_Limits": "代码执行 (VM) 限制",
+		"Enable_Create_Room": "启用创建房间",
+		"Enable_Join_by_code": "启用通过代码加入",
+		"Enable_Memory_Use_Log": "启用内存使用日志",
+		"GA_Tracking_ID": "谷歌分析跟踪ID",
+		"General_Settings": "常规设置",
+		"Max_CPU_Usage": "虚拟机上的最大 CPU 使用率",
+		"Max_CodeRangeSizeMb": "最大代码范围大小（以 Mb 为单位）",
+		"Max_Num_Message_Queue": "虚拟机上的最大消息队列数",
+		"Max_OldGenerationSizeMb": "最大 OldGeneration 大小（以 Mb 为单位）",
+		"Max_YoungGenerationSizeMb": "最大年轻代大小（以 Mb 为单位）",
+		"Reply_Time_ms": "回复时间 毫秒",
+		"Screenshot_Interval_min": "截图间隔分钟",
+		"Sentry_DSN": "Sentry DSN（留空禁用）",
+		"replaysOnErrorSampleRate": "错误重放的采样率",
+		"replaysSessionSampleRate": "会话重播的采样率",
+		"tracesSampleRate": "迹线采样率"
+	},
+	"admin": {
+		"loading": "加载中",
+		"noScreenshotAvailable": "没有可用的屏幕截图",
+		"sessionAnalytics": "会话分析",
+		"sessionCode": "会话代码",
+		"sessionEasyMode": "简易模式",
+		"sessionLanguage": "语言",
+		"sessionSummary": "会议总结",
+		"showHeatmap": "显示热图",
+		"summary": "概括",
+		"workspace": "工作空间"
+	},
+	"dialogue": {
+		"Introduction": "你好！\n单击问题类型的快速回复按钮来选择要做什么！",
+		"NewSessionWithData": "使用保存的数据开始新会话"
+	},
+	"editor": {
+		"dialogueTab": "聊天",
+		"workspaceTab": "工作空间"
+	},
+	"extension": {
+		"minecraft-core": {
+			"connectInfo": "从 **/connect {{host}}/vm/{{userCode}}/mc** 连接您的 Minecraft。\n如果连接失败请重试。\n关闭加密请求。"
+		}
+	},
+	"generic": {
+		"connected": "已连接"
+	},
+	"logbuffer": {
+		"tooManyLogs": "消息太多。\n旧日志已删除。"
+	},
+	"off": "离开",
+	"on": "在",
+	"quickReply": {
+		"BeginTutorial": "开始教程",
+		"HowToUse": "如何使用这个？",
+		"WhatINeed": "我需要做什么？"
+	},
+	"tour": {
+		"blocklyWorkspace": "工作区是编写代码的地方。",
+		"dialogue": "您可以与 AI 联系以获得任何帮助，或者通过教程向 AI 学习。",
+		"execSwitch": "您可以在工作区上运行代码。",
+		"joinCode": "这是本次会议的代码。\n您可以返回此处并保存此代码以供下次使用。",
+		"switchToDialogue": "好的，让我们回到聊天选项卡。",
+		"switchToWorkspace": "让我们切换到工作区。",
+		"syncCode": "您可以从这里更新代码",
+		"tabs": "您可以切换选项卡以在聊天和工作区之间移动。",
+		"tourAgain": "您可以通过单击此按钮再次进行此游览。",
+		"tutorialSelector": "您可以选择任何您想要制作的教程。",
+		"welcome": "欢迎登机！\n本教程简要概述了如何使用此应用程序。"
+	},
+	"vm": {
+		"outOfMemory": "机器达到内存限制",
+		"updatedScriptError": "执行更新的脚本时出错：{{error}}",
+		"updatedScriptSuccess": "更新的脚本执行成功。"
 	}
 }

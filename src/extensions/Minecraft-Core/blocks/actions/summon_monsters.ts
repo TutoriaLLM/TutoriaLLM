@@ -43,23 +43,13 @@ export const block = {
 		},
 		{
 			type: "input_value",
-			name: "PosX",
-			check: "Number",
-		},
-		{
-			type: "input_value",
-			name: "PosY",
-			check: "Number",
-		},
-		{
-			type: "input_value",
-			name: "PosZ",
-			check: "Number",
+			name: "POS", //positionは {x: number, y: number, z: number} という形式のオブジェクト（パースする必要あり）
+			check: "Position",
 		},
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
 };
@@ -71,10 +61,14 @@ export function code() {
 	) => {
 		//dropdown
 		const dropdown = block.getFieldValue("MONSTER");
+
+		const position = JSON.parse(
+			generator.valueToCode(block, "POS", Order.ATOMIC),
+		);
 		//pos
-		let x = generator.valueToCode(block, "PosX", Order.ATOMIC);
-		let y = generator.valueToCode(block, "PosY", Order.ATOMIC);
-		let z = generator.valueToCode(block, "PosZ", Order.ATOMIC);
+		let x = position.x;
+		let y = position.y;
+		let z = position.z;
 
 		// Remove parentheses if present
 		x = x.startsWith("(") && x.endsWith(")") ? x.slice(1, -1) : x;
@@ -95,7 +89,7 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SUMMONMONSTER: "モンスター %1 を座標 %2 %3 %4 にスポーンさせる",
+		MINECRAFT_SUMMONMONSTER: "モンスター %1 を座標 %2 にスポーンさせる",
 		BLAZE: "ブレイズ",
 		BOGGED: "ボッグド",
 		BREEZE: "ブリーズ",
@@ -129,7 +123,7 @@ export const locale = {
 		ZOMBIE_VILLAGER: "ゾンビビレジャー",
 	},
 	en: {
-		MINECRAFT_SUMMONMONSTER: "Spawn monster %1 at %2 %3 %4",
+		MINECRAFT_SUMMONMONSTER: "Spawn monster %1 at %2",
 		BLAZE: "Blaze",
 		BOGGED: "Bogged",
 		BREEZE: "Breeze",

@@ -44,7 +44,14 @@
 		"findSavedSession": "保存したデータをつかう",
 		"noSavedSession": "セーブしたセッションが見つかりませんでした",
 		"savedSession": "セーブしたセッション",
-		"continueSession": "セッションをつづける"
+		"continueSession": "セッションをつづける",
+		"deleteSession": "このセッションを削除する",
+		"checkingServer": "サーバーの状態を確認中...",
+		"available": "アプリは利用可能です",
+		"serverOffline": "サーバーはオフラインです - アプリは利用できません",
+		"serverOnline": "オンライン",
+		"installPWA": "PWAとしてインストールする",
+		"deleteStorage": "全ての保存内容を削除する"
 	},
 	"sidebar": {
 		"dashboard": "ダッシュボード",
@@ -68,7 +75,10 @@
 		"showingLatest": "最後の{{count}}件のメッセージを表示しています",
 		"errorLog": "エラーログ",
 		"copiedToClipboard": "コピーしました！",
-		"blocksuggestions": "提案されたブロック"
+		"blocksuggestions": "提案されたブロック",
+		"audioMode": "音声モード",
+		"transcribing": "文字起こし中...",
+		"transcriptionFailed": "文字起こしが利用できません"
 	},
 	"tutorial": {
 		"title": "チュートリアルを選ぶ",
@@ -79,7 +89,13 @@
 		"startTour": "何ができるか見てみましょう。",
 		"easyMode": "かんたんモード",
 		"easyModeDescription": "AIからのチャットがかんたんになります",
-		"easyModeChanged": "かんたんモードを{{status}}にしました"
+		"easyModeChanged": "かんたんモードを{{status}}にしました",
+		"yourLanguage": "あなたの言語のチュートリアル",
+		"otherLanguage": "他の言語のチュートリアル",
+		"otherLanguageDescription": "これらのチュートリアルは、翻訳して提供されるため、正確でない場合があります。",
+		"responseMode": "応答モード",
+		"responseModeDescription": "希望する応答方法を音声やテキストに変更できます",
+		"responseModeChanged": "応答モードを{{mode}}に切り替えました"
 	},
 	"vm": {
 		"outOfMemory": "マシンが使えるメモリの上限に達しました",
@@ -90,7 +106,11 @@
 		"tooManyLogs": "メッセージが多すぎます。古いログは削除されました。"
 	},
 	"generic": {
-		"connected": "接続しました"
+		"connected": "接続しました",
+		"websocketNotConnected": "Websocketが接続されていません",
+		"open": "開く",
+		"audio": "音声",
+		"text": "テキスト"
 	},
 	"tour": {
 		"joinCode": "このセッションのコードです。このコードを覚えておくことで、続きから始めることができます。",
@@ -103,11 +123,13 @@
 		"tabs": "タブを切り替えて、ワークスペースとチャットの間を移動できます。",
 		"switchToWorkspace": "ワークスペースに切り替えてみましょう。",
 		"syncCode": "ここから作ったプログラムをアップデートすることができます。",
-		"switchToDialogue": "では、チャットのタブへ戻りましょう。"
+		"switchToDialogue": "では、チャットのタブへ戻りましょう。",
+		"switchMode": "ここから設定を変更することができます"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
-			"connectInfo": "Minecraftのチャットに ***/connect {{host}}/vm/{{userCode}}/mc*** と入力して接続可能です。うまくいかない時はもう一度試してください。暗号化の要求はオフにしてください。"
+			"connectInfo": "Minecraftのチャットに ***/connect {{host}}/vm/{{userCode}}/mc*** と入力して接続可能です。うまくいかない時はもう一度試してください。暗号化の要求はオフにしてください。",
+			"noConnection": "Minecraftが接続されていません。"
 		}
 	},
 	"editor": {
@@ -160,6 +182,7 @@
 		"replaysOnErrorSampleRate": "Sentryのエラー時のリプレイのサンプルレート",
 		"replaysSessionSampleRate": "Sentryのセッションでのリプレイのサンプルレート",
 		"tracesSampleRate": "Sentryのトレースのサンプルレート",
-		"GA_Tracking_ID": "Google Analytics トラッキング ID"
+		"GA_Tracking_ID": "Google Analytics トラッキング ID",
+		"Chat_Audio": "音声モード"
 	}
 }

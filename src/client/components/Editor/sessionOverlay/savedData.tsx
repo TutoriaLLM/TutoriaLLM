@@ -8,7 +8,7 @@ import { openDB } from "idb";
 import type * as Blockly from "blockly";
 
 // IndexedDBをオープンする関数
-const dbPromise = openDB("session-data", 1, {
+const dbPromise = openDB("app-data", 1, {
 	upgrade(db) {
 		db.createObjectStore("sessions", { keyPath: "key" });
 	},
@@ -36,19 +36,35 @@ export default function SavedData() {
 		} = {};
 		for (const session of allSessions) {
 			const sessionValue = session.sessionValue as SessionValue;
-			const imageURL = await getImageFromSerializedWorkspace(
-				sessionValue.workspace,
-
-				sessionValue.language,
-				hiddenWorkspaceRef,
-				hiddenDivRef,
-			);
-			data[session.key] = {
-				sessionValue: session.sessionValue,
-				base64image: imageURL,
-			};
+			try {
+				const imageURL = await getImageFromSerializedWorkspace(
+					sessionValue.workspace,
+					sessionValue.language,
+					hiddenWorkspaceRef,
+					hiddenDivRef,
+				);
+				data[session.key] = {
+					sessionValue: session.sessionValue,
+					base64image: imageURL,
+				};
+			} catch (error) {
+				console.error(
+					`Failed to generate image for session ${session.key}:`,
+					error,
+				);
+			}
 		}
 		return data;
+	}
+
+	// IndexedDBからセッションデータを削除する関数
+	async function deleteSessionDataFromIndexedDB(key: string) {
+		//keyはUUIDを指す
+		const db = await dbPromise;
+		await db.delete("sessions", key);
+		//削除後、再度データを取得する
+		const data = await getSessionDataFromIndexedDB();
+		setSavedData(data);
 	}
 
 	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
@@ -124,16 +140,14 @@ export default function SavedData() {
 	}
 
 	const popupContent = (
-		<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-scroll">
-			<h2 className="w-[100vw] font-bold text-2xl">
-				{t("session.savedSession")}
-			</h2>
-			<div className="w-full h-full flex flex-col gap-3 flex-grow max-w-3xl">
+		<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
+			<h2 className="w-full font-bold text-2xl">{t("session.savedSession")}</h2>
+			<div className="w-full h-full flex flex-col gap-3 flex-grow max-w-6xl">
 				{Object.entries(savedData).map(([key, value]) => {
 					return (
 						<div
 							key={key}
-							className="w-full h-full flex-grow max-w-3xl bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
+							className="w-full h-full flex-grow max-w-6xl bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
 						>
 							<span className="flex border-b gap-1">
 								<Clock />
@@ -155,6 +169,13 @@ export default function SavedData() {
 								onClick={() => createOrContinueSession(value.sessionValue)}
 							>
 								{t("session.continueSession")}
+							</button>
+							<button
+								type="button"
+								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
+								onClick={() => deleteSessionDataFromIndexedDB(key)}
+							>
+								{t("session.deleteSession")}
 							</button>
 						</div>
 					);

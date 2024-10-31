@@ -35,27 +35,34 @@
 		"kind": "block",
 		"type": "ext_minecraft_summon_mob",
 		"inputs": {
-			"PosX": {
+			"POS": {
 				"shadow": {
-					"type": "math_number",
-					"fields": {
-						"NUM": "0"
-					}
-				}
-			},
-			"PosY": {
-				"shadow": {
-					"type": "math_number",
-					"fields": {
-						"NUM": "0"
-					}
-				}
-			},
-			"PosZ": {
-				"shadow": {
-					"type": "math_number",
-					"fields": {
-						"NUM": "0"
+					"type": "ext_minecraft_var_xyzPosition",
+					"inputs": {
+						"PosX": {
+							"shadow": {
+								"type": "math_number",
+								"fields": {
+									"NUM": "0"
+								}
+							}
+						},
+						"PosY": {
+							"shadow": {
+								"type": "math_number",
+								"fields": {
+									"NUM": "0"
+								}
+							}
+						},
+						"PosZ": {
+							"shadow": {
+								"type": "math_number",
+								"fields": {
+									"NUM": "0"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -65,30 +72,64 @@
 		"kind": "block",
 		"type": "ext_minecraft_summon_monster",
 		"inputs": {
-			"PosX": {
+			"POS": {
 				"shadow": {
-					"type": "math_number",
-					"fields": {
-						"NUM": "0"
-					}
-				}
-			},
-			"PosY": {
-				"shadow": {
-					"type": "math_number",
-					"fields": {
-						"NUM": "0"
-					}
-				}
-			},
-			"PosZ": {
-				"shadow": {
-					"type": "math_number",
-					"fields": {
-						"NUM": "0"
+					"type": "ext_minecraft_var_xyzPosition",
+					"inputs": {
+						"PosX": {
+							"shadow": {
+								"type": "math_number",
+								"fields": {
+									"NUM": "0"
+								}
+							}
+						},
+						"PosY": {
+							"shadow": {
+								"type": "math_number",
+								"fields": {
+									"NUM": "0"
+								}
+							}
+						},
+						"PosZ": {
+							"shadow": {
+								"type": "math_number",
+								"fields": {
+									"NUM": "0"
+								}
+							}
+						}
 					}
 				}
 			}
 		}
+	},
+
+	{
+		"kind": "block",
+		"type": "ext_minecraft_change_weather"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_change_specific_time",
+		"inputs": {
+			"TIME": {
+				"shadow": {
+					"type": "math_number",
+					"fields": {
+						"NUM": "10000"
+					}
+				}
+			}
+		}
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_change_time"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_change_game_mode"
 	}
 ]

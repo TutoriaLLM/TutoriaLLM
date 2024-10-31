@@ -13,13 +13,16 @@ function renderAIBubble(
 	markdownComponents: Components,
 	t: TFunction,
 	id: number,
-	state: boolean, // stateを追加
+	easymode: boolean, // stateを追加
 ) {
 	// stateがfalseの場合、ルビタグを削除
-	const displayContent = state ? content : removeRubyTags(content);
+	const displayContent = easymode ? content : removeRubyTags(content);
 
 	return (
-		<div key={id} className="flex justify-start items-end gap-2">
+		<div
+			key={id}
+			className="flex justify-start items-end gap-2 animate-fade-in"
+		>
 			<div className="text-gray-600 flex flex-col items-center">
 				<span className="bg-gray-200 rounded-full p-2">
 					<Bot />
@@ -27,7 +30,7 @@ function renderAIBubble(
 				<p className="text-xs">{t("textbubble.ai")}</p>
 			</div>
 			<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-sm">
-				<span className="prose">
+				<span className="prose prose-sm md:prose-base">
 					{/* rehypeRawを追加してHTMLを許可 */}
 					<Markdown components={markdownComponents} rehypePlugins={[rehypeRaw]}>
 						{displayContent}

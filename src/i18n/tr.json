@@ -1,0 +1,170 @@
+{
+	"AppConfig": {
+		"AI_Settings": "Yapay Zeka Ayarları",
+		"AutoReply": "Yapay Zekadan Otomatik Yanıt",
+		"Chat_AI_Model": "Sohbet AI Modeli",
+		"Chat_AI_Temperature": "Sohbet AI Sıcaklığı",
+		"Client_Sentry_Settings": "İstemci Nöbetçi Ayarları",
+		"Client_Settings": "İstemci Ayarları",
+		"Code_Execution_Limits": "Kod Yürütme(VM) Sınırları",
+		"Enable_Create_Room": "Oda Oluşturmayı Etkinleştir",
+		"Enable_Join_by_code": "Kodla katılmayı etkinleştir",
+		"Enable_Memory_Use_Log": "Bellek Kullanım Günlüğünü Etkinleştir",
+		"GA_Tracking_ID": "Google Analytics İzleme Kimliği",
+		"General_Settings": "Genel Ayarlar",
+		"Max_CPU_Usage": "VM'de Maksimum CPU Kullanımı",
+		"Max_CodeRangeSizeMb": "Mb cinsinden Maksimum CodeRangeSize",
+		"Max_Num_Message_Queue": "VM'deki Maksimum Mesaj Kuyruğu Sayısı",
+		"Max_OldGenerationSizeMb": "Mb cinsinden Maksimum Eski Nesil Boyut",
+		"Max_YoungGenerationSizeMb": "Mb cinsinden Maksimum Genç Nesil Boyutu",
+		"Reply_Time_ms": "Yanıt Süresi ms",
+		"Screenshot_Interval_min": "Ekran Görüntüsü Aralığı dk.",
+		"Sentry_DSN": "Sentry DSN(Devre dışı bırakmak için boş bırakın)",
+		"replaysOnErrorSampleRate": "Hata Durumunda Tekrar Oynatmalar için Örnek Hızı",
+		"replaysSessionSampleRate": "Oturumdaki Tekrarlar için Örnek Hızı",
+		"tracesSampleRate": "İzler için Örnek Hızı"
+	},
+	"admin": {
+		"loading": "Yükleniyor",
+		"noScreenshotAvailable": "Ekran görüntüsü yok",
+		"sessionAnalytics": "Oturum Analizi",
+		"sessionCode": "Oturum Kodu",
+		"sessionEasyMode": "Kolay Mod",
+		"sessionLanguage": "Dil",
+		"sessionSummary": "Oturum özeti",
+		"showHeatmap": "Isı Haritasını Göster",
+		"summary": "Özet",
+		"workspace": "Çalışma alanı"
+	},
+	"dialogue": {
+		"Introduction": "MERHABA! \nNe yapacağınızı seçmek için sorularınızı yazın hızlı yanıt düğmesini tıklayın!",
+		"NewSessionWithData": "Kaydedilen verilerle yeni oturum başlatma"
+	},
+	"editor": {
+		"dialogueTab": "Sohbet",
+		"workspaceTab": "Çalışma alanı"
+	},
+	"error": {
+		"empty_code": "Kod geçersiz veya boş",
+		"error": "Hata"
+	},
+	"execSwitch": {
+		"Running": "Koşma",
+		"Stopped": "Durduruldu",
+		"label": "Kodu çalıştır"
+	},
+	"extension": {
+		"minecraft-core": {
+			"connectInfo": "Minecraft'ınızı **/connect {{host}}/vm/{{userCode}}/mc** adresinden bağlayın. \nBağlantı başarısız olursa tekrar deneyin. \nŞifreleme isteğini kapatın."
+		}
+	},
+	"generic": {
+		"connected": "Bağlı"
+	},
+	"logbuffer": {
+		"tooManyLogs": "Çok fazla mesaj var. \neski günlükler kaldırıldı."
+	},
+	"login": {
+		"login": "Giriş yapmak",
+		"loginFailed": "giriş başarısız oldu",
+		"password": "Şifre",
+		"title": "Giriş yapmak",
+		"username": "Kullanıcı adı",
+		"welcome": "Devam etmek için giriş yapın"
+	},
+	"navbar": {
+		"connected": "bağlı",
+		"execSwitch": "Kodu Çalıştır",
+		"home": "Ev",
+		"joinCode": "Kodu Katıl",
+		"leave": "ayrılmak",
+		"noTutorial": "Hiçbir eğitim seçilmedi",
+		"reconnecting": "bağlantısı kesildi. \nyeniden bağlanmaya çalışıyorum.",
+		"reload": "Yeniden yükle",
+		"saveAndLeave": "kaydet ve ayrıl",
+		"signout": "oturumu Kapat"
+	},
+	"off": "Kapalı",
+	"on": "Açık",
+	"quickReply": {
+		"BeginTutorial": "Eğiticiye başlayın",
+		"HowToUse": "Bu nasıl kullanılır?",
+		"WhatINeed": "Ne yapmam gerekiyor?"
+	},
+	"session": {
+		"about": "Bu uygulama hakkında",
+		"aboutText": "Bu uygulama, LLM (AI) kullanarak eğitimler sağlayan, kendi kendine barındırılan bir yazılımdır.  \nUygulama, site yöneticisinin, kullanıcı kullanımı ve kişisel olarak tanımlanamayan bir biçimde yapılan beyanlar hakkında veri toplamasına olanak tanır ve toplanan veriler, uygulamadaki sohbet işlevini öğrenmek ve yapay zekanın davranışını iyileştirmek için kullanılır.  \nUygulama tarafından sağlanan verilerin işlenmesi hakkında daha fazla bilgi için lütfen web sitesi yöneticisiyle iletişime geçin. \nUygulama açık kaynak olarak yayınlandığından ve kaynak kodu değiştirilmiş olabileceğinden, site yöneticisi bilinmiyorsa uygulamanın kullanılmaması tavsiye edilir.  \nOluşturulan oturumlarla ilgili bilgilere ilişkin veriler silinebilir.",
+		"available": "Uygulama Mevcut",
+		"checkingServer": "Sunucu durumu kontrol ediliyor...",
+		"continueSession": "Bu oturuma devam et",
+		"createSession": "Yeni oda oluştur",
+		"creating": "yaratıyor...",
+		"debuginfo": "Hata Ayıklama Bilgisi",
+		"deleteSession": "Bu oturumu sil",
+		"findSavedSession": "Kaydedilen verileri kullan",
+		"hello": "Merhaba",
+		"joinsession": "kodla katıl",
+		"noSavedSession": "Kayıtlı oturum bulunamadı",
+		"or": "veya",
+		"savedSession": "Kayıtlı Oturum",
+		"serverDownMsg": "Sunucuya bağlanılamıyor. \nİnternetinizi kontrol edin veya sistem yöneticinize sorun.",
+		"serverOffline": "Sunucu çevrimdışı - Uygulama kullanılamıyor",
+		"serverOnline": "Çevrimiçi",
+		"sessionNotFoundMsg": "Oturum bulunamadı. \nBaşka bir kod yazın veya başlamak için yeni bir oturum oluşturun.",
+		"typecodeMsg": "Kodunuzu yazın veya başlamak için yeni bir oda oluşturun.",
+		"welcome": "Yapay zeka ile kodlama eğitimi alın"
+	},
+	"sidebar": {
+		"dashboard": "Kontrol Paneli",
+		"sessions": "Oturumlar",
+		"settings": "Ayarlar",
+		"toggle": "Kenar çubuğu",
+		"trainingForAI": "Yapay Zeka Eğitimi",
+		"tutorials": "Öğreticiler",
+		"users": "Kullanıcılar"
+	},
+	"textbubble": {
+		"ai": "yapay zeka",
+		"ask": "Herhangi bir şey sor...",
+		"block": "Engellemek",
+		"blocksuggestions": "Önerilen blok",
+		"copiedToClipboard": "Kopyalandı!",
+		"errorLog": "Hata Günlüğü",
+		"findBlock": "Blok bul",
+		"findBlockFromMenu": "Menüden bul",
+		"log": "Kayıt",
+		"replying": "Yanıtlanıyor...",
+		"server": "Sunucu",
+		"showingLatest": "En son {{count}} mesaj gösteriliyor",
+		"you": "Sen"
+	},
+	"tour": {
+		"blocklyWorkspace": "Çalışma alanı kodunuzu oluşturabileceğiniz yerdir.",
+		"dialogue": "Herhangi bir yardım için AI ile konuşabilir veya AI'dan öğretici bir ders alabilirsiniz.",
+		"execSwitch": "Kodunuzu çalışma alanında çalıştırabilirsiniz.",
+		"joinCode": "Bu, bu oturumun kodudur. \nBir dahaki sefere bu kodu kaydederek buraya geri dönebilirsiniz.",
+		"switchToDialogue": "Tamam, sohbet sekmesine dönelim.",
+		"switchToWorkspace": "Çalışma alanına geçelim.",
+		"syncCode": "Kodu buradan güncelleyebilirsiniz",
+		"tabs": "Sohbet ve çalışma alanı arasında geçiş yapmak için sekmeleri değiştirebilirsiniz.",
+		"tourAgain": "Bu butona tıklayarak bu tura tekrar katılabilirsiniz.",
+		"tutorialSelector": "Yapmak istediğiniz herhangi bir öğreticiyi seçebilirsiniz.",
+		"welcome": "Gemiye hoş geldiniz! \nBu tur, bu uygulamanın nasıl kullanılacağına dair kısa bir genel bakış sağlar."
+	},
+	"tutorial": {
+		"description": "Ne öğrenmek istediğinizi seçin",
+		"easyMode": "Kolay Mod",
+		"easyModeChanged": "Kolay modu {{status}} konumuna getirin",
+		"easyModeDescription": "Yapay zekanın tepkisi daha kolay olacak.",
+		"start": "Eğiticiyi Başlat",
+		"startTour": "Ne yapabileceğine bir bak.",
+		"startTutorial": "Öğretici seçildi",
+		"title": "Eğiticiyi Seç",
+		"tour": "Turu Başlat"
+	},
+	"vm": {
+		"outOfMemory": "Makine bellek sınırına ulaştı",
+		"updatedScriptError": "Güncellenen komut dosyası yürütülürken hata oluştu: {{error}}",
+		"updatedScriptSuccess": "Güncellenen komut dosyası başarıyla yürütüldü."
+	}
+}

@@ -3,6 +3,7 @@ import * as Blockly from "blockly";
 import registerBlocks from "./Blockly/blocks/index.js";
 import Theme from "./Blockly/theme/index.js";
 import { workspaceToPngBase64 } from "../ui/workspaceToPng.js";
+import { blocklyLocale } from "../../../i18n/blocklyLocale.js";
 
 async function getImageFromSerializedWorkspace(
 	serializedWorkspace: {
@@ -12,6 +13,8 @@ async function getImageFromSerializedWorkspace(
 	hiddenWorkspaceRef: React.MutableRefObject<Blockly.WorkspaceSvg | null>,
 	hiddenDivRef: React.MutableRefObject<HTMLDivElement | null>,
 ) {
+	registerBlocks(language as string);
+
 	if (!hiddenWorkspaceRef.current) {
 		const hiddenDiv = document.createElement("div");
 		hiddenDiv.style.width = "100vw"; // Set appropriate width
@@ -29,7 +32,7 @@ async function getImageFromSerializedWorkspace(
 			renderer: "zelos",
 			theme: Theme,
 		});
-		registerBlocks(language as string);
+		Blockly.setLocale(blocklyLocale[language]);
 	}
 	const workspaceSvg = hiddenWorkspaceRef.current;
 

@@ -9,6 +9,16 @@ export async function workspaceToPngBase64(
 	workspace: Blockly.WorkspaceSvg,
 ): Promise<string> {
 	try {
+		function formatWorkspace(workspace: Blockly.WorkspaceSvg) {
+			for (const block of workspace.getAllBlocks()) {
+				if (block.getDisabledReasons()) {
+					console.log("Disabled block found", block.getDisabledReasons());
+					block.setEnabled(true);
+				}
+			}
+			return workspace;
+		}
+		const newWorkspace = formatWorkspace(workspace);
 		// Calculate block dimensions and create an SVG element.
 		const bBox = workspace.getBlocksBoundingBox();
 		const padding = 10; // Set appropriate padding value
@@ -32,8 +42,8 @@ export async function workspaceToPngBase64(
 		// Set the class attribute on the SVG element
 		svg.setAttribute(
 			"class",
-			`blocklySvg ${workspace.options.renderer || "geras"}-renderer ${
-				workspace.getTheme ? `${workspace.getTheme().name}-theme` : ""
+			`blocklySvg ${newWorkspace.options.renderer || "geras"}-renderer ${
+				newWorkspace.getTheme ? `${newWorkspace.getTheme().name}-theme` : ""
 			}`,
 		);
 		svg.style.backgroundColor = "transparent";

@@ -13,7 +13,7 @@ function renderGroupLogBubble(
 	return (
 		<div
 			key={id}
-			className="flex justify-start items-end gap-2 w-full break-all"
+			className="flex justify-start items-end gap-2 w-full break-all animate-fade-in"
 		>
 			<div className="text-gray-600 flex flex-col items-center shrink">
 				<span className="bg-gray-200 rounded-full p-2">

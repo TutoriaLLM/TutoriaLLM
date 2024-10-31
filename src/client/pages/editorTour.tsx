@@ -60,5 +60,9 @@ export function tourSteps(isMobile: boolean) {
 			selector: ".dialogue",
 			content: () => t("tour.dialogue"),
 		},
+		{
+			selector: ".switchMode",
+			content: () => t("tour.switchMode"),
+		},
 	] as StepType[];
 }

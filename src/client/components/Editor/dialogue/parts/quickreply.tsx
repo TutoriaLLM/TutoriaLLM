@@ -13,7 +13,7 @@ const QuickReply: React.FC<QuickReplyProps> = ({ onReply, quickReplies }) => {
 				<button
 					type="button"
 					key={reply}
-					className="bg-gray-200 text-nowrap text-md text-gray-700 hover:bg-sky-200 transition-all p-2 font-medium rounded-full"
+					className="bg-gray-200 text-nowrap text-sm md:text-md text-gray-700 hover:bg-sky-200 transition-all p-1.5 md:p-2 font-medium rounded-full"
 					onClick={() => onReply(reply)}
 				>
 					{reply}

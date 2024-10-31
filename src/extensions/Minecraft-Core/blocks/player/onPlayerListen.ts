@@ -12,7 +12,6 @@ export const block = {
 				["%{BKY_MINECRAFT_ONPLAYERDIED}", "PlayerDied"],
 				["%{BKY_MINECRAFT_ONPLAYERPLACEDBLOCK}", "BlockPlaced"],
 				["%{BKY_MINECRAFT_ONPLAYERBROKEDBLOCK}", "BlockBroken"],
-				["%{BKY_MINECRAFT_ONPLAYERUSEITEM}", "ItemUsed"],
 			],
 		},
 		{
@@ -23,7 +22,7 @@ export const block = {
 			name: "INPUT",
 		},
 	],
-	colour: "#a855f7",
+	colour: "#6366f1",
 	tooltip: "",
 	helpUrl: "",
 };

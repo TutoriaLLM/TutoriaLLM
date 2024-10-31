@@ -43,23 +43,13 @@ export const block = {
 		},
 		{
 			type: "input_value",
-			name: "PosX",
-			check: "Number",
-		},
-		{
-			type: "input_value",
-			name: "PosY",
-			check: "Number",
-		},
-		{
-			type: "input_value",
-			name: "PosZ",
-			check: "Number",
+			name: "POS", //positionは {x: number, y: number, z: number} という形式のオブジェクト（パースする必要あり）
+			check: "Position",
 		},
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
 };
@@ -72,9 +62,12 @@ export function code() {
 		//dropdown
 		const dropdown = block.getFieldValue("MOB");
 		//pos
-		let x = generator.valueToCode(block, "PosX", Order.ATOMIC);
-		let y = generator.valueToCode(block, "PosY", Order.ATOMIC);
-		let z = generator.valueToCode(block, "PosZ", Order.ATOMIC);
+		const position = JSON.parse(
+			generator.valueToCode(block, "POS", Order.ATOMIC),
+		);
+		let x = position.x;
+		let y = position.y;
+		let z = position.z;
 
 		// Remove parentheses if present
 		x = x.startsWith("(") && x.endsWith(")") ? x.slice(1, -1) : x;
@@ -95,7 +88,7 @@ export function code() {
 
 export const locale = {
 	ja: {
-		MINECRAFT_SUMMONMOB: "生き物 %1 を座標 %2 %3 %4 に召喚する",
+		MINECRAFT_SUMMONMOB: "生き物 %1 を座標 %2 に召喚する",
 		ALLAY: "アレイ",
 		ARMADILLO: "アルマジロ",
 		AXOLOTL: "ウーパールーパー",
@@ -130,7 +123,7 @@ export const locale = {
 		WANDERING_TRADER: "行商人",
 	},
 	en: {
-		MINECRAFT_SUMMONMOB: "Summon %1 at %2 %3 %4",
+		MINECRAFT_SUMMONMOB: "Summon %1 at %2",
 		ALLAY: "Allay",
 		ARMADILLO: "Armadillo",
 		AXOLOTL: "Axolotl",

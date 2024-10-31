@@ -15,7 +15,14 @@
 		"findSavedSession": "Use saved data",
 		"noSavedSession": "No saved session found",
 		"savedSession": "Saved Session",
-		"continueSession": "Continue this session"
+		"continueSession": "Continue this session",
+		"deleteSession": "Delete this session",
+		"checkingServer": "Checking server status...",
+		"serverOnline": "Online",
+		"available": "App Available",
+		"serverOffline": "Server is offline - App is unavailable",
+		"installPWA": "Install PWA",
+		"deleteStorage": "Delete all storage"
 	},
 	"navbar": {
 		"leave": "leave",
@@ -68,7 +75,10 @@
 		"showingLatest": "Showing latest {{count}} messages",
 		"errorLog": "Error Log",
 		"copiedToClipboard": "Copied!",
-		"blocksuggestions": "Suggested block"
+		"blocksuggestions": "Suggested block",
+		"audioMode": "Audio mode",
+		"transcribing": "transcribing...",
+		"transcriptionFailed": "Transcription is unavailable"
 	},
 	"tutorial": {
 		"title": "Pick Tutorial",
@@ -79,7 +89,13 @@
 		"startTour": "Look what you can do.",
 		"easyMode": "Easy Mode",
 		"easyModeDescription": "AI's response will be more easier.",
-		"easyModeChanged": "Turn Easy mode to {{status}}"
+		"easyModeChanged": "Turn Easy mode to {{status}}",
+		"yourLanguage": "Tutorial for your language",
+		"otherLanguage": "Tutorial by other language",
+		"otherLanguageDescription": "As these tutorials being translated to provide, might be inaccurate.",
+		"responseMode": "Response Mode",
+		"responseModeDescription": "Switch preferred response mode into audio or text",
+		"responseModeChanged": "Response mode has changed to {{mode}}."
 	},
 	"vm": {
 		"outOfMemory": "Machine reached memory limit",
@@ -90,7 +106,11 @@
 		"tooManyLogs": "Too many messages. old logs removed."
 	},
 	"generic": {
-		"connected": "Connected"
+		"connected": "Connected",
+		"websocketNotConnected": "Websocket is not connected",
+		"open": "Open",
+		"audio": "Audio",
+		"text": "Text"
 	},
 	"tour": {
 		"joinCode": "This is code for this session. You can return back here with saving this code for next time.",
@@ -103,11 +123,13 @@
 		"tabs": "You can switch the tabs to move between chat and workspace.",
 		"switchToWorkspace": "Let's switch to workspace.",
 		"syncCode": "You can update code from here",
-		"switchToDialogue": "Okay, let's back to chat tab."
+		"switchToDialogue": "Okay, let's back to chat tab.",
+		"switchMode": "You can change settings from here"
 	},
-	"extention": {
+	"extension": {
 		"minecraft-core": {
-			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed. Turn off encryption request."
+			"connectInfo": "Connect your Minecraft from **/connect {{host}}/vm/{{userCode}}/mc**. Try again if connection failed. Turn off encryption request.",
+			"noConnection": "Minecraft is not connected."
 		}
 	},
 	"editor": {
@@ -144,6 +166,7 @@
 		"Enable_Memory_Use_Log": "Enable Memory Use Log",
 		"AI_Settings": "AI Settings",
 		"Chat_AI_Model": "Chat AI Model",
+		"Chat_Audio": "Chat audio modality",
 		"Chat_AI_Temperature": "Chat AI Temperature",
 		"Client_Settings": "Client Settings",
 		"AutoReply": "Auto Reply from AI",

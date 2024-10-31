@@ -1,6 +1,7 @@
 {
 	"error": {
-		"empty_code": "Kod tidak sah atau kosong"
+		"empty_code": "Kod tidak sah atau kosong",
+		"error": "ralat"
 	},
 	"execSwitch": {
 		"Running": "Berlari",
@@ -22,7 +23,10 @@
 		"home": "Rumah",
 		"signout": "Log keluar",
 		"joinCode": "Sertai Kod",
-		"noTutorial": "Tiada tutorial telah dipilih"
+		"noTutorial": "Tiada tutorial telah dipilih",
+		"execSwitch": "Jalankan Kod",
+		"reload": "Muat semula",
+		"saveAndLeave": "simpan dan tinggalkan"
 	},
 	"session": {
 		"about": "Mengenai aplikasi ini",
@@ -33,7 +37,19 @@
 		"or": "atau",
 		"sessionNotFoundMsg": "Sesi tidak ditemui. \nTaip kod lain atau buat sesi baharu untuk bermula.",
 		"typecodeMsg": "Taip kod anda atau buat ruang baharu untuk bermula.",
-		"welcome": "Belajar pengekodan dengan AI"
+		"welcome": "Belajar pengekodan dengan AI",
+		"aboutText": "Aplikasi ini adalah perisian hos sendiri yang menyediakan tutorial menggunakan LLM (AI).  \nAplikasi ini membenarkan pentadbir tapak mengumpul data mengenai penggunaan pengguna dan pernyataan yang dibuat dalam bentuk yang tidak boleh dikenal pasti secara peribadi, dan data yang dikumpul digunakan untuk mempelajari fungsi sembang dalam apl dan untuk memperbaik tingkah laku AI.  \nUntuk maklumat lanjut tentang pengendalian data yang disediakan oleh aplikasi, sila hubungi pentadbir laman web. \nMemandangkan aplikasi diterbitkan sebagai sumber terbuka dan kod sumber mungkin telah diubah suai, adalah disyorkan untuk tidak menggunakan aplikasi jika pentadbir tapak web tidak diketahui.  \nData tentang maklumat tentang sesi yang dibuat mungkin dipadamkan.",
+		"available": "Apl Tersedia",
+		"checkingServer": "Menyemak status pelayan...",
+		"continueSession": "Teruskan sesi ini",
+		"debuginfo": "Maklumat Nyahpepijat",
+		"deleteSession": "Padamkan sesi ini",
+		"findSavedSession": "Gunakan data yang disimpan",
+		"noSavedSession": "Tiada sesi disimpan ditemui",
+		"savedSession": "Sesi Disimpan",
+		"serverDownMsg": "Tidak dapat menyambung pelayan. \nSemak internet anda atau tanya pentadbir sistem.",
+		"serverOffline": "Pelayan di luar talian - Apl tidak tersedia",
+		"serverOnline": "dalam talian"
 	},
 	"sidebar": {
 		"dashboard": "Papan pemuka",
@@ -41,9 +57,9 @@
 		"settings": "tetapan",
 		"toggle": "Navigasi",
 		"tutorials": "Tutorial",
-		"users": "Pengguna"
+		"users": "Pengguna",
+		"trainingForAI": "Latihan AI"
 	},
-
 	"textbubble": {
 		"ai": "AI",
 		"ask": "Tanya apa sahaja...",
@@ -53,12 +69,102 @@
 		"log": "Log",
 		"replying": "Membalas...",
 		"server": "Pelayan",
-		"you": "awak"
+		"you": "awak",
+		"blocksuggestions": "Blok yang dicadangkan",
+		"copiedToClipboard": "disalin!",
+		"errorLog": "Log Ralat",
+		"showingLatest": "Menunjukkan {{count}} mesej terkini"
 	},
 	"tutorial": {
 		"description": "Pilih apa yang anda ingin pelajari",
 		"start": "Mulakan Tutorial",
 		"startTutorial": "Tutorial telah dipilih",
-		"title": "Pilih Tutorial"
+		"title": "Pilih Tutorial",
+		"easyMode": "Mod Mudah",
+		"easyModeChanged": "Tukar mod Mudah kepada {{status}}",
+		"easyModeDescription": "Respons AI akan menjadi lebih mudah.",
+		"startTour": "Lihat apa yang anda boleh lakukan.",
+		"tour": "Mulakan Lawatan"
+	},
+	"AppConfig": {
+		"AI_Settings": "Tetapan AI",
+		"AutoReply": "Auto Balas daripada AI",
+		"Chat_AI_Model": "Model AI Sembang",
+		"Chat_AI_Temperature": "Sembang Suhu AI",
+		"Client_Sentry_Settings": "Tetapan Sentry Pelanggan",
+		"Client_Settings": "Tetapan Pelanggan",
+		"Code_Execution_Limits": "Had Pelaksanaan Kod(VM).",
+		"Enable_Create_Room": "Dayakan Cipta Bilik",
+		"Enable_Join_by_code": "Dayakan Sertai mengikut kod",
+		"Enable_Memory_Use_Log": "Dayakan Log Penggunaan Memori",
+		"GA_Tracking_ID": "ID Penjejakan Google Analitis",
+		"General_Settings": "Tetapan Umum",
+		"Max_CPU_Usage": "Penggunaan CPU Maks pada VM",
+		"Max_CodeRangeSizeMb": "Saiz Julat Kod Maks dalam Mb",
+		"Max_Num_Message_Queue": "Baris Gilir Mesej Bilangan Maks pada VM",
+		"Max_OldGenerationSizeMb": "Saiz Generasi Lama Maks dalam Mb",
+		"Max_YoungGenerationSizeMb": "Saiz Generasi Muda Maks dalam Mb",
+		"Reply_Time_ms": "Masa Balas ms",
+		"Screenshot_Interval_min": "Selang Tangkapan skrin min",
+		"Sentry_DSN": "Sentry DSN(Biarkan kosong untuk melumpuhkan)",
+		"replaysOnErrorSampleRate": "Kadar Sampel untuk Tayangan Semula pada Ralat",
+		"replaysSessionSampleRate": "Kadar Sampel untuk Tayangan Semula pada Sesi",
+		"tracesSampleRate": "Kadar Sampel untuk Jejak"
+	},
+	"admin": {
+		"loading": "Memuatkan",
+		"noScreenshotAvailable": "Tiada tangkapan skrin tersedia",
+		"sessionAnalytics": "Analitis Sesi",
+		"sessionCode": "Kod Sesi",
+		"sessionEasyMode": "Mod Mudah",
+		"sessionLanguage": "Bahasa",
+		"sessionSummary": "Ringkasan sesi",
+		"showHeatmap": "Tunjukkan Peta Haba",
+		"summary": "Ringkasan",
+		"workspace": "Ruang kerja"
+	},
+	"dialogue": {
+		"Introduction": "Hai! \nklik butang balas pantas jenis dalam soalan anda untuk memilih perkara yang perlu dilakukan!",
+		"NewSessionWithData": "Memulakan sesi baharu dengan data yang disimpan"
+	},
+	"editor": {
+		"dialogueTab": "Sembang",
+		"workspaceTab": "Ruang kerja"
+	},
+	"extension": {
+		"minecraft-core": {
+			"connectInfo": "Sambungkan Minecraft anda daripada **/connect {{host}}/vm/{{userCode}}/mc**. \nCuba lagi jika sambungan gagal. \nMatikan permintaan penyulitan."
+		}
+	},
+	"generic": {
+		"connected": "Bersambung"
+	},
+	"logbuffer": {
+		"tooManyLogs": "Terlalu banyak mesej. \nlog lama dikeluarkan."
+	},
+	"off": "Mati",
+	"on": "hidup",
+	"quickReply": {
+		"BeginTutorial": "Mulakan tutorial",
+		"HowToUse": "Bagaimana untuk menggunakan ini?",
+		"WhatINeed": "Apa yang perlu saya lakukan?"
+	},
+	"tour": {
+		"blocklyWorkspace": "Ruang kerja ialah tempat untuk membuat kod anda.",
+		"dialogue": "Anda boleh bercakap dengan AI untuk sebarang bantuan, atau mengambil pengajaran daripada AI dengan tutorial.",
+		"execSwitch": "Anda boleh menjalankan kod anda di ruang kerja.",
+		"joinCode": "Ini adalah kod untuk sesi ini. \nAnda boleh kembali ke sini dengan menyimpan kod ini untuk kali seterusnya.",
+		"switchToDialogue": "Okey, mari kembali ke tab sembang.",
+		"switchToWorkspace": "Mari bertukar ke ruang kerja.",
+		"syncCode": "Anda boleh mengemas kini kod dari sini",
+		"tabs": "Anda boleh menukar tab untuk beralih antara sembang dan ruang kerja.",
+		"tourAgain": "Anda boleh mengikuti lawatan ini sekali lagi dengan klik butang ini.",
+		"tutorialSelector": "Anda boleh memilih mana-mana tutorial yang anda ingin buat.",
+		"welcome": "Selamat datang di atas kapal! \nLawatan ini memberikan gambaran ringkas tentang cara menggunakan aplikasi ini."
+	},
+	"vm": {
+		"outOfMemory": "Mesin mencapai had ingatan",
+		"updatedScriptError": "Ralat semasa melaksanakan skrip yang dikemas kini: {{error}}",
+		"updatedScriptSuccess": "Skrip dikemas kini berjaya dilaksanakan."
 	}
 }

@@ -8,12 +8,37 @@ const status = express();
 // CORSを許可する
 status.use(cors());
 
-// ヘルスチェック用エンドポイント
+/**
+ * @openapi
+ * /status:
+ *   get:
+ *     description: Returns OK for health check
+ *     responses:
+ *       200:
+ *         description: Health check successful
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: OK
+ */
 status.get("/", (req, res) => {
 	res.send("OK");
 });
 
-//Redisの統計情報を返すエンドポイント
+/**
+ * @openapi
+ * /status/redis:
+ *   get:
+ *     description: Returns Redis statistics
+ *     responses:
+ *       200:
+ *         description: Redis statistics
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ */
 status.get("/redis", async (req, res) => {
 	const stats = await sessionDB.info();
 	function parseRedisInfo(infoText: string): Record<string, any> {

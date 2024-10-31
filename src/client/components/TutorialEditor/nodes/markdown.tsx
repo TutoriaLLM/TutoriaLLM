@@ -5,6 +5,7 @@ import {
 	useReactFlow,
 	type Node,
 	Connection,
+	NodeToolbar,
 	useHandleConnections,
 	useNodesData,
 } from "@xyflow/react";
@@ -27,12 +28,17 @@ import {
 import "@mdxeditor/editor/style.css";
 import React, { useEffect, useState } from "react";
 import type { markdownNode, MyNode, workspaceNode } from "./nodetype.js";
+import { Trash2 } from "lucide-react";
 
 export function Markdown({ id, data }: NodeProps<markdownNode>) {
-	const { updateNodeData, getNode } = useReactFlow();
+	const { updateNodeData, getNode, deleteElements } = useReactFlow();
 
 	const handleSourceChange = (field: string, value: string) => {
 		updateNodeData(id, { ...data, [field]: value });
+	};
+
+	const handleDelete = () => {
+		deleteElements({ nodes: [{ id: id }] });
 	};
 
 	const connections = useHandleConnections({
@@ -61,14 +67,24 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 				console.log("blocklyNode", blocklyNode);
 				const blocklyData = blocklyNode.data as workspaceNode["data"];
 				const sessionValue = blocklyData.sessionValue;
-				console.log("sessionValue", sessionValue);
-				handleSourceChange(
-					"source",
-					`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(sessionValue.workspace)}`,
-				);
+				if (sessionValue) {
+					console.log("sessionValue", sessionValue);
+					handleSourceChange(
+						"source",
+						`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(
+							sessionValue.workspace,
+						)}`,
+					);
+				} else {
+					handleSourceChange("source", data.editorContent);
+				}
+			}
+			// Blocklyノードが接続されているが、中身がない場合はそのまま出力
+			else {
+				handleSourceChange("source", data.editorContent);
 			}
 		} else {
-			// Blocklyノードが接続されていない場合でも出力を行う
+			// Blocklyノードが接続されていない場合はそのまま出力
 			handleSourceChange("source", data.editorContent);
 		}
 	}, [data.editorContent, nodesData]);
@@ -80,6 +96,12 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 			</span>
+			<NodeToolbar>
+				<button type="button" className="text-red-500 " onClick={handleDelete}>
+					<Trash2 className="drop-shadow" />
+				</button>
+			</NodeToolbar>
+
 			<Handle
 				id="blockly"
 				type="target"

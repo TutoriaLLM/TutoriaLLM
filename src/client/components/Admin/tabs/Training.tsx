@@ -161,7 +161,7 @@ export default function Training() {
 		}
 		if (Array.isArray(searchResult)) {
 			return (
-				<div className="max-w-3xl">
+				<div className="max-w-6xl">
 					{searchResult.map((result) => (
 						<div
 							key={result.id}
@@ -245,7 +245,7 @@ export default function Training() {
 		<div className="overflow-x-auto">
 			<div className="w-full h-full flex flex-col justify-center items-center gap-2 p-2">
 				{trainingData ? (
-					<div className="max-w-3xl bg-gray-300 rounded-2xl flex flex-col justify-between min-h-96 p-3 gap-3 w-full">
+					<div className="max-w-6xl bg-gray-300 rounded-2xl flex flex-col justify-between min-h-96 p-3 gap-3 w-full">
 						<h2 className="text-2xl font-bold text-center p-3 border-b border-gray-400">
 							Training data
 						</h2>
@@ -286,7 +286,7 @@ export default function Training() {
 						</div>
 					</div>
 				) : (
-					<div className="max-w-3xl bg-gray-300 rounded-2xl flex flex-col justify-center items-center  min-h-96 p-3 gap-3 w-full">
+					<div className="max-w-6xl bg-gray-300 rounded-2xl flex flex-col justify-center items-center  min-h-96 p-3 gap-3 w-full">
 						<p className="text-lg font-bold">利用できるデータがありません。</p>
 						<button
 							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl mt-3"

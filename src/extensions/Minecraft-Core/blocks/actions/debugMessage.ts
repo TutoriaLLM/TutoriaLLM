@@ -1,13 +1,13 @@
 import * as Blockly from "blockly";
 import { Order, javascriptGenerator } from "blockly/javascript";
-import type { extBlock } from "extentionContext";
+import type { extBlock } from "extensionContext";
 
 export const block: extBlock = {
 	type: "ext_minecraft_debugmessage",
 	message0: "%{BKY_MINECRAFT_DEBUGMESSAGE}",
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#64748b",
 	tooltip: "",
 	helpUrl: "",
 	customInit: function (this: Blockly.Block) {

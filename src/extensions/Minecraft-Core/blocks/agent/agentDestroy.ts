@@ -19,7 +19,7 @@ export const block = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: "#a855f7",
+	colour: "#f43f5e",
 	tooltip: "",
 	helpUrl: "",
 };

@@ -2,7 +2,7 @@ import { Order, javascriptGenerator } from "blockly/javascript";
 
 export const block = {
 	type: "ext_minecraft_isPlayerUnderWater",
-	colour: "#a855f7",
+	colour: "#6366f1",
 	message0: "%{BKY_MINECRAFT_ISPLAYERUNDERWATER}",
 	output: "Boolean",
 };

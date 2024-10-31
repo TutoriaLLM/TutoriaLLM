@@ -1,14 +1,15 @@
-declare module "extentionContext" {
+declare module "extensionContext" {
 	import type { Hono } from "hono";
 	import type { UpgradeWebSocket } from "hono/ws";
 	import type { SessionValue } from "../type.ts";
 	import type { i18n } from "i18next";
+	import type { randomUUID } from "node:crypto";
 
 	//エディター内で宣言を直接使用できるようにする
 	declare global {
 		const context: extScriptContext;
 		const app: Hono;
-		const code: string;
+		const joinCode: string;
 		const session: SessionValue;
 		const serverRootPath: string;
 		const upgradeWebSocket: UpgradeWebSocket;
@@ -57,6 +58,7 @@ declare module "extentionContext" {
 	 * @param tooltip ブロックのツールチップ
 	 * @param helpUrl ブロックのヘルプURL
 	 */
+
 	export interface extBlock {
 		type: string;
 		message0: string;
@@ -66,6 +68,7 @@ declare module "extentionContext" {
 			text?: string;
 			check?: string;
 		}>;
+		output?: string;
 		inputsInline?: boolean;
 		previousStatement: any;
 		nextStatement: any;

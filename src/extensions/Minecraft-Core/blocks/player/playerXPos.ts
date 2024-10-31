@@ -2,7 +2,7 @@ import { Order, javascriptGenerator } from "blockly/javascript";
 
 export const block = {
 	type: "ext_minecraft_var_PlayerXPos",
-	colour: "#a855f7",
+	colour: "#6366f1",
 	message0: "%{BKY_MINECRAFT_VAR_PLAYERXPOS}",
 	output: "Number",
 };
@@ -12,7 +12,10 @@ export function code() {
 		block,
 		generator,
 	) => {
-		return ["minecraftWorldState.player.position.x", Order.ATOMIC];
+		const code = /* javascript */ `
+		minecraftWorldState.player.position.x
+		`;
+		return [code, Order.ATOMIC];
 	};
 }
 

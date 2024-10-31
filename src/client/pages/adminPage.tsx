@@ -45,12 +45,14 @@ export default function AdminPage() {
 		i18next.changeLanguage(languageToStart);
 	}, [languageToStart]);
 
+	const [path, setPath] = useState(window.location.pathname.split("/"));
+
 	return (
 		<div className="min-h-screen flex flex-col bg-gray-200 text-gray-800">
 			{isAuthenticated ? (
 				<div className="w-full h-full max-w-[96rem]">
 					<div className="h-full flex w-full">
-						<SideBar />
+						<SideBar path={path} />
 						<div className="w-full h-full max-h-svh overflow-auto p-2 pt-16 md:p-4">
 							<Routes>
 								<Route path="/" element={<Dashboard />} />

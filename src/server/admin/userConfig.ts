@@ -11,6 +11,28 @@ const usersConfiguration = express.Router();
 // JSONボディパーサーを追加
 usersConfiguration.use(express.json());
 
+/**
+ * @openapi
+ * /admin/users/:
+ *   get:
+ *     description: Returns a list of all users
+ *     responses:
+ *       200:
+ *         description: A list of all users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "Error message" }
+ */
 // ユーザーの一覧を取得するAPI
 usersConfiguration.get("/", async (req, res) => {
 	try {
@@ -22,6 +44,37 @@ usersConfiguration.get("/", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /admin/users/new:
+ *   post:
+ *     description: Creates a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "Error message" }
+ */
 usersConfiguration.post("/new", async (req, res) => {
 	console.log("create user");
 	const { username, password } = req.body;
@@ -47,6 +100,46 @@ usersConfiguration.post("/new", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /admin/users/{id}:
+ *   get:
+ *     description: Returns the information of a user
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: The information of the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "ID is required" }
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "User not found" }
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "Error message" }
+ */
 // ユーザーの情報を取得するAPI
 usersConfiguration.get("/:id", async (req, res) => {
 	const id = Number(req.params.id);
@@ -69,6 +162,58 @@ usersConfiguration.get("/:id", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /admin/users/{id}:
+ *   put:
+ *     description: Updates the information of a user
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { message: "User updated successfully" }
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "Bad Request" }
+ *       404:
+ *         description: Not Found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "User not found" }
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "Error message" }
+ */
 // ユーザーの情報を更新するAPI
 usersConfiguration.put("/:id", async (req, res) => {
 	console.log("update user");
@@ -119,6 +264,40 @@ usersConfiguration.put("/:id", async (req, res) => {
 	}
 });
 
+/**
+ * @openapi
+ * /admin/users/{id}:
+ *   delete:
+ *     description: Deletes a user by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: User and associated sessions deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { message: "User and associated sessions deleted successfully" }
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "User not found" }
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               example: { error: "Error message" }
+ */
 // ユーザーを削除するAPI
 usersConfiguration.delete("/:id", async (req, res) => {
 	console.log("delete user");

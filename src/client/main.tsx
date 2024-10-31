@@ -18,8 +18,12 @@ import FrontendTracer from "./clientTelemetry.js";
 
 export default function App(): React.ReactElement {
 	//Sentry/Opentelemetry/GAの実行
-	// if (typeof window !== "undefined") FrontendTracer();
 
+	const isDev = process.env.NODE_ENV === "development";
+	// デバッグモードの場合以外は、console.logを無効にする
+	if (!isDev) {
+		console.log = () => {};
+	}
 	// アプリのページ定義
 	return (
 		<React.StrictMode>

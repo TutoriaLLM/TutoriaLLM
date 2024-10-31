@@ -1,4 +1,4 @@
-import type { extCategory, extLocale } from "extentionContext";
+import type { extCategory, extLocale } from "extensionContext";
 
 export const category: extCategory = {
 	kind: "category",
@@ -20,10 +20,10 @@ export const category: extCategory = {
 				},
 			},
 		},
-		// {
-		// 	kind: "block",
-		// 	type: "ext_server_onServerStart",
-		// },
+		{
+			kind: "block",
+			type: "ext_server_onServerStart",
+		},
 	],
 };
 

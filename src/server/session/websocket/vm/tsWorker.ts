@@ -1,7 +1,7 @@
 import vm, { createContext } from "node:vm";
 import path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
-import { ExtensionLoader } from "../extentionLoader.js";
+import { ExtensionLoader } from "../extensionLoader.js";
 import { fileURLToPath } from "node:url";
 import getPort, { portNumbers } from "get-port";
 import { exec } from "node:child_process";
@@ -12,8 +12,9 @@ import { createNodeWebSocket } from "@hono/node-ws";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import { content } from "html2canvas/dist/types/css/property-descriptors/content.js";
+import type { SessionValue } from "../../../../type.js";
 
-const { code, sessionValue, serverRootPath, userScript } = workerData;
+const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,67 @@ export type vmMessage = {
 const app = new Hono();
 const { injectWebSocket, upgradeWebSocket } = createNodeWebSocket({ app });
 
+app.get("/", (c) => {
+	return c.html(
+		/* html */ `<!doctype html>
+		<html>
+		  <head>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<title>
+				${sessionValue.sessioncode} - VM
+			</title>
+			<meta charset="utf-8" />
+		  </head>
+		  <body class="bg-white flex flex-col justify-center items-center w-full h-full">
+			<div class="max-w-2xl w-full h-full rounded-2xl bg-gray-100 shadow p-2">
+				<div class="rounded-2xl bg-gray-200 shadow-lg p-3">
+					<h1 class="text-2xl">
+					VM for ${sessionValue.sessioncode} is running!
+					</h1>
+					<p class="">
+						This information is not synced with the server. To get the latest information, please stop and start the VM again. / このサーバーの情報は同期されていません。最新の情報を取得するには、VMを停止して再起動してください。
+					<p class="">
+					Dialogue:
+					</p>
+					<ul class="list-disc pl-5">
+						${(sessionValue as SessionValue).dialogue
+							.map((d) => {
+								if (d.contentType === "group_log") {
+									return Array.isArray(d.content)
+										? `<li>${d.content.map((c: { contentType: any; content: any }) => `<p>${c.contentType}: ${c.content}</p>`).join("")}</li>`
+										: `<li>${d.content}</li>`;
+								}
+								return `<li>${d.contentType}: ${d.content}</li>`;
+							})
+							.join("")}
+					</ul>
+				</div>
+				<div class="rounded-2xl bg-gray-200 shadow-lg p-3 flex flex-col gap-2 text-left">
+					<h1 class="text-2xl">
+					VM Debug information:
+					</h1>
+					<p class="">
+					Server root path: ${serverRootPath}
+					</p>
+					<p class="">
+					Join code: ${sessionValue.joinCode}
+					</p>
+					<code class="bg-gray-700 text-white rounded-2xl p-2">
+					Running script: ${userScript}
+					</code>
+					<p class="">
+					(Debug purpose) Session value:
+					</p>
+					<code class="bg-gray-700 text-white rounded-2xl p-2">
+					${JSON.stringify(sessionValue)}
+					</code>
+				</div>
+			</div>
+		  </body>
+		</html>
+		`,
+	);
+});
 // i18nの設定
 i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 	{
@@ -39,7 +101,32 @@ i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 			loadPath: "src/i18n/{{lng}}.json",
 		},
 		fallbackLng: "en",
-		preload: ["ja", "en", "zh", "ms"],
+		preload: [
+			"en",
+			"ja",
+			"zh",
+			"ms",
+			"id",
+			"ko",
+			"es",
+			"fr",
+			"de",
+			"it",
+			"nl",
+			"pl",
+			"pt",
+			"ru",
+			"tr",
+			"vi",
+			"th",
+			// "ar",
+			// "he",
+			"fa",
+			"hi",
+			"bn",
+			"ta",
+			"te",
+		],
 	},
 	(err, t) => {
 		if (err) return console.error(err);
@@ -55,7 +142,7 @@ const { t } = i18next;
 const context = createContext({
 	app,
 	upgradeWebSocket,
-	code,
+	joinCode,
 	console: {
 		log: (...args: string[]) => {
 			const logMessage = args.join(" ");

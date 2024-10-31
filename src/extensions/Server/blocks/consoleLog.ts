@@ -1,5 +1,5 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
-import type { extBlock, extLocale } from "extentionContext";
+import type { extBlock, extLocale } from "extensionContext";
 
 export const block: extBlock = {
 	type: "ext_server_log",
@@ -8,6 +8,7 @@ export const block: extBlock = {
 		{
 			type: "input_value",
 			name: "INPUT",
+			check: "String",
 		},
 	],
 	previousStatement: null,

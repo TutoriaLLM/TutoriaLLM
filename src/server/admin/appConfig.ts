@@ -8,14 +8,45 @@ const appConfiguration = express.Router();
 // JSONボディパーサーを追加
 appConfiguration.use(express.json());
 
-//設定ファイルを更新するか、作成する
+/**
+ * @openapi
+ * /admin/config/update:
+ *   post:
+ *     description: Updates or creates the app configuration
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AppConfig'
+ *     responses:
+ *       200:
+ *         description: Config updated
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: Config updated
+ */
 appConfiguration.post("/update", (req, res) => {
 	const newConfig: AppConfig = req.body;
 	updateConfig(newConfig);
 	res.send("Config updated");
 });
 
-//設定ファイルを取得し、存在しない場合は作成する
+/**
+ * @openapi
+ * /admin/config/:
+ *   get:
+ *     description: Returns the app configuration
+ *     responses:
+ *       200:
+ *         description: The app configuration
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AppConfig'
+ */
 appConfiguration.get("/", async (req, res) => {
 	const config: AppConfig = await getConfig();
 	res.json(config);

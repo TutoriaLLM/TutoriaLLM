@@ -28,5 +28,23 @@
 	{
 		"kind": "block",
 		"type": "ext_minecraft_turnAgent"
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_setAgentBlock",
+		"inputs": {
+			"BLOCK": {
+				"shadow": {
+					"type": "ext_minecraft_var_blockDropdown",
+					"fields": {
+						"BLOCK": "GRASS"
+					}
+				}
+			}
+		}
+	},
+	{
+		"kind": "block",
+		"type": "ext_minecraft_agentPlaceBlock"
 	}
 ]

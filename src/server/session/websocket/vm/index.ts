@@ -24,7 +24,32 @@ i18next.use(I18NexFsBackend).init<FsBackendOptions>(
 			loadPath: "src/i18n/{{lng}}.json",
 		},
 		fallbackLng: "en",
-		preload: ["ja", "en", "zh", "ms"], // Add the languages you want to preload
+		preload: [
+			"en",
+			"ja",
+			"zh",
+			"ms",
+			"id",
+			"ko",
+			"es",
+			"fr",
+			"de",
+			"it",
+			"nl",
+			"pl",
+			"pt",
+			"ru",
+			"tr",
+			"vi",
+			"th",
+			// "ar",
+			// "he",
+			"fa",
+			"hi",
+			"bn",
+			"ta",
+			"te",
+		], // Add the languages you want to preload
 	},
 	(err, t) => {
 		if (err) return console.error(err);
@@ -169,8 +194,10 @@ export async function ExecCodeTest(
 		//configを読み込む
 		const config = getConfig();
 
+		const joinCode = code;
+
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
-			workerData: { code, sessionValue, serverRootPath, userScript },
+			workerData: { joinCode, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
 				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
 				maxOldGenerationSizeMb:
