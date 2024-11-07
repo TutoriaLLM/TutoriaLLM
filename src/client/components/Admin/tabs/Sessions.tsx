@@ -37,9 +37,12 @@ export default function Sessions() {
 		string | null
 	>(null);
 	const [showLoader, setShowLoader] = useState(true); // ローディング表示の管理
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(10);
+	const [totalSessions, setTotalSessions] = useState(0);
 
-	const fetchSessions = () => {
-		fetch("/api/admin/sessions/list")
+	const fetchSessions = (page: number, pageSize: number) => {
+		fetch(`/api/admin/sessions/list?page=${page}&limit=${pageSize}`)
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`Network response was not ok ${response.statusText}`);
@@ -47,10 +50,8 @@ export default function Sessions() {
 				return response.json();
 			})
 			.then((data) => {
-				const parsedData = data.map((sessionString: string) =>
-					JSON.parse(sessionString),
-				);
-				setSessions(parsedData);
+				setSessions(data.sessions);
+				setTotalSessions(data.total);
 				setLoading(false);
 				setShowLoader(true);
 			})
@@ -62,17 +63,21 @@ export default function Sessions() {
 	};
 
 	useEffect(() => {
-		fetchSessions();
+		fetchSessions(page, pageSize);
 		let interval: NodeJS.Timeout | null = null;
 		if (autoUpdate) {
-			interval = setInterval(fetchSessions, 5000); // 5秒ごとにデータをフェッチ
+			interval = setInterval(() => fetchSessions(page, pageSize), 5000); // 5秒ごとにデータをフェッチ
 		}
 		return () => {
 			if (interval) {
 				clearInterval(interval); // クリーンアップ
 			}
 		};
-	}, [autoUpdate]);
+	}, [autoUpdate, page, pageSize]);
+
+	useEffect(() => {
+		fetchSessions(page, pageSize);
+	}, [page, pageSize, autoUpdate]);
 
 	useEffect(() => {
 		if (!loading) {
@@ -235,7 +240,7 @@ export default function Sessions() {
 		columns,
 		data: sessions,
 		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
+		manualPagination: true,
 		getSortedRowModel: getSortedRowModel(),
 		initialState: {
 			sorting: [{ id: "updatedAt", desc: true }],
@@ -339,47 +344,56 @@ export default function Sessions() {
 			<div className="flex p-2 justify-center items-center gap-2 bg-gray-300 shadow">
 				<button
 					type="button"
-					className="p-2 rounded-full bg-sky-500 text-white font-semibold"
-					onClick={() => table.setPageIndex(0)}
-					disabled={!table.getCanPreviousPage()}
+					className={`p-2 rounded-full font-semibold text-white ${
+						page === 1 ? "bg-gray-400" : "bg-sky-500"
+					}`}
+					onClick={() => setPage(1)}
+					disabled={page === 1}
 				>
 					<ChevronsLeft />
 				</button>
 				<button
 					type="button"
-					className="p-2 rounded-full bg-sky-500 text-white font-semibold"
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
+					className={`p-2 rounded-full font-semibold text-white ${
+						page === 1 ? "bg-gray-400" : "bg-sky-500"
+					}`}
+					onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+					disabled={page === 1}
 				>
 					<ChevronLeft />
 				</button>
 				<button
 					type="button"
-					className="p-2 rounded-full bg-sky-500 text-white font-semibold"
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
+					className={`p-2 rounded-full font-semibold text-white ${
+						page * pageSize >= totalSessions ? "bg-gray-400" : "bg-sky-500"
+					}`}
+					onClick={() => setPage((prev) => prev + 1)}
+					disabled={page * pageSize >= totalSessions}
 				>
 					<ChevronRight />
 				</button>
 				<button
 					type="button"
-					className="p-2 rounded-full bg-sky-500 text-white font-semibold"
-					onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-					disabled={!table.getCanNextPage()}
+					className={`p-2 rounded-full font-semibold text-white ${
+						page * pageSize >= totalSessions ? "bg-gray-400" : "bg-sky-500"
+					}`}
+					onClick={() => setPage(Math.ceil(totalSessions / pageSize))}
+					disabled={page * pageSize >= totalSessions}
 				>
 					<ChevronsRight />
 				</button>
 
 				<select
 					className="p-2 rounded-full bg-white text-gray-800 font-semibold"
-					value={table.getState().pagination.pageSize}
+					value={pageSize}
 					onChange={(e) => {
-						table.setPageSize(Number(e.target.value));
+						setPageSize(Number(e.target.value));
+						setPage(1); // Reset to first page when page size changes
 					}}
 				>
-					{[10, 20, 30, 40, 50].map((pageSize) => (
-						<option key={pageSize} value={pageSize}>
-							{pageSize}
+					{[10, 20, 30, 40, 50].map((size) => (
+						<option key={size} value={size}>
+							{size}
 						</option>
 					))}
 				</select>
