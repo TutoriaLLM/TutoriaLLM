@@ -16,4 +16,4 @@ TutoriaLLM is a self-hosted programming learning platform for K-12 Education tha
 > For more information, please visit the official website: [TutoriaLLM](https://tutoriallm.com/en)
 
 ## Demo
-[TutoriaLLM Demo](https://tutoriallm.com/demo)
+[TutoriaLLM Demo](https://demo.tutoriallm.com/)
