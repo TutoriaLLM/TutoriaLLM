@@ -8,6 +8,11 @@ TutoriaLLM は、小中学生を対象とした、Web 上で使用できる、LL
 
 TutoriaLLM is a self-hosted programming learning platform for K-12 Education that can be used on the web. It is designed for those who create educational content and those who learn from it.
 
+## Community
+
+Community is available in English.
+
+- [Discord](https://discord.gg/zxuREnWVXC)
 
 ## Documentation
 
