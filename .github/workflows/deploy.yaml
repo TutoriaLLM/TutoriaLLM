@@ -51,3 +51,5 @@ jobs:
         body: |
           Changes in this release:
           ${{ github.event.head_commit.message }}
+
+          The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:release_${{ env.RELEASE_TAG }}

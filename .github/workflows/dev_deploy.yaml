@@ -46,7 +46,9 @@ jobs:
         tag_name: preview_${{ env.RELEASE_TAG }}
         release_name: Preview Release ${{ env.RELEASE_TAG }}
         draft: false
-        prerelease: false
+        prerelease: true
         body: |
-          Changes in this release:
+          Changes in this preview release:
           ${{ github.event.head_commit.message }}
+
+          The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview_${{ env.RELEASE_TAG }}
