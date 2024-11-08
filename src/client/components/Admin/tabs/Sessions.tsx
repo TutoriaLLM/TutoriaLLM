@@ -40,6 +40,7 @@ export default function Sessions() {
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [totalSessions, setTotalSessions] = useState(0);
+	const [downloading, setDownloading] = useState(false);
 
 	const fetchSessions = (page: number, pageSize: number) => {
 		fetch(`/api/admin/sessions/list?page=${page}&limit=${pageSize}`)
@@ -98,6 +99,33 @@ export default function Sessions() {
 			})
 			.catch((error) => {
 				setError(error.message);
+			});
+	};
+
+	const handleDownloadAllSession = () => {
+		setDownloading(true);
+		fetch("/api/admin/sessions/download", {
+			method: "GET",
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error(response.statusText);
+				}
+				return response.blob();
+			})
+			.then((blob) => {
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = `download-${new Date().toISOString()}.json`;
+				document.body.appendChild(a);
+				a.click();
+				a.remove();
+				setDownloading(false);
+			})
+			.catch((error) => {
+				setError(error.message);
+				setDownloading(false);
 			});
 	};
 
@@ -266,15 +294,25 @@ export default function Sessions() {
 						<LoaderCircle />
 					</span>
 				)}{" "}
-				<label className="flex items-center gap-2">
-					<input
-						type="checkbox"
-						checked={autoUpdate}
-						onChange={() => setAutoUpdate(!autoUpdate)}
-						className="form-checkbox h-4 w-4"
-					/>
-					<span>Auto Update</span>
-				</label>
+				<div className="flex flex-col justify-center items-center gap-2">
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							checked={autoUpdate}
+							onChange={() => setAutoUpdate(!autoUpdate)}
+							className="form-checkbox h-4 w-4"
+						/>
+						<span>Auto Update</span>
+					</label>
+					<button
+						type="button"
+						className="p-1 text-xs rounded-full text-blue-500 font-semibold"
+						onClick={handleDownloadAllSession}
+						disabled={downloading}
+					>
+						{downloading ? "Downloading..." : "Download All Sessions"}
+					</button>
+				</div>
 			</div>
 			<div className="overflow--auto">
 				<table className="w-full text-left text-sm ">

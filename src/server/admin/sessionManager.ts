@@ -26,6 +26,36 @@ const sessionManager = express.Router();
  *               type: object
  *               example: { error: "Error message" }
  */
+
+//セッションの全データを取得するAPI(ダウンロード用)
+sessionManager.get("/download", async (req, res) => {
+	console.log("download all sessions");
+	try {
+		const keys = [];
+		for await (const key of await sessionDB.keys("*")) {
+			keys.push(key);
+		}
+		if (keys.length === 0) {
+			res.json([]);
+			return;
+		}
+		const allSessions = await sessionDB.mGet(keys);
+		const filteredSessions = allSessions
+			.map((sessionString) => {
+				if (sessionString) {
+					const session = JSON.parse(sessionString) as SessionValue;
+					return session;
+				}
+				return null;
+			})
+			.filter((session) => session !== null);
+		res.json(filteredSessions);
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ error: (err as Error).message });
+	}
+});
+
 // セッションの一覧を取得するAPI
 sessionManager.get("/list", async (req, res) => {
 	console.log("get all sessions");
