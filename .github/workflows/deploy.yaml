@@ -36,3 +36,13 @@ jobs:
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm:latest
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm:release_${{ env.RELEASE_TAG }}
+
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: release_${{ env.RELEASE_TAG }}
+        release_name: Release ${{ env.RELEASE_TAG }}
+        draft: false
+        prerelease: false
