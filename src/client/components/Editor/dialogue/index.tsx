@@ -159,7 +159,12 @@ export default function DialogueView() {
 				reader.onloadend = () => {
 					const base64data = reader.result as string;
 					setAudioURL(base64data);
-
+					// waveformコンテナが存在するかチェック
+					const waveformContainer = document.querySelector("#waveform");
+					if (!waveformContainer) {
+						console.log("waveform container not found");
+						return;
+					}
 					// 新しい wavesurfer インスタンスを生成
 					if (wavesurferRef.current) {
 						wavesurferRef.current.destroy();

@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
+
 
     steps:
     - name: Checkout code
@@ -36,3 +38,18 @@ jobs:
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm:latest
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm:release_${{ env.RELEASE_TAG }}
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: release_${{ env.RELEASE_TAG }}
+        release_name: Release ${{ env.RELEASE_TAG }}
+        draft: false
+        prerelease: false
+        body: |
+          Changes in this release:
+          ${{ github.event.head_commit.message }}
+
+          The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:release_${{ env.RELEASE_TAG }}
