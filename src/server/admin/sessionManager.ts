@@ -61,11 +61,12 @@ sessionManager.get("/list", async (req, res) => {
 	console.log("get all sessions");
 	const page = Number.parseInt(req.query.page as string) || 1;
 	const limit = Number.parseInt(req.query.limit as string) || 10;
+	const sortField = (req.query.sortField as keyof SessionValue) || "updatedAt";
+	const sortOrder = (req.query.sortOrder as string) || "desc";
 	const start = (page - 1) * limit;
 	const end = start + limit;
 
 	try {
-		// keys() は async iterator なので、まず配列に変換します
 		const keys = [];
 		for await (const key of await sessionDB.keys("*")) {
 			keys.push(key);
@@ -74,8 +75,7 @@ sessionManager.get("/list", async (req, res) => {
 			res.json([]);
 			return;
 		}
-		const paginatedKeys = keys.slice(start, end);
-		const allSessions = await sessionDB.mGet(paginatedKeys);
+		const allSessions = await sessionDB.mGet(keys);
 		const filteredSessions = allSessions
 			.map((sessionString) => {
 				if (sessionString) {
@@ -92,8 +92,17 @@ sessionManager.get("/list", async (req, res) => {
 				return null;
 			})
 			.filter((session) => session !== null);
+
+		const sortedSessions = filteredSessions.sort((a, b) => {
+			if (sortOrder === "asc") {
+				return (a as any)[sortField] > (b as any)[sortField] ? 1 : -1;
+			}
+			return (a as any)[sortField] < (b as any)[sortField] ? 1 : -1;
+		}) as SessionValue[];
+
+		const paginatedSessions = sortedSessions.slice(start, end);
 		res.json({
-			sessions: filteredSessions,
+			sessions: paginatedSessions,
 			total: keys.length,
 			page,
 			limit,
