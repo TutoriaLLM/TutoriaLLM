@@ -38,7 +38,7 @@ jobs:
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm:release_${{ env.RELEASE_TAG }}
 
     - name: Create GitHub Release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -46,3 +46,6 @@ jobs:
         release_name: Release ${{ env.RELEASE_TAG }}
         draft: false
         prerelease: false
+        body: |
+          Changes in this release:
+          ${{ github.event.head_commit.message }}
