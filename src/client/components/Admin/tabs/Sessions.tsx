@@ -7,6 +7,7 @@ import {
 	getCoreRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	type SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -40,9 +41,19 @@ export default function Sessions() {
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [totalSessions, setTotalSessions] = useState(0);
+	const [downloading, setDownloading] = useState(false);
+	const [sortField, setSortField] = useState("updatedAt");
+	const [sortOrder, setSortOrder] = useState("desc");
 
-	const fetchSessions = (page: number, pageSize: number) => {
-		fetch(`/api/admin/sessions/list?page=${page}&limit=${pageSize}`)
+	const fetchSessions = (
+		page: number,
+		pageSize: number,
+		sortField: string,
+		sortOrder: string,
+	) => {
+		fetch(
+			`/api/admin/sessions/list?page=${page}&limit=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}`,
+		)
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`Network response was not ok ${response.statusText}`);
@@ -63,21 +74,24 @@ export default function Sessions() {
 	};
 
 	useEffect(() => {
-		fetchSessions(page, pageSize);
+		fetchSessions(page, pageSize, sortField, sortOrder);
 		let interval: NodeJS.Timeout | null = null;
 		if (autoUpdate) {
-			interval = setInterval(() => fetchSessions(page, pageSize), 5000); // 5秒ごとにデータをフェッチ
+			interval = setInterval(
+				() => fetchSessions(page, pageSize, sortField, sortOrder),
+				5000,
+			); // 5秒ごとにデータをフェッチ
 		}
 		return () => {
 			if (interval) {
 				clearInterval(interval); // クリーンアップ
 			}
 		};
-	}, [autoUpdate, page, pageSize]);
+	}, [autoUpdate, page, pageSize, sortField, sortOrder]);
 
 	useEffect(() => {
-		fetchSessions(page, pageSize);
-	}, [page, pageSize, autoUpdate]);
+		fetchSessions(page, pageSize, sortField, sortOrder);
+	}, [page, pageSize, autoUpdate, sortField, sortOrder]);
 
 	useEffect(() => {
 		if (!loading) {
@@ -101,12 +115,48 @@ export default function Sessions() {
 			});
 	};
 
+	const handleDownloadAllSession = () => {
+		setDownloading(true);
+		fetch("/api/admin/sessions/download", {
+			method: "GET",
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error(response.statusText);
+				}
+				return response.blob();
+			})
+			.then((blob) => {
+				const url = window.URL.createObjectURL(blob);
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = `download-${new Date().toISOString()}.json`;
+				document.body.appendChild(a);
+				a.click();
+				a.remove();
+				setDownloading(false);
+			})
+			.catch((error) => {
+				setError(error.message);
+				setDownloading(false);
+			});
+	};
+
 	const handleStatsPopup = (code: string) => {
 		setPopupSessionFromCode(code);
 	};
 
 	const handleClosePopup = () => {
 		setPopupSessionFromCode(null);
+	};
+
+	const handleSort = (field: string) => {
+		if (sortField === field) {
+			setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+		} else {
+			setSortField(field);
+			setSortOrder("asc");
+		}
 	};
 
 	const PopupContent = popupSessionFromCode ? (
@@ -241,7 +291,6 @@ export default function Sessions() {
 		data: sessions,
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
-		getSortedRowModel: getSortedRowModel(),
 		initialState: {
 			sorting: [{ id: "updatedAt", desc: true }],
 		},
@@ -266,15 +315,25 @@ export default function Sessions() {
 						<LoaderCircle />
 					</span>
 				)}{" "}
-				<label className="flex items-center gap-2">
-					<input
-						type="checkbox"
-						checked={autoUpdate}
-						onChange={() => setAutoUpdate(!autoUpdate)}
-						className="form-checkbox h-4 w-4"
-					/>
-					<span>Auto Update</span>
-				</label>
+				<div className="flex flex-col justify-center items-center gap-2">
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							checked={autoUpdate}
+							onChange={() => setAutoUpdate(!autoUpdate)}
+							className="form-checkbox h-4 w-4"
+						/>
+						<span>Auto Update</span>
+					</label>
+					<button
+						type="button"
+						className="p-1 text-xs rounded-full text-blue-500 font-semibold"
+						onClick={handleDownloadAllSession}
+						disabled={downloading}
+					>
+						{downloading ? "Downloading..." : "Download All Sessions"}
+					</button>
+				</div>
 			</div>
 			<div className="overflow--auto">
 				<table className="w-full text-left text-sm ">
@@ -285,16 +344,19 @@ export default function Sessions() {
 									<th
 										key={header.id}
 										className="px-6 py-4 cursor-pointer"
-										onClick={header.column.getToggleSortingHandler()}
-										onKeyUp={header.column.getToggleSortingHandler()}
-										onKeyDown={header.column.getToggleSortingHandler()}
+										onClick={() => handleSort(header.column.id)}
+										onKeyUp={(e) => {
+											if (e.key === "Enter" || e.key === " ") {
+												handleSort(header.column.id);
+											}
+										}}
 									>
 										{flexRender(
 											header.column.columnDef.header,
 											header.getContext(),
 										)}
-										{header.column.getIsSorted() ? (
-											header.column.getIsSorted() === "desc" ? (
+										{sortField === header.column.id ? (
+											sortOrder === "desc" ? (
 												<ChevronDown />
 											) : (
 												<ChevronUp />
