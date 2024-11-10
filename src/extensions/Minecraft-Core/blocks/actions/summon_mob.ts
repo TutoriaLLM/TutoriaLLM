@@ -62,21 +62,11 @@ export function code() {
 		//dropdown
 		const dropdown = block.getFieldValue("MOB");
 		//pos
-		const position = JSON.parse(
-			generator.valueToCode(block, "POS", Order.ATOMIC),
-		);
-		let x = position.x;
-		let y = position.y;
-		let z = position.z;
-
-		// Remove parentheses if present
-		x = x.startsWith("(") && x.endsWith(")") ? x.slice(1, -1) : x;
-		y = y.startsWith("(") && y.endsWith(")") ? y.slice(1, -1) : y;
-		z = z.startsWith("(") && z.endsWith(")") ? z.slice(1, -1) : z;
+		const position = generator.valueToCode(block, "POS", Order.ATOMIC);
 		const code = /* javascript */ `
 				function summonMob() {
-				const position = { x: ${x}, y: ${y}, z: ${z} };
-				const messageToSend = commandMsg("/summon ${dropdown} " + position.x + " " + position.y + " " + position.z);
+					const position = ${position};
+					const messageToSend = commandMsg("/summon ${dropdown} " + position.x + " " + position.y + " " + position.z);
 				wss.send(JSON.stringify(messageToSend));
 				}
 				summonMob();
