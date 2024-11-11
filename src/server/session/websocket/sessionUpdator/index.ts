@@ -67,6 +67,10 @@ export async function updateSession(
 			code,
 			{
 				...newDataJson,
+				stats: {
+					...newDataJson.stats,
+					totalInvokedLLM: newDataJson.stats.totalInvokedLLM + 1,
+				},
 				isReplying: true,
 			},
 			socket,
