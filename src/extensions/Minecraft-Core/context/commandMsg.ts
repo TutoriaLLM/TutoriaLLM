@@ -5,11 +5,11 @@ export default function commandMsg(command: string) {
 		header: {
 			requestId: randomUUID(),
 			messagePurpose: "commandRequest",
-			version: 1,
+			version: 17039360,
 			messageType: "commandRequest",
 		},
 		body: {
-			version: 1,
+			version: 17039360,
 			origin: {
 				type: "player",
 			},

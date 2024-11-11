@@ -6,7 +6,7 @@ export default function unsubscribeMsg(eventName: string) {
 		header: {
 			requestId: randomUUID(),
 			messagePurpose: "unsubscribe",
-			version: 1,
+			version: 17039360,
 			messageType: "commandRequest",
 		},
 		body: {
