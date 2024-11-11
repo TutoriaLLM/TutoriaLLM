@@ -1,7 +1,6 @@
 import type { WSContext } from "hono/ws";
 import commandMsg from "./context/commandMsg.js";
 import subscribeMsg from "./context/subscribeMsg.js";
-import { block } from "Server/blocks/consoleLog.js";
 
 const events = [
 	"AdditionalContentLoaded",
