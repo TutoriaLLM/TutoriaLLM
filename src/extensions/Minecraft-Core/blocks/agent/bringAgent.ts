@@ -22,8 +22,8 @@ export function code() {
 			y: minecraftWorldState.player.position.y,
 			z: minecraftWorldState.player.position.z,
 		};
-		const message = commandMsg("/agent tp" + " " + playerPos.x + " " + ((playerPos.y)-2) + " " + playerPos.z);
-		wss.send(JSON.stringify(message));
+		const messageToBringAgent = commandMsg("/agent tp" + " " + playerPos.x + " " + ((playerPos.y)-2) + " " + playerPos.z);
+		wss.send(JSON.stringify(messageToBringAgent));
 		`;
 
 		return code;
