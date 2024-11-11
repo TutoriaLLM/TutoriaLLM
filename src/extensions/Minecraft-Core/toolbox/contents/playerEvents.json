@@ -19,7 +19,7 @@
 				"shadow": {
 					"type": "ext_minecraft_var_toolsDropdown",
 					"fields": {
-						"ITEM": "STONE"
+						"ITEM": "FISHING_ROD"
 					}
 				}
 			}
