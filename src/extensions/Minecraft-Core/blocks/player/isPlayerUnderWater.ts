@@ -12,7 +12,10 @@ export function code() {
 		block,
 		generator,
 	) => {
-		return ["minecraftWorldState.player.isUnderWater", Order.ATOMIC];
+		const code = /* javascript */ `
+		minecraftWorldState.player.isUnderWater
+		`;
+		return [code, Order.ATOMIC];
 	};
 }
 

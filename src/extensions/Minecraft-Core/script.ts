@@ -1,6 +1,7 @@
 import type { WSContext } from "hono/ws";
 import commandMsg from "./context/commandMsg.js";
 import subscribeMsg from "./context/subscribeMsg.js";
+import { block } from "Server/blocks/consoleLog.js";
 
 const events = [
 	"AdditionalContentLoaded",
@@ -118,13 +119,63 @@ function reRegisterOnConnectEvents() {
 	}
 }
 
-//ワールドの状態のグローバルな変数
+function getAgentPosition() {
+	//エージェントの座標を取得し、グローバル変数に格納する
+	if (wss) {
+		wss.send(JSON.stringify(commandMsg("/agent getposition")));
+		return {
+			x: minecraftWorldState.agent.position.x,
+			y: minecraftWorldState.agent.position.y,
+			z: minecraftWorldState.agent.position.z,
+		};
+	}
+	return {
+		x: 0,
+		y: 0,
+		z: 0,
+	};
+}
+
+//ワールドの状態のグローバルな変数/関数
 const minecraftWorldState = {
 	agent: {
+		getPosition: getAgentPosition,
 		position: {
 			x: 0,
 			y: 0,
 			z: 0,
+		},
+		// detectBlock(direction: string, type: "redstone" | "block") {
+		// 	//エージェントが指定した方向に指定したブロックを検知しているかどうかを問い合わせる
+		// 	if (wss && type === "block") {
+		// 		wss.send(JSON.stringify(commandMsg("/agent getposition")));
+		// 		wss.send(JSON.stringify(commandMsg(`/agent detect ${direction}`)));
+		// 	}
+		// 	if (wss && type === "redstone") {
+		// 		wss.send(JSON.stringify(commandMsg("/agent getposition")));
+
+		// 		wss.send(
+		// 			JSON.stringify(commandMsg(`/agent detectredstone ${direction}`)),
+		// 		);
+		// 	}
+		// },
+		detected: {
+			block: {
+				forward: false,
+				backward: false,
+				left: false,
+				right: false,
+				up: false,
+				down: false,
+			},
+			redstone: {
+				forward: false,
+				backward: false,
+				left: false,
+				right: false,
+				up: false,
+				down: false,
+			},
 		},
 	},
 	player: {
@@ -193,5 +244,17 @@ function defaultOnMessageEvents(message: string) {
 			},
 			isunderwater: data.body.isUnderwater,
 		};
+	}
+	if (
+		data?.body &&
+		data.header.messagePurpose === "commandResponse" &&
+		data.body.statusCode === 0
+	) {
+		if (data.body.position)
+			minecraftWorldState.agent.position = {
+				x: data.body.position.x,
+				y: data.body.position.y,
+				z: data.body.position.z,
+			};
 	}
 }
