@@ -51,6 +51,7 @@ jobs:
     #       Changes in this preview release:
     #       ${{ github.event.head_commit.message }}
 
+<<<<<<< HEAD
     #       The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview_${{ env.RELEASE_TAG }}
   release:
     name: Release Preview
@@ -79,3 +80,6 @@ jobs:
         uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+=======
+    #       The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview_${{ env.RELEASE_TAG }}
+>>>>>>> 9c5a5fb (🚧 Implementing changeset and stop github Release action temporary)
