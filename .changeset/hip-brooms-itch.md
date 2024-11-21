@@ -1,5 +1,0 @@
----
-"tutoriallm": major
----
-
-Initial release

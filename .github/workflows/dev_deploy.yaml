@@ -8,8 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions: write-all
-
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -25,11 +23,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Get release tag
+    - name: Get unique tag for preview release
       id: vars
       run: |
         DATE_TAG=$(date +'%Y-%d%m')
         echo "RELEASE_TAG=${DATE_TAG}-${{ github.run_number }}" >> $GITHUB_ENV
+
+    - name: Get package version
+      id: pkg
+      run: |
+        VERSION=$(jq -r '.version' package.json)
+        echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
@@ -39,51 +43,17 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm:latest-preview
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview_${{ env.RELEASE_TAG }}
-    # - name: Create GitHub Release
-    #   uses: softprops/action-gh-release@v2
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     tag_name: preview_${{ env.RELEASE_TAG }}
-    #     release_name: Preview Release ${{ env.RELEASE_TAG }}
-    #     draft: false
-    #     prerelease: true
-    #     body: |
-    #       Changes in this preview release:
-    #       ${{ github.event.head_commit.message }}
-    #       The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview_${{ env.RELEASE_TAG }}
-  release:
-    name: Release Preview
-    runs-on: ubuntu-latest
-    permissions: write-all
-
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Check for changesets
-        run: |
-          npx changeset status --since=dev
-          if [ $? -ne 0 ]; then
-            echo "No changesets found. Failing the build."
-            exit 1
-          fi
-
-      - name: Create Release Pull Request
-        uses: changesets/action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ${{ secrets.DOCKER_USERNAME }}/tutoriallm:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
+        release_name: Pre Release ${{ env.PACKAGE_VERSION }}-${{ env.RELEASE_TAG }}
+        draft: false
+        prerelease: true
+        body: |
+          Changes in this preview release:
+          ${{ github.event.head_commit.message }}
+          The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
