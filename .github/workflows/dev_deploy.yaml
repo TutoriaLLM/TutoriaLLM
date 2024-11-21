@@ -56,7 +56,11 @@ jobs:
   release:
     name: Release Preview
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
