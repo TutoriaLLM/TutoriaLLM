@@ -52,3 +52,30 @@ jobs:
     #       ${{ github.event.head_commit.message }}
 
     #       The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:preview_${{ env.RELEASE_TAG }}
+  release:
+    name: Release Preview
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Check for changesets
+        run: |
+          npx changeset status --since=dev
+          if [ $? -ne 0 ]; then
+            echo "No changesets found. Failing the build."
+            exit 1
+          fi
+
+      - name: Create Release Pull Request
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
