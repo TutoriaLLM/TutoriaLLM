@@ -19,6 +19,7 @@ COPY . .
 
 # 環境変数を設定
 ENV PORT=3000
+#バックエンドようのポートが必要だよ！
 ENV VM_PORT=3001
 
 ENV PORT=${PORT} \
