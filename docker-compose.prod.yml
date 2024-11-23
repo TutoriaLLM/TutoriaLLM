@@ -32,12 +32,6 @@ services:
       - /letsencrypt:/letsencrypt
     depends_on:
       - app
-  redis:
-    container_name: code-tutorial-redis-prod
-    image: redis/redis-stack-server:latest
-    ports:
-      - "6379:6379"
-    restart: always
   db:
     container_name: code-tutorial-db-prod
     image: pgvector/pgvector:pg14

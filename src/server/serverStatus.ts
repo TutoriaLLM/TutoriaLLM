@@ -26,18 +26,4 @@ status.get("/", (req, res) => {
 	res.send("OK");
 });
 
-/**
- * @openapi
- * /status/redis:
- *   get:
- *     description: Returns Redis statistics
- *     responses:
- *       200:
- *         description: Redis statistics
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- */
-
 export default status;

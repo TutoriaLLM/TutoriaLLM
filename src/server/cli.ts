@@ -1,10 +1,5 @@
 //TutoriaLLM CLI
 
-//提供するコマンド
-// 1. ユーザー登録
-// 2. 初期化（Redis, DB, config）
-// 3. サーバーの再起動
-
 import { Command } from "commander";
 import inquirer from "inquirer";
 import fs from "node:fs";

@@ -7,12 +7,6 @@ services:
       - "4317:4317"
       - "4318:4318"
       - "9411:9411"
-  redis:
-  #実稼働ではredis/redis-stack-serverを使用する
-    container_name: code-tutorial-redis-dev
-    image: redis/redis-stack:latest
-    ports:
-      - "6379:6379"
   db:
     container_name: code-tutorial-db-dev
     image: pgvector/pgvector:pg14

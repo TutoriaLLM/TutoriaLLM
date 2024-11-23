@@ -118,7 +118,6 @@
 		"react-resizable-panels": "^2.1.4",
 		"react-router-dom": "^6.27.0",
 		"react-tag-input": "^6.10.3",
-		"redis": "^4.7.0",
 		"rehype-raw": "^7.0.0",
 		"rfc6902": "^5.1.1",
 		"simple-git-hooks": "^2.11.1",
