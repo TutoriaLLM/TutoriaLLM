@@ -210,11 +210,12 @@ DBrouter.post("/new", async (req, res) => {
 				},
 			],
 			clients: [],
+			createdAt: new Date(),
 			updatedAt: new Date(),
 			screenshot: "",
 			clicks: [],
 		});
-		res.send(sessionData.sessioncode);
+		res.send(code);
 		return;
 	}
 
@@ -240,6 +241,7 @@ DBrouter.post("/new", async (req, res) => {
 	}
 
 	//RedisからPostgresに移行しました: from 1.0.0
+	//初期データが指定されていない場合は、初期データを生成し、セッションを作成する
 	await db
 		.insert(appSessions)
 		.values(initialData(code, language.toString()))
@@ -276,6 +278,9 @@ DBrouter.get("/:key", async (req, res) => {
 			.select()
 			.from(appSessions)
 			.where(eq(appSessions.sessioncode, req.params.key));
+		if (!value[0]) {
+			res.status(404).send(null);
+		}
 		res.send(value[0]);
 	} catch (e) {
 		res.status(404).send(null);
