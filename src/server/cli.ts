@@ -12,7 +12,6 @@ import fs from "node:fs";
 import dotenv from "dotenv";
 import { saltAndHashPassword } from "../utils/password.js";
 import { resetCredentials } from "./db/users.js";
-import { sessionDB } from "./db/session.js";
 import { createConfig, deleteConfig } from "./getConfig.js";
 
 const program = new Command();

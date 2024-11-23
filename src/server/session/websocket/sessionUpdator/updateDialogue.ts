@@ -1,11 +1,14 @@
 import { J } from "vitest/dist/chunks/reporters.C4ZHgdxQ.js";
 import type { Dialogue, SessionValue } from "../../../../type.js";
 import { updateDialogue } from "../../../../utils/dialogueUpdater.js";
-import { tutorials } from "../../../db/schema.js";
-import { sessionDB } from "../../../db/session.js";
+import { appSessions, tutorials } from "../../../db/schema.js";
+//import { sessionDB } from "../../../db/session.js";
+import { db } from "../../../db/index.js";
+
 import { invokeLLM } from "../../llm/index.js";
 import { getAvailableBlocks, getBlockFiles } from "../../registerBlocks.js";
 import type { Socket } from "socket.io";
+import { eq } from "drizzle-orm";
 
 //非同期でLLMを呼び出し、メッセージが作成されたタイミングでプッシュする
 export async function updateDialogueWithLLM(
@@ -14,8 +17,14 @@ export async function updateDialogueWithLLM(
 ): Promise<SessionValue> {
 	//処理が終わり、最終データを返す際直前のデータを再取得する
 	async function getLatestData(code: string) {
-		const rawData = await sessionDB.get(code);
-		const data: SessionValue = rawData ? JSON.parse(rawData) : null;
+		// const rawData = await sessionDB.get(code);
+		//Postgresに移行する
+		const rawData = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
+
+		const data: SessionValue = rawData[0];
 		return data;
 	}
 

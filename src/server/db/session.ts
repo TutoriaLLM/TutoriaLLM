@@ -10,24 +10,28 @@ const DBrouter = express.Router();
 DBrouter.use(apiLimiter());
 DBrouter.use(express.json());
 
-// Redisに移行
-import redis from "redis";
+// import redis from "redis";
 import i18next from "i18next";
 import apiLimiter from "../ratelimit.js";
-export const sessionDB = redis.createClient({
-	username: process.env.REDIS_USERNAME,
-	password: process.env.REDIS_PASSWORD,
-	socket: {
-		host: process.env.REDIS_HOST,
-		port: 6379,
-	},
-});
-await sessionDB.connect();
-sessionDB.on("error", (err) => {
-	console.log(`Error ${err}`);
-});
+// export const sessionDB = redis.createClient({
+// 	username: process.env.REDIS_USERNAME,
+// 	password: process.env.REDIS_PASSWORD,
+// 	socket: {
+// 		host: process.env.REDIS_HOST,
+// 		port: 6379,
+// 	},
+// });
+// await sessionDB.connect();
+// sessionDB.on("error", (err) => {
+// 	console.log(`Error ${err}`);
+// });
 
-function initialData(code: string, language: string): SessionValue {
+//Postgresに移行する
+import { db } from "./index.js";
+import { appSessions, type AppSession } from "./schema.js"; //DBとやりとりする際に使う型（フロントエンドで利用しているSessionValueとほぼ同じ）
+import { eq } from "drizzle-orm";
+
+function initialData(code: string, language: string): AppSession {
 	i18next.changeLanguage(language);
 
 	const { t } = i18next;
@@ -196,7 +200,7 @@ function initialData(code: string, language: string): SessionValue {
  */
 DBrouter.post("/new", async (req, res) => {
 	let language = req.query.language;
-	const sessionData = req.body as SessionValue | undefined;
+	const sessionData = req.body as AppSession;
 
 	if (sessionData?.uuid && !language) {
 		console.log("session created with data");
@@ -205,26 +209,44 @@ DBrouter.post("/new", async (req, res) => {
 
 		const { t } = i18next;
 		i18next.changeLanguage(sessionData.language);
-		await sessionDB.set(
-			sessionData.sessioncode,
-			JSON.stringify({
-				...sessionData,
-				sessioncode: code,
-				dialogue: [
-					...sessionData.dialogue,
-					{
-						id: sessionData.dialogue.length + 1,
-						contentType: "log",
-						isuser: false,
-						content: t("dialogue.NewSessionWithData"),
-					},
-				],
-				clients: [],
-				updatedAt: new Date(),
-				screenShot: "",
-				clicks: [],
-			}),
-		);
+		// await sessionDB.set(
+		// 	sessionData.sessioncode,
+		// 	JSON.stringify({
+		// 		...sessionData,
+		// 		sessioncode: code,
+		// 		dialogue: [
+		// 			...sessionData.dialogue,
+		// 			{
+		// 				id: sessionData.dialogue.length + 1,
+		// 				contentType: "log",
+		// 				isuser: false,
+		// 				content: t("dialogue.NewSessionWithData"),
+		// 			},
+		// 		],
+		// 		clients: [],
+		// 		updatedAt: new Date(),
+		// 		screenShot: "",
+		// 		clicks: [],
+		// 	}),
+		// );
+		//Postgresに移行する
+		await db.insert(appSessions).values({
+			...sessionData,
+			sessioncode: code,
+			dialogue: [
+				...sessionData.dialogue,
+				{
+					id: sessionData.dialogue.length + 1,
+					contentType: "log",
+					isuser: false,
+					content: t("dialogue.NewSessionWithData"),
+				},
+			],
+			clients: [],
+			updatedAt: new Date(),
+			screenshot: "",
+			clicks: [],
+		});
 		res.send(sessionData.sessioncode);
 		return;
 	}
@@ -237,18 +259,29 @@ DBrouter.post("/new", async (req, res) => {
 
 	console.log("session created with initial data");
 
-	const value = await sessionDB.get(code);
-	if (value === code) {
+	// const value = await sessionDB.get(code);
+	//既に同じコードのセッションが存在する場合はエラーを返す
+	const value = await db
+		.select()
+		.from(appSessions)
+		.where(eq(appSessions.sessioncode, code));
+
+	if (value[0]?.sessioncode === code) {
 		res
 			.status(500)
 			.send("Failed to create session by api: code already exists");
 		return;
 	}
 
-	await sessionDB.set(
-		code,
-		JSON.stringify(initialData(code, language.toString())),
-	);
+	// await sessionDB.set(
+	// 	code,
+	// 	JSON.stringify(initialData(code, language.toString())),
+	// );
+	//Postgresに移行する
+	await db
+		.insert(appSessions)
+		.values(initialData(code, language.toString()))
+		.execute();
 	console.log("session created by api");
 	res.send(code);
 });
@@ -276,12 +309,17 @@ DBrouter.post("/new", async (req, res) => {
  */
 DBrouter.get("/:key", async (req, res) => {
 	try {
-		const value = await sessionDB.get(req.params.key);
-		if (value === null || undefined) {
-			res.status(404).send(null);
-			return;
-		}
-		res.send(value);
+		// const value = await sessionDB.get(req.params.key);
+		// if (value === null || undefined) {
+		// 	res.status(404).send(null);
+		// 	return;
+		// }
+		// Postgresに移行する
+		const value = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, req.params.key));
+		res.send(value[0]);
 	} catch (e) {
 		res.status(404).send(null);
 	}
@@ -312,7 +350,12 @@ DBrouter.get("/:key", async (req, res) => {
 DBrouter.put("/:key", async (req, res) => {
 	const updateData: SessionValue = req.body;
 	try {
-		await sessionDB.set(req.params.key, JSON.stringify(updateData));
+		// await sessionDB.set(req.params.key, JSON.stringify(updateData));
+		//Postgresに移行する
+		await db
+			.update(appSessions)
+			.set(updateData)
+			.where(eq(appSessions.sessioncode, req.params.key));
 		res.send("Session updated by api");
 	} catch (e) {
 		res.status(404).send(null);
@@ -338,7 +381,11 @@ DBrouter.put("/:key", async (req, res) => {
  */
 DBrouter.delete("/:key", async (req, res) => {
 	try {
-		await sessionDB.del(req.params.key);
+		// await sessionDB.del(req.params.key);
+		//Postgresに移行する
+		await db
+			.delete(appSessions)
+			.where(eq(appSessions.sessioncode, req.params.key));
 		res.send("Session deleted");
 	} catch (e) {
 		res.status(404).send(null);

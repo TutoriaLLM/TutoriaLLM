@@ -8,7 +8,16 @@ import {
 	timestamp,
 	vector,
 	index,
+	boolean,
+	pgEnum,
 } from "drizzle-orm/pg-core";
+import type {
+	Click,
+	Dialogue,
+	SavedAudio,
+	Stats,
+	TutorialStats,
+} from "../../type.js";
 
 // ユーザーの定義
 
@@ -29,6 +38,38 @@ export const authSessions = pgTable("session", {
 		withTimezone: true,
 		mode: "date",
 	}).notNull(),
+});
+
+//アプリセッションの定義
+export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
+
+export const appSessions = pgTable("app_session", {
+	sessioncode: text("session_code").primaryKey(),
+	uuid: text("uuid").notNull(),
+	createdAt: timestamp("created_at", {
+		withTimezone: false,
+		mode: "date",
+	}).notNull(),
+	updatedAt: timestamp("updated_at", {
+		withTimezone: false,
+		mode: "date",
+	}).notNull(),
+	dialogue: json("dialogue").$type<Dialogue[]>().notNull(),
+	quickReplies: json("quick_replies").$type<string[]>().notNull(),
+	isReplying: boolean("is_replying").notNull(),
+	workspace: json("workspace").$type<{ [key: string]: string }>().notNull(),
+	isVMRunning: boolean("is_vm_running").notNull(),
+	clients: json("clients").$type<string[]>().notNull(),
+	language: text("language").notNull(),
+	easyMode: boolean("easy_mode").notNull(),
+	responseMode: responseModeEnum("response_mode").notNull(),
+	llmContext: text("llm_context").notNull(),
+	tutorial: json("tutorial").$type<TutorialStats>().notNull(),
+	stats: json("stats").$type<Stats>().notNull(),
+	audios: json("audios").$type<SavedAudio[]>().notNull(),
+	userAudio: text("user_audio").notNull(),
+	screenshot: text("screenshot").notNull(),
+	clicks: json("clicks").$type<Click[]>().notNull(),
 });
 
 // チュートリアルの保存
@@ -72,7 +113,7 @@ export type TrainingMetadata = {
 	sessionCode?: string;
 };
 
-// AIのベース知識の埋め込み
+// AIのベ��ス知識の埋め込み
 export const guides = pgTable(
 	"guides",
 	{
@@ -103,6 +144,9 @@ export type SelectUser = typeof users.$inferSelect;
 export type InsertAuthSession = typeof authSessions.$inferInsert;
 export type SelectAuthSession = typeof authSessions.$inferSelect;
 
+export type InsertAppSession = typeof appSessions.$inferInsert;
+export type SelectAppSession = typeof appSessions.$inferSelect;
+
 export type InsertTag = typeof tags.$inferInsert;
 export type SelectTag = typeof tags.$inferSelect;
 
@@ -121,6 +165,7 @@ export type SelectTrainingData = typeof trainingData.$inferSelect;
 //移行が完了するまでの暫定的な型エイリアス
 export type User = SelectUser;
 export type AuthSession = SelectAuthSession;
+export type AppSession = SelectAppSession;
 export type Tag = SelectTag;
 export type TutorialsTags = SelectTutorialsTags;
 export type Tutorial = SelectTutorial;

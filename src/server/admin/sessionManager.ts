@@ -1,6 +1,9 @@
 import express from "express";
-import { sessionDB } from "../db/session.js";
+// import { sessionDB } from "../db/session.js";
+import { db } from "../db/index.js";
 import type { SessionValue } from "../../type.js";
+import { appSessions } from "../db/schema.js";
+import { asc, desc, eq } from "drizzle-orm";
 
 const sessionManager = express.Router();
 
@@ -31,25 +34,27 @@ const sessionManager = express.Router();
 sessionManager.get("/download", async (req, res) => {
 	console.log("download all sessions");
 	try {
-		const keys = [];
-		for await (const key of await sessionDB.keys("*")) {
-			keys.push(key);
-		}
-		if (keys.length === 0) {
-			res.json([]);
-			return;
-		}
-		const allSessions = await sessionDB.mGet(keys);
-		const filteredSessions = allSessions
-			.map((sessionString) => {
-				if (sessionString) {
-					const session = JSON.parse(sessionString) as SessionValue;
-					return session;
-				}
-				return null;
-			})
-			.filter((session) => session !== null);
-		res.json(filteredSessions);
+		// const keys = [];
+		// for await (const key of await sessionDB.keys("*")) {
+		// 	keys.push(key);
+		// }
+		// if (keys.length === 0) {
+		// 	res.json([]);
+		// 	return;
+		// }
+		// const allSessions = await sessionDB.mGet(keys);
+		// const filteredSessions = allSessions
+		// 	.map((sessionString) => {
+		// 		if (sessionString) {
+		// 			const session = JSON.parse(sessionString) as SessionValue;
+		// 			return session;
+		// 		}
+		// 		return null;
+		// 	})
+		// 	.filter((session) => session !== null);
+		//Postgresに移行する
+		const allSessions = await db.select().from(appSessions);
+		res.json(allSessions);
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ error: (err as Error).message });
@@ -67,43 +72,53 @@ sessionManager.get("/list", async (req, res) => {
 	const end = start + limit;
 
 	try {
-		const keys = [];
-		for await (const key of await sessionDB.keys("*")) {
-			keys.push(key);
-		}
-		if (keys.length === 0) {
-			res.json([]);
-			return;
-		}
-		const allSessions = await sessionDB.mGet(keys);
-		const filteredSessions = allSessions
-			.map((sessionString) => {
-				if (sessionString) {
-					const session = JSON.parse(sessionString) as SessionValue;
-					return {
-						sessioncode: session.sessioncode,
-						language: session.language,
-						createdAt: session.createdAt,
-						updatedAt: session.updatedAt,
-						stats: session.stats,
-						clients: session.clients,
-					};
-				}
-				return null;
-			})
-			.filter((session) => session !== null);
+		// const keys = [];
+		// for await (const key of await sessionDB.keys("*")) {
+		// 	keys.push(key);
+		// }
+		// if (keys.length === 0) {
+		// 	res.json([]);
+		// 	return;
+		// }
+		// const allSessions = await sessionDB.mGet(keys);
+		// const filteredSessions = allSessions
+		// 	.map((sessionString) => {
+		// 		if (sessionString) {
+		// 			const session = JSON.parse(sessionString) as SessionValue;
+		// 			return {
+		// 				sessioncode: session.sessioncode,
+		// 				language: session.language,
+		// 				createdAt: session.createdAt,
+		// 				updatedAt: session.updatedAt,
+		// 				stats: session.stats,
+		// 				clients: session.clients,
+		// 			};
+		// 		}
+		// 		return null;
+		// 	})
+		// 	.filter((session) => session !== null);
 
-		const sortedSessions = filteredSessions.sort((a, b) => {
-			if (sortOrder === "asc") {
-				return (a as any)[sortField] > (b as any)[sortField] ? 1 : -1;
-			}
-			return (a as any)[sortField] < (b as any)[sortField] ? 1 : -1;
-		}) as SessionValue[];
+		// const sortedSessions = filteredSessions.sort((a, b) => {
+		// 	if (sortOrder === "asc") {
+		// 		return (a as any)[sortField] > (b as any)[sortField] ? 1 : -1;
+		// 	}
+		// 	return (a as any)[sortField] < (b as any)[sortField] ? 1 : -1;
+		// }) as SessionValue[];
 
-		const paginatedSessions = sortedSessions.slice(start, end);
+		// const paginatedSessions = sortedSessions.slice(start, end);
+		//Postgresに移行する
+		const sortOrderType = sortOrder === "asc" ? asc : desc;
+		const sortFieldType = appSessions[sortField];
+		const sessions = await db
+			.select()
+			.from(appSessions)
+			.orderBy(sortOrderType(sortFieldType))
+			.offset(start)
+			.limit(limit);
+
 		res.json({
-			sessions: paginatedSessions,
-			total: keys.length,
+			sessions: sessions,
+			total: sessions.length,
 			page,
 			limit,
 		});
@@ -140,7 +155,9 @@ sessionManager.delete("/:code", async (req, res) => {
 	const code = req.params.code;
 
 	try {
-		await sessionDB.del(code);
+		// await sessionDB.del(code);
+		//Postgresに移行する
+		await db.delete(appSessions).where(eq(appSessions.sessioncode, code));
 		res.status(204).end();
 	} catch (err) {
 		res.status(500).json({ error: (err as Error).message });

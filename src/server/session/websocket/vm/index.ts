@@ -4,7 +4,8 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { SessionValue } from "../../../../type.js";
-import { sessionDB } from "../../../db/session.js";
+// import { sessionDB } from "../../../db/session.js";
+import { db } from "../../../db/index.js";
 import type { vmMessage } from "./tsWorker.js";
 import LogBuffer from "./logBuffer.js";
 import cors from "cors";
@@ -13,6 +14,8 @@ import { getConfig } from "../../../getConfig.js";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Socket } from "socket.io";
+import { appSessions } from "../../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 //debug
 console.log("vm/index.js: Loading vm app");
@@ -85,8 +88,13 @@ const proxy = createProxyMiddleware({
 			console.log("Invalid code");
 			throw new Error("Invalid code");
 		}
-		const session = await sessionDB.get(code);
-		const uuid = session ? JSON.parse(session).uuid : undefined;
+		// const session = await sessionDB.get(code);
+		const session = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
+
+		const uuid = session[0].uuid;
 		const instance = vmInstances[uuid];
 		if (instance) {
 			console.log(
@@ -164,29 +172,41 @@ export async function ExecCodeTest(
 		socket: Socket,
 	) => Promise<void>,
 ): Promise<string> {
-	const session = await sessionDB.get(code);
+	// const session = await sessionDB.get(code);
+	const session = await db
+		.select()
+		.from(appSessions)
+		.where(eq(appSessions.sessioncode, code));
 	if (!session) {
 		return "Invalid session";
 	}
-	const sessionValue: SessionValue = JSON.parse(session);
+	const sessionValue: SessionValue = session[0];
 	if (sessionValue.uuid !== uuid) {
 		return "Invalid uuid";
 	}
 
 	const logBuffer = new LogBuffer(
 		async (code, logs) => {
-			const session = await sessionDB.get(code);
+			// const session = await sessionDB.get(code);
+			const session = await db
+				.select()
+				.from(appSessions)
+				.where(eq(appSessions.sessioncode, code));
 			if (!session) {
 				return;
 			}
-			const sessionValue: SessionValue = JSON.parse(session);
+			const sessionValue: SessionValue = session[0];
 			sessionValue.dialogue.push(logs);
 			await DBupdator(code, sessionValue, socket);
 		},
 		code,
 		async () => {
-			const session = await sessionDB.get(code);
-			return session ? JSON.parse(session) : null;
+			// const session = await sessionDB.get(code);
+			const session = await db
+				.select()
+				.from(appSessions)
+				.where(eq(appSessions.sessioncode, code));
+			return session[0];
 		},
 	);
 
@@ -267,11 +287,15 @@ export async function UpdateCodeTest(
 ): Promise<string> {
 	const instance = vmInstances[uuid];
 	if (instance?.running) {
-		const session = await sessionDB.get(code);
+		// const session = await sessionDB.get(code);
+		const session = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
 		if (!session) {
 			return "Invalid session";
 		}
-		const sessionValue: SessionValue = JSON.parse(session);
+		const sessionValue: SessionValue = session[0];
 		if (sessionValue.uuid !== uuid) {
 			return "Invalid uuid";
 		}
@@ -299,14 +323,18 @@ export async function StopCodeTest(
 	const instance = vmInstances[uuid];
 	if (instance?.running) {
 		instance.running = false;
-		const session = await sessionDB.get(code);
+		// const session = await sessionDB.get(code);
+		const session = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
 		if (!session) {
 			return {
 				message: "Invalid session",
 				error: "Invalid session",
 			};
 		}
-		if (JSON.parse(session).uuid !== uuid) {
+		if (session[0].uuid !== uuid) {
 			return {
 				message: "Invalid uuid",
 				error: "Invalid uuid",
@@ -331,7 +359,7 @@ export async function StopCodeTest(
 		delete vmInstances[uuid];
 
 		// DBを更新し、クライアントに通知
-		const sessionValue: SessionValue = JSON.parse(session);
+		const sessionValue: SessionValue = session[0];
 		sessionValue.isVMRunning = false;
 		await DBupdator(code, sessionValue, socket);
 		return {

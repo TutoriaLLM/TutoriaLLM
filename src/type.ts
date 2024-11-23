@@ -49,36 +49,38 @@ export type SavedAudio = {
 	id: string;
 	base64: string;
 };
-export type SessionValue = {
-	sessioncode: string;
-	uuid: string;
-	createdAt: Date;
-	updatedAt: Date;
-	dialogue: Dialogue[];
-	quickReplies: string[];
-	isReplying: boolean;
-	//シリアル化したBlockly.Workspaceを保存する
-	workspace: { [key: string]: string };
-	isVMRunning: boolean;
-	clients: string[];
-	language: string;
-	//簡単モードかどうかを保存し、簡単モードの場合はAIの返答を簡略化したり、ルビを振ったりする
-	easyMode: boolean;
-	//AIからの応答モードを保存する
-	responseMode: "text" | "audio";
-	//AIへ与えるコンテキスト
-	llmContext: string;
-	//チュートリアルの有無や設定を保存する
-	tutorial: TutorialStats;
-	//数値的な統計情報を保存する
-	stats: Stats;
-	audios: SavedAudio[];
-	userAudio: string; //これは一時的なものなので、サーバーに着信し、処理されたら削除される
-	//ページの最新のbase64スクリーンショットを保存する
-	screenshot: string;
-	//直近のユーザーのクリック位置を配列で保存する
-	clicks: Click[];
-};
+import type { AppSession } from "./server/db/schema.js";
+export type SessionValue = AppSession; //
+// {
+// 	sessioncode: string;
+// 	uuid: string;
+// 	createdAt: Date;
+// 	updatedAt: Date;
+// 	dialogue: Dialogue[];
+// 	quickReplies: string[];
+// 	isReplying: boolean;
+// 	//シリアル化したBlockly.Workspaceを保存する
+// 	workspace: { [key: string]: string };
+// 	isVMRunning: boolean;
+// 	clients: string[];
+// 	language: string;
+// 	//簡単モードかどうかを保存し、簡単モードの場合はAIの返答を簡略化したり、ルビを振ったりする
+// 	easyMode: boolean;
+// 	//AIからの応答モードを保存する
+// 	responseMode: "text" | "audio";
+// 	//AIへ与えるコンテキスト
+// 	llmContext: string;
+// 	//チュートリアルの有無や設定を保存する
+// 	tutorial: TutorialStats;
+// 	//数値的な統計情報を保存する
+// 	stats: Stats;
+// 	audios: SavedAudio[];
+// 	userAudio: string; //これは一時的なものなので、サーバーに着信し、処理されたら削除される
+// 	//ページの最新のbase64スクリーンショットを保存する
+// 	screenshot: string;
+// 	//直近のユーザーのクリック位置を配列で保存する
+// 	clicks: Click[];
+// };
 
 //ハイライトするブロック
 import type Blockly from "blockly";

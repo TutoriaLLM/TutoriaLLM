@@ -5,7 +5,8 @@ import i18next from "i18next";
 import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Dialogue, SessionValue } from "../../../type.js";
 import { updateDialogue } from "../../../utils/dialogueUpdater.js";
-import { sessionDB } from "../../db/session.js";
+// import { sessionDB } from "../../db/session.js";
+import { db } from "../../db/index.js";
 import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "./vm/index.js";
 import codeGen from "./codeGen.js";
 import { updateStats } from "../../../utils/statsUpdater.js";
@@ -18,6 +19,8 @@ import {
 	updateAndBroadcastDiffToAll,
 } from "./updateDB.js";
 import apiLimiter from "../../ratelimit.js";
+import { appSessions } from "../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 const config = getConfig();
 
@@ -77,13 +80,14 @@ io.on("connection", async (socket) => {
 	console.log("on connect:", code, uuid);
 	try {
 		// コードが存在しない場合は接続を拒否
-		const value = await sessionDB.get(code);
-		if (!value) {
-			socket.emit("error", "Invalid code");
-			socket.disconnect();
-			return;
-		}
-		const data: SessionValue = JSON.parse(value);
+		// const rawData = await sessionDB.get(code);
+		//Postgresに移行する
+		const rawData = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
+
+		const data: SessionValue = rawData[0];
 
 		// uuidが一致しない場合は接続を拒否
 		if (data.uuid !== uuid) {
@@ -114,13 +118,20 @@ io.on("connection", async (socket) => {
 		async function getCurrentDataJson(
 			code: string,
 		): Promise<SessionValue | null> {
-			const currentData = await sessionDB.get(code);
+			// const rawData = await sessionDB.get(code);
+			//Postgresに移行する
+			const rawData = await db
+				.select()
+				.from(appSessions)
+				.where(eq(appSessions.sessioncode, code));
+
+			const currentData: SessionValue = rawData[0];
 			if (!currentData) {
 				socket.emit("error", "Session not found");
 				socket.disconnect();
 				return null;
 			}
-			return JSON.parse(currentData);
+			return currentData;
 		}
 
 		//自動的に指定した分おきにスクリーンショットのリクエストを送信する
@@ -261,11 +272,19 @@ io.on("connection", async (socket) => {
 			console.log("disconnected client");
 			clearInterval(screenshotInterval);
 			try {
-				const currentData = await sessionDB.get(code);
+				// const rawData = await sessionDB.get(code);
+				//Postgresに移行する
+				const rawData = await db
+					.select()
+					.from(appSessions)
+					.where(eq(appSessions.sessioncode, code));
+
+				const currentData: SessionValue = rawData[0];
+
 				if (!currentData) {
 					return;
 				}
-				const currentDataJson: SessionValue = JSON.parse(currentData);
+				const currentDataJson: SessionValue = currentData;
 
 				currentDataJson.clients = currentDataJson.clients.filter(
 					(id) => id !== socket.id,
@@ -343,13 +362,21 @@ wsServer.get("/get/:code", async (req, res) => {
 	const code = req.params.code;
 
 	try {
-		const value = await sessionDB.get(code).catch(() => null);
-		if (!value) {
+		// const value = await sessionDB.get(code).catch(() => null);
+		//Postgresに移行する
+		const rawData = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
+
+		const currentData: SessionValue = rawData[0];
+
+		if (currentData) {
 			res.status(404).send("Session not found");
 			return;
 		}
 
-		const data: SessionValue = JSON.parse(value);
+		const data: SessionValue = currentData;
 		if (!data.uuid) {
 			res.status(500).send("Session uuid is invalid or not found");
 			return;

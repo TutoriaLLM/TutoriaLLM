@@ -4,8 +4,11 @@ import OpenAI from "openai";
 import type { SessionValue } from "../../../type.js";
 import fs from "node:fs";
 import { updateAndBroadcastDiffToAll } from "../websocket/updateDB.js";
-import { sessionDB } from "../../db/session.js";
+// import { sessionDB } from "../../db/session.js";
+import { db } from "../../db/index.js";
 import type { Socket } from "socket.io";
+import { appSessions } from "../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -29,8 +32,14 @@ export async function updateAudioDialogue(
 ) {
 	const transcript = await audioToText(mp3Path);
 
-	const rawData = await sessionDB.get(code);
-	const data: SessionValue = rawData ? JSON.parse(rawData) : null;
+	// const rawData = await sessionDB.get(code);
+	//Postgresに移行する
+	const rawData = await db
+		.select()
+		.from(appSessions)
+		.where(eq(appSessions.sessioncode, code));
+
+	const data: SessionValue = rawData[0];
 
 	const newData = {
 		//特定のIDのダイアログにAIのテキストを上書き

@@ -1,3 +1,32 @@
+DO $$ BEGIN
+ CREATE TYPE "public"."response_mode" AS ENUM('text', 'audio');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "app_session" (
+	"session_code" text PRIMARY KEY NOT NULL,
+	"uuid" text NOT NULL,
+	"created_at" timestamp NOT NULL,
+	"updated_at" timestamp NOT NULL,
+	"dialogue" json NOT NULL,
+	"quick_replies" json NOT NULL,
+	"is_replying" boolean NOT NULL,
+	"workspace" json NOT NULL,
+	"is_vm_running" boolean NOT NULL,
+	"clients" json NOT NULL,
+	"language" text NOT NULL,
+	"easy_mode" boolean NOT NULL,
+	"response_mode" "response_mode" NOT NULL,
+	"llm_context" text NOT NULL,
+	"tutorial" json NOT NULL,
+	"stats" json NOT NULL,
+	"audios" json NOT NULL,
+	"user_audio" text NOT NULL,
+	"screenshot" text NOT NULL,
+	"clicks" json NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" integer NOT NULL,
