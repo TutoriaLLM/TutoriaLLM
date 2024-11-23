@@ -1,0 +1,113 @@
+import { serve } from "@hono/node-server";
+import { showRoutes } from "hono/dev";
+// import { verifyRequestOrigin } from "lucia";
+// import { lucia } from "./libs/lucia.js";
+import type { Context } from "./context.js";
+// import authRoutes from "./modules/auth/index.js";
+import configRoutes from "./modules/config/index.js";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { swaggerUI } from "@hono/swagger-ui";
+import { errorResponse } from "./libs/errors/index.js";
+
+const app = new OpenAPIHono<Context>();
+const isDev = process.env.NODE_ENV === "development";
+// app.use("*", async (c, next) => {
+// 	if (c.req.method === "GET") {
+// 		return next();
+// 	}
+// 	const originHeader = c.req.header("Origin") ?? null;
+// 	const hostHeader = c.req.header("Host") ?? null;
+// 	if (
+// 		!originHeader ||
+// 		!hostHeader ||
+// 		!verifyRequestOrigin(originHeader, [hostHeader])
+// 	) {
+// 		return c.body(null, 403);
+// 	}
+// 	return next();
+// });
+// app.use("*", async (c, next) => {
+// 	const sessionId = lucia.readSessionCookie(c.req.header("Cookie") ?? "");
+// 	if (!sessionId) {
+// 		c.set("user", null);
+// 		c.set("session", null);
+// 		return next();
+// 	}
+
+// 	const { session, user } = await lucia.validateSession(sessionId);
+// 	if (session?.fresh) {
+// 		c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
+// 			append: true,
+// 		});
+// 	}
+// 	if (!session) {
+// 		c.header("Set-Cookie", lucia.createBlankSessionCookie().serialize(), {
+// 			append: true,
+// 		});
+// 	}
+// 	c.set("session", session);
+// 	c.set("user", user);
+// 	return next();
+// });
+
+app.get("/", (c) => c.text("Hello Node.js!"));
+
+let port = 3000;
+let vmPort = 3001;
+if (process.env.SERVER_PORT) {
+	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // 10進数として解釈
+	if (!Number.isNaN(basePort)) {
+		// basePortがNaNでないか確認
+		port = basePort;
+	}
+}
+if (process.env.VM_PORT) {
+	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
+	if (!Number.isNaN(basePort)) {
+		// basePortがNaNでないか確認
+		vmPort = basePort;
+	}
+}
+// const route = app.route("/", authRoutes)
+export const route = app
+	.route("/", configRoutes)
+	.doc("/doc", {
+		openapi: "3.0.0",
+		info: {
+			version: "1.0.0",
+			title: "TutoriaLLM API",
+		},
+	})
+	.get("/ui", swaggerUI({ url: "/doc" }));
+
+// The OpenAPI documentation will be available at /doc
+
+/**
+ * 404エラー時の共通処理
+ */
+app.notFound((c) => {
+	return errorResponse(c, {
+		type: "NOT_FOUND",
+		message: "Route not found",
+	});
+});
+
+/**
+ * サーバーエラー時の共通処理
+ */
+app.onError((err, c) => {
+	// c.get("sentry").captureException(err);
+	return errorResponse(c, {
+		type: "SERVER_ERROR",
+		message: "Unexpected error",
+		err,
+	});
+});
+
+serve({
+	fetch: app.fetch,
+	port: port,
+});
+if (isDev) showRoutes(app, { verbose: true, colorize: true });
+
+export type AppType = typeof route;
