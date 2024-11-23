@@ -7,29 +7,6 @@ import { asc, desc, eq } from "drizzle-orm";
 
 const sessionManager = express.Router();
 
-/**
- * @openapi
- * /admin/sessions/list:
- *   get:
- *     description: Returns a list of all sessions
- *     responses:
- *       200:
- *         description: A list of all sessions with pagination information, and session data(reduced)
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example: { error: "Error message" }
- */
-
 //セッションの全データを取得するAPI(ダウンロード用)
 sessionManager.get("/download", async (req, res) => {
 	console.log("download all sessions");
@@ -76,28 +53,6 @@ sessionManager.get("/list", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/sessions/{code}:
- *   delete:
- *     description: Deletes a session by code
- *     parameters:
- *       - in: path
- *         name: code
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       204:
- *         description: No Content
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example: { error: "Error message" }
- */
 // セッションの削除を行うAPI
 sessionManager.delete("/:code", async (req, res) => {
 	const code = req.params.code;

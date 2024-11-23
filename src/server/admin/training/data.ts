@@ -7,33 +7,6 @@ import { eq, sql } from "drizzle-orm";
 //トレーニングに用いるデータを管理するAPI。このデータを編集or承認したものがガイドとしてAIに反映される、一時的な保存場所。Adminのみアクセス可能。
 const trainingDataManager = express.Router();
 
-/**
- * @openapi
- * /admin/training/data/random:
- *   get:
- *     description: Returns a random training data
- *     responses:
- *       200:
- *         description: A random training data
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *       404:
- *         description: No data found
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: No data found
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to fetch data
- */
 //ランダムなトレーニングデータを取得するAPI
 trainingDataManager.get("/random", async (req, res) => {
 	try {
@@ -53,35 +26,6 @@ trainingDataManager.get("/random", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/training/data/list:
- *   get:
- *     description: Returns a list of all training data
- *     responses:
- *       200:
- *         description: A list of all training data
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *       404:
- *         description: No data found
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: No data found
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to fetch data
- */
 //トレーニングデータをリストするAPI
 trainingDataManager.get("/list", async (req, res) => {
 	try {
@@ -97,33 +41,6 @@ trainingDataManager.get("/list", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/training/data/{id}:
- *   delete:
- *     description: Deletes a training data by id
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Training data deleted
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: data {id} deleted
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to delete data
- */
 //トレーニングデータを削除するAPI
 trainingDataManager.delete("/:id", async (req, res) => {
 	try {

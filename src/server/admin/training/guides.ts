@@ -28,57 +28,6 @@ async function createGuideFromTrainingData(
 	};
 }
 
-/**
- * @openapi
- * components:
- *   schemas:
- *     TrainingData:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         metadata:
- *           type: object
- *         question:
- *           type: string
- *         answer:
- *           type: string
- *     Guide:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *         metadata:
- *           type: object
- *         question:
- *           type: string
- *         answer:
- *           type: string
- *         embedding:
- *           type: array
- *           items:
- *             type: number
- */
-
-/**
- * @openapi
- * /admin/training/guide/new:
- *   post:
- *     description: API to create a new guide from training data
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/TrainingData'
- *     responses:
- *       201:
- *         description: Guide created
- *       400:
- *         description: Body is required
- *       500:
- *         description: Failed to create guide
- */
 guideManager.post("/new", async (req, res) => {
 	if (!req.body) {
 		res.status(400).send("Body is required");
@@ -117,34 +66,6 @@ export async function getKnowledge(
 		return "Failed to search guides";
 	}
 }
-/**
- * @openapi
- * /admin/training/guide/search:
- *   post:
- *     description: API to search knowledge based on vector
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               query:
- *                 type: string
- *     responses:
- *       200:
- *         description: A list of guides
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Guide'
- *       400:
- *         description: Body is required
- *       500:
- *         description: Failed to search guides
- */
 guideManager.post("/search", async (req, res) => {
 	if (!req.body) {
 		res.status(400).send("Body is required");
@@ -160,25 +81,6 @@ guideManager.post("/search", async (req, res) => {
 	}
 	res.json(result);
 });
-/**
- * @openapi
- * /admin/training/guide/list:
- *   get:
- *     description: API to get a list of guides
- *     responses:
- *       200:
- *         description: A list of guides
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Guide'
- *       404:
- *         description: No guides found
- *       500:
- *         description: Failed to fetch guides
- */
 guideManager.get("/list", async (req, res) => {
 	try {
 		const guidesList = await db.select().from(guides);
@@ -192,27 +94,6 @@ guideManager.get("/list", async (req, res) => {
 		res.status(500).send("Failed to fetch guides");
 	}
 });
-/**
- * @openapi
- * /admin/training/guide/{id}:
- *   get:
- *     description: API to get a guide content by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: A guide
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Guide'
- *       500:
- *         description: Failed to fetch guide
- */
 guideManager.get("/:id", async (req, res) => {
 	const id = Number.parseInt(req.params.id, 10);
 	try {
@@ -223,31 +104,6 @@ guideManager.get("/:id", async (req, res) => {
 		res.status(500).send("Failed to fetch guide");
 	}
 });
-/**
- * @openapi
- * /admin/training/guide/{id}:
- *   put:
- *     description: API to update or create a guide by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/TrainingData'
- *     responses:
- *       201:
- *         description: Guide updated
- *       400:
- *         description: Body is required
- *       500:
- *         description: Failed to update guide
- */
 guideManager.put("/:id", async (req, res) => {
 	if (!req.body) {
 		res.status(400).send("Body is required");
@@ -272,23 +128,6 @@ guideManager.put("/:id", async (req, res) => {
 		res.status(500).send("Failed to update guide");
 	}
 });
-/**
- * @openapi
- * /admin/training/guide/{id}:
- *   delete:
- *     description: API to delete a guide by ID
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Guide deleted
- *       500:
- *         description: Failed to delete guide
- */
 guideManager.delete("/:id", async (req, res) => {
 	try {
 		const id = Number.parseInt(req.params.id, 10);

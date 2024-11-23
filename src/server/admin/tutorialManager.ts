@@ -10,56 +10,6 @@ import { generateMetadata } from "./llm/metadata.js";
 const tutorialsManager = express.Router();
 tutorialsManager.use(express.json());
 
-/**
- * @openapi
- * components:
- *   schemas:
- *     Tutorial:
- *       type: object
- *       properties:
- *         language:
- *           type: string
- *         id:
- *           type: integer
- *         tags:
- *           type: array
- *           items:
- *             type: string
- *         content:
- *           type: string
- *         metadata:
- *           type: object
- *           properties:
- *             selectCount:
- *               type: integer
- *             otherMetadataField:
- *               type: string
- *         serializednodes:
- *           type: string
- */
-
-/**
- * @openapi
- * /admin/tutorials/:
- *   get:
- *     description: Returns all tutorials
- *     responses:
- *       200:
- *         description: A list of all tutorials
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Tutorial'
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to fetch tutorials
- */
 //全てのチュートリアルを取得
 tutorialsManager.get("/", async (req, res) => {
 	try {
@@ -72,39 +22,6 @@ tutorialsManager.get("/", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/tutorials/{id}:
- *   get:
- *     description: Returns the content of a tutorial
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: The content of the tutorial
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Tutorial'
- *       404:
- *         description: Not Found
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Not Found
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to fetch tutorial
- */
 // チュートリアルの内容を取得
 tutorialsManager.get("/:id", async (req, res) => {
 	try {
@@ -126,33 +43,6 @@ tutorialsManager.get("/:id", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/tutorials/{id}:
- *   delete:
- *     description: Deletes a tutorial by id
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Tutorial deleted
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Tutorial {id} deleted
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to delete tutorial
- */
 //チュートリアルを削除
 tutorialsManager.delete("/:id", async (req, res) => {
 	try {
@@ -181,40 +71,6 @@ tutorialsManager.delete("/:id", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/tutorials/new:
- *   post:
- *     description: Creates a new tutorial
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Tutorial'
- *     responses:
- *       201:
- *         description: Tutorial created
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Tutorial created
- *       400:
- *         description: Bad Request
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Body is required
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to create tutorial
- */
 //新しいチュートリアルを作成
 tutorialsManager.post("/new", async (req, res) => {
 	if (!req.body) {
@@ -276,53 +132,6 @@ tutorialsManager.post("/new", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/tutorials/{id}:
- *   put:
- *     description: Updates the content of a tutorial
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Tutorial'
- *     responses:
- *       200:
- *         description: Tutorial updated
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Tutorial {id} updated
- *       400:
- *         description: Bad Request
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Bad Request
- *       404:
- *         description: Not Found
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Not Found
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to update tutorial
- */
 //チュートリアルの内容を更新
 tutorialsManager.put("/:id", async (req, res) => {
 	const id = Number.parseInt(req.params.id, 10);
@@ -402,32 +211,6 @@ tutorialsManager.put("/:id", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /admin/tutorials/generate-content:
- *   post:
- *     description: Generates content for a tutorial using AI
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Tutorial'
- *     responses:
- *       200:
- *         description: Generated content
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Tutorial'
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to generate content
- */
 //チュートリアル作成の際にAIを使用してコンテンツを生成する
 tutorialsManager.post("/generate-content", async (req, res) => {
 	const content = req.body.content;
@@ -440,32 +223,6 @@ tutorialsManager.post("/generate-content", async (req, res) => {
 	res.json(generatedContent);
 });
 
-/**
- * @openapi
- * /admin/tutorials/generate-metadata:
- *   post:
- *     description: Generates metadata for a tutorial using AI
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Tutorial'
- *     responses:
- *       200:
- *         description: Generated metadata
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Tutorial'
- *       500:
- *         description: Internal Server Error
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Failed to generate metadata
- */
 //チュートリアル作成の際にAIを使用してコンテンツからメタデータを生成する
 tutorialsManager.post("/generate-metadata", async (req, res) => {
 	const content = req.body.content;

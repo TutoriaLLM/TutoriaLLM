@@ -68,123 +68,6 @@ function initialData(code: string, language: string): AppSession {
 	};
 }
 
-/**
- * @openapi
- * components:
- *   schemas:
- *     SessionValue:
- *       type: object
- *       properties:
- *         sessioncode:
- *           type: string
- *         uuid:
- *           type: string
- *         createdAt:
- *           type: string
- *           format: date-time
- *         updatedAt:
- *           type: string
- *           format: date-time
- *         dialogue:
- *           type: array
- *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: integer
- *               contentType:
- *                 type: string
- *               isuser:
- *                 type: boolean
- *               content:
- *                 type: string
- *         quickReplies:
- *           type: array
- *           items:
- *             type: string
- *         isReplying:
- *           type: boolean
- *         easyMode:
- *           type: boolean
- *         responseMode:
- *           type: string
- *         workspace:
- *           type: object
- *         isVMRunning:
- *           type: boolean
- *         clients:
- *           type: array
- *           items:
- *             type: string
- *         language:
- *           type: string
- *         llmContext:
- *           type: string
- *         tutorial:
- *           type: object
- *           properties:
- *             isTutorial:
- *               type: boolean
- *             tutorialId:
- *               type: string
- *               nullable: true
- *             progress:
- *               type: integer
- *         stats:
- *           type: object
- *           properties:
- *             totalConnectingTime:
- *               type: integer
- *             currentNumOfBlocks:
- *               type: integer
- *             totalInvokedLLM:
- *               type: integer
- *             totalUserMessages:
- *               type: integer
- *             totalCodeExecutions:
- *               type: integer
- *         audios:
- *           type: array
- *           items:
- *             type: string
- *         userAudio:
- *           type: string
- *         screenshot:
- *           type: string
- *         clicks:
- *           type: array
- *           items:
- *             type: string
- */
-
-/**
- * @openapi
- * /session/new:
- *   post:
- *     description: Creates a new session with optional session data.
- *     parameters:
- *       - name: language
- *         in: query
- *         description: Language code to initialize the session.
- *         required: false
- *         schema:
- *           type: string
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/SessionValue'
- *     responses:
- *       200:
- *         description: Successfully created a new session.
- *         content:
- *           text/plain:
- *             schema:
- *               type: string
- *               example: Generated session code
- *       500:
- *         description: Failed to create session by API.
- */
 DBrouter.post("/new", async (req, res) => {
 	let language = req.query.language;
 	const sessionData = req.body as AppSession;
@@ -250,27 +133,6 @@ DBrouter.post("/new", async (req, res) => {
 	res.send(code);
 });
 
-/**
- * @openapi
- * /session/{key}:
- *   get:
- *     description: Retrieves the session data for the given key.
- *     parameters:
- *       - name: key
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully retrieved session data.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/SessionValue'
- *       404:
- *         description: Session not found.
- */
 DBrouter.get("/:key", async (req, res) => {
 	try {
 		// RedisからPostgresに移行しました: from 1.0.0
@@ -287,28 +149,6 @@ DBrouter.get("/:key", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /session/{key}:
- *   put:
- *     description: Updates the session data for the given key.
- *     parameters:
- *       - name: key
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/SessionValue'
- *     responses:
- *       200:
- *         description: Successfully updated session data.
- *       404:
- *         description: Session not found.
- */
 DBrouter.put("/:key", async (req, res) => {
 	const updateData: SessionValue = req.body;
 	try {
@@ -323,23 +163,6 @@ DBrouter.put("/:key", async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /session/{key}:
- *   delete:
- *     description: Deletes the session data for the given key.
- *     parameters:
- *       - name: key
- *         in: path
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Successfully deleted session data.
- *       404:
- *         description: Session not found.
- */
 DBrouter.delete("/:key", async (req, res) => {
 	try {
 		//RedisからPostgresに移行しました: from 1.0.0

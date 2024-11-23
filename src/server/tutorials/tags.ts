@@ -9,31 +9,6 @@ console.log("tutorials/index.ts: Loading tutorial API app");
 // 外部向けのチュートリアルタグエンドポイント(編集不可)
 const tagsAPI = express();
 
-/**
- * @openapi
- * /tutorial/tags:
- *   get:
- *     description: Returns all tags used in tutorials
- *     responses:
- *       200:
- *         description: A list of tags
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *       500:
- *         description: Failed to fetch tags
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Failed to fetch tags
- */
 // チュートリアルで使われている全てのタグを取得
 tagsAPI.get("/", async (req, res) => {
 	try {
