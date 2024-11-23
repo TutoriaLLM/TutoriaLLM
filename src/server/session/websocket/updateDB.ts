@@ -41,24 +41,7 @@ const updateAndBroadcastDiff = async (
 	if (diff.length > 0) {
 		await db
 			.update(appSessions)
-			.set({
-				...newData,
-				sessioncode: code,
-				dialogue: [
-					...newData.dialogue,
-					{
-						id: newData.dialogue.length + 1,
-						contentType: "log",
-						isuser: false,
-						content: "dialogue.NewSessionWithData",
-					},
-				],
-				clients: [],
-				createdAt: new Date(newData.createdAt),
-				updatedAt: new Date(),
-				screenshot: "",
-				clicks: [],
-			})
+			.set(newData)
 			.where(eq(appSessions.sessioncode, code))
 			.execute();
 		// socket.broadcast.emit("PushSessionDiff", diff);
@@ -88,24 +71,7 @@ const updateAndBroadcastDiffToAll = async (
 	if (diff.length > 0) {
 		await db
 			.update(appSessions)
-			.set({
-				...newData,
-				sessioncode: code,
-				dialogue: [
-					...newData.dialogue,
-					{
-						id: newData.dialogue.length + 1,
-						contentType: "log",
-						isuser: false,
-						content: "dialogue.NewSessionWithData",
-					},
-				],
-				clients: [],
-				createdAt: new Date(newData.createdAt),
-				updatedAt: new Date(),
-				screenshot: "",
-				clicks: [],
-			})
+			.set(newData)
 			.where(eq(appSessions.sessioncode, code))
 			.execute();
 		socket.emit("PushSessionDiff", diff);
