@@ -88,7 +88,6 @@ const proxy = createProxyMiddleware({
 			console.log("Invalid code");
 			throw new Error("Invalid code");
 		}
-		// const session = await sessionDB.get(code);
 		const session = await db
 			.select()
 			.from(appSessions)
@@ -172,7 +171,6 @@ export async function ExecCodeTest(
 		socket: Socket,
 	) => Promise<void>,
 ): Promise<string> {
-	// const session = await sessionDB.get(code);
 	const session = await db
 		.select()
 		.from(appSessions)
@@ -187,7 +185,6 @@ export async function ExecCodeTest(
 
 	const logBuffer = new LogBuffer(
 		async (code, logs) => {
-			// const session = await sessionDB.get(code);
 			const session = await db
 				.select()
 				.from(appSessions)
@@ -201,7 +198,6 @@ export async function ExecCodeTest(
 		},
 		code,
 		async () => {
-			// const session = await sessionDB.get(code);
 			const session = await db
 				.select()
 				.from(appSessions)
@@ -287,7 +283,6 @@ export async function UpdateCodeTest(
 ): Promise<string> {
 	const instance = vmInstances[uuid];
 	if (instance?.running) {
-		// const session = await sessionDB.get(code);
 		const session = await db
 			.select()
 			.from(appSessions)
@@ -323,7 +318,6 @@ export async function StopCodeTest(
 	const instance = vmInstances[uuid];
 	if (instance?.running) {
 		instance.running = false;
-		// const session = await sessionDB.get(code);
 		const session = await db
 			.select()
 			.from(appSessions)

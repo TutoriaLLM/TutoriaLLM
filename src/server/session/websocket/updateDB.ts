@@ -24,7 +24,6 @@ const updateAndBroadcastDiff = async (
 	newData: SessionValue,
 	socket: Socket,
 ) => {
-	// const existingDataJson = await sessionDB.get(code);
 	const existingDataJson = await db
 		.select()
 		.from(appSessions)
@@ -40,7 +39,6 @@ const updateAndBroadcastDiff = async (
 	console.log("diff", diff);
 
 	if (diff.length > 0) {
-		// await sessionDB.set(code, JSON.stringify(newData));
 		await db
 			.update(appSessions)
 			.set({
@@ -74,7 +72,6 @@ const updateAndBroadcastDiffToAll = async (
 	newData: SessionValue,
 	socket: Socket,
 ) => {
-	// const existingDataJson = await sessionDB.get(code);
 	const existingDataJson = await db
 		.select()
 		.from(appSessions)
@@ -89,7 +86,6 @@ const updateAndBroadcastDiffToAll = async (
 	console.log("diff", diff);
 
 	if (diff.length > 0) {
-		// await sessionDB.set(code, JSON.stringify(newData));
 		await db
 			.update(appSessions)
 			.set({

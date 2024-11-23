@@ -32,8 +32,7 @@ export async function updateAudioDialogue(
 ) {
 	const transcript = await audioToText(mp3Path);
 
-	// const rawData = await sessionDB.get(code);
-	//Postgresに移行する
+	//RedisからPostgresに移行しました: from 1.0.0
 	const rawData = await db
 		.select()
 		.from(appSessions)

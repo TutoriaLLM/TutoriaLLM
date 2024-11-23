@@ -10,23 +10,10 @@ const DBrouter = express.Router();
 DBrouter.use(apiLimiter());
 DBrouter.use(express.json());
 
-// import redis from "redis";
 import i18next from "i18next";
 import apiLimiter from "../ratelimit.js";
-// export const sessionDB = redis.createClient({
-// 	username: process.env.REDIS_USERNAME,
-// 	password: process.env.REDIS_PASSWORD,
-// 	socket: {
-// 		host: process.env.REDIS_HOST,
-// 		port: 6379,
-// 	},
-// });
-// await sessionDB.connect();
-// sessionDB.on("error", (err) => {
-// 	console.log(`Error ${err}`);
-// });
 
-//Postgresに移行する
+//RedisからPostgresに移行しました: from 1.0.0
 import { db } from "./index.js";
 import { appSessions, type AppSession } from "./schema.js"; //DBとやりとりする際に使う型（フロントエンドで利用しているSessionValueとほぼ同じ）
 import { eq } from "drizzle-orm";
@@ -209,27 +196,7 @@ DBrouter.post("/new", async (req, res) => {
 
 		const { t } = i18next;
 		i18next.changeLanguage(sessionData.language);
-		// await sessionDB.set(
-		// 	sessionData.sessioncode,
-		// 	JSON.stringify({
-		// 		...sessionData,
-		// 		sessioncode: code,
-		// 		dialogue: [
-		// 			...sessionData.dialogue,
-		// 			{
-		// 				id: sessionData.dialogue.length + 1,
-		// 				contentType: "log",
-		// 				isuser: false,
-		// 				content: t("dialogue.NewSessionWithData"),
-		// 			},
-		// 		],
-		// 		clients: [],
-		// 		updatedAt: new Date(),
-		// 		screenShot: "",
-		// 		clicks: [],
-		// 	}),
-		// );
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		await db.insert(appSessions).values({
 			...sessionData,
 			sessioncode: code,
@@ -259,7 +226,6 @@ DBrouter.post("/new", async (req, res) => {
 
 	console.log("session created with initial data");
 
-	// const value = await sessionDB.get(code);
 	//既に同じコードのセッションが存在する場合はエラーを返す
 	const value = await db
 		.select()
@@ -273,11 +239,7 @@ DBrouter.post("/new", async (req, res) => {
 		return;
 	}
 
-	// await sessionDB.set(
-	// 	code,
-	// 	JSON.stringify(initialData(code, language.toString())),
-	// );
-	//Postgresに移行する
+	//RedisからPostgresに移行しました: from 1.0.0
 	await db
 		.insert(appSessions)
 		.values(initialData(code, language.toString()))
@@ -309,12 +271,7 @@ DBrouter.post("/new", async (req, res) => {
  */
 DBrouter.get("/:key", async (req, res) => {
 	try {
-		// const value = await sessionDB.get(req.params.key);
-		// if (value === null || undefined) {
-		// 	res.status(404).send(null);
-		// 	return;
-		// }
-		// Postgresに移行する
+		// RedisからPostgresに移行しました: from 1.0.0
 		const value = await db
 			.select()
 			.from(appSessions)
@@ -350,8 +307,7 @@ DBrouter.get("/:key", async (req, res) => {
 DBrouter.put("/:key", async (req, res) => {
 	const updateData: SessionValue = req.body;
 	try {
-		// await sessionDB.set(req.params.key, JSON.stringify(updateData));
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		await db
 			.update(appSessions)
 			.set(updateData)
@@ -381,8 +337,7 @@ DBrouter.put("/:key", async (req, res) => {
  */
 DBrouter.delete("/:key", async (req, res) => {
 	try {
-		// await sessionDB.del(req.params.key);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		await db
 			.delete(appSessions)
 			.where(eq(appSessions.sessioncode, req.params.key));

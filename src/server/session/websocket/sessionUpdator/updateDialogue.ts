@@ -17,8 +17,7 @@ export async function updateDialogueWithLLM(
 ): Promise<SessionValue> {
 	//処理が終わり、最終データを返す際直前のデータを再取得する
 	async function getLatestData(code: string) {
-		// const rawData = await sessionDB.get(code);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		const rawData = await db
 			.select()
 			.from(appSessions)

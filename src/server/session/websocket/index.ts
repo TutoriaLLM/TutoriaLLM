@@ -80,8 +80,7 @@ io.on("connection", async (socket) => {
 	console.log("on connect:", code, uuid);
 	try {
 		// コードが存在しない場合は接続を拒否
-		// const rawData = await sessionDB.get(code);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		const rawData = await db
 			.select()
 			.from(appSessions)
@@ -118,8 +117,7 @@ io.on("connection", async (socket) => {
 		async function getCurrentDataJson(
 			code: string,
 		): Promise<SessionValue | null> {
-			// const rawData = await sessionDB.get(code);
-			//Postgresに移行する
+			//RedisからPostgresに移行しました: from 1.0.0
 			const rawData = await db
 				.select()
 				.from(appSessions)
@@ -272,8 +270,7 @@ io.on("connection", async (socket) => {
 			console.log("disconnected client");
 			clearInterval(screenshotInterval);
 			try {
-				// const rawData = await sessionDB.get(code);
-				//Postgresに移行する
+				//RedisからPostgresに移行しました: from 1.0.0
 				const rawData = await db
 					.select()
 					.from(appSessions)
@@ -308,7 +305,6 @@ io.on("connection", async (socket) => {
 					console.log(`${result.message} VM stopped. no clients connected.`);
 					currentDataJson.isVMRunning = false;
 				}
-				// await sessionDB.set(code, JSON.stringify(currentDataJson));
 				await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
 			} catch (error) {
 				console.error("Error closing connection:", error);
@@ -362,8 +358,7 @@ wsServer.get("/get/:code", async (req, res) => {
 	const code = req.params.code;
 
 	try {
-		// const value = await sessionDB.get(code).catch(() => null);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		const rawData = await db
 			.select()
 			.from(appSessions)

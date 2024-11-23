@@ -34,25 +34,7 @@ const sessionManager = express.Router();
 sessionManager.get("/download", async (req, res) => {
 	console.log("download all sessions");
 	try {
-		// const keys = [];
-		// for await (const key of await sessionDB.keys("*")) {
-		// 	keys.push(key);
-		// }
-		// if (keys.length === 0) {
-		// 	res.json([]);
-		// 	return;
-		// }
-		// const allSessions = await sessionDB.mGet(keys);
-		// const filteredSessions = allSessions
-		// 	.map((sessionString) => {
-		// 		if (sessionString) {
-		// 			const session = JSON.parse(sessionString) as SessionValue;
-		// 			return session;
-		// 		}
-		// 		return null;
-		// 	})
-		// 	.filter((session) => session !== null);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		const allSessions = await db.select().from(appSessions);
 		res.json(allSessions);
 	} catch (err) {
@@ -72,41 +54,7 @@ sessionManager.get("/list", async (req, res) => {
 	const end = start + limit;
 
 	try {
-		// const keys = [];
-		// for await (const key of await sessionDB.keys("*")) {
-		// 	keys.push(key);
-		// }
-		// if (keys.length === 0) {
-		// 	res.json([]);
-		// 	return;
-		// }
-		// const allSessions = await sessionDB.mGet(keys);
-		// const filteredSessions = allSessions
-		// 	.map((sessionString) => {
-		// 		if (sessionString) {
-		// 			const session = JSON.parse(sessionString) as SessionValue;
-		// 			return {
-		// 				sessioncode: session.sessioncode,
-		// 				language: session.language,
-		// 				createdAt: session.createdAt,
-		// 				updatedAt: session.updatedAt,
-		// 				stats: session.stats,
-		// 				clients: session.clients,
-		// 			};
-		// 		}
-		// 		return null;
-		// 	})
-		// 	.filter((session) => session !== null);
-
-		// const sortedSessions = filteredSessions.sort((a, b) => {
-		// 	if (sortOrder === "asc") {
-		// 		return (a as any)[sortField] > (b as any)[sortField] ? 1 : -1;
-		// 	}
-		// 	return (a as any)[sortField] < (b as any)[sortField] ? 1 : -1;
-		// }) as SessionValue[];
-
-		// const paginatedSessions = sortedSessions.slice(start, end);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		const sortOrderType = sortOrder === "asc" ? asc : desc;
 		const sortFieldType = appSessions[sortField];
 		const sessions = await db
@@ -155,8 +103,7 @@ sessionManager.delete("/:code", async (req, res) => {
 	const code = req.params.code;
 
 	try {
-		// await sessionDB.del(code);
-		//Postgresに移行する
+		//RedisからPostgresに移行しました: from 1.0.0
 		await db.delete(appSessions).where(eq(appSessions.sessioncode, code));
 		res.status(204).end();
 	} catch (err) {
