@@ -1,17 +1,17 @@
 //debug
 console.log("session/index.ts: Loading session app");
 
-import express from "express";
-import DBrouter from "../db/session.js";
-import websocketserver from "./websocket/index.js";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import DBrouter from "../modules/session/db/index";
+// import websocketserver from "./websocket/index.js";
 
 // セッション管理をまとめる。db/websocketサーバーのエントリーポイント
-const session = express();
+const app = new OpenAPIHono();
 
 // 作成されたセッションのデータをもとにアクセスできるWebsocketサーバー
-session.use("/socket", websocketserver);
+// app.use("/socket", websocketserver);
 
 // DBに直接アクセスしてセッションの作成を行う
-session.use("/", DBrouter);
+app.route("/", DBrouter);
 
-export default session;
+export default app;

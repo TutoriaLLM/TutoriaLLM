@@ -2,7 +2,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import fs from "node:fs";
 import path from "node:path";
 import { route } from "./routes.js";
-import type { AppConfig } from "../../../type.js";
+import type { AppConfig } from "./schema.js";
 
 const volumePath = "/app_data";
 const configPath = fs.existsSync(volumePath)

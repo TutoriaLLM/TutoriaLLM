@@ -11,7 +11,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 //ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
 export const app = new OpenAPIHono<Context>();
 
-app.get("/session", (c, next) => {
+app.get("/credential", (c, next) => {
 	if (c.get("session")) {
 		return c.json({ message: "認証情報がありません" }, 401);
 	}

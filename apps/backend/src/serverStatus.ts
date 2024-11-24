@@ -1,15 +1,14 @@
-import express from "express";
-// import { sessionDB } from "./db/session.js";
-import cors from "cors";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { cors } from "hono/cors";
 
 //外部向けのヘルスチェック用エンドポイント
 //CORSを許可しているので、外部からのアクセスも可能
-const status = express();
+const app = new OpenAPIHono();
 // CORSを許可する
-status.use(cors());
+app.use(cors());
 
-status.get("/", (req, res) => {
-	res.send("OK");
+app.get("/", (c, next) => {
+	return c.text("OK!");
 });
 
-export default status;
+export default app;

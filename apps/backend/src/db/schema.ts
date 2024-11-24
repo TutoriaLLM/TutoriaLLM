@@ -17,7 +17,11 @@ import type {
 	SavedAudio,
 	Stats,
 	TutorialStats,
-} from "../../type";
+} from "../../src/modules/session/db/schema";
+import {
+	TutorialMetadataSchema,
+	TrainingMetadataSchema,
+} from "../../src/modules/session/db/schema";
 
 // ユーザーの定義
 
@@ -44,7 +48,7 @@ export const authSessions = pgTable("session", {
 export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
 
 export const appSessions = pgTable("app_session", {
-	sessioncode: text("session_code").primaryKey(),
+	sessioncode: text("session_code").primaryKey().notNull(),
 	uuid: text("uuid").notNull(),
 	createdAt: timestamp("created_at", {
 		withTimezone: false,
@@ -54,22 +58,22 @@ export const appSessions = pgTable("app_session", {
 		withTimezone: false,
 		mode: "date",
 	}).notNull(),
-	dialogue: json("dialogue").$type<Dialogue[]>().notNull(),
-	quickReplies: json("quick_replies").$type<string[]>().notNull(),
+	dialogue: json("dialogue").$type<Dialogue[]>(),
+	quickReplies: json("quick_replies").$type<string[]>(),
 	isReplying: boolean("is_replying").notNull(),
-	workspace: json("workspace").$type<{ [key: string]: string }>().notNull(),
+	workspace: json("workspace").$type<{ [key: string]: string }>(),
 	isVMRunning: boolean("is_vm_running").notNull(),
-	clients: json("clients").$type<string[]>().notNull(),
-	language: text("language").notNull(),
-	easyMode: boolean("easy_mode").notNull(),
-	responseMode: responseModeEnum("response_mode").notNull(),
-	llmContext: text("llm_context").notNull(),
+	clients: json("clients").$type<string[]>(),
+	language: text("language").default("en"),
+	easyMode: boolean("easy_mode").default(false),
+	responseMode: responseModeEnum("response_mode").notNull().default("text"),
+	llmContext: text("llm_context"),
 	tutorial: json("tutorial").$type<TutorialStats>().notNull(),
 	stats: json("stats").$type<Stats>().notNull(),
-	audios: json("audios").$type<SavedAudio[]>().notNull(),
-	userAudio: text("user_audio").notNull(),
-	screenshot: text("screenshot").notNull(),
-	clicks: json("clicks").$type<Click[]>().notNull(),
+	audios: json("audios").$type<SavedAudio[]>(),
+	userAudio: text("user_audio"),
+	screenshot: text("screenshot"),
+	clicks: json("clicks").$type<Click[]>(),
 });
 
 // チュートリアルの保存
@@ -105,15 +109,12 @@ export const tutorials = pgTable("tutorials", {
 	serializednodes: text("serializednodes").notNull(), // 新しく追加
 });
 
-// トレーニングに利用する質問データを保存
-
 export type TrainingMetadata = {
 	author?: string;
 	date?: string;
 	sessionCode?: string;
 };
 
-// AIのベ��ス知識の埋め込み
 export const guides = pgTable(
 	"guides",
 	{

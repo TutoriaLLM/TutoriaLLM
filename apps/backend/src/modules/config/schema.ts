@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const AppConfigSchema = z.object({
+export const AppConfigSchema = z.object({
 	General_Settings: z.object({
 		Enable_Join_by_code: z.boolean(),
 		Enable_Create_Room: z.boolean(),
@@ -30,5 +30,4 @@ const AppConfigSchema = z.object({
 		tracesSampleRate: z.number(),
 	}),
 });
-
-export { AppConfigSchema };
+export type AppConfig = z.infer<typeof AppConfigSchema>;
