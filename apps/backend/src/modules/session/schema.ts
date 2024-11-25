@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
+import { createValidationErrorResponseSchema } from "../../libs/errors/schemas";
 
 const contentTypeEnum = [
 	"user",
@@ -14,6 +14,8 @@ const contentTypeEnum = [
 	"request",
 ] as const;
 
+export type ContentType = (typeof contentTypeEnum)[number];
+
 const responseModeEnum = ["text", "audio"] as const;
 // timestamp用のスキーマ
 export const timestampSchema = z.object({
@@ -21,13 +23,15 @@ export const timestampSchema = z.object({
 	updatedAt: z.date(), // ISO文字列として扱う
 });
 
-export const DialogueSchema = z.object({
-	id: z.number(),
-	contentType: z.enum(contentTypeEnum),
-	isuser: z.boolean(),
-	content: z.string(),
-	ui: z.string().optional(),
-});
+export const DialogueSchema: z.ZodSchema = z.lazy(() =>
+	z.object({
+		id: z.number(),
+		contentType: z.enum(contentTypeEnum),
+		isuser: z.boolean(),
+		content: z.union([z.string(), z.array(DialogueSchema)]),
+		ui: z.string().optional(),
+	}),
+);
 export type Dialogue = z.infer<typeof DialogueSchema>;
 
 export const ClickSchema = z.object({
@@ -111,7 +115,7 @@ export const sessionValueSchema = z
 	})
 	.merge(timestampSchema);
 
-export type sessionValueSchema = z.infer<typeof sessionValueSchema>;
+export type SessionValue = z.infer<typeof sessionValueSchema>;
 
 export const keySchema = z.object({
 	key: z.string(),

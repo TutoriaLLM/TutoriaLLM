@@ -7,8 +7,7 @@ import {
 	putSessionRequest,
 	sessionValueSchema,
 } from "./schema.js";
-import { errorResponses, jsonBody } from "../../../libs/openapi.js";
-import session from "../../../session/index.js";
+import { errorResponses, jsonBody } from "../../libs/openapi.js";
 
 const newSession = createRoute({
 	method: "post",

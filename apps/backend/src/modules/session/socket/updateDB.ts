@@ -1,10 +1,10 @@
 import type { Socket } from "socket.io";
-import type { SessionValue } from "../../../../frontend/type.js";
 // import { sessionDB } from "../../db/session.js";
-import { db } from "../../db/index.js";
+import { db } from "../../../db/index.js";
 import { createPatch } from "rfc6902";
-import { appSessions } from "../../db/schema.js";
+import { appSessions } from "../../../db/schema.js";
 import { eq } from "drizzle-orm";
+import type { SessionValue } from "../schema.js";
 
 //プライバシーに関わる情報を除く関数。保存はするが、送信はしない。
 function removePrivacyInfo(data: SessionValue): SessionValue {

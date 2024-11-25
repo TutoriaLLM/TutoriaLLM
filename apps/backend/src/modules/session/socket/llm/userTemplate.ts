@@ -1,14 +1,14 @@
-import type { SessionValue } from "../../../../frontend/type.js";
-import stringifyKnowledge from "../../../utils/stringifyKnowledge.js";
-import type { Guide } from "../../db/schema.js";
+import type { Guide } from "../../../../db/schema";
+import stringifyKnowledge from "../../../../utils/stringifyKnowledge";
+import type { SessionValue } from "../../schema";
 
 // Simplifies the dialogue by mapping the session dialogue to a simpler format.
 async function simplifyDialogue(session: SessionValue, limit: number) {
-	const dialogue = session.dialogue.map((d) => ({
+	const dialogue = session.dialogue?.map((d) => ({
 		role: d.contentType,
 		content: d.content,
 	}));
-	return limit > 0 ? dialogue.slice(-limit) : dialogue;
+	return limit > 0 ? dialogue?.slice(-limit) : dialogue;
 }
 
 async function generateUserTemplate(

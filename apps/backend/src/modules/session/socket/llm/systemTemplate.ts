@@ -1,7 +1,5 @@
-import type { SessionValue } from "../../../../frontend/type.js";
-import { langToStr } from "../../../utils/langToStr.js";
-import stringifyKnowledge from "../../../utils/stringifyKnowledge.js";
-import type { Guide } from "../../db/schema.js";
+import { langToStr } from "../../../../utils/langToStr";
+import type { SessionValue } from "../../schema";
 
 const ui = [
 	{
@@ -17,7 +15,7 @@ function generateSystemTemplate(
 	allBlocks: string[],
 ): string {
 	return `
-You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
+You are a coding tutor of Blockly using the following language: ${langToStr(session.language || "en")}
 This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
 It can be executed to see the result with pressing the run button.
@@ -56,7 +54,7 @@ function generateSystemTemplateFor4oPreview(
 	allBlocks: string[],
 ): string {
 	return `
-You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
+You are a coding tutor of Blockly using the following language: ${langToStr(session.language || "en")}
 This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
 It can be executed to see the result with pressing the run button.
@@ -101,7 +99,7 @@ ${ui.map((u) => `${u.ui} - ${u.description} ${u.warn}`).join("\n")}
 
 function generateAudioSystemTemplate(session: SessionValue): string {
 	return `
-You are a coding tutor of Blockly using the following language: ${langToStr(session.language)}
+You are a coding tutor of Blockly using the following language: ${langToStr(session.language || "en")}
 This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.
 It can be executed to see the result with pressing the run button.

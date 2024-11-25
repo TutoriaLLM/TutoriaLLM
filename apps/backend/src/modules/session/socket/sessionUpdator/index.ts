@@ -1,5 +1,4 @@
 import type { Socket } from "socket.io";
-import type { Dialogue, SessionValue } from "../../../../../frontend/type.js";
 import type { Operation } from "rfc6902";
 import createNewSessionValue from "./createNewValue.js";
 import {
@@ -7,9 +6,10 @@ import {
 	updateAndBroadcastDiffToAll,
 } from "../updateDB.js";
 import { updateDialogueWithLLM } from "./updateDialogue.js";
-import { db } from "../../../db/index.js";
-import { tutorials } from "../../../db/schema.js";
+import { db } from "../../../../db/index.js";
+import { tutorials } from "../../../../db/schema.js";
 import { eq } from "drizzle-orm";
+import type { Dialogue, SessionValue } from "../../schema.js";
 
 export async function updateSession(
 	currentDataJson: SessionValue,
@@ -59,7 +59,7 @@ export async function updateSession(
 
 	if (
 		isDialogueChanged(currentDataJson, newDataJson) &&
-		isLastMessageByUser(newDataJson.dialogue) &&
+		isLastMessageByUser(newDataJson.dialogue || []) &&
 		newDataJson.isReplying === false
 	) {
 		//送信者をのぞくすべてのクライアントにdiffを送信する

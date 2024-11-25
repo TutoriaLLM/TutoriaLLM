@@ -1,17 +1,13 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { getSession, newSession, putSession, deleteSession } from "./routes";
-import joincodeGen from "../../../utils/joincodeGen";
+import joincodeGen from "../../utils/joincodeGen";
 import i18next from "i18next";
-import { db } from "../../../db";
-import {
-	type AppSession,
-	appSessions,
-	SelectAppSession,
-} from "../../../db/schema";
+import { db } from "../../db";
+import { appSessions } from "../../db/schema";
 import { eq } from "drizzle-orm";
-import { initialData } from "../../../db/session";
-import { errorResponse } from "../../../libs/errors";
-import { sessionValueSchema } from "./schema";
+import { initialData } from "../../db/session";
+import { errorResponse } from "../../libs/errors";
+import "./socket/index"; //websocket serverを読み込む
 const app = new OpenAPIHono()
 	.openapi(newSession, async (c) => {
 		const sessionData = c.req.valid("json");

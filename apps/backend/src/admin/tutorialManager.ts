@@ -3,7 +3,7 @@ import { db } from "../db/index.js";
 import { type Tutorial, tags, tutorials, tutorialsTags } from "../db/schema.js";
 import { and, eq, isNull } from "drizzle-orm";
 import { generateContent } from "./llm/tutorial.js";
-import { getAvailableBlocks } from "../session/registerBlocks.js";
+import { getAvailableBlocks } from "../libs/registerBlocks.js";
 import { generateMetadata } from "./llm/metadata.js";
 
 //内部向けのチュートリアルエンドポイント(編集可能)

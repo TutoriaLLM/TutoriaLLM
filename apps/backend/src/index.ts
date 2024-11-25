@@ -6,7 +6,7 @@ import type { Context } from "./context.js";
 import authRoutes from "./modules/auth/index";
 import configRoutes from "./modules/config/index";
 import vmProxyRoutes from "./modules/vmProxy/index";
-import sessionDbRoutes from "./modules/session/db/index";
+import sessionDbRoutes from "./modules/session/index";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
 import { errorResponse } from "./libs/errors/index.js";
@@ -102,7 +102,7 @@ app.onError((err, c) => {
 	});
 });
 
-serve({
+export const server = serve({
 	fetch: app.fetch,
 	port: port,
 });

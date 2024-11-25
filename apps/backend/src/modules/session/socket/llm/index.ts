@@ -1,14 +1,6 @@
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
-import type { AppConfig, SessionValue } from "../../../../frontend/type.js";
-import { langToStr } from "../../../utils/langToStr.js";
-import { db } from "../../db/index.js";
-import { getConfig } from "../../modules/config/_index.js";
-import { type Guide, tutorials } from "../../db/schema.js";
 import { eq, is } from "drizzle-orm";
-import { applyRuby } from "../../../utils/japaneseWithRuby.js";
-import generateTrainingData from "../../admin/training/data_gen.js";
-import { getKnowledge } from "../../admin/training/guides.js";
 import {
 	generateAudioUserTemplate,
 	generateUserTemplate,
@@ -19,11 +11,17 @@ import {
 	generateSystemTemplateFor4oPreview,
 } from "./systemTemplate.js";
 import { zodAudioSchema, zodTextSchema } from "./responseFormat.js";
-import { listAllBlocks } from "../../../utils/blockList.js";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "node:fs";
 import type { Socket } from "socket.io";
 import { updateAudioDialogue } from "./whisper.js";
+import type { SessionValue } from "../../schema.js";
+import { getConfig } from "../../../config/index.js";
+import { listAllBlocks } from "../../../../utils/blockList.js";
+import { getKnowledge } from "../../../../admin/training/guides.js";
+import type { Guide } from "../../../../db/schema.js";
+import generateTrainingData from "../../../../admin/training/data_gen.js";
+import { applyRuby } from "../../../../utils/japaneseWithRuby.js";
 
 //debug
 console.log("llm/index.ts: Loading llm app");
@@ -85,7 +83,7 @@ export async function invokeLLM(
 	socket: Socket,
 ) {
 	console.log("invokeLLM");
-	const config: AppConfig = await getConfig();
+	const config = getConfig();
 
 	const allBlocks = listAllBlocks(availableBlocks);
 

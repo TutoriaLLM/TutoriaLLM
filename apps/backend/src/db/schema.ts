@@ -17,11 +17,14 @@ import type {
 	SavedAudio,
 	Stats,
 	TutorialStats,
-} from "../../src/modules/session/db/schema";
+} from "../modules/session/schema";
 import {
 	TutorialMetadataSchema,
 	TrainingMetadataSchema,
-} from "../../src/modules/session/db/schema";
+} from "../modules/session/schema";
+import type { Tags } from "../modules/tutorials/schema";
+
+// WARN: DO NOT GENERATE ZOD SCHEMA FROM THIS FILE
 
 // ユーザーの定義
 
@@ -103,7 +106,7 @@ export const tutorialsTags = pgTable("tutorials_tags", {
 export const tutorials = pgTable("tutorials", {
 	id: serial("id").primaryKey(),
 	content: text("content").notNull(),
-	tags: json("tags").$type<string[]>().notNull(),
+	tags: json("tags").$type<Tags>().notNull(),
 	language: varchar("language", { length: 255 }).notNull(),
 	metadata: json("metadata").$type<TutorialMetadata>().notNull(),
 	serializednodes: text("serializednodes").notNull(), // 新しく追加

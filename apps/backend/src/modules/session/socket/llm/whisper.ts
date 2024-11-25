@@ -1,14 +1,13 @@
 //受信したmp3を非同期で文字起こしし、Dialogueに保存（配信）する
 
 import OpenAI from "openai";
-import type { SessionValue } from "../../../../frontend/type.js";
 import fs from "node:fs";
-import { updateAndBroadcastDiffToAll } from "../websocket/updateDB.js";
 // import { sessionDB } from "../../db/session.js";
-import { db } from "../../db/index.js";
 import type { Socket } from "socket.io";
-import { appSessions } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
+import { db } from "../../../../db";
+import { appSessions } from "../../../../db/schema";
+import { updateAndBroadcastDiffToAll } from "../updateDB";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -33,31 +32,35 @@ export async function updateAudioDialogue(
 	const transcript = await audioToText(mp3Path);
 
 	//RedisからPostgresに移行しました: from 1.0.0
-	const rawData = await db
-		.select()
-		.from(appSessions)
-		.where(eq(appSessions.sessioncode, code));
+	const data = await db.query.appSessions.findFirst({
+		where: eq(appSessions.sessioncode, code),
+	});
+	const newData = data
+		? {
+				//特定のIDのダイアログにAIのテキストを上書き
+				...data,
+				dialogue: data.dialogue
+					? [
+							...data.dialogue.map((dialogue) => {
+								if (
+									dialogue.id === target_id &&
+									dialogue.contentType === "user_audio"
+								) {
+									return {
+										...dialogue,
+										content: transcript,
+									};
+								}
+								return dialogue;
+							}),
+						]
+					: [],
+			}
+		: null;
 
-	const data: SessionValue = rawData[0];
+	if (!newData) {
+		return;
+	}
 
-	const newData = {
-		//特定のIDのダイアログにAIのテキストを上書き
-		...data,
-		dialogue: [
-			...data.dialogue.map((dialogue) => {
-				if (
-					dialogue.id === target_id &&
-					dialogue.contentType === "user_audio"
-				) {
-					return {
-						...dialogue,
-						content: transcript,
-					};
-				}
-				return dialogue;
-			}),
-		],
-	};
-
-	await updateAndBroadcastDiffToAll(data.sessioncode, newData, Socket);
+	await updateAndBroadcastDiffToAll(code, newData, Socket);
 }

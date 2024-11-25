@@ -8,7 +8,7 @@ import type { metadataNode } from "../../../client/components/TutorialEditor/nod
 import {
 	getAvailableBlocks,
 	getBlockFiles,
-} from "../../session/registerBlocks.js";
+} from "../../libs/registerBlocks.js";
 import i18n from "../../../../frontend/src/i18n/client_i18nConfig.js";
 import { db } from "../../db/index.js";
 import { tags } from "../../db/schema.js";

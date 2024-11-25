@@ -1,11 +1,7 @@
 import i18next from "i18next";
-import type {
-	ContentType,
-	Dialogue,
-	SessionValue,
-} from "../../../../../frontend/type.js";
-import { getConfig } from "../../../modules/config/_index.js";
+import { getConfig } from "../config/index.js";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
+import type { ContentType, Dialogue, SessionValue } from "../session/schema.js";
 
 const config = getConfig();
 export default class LogBuffer {
@@ -55,6 +51,8 @@ export default class LogBuffer {
 		if (this.buffer.length === 0) return;
 		const sessionValue = await this.getSessionValue();
 		if (!sessionValue) return;
+
+		if (!sessionValue.dialogue) return;
 
 		const logsToSave: Dialogue = {
 			id: sessionValue.dialogue.length + 1,

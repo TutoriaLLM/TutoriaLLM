@@ -8,7 +8,7 @@ import type { metadataNode } from "../../../client/components/TutorialEditor/nod
 import {
 	getAvailableBlocks,
 	getBlockFiles,
-} from "../../session/registerBlocks.js";
+} from "../../libs/registerBlocks.js";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,

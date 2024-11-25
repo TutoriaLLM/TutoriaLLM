@@ -1,14 +1,17 @@
 import { J } from "vitest/dist/chunks/reporters.C4ZHgdxQ.js";
-import type { Dialogue, SessionValue } from "../../../../../frontend/type.js";
 import { updateDialogue } from "../../../../utils/dialogueUpdater.js";
-import { appSessions, tutorials } from "../../../db/schema.js";
+import { appSessions, tutorials } from "../../../../db/schema.js";
 //import { sessionDB } from "../../../db/session.js";
-import { db } from "../../../db/index.js";
+import { db } from "../../../../db/index.js";
 
-import { invokeLLM } from "../../llm/index.js";
-import { getAvailableBlocks, getBlockFiles } from "../../registerBlocks.js";
+import {
+	getAvailableBlocks,
+	getBlockFiles,
+} from "../../../../libs/registerBlocks.js";
 import type { Socket } from "socket.io";
 import { eq } from "drizzle-orm";
+import type { SessionValue } from "../../schema.js";
+import { invokeLLM } from "../llm/index.js";
 
 //非同期でLLMを呼び出し、メッセージが作成されたタイミングでプッシュする
 export async function updateDialogueWithLLM(
@@ -31,7 +34,10 @@ export async function updateDialogueWithLLM(
 	const language = data.language;
 
 	const blockFiles = await getBlockFiles();
-	const availableBlocks = await getAvailableBlocks(blockFiles, language);
+	const availableBlocks = await getAvailableBlocks(
+		blockFiles,
+		language || "en",
+	);
 	const extractedBlockNames = availableBlocks.map((block) => block.block.type);
 
 	const message = await invokeLLM(data, extractedBlockNames, socket);
@@ -39,12 +45,17 @@ export async function updateDialogueWithLLM(
 	//出力が音声だった場合の処理
 	//テスト目的なので、実際には音声ファイルを生成する処理が必要
 	//bae64エンコードされた音声を保存し、DialogueにそのIDを追加する
-	if (typeof message !== "string" && message && "data" in message) {
+	if (
+		typeof message !== "string" &&
+		message &&
+		"data" in message &&
+		message.data
+	) {
 		const latestData = await getLatestData(data.sessioncode);
 		const updatedAudios = [
-			...latestData.audios,
+			...(latestData.audios || []),
 			{
-				id: `${latestData.audios.length + 1}`,
+				id: `${(latestData.audios?.length || 0) + 1}`,
 				base64: message.data,
 			},
 		];
@@ -57,9 +68,9 @@ export async function updateDialogueWithLLM(
 		return {
 			...latestData,
 			dialogue: [
-				...latestData.dialogue,
+				...(latestData.dialogue || []),
 				{
-					id: data.dialogue.length + 1,
+					id: (data.dialogue?.length || 0) + 1,
 					contentType: "ai_audio",
 					isuser: false,
 					content: JSON.stringify({
@@ -79,7 +90,7 @@ export async function updateDialogueWithLLM(
 		let updatedDialogue = updateDialogue(message.response, latestData2, "ai");
 
 		// quick replies
-		const updatedQuickReplies = [...data.quickReplies];
+		const updatedQuickReplies = [...(data.quickReplies || [])];
 		if (message.quickReplies) {
 			// 既存の配列を上書きする
 			updatedQuickReplies.splice(0, updatedQuickReplies.length);

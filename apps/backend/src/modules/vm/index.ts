@@ -1,22 +1,22 @@
 import { Worker } from "node:worker_threads";
-import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { SessionValue } from "../../../../../frontend/type.js";
 // import { sessionDB } from "../../../db/session.js";
-import { db } from "../../../db/index.js";
+import { db } from "../../db/index.js";
 import type { vmMessage } from "./tsWorker.js";
 import LogBuffer from "./logBuffer.js";
-import cors from "cors";
-import { vmPort } from "../../../main.js";
-import { getConfig } from "../../../modules/config/_index.js";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Socket } from "socket.io";
-import { appSessions } from "../../../db/schema.js";
+import { appSessions } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
-
+import { cors } from "hono/cors";
+import { Hono } from "hono";
+import { errorResponse } from "../../libs/errors/index.js";
+import { serve } from "@hono/node-server";
+import { getConfig } from "../config/index.js";
+import type { SessionValue } from "../session/schema.js";
 //debug
 console.log("vm/index.js: Loading vm app");
 
@@ -76,88 +76,113 @@ interface VMInstance {
 // VMのインスタンスを管理するオブジェクト
 const vmInstances: { [key: string]: VMInstance } = {};
 
-const vmExpress = express();
-vmExpress.use(cors());
+let vmPort = 3001;
+if (process.env.VM_PORT) {
+	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
+	if (!Number.isNaN(basePort)) {
+		// basePortがNaNでないか確認
+		vmPort = basePort;
+	}
+}
+
+const app = new Hono();
+app.use(cors());
 //参加コードに対してプロキシを保存するマップ
-const vmProxies = new Map<string, any>();
+// const vmProxies = new Map<string, any>();
 
-const proxy = createProxyMiddleware({
-	router: async (req) => {
-		const code = req.url?.split("/")[1];
-		if (!code) {
-			console.log("Invalid code");
-			throw new Error("Invalid code");
-		}
-		const session = await db
-			.select()
-			.from(appSessions)
-			.where(eq(appSessions.sessioncode, code));
+// const proxy = createProxyMiddleware({
+// 	router: async (req) => {
+// 		const code = req.url?.split("/")[1];
+// 		if (!code) {
+// 			console.log("Invalid code");
+// 			throw new Error("Invalid code");
+// 		}
+// 		const session = await db
+// 			.select()
+// 			.from(appSessions)
+// 			.where(eq(appSessions.sessioncode, code));
 
-		const uuid = session[0].uuid;
-		const instance = vmInstances[uuid];
-		if (instance) {
-			console.log(
-				"instance found on vm manager. proxying to: ",
-				instance.ip,
-				instance.port,
-			);
-			return `http://${instance.ip}:${instance.port}`;
-		}
-		// VMが見つからない場合は、undefined を返す
-		// これにより、後続の処理で 404 を返すことができる
-		console.log("VM not found");
-		throw new Error("VM not found");
-	},
-	pathRewrite: (path, req) => {
-		return path.replace(req.url?.split("/")[1] || "", "");
-	},
-	ws: true,
-	logger: console,
-	on: {
-		close: (res, socket, head) => {
-			console.log("vm manager close");
-		},
-		error: (err, req, res) => {
-			console.log("vm manager error on proxy", err);
-		},
-		proxyReqWs: (proxyReq, req, socket, options, head) => {
-			console.log("vm manager proxyReqWs");
-		},
-		proxyReq: (proxyReq, req, res) => {
-			console.log("vm manager proxyReq");
-		},
-	},
-});
-
-// すべてのリクエストを処理する単一のミドルウェア
-vmExpress.use(async (req, res, next) => {
-	const code = req.url?.split("/")[1];
-	if (!code) {
-		res.status(404).send("Invalid code");
-		return;
+// 		const uuid = session[0].uuid;
+// 		const instance = vmInstances[uuid];
+// 		if (instance) {
+// 			console.log(
+// 				"instance found on vm manager. proxying to: ",
+// 				instance.ip,
+// 				instance.port,
+// 			);
+// 			return `http://${instance.ip}:${instance.port}`;
+// 		}
+// 		// VMが見つからない場合は、undefined を返す
+// 		// これにより、後続の処理で 404 を返すことができる
+// 		console.log("VM not found");
+// 		throw new Error("VM not found");
+// 	},
+// 	pathRewrite: (path, req) => {
+// 		return path.replace(req.url?.split("/")[1] || "", "");
+// 	},
+// 	ws: true,
+// 	logger: console,
+// 	on: {
+// 		close: (res, socket, head) => {
+// 			console.log("vm manager close");
+// 		},
+// 		error: (err, req, res) => {
+// 			console.log("vm manager error on proxy", err);
+// 		},
+// 		proxyReqWs: (proxyReq, req, socket, options, head) => {
+// 			console.log("vm manager proxyReqWs");
+// 		},
+// 		proxyReq: (proxyReq, req, res) => {
+// 			console.log("vm manager proxyReq");
+// 		},
+// 	},
+// });
+//Honoのミドルウェアを使用して、リクエストをプロキシする
+//Honoは動的なプロキシが利用できる
+app.all("/:code/*", async (c, next) => {
+	const code = c.req.param("code");
+	const session = await db.query.appSessions.findFirst({
+		where: eq(appSessions.sessioncode, code),
+	});
+	if (!session) {
+		return errorResponse(c, {
+			message: "Invalid session",
+			type: "NOT_FOUND",
+		});
 	}
-	console.log("vm manager proxying to", code);
-	if (vmProxies.has(code)) {
-		proxy(req, res, next);
-	} else {
-		res.status(404).send("Invalid code or VM not running");
+	const uuid = session.uuid;
+	const instance = vmInstances[uuid];
+	if (instance) {
+		console.log(
+			"instance found on vm manager. proxying to: ",
+			instance.ip,
+			instance.port,
+		);
+		// return c.proxy(`http://${instance.ip}:${instance.port}`);
+		return fetch(`http://${instance.ip}:${instance.port}`);
 	}
+	// VMが見つからない場合は、404 を返す
+	return errorResponse(c, {
+		message: "VM not found",
+		type: "NOT_FOUND",
+	});
 });
 
-vmExpress.listen(vmPort, () => {
-	console.log(`VM Manager running on port ${vmPort}`);
+serve({
+	fetch: app.fetch,
+	port: vmPort,
 });
 
-// VMインスタンス作成時に新しいプロキシをリストに追加する関数
-function setupVMProxy(code: string, ip: string, port: number) {
-	console.log("setting up proxy for", code, ip, port);
-	vmProxies.set(code, proxy);
-	console.log("new vmProxies", vmProxies);
-}
-// VMインスタンス停止時にプロキシを削除する関数
-function removeVMProxy(code: string) {
-	vmProxies.delete(code);
-}
+// // VMインスタンス作成時に新しいプロキシをリストに追加する関数
+// function setupVMProxy(code: string, ip: string, port: number) {
+// 	console.log("setting up proxy for", code, ip, port);
+// 	vmProxies.set(code, proxy);
+// 	console.log("new vmProxies", vmProxies);
+// }
+// // VMインスタンス停止時にプロキシを削除する関数
+// function removeVMProxy(code: string) {
+// 	vmProxies.delete(code);
+// }
 // 修正されたExecCodeTest関数
 export async function ExecCodeTest(
 	code: string,
@@ -193,7 +218,7 @@ export async function ExecCodeTest(
 				return;
 			}
 			const sessionValue: SessionValue = session[0];
-			sessionValue.dialogue.push(logs);
+			sessionValue.dialogue?.push(logs);
 			await DBupdator(code, sessionValue, socket);
 		},
 		code,
@@ -243,7 +268,7 @@ export async function ExecCodeTest(
 				vmInstances[uuid].ip = ip;
 
 				// プロキシの設定
-				setupVMProxy(code, ip, port);
+				// setupVMProxy(code, ip, port);
 			}
 		});
 
@@ -340,16 +365,16 @@ export async function StopCodeTest(
 		await instance.worker.terminate();
 
 		// プロキシをクリア
-		const stack = vmExpress._router.stack;
-		for (let i = stack.length - 1; i >= 0; i--) {
-			const layer = stack[i];
-			if (layer.route?.path?.toString().includes(code)) {
-				stack.splice(i, 1);
-			}
-		}
+		// const stack = vmExpress._router.stack;
+		// for (let i = stack.length - 1; i >= 0; i--) {
+		// 	const layer = stack[i];
+		// 	if (layer.route?.path?.toString().includes(code)) {
+		// 		stack.splice(i, 1);
+		// 	}
+		// }
 
 		// プロキシを削除
-		removeVMProxy(code);
+		// removeVMProxy(code);
 		delete vmInstances[uuid];
 
 		// DBを更新し、クライアントに通知

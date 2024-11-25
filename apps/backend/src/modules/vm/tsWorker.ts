@@ -1,7 +1,7 @@
 import vm, { createContext } from "node:vm";
 import path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
-import { ExtensionLoader } from "../extensionLoader.js";
+import { ExtensionLoader } from "./extensionLoader.js";
 import { fileURLToPath } from "node:url";
 import getPort, { portNumbers } from "get-port";
 import { exec } from "node:child_process";
@@ -11,8 +11,7 @@ import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
-import { content } from "html2canvas/dist/types/css/property-descriptors/content.js";
-import type { SessionValue } from "../../../../../frontend/type.js";
+import type { SessionValue } from "../session/schema.js";
 
 const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
 
@@ -57,7 +56,7 @@ app.get("/", (c) => {
 					</p>
 					<ul class="list-disc pl-5">
 						${(sessionValue as SessionValue).dialogue
-							.map((d) => {
+							?.map((d) => {
 								if (d.contentType === "group_log") {
 									return Array.isArray(d.content)
 										? `<li>${d.content.map((c: { contentType: any; content: any }) => `<p>${c.contentType}: ${c.content}</p>`).join("")}</li>`

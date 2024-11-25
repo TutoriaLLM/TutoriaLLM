@@ -1,7 +1,7 @@
 import admin from "./admin/index.js";
 import authRoute from "./modules/auth/index.js";
 import session from "./session/index.js";
-import tutorialsAPI from "./tutorials/index.js";
+import tutorialsAPI from "./modules/tutorials/index.js";
 import getConfigRoute from "./modules/config/index";
 import statusRoute from "./serverStatus.js";
 import { OpenAPIHono } from "@hono/zod-openapi";
