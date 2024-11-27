@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createValidationErrorResponseSchema } from "../../../../dist/libs/errors/schemas";
+import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
 
 // Dataテーブル用
 export const dataIdSchema = z.object({
