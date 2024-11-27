@@ -103,9 +103,9 @@ export async function updateDialogueWithLLM(
 			updatedDialogue = {
 				...updatedDialogue,
 				dialogue: [
-					...updatedDialogue.dialogue,
+					...(updatedDialogue.dialogue || []),
 					{
-						id: updatedDialogue.dialogue.length + 1,
+						id: (updatedDialogue.dialogue?.length || 0) + 1,
 						contentType: "ui",
 						ui: message.ui,
 						isuser: false,

@@ -1,22 +1,20 @@
 import OpenAI from "openai";
-import { getConfig } from "../../modules/config/_index.js";
-import type { AppConfig } from "../../../../frontend/type.js";
-import { listAllBlocks } from "../../../utils/blockList.js";
+import { listAllBlocks } from "../../../../utils/blockList.js";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
-import type { metadataNode } from "../../../client/components/TutorialEditor/nodes/nodetype.js";
+import { getConfig } from "../../config/index.js";
 import {
 	getAvailableBlocks,
 	getBlockFiles,
-} from "../../libs/registerBlocks.js";
+} from "../../../../libs/registerBlocks.js";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
 });
 
-async function generateContent(content?: string) {
-	const config: AppConfig = getConfig();
+async function generateContentFromContent(content?: string) {
+	const config = getConfig();
 	const blockFiles = await getBlockFiles();
 	const availableBlocks = await getAvailableBlocks(blockFiles, "en");
 	const extractedBlockNames = availableBlocks.map((block) => block.block.type);
@@ -67,4 +65,4 @@ async function generateContent(content?: string) {
 	return response;
 }
 
-export { generateContent };
+export { generateContentFromContent };

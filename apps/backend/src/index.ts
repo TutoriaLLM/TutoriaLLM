@@ -3,15 +3,20 @@ import { showRoutes } from "hono/dev";
 import { verifyRequestOrigin } from "lucia";
 import { lucia } from "./libs/lucia.js";
 import type { Context } from "./context.js";
-import authRoutes from "./modules/auth/index";
-import configRoutes from "./modules/config/index";
-import vmProxyRoutes from "./modules/vmProxy/index";
-import sessionDbRoutes from "./modules/session/index";
+import authRoutes from "./modules/auth";
+import configRoutes from "./modules/config";
+import vmProxyRoutes from "./modules/vmProxy";
+import sessionRoutes from "./modules/session";
+import healthRoutes from "./modules/health";
+import adminRoutes from "./modules/admin";
+import tutorialRoutes from "./modules/tutorials";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
-import { errorResponse } from "./libs/errors/index.js";
+import { errorResponse } from "./libs/errors";
+import EventEmitter from "node:events";
 
 const app = new OpenAPIHono<Context>();
+export const serverEmitter = new EventEmitter();
 const isDev = process.env.NODE_ENV === "development";
 app.use("*", async (c, next) => {
 	if (c.req.method === "GET") {
@@ -63,11 +68,26 @@ if (process.env.SERVER_PORT) {
 	}
 }
 
+export const server = serve(
+	{
+		fetch: app.fetch,
+		port: port,
+	},
+	startServer,
+);
+
+function startServer() {
+	serverEmitter.emit("server-started", server);
+}
+
+//サーバー起動後に実行される処理
 export const route = app
+	.route("/", adminRoutes)
 	.route("/", authRoutes)
-	.route("/", sessionDbRoutes)
-	// .route("/", sessionSocketRoutes)
 	.route("/", configRoutes)
+	.route("/", healthRoutes)
+	.route("/", sessionRoutes)
+	.route("/", tutorialRoutes)
 	.route("/vm", vmProxyRoutes)
 	.doc("/doc", {
 		openapi: "3.0.0",
@@ -102,10 +122,6 @@ app.onError((err, c) => {
 	});
 });
 
-export const server = serve({
-	fetch: app.fetch,
-	port: port,
-});
 if (isDev) showRoutes(app, { verbose: true, colorize: true });
 
 export type AppType = typeof route;

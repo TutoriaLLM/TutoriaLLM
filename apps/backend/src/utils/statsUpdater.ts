@@ -1,4 +1,4 @@
-import type { Stats, SessionValue } from "../../frontend/type.js";
+import type { SessionValue, Stats } from "../modules/session/schema";
 
 export function updateStats(
 	statsToUpdate: Partial<Stats>,

@@ -18,10 +18,6 @@ import type {
 	Stats,
 	TutorialStats,
 } from "../modules/session/schema";
-import {
-	TutorialMetadataSchema,
-	TrainingMetadataSchema,
-} from "../modules/session/schema";
 import type { Tags } from "../modules/tutorials/schema";
 
 // WARN: DO NOT GENERATE ZOD SCHEMA FROM THIS FILE

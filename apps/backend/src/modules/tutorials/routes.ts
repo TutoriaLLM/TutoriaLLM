@@ -1,6 +1,4 @@
 import { createRoute } from "@hono/zod-openapi";
-import { z } from "zod";
-import { tutorials } from "../../db/schema";
 import { errorResponses, jsonBody } from "../../libs/openapi.js";
 import {
 	getSpecificTutorialParam,

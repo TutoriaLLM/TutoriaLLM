@@ -1,7 +1,42 @@
 import * as Blockly from "blockly";
-import type { extBlock, extLocale } from "extensionContext";
 import FastGlob from "fast-glob";
 import path from "node:path";
+
+export interface extLocale {
+	en: Record<string, string>;
+	[key: string]: Record<string, string>; // 他の言語も任意で追加可能
+}
+
+/**
+ * 拡張ブロックの定義を提供します。
+ * @param type ブロックの名称。ユニークで機能に関連する名前を使用してください。
+ * @param message0 ブロックの表示名
+ * @param args0 ブロックの引数
+ * @param previousStatement 前のブロックとの接続を許可するかどうか
+ * @param nextStatement 次のブロックとの接続を許可するかどうか
+ * @param colour ブロックの色
+ * @param tooltip ブロックのツールチップ
+ * @param helpUrl ブロックのヘルプURL
+ */
+
+export interface extBlock {
+	type: string;
+	message0: string;
+	args0?: Array<{
+		type: string;
+		name?: string;
+		text?: string;
+		check?: string;
+	}>;
+	output?: string;
+	inputsInline?: boolean;
+	previousStatement: any;
+	nextStatement: any;
+	colour: string;
+	tooltip: string;
+	helpUrl: string;
+	customInit?: () => void;
+}
 
 // ブロックファイルの一覧を取得する
 export async function getBlockFiles() {

@@ -1,25 +1,18 @@
 import OpenAI from "openai";
-import { getConfig } from "../../modules/config/_index.js";
-import type { AppConfig } from "../../../../frontend/type.js";
-import { listAllBlocks } from "../../../utils/blockList.js";
+import { listAllBlocks } from "../../../../utils/blockList.js";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
-import type { metadataNode } from "../../../client/components/TutorialEditor/nodes/nodetype.js";
-import {
-	getAvailableBlocks,
-	getBlockFiles,
-} from "../../libs/registerBlocks.js";
-import i18n from "../../../../frontend/src/i18n/client_i18nConfig.js";
-import { db } from "../../db/index.js";
-import { tags } from "../../db/schema.js";
+import { getConfig } from "../../config/index.js";
+import { db } from "../../../../db/index.js";
+import { tags } from "../../../../db/schema.js";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
 });
 
-async function generateMetadata(content?: string) {
-	const config: AppConfig = getConfig();
+async function generateMetadataFromContent(content?: string) {
+	const config = getConfig();
 
 	const schema = z.object({
 		title: z.string(),
@@ -106,4 +99,4 @@ async function generateMetadata(content?: string) {
 	return response;
 }
 
-export { generateMetadata };
+export { generateMetadataFromContent };

@@ -18,19 +18,16 @@ import { updateAudioDialogue } from "./whisper.js";
 import type { SessionValue } from "../../schema.js";
 import { getConfig } from "../../../config/index.js";
 import { listAllBlocks } from "../../../../utils/blockList.js";
-import { getKnowledge } from "../../../../admin/training/guides.js";
-import type { Guide } from "../../../../db/schema.js";
-import generateTrainingData from "../../../../admin/training/data_gen.js";
+import { getKnowledge } from "../../../admin/training/utils/knowledge.js";
+import { tutorials, type Guide } from "../../../../db/schema.js";
+import generateTrainingData from "../../../../utils/generateTrainingData.js";
 import { applyRuby } from "../../../../utils/japaneseWithRuby.js";
+import { db } from "../../../../db/index.js";
 
 //debug
 console.log("llm/index.ts: Loading llm app");
 
 // Converts webm audio format to mp3 format
-interface ConvertWebMToMp3Result {
-	mp3Output: string;
-}
-
 async function convertWebMToMp3(webmInput: string): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const mp3Output = `/tmp/${Date.now()}.mp3`;
@@ -87,6 +84,11 @@ export async function invokeLLM(
 
 	const allBlocks = listAllBlocks(availableBlocks);
 
+	if (!session.dialogue) {
+		console.error("No dialogue found in the session.");
+		return null;
+	}
+
 	const lastDialogue = session.dialogue[session.dialogue.length - 1];
 
 	function isAudioMessageFromUser() {
@@ -99,7 +101,7 @@ export async function invokeLLM(
 	const isUserSentAudio = isAudioMessageFromUser();
 
 	//ここから処理を分岐(リファクタリングする）
-	if (isUserSentAudio) {
+	if (isUserSentAudio && session.userAudio) {
 		const userAudio = session.userAudio.split(",")[1]; //webm形式になっている
 
 		const webmBuffer = Buffer.from(userAudio, "base64");

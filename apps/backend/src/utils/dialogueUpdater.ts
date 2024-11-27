@@ -2,7 +2,7 @@ import type {
 	ContentType,
 	Dialogue,
 	SessionValue,
-} from "../../frontend/type.js";
+} from "../modules/session/schema";
 
 export function updateDialogue(
 	message: string,
@@ -13,9 +13,9 @@ export function updateDialogue(
 	return {
 		...currentDataJson,
 		dialogue: [
-			...currentDataJson.dialogue,
+			...(currentDataJson.dialogue ?? []),
 			{
-				id: currentDataJson.dialogue.length + 1,
+				id: (currentDataJson.dialogue?.length ?? 0) + 1,
 				contentType: contentType,
 				isuser: false,
 				content: message,

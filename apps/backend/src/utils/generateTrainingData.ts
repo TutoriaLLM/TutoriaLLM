@@ -1,7 +1,7 @@
-import { type TrainingData, trainingData } from "../../db/schema.js";
-import { db } from "../../db/index.js";
 import { asc, eq } from "drizzle-orm";
-import { getConfig } from "../../modules/config/_index.js";
+import { db } from "../db";
+import { trainingData, type TrainingData } from "../db/schema";
+import { getConfig } from "../modules/config";
 
 //トレーニングデータを生成し、保存するAPI。内部でも使用される。
 export default async function generateTrainingData(

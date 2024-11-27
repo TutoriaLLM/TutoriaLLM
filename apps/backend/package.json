@@ -86,7 +86,8 @@
 		"vectra": "^0.7.6",
 		"vite": "^5.4.9",
 		"ws": "^8.18.0",
-		"zod": "^3.23.8"
+		"zod": "^3.23.8",
+		"zod-to-json-schema": "^3.23.5"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.2",

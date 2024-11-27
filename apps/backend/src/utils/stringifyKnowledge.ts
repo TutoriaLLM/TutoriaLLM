@@ -1,4 +1,4 @@
-import type { Guide } from "../../apps/backend/server/db/schema.js";
+import type { Guide } from "../db/schema";
 
 function stringifyKnowledge(knowledge: Guide[] | string) {
 	if (typeof knowledge === "string") {

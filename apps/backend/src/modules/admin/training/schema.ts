@@ -1,0 +1,84 @@
+import { z } from "zod";
+import { createValidationErrorResponseSchema } from "../../../../dist/libs/errors/schemas";
+
+// Dataテーブル用
+export const dataIdSchema = z.object({
+	id: z.number(),
+});
+export const dataMetadataSchema = z.object({
+	author: z.string().optional(),
+	date: z.string().optional(),
+	sessionCode: z.string().optional(),
+});
+export const dataSchema = z.object({
+	id: z.number(),
+	question: z.string(),
+	answer: z.string(),
+	metadata: dataMetadataSchema,
+});
+
+export type TrainingData = z.infer<typeof dataSchema>;
+
+export const dataListSchema = z.array(dataSchema);
+
+export const deleteDataParam = {
+	schema: dataIdSchema.openapi("DeleteDataParam"),
+	vErr: () =>
+		createValidationErrorResponseSchema(deleteDataParam.schema).openapi(
+			"DeleteDataParamValidationErrorResponse",
+		),
+};
+
+// Guideテーブル用
+export const guideIdSchema = z.object({
+	id: z.number(),
+});
+export const guideSearchSchema = z.object({
+	query: z.string(),
+});
+export const guideMetadataSchema = z.object({
+	author: z.string().optional(),
+	date: z.string().optional(),
+	sessionCode: z.string().optional(),
+});
+
+export const dataToGuideSchema = z.object({
+	//dataと同一のスキーマ
+	id: z.number(),
+	question: z.string(),
+	answer: z.string(),
+	metadata: guideMetadataSchema,
+});
+export const guideSchema = z.object({
+	id: z.number(),
+	metadata: guideMetadataSchema,
+	question: z.string(),
+	answer: z.string(),
+	embedding: z.array(z.number()).nullable(),
+});
+
+export type Guide = z.infer<typeof guideSchema>;
+
+export const guideListSchema = z.array(guideSchema);
+
+export const newGuideRequest = {
+	schema: dataToGuideSchema.openapi("NewGuideRequest"),
+	vErr: () =>
+		createValidationErrorResponseSchema(newGuideRequest.schema).openapi(
+			"NewGuideRequestValidationErrorResponse",
+		),
+};
+export const guideSearchQuery = {
+	schema: guideSearchSchema.openapi("GuideSearchRequest"),
+	vErr: () =>
+		createValidationErrorResponseSchema(guideSearchQuery.schema).openapi(
+			"GuideSearchRequestValidationErrorResponse",
+		),
+};
+export const guideIdParam = {
+	schema: guideIdSchema.openapi("GuideIdParam"),
+	vErr: () =>
+		createValidationErrorResponseSchema(guideIdParam.schema).openapi(
+			"GuideIdParamValidationErrorResponse",
+		),
+};

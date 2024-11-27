@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { createValidationErrorResponseSchema } from "../../libs/errors/schemas";
-
+import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
 const contentTypeEnum = [
 	"user",
 	"user_audio",
@@ -40,6 +39,7 @@ export const DialogueSchema: z.ZodSchema<DialogueType> = z.lazy(() =>
 		ui: z.string().optional(),
 	}),
 );
+
 export const DialogueOpenApiSchema = DialogueSchema.openapi({
 	//lazyの場合は手動で定義する必要がある: https://github.com/honojs/middleware/issues/643
 	type: "object",
@@ -53,7 +53,6 @@ export const DialogueOpenApiSchema = DialogueSchema.openapi({
 		ui: "example_ui",
 	},
 });
-
 export type Dialogue = z.infer<typeof DialogueSchema>;
 
 export const ClickSchema = z.object({
@@ -137,48 +136,46 @@ export const sessionValueSchema = z
 	})
 	.merge(timestampSchema);
 
+export const SessionValueListSchema = z.array(sessionValueSchema);
+
+export const SessionValueListSchemaWithSort = z.object({
+	sessions: SessionValueListSchema,
+	total: z.number(),
+	page: z.number().optional(),
+	limit: z.number().optional(),
+});
+
 export type SessionValue = z.infer<typeof sessionValueSchema>;
-
-export const keySchema = z.object({
-	key: z.string(),
-});
-
-export const languageQuerySchema = z.object({
-	language: z.string(),
-});
+export type SessionValueList = z.infer<typeof SessionValueListSchema>;
 
 export const sessionCodeSchema = z.object({
 	sessionCode: z.string(),
 });
 
-export const newSessionQuery = {
-	schema: languageQuerySchema.openapi("NewSessionQuery"),
+export const SessionQuerySchema = z.object({
+	page: z.number().optional(),
+	limit: z.number().optional(),
+	//sessionvalueのkey
+	sortField: z.enum(
+		Object.keys(sessionValueSchema.shape) as [
+			keyof typeof sessionValueSchema.shape,
+		],
+	),
+	sortOrder: z.string().optional(),
+});
+
+export const deleteSessionParam = {
+	schema: sessionCodeSchema.openapi("DeleteSessionParam"),
 	vErr: () =>
-		createValidationErrorResponseSchema(newSessionQuery.schema).openapi(
-			"NewSessionQueryValidationErrorResponse",
-		),
-};
-export const newSessionRequest = {
-	schema: sessionValueSchema.openapi("NewSessionRequest"),
-	vErr: () =>
-		createValidationErrorResponseSchema(newSessionRequest.schema).openapi(
-			"NewSessionRequestValidationErrorResponse",
+		createValidationErrorResponseSchema(deleteSessionParam.schema).openapi(
+			"DeleteSessionParamValidationErrorResponse",
 		),
 };
 
-export const putSessionRequest = {
-	schema: sessionValueSchema.openapi("PutSessionRequest"),
+export const listSessionsQuery = {
+	schema: SessionQuerySchema.openapi("ListSessionsQuery"),
 	vErr: () =>
-		createValidationErrorResponseSchema(putSessionRequest.schema).openapi(
-			"PutSessionRequestValidationErrorResponse",
-		),
-};
-
-//put, get, deleteに対して同じスキーマを使う
-export const sessionParam = {
-	schema: keySchema.openapi("GetSessionParam"),
-	vErr: () =>
-		createValidationErrorResponseSchema(sessionParam.schema).openapi(
-			"GetSessionParamValidationErrorResponse",
+		createValidationErrorResponseSchema(SessionQuerySchema).openapi(
+			"ListSessionsQueryValidationErrorResponse",
 		),
 };
