@@ -23,7 +23,7 @@ export const timestampSchema = z.object({
 	updatedAt: z.date(), // ISO文字列として扱う
 });
 
-type DialogueType = {
+export type DialogueType = {
 	id: number;
 	contentType: ContentType;
 	isuser: boolean;
@@ -54,7 +54,7 @@ export const DialogueOpenApiSchema = DialogueSchema.openapi({
 	},
 });
 
-export type Dialogue = z.infer<typeof DialogueSchema>;
+export type Dialogue = z.infer<typeof DialogueOpenApiSchema>;
 
 export const ClickSchema = z.object({
 	x: z.number(),
