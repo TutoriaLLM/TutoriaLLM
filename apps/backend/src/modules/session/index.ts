@@ -8,7 +8,10 @@ import { eq } from "drizzle-orm";
 import { initialData } from "../../db/session";
 import { errorResponse } from "../../libs/errors";
 import "./socket/index"; //websocket serverを読み込む
-const app = new OpenAPIHono()
+import type { Context } from "../../context";
+import { defaultHook } from "../../libs/default-hook";
+
+const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(newSession, async (c) => {
 		const sessionData = c.req.valid("json");
 		let language = c.req.valid("query").language;

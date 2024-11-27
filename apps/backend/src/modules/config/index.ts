@@ -40,7 +40,9 @@ export function deleteConfig() {
 	}
 }
 
-const app = new OpenAPIHono().openapi(route, (c) => {
+import type { Context } from "../../context";
+import { defaultHook } from "../../libs/default-hook";
+const app = new OpenAPIHono<Context>({ defaultHook }).openapi(route, (c) => {
 	const config = getConfig();
 	return c.json(config);
 });

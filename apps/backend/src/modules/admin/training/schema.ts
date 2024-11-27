@@ -1,9 +1,15 @@
 import { z } from "zod";
 import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
+import { stringToNumber } from "../../../utils/zStringtoNumber";
 
 // Dataテーブル用
 export const dataIdSchema = z.object({
-	id: z.number(),
+	id: stringToNumber.openapi({
+		param: {
+			name: "id",
+			in: "path",
+		},
+	}),
 });
 export const dataMetadataSchema = z.object({
 	author: z.string().optional(),
@@ -31,7 +37,12 @@ export const deleteDataParam = {
 
 // Guideテーブル用
 export const guideIdSchema = z.object({
-	id: z.number(),
+	id: stringToNumber.openapi({
+		param: {
+			name: "id",
+			in: "path",
+		},
+	}),
 });
 export const guideSearchSchema = z.object({
 	query: z.string(),
@@ -56,16 +67,36 @@ export const guideSchema = z.object({
 	answer: z.string(),
 	embedding: z.array(z.number()).nullable(),
 });
-
+export const guideListSchema = z.array(guideSchema);
 export type Guide = z.infer<typeof guideSchema>;
 
-export const guideListSchema = z.array(guideSchema);
+export const getGuideSchema = guideSchema.pick({
+	id: true,
+	metadata: true,
+	question: true,
+	answer: true,
+});
+export const getGuideListSchema = z.array(getGuideSchema);
+export const updateGuideSchema = guideSchema
+	.pick({
+		metadata: true,
+		question: true,
+		answer: true,
+	})
+	.partial();
 
 export const newGuideRequest = {
 	schema: dataToGuideSchema.openapi("NewGuideRequest"),
 	vErr: () =>
 		createValidationErrorResponseSchema(newGuideRequest.schema).openapi(
 			"NewGuideRequestValidationErrorResponse",
+		),
+};
+export const updateGuideRequest = {
+	schema: updateGuideSchema.openapi("UpdateGuideRequest"),
+	vErr: () =>
+		createValidationErrorResponseSchema(updateGuideRequest.schema).openapi(
+			"UpdateGuideRequestValidationErrorResponse",
 		),
 };
 export const guideSearchQuery = {

@@ -10,7 +10,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 // 管理者ページが使用するAPIのエントリーポイント
 const app = new OpenAPIHono<Context>();
 // 権限がない場合は、管理者ページにアクセスできないようにする
-app.use("/admin", async (c, next) => {
+app.use("/admin/*", async (c, next) => {
 	if (!c.get("user")) {
 		return errorResponse(c, {
 			message: "Unauthorized",

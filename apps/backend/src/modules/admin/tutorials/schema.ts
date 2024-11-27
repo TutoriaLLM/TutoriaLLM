@@ -1,5 +1,6 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
+import { stringToNumber } from "../../../utils/zStringtoNumber";
 
 //タグテーブルのスキーマ
 export const tagSchema = z.object({
@@ -31,7 +32,12 @@ export const getTutorialsSchema = z.array(
 );
 
 export const idSchema = z.object({
-	id: z.number(),
+	id: stringToNumber.openapi({
+		param: {
+			name: "id",
+			in: "path",
+		},
+	}),
 });
 
 export const specificTutorialParam = {

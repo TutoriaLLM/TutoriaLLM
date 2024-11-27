@@ -4,11 +4,13 @@ import {
 	dataListSchema,
 	dataSchema,
 	deleteDataParam,
+	getGuideListSchema,
 	guideIdParam,
 	guideListSchema,
 	guideSchema,
 	guideSearchQuery,
 	newGuideRequest,
+	updateGuideRequest,
 } from "./schema";
 
 // トレーニングデータの管理を行うAPI
@@ -40,7 +42,7 @@ export const listData = createRoute({
 
 export const deleteData = createRoute({
 	method: "delete",
-	path: "/admin/training/data/:id",
+	path: "/admin/training/data/{id}",
 	summary: "Delete a training data from id",
 	request: {
 		params: deleteDataParam.schema,
@@ -114,7 +116,7 @@ export const listGuides = createRoute({
 	summary: "Return the list of guides",
 	responses: {
 		200: {
-			content: jsonBody(guideListSchema),
+			content: jsonBody(getGuideListSchema),
 			description: "Returns the list of guides",
 		},
 		...errorResponses({}),
@@ -123,7 +125,7 @@ export const listGuides = createRoute({
 
 export const getGuide = createRoute({
 	method: "get",
-	path: "/admin/training/guide/:id",
+	path: "/admin/training/guide/{id}",
 	summary: "Get a guide from id",
 	request: {
 		params: guideIdParam.schema,
@@ -141,12 +143,12 @@ export const getGuide = createRoute({
 
 export const updateGuide = createRoute({
 	method: "put",
-	path: "/admin/training/guide/:id",
+	path: "/admin/training/guide/{id}",
 	summary: "Update a guide",
 	request: {
 		params: guideIdParam.schema,
 		body: {
-			content: jsonBody(newGuideRequest.schema),
+			content: jsonBody(updateGuideRequest.schema),
 		},
 	},
 	responses: {
@@ -161,7 +163,7 @@ export const updateGuide = createRoute({
 
 export const deleteGuide = createRoute({
 	method: "delete",
-	path: "/admin/training/guide/:id",
+	path: "/admin/training/guide/{id}",
 	summary: "Delete a guide",
 	request: {
 		params: guideIdParam.schema,

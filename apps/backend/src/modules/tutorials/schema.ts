@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { tags } from "../../db/schema";
 import { createValidationErrorResponseSchema } from "../../libs/errors/schemas";
+import { stringToNumber } from "../../utils/zStringtoNumber";
 
 export const tagSchema = z.object({
 	id: z.number(),
@@ -37,7 +38,12 @@ export const getTutorialsSchema = z.array(
 export type Tutorial = z.infer<typeof tutorialSchema>;
 
 export const idSchema = z.object({
-	id: z.number(),
+	id: stringToNumber.openapi({
+		param: {
+			name: "id",
+			in: "path",
+		},
+	}),
 });
 export const getSpecificTutorialParam = {
 	schema: idSchema.openapi("GetSpecificTutorialParam"),

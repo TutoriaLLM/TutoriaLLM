@@ -19,7 +19,10 @@ import { guides, trainingData } from "../../../db/schema";
 import { createGuideFromTrainingData } from "./utils/guide";
 import { getKnowledge } from "./utils/knowledge";
 
-const app = new OpenAPIHono()
+import type { Context } from "../../../context";
+import { defaultHook } from "../../../libs/default-hook";
+
+const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getRandomData, async (c) => {
 		const data = await db.query.trainingData.findFirst({
 			orderBy: sql`random()`,
@@ -44,6 +47,15 @@ const app = new OpenAPIHono()
 	})
 	.openapi(deleteData, async (c) => {
 		const id = c.req.valid("param").id;
+		const data = await db.query.trainingData.findFirst({
+			where: eq(trainingData.id, id),
+		});
+		if (!data) {
+			return errorResponse(c, {
+				message: "Data not found",
+				type: "NOT_FOUND",
+			});
+		}
 		const result = await db
 			.delete(trainingData)
 			.where(eq(trainingData.id, id))
@@ -83,7 +95,14 @@ const app = new OpenAPIHono()
 		return c.json(result, 200);
 	})
 	.openapi(listGuides, async (c) => {
-		const guidesList = await db.query.guides.findMany();
+		const guidesList = await db.query.guides.findMany({
+			columns: {
+				id: true,
+				metadata: true,
+				question: true,
+				answer: true,
+			},
+		});
 		if (guidesList.length === 0) {
 			return errorResponse(c, {
 				message: "No guides found",

@@ -1,5 +1,6 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
+import { stringToNumber } from "../../../utils/zStringtoNumber";
 const contentTypeEnum = [
 	"user",
 	"user_audio",
@@ -149,12 +150,17 @@ export type SessionValue = z.infer<typeof sessionValueSchema>;
 export type SessionValueList = z.infer<typeof SessionValueListSchema>;
 
 export const sessionCodeSchema = z.object({
-	sessionCode: z.string(),
+	sessionCode: z.string().openapi({
+		param: {
+			name: "sessionCode",
+			in: "path",
+		},
+	}),
 });
 
 export const SessionQuerySchema = z.object({
-	page: z.number().optional(),
-	limit: z.number().optional(),
+	page: stringToNumber.optional(),
+	limit: stringToNumber.optional(),
 	//sessionvalueのkey
 	sortField: z.enum(
 		Object.keys(sessionValueSchema.shape) as [

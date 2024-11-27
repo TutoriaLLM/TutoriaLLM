@@ -12,7 +12,7 @@ import {
 
 import EditorPage from "./pages/editorPage.js";
 
-import "../i18n/client_i18nConfig.js";
+import "./i18n/client_i18nConfig.js";
 import AdminPage from "./pages/adminPage.js";
 import FrontendTracer from "./clientTelemetry.js";
 

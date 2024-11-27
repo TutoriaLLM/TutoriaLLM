@@ -41,7 +41,7 @@ const newSession = createRoute({
 
 const getSession = createRoute({
 	method: "get",
-	path: "/session/:key",
+	path: "/session/{key}",
 	request: {
 		params: sessionParam.schema,
 	},
@@ -58,7 +58,7 @@ const getSession = createRoute({
 
 const putSession = createRoute({
 	method: "put",
-	path: "/session/:key",
+	path: "/session/{key}",
 	request: {
 		params: sessionParam.schema,
 		body: {
@@ -88,7 +88,7 @@ const putSession = createRoute({
 
 const deleteSession = createRoute({
 	method: "delete",
-	path: "/session/:key",
+	path: "/session/{key}",
 	request: {
 		params: sessionParam.schema,
 	},

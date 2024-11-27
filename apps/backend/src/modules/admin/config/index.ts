@@ -43,7 +43,10 @@ export function createConfig() {
 	}
 }
 
-const app = new OpenAPIHono()
+import type { Context } from "../../../context";
+import { defaultHook } from "../../../libs/default-hook";
+
+const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getConfigApp, (c) => {
 		const config = getConfig();
 		return c.json(config);

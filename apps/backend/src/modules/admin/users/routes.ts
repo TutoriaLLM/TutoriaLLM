@@ -2,9 +2,10 @@ import { createRoute } from "@hono/zod-openapi";
 import { errorResponses, jsonBody } from "../../../libs/openapi";
 import {
 	newUserRequest,
+	putUserRequest,
 	userIdParam,
-	userListSchema,
-	userSchema,
+	getUserListSchema,
+	getUserSchema,
 } from "./schema";
 import { idSchema } from "../../tutorials/schema";
 
@@ -14,7 +15,7 @@ export const getUserList = createRoute({
 	summary: "Get list of users",
 	responses: {
 		200: {
-			content: jsonBody(userListSchema),
+			content: jsonBody(getUserListSchema),
 			description: "Returns the list of users",
 		},
 	},
@@ -31,7 +32,7 @@ export const createUser = createRoute({
 	},
 	responses: {
 		200: {
-			content: jsonBody(userSchema),
+			content: jsonBody(getUserSchema),
 			description: "Returns the user data",
 		},
 		...errorResponses({
@@ -42,14 +43,14 @@ export const createUser = createRoute({
 
 export const getUser = createRoute({
 	method: "get",
-	path: "/admin/users/:id",
+	path: "/admin/users/{id}",
 	summary: "Get username and id by id",
 	request: {
 		params: userIdParam.schema,
 	},
 	responses: {
 		200: {
-			content: jsonBody(userSchema),
+			content: jsonBody(getUserSchema),
 			description: "Returns the user data",
 		},
 		...errorResponses({
@@ -60,12 +61,12 @@ export const getUser = createRoute({
 
 export const updateUser = createRoute({
 	method: "put",
-	path: "/admin/users/:id",
+	path: "/admin/users/{id}",
 	summary: "Update user data",
 	request: {
 		params: userIdParam.schema,
 		body: {
-			content: jsonBody(newUserRequest.schema),
+			content: jsonBody(putUserRequest.schema),
 		},
 	},
 	responses: {
@@ -84,7 +85,7 @@ export const updateUser = createRoute({
 
 export const deleteUser = createRoute({
 	method: "delete",
-	path: "/admin/users/:id",
+	path: "/admin/users/{id}",
 	summary: "Delete user",
 	request: {
 		params: userIdParam.schema,

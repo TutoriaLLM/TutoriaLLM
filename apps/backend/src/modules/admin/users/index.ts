@@ -14,9 +14,17 @@ import {
 } from "./routes.js";
 import { errorResponse } from "../../../libs/errors/index.js";
 
-const app = new OpenAPIHono()
+import type { Context } from "../../../context";
+import { defaultHook } from "../../../libs/default-hook";
+
+const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getUserList, async (c) => {
-		const getUsers = await db.select().from(users);
+		const getUsers = await db
+			.select({
+				id: users.id,
+				username: users.username,
+			})
+			.from(users);
 		return c.json(getUsers);
 	})
 

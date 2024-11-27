@@ -15,7 +15,10 @@ import { errorResponse } from "../../../libs/errors";
 import { generateContentFromContent } from "./llm/tutorial";
 import { generateMetadataFromContent } from "./llm/metadata";
 
-const app = new OpenAPIHono()
+import type { Context } from "../../../context";
+import { defaultHook } from "../../../libs/default-hook";
+
+const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getTutorialList, async (c) => {
 		const allTutorials = await db
 			.select() //不要なフィールドは消した方が良いかもしれない

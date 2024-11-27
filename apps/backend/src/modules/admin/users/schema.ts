@@ -1,28 +1,31 @@
 import { z } from "zod";
 import password from "../../../utils/password";
 import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
+import { stringToNumber } from "../../../utils/zStringtoNumber";
 
-export const userSchema = z.object({
+const userSchema = z.object({
 	id: z.number(),
-	username: z.string(),
-});
-
-export const userListSchema = z.array(userSchema);
-
-export const userSchemaWithoutName = userSchema.pick({ id: true });
-
-const newUserSchema = z.object({
 	username: z.string(),
 	password: z.string(),
 });
 
-const putUserSchema = z.object({
-	username: z.string().optional(),
-	password: z.string().optional(),
-});
+export const userSchemaWithoutName = userSchema.pick({ id: true });
+
+export const getUserSchema = userSchema.pick({ id: true, username: true });
+
+export const getUserListSchema = z.array(getUserSchema);
+
+const newUserSchema = userSchema.pick({ username: true, password: true });
+
+const putUserSchema = userSchema.partial();
 
 const idSchema = z.object({
-	id: z.number(),
+	id: stringToNumber.openapi({
+		param: {
+			name: "id",
+			in: "path",
+		},
+	}),
 });
 
 export const newUserRequest = {

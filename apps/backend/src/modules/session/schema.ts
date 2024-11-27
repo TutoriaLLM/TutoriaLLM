@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createValidationErrorResponseSchema } from "../../libs/errors/schemas";
+import { stringToNumber } from "../../utils/zStringtoNumber";
 
 const contentTypeEnum = [
 	"user",
@@ -140,7 +141,12 @@ export const sessionValueSchema = z
 export type SessionValue = z.infer<typeof sessionValueSchema>;
 
 export const keySchema = z.object({
-	key: z.string(),
+	key: z.string().openapi({
+		param: {
+			name: "key",
+			in: "path",
+		},
+	}),
 });
 
 export const languageQuerySchema = z.object({
@@ -152,7 +158,7 @@ export const sessionCodeSchema = z.object({
 });
 
 export const newSessionQuery = {
-	schema: languageQuerySchema.openapi("NewSessionQuery"),
+	schema: languageQuerySchema.partial().openapi("NewSessionQuery"),
 	vErr: () =>
 		createValidationErrorResponseSchema(newSessionQuery.schema).openapi(
 			"NewSessionQueryValidationErrorResponse",

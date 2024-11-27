@@ -4,8 +4,10 @@ import { db } from "../../../db";
 import { appSessions } from "../../../db/schema";
 import { errorResponse } from "../../../libs/errors";
 import { asc, desc, eq } from "drizzle-orm";
+import type { Context } from "../../../context";
+import { defaultHook } from "../../../libs/default-hook";
 
-const app = new OpenAPIHono()
+const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(downloadAllSessions, async (c) => {
 		const allSessions = await db.select().from(appSessions);
 		return c.json(allSessions, 200);
@@ -13,7 +15,7 @@ const app = new OpenAPIHono()
 	.openapi(listSessions, async (c) => {
 		const { page, limit, sortField, sortOrder } = c.req.valid("query");
 		try {
-			const start = (page || 1) - 1 * (limit || 10);
+			const start = Math.max((page || 1) - 1 * (limit || 10), 0);
 			const end = start + (limit || 10);
 			const sortOrderType = sortOrder === "asc" ? asc : desc;
 			const sortFieldType = appSessions[sortField];
@@ -33,6 +35,7 @@ const app = new OpenAPIHono()
 				200,
 			);
 		} catch (err) {
+			console.error(err);
 			return errorResponse(c, {
 				message: "Failed to list sessions",
 				type: "SERVER_ERROR",
@@ -41,10 +44,15 @@ const app = new OpenAPIHono()
 	})
 	.openapi(deleteSession, async (c) => {
 		const code = c.req.valid("param").sessionCode;
+		console.log(code);
 		try {
-			await db.delete(appSessions).where(eq(appSessions.sessioncode, code));
+			await db
+				.delete(appSessions)
+				.where(eq(appSessions.sessioncode, code))
+				.returning({ deletedId: appSessions.sessioncode });
 			return c.json({ sessionCode: code }, 200);
 		} catch (err) {
+			console.error(err);
 			return errorResponse(c, {
 				message: "Failed to delete session",
 				type: "SERVER_ERROR",

@@ -16,11 +16,12 @@ const getTutorials = createRoute({
 			content: jsonBody(getTutorialsSchema),
 			description: "Returns the app configuration, without content",
 		},
+		...errorResponses({}),
 	},
 });
 const getSpecificTutorial = createRoute({
 	method: "get",
-	path: "/tutorials/:id",
+	path: "/tutorials/{id}",
 	summary: "Get specific tutorial by id",
 	request: {
 		params: getSpecificTutorialParam.schema,
@@ -47,6 +48,7 @@ const getTags = createRoute({
 			content: jsonBody(tagsSchema),
 			description: "Returns the list of tags from all tutorials",
 		},
+		...errorResponses({}),
 	},
 });
 

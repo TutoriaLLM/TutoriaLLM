@@ -26,7 +26,7 @@ export const getTutorialList = createRoute({
 });
 export const getSpecificTutorial = createRoute({
 	method: "get",
-	path: "/admin/tutorials/:id",
+	path: "/admin/tutorials/{id}",
 	summary: "Get a specific tutorial by ID",
 	request: {
 		params: specificTutorialParam.schema,
@@ -43,7 +43,7 @@ export const getSpecificTutorial = createRoute({
 });
 export const deleteTutorial = createRoute({
 	method: "delete",
-	path: "/admin/tutorials/:id",
+	path: "/admin/tutorials/{id}",
 	summary: "Delete a tutorial by ID",
 	request: {
 		params: specificTutorialParam.schema,
@@ -77,7 +77,7 @@ export const createTutorial = createRoute({
 });
 export const updateTutorial = createRoute({
 	method: "put",
-	path: "/admin/tutorials/:id",
+	path: "/admin/tutorials/{id}",
 	summary: "Update a tutorial by ID",
 	request: {
 		params: specificTutorialParam.schema,
