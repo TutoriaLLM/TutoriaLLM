@@ -1,13 +1,13 @@
 import { createRoute } from "@hono/zod-openapi";
-import { errorResponses, jsonBody } from "../../../libs/openapi";
+import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	newUserRequest,
 	putUserRequest,
 	userIdParam,
 	getUserListSchema,
 	getUserSchema,
-} from "./schema";
-import { idSchema } from "../../tutorials/schema";
+} from "@/modules/admin/users/schema";
+import { idSchema } from "@/modules/tutorials/schema";
 
 export const getUserList = createRoute({
 	method: "get",

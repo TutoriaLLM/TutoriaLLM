@@ -1,5 +1,5 @@
-import { langToStr } from "../../../../utils/langToStr";
-import type { SessionValue } from "../../schema";
+import { langToStr } from "@/utils/langToStr";
+import type { SessionValue } from "@/modules/session/schema";
 
 const ui = [
 	{

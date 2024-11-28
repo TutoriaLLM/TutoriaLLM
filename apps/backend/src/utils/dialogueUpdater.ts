@@ -2,7 +2,7 @@ import type {
 	ContentType,
 	Dialogue,
 	SessionValue,
-} from "../modules/session/schema";
+} from "@/modules/session/schema";
 
 export function updateDialogue(
 	message: string,

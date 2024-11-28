@@ -4,25 +4,28 @@ import { eq, is } from "drizzle-orm";
 import {
 	generateAudioUserTemplate,
 	generateUserTemplate,
-} from "./userTemplate.js";
+} from "@/modules/session/socket/llm/userTemplate";
 import {
 	generateAudioSystemTemplate,
 	generateSystemTemplate,
 	generateSystemTemplateFor4oPreview,
-} from "./systemTemplate.js";
-import { zodAudioSchema, zodTextSchema } from "./responseFormat.js";
+} from "@/modules/session/socket/llm/systemTemplate";
+import {
+	zodAudioSchema,
+	zodTextSchema,
+} from "@/modules/session/socket/llm/responseFormat";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "node:fs";
 import type { Socket } from "socket.io";
-import { updateAudioDialogue } from "./whisper.js";
-import type { SessionValue } from "../../schema.js";
-import { getConfig } from "../../../config/index.js";
-import { listAllBlocks } from "../../../../utils/blockList.js";
-import { getKnowledge } from "../../../admin/training/utils/knowledge.js";
-import { tutorials, type Guide } from "../../../../db/schema.js";
-import generateTrainingData from "../../../../utils/generateTrainingData.js";
-import { applyRuby } from "../../../../utils/japaneseWithRuby.js";
-import { db } from "../../../../db/index.js";
+import { updateAudioDialogue } from "@/modules/session/socket/llm/whisper";
+import type { SessionValue } from "@/modules/session/schema";
+import { getConfig } from "@/modules/config";
+import { listAllBlocks } from "@/utils/blockList";
+import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
+import { tutorials, type Guide } from "@/db/schema";
+import generateTrainingData from "@/utils/generateTrainingData";
+import { applyRuby } from "@/utils/japaneseWithRuby";
+import { db } from "@/db";
 
 //debug
 console.log("llm/index.ts: Loading llm app");

@@ -1,10 +1,10 @@
 import { z } from "@hono/zod-openapi";
 import type { createRoute } from "@hono/zod-openapi";
-import { AppErrorStatusCode } from "./errors/config.js";
+import { AppErrorStatusCode } from "@/libs/errors/config";
 import {
 	createErrorResponseSchema,
 	type createValidationErrorResponseSchema,
-} from "./errors/schemas.js";
+} from "@/libs/errors/schemas";
 
 /**
  * application/json形式のスキーマは頻出なため、毎回書かなくてもいいようにする関数

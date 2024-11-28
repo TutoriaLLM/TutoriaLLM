@@ -1,17 +1,14 @@
 import { J } from "vitest/dist/chunks/reporters.C4ZHgdxQ.js";
-import { updateDialogue } from "../../../../utils/dialogueUpdater.js";
-import { appSessions, tutorials } from "../../../../db/schema.js";
+import { updateDialogue } from "@/utils/dialogueUpdater";
+import { appSessions, tutorials } from "@/db/schema";
 //import { sessionDB } from "../../../db/session.js";
-import { db } from "../../../../db/index.js";
+import { db } from "@/db";
 
-import {
-	getAvailableBlocks,
-	getBlockFiles,
-} from "../../../../libs/registerBlocks.js";
+import { getAvailableBlocks, getBlockFiles } from "@/libs/registerBlocks";
 import type { Socket } from "socket.io";
 import { eq } from "drizzle-orm";
-import type { SessionValue } from "../../schema.js";
-import { invokeLLM } from "../llm/index.js";
+import type { SessionValue } from "@/modules/session/schema";
+import { invokeLLM } from "@/modules/session/socket/llm";
 
 //非同期でLLMを呼び出し、メッセージが作成されたタイミングでプッシュする
 export async function updateDialogueWithLLM(

@@ -1,6 +1,6 @@
-import { saltAndHashPassword } from "../utils/password.js";
-import { db } from "./index.js";
-import { users } from "./schema.js";
+import { saltAndHashPassword } from "@/utils/password";
+import { db } from "@/db";
+import { users } from "@/db/schema";
 
 // ユーザーの認証情報をリセット
 export async function resetCredentials(

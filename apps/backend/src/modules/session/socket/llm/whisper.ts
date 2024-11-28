@@ -5,9 +5,9 @@ import fs from "node:fs";
 // import { sessionDB } from "../../db/session.js";
 import type { Socket } from "socket.io";
 import { eq } from "drizzle-orm";
-import { db } from "../../../../db";
-import { appSessions } from "../../../../db/schema";
-import { updateAndBroadcastDiffToAll } from "../updateDB";
+import { db } from "@/db";
+import { appSessions } from "@/db/schema";
+import { updateAndBroadcastDiffToAll } from "@/modules/session/socket/updateDB";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,

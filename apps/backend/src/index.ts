@@ -1,25 +1,25 @@
 import { serve } from "@hono/node-server";
 import { showRoutes } from "hono/dev";
 import { verifyRequestOrigin } from "lucia";
-import { lucia } from "./libs/lucia.js";
-import type { Context } from "./context.js";
-import authRoutes from "./modules/auth";
-import configRoutes from "./modules/config";
-import vmProxyRoutes from "./modules/vmProxy";
-import sessionRoutes from "./modules/session";
-import healthRoutes from "./modules/health";
-import tutorialRoutes from "./modules/tutorials";
-import adminRoutes from "./modules/admin";
-
+import { lucia } from "@/libs/lucia";
+import type { Context } from "@/context";
+import authRoutes from "@/modules/auth";
+import configRoutes from "@/modules/config";
+import vmProxyRoutes from "@/modules/vmProxy";
+import sessionRoutes from "@/modules/session";
+import healthRoutes from "@/modules/health";
+import tutorialRoutes from "@/modules/tutorials";
+import adminRoutes from "@/modules/admin";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
-import { errorResponse } from "./libs/errors";
+import { errorResponse } from "@/libs/errors";
 import EventEmitter from "node:events";
-import { defaultHook } from "./libs/default-hook.js";
+import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook });
+
 export const serverEmitter = new EventEmitter();
-const isDev = process.env.NODE_ENV === "development";
+
 app.use("*", async (c, next) => {
 	if (c.req.method === "GET") {
 		return next();
@@ -35,6 +35,7 @@ app.use("*", async (c, next) => {
 	}
 	return next();
 });
+
 app.use("*", async (c, next) => {
 	const sessionId = lucia.readSessionCookie(c.req.header("Cookie") ?? "");
 	if (!sessionId) {
@@ -58,8 +59,6 @@ app.use("*", async (c, next) => {
 	c.set("user", user);
 	return next();
 });
-
-app.get("/", (c) => c.text("Hello Node.js!"));
 
 app.route("/", vmProxyRoutes);
 
@@ -123,6 +122,8 @@ app.onError((err, c) => {
 		err,
 	});
 });
+
+const isDev = process.env.NODE_ENV === "development";
 
 if (isDev) showRoutes(app, { verbose: true, colorize: true });
 

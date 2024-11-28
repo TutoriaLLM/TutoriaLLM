@@ -17,8 +17,8 @@ import type {
 	SavedAudio,
 	Stats,
 	TutorialStats,
-} from "../modules/session/schema";
-import type { Tags } from "../modules/tutorials/schema";
+} from "@/modules/session/schema";
+import type { Tags } from "@/modules/tutorials/schema";
 
 // WARN: DO NOT GENERATE ZOD SCHEMA FROM THIS FILE
 

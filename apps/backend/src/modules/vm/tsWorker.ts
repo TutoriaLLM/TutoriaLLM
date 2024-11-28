@@ -1,7 +1,7 @@
 import vm, { createContext } from "node:vm";
 import path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
-import { ExtensionLoader } from "./extensionLoader.js";
+import { ExtensionLoader } from "@/modules/vm/extensionLoader";
 import { fileURLToPath } from "node:url";
 import getPort, { portNumbers } from "get-port";
 import { exec } from "node:child_process";
@@ -11,7 +11,7 @@ import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
-import type { SessionValue } from "../session/schema.js";
+import type { SessionValue } from "@/modules/session/schema";
 
 const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
 

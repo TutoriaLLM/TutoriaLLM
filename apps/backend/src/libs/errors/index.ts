@@ -1,6 +1,6 @@
 import type { Context } from "hono";
-import { AppErrorStatusCode, type AppErrorType } from "./config";
-import type { errorResponseSchema } from "./schemas";
+import { AppErrorStatusCode, type AppErrorType } from "@/libs/errors/config";
+import type { errorResponseSchema } from "@/libs/errors/schemas";
 
 /**
  * エラーレスポンスを返す関数

@@ -3,20 +3,20 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 // import { sessionDB } from "../../../db/session.js";
-import { db } from "../../db/index.js";
-import type { vmMessage } from "./tsWorker.js";
-import LogBuffer from "./logBuffer.js";
+import { db } from "@/db";
+import type { vmMessage } from "@/modules/vm/tsWorker";
+import LogBuffer from "@/modules/vm/logBuffer";
 import i18next from "i18next";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Socket } from "socket.io";
-import { appSessions } from "../../db/schema.js";
+import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { cors } from "hono/cors";
 import { Hono } from "hono";
-import { errorResponse } from "../../libs/errors/index.js";
+import { errorResponse } from "@/libs/errors";
 import { serve } from "@hono/node-server";
-import { getConfig } from "../config/index.js";
-import type { SessionValue } from "../session/schema.js";
+import { getConfig } from "@/modules/config";
+import type { SessionValue } from "@/modules/session/schema";
 //debug
 console.log("vm/index.js: Loading vm app");
 

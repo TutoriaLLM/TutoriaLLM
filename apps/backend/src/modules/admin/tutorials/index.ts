@@ -7,16 +7,16 @@ import {
 	getSpecificTutorial,
 	getTutorialList,
 	updateTutorial,
-} from "./routes";
-import { db } from "../../../db";
-import { tags, tutorials, tutorialsTags } from "../../../db/schema";
+} from "@/modules/admin/tutorials/routes";
+import { db } from "@/db";
+import { tags, tutorials, tutorialsTags } from "@/db/schema";
 import { eq, isNull } from "drizzle-orm";
-import { errorResponse } from "../../../libs/errors";
-import { generateContentFromContent } from "./llm/tutorial";
-import { generateMetadataFromContent } from "./llm/metadata";
+import { errorResponse } from "@/libs/errors";
+import { generateContentFromContent } from "@/modules/admin/tutorials/llm/tutorial";
+import { generateMetadataFromContent } from "@/modules/admin/tutorials/llm/metadata";
 
-import type { Context } from "../../../context";
-import { defaultHook } from "../../../libs/default-hook";
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getTutorialList, async (c) => {

@@ -1,5 +1,5 @@
-import type { Guide, TrainingData } from "../schema";
-import { generateEmbedding } from "./embedding";
+import type { Guide, TrainingData } from "@/modules/admin/training/schema";
+import { generateEmbedding } from "@/modules/admin/training/utils/embedding";
 
 export async function createGuideFromTrainingData(
 	trainingData: TrainingData,

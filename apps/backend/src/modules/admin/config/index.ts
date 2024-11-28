@@ -1,10 +1,10 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { getConfigApp, updateConfigApp } from "./routes";
+import { getConfigApp, updateConfigApp } from "@/modules/admin/config/routes";
 import fs from "node:fs";
 import path from "node:path";
-import type { AppConfig } from "./schema";
-import type { Context } from "../../../context";
-import { defaultHook } from "../../../libs/default-hook";
+import type { AppConfig } from "@/modules/admin/config/schema";
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 
 // const volumePath = "/app_data";
 const volumePath = path.resolve("testconfig");

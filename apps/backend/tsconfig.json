@@ -7,8 +7,9 @@
 		"skipLibCheck": true,
 		"types": ["node"],
 		"jsx": "react-jsx",
+		"baseUrl": ".",
 		"paths": {
-			"@/": ["./src/"]
+			"@/*": ["./src/*"]
 		},
 		"jsxImportSource": "hono/jsx"
 	}

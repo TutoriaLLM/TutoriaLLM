@@ -1,6 +1,6 @@
 import { createRoute } from "@hono/zod-openapi";
-import { AppConfigSchema } from "./schema.js";
-import { jsonBody } from "../../libs/openapi.js";
+import { AppConfigSchema } from "@/modules/config/schema";
+import { jsonBody } from "@/libs/openapi";
 
 const route = createRoute({
 	method: "get",

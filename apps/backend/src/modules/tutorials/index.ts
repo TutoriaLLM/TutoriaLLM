@@ -1,12 +1,16 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { getSpecificTutorial, getTags, getTutorials } from "./routes";
-import { db } from "../../db";
-import { tags, tutorials } from "../../db/schema";
-import { errorResponse } from "../../libs/errors";
+import {
+	getSpecificTutorial,
+	getTags,
+	getTutorials,
+} from "@/modules/tutorials/routes";
+import { db } from "@/db";
+import { tags, tutorials } from "@/db/schema";
+import { errorResponse } from "@/libs/errors";
 import { eq } from "drizzle-orm";
 
-import type { Context } from "../../context";
-import { defaultHook } from "../../libs/default-hook";
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getTutorials, async (c) => {

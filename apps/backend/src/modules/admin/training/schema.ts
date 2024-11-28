@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
-import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
-import { stringToNumber } from "../../../utils/zStringtoNumber";
+import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
+import { stringToNumber } from "@/utils/zStringtoNumber";
 
 // Dataテーブル用
 export const dataIdSchema = z.object({

@@ -1,13 +1,13 @@
-import { comparePasswordToHash } from "../../utils/password.js";
-import { type User, users } from "../../db/schema.js";
-import { db } from "../../db/index.js";
+import { comparePasswordToHash } from "@/utils/password";
+import { type User, users } from "@/db/schema";
+import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import type { Context } from "../../context.js";
+import type { Context } from "@/context";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "@hono/zod-openapi";
-import { lucia } from "../../libs/lucia.js";
+import { lucia } from "@/libs/lucia";
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { defaultHook } from "../../libs/default-hook.js";
+import { defaultHook } from "@/libs/default-hook";
 
 //ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
 export const app = new OpenAPIHono<Context>({ defaultHook });

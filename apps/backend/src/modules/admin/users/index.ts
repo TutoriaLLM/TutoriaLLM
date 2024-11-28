@@ -1,8 +1,8 @@
-import { saltAndHashPassword } from "../../../utils/password.js";
+import { saltAndHashPassword } from "@/utils/password";
 // 既存のDBに接続する
 import { eq } from "drizzle-orm";
-import { db } from "../../../db/index.js";
-import { authSessions, users } from "../../../db/schema.js";
+import { db } from "@/db";
+import { authSessions, users } from "@/db/schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import {
 	createUser,
@@ -10,11 +10,11 @@ import {
 	getUser,
 	getUserList,
 	updateUser,
-} from "./routes.js";
-import { errorResponse } from "../../../libs/errors/index.js";
+} from "@/modules/admin/users/routes";
+import { errorResponse } from "@/libs/errors";
 
-import type { Context } from "../../../context";
-import { defaultHook } from "../../../libs/default-hook";
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getUserList, async (c) => {

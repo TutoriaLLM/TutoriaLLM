@@ -1,4 +1,4 @@
-import { errorResponses, jsonBody } from "../../../libs/openapi";
+import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	generateContentRequest,
 	generatedContentSchema,
@@ -9,7 +9,7 @@ import {
 	specificTutorialParam,
 	tutorialSchema,
 	updateTutorialRequest,
-} from "./schema";
+} from "@/modules/admin/tutorials/schema";
 import { createRoute } from "@hono/zod-openapi";
 
 export const getTutorialList = createRoute({

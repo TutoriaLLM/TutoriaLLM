@@ -1,8 +1,8 @@
 import { z } from "@hono/zod-openapi";
 import type { AnyZodObject } from "zod";
-import { AppErrorStatusCode, AppErrorType } from "./config.js";
-import { zodLiteralUnionType } from "./zod.js";
-import { getKeys } from "./object.js";
+import { AppErrorStatusCode, AppErrorType } from "@/libs/errors/config";
+import { zodLiteralUnionType } from "@/libs/errors/zod";
+import { getKeys } from "@/libs/errors/object";
 
 /**
  * エラーレスポンスのスキーマ

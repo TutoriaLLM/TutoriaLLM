@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import type { AppSession } from "./schema.js"; //DBとやりとりする際に使う型（フロントエンドで利用しているSessionValueとほぼ同じ）
+import type { AppSession } from "@/db/schema"; //DBとやりとりする際に使う型（フロントエンドで利用しているSessionValueとほぼ同じ）
 
 export function initialData(code: string, language: string): AppSession {
 	i18next.changeLanguage(language);

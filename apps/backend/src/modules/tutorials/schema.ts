@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
-import { tags } from "../../db/schema";
-import { createValidationErrorResponseSchema } from "../../libs/errors/schemas";
-import { stringToNumber } from "../../utils/zStringtoNumber";
+import { tags } from "@/db/schema";
+import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
+import { stringToNumber } from "@/utils/zStringtoNumber";
 
 export const tagSchema = z.object({
 	id: z.number(),

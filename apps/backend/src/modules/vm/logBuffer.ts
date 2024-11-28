@@ -1,7 +1,11 @@
 import i18next from "i18next";
-import { getConfig } from "../config/index.js";
+import { getConfig } from "@/modules/config";
 import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
-import type { ContentType, Dialogue, SessionValue } from "../session/schema.js";
+import type {
+	ContentType,
+	Dialogue,
+	SessionValue,
+} from "@/modules/session/schema";
 
 const config = getConfig();
 export default class LogBuffer {

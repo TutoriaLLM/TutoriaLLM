@@ -1,7 +1,7 @@
 import type { Hook } from "@hono/zod-openapi";
-import type { createValidationErrorResponseSchema } from "./errors/schemas";
-import { AppErrorStatusCode, type AppErrorType } from "./errors/config";
-import type { Context } from "../context";
+import type { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
+import { AppErrorStatusCode, type AppErrorType } from "@/libs/errors/config";
+import type { Context } from "@/context";
 
 /**
  * バリデーションエラーが発生した時のデフォルト処理

@@ -11,16 +11,16 @@ import {
 	newGuide,
 	searchGuides,
 	updateGuide,
-} from "./routes";
-import { db } from "../../../db";
+} from "@/modules/admin/training/routes";
+import { db } from "@/db";
 import { eq, sql } from "drizzle-orm";
-import { errorResponse } from "../../../libs/errors";
-import { guides, trainingData } from "../../../db/schema";
-import { createGuideFromTrainingData } from "./utils/guide";
-import { getKnowledge } from "./utils/knowledge";
+import { errorResponse } from "@/libs/errors";
+import { guides, trainingData } from "@/db/schema";
+import { createGuideFromTrainingData } from "@/modules/admin/training/utils/guide";
+import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
 
-import type { Context } from "../../../context";
-import { defaultHook } from "../../../libs/default-hook";
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getRandomData, async (c) => {

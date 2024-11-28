@@ -4,8 +4,8 @@ import {
 	listSessionsQuery,
 	deleteSessionParam,
 	SessionValueListSchemaWithSort,
-} from "./schema.js";
-import { errorResponses, jsonBody } from "../../../libs/openapi";
+} from "@/modules/admin/session/schema";
+import { errorResponses, jsonBody } from "@/libs/openapi";
 
 export const downloadAllSessions = createRoute({
 	method: "get",

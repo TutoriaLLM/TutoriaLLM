@@ -1,8 +1,8 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import fs from "node:fs";
 import path from "node:path";
-import { route } from "./routes.js";
-import type { AppConfig } from "./schema.js";
+import { route } from "@/modules/config/routes";
+import type { AppConfig } from "@/modules/config/schema";
 
 // const volumePath = "/app_data";
 const volumePath = path.resolve("testconfig");
@@ -40,8 +40,8 @@ export function deleteConfig() {
 	}
 }
 
-import type { Context } from "../../context";
-import { defaultHook } from "../../libs/default-hook";
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 const app = new OpenAPIHono<Context>({ defaultHook }).openapi(route, (c) => {
 	const config = getConfig();
 	return c.json(config);

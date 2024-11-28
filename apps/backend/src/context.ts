@@ -5,6 +5,5 @@ export interface Context extends Env {
 	Variables: {
 		user: User | null;
 		session: Session | null;
-		"trust proxy": string;
 	};
 }

@@ -5,17 +5,17 @@ import {
 	putSession,
 	deleteSession,
 	resumeSession,
-} from "./routes";
-import joincodeGen from "../../utils/joincodeGen";
+} from "@/modules/session/routes";
+import joincodeGen from "@/utils/joincodeGen";
 import i18next from "i18next";
-import { db } from "../../db";
-import { appSessions } from "../../db/schema";
+import { db } from "@/db";
+import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { initialData } from "../../db/session";
-import { errorResponse } from "../../libs/errors";
-import "./socket/index"; //websocket serverを読み込む
-import type { Context } from "../../context";
-import { defaultHook } from "../../libs/default-hook";
+import { initialData } from "@/db/session";
+import { errorResponse } from "@/libs/errors";
+import "@/modules/session/socket"; //websocket serverを読み込む
+import type { Context } from "@/context";
+import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(newSession, async (c) => {

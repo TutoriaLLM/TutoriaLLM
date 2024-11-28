@@ -1,7 +1,7 @@
 import { z } from "@hono/zod-openapi";
-import password from "../../../utils/password";
-import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
-import { stringToNumber } from "../../../utils/zStringtoNumber";
+import password from "@/utils/password";
+import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
+import { stringToNumber } from "@/utils/zStringtoNumber";
 
 const userSchema = z.object({
 	id: z.number(),

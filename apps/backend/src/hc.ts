@@ -1,8 +1,8 @@
 import { hc } from "hono/client";
-import type { route, AppType } from "./";
+import type { route, AppType } from ".";
 import type { InferResponseType } from "hono";
 import type { ClientResponse, InferRequestType } from "hono/client";
-import type { AdminAppType } from "./modules/admin";
+import type { AdminAppType } from "@/modules/admin";
 
 const client = hc<AppType>("");
 const adminClient = hc<AdminAppType>("");

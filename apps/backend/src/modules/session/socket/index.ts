@@ -1,24 +1,27 @@
 import { Server } from "socket.io";
-import { server } from "../../../index";
+import { server } from "@/.";
 import i18next from "i18next";
 import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
-import { updateDialogue } from "../../../utils/dialogueUpdater.js";
+import { updateDialogue } from "@/utils/dialogueUpdater";
 // import { sessionDB } from "../../db/session.js";
-import { db } from "../../../db/index.js";
-import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "../../vm/index";
-import codeGen from "../../../libs/blocklyCodeGenerator.js";
-import { updateStats } from "../../../utils/statsUpdater.js";
-import { updateSession } from "./sessionUpdator/index.js";
-import { getConfig } from "../../config/index.js";
+import { db } from "@/db";
+import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "@/modules/vm";
+import codeGen from "@/libs/blocklyCodeGenerator";
+import { updateStats } from "@/utils/statsUpdater";
+import { updateSession } from "@/modules/session/socket/sessionUpdator";
+import { getConfig } from "@/modules/config";
 import { applyPatch, type Operation } from "rfc6902";
 import type { Socket } from "socket.io";
 import {
 	updateAndBroadcastDiff,
 	updateAndBroadcastDiffToAll,
-} from "./updateDB.js";
-import { appSessions } from "../../../db/schema.js";
+} from "@/modules/session/socket/updateDB";
+import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import type { SessionValue, sessionValueSchema } from "../schema.js";
+import type {
+	SessionValue,
+	sessionValueSchema,
+} from "@/modules/session/schema";
 import EventEmitter from "node:events";
 
 const config = getConfig();

@@ -1,5 +1,5 @@
 import { javascriptGenerator } from "blockly/javascript";
-import { registerBlocks } from "./registerBlocks.js";
+import { registerBlocks } from "@/libs/registerBlocks";
 import * as Blockly from "blockly";
 
 export default async function codeGen(

@@ -1,6 +1,6 @@
 import { createRoute } from "@hono/zod-openapi";
-import { jsonBody } from "../../libs/openapi";
-import { StatusCheckSchema } from "./schema";
+import { jsonBody } from "@/libs/openapi";
+import { StatusCheckSchema } from "@/modules/health/schema";
 
 export const getStatus = createRoute({
 	method: "get",

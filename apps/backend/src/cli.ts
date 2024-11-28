@@ -5,9 +5,9 @@ import inquirer from "inquirer";
 import fs from "node:fs";
 
 import dotenv from "dotenv";
-import { resetCredentials } from "./db/users.js";
-import { saltAndHashPassword } from "./utils/password.js";
-import { createConfig, deleteConfig } from "./modules/config/index.js";
+import { resetCredentials } from "@/db/users";
+import { saltAndHashPassword } from "@/utils/password";
+import { createConfig, deleteConfig } from "@/modules/config";
 
 const program = new Command();
 dotenv.config();
