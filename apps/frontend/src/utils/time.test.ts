@@ -1,6 +1,6 @@
 // src/utils/time.test.ts
 import { describe, it, expect } from "vitest";
-import { timeAgo } from "./time.js";
+import { timeAgo } from "./time";
 
 describe("timeAgo", () => {
 	it('should return "x seconds ago" for dates less than a minute ago', () => {

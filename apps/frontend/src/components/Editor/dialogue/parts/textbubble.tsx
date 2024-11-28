@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { Dialogue } from "../../../../../type.js";
 import { useAtomValue } from "jotai";
-import { currentSessionState, settingState } from "../../../../state.js";
+import { currentSessionState, configState } from "../../../../state.js";
 import { renderUserBubble } from "./bubbles/userBubble.js";
 import { renderAIBubble } from "./bubbles/aiBubble.js";
 import { renderLogBubble } from "./bubbles/logBubble.js";
@@ -39,7 +39,7 @@ const TextBubble = React.forwardRef(function TextBubble(
 	}, [ref, props.item]);
 
 	// 設定をロード
-	const setting = useAtomValue(settingState);
+	const setting = useAtomValue(configState);
 	const currenSession = useAtomValue(currentSessionState);
 	const { t } = useTranslation();
 

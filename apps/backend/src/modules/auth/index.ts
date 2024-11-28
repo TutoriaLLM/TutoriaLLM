@@ -4,12 +4,13 @@ import { db } from "../../db/index.js";
 import { eq } from "drizzle-orm";
 import type { Context } from "../../context.js";
 import { zValidator } from "@hono/zod-validator";
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import { lucia } from "../../libs/lucia.js";
 import { OpenAPIHono } from "@hono/zod-openapi";
+import { defaultHook } from "../../libs/default-hook.js";
 
 //ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
-export const app = new OpenAPIHono<Context>();
+export const app = new OpenAPIHono<Context>({ defaultHook });
 
 app.get("/credential", (c, next) => {
 	if (c.get("session")) {

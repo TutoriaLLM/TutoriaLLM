@@ -1,8 +1,8 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
-import type { AppConfig, Click, SessionValue, Tab } from "../../type.js";
+import type { Clicks, SessionValue, Tab } from "../type";
 import Editor from "../components/Editor/Blockly/index.js";
 import Navbar from "../components/Editor/Navbar.js";
 //モバイル利用時のタブ切り替え
@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 //差分の検知
 import { applyPatch, createPatch, type Operation } from "rfc6902";
 //ツアーの読み込み
-import { TourProvider, useTour, type StepType } from "@reactour/tour";
+import { TourProvider, useTour } from "@reactour/tour";
 import { tourSteps } from "./editorTour.js";
 
 //視覚的な統計作成に利用するライブラリ
@@ -23,7 +23,7 @@ import html2canvas from "html2canvas";
 //cookieの読み込み
 import { useCookies } from "react-cookie";
 
-import i18next, { use } from "i18next";
+import i18next from "i18next";
 import DialogueView from "../components/Editor/dialogue/index.js";
 import SessionPopup, {
 	type sessionPopupMessageTypes,
@@ -36,19 +36,17 @@ import {
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	prevSessionState,
-	settingState,
+	configState,
 	userSessionCode,
 	socketIoInstance,
 	currentTabState,
 	blockNameFromMenuState,
 } from "../state.js";
 
-import { io, Socket } from "socket.io-client";
-import { set } from "zod";
-import { is } from "drizzle-orm";
+import { io } from "socket.io-client";
 import { MessageCircleMore, Puzzle, PanelRightClose } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { getConfig } from "../api/config.js";
+import { getAndSetConfig } from "@/hooks/config.js";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -63,9 +61,9 @@ export default function EditorPage() {
 	//タブ切り替えのための状態
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
 	//クリックの保存
-	const [recordedClicks, setrecordedClicks] = useState<Click[]>([]);
+	const [recordedClicks, setrecordedClicks] = useState<Clicks>([]);
 	// 最新のクリック情報を保持するためのrefを追加
-	const recordedClicksRef = useRef<Click[]>([]);
+	const recordedClicksRef = useRef<Clicks>([]);
 
 	const [showPopup, setShowPopup] = useAtom(isPopupOpen);
 	const [WorkspaceConnection, setWorkspaceConnection] =
@@ -80,7 +78,7 @@ export default function EditorPage() {
 	const [isMenuOpen, setIsMenuOpen] = useState(true);
 
 	//設定の保存をするstate
-	const [settings, setSettings] = useAtom(settingState);
+	const setConfig = useSetAtom(configState);
 
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
@@ -92,13 +90,11 @@ export default function EditorPage() {
 		isError,
 	} = useQuery({
 		queryKey: ["config"],
-		queryFn: getConfig,
+		queryFn: () => getAndSetConfig(setConfig),
 	});
 
 	useEffect(() => {
-		setSettings(config);
 		try {
-			fetchConfig();
 			console.log("fetching settings...");
 			//クリックの保存
 			window.addEventListener("click", handleClick);
@@ -156,9 +152,8 @@ export default function EditorPage() {
 	const handleClick = (event: MouseEvent) => {
 		setrecordedClicks((prev) => {
 			const now = Date.now();
-			const intervalMin =
-				settings?.Client_Settings.Screenshot_Interval_min ?? 1;
-			const updatedClicks = prev.filter(
+			const intervalMin = config?.Client_Settings.Screenshot_Interval_min ?? 1;
+			const updatedClicks = prev?.filter(
 				(click) => now - click.timestamp <= intervalMin * 60 * 1000,
 			);
 
@@ -176,7 +171,7 @@ export default function EditorPage() {
 			console.log(click);
 
 			// 新しいクリックを追加して、配列の最後の20件のみを保持する
-			const newClicks = [...updatedClicks, click].slice(-20);
+			const newClicks = [...(updatedClicks ?? []), click].slice(-20);
 
 			// 最新のクリック情報をrefに更新
 			recordedClicksRef.current = newClicks;
@@ -232,7 +227,7 @@ export default function EditorPage() {
 					setCurrentSession(data);
 					setPrevSession(data);
 					connectSocket(data);
-					i18next.changeLanguage(data.language);
+					i18next.changeLanguage(data.language ?? "en");
 				}
 			}
 		}

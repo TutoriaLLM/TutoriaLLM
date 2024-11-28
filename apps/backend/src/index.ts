@@ -8,14 +8,16 @@ import configRoutes from "./modules/config";
 import vmProxyRoutes from "./modules/vmProxy";
 import sessionRoutes from "./modules/session";
 import healthRoutes from "./modules/health";
-import adminRoutes from "./modules/admin";
 import tutorialRoutes from "./modules/tutorials";
+import adminRoutes from "./modules/admin";
+
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
 import { errorResponse } from "./libs/errors";
 import EventEmitter from "node:events";
+import { defaultHook } from "./libs/default-hook.js";
 
-const app = new OpenAPIHono<Context>();
+const app = new OpenAPIHono<Context>({ defaultHook });
 export const serverEmitter = new EventEmitter();
 const isDev = process.env.NODE_ENV === "development";
 app.use("*", async (c, next) => {
@@ -59,6 +61,8 @@ app.use("*", async (c, next) => {
 
 app.get("/", (c) => c.text("Hello Node.js!"));
 
+app.route("/", vmProxyRoutes);
+
 let port = 3000;
 if (process.env.SERVER_PORT) {
 	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // 10進数として解釈
@@ -82,13 +86,11 @@ function startServer() {
 
 //サーバー起動後に実行される処理
 export const route = app
-	.route("/", adminRoutes)
 	.route("/", authRoutes)
 	.route("/", configRoutes)
 	.route("/", healthRoutes)
 	.route("/", sessionRoutes)
 	.route("/", tutorialRoutes)
-	.route("/vm", vmProxyRoutes)
 	.doc("/doc", {
 		openapi: "3.0.0",
 		info: {
@@ -99,7 +101,7 @@ export const route = app
 	.get("/ui", swaggerUI({ url: "/doc" }));
 
 // The OpenAPI documentation will be available at /doc
-
+app.route("/", adminRoutes);
 /**
  * 404エラー時の共通処理
  */

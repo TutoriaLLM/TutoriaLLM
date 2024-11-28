@@ -6,13 +6,13 @@ import {
 	useLocation,
 	useNavigationType,
 } from "react-router-dom";
-import type { AppConfig } from "../type.js";
 import GA4 from "react-ga4";
+import type { AppConfig } from "./type.js";
 
 const FrontendTracer = () => {
 	const pageLocation = useLocation();
 
-	const ReactGA = GA4 as unknown as typeof GA4.default; // typeが壊れていたので応急処置
+	const ReactGA = GA4; // typeが壊れていたので応急処置
 
 	// 設定を非同期で取得する関数
 	const fetchConfig = async (): Promise<AppConfig> => {

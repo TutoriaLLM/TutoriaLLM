@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import password from "../../../utils/password";
 import { createValidationErrorResponseSchema } from "../../../libs/errors/schemas";
 import { stringToNumber } from "../../../utils/zStringtoNumber";

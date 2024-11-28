@@ -1,6 +1,16 @@
-import { type ClientResponse, hcWithType } from "backend/hc";
+import { adminHcWithType, type ClientResponse, hcWithType } from "backend/hc";
 
 export const client = hcWithType(
+	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
+	{
+		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
+			fetch(input, {
+				...requestInit,
+				credentials: "include",
+			}),
+	},
+);
+export const adminClient = adminHcWithType(
 	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 	{
 		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>

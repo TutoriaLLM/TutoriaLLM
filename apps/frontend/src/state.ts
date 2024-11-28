@@ -1,10 +1,9 @@
 import { atom } from "jotai";
-import type { InferResponseType } from "backend/hc";
 
 // 状態管理
 //セッションコード
 export const userSessionCode = atom("");
-//開始する言語の状態。i18nから取得する。セッション開始後にはSessionStateを使用する。
+//開始する言語の状態。i18nから取得する。セッショaaン開始後にはSessionStateを使用する。
 export const LanguageToStart = atom("");
 //セッションを作成、参加するためのポップアップの表示
 export const isPopupOpen = atom(false);
@@ -25,13 +24,11 @@ export const blockNameFromMenuState = atom<string | null>(null);
 
 //WSインスタンス
 import type { Socket } from "socket.io-client";
-import { client } from "./api/index.js";
+import type { AppConfig, HighlightedBlock, SessionValue, Tab } from "./type.js";
 export const socketIoInstance = atom<Socket | null>(null);
 
 //ワークスペースのコードが実行されているかどうか
 export const isWorkspaceCodeRunning = atom(false);
 
 //読み込んだ設定を保存する状態
-const $Config = client.api.config.$get;
-type AppConfig = InferResponseType<typeof $Config>;
-export const settingState = atom<AppConfig | null>(null);
+export const configState = atom<AppConfig | null>(null);

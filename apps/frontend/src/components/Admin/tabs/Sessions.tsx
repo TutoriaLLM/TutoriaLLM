@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import type { SessionValue } from "../../../../type.js";
-import { langToStr } from "../../../../utils/langToStr.js";
+import type { SessionValue } from "../../../type.js";
+import { langToStr } from "../../../utils/langToStr.js";
 import {
 	type ColumnDef,
 	flexRender,
 	getCoreRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
-	type SortingState,
 	useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -21,12 +18,11 @@ import {
 	Clock,
 	LoaderCircle,
 	MessageCircleMore,
-	MoreHorizontal,
 	Play,
 	Puzzle,
 } from "lucide-react";
 import Popup from "../../ui/Popup.js";
-import { msToTime, timeAgo } from "../../../../utils/time.js";
+import { msToTime, timeAgo } from "../../../utils/time.js";
 import { SessionValueView } from "../../SessionValueView/index.js";
 
 export default function Sessions() {

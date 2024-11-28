@@ -1,4 +1,3 @@
-import { generateIdFromEntropySize } from "lucia";
 import { saltAndHashPassword } from "../../../utils/password.js";
 // 既存のDBに接続する
 import { eq } from "drizzle-orm";
@@ -25,7 +24,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				username: users.username,
 			})
 			.from(users);
-		return c.json(getUsers);
+		return c.json(getUsers, 200);
 	})
 
 	.openapi(createUser, async (c) => {

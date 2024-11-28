@@ -3,6 +3,8 @@ import { getConfigApp, updateConfigApp } from "./routes";
 import fs from "node:fs";
 import path from "node:path";
 import type { AppConfig } from "./schema";
+import type { Context } from "../../../context";
+import { defaultHook } from "../../../libs/default-hook";
 
 // const volumePath = "/app_data";
 const volumePath = path.resolve("testconfig");
@@ -42,9 +44,6 @@ export function createConfig() {
 		console.log("Config file created locally");
 	}
 }
-
-import type { Context } from "../../../context";
-import { defaultHook } from "../../../libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getConfigApp, (c) => {

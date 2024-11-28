@@ -1,10 +1,8 @@
 import * as Switch from "@radix-ui/react-switch";
-import * as Blockly from "blockly";
-import { javascriptGenerator } from "blockly/javascript";
 
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import sleep from "../../../utils/sleep.js";
+import sleep from "../../utils/sleep";
 import {
 	currentSessionState,
 	isWorkspaceCodeRunning,

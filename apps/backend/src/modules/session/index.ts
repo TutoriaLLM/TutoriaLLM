@@ -1,5 +1,11 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { getSession, newSession, putSession, deleteSession } from "./routes";
+import {
+	getSession,
+	newSession,
+	putSession,
+	deleteSession,
+	resumeSession,
+} from "./routes";
 import joincodeGen from "../../utils/joincodeGen";
 import i18next from "i18next";
 import { db } from "../../db";
@@ -13,65 +19,7 @@ import { defaultHook } from "../../libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(newSession, async (c) => {
-		const sessionData = c.req.valid("json");
 		let language = c.req.valid("query").language;
-		if (sessionData?.uuid && !language) {
-			console.log("session created with data");
-			const code = joincodeGen();
-			console.log("sessionData", sessionData);
-
-			const { t } = i18next;
-			i18next.changeLanguage(sessionData.language ?? "en");
-			//RedisからPostgresに移行しました: from 1.0.0
-			const {
-				uuid,
-				dialogue,
-				quickReplies,
-				workspace,
-				language,
-				easyMode,
-				responseMode,
-				llmContext,
-				tutorial,
-				stats,
-				clicks,
-			} = sessionData;
-			await db
-				.insert(appSessions)
-				.values({
-					sessioncode: code,
-					uuid,
-					createdAt: new Date(),
-					updatedAt: new Date(),
-					...(quickReplies && { quickReplies }),
-					dialogue: [
-						...(dialogue ?? []),
-						{
-							id: (dialogue?.length ?? 0) + 1,
-							contentType: "log",
-							isuser: false,
-							content: t("dialogue.NewSessionWithData"),
-						},
-					],
-					isReplying: false,
-					workspace,
-					isVMRunning: false,
-					clients: [],
-					language,
-					easyMode,
-					responseMode,
-					llmContext,
-					tutorial,
-					stats: stats ?? {
-						audios: [],
-						userAudio: "",
-						screenshot: "",
-						clicks: clicks ?? [],
-					},
-				})
-				.execute();
-			return c.text(code, 200);
-		}
 
 		if (language === undefined || !language) {
 			language = "en";
@@ -100,6 +48,64 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			.values(initialData(code, language.toString()))
 			.execute();
 		console.log("session created by api");
+		return c.text(code, 200);
+	})
+	.openapi(resumeSession, async (c) => {
+		const sessionData = c.req.valid("json");
+		console.log("session created with data");
+		const code = joincodeGen();
+		console.log("sessionData", sessionData);
+
+		const { t } = i18next;
+		i18next.changeLanguage(sessionData.language ?? "en");
+		//RedisからPostgresに移行しました: from 1.0.0
+		const {
+			uuid,
+			dialogue,
+			quickReplies,
+			workspace,
+			language,
+			easyMode,
+			responseMode,
+			llmContext,
+			tutorial,
+			stats,
+			clicks,
+		} = sessionData;
+		await db
+			.insert(appSessions)
+			.values({
+				sessioncode: code,
+				uuid,
+				createdAt: new Date(),
+				updatedAt: new Date(),
+				...(quickReplies && { quickReplies }),
+				dialogue: [
+					...(dialogue ?? []),
+					{
+						id: (dialogue?.length ?? 0) + 1,
+						contentType: "log",
+						isuser: false,
+						content: t("dialogue.NewSessionWithData"),
+					},
+				],
+				isReplying: false,
+				workspace,
+				isVMRunning: false,
+				clients: [],
+				language,
+				easyMode,
+				responseMode,
+				llmContext,
+				tutorial,
+				stats: stats ?? {
+					audios: [],
+					userAudio: "",
+					screenshot: "",
+					clicks: clicks ?? [],
+				},
+			})
+			.execute();
 		return c.text(code, 200);
 	})
 	.openapi(putSession, async (c) => {

@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { listAllBlocks } from "../../../../utils/blockList.js";
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
 import { getConfig } from "../../config/index.js";
 import { db } from "../../../../db/index.js";

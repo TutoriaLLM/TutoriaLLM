@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import type { Guide, TrainingData } from "../../../../server/db/schema.js";
 import {
 	CalendarClock,
 	CheckCircle2,
@@ -11,12 +10,10 @@ import {
 } from "lucide-react";
 
 export default function Training() {
-	const [trainingData, setTrainingData] = useState<TrainingData | null>(null);
+	const [trainingData, setTrainingData] = useState(null);
 	const [answer, setAnswer] = useState<string>("");
 	const [searchText, setSearchText] = useState<string>("");
-	const [searchResult, setSearchResult] = useState<string | Guide[] | null>(
-		null,
-	);
+	const [searchResult, setSearchResult] = useState(null);
 
 	const fetchTrainingData = () => {
 		console.log("Fetching training data...");

@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { useTour, type StepType } from "@reactour/tour";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { currentTabState } from "../state.js";
-import { set } from "zod";
+import type { StepType } from "@reactour/tour";
 export function tourSteps(isMobile: boolean) {
-	const [activeTab, setActiveTab] = useAtom(currentTabState);
+	const setActiveTab = useSetAtom(currentTabState);
 	const { t } = useTranslation();
 	return [
 		{

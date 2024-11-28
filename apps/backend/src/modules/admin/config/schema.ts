@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "@hono/zod-openapi";
 
 export const AppConfigSchema = z.object({
 	General_Settings: z.object({

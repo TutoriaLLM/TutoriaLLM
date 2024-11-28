@@ -12,12 +12,32 @@ import { errorResponses, jsonBody } from "../../libs/openapi.js";
 const newSession = createRoute({
 	method: "post",
 	path: "/session/new",
-	summary: "Create a new session",
+	summary: "Create a new session, from the provided session data",
 	request: {
 		query: newSessionQuery.schema,
+	},
+	responses: {
+		200: {
+			content: {
+				"text/plain": {
+					schema: sessionCodeSchema,
+				},
+			},
+			description: "Returns the session id",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
+		}),
+	},
+});
+
+const resumeSession = createRoute({
+	method: "post",
+	path: "/session/resume",
+	summary: "Resume a session, from the provided session data",
+	request: {
 		body: {
 			content: jsonBody(newSessionRequest.schema),
-			required: false,
 		},
 	},
 	responses: {
@@ -63,7 +83,6 @@ const putSession = createRoute({
 		params: sessionParam.schema,
 		body: {
 			content: jsonBody(putSessionRequest.schema),
-			required: true,
 		},
 	},
 	responses: {
@@ -109,4 +128,4 @@ const deleteSession = createRoute({
 	},
 });
 
-export { newSession, getSession, putSession, deleteSession };
+export { newSession, resumeSession, getSession, putSession, deleteSession };
