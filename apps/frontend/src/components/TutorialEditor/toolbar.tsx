@@ -5,17 +5,14 @@ import {
 	Braces,
 	ChevronDown,
 	ChevronRight,
-	Download,
 	DownloadIcon,
 	FileText,
 	Notebook,
-	Plus,
 	Puzzle,
 	SaveAll,
 	Star,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { set } from "zod";
 
 export default function Toolbar(props: {
 	id: number | null;

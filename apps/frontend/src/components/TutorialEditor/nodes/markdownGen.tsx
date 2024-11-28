@@ -7,21 +7,19 @@ import {
 	useHandleConnections,
 	useNodesData,
 } from "@xyflow/react";
-
-import { MDXEditor, type MDXEditorMethods } from "@mdxeditor/editor";
-
+import { useMutation } from "@/hooks/use-mutations";
 import "@mdxeditor/editor/style.css";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { markdownNode, mdToMdNode, MyNode } from "./nodetype.js";
 import { Bot, Trash2 } from "lucide-react";
 import CustomHandle from "../customHandle.js";
 import Markdown from "react-markdown";
+import { generateContent } from "@/api/admin/tutorials.js";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 	const [isGenerated, setIsGenerated] = useState(false); // AI生成のフラグ
 	const [markdown, setMarkdown] = useState(data.source || ""); // 初期値をdata.sourceから取得
-	const [isLoading, setIsLoading] = useState(false); // 生成中のフラグ
 	const [generatedMarkdown, setGeneratedMarkdown] = useState(
 		data.outputFromAI || "",
 	); // AIで生成されたMarkdown
@@ -89,20 +87,9 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 		}
 	}, [data.source, nodesData]); // markdownを依存関係から削除
 
-	const handleGenerateAI = async () => {
-		setIsLoading(true); // 生成中のフラグを立てる
-
-		try {
-			const response = await fetch("/api/admin/tutorials/generate-content", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					content: markdown,
-				}),
-			});
-			const data = await response.json();
+	const { mutate, isPending } = useMutation({
+		mutationFn: generateContent,
+		onSuccess: (data) => {
 			const content = data.content;
 			if (content && typeof content === "string") {
 				setGeneratedMarkdown(content);
@@ -113,12 +100,11 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 			} else {
 				console.error("Invalid response format:", content);
 			}
-		} catch (error) {
+		},
+		onError: (error) => {
 			console.error("Error generating markdown:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+		},
+	});
 
 	// AI生成完了時のみsourceを更新
 	useEffect(() => {
@@ -161,20 +147,22 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 				<button
 					type="button"
 					className="bg-sky-400 hoverLsky-500 rounded-2xl p-2 flex gap-2 text-white"
-					onClick={handleGenerateAI}
+					onClick={() => {
+						mutate({
+							content: markdown,
+						});
+					}}
 				>
 					<Bot className="drop-shadow" />
 					Generate Markdown from AI
 				</button>
 			</div>
-
 			{/* 生成中のメッセージを表示 */}
-			{isLoading ? (
+			{isPending ? (
 				<p className="w-full h-full p-2 text-center text-gray-500">
 					Generating Markdown...
 				</p>
 			) : null}
-
 			{/* 入力データと出力データの比較を表示 */}
 			{isCompared && (
 				<div className="w-full h-full p-4 bg-gray-100 border-t ">

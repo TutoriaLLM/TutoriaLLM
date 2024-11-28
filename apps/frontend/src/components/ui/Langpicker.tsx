@@ -1,7 +1,6 @@
 import i18next from "i18next";
 import { Globe } from "lucide-react";
-import { langToStr } from "../../../utils/langToStr.js";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { langToStr } from "@/utils/langToStr";
 
 // ユーザーはドロップダウンから言語を選択する。
 export function LangPicker(props: {

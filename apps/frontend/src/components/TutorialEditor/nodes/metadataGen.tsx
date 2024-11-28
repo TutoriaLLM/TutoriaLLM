@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Position,
 	type NodeProps,
@@ -8,24 +8,18 @@ import {
 	useHandleConnections,
 	useNodesData,
 } from "@xyflow/react";
-import { MDXEditor, type MDXEditorMethods } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import { Bot, Trash2 } from "lucide-react";
 import CustomHandle from "../customHandle.js";
-import type {
-	markdownNode,
-	mdToMetadataNode,
-	metadataNode,
-	MyNode,
-} from "./nodetype.js";
-import { use } from "i18next";
-import { set } from "zod";
+import type { markdownNode, mdToMetadataNode } from "./nodetype.js";
+import { generateMetadata } from "@/api/admin/tutorials";
+import { useMutation } from "@/hooks/use-mutations";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 	const [isGenerated, setIsGenerated] = useState(false);
 	const [content, setContent] = useState(data.source || "");
-	const [isLoading, setIsLoading] = useState(false);
+
 	const initialMetadata = {
 		title: data?.metaData?.title || "",
 		description: data?.metaData?.description || "",
@@ -104,25 +98,13 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 		setIsGenerated(false);
 	};
 
-	const handleGenerateAI = async () => {
-		setIsLoading(true);
-		setIsCompared(false);
-		setIsGenerated(false);
-		try {
-			const response = await fetch("/api/admin/tutorials/generate-metadata", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ content }),
-			});
-			const data = await response.json();
-			const metadata = {
-				title: data.title,
-				description: data.description,
-				tags: data.tags,
-				language: data.language,
-			};
+	const { mutate, isPending } = useMutation({
+		mutationFn: generateMetadata,
+		onMutate: () => {
+			setIsCompared(false);
+			setIsGenerated(false);
+		},
+		onSuccess: (metadata) => {
 			if (metadata && typeof metadata === "object") {
 				console.log("Generated metadata:", metadata);
 				setGeneratedMetadata(metadata);
@@ -131,12 +113,11 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 			} else {
 				console.error("Invalid response format:", metadata);
 			}
-		} catch (error) {
+		},
+		onError: (error) => {
 			console.error("Error generating metadata:", error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+		},
+	});
 
 	useEffect(() => {
 		if (isGenerated) {
@@ -183,14 +164,15 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 				<button
 					type="button"
 					className="bg-sky-400 hover:sky-500 rounded-2xl p-2 flex gap-2 text-white"
-					onClick={handleGenerateAI}
-					disabled={isLoading}
+					onClick={() => {
+						mutate({ content });
+					}}
+					disabled={isPending}
 				>
 					<Bot className="drop-shadow" />
-					{isLoading ? "Generating..." : "Generate Metadata from AI"}
+					{isPending ? "Generating..." : "Generate Metadata from AI"}
 				</button>
 			</div>
-
 			{isCompared && (
 				<div className="w-full h-full p-4 bg-gray-100 border-t overflow-y-auto">
 					<div className="flex gap-4 max-w-xl">

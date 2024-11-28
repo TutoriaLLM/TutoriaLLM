@@ -1,51 +1,41 @@
-import { Plus, Search } from "lucide-react";
-import { useState } from "react";
+import { Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import SavedData from "./savedData.js";
+import SavedData from "@/components/Editor/sessionOverlay/savedData";
+import { useMutation } from "@/hooks/use-mutations";
+import { createSession } from "@/api/session";
 
 export default function CreateNewSession(props: { language: string }) {
 	const { t } = useTranslation();
-	const [loading, setLoading] = useState(false);
 
-	const handleCreateSession = async () => {
-		setLoading(true);
-		console.log("create session");
-		const language = props.language; // ここで状態を取得する
-		try {
-			const response = await fetch(`api/session/new?language=${language}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
-			}
-
-			const data = await response.text();
-			const sessionCode = data; // Assuming the response contains the session code in this field
-
+	const { mutate, isPending } = useMutation({
+		onMutate: () => {
+			console.log("create session");
+		},
+		mutationFn: createSession,
+		onSuccess: (sessionCode) => {
 			window.location.href = `${sessionCode}`;
-		} catch (error) {
+		},
+		onError: (error) => {
 			console.error("Failed to create a new session:", error);
-			// Handle the error appropriately
-		} finally {
-			setLoading(false);
-		}
-	};
+		},
+	});
 
 	return (
 		<div className="flex gap-2">
 			<button
 				type="button"
 				className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center ${
-					loading ? "opacity-50 cursor-not-allowed" : ""
+					isPending ? "opacity-50 cursor-not-allowed" : ""
 				}`}
-				onClick={handleCreateSession}
-				disabled={loading}
+				onClick={() => {
+					mutate({
+						language: props.language,
+					});
+				}}
+				disabled={isPending}
 			>
-				{loading ? t("session.creating") : t("session.createSession")} <Plus />
+				{isPending ? t("session.creating") : t("session.createSession")}{" "}
+				<Plus />
 			</button>
 			<SavedData />
 		</div>
