@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react";
-import type { SessionValue } from "../../../type.js";
 import * as Blockly from "blockly";
 import Theme from "../Editor/Blockly/theme/index.js";
 import { translateCategories } from "../Editor/Blockly/toolbox/index.js";
 import registerBlocks from "../Editor/Blockly/blocks/index.js";
+import type { SessionValue } from "@/type.js";
 
 export default function WorkspacePreview(props: { session: SessionValue }) {
 	const { session } = props;
@@ -39,7 +39,7 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 		translateCategories(session.language as string);
 
 		// シリアライズされたワークスペースをロード
-		Blockly.serialization.workspaces.load(session.workspace, workspace);
+		Blockly.serialization.workspaces.load(session.workspace || {}, workspace);
 
 		// クリーンアップ用の関数を返す（コンポーネントがアンマウントされたときに実行される）
 		return () => {

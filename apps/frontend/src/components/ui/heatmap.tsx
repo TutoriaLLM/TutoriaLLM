@@ -1,5 +1,5 @@
+import type { Clicks } from "@/type";
 import { useEffect, useRef, useState } from "react";
-import type { Click } from "../../../type.js";
 
 function Heatmap({
 	clicks,
@@ -7,7 +7,7 @@ function Heatmap({
 	width,
 	height,
 }: {
-	clicks: Click[];
+	clicks: Clicks;
 	className?: string;
 	width: number;
 	height: number;
@@ -42,7 +42,7 @@ function Heatmap({
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 			// Draw heatmap
-			for (const click of clicks) {
+			for (const click of clicks || []) {
 				drawHeatPoint(ctx, click.x, click.y, click.value);
 			}
 		}

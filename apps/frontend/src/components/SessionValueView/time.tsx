@@ -1,6 +1,6 @@
 import { Clock, History } from "lucide-react";
-import { msToTime, timeAgo } from "../../../utils/time.js";
-import type { SessionValue } from "../../../type.js";
+import type { SessionValue } from "@/type.js";
+import { timeAgo } from "@/utils/time";
 
 export default function Time(props: { session: SessionValue }) {
 	const { session } = props;

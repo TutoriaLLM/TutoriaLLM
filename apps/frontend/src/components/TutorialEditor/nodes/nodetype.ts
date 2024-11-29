@@ -1,5 +1,5 @@
 import type { Node } from "@xyflow/react";
-import type { SessionValue } from "../../../../type.js";
+import type { SessionValue } from "@/type";
 
 export type markdownNode = Node<{
 	editorContent: string;

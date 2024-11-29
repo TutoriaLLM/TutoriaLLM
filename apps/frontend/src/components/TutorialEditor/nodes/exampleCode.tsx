@@ -8,13 +8,10 @@ import {
 } from "@xyflow/react";
 import type { workspaceNode } from "./nodetype.js";
 import CodeInput from "../../ui/Codeinput.js";
-import type { SessionValue } from "../../../../type.js";
+import type { SessionValue } from "@/type.js";
 import React, { useEffect } from "react";
-import * as Blockly from "blockly";
 import "blockly/javascript";
 import WorkspacePreview from "../../ui/workspacePreview.js";
-import { set } from "zod";
-import { use } from "i18next";
 import { ArrowBigDownIcon, Trash2 } from "lucide-react";
 
 // Component to fetch Blockly code, display it, and generate output code

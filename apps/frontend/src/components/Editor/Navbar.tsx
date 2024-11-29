@@ -6,8 +6,8 @@ import { ExitButton } from "../ui/exitButton.js";
 import { useAtomValue } from "jotai";
 import { currentSessionState } from "../../state.js";
 import { useTour } from "@reactour/tour";
-import { saveSessionDataToIndexedDB } from "../../indexedDB.js";
-import type { SessionValue } from "../../../type.js";
+import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
+import type { SessionValue } from "@/type.js";
 
 export default function Navbar(props: {
 	code: string;

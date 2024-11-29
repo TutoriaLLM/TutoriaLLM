@@ -1,18 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-	Bot,
-	Check,
-	Clock,
-	MessageCircleMore,
-	Play,
-	Puzzle,
-	X,
-} from "lucide-react";
-import { msToTime } from "../../../utils/time.js";
-import type { SessionValue, Click } from "../../../type.js";
+import { Check, X } from "lucide-react";
 import Heatmap from "../ui/heatmap.js";
-import { timestamp } from "drizzle-orm/mysql-core";
 import { useTranslation } from "react-i18next";
+import type { Clicks, SessionValue } from "@/type.js";
 
 export default function Summary(props: { session: SessionValue }) {
 	const session = props.session;
@@ -42,11 +32,11 @@ export default function Summary(props: { session: SessionValue }) {
 
 	// 相対座標を絶対座標に変換する関数
 	const convertToAbsoluteCoordinates = (
-		clicks: Click[],
+		clicks: Clicks,
 		width: number,
 		height: number,
 	) => {
-		return clicks.map((click: Click) => ({
+		return clicks?.map((click) => ({
 			x: click.x * width,
 			y: click.y * height,
 			value: click.value,
@@ -99,7 +89,7 @@ export default function Summary(props: { session: SessionValue }) {
 						/>
 						{showHeatmap && displaySize.width > 0 && displaySize.height > 0 && (
 							<Heatmap
-								clicks={absoluteClicks} // 絶対座標のクリックデータを渡す
+								clicks={absoluteClicks || []} // 絶対座標のクリックデータを渡す
 								width={displaySize.width}
 								height={displaySize.height}
 								className="absolute top-0 left-0"

@@ -1,6 +1,15 @@
-export const timeAgo = (date: Date) => {
+export const timeAgo = (time: string | Date) => {
+	// dateが文字列の場合、Dateオブジェクトに変換
+	function toDate(date: string | Date): Date {
+		if (typeof date === "string") {
+			return new Date(date);
+		}
+		return date;
+	}
+	const date = toDate(time);
+
 	const now = new Date();
-	const secondsPast = (now.getTime() - new Date(date).getTime()) / 1000;
+	const secondsPast = (now.getTime() - date.getTime()) / 1000;
 
 	if (secondsPast < 60) {
 		return `${Math.floor(secondsPast)} seconds ago`;

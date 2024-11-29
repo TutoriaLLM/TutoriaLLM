@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 
 import { X } from "lucide-react";
-import React from "react";
 
 export default function Popup(props: {
 	openState: boolean;

@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import type { SessionValue } from "../../../type.js";
-import { langToStr } from "../../../utils/langToStr.js";
+import type { SessionValue } from "@/type.js";
 import Summary from "./summary.js";
 import Stats from "./stats.js";
 import Time from "./time.js";
@@ -9,6 +8,7 @@ import WorkspacePreview from "../ui/workspacePreview.js";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useState, useEffect } from "react";
 import { LoaderCircle } from "lucide-react";
+import { langToStr } from "@/utils/langToStr.js";
 
 export function SessionValueView(props: { session: string }) {
 	const { session: sessionCode } = props; // 文字列のセッションコードを受け取る
@@ -88,7 +88,7 @@ export function SessionValueView(props: { session: string }) {
 				{t("admin.sessionCode")}: {session.sessioncode}
 			</p>
 			<p className="text-gray-600 text-base">
-				{t("admin.sessionLanguage")}: {langToStr(session.language)}
+				{t("admin.sessionLanguage")}: {langToStr(session.language || "en")}
 			</p>
 			<p className="text-gray-600 text-base">
 				{t("admin.sessionEasyMode")}: {session.easyMode ? t("on") : t("off")}

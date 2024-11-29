@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Popup from "../ui/Popup.js";
-import type { Tutorial } from "../../../server/db/schema.js";
+// import type { Tutorial } from "../../../server/db/schema.js"; - RPCの方に置き換える？
 
 import {
 	ReactFlow,
@@ -19,7 +19,6 @@ import { Metadata } from "./nodes/metadata.js";
 import Output from "./nodes/output.js";
 import Toolbar from "./toolbar.js";
 import { ExampleCode } from "./nodes/exampleCode.js";
-import { set } from "zod";
 import { MarkdownGen } from "./nodes/markdownGen.js";
 import { MetadataGen } from "./nodes/metadataGen.js";
 
