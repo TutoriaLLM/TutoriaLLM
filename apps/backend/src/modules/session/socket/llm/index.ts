@@ -27,9 +27,6 @@ import generateTrainingData from "@/utils/generateTrainingData";
 import { applyRuby } from "@/utils/japaneseWithRuby";
 import { db } from "@/db";
 
-//debug
-console.log("llm/index.ts: Loading llm app");
-
 // Converts webm audio format to mp3 format
 async function convertWebMToMp3(webmInput: string): Promise<string> {
 	return new Promise((resolve, reject) => {

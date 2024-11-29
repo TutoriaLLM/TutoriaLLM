@@ -26,9 +26,6 @@ import EventEmitter from "node:events";
 
 const config = getConfig();
 
-//debug
-console.log("websocket/index.ts: Loading websocket app");
-
 // i18n configuration
 i18next.use(FsBackend).init<FsBackendOptions>(
 	{

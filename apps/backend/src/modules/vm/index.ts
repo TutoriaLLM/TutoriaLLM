@@ -17,8 +17,6 @@ import { errorResponse } from "@/libs/errors";
 import { serve } from "@hono/node-server";
 import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
-//debug
-console.log("vm/index.js: Loading vm app");
 
 //i18nの設定
 i18next.use(I18NexFsBackend).init<FsBackendOptions>(
