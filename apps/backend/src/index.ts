@@ -60,8 +60,6 @@ app.use("*", async (c, next) => {
 	return next();
 });
 
-app.route("/", vmProxyRoutes);
-
 let port = 3000;
 if (process.env.SERVER_PORT) {
 	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // 10進数として解釈
@@ -101,10 +99,14 @@ export const route = app
 
 // The OpenAPI documentation will be available at /doc
 app.route("/", adminRoutes);
+
+app.route("/", vmProxyRoutes);
+
 /**
  * 404エラー時の共通処理
  */
 app.notFound((c) => {
+	console.log("not found");
 	return errorResponse(c, {
 		type: "NOT_FOUND",
 		message: "Route not found",
