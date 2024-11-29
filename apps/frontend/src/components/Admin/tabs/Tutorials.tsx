@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TutorialEditor from "../../TutorialEditor/index.js";
-import type { Tutorial } from "../../../../server/db/schema.js";
-import { langToStr } from "../../../../utils/langToStr.js";
+// import type { Tutorial } from "../../../../server/db/schema.js";
+import { langToStr } from "@/utils/langToStr.js";
 
 export default function Tutorials() {
 	const [tutorials, setTutorials] = useState<Tutorial[]>([]);
