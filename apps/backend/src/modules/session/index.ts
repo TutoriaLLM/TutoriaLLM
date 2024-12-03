@@ -7,7 +7,6 @@ import {
 	resumeSession,
 } from "@/modules/session/routes";
 import joincodeGen from "@/utils/joincodeGen";
-import i18next from "i18next";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -56,8 +55,6 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 		const code = joincodeGen();
 		console.log("sessionData", sessionData);
 
-		const { t } = i18next;
-		i18next.changeLanguage(sessionData.language ?? "en");
 		//RedisからPostgresに移行しました: from 1.0.0
 		const {
 			uuid,
@@ -86,7 +83,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 						id: (dialogue?.length ?? 0) + 1,
 						contentType: "log",
 						isuser: false,
-						content: t("dialogue.NewSessionWithData"),
+						content: "dialogue.NewSessionWithData",
 					},
 				],
 				isReplying: false,
@@ -154,7 +151,6 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				type: "NOT_FOUND",
 			});
 		}
-		data.userAudio;
 		return c.json(data, 200);
 	});
 

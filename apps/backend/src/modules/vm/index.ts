@@ -6,8 +6,6 @@ import { fileURLToPath } from "node:url";
 import { db } from "@/db";
 import type { vmMessage } from "@/modules/vm/tsWorker";
 import LogBuffer from "@/modules/vm/logBuffer";
-import i18next from "i18next";
-import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Socket } from "socket.io";
 import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -16,47 +14,6 @@ import { errorResponse } from "@/libs/errors";
 import { serve } from "@hono/node-server";
 import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
-
-//i18nの設定
-i18next.use(I18NexFsBackend).init<FsBackendOptions>(
-	{
-		backend: {
-			loadPath: "src/i18n/{{lng}}.json",
-		},
-		fallbackLng: "en",
-		preload: [
-			"en",
-			"ja",
-			"zh",
-			"ms",
-			"id",
-			"ko",
-			"es",
-			"fr",
-			"de",
-			"it",
-			"nl",
-			"pl",
-			"pt",
-			"ru",
-			"tr",
-			"vi",
-			"th",
-			// "ar",
-			// "he",
-			"fa",
-			"hi",
-			"bn",
-			"ta",
-			"te",
-		], // Add the languages you want to preload
-	},
-	(err, t) => {
-		if (err) return console.error(err);
-		console.log("i18next initialized");
-	},
-);
-const { t } = i18next;
 
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
@@ -270,7 +227,7 @@ export async function ExecCodeTest(
 
 		worker.on("error", (err) => {
 			if (err.toString().includes("ERR_WORKER_OUT_OF_MEMORY")) {
-				logBuffer.error(`${t("vm.outOfMemory")} (${err.message})`);
+				logBuffer.error(`${"vm.outOfMemory"} (${err.message})`);
 			} else {
 				logBuffer.error(`${err.message}`);
 			}

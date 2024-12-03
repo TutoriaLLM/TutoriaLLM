@@ -1,14 +1,10 @@
-import i18next from "i18next";
 import type { AppSession } from "@/db/schema"; //DBとやりとりする際に使う型（フロントエンドで利用しているSessionValueとほぼ同じ）
 
 export function initialData(code: string, language: string): AppSession {
-	i18next.changeLanguage(language);
-
-	const { t } = i18next;
 	const quickReplyByLang = [
-		t("quickReply.WhatINeed"),
-		t("quickReply.HowToUse"),
-		t("quickReply.BeginTutorial"),
+		"quickReply.WhatINeed",
+		"quickReply.HowToUse",
+		"quickReply.BeginTutorial",
 	];
 	return {
 		sessioncode: code,
@@ -20,7 +16,7 @@ export function initialData(code: string, language: string): AppSession {
 				id: 0,
 				contentType: "ai",
 				isuser: false,
-				content: t("dialogue.Introduction"),
+				content: "dialogue.Introduction",
 			},
 		],
 		quickReplies: quickReplyByLang,

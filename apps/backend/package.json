@@ -67,8 +67,6 @@
 		"hono": "^4.6.5",
 		"http-proxy": "^1.18.1",
 		"http-proxy-middleware": "^3.0.3",
-		"i18next": "^23.16.0",
-		"i18next-fs-backend": "^2.3.2",
 		"idb": "^8.0.0",
 		"inquirer": "^12.0.0",
 		"js-yaml": "^4.1.0",

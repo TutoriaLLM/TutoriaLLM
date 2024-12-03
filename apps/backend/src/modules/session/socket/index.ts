@@ -1,7 +1,5 @@
 import { Server } from "socket.io";
 import { server } from "@/.";
-import i18next from "i18next";
-import FsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import { updateDialogue } from "@/utils/dialogueUpdater";
 // import { sessionDB } from "../../db/session.js";
 import { db } from "@/db";
@@ -25,44 +23,6 @@ import type {
 import EventEmitter from "node:events";
 
 const config = getConfig();
-
-// i18n configuration
-i18next.use(FsBackend).init<FsBackendOptions>(
-	{
-		backend: {
-			loadPath: "src/i18n/{{lng}}.json",
-		},
-		fallbackLng: "en",
-		preload: [
-			"en",
-			"ja",
-			"zh",
-			"ms",
-			"id",
-			"ko",
-			"es",
-			"fr",
-			"de",
-			"it",
-			"nl",
-			"pl",
-			"pt",
-			"ru",
-			"tr",
-			"vi",
-			"th",
-			"fa",
-			"hi",
-			"bn",
-			"ta",
-			"te",
-		],
-	},
-	(err, t) => {
-		if (err) return console.error(err);
-		console.log("i18next initialized");
-	},
-);
 
 // serverEmitterの宣言と初期化
 const serverEmitter = new EventEmitter();
@@ -93,9 +53,6 @@ serverEmitter.on("server-started", async () => {
 			}
 
 			socket.join(data.sessioncode);
-
-			// Change language based on DB settings
-			i18next.changeLanguage(data.language || "en");
 
 			const dataWithNewClient = {
 				...data,
@@ -166,11 +123,7 @@ serverEmitter.on("server-started", async () => {
 					currentDataJson.isVMRunning = isRunning;
 					updateAndBroadcastDiffToAll(
 						code,
-						updateDialogue(
-							i18next.t("error.empty_workspace"),
-							currentDataJson,
-							"error",
-						),
+						updateDialogue("error.empty_workspace", currentDataJson, "error"),
 						socket,
 					);
 					return;
@@ -190,11 +143,7 @@ serverEmitter.on("server-started", async () => {
 					currentDataJson.isVMRunning = isRunning;
 					updateAndBroadcastDiffToAll(
 						code,
-						updateDialogue(
-							i18next.t("error.empty_code"),
-							currentDataJson,
-							"error",
-						),
+						updateDialogue("error.empty_code", currentDataJson, "error"),
 						socket,
 					);
 					return;

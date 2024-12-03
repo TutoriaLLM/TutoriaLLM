@@ -9,8 +9,6 @@ import os from "node:os";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
-import i18next from "i18next";
-import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { SessionValue } from "@/modules/session/schema";
 
 const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
@@ -93,50 +91,6 @@ app.get("/", (c) => {
 		`,
 	);
 });
-// i18nの設定
-i18next.use(I18NexFsBackend).init<FsBackendOptions>(
-	{
-		backend: {
-			loadPath: "src/i18n/{{lng}}.json",
-		},
-		fallbackLng: "en",
-		preload: [
-			"en",
-			"ja",
-			"zh",
-			"ms",
-			"id",
-			"ko",
-			"es",
-			"fr",
-			"de",
-			"it",
-			"nl",
-			"pl",
-			"pt",
-			"ru",
-			"tr",
-			"vi",
-			"th",
-			// "ar",
-			// "he",
-			"fa",
-			"hi",
-			"bn",
-			"ta",
-			"te",
-		],
-	},
-	(err, t) => {
-		if (err) return console.error(err);
-		console.log("i18next initialized");
-	},
-);
-
-i18next.changeLanguage(sessionValue.language);
-
-const { t } = i18next;
-
 // 新しいコンテキストを生成する関数
 const context = createContext({
 	app,
@@ -169,7 +123,6 @@ const context = createContext({
 		},
 	},
 	serverRootPath,
-	t,
 });
 
 function getValidIp() {
@@ -245,13 +198,13 @@ parentPort.on("message", (message) => {
 
 			parentPort?.postMessage({
 				type: "log",
-				content: t("vm.updatedScriptSuccess"),
+				content: "vm.updatedScriptSuccess",
 			});
 		} catch (error) {
 			parentPort?.postMessage({
 				type: "error",
 				//content: `Error executing updated script: ${error}`,
-				content: t("vm.updatedScriptError", { error }),
+				content: `"vm.updatedScriptError", ${error}`,
 			});
 		}
 	}
