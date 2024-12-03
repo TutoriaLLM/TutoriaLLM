@@ -13,13 +13,12 @@ import adminRoutes from "@/modules/admin";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { swaggerUI } from "@hono/swagger-ui";
 import { errorResponse } from "@/libs/errors";
-import EventEmitter from "node:events";
 import { defaultHook } from "@/libs/default-hook";
 import { cors } from "hono/cors";
+import { initSocketServer } from "./modules/session/socket";
+import type { Server as HttpServer } from "node:http";
 
 const app = new OpenAPIHono<Context>({ defaultHook });
-
-export const serverEmitter = new EventEmitter();
 
 app.use(
 	"*",
@@ -86,17 +85,10 @@ if (process.env.SERVER_PORT) {
 	}
 }
 
-export const server = serve(
-	{
-		fetch: app.fetch,
-		port: port,
-	},
-	startServer,
-);
-
-function startServer() {
-	serverEmitter.emit("server-started", server);
-}
+export const server = serve({
+	fetch: app.fetch,
+	port: port,
+});
 
 //サーバー起動後に実行される処理
 export const route = app
@@ -141,6 +133,9 @@ app.onError((err, c) => {
 		err,
 	});
 });
+
+//socket.ioサーバーの起動
+initSocketServer(server as HttpServer);
 
 const isDev = process.env.NODE_ENV === "development";
 

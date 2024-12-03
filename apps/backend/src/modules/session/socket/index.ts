@@ -9,6 +9,9 @@ import { updateStats } from "@/utils/statsUpdater";
 import { updateSession } from "@/modules/session/socket/sessionUpdator";
 import { getConfig } from "@/modules/config";
 import { applyPatch, type Operation } from "rfc6902";
+import type { Server as HttpServer } from "node:http";
+import { createMiddleware } from "hono/factory";
+
 import type { Socket } from "socket.io";
 import {
 	updateAndBroadcastDiff,
@@ -20,16 +23,17 @@ import type {
 	SessionValue,
 	sessionValueSchema,
 } from "@/modules/session/schema";
-import EventEmitter from "node:events";
 
 const config = getConfig();
 
-// serverEmitterの宣言と初期化
-const serverEmitter = new EventEmitter();
+let io: Server | null = null;
 
-serverEmitter.on("server-started", async () => {
-	const io = new Server(server, {
-		path: "/api/session/socket/connect",
+export function initSocketServer(server: HttpServer) {
+	io = new Server(server, {
+		cors: {
+			origin: "*",
+		},
+		path: "/session/socket/connect",
 	});
 
 	io.on("connection", async (socket) => {
@@ -272,4 +276,15 @@ serverEmitter.on("server-started", async () => {
 			socket.disconnect();
 		}
 	});
+}
+
+export const ioMiddleware = createMiddleware<{
+	Variables: {
+		io: Server;
+	};
+}>(async (c, next) => {
+	if (!c.var.io && io) {
+		c.set("io", io);
+	}
+	await next();
 });

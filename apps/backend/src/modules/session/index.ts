@@ -12,7 +12,6 @@ import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { initialData } from "@/db/session";
 import { errorResponse } from "@/libs/errors";
-import "@/modules/session/socket"; //websocket serverを読み込む
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";
 

@@ -45,6 +45,7 @@ import {
 import { io } from "socket.io-client";
 import { MessageCircleMore, Puzzle, PanelRightClose } from "lucide-react";
 import { useConfig } from "@/hooks/config.js";
+import { getSession } from "@/api/session.js";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -196,24 +197,23 @@ export default function EditorPage() {
 		}
 	}, [codeFromPath, languageToStart]);
 
-	// セッションが存在するか確認する。一回目だけDBから取得し、以降はsocket.ioで更新する
+	// // セッションが存在するか確認する。一回目だけDBから取得し、以降はsocket.ioで更新する
 	useEffect(() => {
 		async function checkSession() {
 			if (sessionCode !== "") {
-				const response = await fetch(`/api/session/${sessionCode}`);
-				if (response.status === 404) {
+				// const response = await fetch(`/api/session/${sessionCode}`);
+				const response = await getSession({ key: sessionCode });
+				if (!response) {
 					// セッションが存在しない場合はスキップする
 					console.log("code is invalid!");
 					setStatusMessage(t("session.sessionNotFoundMsg"));
 					setMessageType("error");
 					setShowPopup(true);
 				} else {
-					const data: SessionValue = await response.json();
-					//console.log(`code is valid!${JSON.stringify(data)}`);
-					setCurrentSession(data);
-					setPrevSession(data);
-					connectSocket(data);
-					i18next.changeLanguage(data.language ?? "en");
+					setCurrentSession(response);
+					setPrevSession(response);
+					connectSocket(response);
+					i18next.changeLanguage(response.language ?? "en");
 				}
 			}
 		}
@@ -222,14 +222,15 @@ export default function EditorPage() {
 			checkSession();
 		}
 	}, [sessionCode, languageToStart]);
+	//tanstackで取得後、可能であればsocketに接続
 
 	// Socket.ioに接続する関数
 	async function connectSocket(data: SessionValue) {
-		const host = `${window.location.host}`;
+		const host = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 		console.log(`processing socket.io connection: ${host}`);
 
 		const socket = io(host, {
-			path: "/api/session/socket/connect",
+			path: "/session/socket/connect",
 			query: {
 				code: sessionCode,
 				uuid: data.uuid,
@@ -366,26 +367,18 @@ export default function EditorPage() {
 		let reconnectInterval: NodeJS.Timeout;
 
 		if (!WorkspaceConnection) {
-			reconnectInterval = setInterval(() => {
-				console.log("Attempting to reconnect...");
+			reconnectInterval = setInterval(async () => {
 				if (sessionCode) {
 					// 再接続を試行
-					fetch(`api/session/${sessionCode}`)
-						.then((response) => {
-							if (response.status !== 404) {
-								return response.json();
-							}
-							throw new Error("Session not found");
-						})
-						.then((data) => {
-							console.log("Reconnected successfully");
-							setCurrentSession(data);
-							setPrevSession(data);
-							connectSocket(data);
-						})
-						.catch((error) => {
-							console.error("Reconnection failed:", error);
-						});
+					console.log("Attempting to reconnect...");
+					try {
+						const data = await getSession({ key: sessionCode });
+						setCurrentSession(data);
+						setPrevSession(data);
+						connectSocket(data);
+					} catch (error) {
+						console.error("Error reconnecting:", error);
+					}
 				}
 			}, 5000);
 		}
