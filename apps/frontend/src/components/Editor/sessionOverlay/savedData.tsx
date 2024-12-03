@@ -2,13 +2,12 @@ import { useRef, useState, useEffect } from "react";
 import Popup from "../../ui/Popup.js";
 import { Clock, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { SessionValue } from "@/type";
+import type { SessionValuePost } from "@/type";
 import getImageFromSerializedWorkspace from "../generateImageURL.js";
 import { openDB } from "idb";
 import type * as Blockly from "blockly";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAndSetSession } from "@/hooks/session.js";
-import { createSession, getSession, resumeSession } from "@/api/session.js";
+import { useQueryClient } from "@tanstack/react-query";
+import { getSession, resumeSession } from "@/api/session.js";
 import { useMutation } from "@/hooks/use-mutations.js";
 
 // IndexedDBをオープンする関数
@@ -21,7 +20,7 @@ const dbPromise = openDB("app-data", 1, {
 export default function SavedData() {
 	const [isSavedDataOpen, setIsSavedDataOpen] = useState(false);
 	const [savedData, setSavedData] = useState<{
-		[key: string]: { sessionValue: SessionValue; base64image: string };
+		[key: string]: { sessionValue: SessionValuePost; base64image: string };
 	}>({});
 	const { t } = useTranslation();
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
@@ -46,10 +45,10 @@ export default function SavedData() {
 		const db = await dbPromise;
 		const allSessions = await db.getAll("sessions");
 		const data: {
-			[key: string]: { sessionValue: SessionValue; base64image: string };
+			[key: string]: { sessionValue: SessionValuePost; base64image: string };
 		} = {};
 		for (const session of allSessions) {
-			const sessionValue = session.sessionValue as SessionValue;
+			const sessionValue = session.sessionValue as SessionValuePost;
 			try {
 				const imageURL = await getImageFromSerializedWorkspace(
 					sessionValue.workspace ?? [],
@@ -82,7 +81,7 @@ export default function SavedData() {
 	}
 
 	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
-	async function createOrContinueSession(localSessionValue: SessionValue) {
+	async function createOrContinueSession(localSessionValue: SessionValuePost) {
 		const sessionCode = localSessionValue.sessioncode;
 		// const {
 		// 	data: receivedSessionValue,
@@ -106,6 +105,9 @@ export default function SavedData() {
 			window.location.href = `/${sessionCode}`;
 			console.log(`continue session at ${sessionCode}`);
 		} else {
+			if (!localSessionValue || localSessionValue === null) {
+				return;
+			}
 			mutate(localSessionValue);
 		}
 	}

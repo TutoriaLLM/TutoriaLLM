@@ -30,6 +30,11 @@ export class ApiError extends Error {
 export const client = hcWithType(
 	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 	{
+		headers: {
+			Origin: import.meta.env.VITE_PUBLIC_FRONTEND_URL as string,
+			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
+			"Content-Type": "application/json",
+		},
 		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
 			fetch(input, {
 				...requestInit,
@@ -40,6 +45,11 @@ export const client = hcWithType(
 export const adminClient = adminHcWithType(
 	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 	{
+		headers: {
+			Origin: import.meta.env.VITE_PUBLIC_FRONTEND_URL as string,
+			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
+			"Content-Type": "application/json",
+		},
 		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
 			fetch(input, {
 				...requestInit,

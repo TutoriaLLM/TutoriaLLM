@@ -8,6 +8,7 @@ import { currentSessionState } from "../../state.js";
 import { useTour } from "@reactour/tour";
 import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
 import type { SessionValue } from "@/type.js";
+import { SessionValueToPost } from "@/utils/SessionValueToPost.js";
 
 export default function Navbar(props: {
 	code: string;
@@ -25,10 +26,11 @@ export default function Navbar(props: {
 			screenshot: "",
 			clicks: [],
 		} as SessionValue;
+		const convertedSessionValue = SessionValueToPost(sessionValueToSave);
 		if (sessionValue) {
 			saveSessionDataToIndexedDB(
 				`session-${sessionValue.uuid}`,
-				sessionValueToSave,
+				convertedSessionValue,
 			);
 		}
 	}

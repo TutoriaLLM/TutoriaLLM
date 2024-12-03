@@ -15,10 +15,21 @@ import { swaggerUI } from "@hono/swagger-ui";
 import { errorResponse } from "@/libs/errors";
 import EventEmitter from "node:events";
 import { defaultHook } from "@/libs/default-hook";
+import { cors } from "hono/cors";
 
 const app = new OpenAPIHono<Context>({ defaultHook });
 
 export const serverEmitter = new EventEmitter();
+
+app.use(
+	"*",
+	cors({
+		origin: process.env.CORS_ORIGIN ?? "http://localhost:3000",
+		allowHeaders: ["Content-Type", "Authorization"],
+		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		credentials: true,
+	}),
+);
 
 app.use("*", async (c, next) => {
 	if (c.req.method === "GET") {
@@ -26,11 +37,17 @@ app.use("*", async (c, next) => {
 	}
 	const originHeader = c.req.header("Origin") ?? null;
 	const hostHeader = c.req.header("Host") ?? null;
+	console.log("Origin Header:", originHeader);
+	console.log("Host Header:", hostHeader);
 	if (
 		!originHeader ||
 		!hostHeader ||
-		!verifyRequestOrigin(originHeader, [hostHeader])
+		!verifyRequestOrigin(originHeader, [
+			hostHeader,
+			process.env.CORS_ORIGIN ?? "http://localhost:3000",
+		])
 	) {
+		console.log("Invalid origin");
 		return c.body(null, 403);
 	}
 	return next();

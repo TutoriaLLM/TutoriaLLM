@@ -11,7 +11,6 @@ import I18NexFsBackend, { type FsBackendOptions } from "i18next-fs-backend";
 import type { Socket } from "socket.io";
 import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { cors } from "hono/cors";
 import { Hono } from "hono";
 import { errorResponse } from "@/libs/errors";
 import { serve } from "@hono/node-server";
@@ -84,7 +83,6 @@ if (process.env.VM_PORT) {
 }
 
 const app = new Hono();
-app.use(cors());
 //参加コードに対してプロキシを保存するマップ
 // const vmProxies = new Map<string, any>();
 

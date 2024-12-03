@@ -13,7 +13,8 @@ export default function CreateNewSession(props: { language: string }) {
 		},
 		mutationFn: createSession,
 		onSuccess: (sessionCode) => {
-			window.location.href = `${sessionCode}`;
+			console.log(`session created${sessionCode}`);
+			window.location.href = `/${sessionCode}`;
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);

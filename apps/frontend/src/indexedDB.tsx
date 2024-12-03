@@ -1,5 +1,5 @@
 import { openDB } from "idb";
-import type { SessionValue } from "./type";
+import type { SessionValue, SessionValuePost } from "./type";
 
 // IndexedDBをオープンする関数（画像とセッションデータを同じDBで管理）
 const dbPromise = openDB("app-data", 1, {
@@ -30,7 +30,7 @@ async function getImageFromIndexedDB(key: string): Promise<string | null> {
 // IndexedDBにセッションデータを保存する関数
 async function saveSessionDataToIndexedDB(
 	key: string,
-	sessionValue: SessionValue,
+	sessionValue: SessionValuePost,
 ) {
 	const db = await dbPromise;
 	await db.put("sessions", { key, sessionValue });
