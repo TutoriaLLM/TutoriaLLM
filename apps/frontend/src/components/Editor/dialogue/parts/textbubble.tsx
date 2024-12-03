@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
-import type { Dialogue } from "../../../../../type.js";
 import { useAtomValue } from "jotai";
-import { currentSessionState, configState } from "../../../../state.js";
+import { currentSessionState } from "../../../../state.js";
 import { renderUserBubble } from "./bubbles/userBubble.js";
 import { renderAIBubble } from "./bubbles/aiBubble.js";
 import { renderLogBubble } from "./bubbles/logBubble.js";
@@ -12,10 +11,12 @@ import React, { useEffect, useMemo, useRef } from "react";
 import getMarkdownComponents from "./markdown.js";
 import { renderAIaudioBubble } from "./bubbles/aiAudioBubble.js";
 import { renderUserAudioBubble } from "./bubbles/userAudioBubble.js";
+import { useConfig } from "@/hooks/config.js";
+import type { SessionValue } from "@/type.js";
 
 const TextBubble = React.forwardRef(function TextBubble(
 	props: {
-		item: Dialogue;
+		item: NonNullable<SessionValue["dialogue"]>[number];
 		easyMode: boolean;
 		className?: string;
 		"data-index": number;
@@ -39,7 +40,7 @@ const TextBubble = React.forwardRef(function TextBubble(
 	}, [ref, props.item]);
 
 	// 設定をロード
-	const setting = useAtomValue(configState);
+	const { config } = useConfig();
 	const currenSession = useAtomValue(currentSessionState);
 	const { t } = useTranslation();
 
@@ -71,7 +72,7 @@ const TextBubble = React.forwardRef(function TextBubble(
 					markdownComponents,
 					t,
 					props.item.id,
-					currenSession?.audios,
+					currenSession?.audios ?? [],
 					props.easyMode,
 				);
 			case "ui":
@@ -86,7 +87,7 @@ const TextBubble = React.forwardRef(function TextBubble(
 							props.item.content,
 							markdownComponents,
 							t,
-							setting,
+							config,
 							props.item.id,
 						)
 					: null;

@@ -60,7 +60,7 @@ app.use("*", async (c, next) => {
 	return next();
 });
 
-let port = 3000;
+let port = 3001;
 if (process.env.SERVER_PORT) {
 	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // 10進数として解釈
 	if (!Number.isNaN(basePort)) {

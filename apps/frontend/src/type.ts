@@ -7,6 +7,7 @@ export type AppConfig = InferResponseType<typeof $Config>;
 const $Session = client.session[":key"].$get;
 export type SessionValue = InferResponseType<typeof $Session, 200>;
 export type Clicks = SessionValue["clicks"];
+export type Stats = SessionValue["stats"];
 
 //ハイライトするブロック
 import type Blockly from "blockly";

@@ -1,15 +1,16 @@
 import { getConfig } from "@/api/config";
-import type { AppConfig } from "@/type";
+import { useQuery } from "@tanstack/react-query";
 
-export const getAndSetConfig = async (
-	setConfig: (config: AppConfig | null) => void,
-) => {
-	try {
-		const config = await getConfig();
-		setConfig(config);
-		return config;
-	} catch {
-		setConfig(null);
-		return null;
-	}
+export const useConfig = () => {
+	const {
+		data: config,
+		isLoading,
+		isError,
+	} = useQuery({
+		queryKey: ["config"],
+		queryFn: getConfig,
+		staleTime: 1000 * 60 * 3, // 3 minutes
+		refetchOnReconnect: true,
+	});
+	return { config, isLoading, isError };
 };

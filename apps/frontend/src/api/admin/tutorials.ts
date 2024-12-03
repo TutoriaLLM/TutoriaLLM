@@ -1,4 +1,4 @@
-import type { InferRequestType, InferResponseType } from "backend/hc";
+import type { InferRequestType } from "backend/hc";
 import { handleResponse, adminClient } from "..";
 
 export const getTutorials = async () => {

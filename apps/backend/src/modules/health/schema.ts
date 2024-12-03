@@ -1,3 +1,5 @@
 import { z } from "@hono/zod-openapi";
 
-export const StatusCheckSchema = z.string();
+export const StatusCheckSchema = z.object({
+	status: z.string(),
+});

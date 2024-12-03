@@ -74,7 +74,7 @@ interface VMInstance {
 // VMのインスタンスを管理するオブジェクト
 const vmInstances: { [key: string]: VMInstance } = {};
 
-let vmPort = 3001;
+let vmPort = 3002;
 if (process.env.VM_PORT) {
 	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
 	if (!Number.isNaN(basePort)) {

@@ -19,6 +19,8 @@ import { LanguageToStart } from "../../../state.js";
 import { LangPicker } from "../../ui/Langpicker.js";
 import Overlay from "../../ui/Overlay.js";
 import { DebugInfo } from "./debuginfo.js";
+import { useQuery } from "@tanstack/react-query";
+import { getStatus } from "@/api/health.js";
 
 export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {
@@ -29,35 +31,25 @@ export default function SessionPopup(props: {
 	const { t } = useTranslation();
 	const showPopup = props.isPopupOpen;
 	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
-	const [isServerOnline, setIsServerOnline] = useState<boolean | null>(null);
+	// const [isServerOnline, setIsServerOnline] = useState<boolean | null>(null);
 
-	useEffect(() => {
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => {
-			controller.abort();
-			setIsServerOnline(false);
-		}, 3000);
+	// function useServerStatus() {
+	// 	return useQuery({
+	// 		queryKey: ["serverStatus"], // クエリキー
+	// 		queryFn: getStatus, // クエリ関数
+	// 		staleTime: 0, // キャッシュの有効期間
+	// 		refetchOnWindowFocus: false, // ウィンドウフォーカス時にリフェッチするかどうか
+	// 		retry: false, // リトライを無効化
+	// 	});
+	// }
 
-		fetch("/api/status", { signal: controller.signal })
-			.then((response) => {
-				clearTimeout(timeoutId);
-				if (response.ok) {
-					setIsServerOnline(true);
-				} else {
-					setIsServerOnline(false);
-				}
-			})
-			.catch((error) => {
-				if (error.name === "AbortError") {
-					console.log("Fetch aborted due to timeout");
-				} else {
-					console.error("Error checking server status:", error);
-				}
-				setIsServerOnline(false);
-			});
-
-		return () => clearTimeout(timeoutId);
-	}, []);
+	const { data: isServerOnline } = useQuery({
+		queryKey: ["serverStatus"],
+		queryFn: getStatus,
+		staleTime: 0,
+		refetchOnWindowFocus: false,
+		retry: false,
+	});
 
 	useEffect(() => {
 		if (languageToStart === "") {

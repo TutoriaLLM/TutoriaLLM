@@ -10,15 +10,15 @@ import {
 import type { TFunction } from "i18next";
 import React, { useMemo, useCallback } from "react";
 import { getExternalBlocks } from "../../Blockly/blocks/index.js";
-import { listAllBlocks } from "../../../../../utils/blockList.js";
 import generateImageFromBlockName from "../../generateImageFromBlockName.js";
 import {
 	getImageFromIndexedDB,
 	saveImageToIndexedDB,
 } from "../../../../indexedDB.js";
 import { Copy, ScanSearch, X } from "lucide-react";
-import type { SessionValue } from "../../../../../type.js";
+import type { SessionValue } from "@/type.js";
 import { HighlightedBlockId, HighlightedBlockName } from "./highlight.js";
+import { listAllBlocks } from "@/utils/blockList.js";
 
 // テキストをハイライトする関数
 function highlightText(

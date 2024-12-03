@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import registerBlocks from "./blocks/index.js";
 import Theme from "./theme/index.js";
 import { toolboxCategories, translateCategories } from "./toolbox/index.js";
-import { blocklyLocale } from "../../../../i18n/blocklyLocale.js";
 import "../../../styles/blockly.css";
 import { useAtom, useAtomValue } from "jotai";
 import {
@@ -14,9 +13,10 @@ import {
 	prevSessionState,
 } from "../../../state.js";
 import { BlockHighlight } from "./blockHighlight.js";
-import { updateStats } from "../../../../utils/statsUpdater.js";
 
 import { forwardRef } from "react";
+import { blocklyLocale } from "@/i18n/blocklyLocale.js";
+import { updateStats } from "@/utils/statsUpdater.js";
 
 const Editor = forwardRef<HTMLDivElement, { menuOpen: boolean }>(
 	(props, ref) => {

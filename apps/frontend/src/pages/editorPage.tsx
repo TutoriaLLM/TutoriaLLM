@@ -36,7 +36,6 @@ import {
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	prevSessionState,
-	configState,
 	userSessionCode,
 	socketIoInstance,
 	currentTabState,
@@ -45,8 +44,7 @@ import {
 
 import { io } from "socket.io-client";
 import { MessageCircleMore, Puzzle, PanelRightClose } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { getAndSetConfig } from "@/hooks/config.js";
+import { useConfig } from "@/hooks/config.js";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();
@@ -77,21 +75,9 @@ export default function EditorPage() {
 	//ワークスペースのメニュー表示を管理するstate
 	const [isMenuOpen, setIsMenuOpen] = useState(true);
 
-	//設定の保存をするstate
-	const setConfig = useSetAtom(configState);
-
 	const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
-	const [cookie, setCookie, removeCookie] = useCookies();
-
-	const {
-		data: config,
-		isLoading,
-		isError,
-	} = useQuery({
-		queryKey: ["config"],
-		queryFn: () => getAndSetConfig(setConfig),
-	});
+	const { config } = useConfig();
 
 	useEffect(() => {
 		try {

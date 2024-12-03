@@ -1,13 +1,12 @@
 import { useAtom, useAtomValue } from "jotai";
 import { Bot, Send, Mic, Trash, Play, Pause } from "lucide-react";
 import { useEffect, useRef, useState, useCallback } from "react";
-import type { AppConfig, Dialogue } from "../../../../type.js";
 import { currentSessionState } from "../../../state.js";
 import TextBubble from "./parts/textbubble.js";
 import { SwitchModeUI } from "./parts/ui/switchModeUI.js";
 import { useTranslation } from "react-i18next";
 import QuickReply from "./parts/quickreply.js";
-import { updateStats } from "../../../../utils/statsUpdater.js";
+import { updateStats } from "@/utils/statsUpdater.js";
 import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
@@ -15,11 +14,11 @@ import {
 import WaveSurfer from "wavesurfer.js";
 
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { useConfig } from "@/hooks/config.js";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
 	const [session, setSession] = useAtom(currentSessionState);
-	const [config, setConfig] = useState<AppConfig>();
 	const [message, setMessage] = useState("");
 	const [audioURL, setAudioURL] = useState("");
 	const [isRecording, setIsRecording] = useState(false);
@@ -35,14 +34,16 @@ export default function DialogueView() {
 
 	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
 
-	useEffect(() => {
-		async function fetchConfig() {
-			const result = await fetch("/api/config");
-			const response = (await result.json()) as AppConfig;
-			setConfig(response);
-		}
-		fetchConfig();
-	}, []);
+	// useEffect(() => {
+	// 	async function fetchConfig() {
+	// 		const result = await fetch("/api/config");
+	// 		const response = (await result.json()) as AppConfig;
+	// 		setConfig(response);
+	// 	}
+	// 	fetchConfig();
+	// }, []);
+
+	const { config } = useConfig();
 
 	useEffect(() => {
 		// ページがHTTPSで提供されているかどうかを確認
@@ -273,7 +274,7 @@ export default function DialogueView() {
 	//仮想スクロールの設定
 	const rowVirtualizer = useVirtualizer({
 		overscan: 5,
-		count: session?.dialogue.length || 0,
+		count: session?.dialogue ? session.dialogue.length : 0,
 		paddingStart: 16,
 		paddingEnd: 16,
 		getScrollElement: () => parentRef.current,
@@ -308,7 +309,10 @@ export default function DialogueView() {
 					>
 						{items.map((virtualRow) => {
 							if (!session) return null;
-							const item = session.dialogue[virtualRow.index];
+							const item = session?.dialogue
+								? session.dialogue[virtualRow.index]
+								: null;
+							if (!item) return null;
 							return (
 								<TextBubble
 									className="w-full"
@@ -323,7 +327,7 @@ export default function DialogueView() {
 									data-index={virtualRow.index}
 									key={virtualRow.key}
 									item={item}
-									easyMode={session?.easyMode}
+									easyMode={session?.easyMode || false}
 								/>
 							);
 						})}

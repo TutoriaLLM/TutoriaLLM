@@ -7,7 +7,7 @@ import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(getStatus, async (c) => {
-		return c.text("OK!");
+		return c.json({ status: "ok" });
 	})
 	.use(cors());
 

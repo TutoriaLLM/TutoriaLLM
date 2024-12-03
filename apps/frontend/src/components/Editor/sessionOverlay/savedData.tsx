@@ -2,10 +2,14 @@ import { useRef, useState, useEffect } from "react";
 import Popup from "../../ui/Popup.js";
 import { Clock, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { SessionValue } from "../../../../type.js";
+import type { SessionValue } from "@/type";
 import getImageFromSerializedWorkspace from "../generateImageURL.js";
 import { openDB } from "idb";
 import type * as Blockly from "blockly";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getAndSetSession } from "@/hooks/session.js";
+import { createSession, getSession, resumeSession } from "@/api/session.js";
+import { useMutation } from "@/hooks/use-mutations.js";
 
 // IndexedDBをオープンする関数
 const dbPromise = openDB("app-data", 1, {
@@ -27,6 +31,16 @@ export default function SavedData() {
 		setIsSavedDataOpen(!isSavedDataOpen);
 	}
 
+	const { mutate } = useMutation({
+		mutationFn: resumeSession,
+		onSuccess: (sessionCode) => {
+			window.location.href = `/${sessionCode}`;
+		},
+		onError: (error) => {
+			console.error("Failed to create a new session:", error);
+		},
+	});
+
 	// IndexedDBからセッションデータを取得する関数
 	async function getSessionDataFromIndexedDB() {
 		const db = await dbPromise;
@@ -38,8 +52,8 @@ export default function SavedData() {
 			const sessionValue = session.sessionValue as SessionValue;
 			try {
 				const imageURL = await getImageFromSerializedWorkspace(
-					sessionValue.workspace,
-					sessionValue.language,
+					sessionValue.workspace ?? [],
+					sessionValue.language ?? "en",
 					hiddenWorkspaceRef,
 					hiddenDivRef,
 				);
@@ -70,59 +84,29 @@ export default function SavedData() {
 	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
 	async function createOrContinueSession(localSessionValue: SessionValue) {
 		const sessionCode = localSessionValue.sessioncode;
+		// const {
+		// 	data: receivedSessionValue,
+		// 	isLoading,
+		// 	isError,
+		// } = useQuery({
+		// 	queryKey: ["session", sessionCode],
+		// 	queryFn: () => getSession({ key: sessionCode }),
+		// 	retry: false,
+		// });
+		const queryClient = useQueryClient();
+		const receivedSessionValue = await queryClient.fetchQuery({
+			queryKey: ["session", sessionCode],
+			queryFn: () => getSession({ key: sessionCode }),
+		});
 
-		try {
-			const response = await fetch(`/api/session/${sessionCode}`);
-
-			if (response.status === 404) {
-				// 404エラーの場合、新しいセッションを作成する
-				console.log(
-					`Session ${sessionCode} not found. Creating a new session.`,
-				);
-				await createNewSession(localSessionValue);
-				return;
-			}
-
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
-			}
-
-			const receivedSessionValue = (await response.json()) as
-				| SessionValue
-				| undefined;
-
-			if (
-				receivedSessionValue?.workspace.toString() ===
-				localSessionValue.workspace.toString()
-			) {
-				window.location.href = `/${sessionCode}`;
-				console.log(`continue session at ${sessionCode}`);
-			} else {
-				await createNewSession(localSessionValue);
-			}
-		} catch (error) {
-			console.error("Failed to fetch session or create a new one:", error);
-		}
-	}
-
-	async function createNewSession(localSessionValue: SessionValue) {
-		try {
-			const response = await fetch("/api/session/new", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(localSessionValue),
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to create a new session");
-			}
-
-			const sessionCode = await response.text();
+		if (
+			(receivedSessionValue?.workspace ?? []).toString() ===
+			(localSessionValue.workspace ?? []).toString()
+		) {
 			window.location.href = `/${sessionCode}`;
-		} catch (error) {
-			console.error("Failed to create a new session from data:", error);
+			console.log(`continue session at ${sessionCode}`);
+		} else {
+			mutate(localSessionValue);
 		}
 	}
 

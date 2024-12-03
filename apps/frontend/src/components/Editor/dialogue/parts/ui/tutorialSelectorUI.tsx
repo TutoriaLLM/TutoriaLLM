@@ -3,9 +3,8 @@ import { useAtom } from "jotai";
 import { ArrowRight, BookDashed, EyeIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../../../../state.js";
-import type { Tutorial } from "../../../../../../server/db/schema.js";
 import Popup from "../../../../ui/Popup.js";
-import { langToStr } from "../../../../../../utils/langToStr.js";
+import { langToStr } from "@/utils/langToStr.js";
 
 // Define TutorialType
 type TutorialType = Pick<Tutorial, "id" | "metadata" | "language" | "tags">;

@@ -10,3 +10,8 @@ export const updateConfig = async (
 
 	return handleResponse(response);
 };
+
+export const getConfig = async () => {
+	const response = await adminClient.admin.config.$get();
+	return handleResponse(response);
+};

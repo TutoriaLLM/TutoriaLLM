@@ -29,6 +29,3 @@ export const socketIoInstance = atom<Socket | null>(null);
 
 //ワークスペースのコードが実行されているかどうか
 export const isWorkspaceCodeRunning = atom(false);
-
-//読み込んだ設定を保存する状態
-export const configState = atom<AppConfig | null>(null);
