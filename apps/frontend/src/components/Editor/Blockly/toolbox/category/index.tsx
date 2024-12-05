@@ -1,16 +1,22 @@
 import * as Blockly from "blockly";
 
+import * as extensionModules from "extensions";
+
 // src/extensions/*/toolbox/以下からすべてのツールボックスを動的にインポート
-const extensionModules = import.meta.glob(
-	"/src/extensions/*/toolbox/**/index.*",
-	{
-		eager: true,
-	},
+// const extensionModules = import.meta.glob(
+// 	"/src/extensions/*/toolbox/**/index.*",
+// 	{
+// 		eager: true,
+// 	},
+// );
+const loadedToolbox = Object.values(extensionModules).flatMap(
+	(mod: any) => mod.Toolbox,
 );
+console.log("loadedToolbox for toolbox", loadedToolbox);
 
 // 基本カテゴリをインポート
 const basicModules = import.meta.glob(
-	"/src/client/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
+	"/src/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
 	{
 		eager: true,
 	},
@@ -22,8 +28,9 @@ import separator from "./basics/separator.js";
 const combinedModules = {
 	...basicModules,
 	separator,
-	...extensionModules,
+	...loadedToolbox,
 };
+console.log("combinedModules for toolbox", combinedModules);
 
 const loadExtensions = () => {
 	const extensions = Object.values(combinedModules);

@@ -1,13 +1,13 @@
 import * as Blockly from "blockly";
 
 // src/extensions/*/blocks/以下からすべてのツールボックスを動的にインポート
-const extensionModules: any = import.meta.glob(
-	"/src/extensions/*/blocks/**/*.*",
-	{
-		eager: true,
-	},
-);
-
+// const extensionModules: any = import.meta.glob(
+// 	"/src/extensions/*/blocks/**/*.*",
+// 	{
+// 		eager: true,
+// 	},
+// );
+import * as extensionModules from "extensions";
 // 拡張機能モジュールを読み込む関数
 const loadExtensions = () => {
 	const extensions = Object.values(extensionModules);
@@ -15,12 +15,17 @@ const loadExtensions = () => {
 };
 
 const loadedExtensions = loadExtensions();
+// 各モジュールの Blocks プロパティをフラット化して1つの配列に結合
+const loadedBlocks = loadedExtensions
+	.flatMap((mod: any) => mod.Blocks || [])
+	.flatMap((block: any) => Object.values(block)); // 各オブジェクトの value を取得
+console.log("loadedBlocks for block", loadedBlocks);
 console.log("loadedExtensions for block", loadedExtensions);
 
 function registerBlocks(language: string) {
 	//console.log("registerBlocks");
 
-	for (const module of loadedExtensions) {
+	for (const module of loadedBlocks) {
 		if (module && typeof module === "object") {
 			const { block, code, locale } = module;
 			//console.log("registerBlocks", block);
@@ -74,7 +79,7 @@ export function getExternalBlocks() {
 	//フロントエンドで利用可能な拡張ブロックのリストを取得
 	//block, code, localeを持つモジュールから、blockだけを取り出したリストを作成
 	const blockList: string[] = [];
-	const availableBlocks = loadedExtensions.map((module: any) => module);
+	const availableBlocks = loadedBlocks.map((module: any) => module);
 	for (const block of availableBlocks) {
 		blockList.push(block.block.type);
 	}
