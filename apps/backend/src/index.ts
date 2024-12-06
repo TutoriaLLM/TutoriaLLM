@@ -109,7 +109,7 @@ export const route = app
 // The OpenAPI documentation will be available at /doc
 app.route("/", adminRoutes);
 
-app.route("/", vmProxyRoutes);
+app.route("/vm", vmProxyRoutes);
 
 /**
  * 404エラー時の共通処理

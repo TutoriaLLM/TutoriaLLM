@@ -4,11 +4,11 @@ import { appSessions, tutorials } from "@/db/schema";
 //import { sessionDB } from "../../../db/session.js";
 import { db } from "@/db";
 
-import { getAvailableBlocks, getBlockFiles } from "@/libs/registerBlocks";
 import type { Socket } from "socket.io";
 import { eq } from "drizzle-orm";
 import type { SessionValue } from "@/modules/session/schema";
 import { invokeLLM } from "@/modules/session/socket/llm";
+import { getBlockNames } from "@/libs/registerBlocks";
 
 //非同期でLLMを呼び出し、メッセージが作成されたタイミングでプッシュする
 export async function updateDialogueWithLLM(
@@ -30,14 +30,9 @@ export async function updateDialogueWithLLM(
 	console.log("updateDialogueLLM");
 	const language = data.language;
 
-	const blockFiles = await getBlockFiles();
-	const availableBlocks = await getAvailableBlocks(
-		blockFiles,
-		language || "en",
-	);
-	const extractedBlockNames = availableBlocks.map((block) => block.block.type);
+	const blockNames = await getBlockNames();
 
-	const message = await invokeLLM(data, extractedBlockNames, socket);
+	const message = await invokeLLM(data, blockNames, socket);
 
 	//出力が音声だった場合の処理
 	//テスト目的なので、実際には音声ファイルを生成する処理が必要

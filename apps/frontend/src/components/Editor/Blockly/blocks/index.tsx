@@ -5,8 +5,6 @@ const loadedExtensions = Object.values(extensionModules).flatMap(
 	(mod) => mod.Blocks,
 ); // 各モジュールの Blocks プロパティをフラット化して1つの配列に結合
 
-console.log("loadedExtensions for block", loadedExtensions);
-
 const loadedBlocks = loadedExtensions.flatMap((module) =>
 	Object.values(module).flat(),
 );

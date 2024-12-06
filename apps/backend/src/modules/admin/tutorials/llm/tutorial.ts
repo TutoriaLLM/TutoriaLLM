@@ -3,7 +3,7 @@ import { listAllBlocks } from "@/utils/blockList";
 import { z } from "@hono/zod-openapi";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";
 import { getConfig } from "@/modules/admin/config";
-import { getAvailableBlocks, getBlockFiles } from "@/libs/registerBlocks";
+import { getBlockNames } from "@/libs/registerBlocks";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -12,11 +12,9 @@ const openai = new OpenAI({
 
 async function generateContentFromContent(content?: string) {
 	const config = getConfig();
-	const blockFiles = await getBlockFiles();
-	const availableBlocks = await getAvailableBlocks(blockFiles, "en");
-	const extractedBlockNames = availableBlocks.map((block) => block.block.type);
+	const blockname = await getBlockNames();
 
-	const allBlocks = listAllBlocks(extractedBlockNames);
+	const allBlocks = listAllBlocks(blockname);
 	const schema = z.object({
 		content: z.string(),
 	});

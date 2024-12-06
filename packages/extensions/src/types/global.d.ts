@@ -7,7 +7,7 @@ declare global {
 	const joinCode: string;
 	const session: any;
 	const serverRootPath: string;
-	const randomUUID: typeof import("crypto").randomUUID;
+	// const randomUUID: typeof import("crypto").randomUUID;
 	const upgradeWebSocket: UpgradeWebSocket;
 	// const console: {
 	// 	log: (...args: string[]) => void;

@@ -1,5 +1,4 @@
 import { Worker } from "node:worker_threads";
-import { createProxyMiddleware } from "http-proxy-middleware";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 // import { sessionDB } from "../../../db/session.js";
@@ -112,7 +111,7 @@ app.all("/:code/*", async (c, next) => {
 			instance.port,
 		);
 		// return c.proxy(`http://${instance.ip}:${instance.port}`);
-		return fetch(`http://${instance.ip}:${instance.port}`);
+		return fetch(`http://${instance.ip}:${instance.port}`, c.req);
 	}
 	// VMが見つからない場合は、404 を返す
 	return errorResponse(c, {
@@ -193,11 +192,11 @@ export async function ExecCodeTest(
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
 			workerData: { joinCode, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
-				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
-				maxOldGenerationSizeMb:
-					config.Code_Execution_Limits.Max_OldGenerationSizeMb,
-				maxYoungGenerationSizeMb:
-					config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
+				// codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
+				// maxOldGenerationSizeMb:
+				// 	config.Code_Execution_Limits.Max_OldGenerationSizeMb,
+				// maxYoungGenerationSizeMb:
+				// 	config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
 			},
 		});
 		console.log("resourceLimits", worker.resourceLimits);

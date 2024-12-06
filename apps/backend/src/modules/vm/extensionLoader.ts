@@ -1,96 +1,72 @@
 import fs from "node:fs";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
-import type { Context } from "node:vm";
 import ts from "typescript";
+import glob from "fast-glob";
+import extensionModules from "extensions";
+import type { Context } from "node:vm";
 
-export class ExtensionLoader {
-	private extensionsDir: string;
+export async function loadExtensions(context: Context): Promise<void> {
+	console.log("loading extensions...", extensionModules);
 
-	constructor(extensionsDir: string) {
-		this.extensionsDir = extensionsDir;
-	}
+	for (const [key, mod] of Object.entries(extensionModules)) {
+		try {
+			console.log("loading extension", key);
 
-	public async loadExtensions(context: Context): Promise<void> {
-		const extensionFolders = fs.readdirSync(this.extensionsDir);
-
-		for (const extensionFolder of extensionFolders) {
-			const ctxDir = path.join(this.extensionsDir, extensionFolder, "context");
-			if (fs.existsSync(ctxDir) && fs.lstatSync(ctxDir).isDirectory()) {
-				const files = fs.readdirSync(ctxDir);
-				for (const file of files) {
-					const filePath = path.join(ctxDir, file);
-					const fileURL = pathToFileURL(filePath).href;
-					const mod = await import(fileURL);
-					if (typeof mod.default === "function") {
-						console.log("loading extension", file);
-						context[path.basename(file, path.extname(file))] = mod.default;
-					}
+			// `Context` が存在する場合のみ処理
+			if ("Context" in mod) {
+				for (const [ctxKey, ctxValue] of Object.entries(mod.Context)) {
+					context[ctxKey] = ctxValue;
 				}
+			} else {
+				// `Context` がない場合はスキップ
+				console.log(`Skipping extension ${key}, no Context found.`);
 			}
+		} catch (error) {
+			console.error(`Error loading extension ${key}:`, error);
 		}
-	}
-
-	public async loadScript(): Promise<string | null> {
-		console.log("loading script...");
-		function findScriptFiles(dir: string): string[] {
-			let results: string[] = [];
-			const list = fs.readdirSync(dir);
-
-			for (const file of list) {
-				const filePath = path.join(dir, file);
-				const stat = fs.lstatSync(filePath);
-				if (stat?.isDirectory()) {
-					results = results.concat(findScriptFiles(filePath));
-				} else if (file === "script.ts" || file === "script.js") {
-					results.push(filePath);
-				}
-			}
-			return results;
-		}
-
-		const scriptFiles = findScriptFiles(this.extensionsDir);
-		let extScriptContent = "";
-
-		for (const scriptFile of scriptFiles) {
-			const scriptContent = fs.readFileSync(scriptFile, "utf-8");
-			console.log("loading extension script", scriptFile);
-
-			const result = ts.transpileModule(scriptContent, {
-				compilerOptions: {
-					module: ts.ModuleKind.ES2020, // ES Module形式の出力に変更
-					isolatedModules: true,
-					target: ts.ScriptTarget.ES2020,
-					removeComments: true,
-				},
-			});
-
-			// モジュール関連のコードを削除
-			const cleanedCode = result.outputText
-				.replace(/^export /gm, "")
-				.replace(/^import .* from .*$/gm, "");
-
-			extScriptContent += cleanedCode;
-		}
-
-		return extScriptContent;
 	}
 }
 
-function removeImportsTransformer<T extends ts.Node>(
-	context: ts.TransformationContext,
-) {
-	return (rootNode: T): T => {
-		function visit(node: ts.Node): ts.Node {
-			// Import 宣言を削除
-			if (ts.isImportDeclaration(node)) {
-				return undefined as any;
+export async function loadScript(): Promise<string | null> {
+	console.log("loading script...");
+
+	async function findScriptFromModule(
+		moduleName: string,
+		fileName: string,
+	): Promise<string | null> {
+		const modulePath = path.join(process.cwd(), "node_modules", moduleName);
+		//modulePathに存在するすべてのディレクトリ内からfileNameを探す
+		const dirs = fs.readdirSync(modulePath);
+		const files = await glob(`**/${fileName}`, { cwd: modulePath });
+		for (const file of files) {
+			const scriptPath = path.join(modulePath, file);
+			if (fs.existsSync(scriptPath)) {
+				console.log("Loading extension script:", scriptPath);
+				const scriptContent = fs.readFileSync(scriptPath, "utf-8");
+				const result = ts.transpileModule(scriptContent, {
+					compilerOptions: {
+						module: ts.ModuleKind.ES2020,
+						isolatedModules: true,
+						target: ts.ScriptTarget.ES2020,
+						removeComments: true,
+					},
+				});
+				return result.outputText
+					.replace(/^export /gm, "")
+					.replace(/^import .* from .*$/gm, "");
 			}
-			// 他のノードを再帰的に処理
-			return ts.visitEachChild(node, visit, context);
 		}
-		return ts.visitNode(rootNode, visit) as T;
-	};
+		console.error(`Script not found in ${modulePath}`);
+		return null;
+	}
+
+	const extScript = await findScriptFromModule("extensions", "script.ts");
+	if (!extScript) {
+		return null;
+	}
+
+	// `extScriptContent` を必要に応じて構築
+	return extScript;
 }
 
 export function transpileWithRemoveImports(source: string): string {
@@ -103,4 +79,18 @@ export function transpileWithRemoveImports(source: string): string {
 		},
 	});
 	return result.outputText;
+}
+
+function removeImportsTransformer<T extends ts.Node>(
+	context: ts.TransformationContext,
+) {
+	return (rootNode: T): T => {
+		function visit(node: ts.Node): ts.Node {
+			if (ts.isImportDeclaration(node)) {
+				return undefined as any;
+			}
+			return ts.visitEachChild(node, visit, context);
+		}
+		return ts.visitNode(rootNode, visit) as T;
+	};
 }

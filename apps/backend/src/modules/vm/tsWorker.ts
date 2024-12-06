@@ -1,7 +1,7 @@
 import vm, { createContext } from "node:vm";
 import path from "node:path";
 import { parentPort, workerData } from "node:worker_threads";
-import { ExtensionLoader } from "@/modules/vm/extensionLoader";
+import { loadExtensions, loadScript } from "@/modules/vm/extensionLoader";
 import { fileURLToPath } from "node:url";
 import getPort, { portNumbers } from "get-port";
 import { exec } from "node:child_process";
@@ -10,11 +10,9 @@ import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import type { SessionValue } from "@/modules/session/schema";
+import { randomUUID } from "node:crypto";
 
 const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 if (!parentPort) {
 	throw new Error("parentPort is not defined");
@@ -95,6 +93,7 @@ app.get("/", (c) => {
 const context = createContext({
 	app,
 	upgradeWebSocket,
+	randomUUID,
 	joinCode,
 	console: {
 		log: (...args: string[]) => {
@@ -139,6 +138,7 @@ function getValidIp() {
 }
 
 async function startServer() {
+	console.log("Starting server...");
 	const ip = getValidIp();
 	const port = await getPort({
 		port: portNumbers(40000, 50000),
@@ -163,11 +163,9 @@ async function startServer() {
 
 startServer();
 
-const extensionsDir = path.resolve(__dirname, "../../../../extensions");
-const extensionLoader = new ExtensionLoader(extensionsDir);
-await extensionLoader.loadExtensions(context);
-const extScript = await extensionLoader.loadScript();
-console.log("userScript", userScript);
+await loadExtensions(context);
+const extScript = await loadScript();
+console.log("loaded script:", extScript);
 
 const initialScript = /* javascript */ `
 	${extScript}
@@ -176,7 +174,7 @@ function script() {
 }
 script();
 `;
-
+console.log("running script:", initialScript);
 const script = new vm.Script(initialScript);
 script.runInContext(context);
 
