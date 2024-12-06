@@ -7,35 +7,54 @@ services:
       - "4317:4317"
       - "4318:4318"
       - "9411:9411"
+
   db:
     container_name: code-tutorial-db-dev
     image: pgvector/pgvector:pg14
     ports:
       - "5432:5432"
+    env_file:
+      - ./apps/backend/.env
     environment:
-      POSTGRES_USER: $DB_USER
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
-      PGDATA: /var/lib/postgresql/data/pgdata
-      TZ: UTC
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ=UTC
     healthcheck:
-      test: ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USER} -d ${DB_NAME}'"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
       interval: 5s
       timeout: 60s
       retries: 5
-      start_period: 5s 
+      start_period: 5s
     volumes:
       - db_data_db:/var/lib/postgresql/data
-  app: 
-    container_name: code-tutorial-app-dev
+
+  frontend:
+    container_name: tutoriallm_dev-frontend
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      target: frontend
     ports:
       - "3000:3000"
-      - "3001:3001"
     env_file:
-      - .env
+      - ./apps/frontend/.env
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+
+  backend: 
+    container_name: tutoriallm_dev-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    env_file:
+      - ./apps/backend/.env
     command: >
       sh -c "
         if [ ! -f /app_data/.initialized ]; then
@@ -44,7 +63,7 @@ services:
           pnpm run drizzle:migrate &&
           pnpm run reset-credential &&
           touch /app_data/.initialized &&
-          pnpm run dev 
+          pnpm run dev;
         else
           pnpm install &&
           pnpm run drizzle:generate &&
@@ -52,21 +71,13 @@ services:
           pnpm run dev;
         fi
       "
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /tutorial_app_dev/src
-          ignore:
-            - node_modules/
-        - action: rebuild
-          path: ./
-          ignore:
-            - ./src
     depends_on:
       db:
         condition: service_healthy
     volumes:
+      - ./apps/backend:/app
       - ./app_data:/app_data
+      - /app/node_modules
+
 volumes:
   db_data_db:
