@@ -7,12 +7,15 @@ export default function createNewSessionValue(
 	currentDataJson: SessionValue,
 	diff: Operation[],
 ): SessionValue {
-	const newDataJson = currentDataJson;
-	const success = applyPatch(newDataJson, diff);
+	// 深いコピーを作成
+	const newDataJSON = structuredClone(currentDataJson);
+	// パッチを適用
+	const success = applyPatch(newDataJSON, diff);
 	if (!success) {
 		console.error("Failed to apply patch");
 		socket.emit("error", "Failed to apply patch");
-		return currentDataJson;
+		return currentDataJson; // 元の値を返す
 	}
-	return newDataJson;
+
+	return newDataJSON;
 }
