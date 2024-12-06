@@ -1,5 +1,9 @@
 //Minecraftのブロックのドロップダウンimport { Order, javascriptGenerator } from "blockly/javascript";
+
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
 
 export const block = {
 	type: "ext_minecraft_var_specificItemName",
@@ -13,7 +17,7 @@ export const block = {
 	],
 
 	output: "Item",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_var_specificItemName = (
@@ -32,4 +36,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_VAR_SPECIFICITEMNAME: "Minecraftのアイテム名 %1",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

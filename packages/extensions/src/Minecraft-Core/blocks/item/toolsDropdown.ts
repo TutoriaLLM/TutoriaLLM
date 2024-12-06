@@ -1,5 +1,8 @@
 //Minecraftのブロックのドロップダウンimport { Order, javascriptGenerator } from "blockly/javascript";
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
 import "@blockly/field-grid-dropdown";
 
 export const block = {
@@ -350,7 +353,7 @@ export const block = {
 	],
 
 	output: "Item",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_var_toolsDropdown = (
@@ -369,4 +372,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_VAR_TOOLSDROPDOWN: "道具 %1",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

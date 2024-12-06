@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_turnAgent",
 	message0: "%{BKY_MINECRAFT_TURNAGENT}",
@@ -18,7 +21,7 @@ export const block = {
 	colour: "#f43f5e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_turnAgent = (block, generator) => {
@@ -45,4 +48,4 @@ export const locale = {
 		MINECRAFT_LEFT: "left",
 		MINECRAFT_RIGHT: "right",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_server_log",
 	message0: "%{BKY_SERVER_LOG} %1",
@@ -16,7 +19,7 @@ export const block = {
 	colour: "#57534e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_server_log = (block, generator) => {
@@ -37,4 +40,4 @@ export const locale = {
 	en: {
 		SERVER_LOG: "send text to chat",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

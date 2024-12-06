@@ -1,11 +1,14 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_var_PlayerXPos",
 	colour: "#6366f1",
 	message0: "%{BKY_MINECRAFT_VAR_PLAYERXPOS}",
 	output: "Number",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_var_PlayerXPos = (
@@ -26,4 +29,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_VAR_PLAYERXPOS: "プレイヤーのX座標",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

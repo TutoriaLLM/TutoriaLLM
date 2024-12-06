@@ -1,7 +1,13 @@
-export const category = {
+import type { Locale } from "@/types/locale";
+import type * as Blockly from "blockly";
+export const category: Blockly.utils.toolbox.CategoryInfo = {
 	kind: "category",
 	name: "%{BKY_SERVER}",
 	colour: "#57534e",
+	id: undefined,
+	categorystyle: undefined,
+	cssconfig: undefined,
+	hidden: undefined,
 	contents: [
 		{
 			kind: "block",
@@ -32,4 +38,4 @@ export const locale = {
 	en: {
 		SERVER: "Server",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

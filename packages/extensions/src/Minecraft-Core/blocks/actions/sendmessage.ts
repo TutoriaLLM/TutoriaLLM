@@ -1,4 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_sendMsg",
 	message0: "%{BKY_MINECRAFT_SENDMESSAGE}",
@@ -18,7 +22,7 @@ export const block = {
 	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_sendMsg = (block, generator) => {
@@ -43,4 +47,4 @@ export const locale = {
 	en: {
 		MINECRAFT_SENDMESSAGE: "Send message to Minecraft %1",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

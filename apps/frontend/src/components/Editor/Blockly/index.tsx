@@ -320,7 +320,7 @@ const Editor = forwardRef<HTMLDivElement, { menuOpen: boolean }>(
 			if (currentSession && prevSession) {
 				try {
 					Blockly.serialization.workspaces.load(
-						currentSession.workspace,
+						currentSession.workspace || {},
 						workspace,
 					);
 					console.log("workspace refreshed from currentSession state");

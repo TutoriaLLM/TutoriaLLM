@@ -4,7 +4,11 @@
  */
 
 //MineCraft-Core
-export * as MinecraftCore from "./Minecraft-Core";
+import * as MinecraftCore from "./Minecraft-Core";
 
 //Server
-export * as Server from "./Server";
+import * as Server from "./Server";
+
+const Extensions = [MinecraftCore, Server];
+
+export default Extensions;

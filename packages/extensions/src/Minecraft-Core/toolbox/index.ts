@@ -1,12 +1,18 @@
-import playerEvents from "./contents/playerEvents.json";
-import actions from "./contents/actions.json";
-import agent from "./contents/agent.json";
-import block from "./contents/block.json";
-import position from "./contents/position.json";
-export const category = {
+import type * as Blockly from "blockly";
+import { actions } from "./contents/actions";
+import { playerEvents } from "./contents/playerEvents";
+import { agent } from "./contents/agent";
+import { block } from "./contents/block";
+import { position } from "./contents/position";
+import type { Locale } from "@/types/locale";
+export const category: Blockly.utils.toolbox.CategoryInfo = {
 	kind: "category",
 	name: "%{BKY_MINECRAFT}",
 	colour: "#a855f7",
+	id: undefined,
+	categorystyle: undefined,
+	cssconfig: undefined,
+	hidden: undefined,
 	contents: [
 		{
 			kind: "category",
@@ -60,4 +66,4 @@ export const locale = {
 		MINECRAFT_ITEM: "Item",
 		MINECRAFT_POSITION: "Position",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

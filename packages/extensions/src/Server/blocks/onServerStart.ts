@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_server_onServerStart",
 	message0: "%{BKY_SERVER_ONSERVERSTART}",
@@ -16,7 +19,7 @@ export const block = {
 	colour: "#57534e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_server_onServerStart = (
@@ -46,4 +49,4 @@ export const locale = {
 	en: {
 		SERVER_ONSERVERSTART: "on server start %1 %2",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

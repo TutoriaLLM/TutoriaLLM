@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_onplayerUsedItem",
 	message0: "%{BKY_MINECRAFT_ONPLAYERUSEDITEM}",
@@ -20,7 +23,7 @@ export const block = {
 	colour: "#6366f1",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_onplayerUsedItem = (
@@ -72,4 +75,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_ONPLAYERUSEDITEM: "プレイヤーが %1 を使用したとき %2 %3",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

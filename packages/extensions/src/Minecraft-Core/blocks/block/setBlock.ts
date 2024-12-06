@@ -1,4 +1,7 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
 import "@blockly/field-slider";
 import { inputs } from "blockly";
 
@@ -26,7 +29,7 @@ export const block = {
 	colour: "#22c55e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_setBlock = (block, generator) => {
@@ -52,4 +55,4 @@ export const locale = {
 	en: {
 		MINECRAFT_SETBLOCK: "Place %1 block %2 at %3",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

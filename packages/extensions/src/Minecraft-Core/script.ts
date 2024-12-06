@@ -186,10 +186,9 @@ const minecraftWorldState = {
 		isunderwater: false,
 	},
 };
-const translatedMessage = t("extension.minecraft-core.connectInfo", {
-	host: serverRootPath,
-	userCode: joinCode,
-});
+const translatedMessage = `extension.minecraft-core.connectInfo"
+	host: ${serverRootPath},
+	userCode: ${joinCode},`;
 console.info(translatedMessage);
 
 app.get(
@@ -198,7 +197,7 @@ app.get(
 		onOpen: (message, ws) => {
 			wss = ws;
 			ws.send(JSON.stringify(commandMsg("/say Connected!")));
-			console.log("Minectaft: ", t("generic.connected"));
+			console.log("generic.connected");
 			for (const event of onConnectEvents) {
 				event();
 			}

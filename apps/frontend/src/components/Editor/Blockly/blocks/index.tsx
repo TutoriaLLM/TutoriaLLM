@@ -1,26 +1,16 @@
 import * as Blockly from "blockly";
+import extensionModules from "extensions";
 
-// src/extensions/*/blocks/以下からすべてのツールボックスを動的にインポート
-// const extensionModules: any = import.meta.glob(
-// 	"/src/extensions/*/blocks/**/*.*",
-// 	{
-// 		eager: true,
-// 	},
-// );
-import * as extensionModules from "extensions";
-// 拡張機能モジュールを読み込む関数
-const loadExtensions = () => {
-	const extensions = Object.values(extensionModules);
-	return extensions.map((mod: any) => mod);
-};
+const loadedExtensions = Object.values(extensionModules).flatMap(
+	(mod) => mod.Blocks,
+); // 各モジュールの Blocks プロパティをフラット化して1つの配列に結合
 
-const loadedExtensions = loadExtensions();
-// 各モジュールの Blocks プロパティをフラット化して1つの配列に結合
-const loadedBlocks = loadedExtensions
-	.flatMap((mod: any) => mod.Blocks || [])
-	.flatMap((block: any) => Object.values(block)); // 各オブジェクトの value を取得
-console.log("loadedBlocks for block", loadedBlocks);
 console.log("loadedExtensions for block", loadedExtensions);
+
+const loadedBlocks = loadedExtensions.flatMap((module) =>
+	Object.values(module).flat(),
+);
+console.log("loadedBlocks for block", loadedBlocks);
 
 function registerBlocks(language: string) {
 	//console.log("registerBlocks");

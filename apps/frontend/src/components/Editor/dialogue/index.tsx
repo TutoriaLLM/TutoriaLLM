@@ -68,13 +68,13 @@ export default function DialogueView() {
 				setSession((prev) => {
 					if (prev) {
 						const lastId =
-							prev.dialogue.length > 0
-								? prev.dialogue[prev.dialogue.length - 1].id
+							(prev.dialogue?.length || 0) > 0
+								? prev.dialogue?.[prev.dialogue.length - 1]?.id ?? 0
 								: 0;
 						return {
 							...prev,
 							dialogue: [
-								...prev.dialogue,
+								...(prev.dialogue || []),
 								{
 									id: lastId + 1,
 									contentType: "user_audio",
@@ -105,13 +105,13 @@ export default function DialogueView() {
 				setSession((prev) => {
 					if (prev) {
 						const lastId =
-							prev.dialogue.length > 0
-								? prev.dialogue[prev.dialogue.length - 1].id
+							(prev.dialogue?.length || 0) > 0
+								? prev.dialogue?.[prev.dialogue.length - 1]?.id ?? 0
 								: 0;
 						return {
 							...prev,
 							dialogue: [
-								...prev.dialogue,
+								...(prev.dialogue || []),
 								{
 									id: lastId + 1,
 									contentType: "user",

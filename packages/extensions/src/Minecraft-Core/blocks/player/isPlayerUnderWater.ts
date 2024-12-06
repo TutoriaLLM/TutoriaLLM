@@ -1,11 +1,14 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_isPlayerUnderWater",
 	colour: "#6366f1",
 	message0: "%{BKY_MINECRAFT_ISPLAYERUNDERWATER}",
 	output: "Boolean",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_isPlayerUnderWater = (
@@ -26,4 +29,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_ISPLAYERUNDERWATER: "プレイヤーが水中にいる",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

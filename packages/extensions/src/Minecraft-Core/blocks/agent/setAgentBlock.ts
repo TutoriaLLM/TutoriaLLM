@@ -1,4 +1,7 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
 import "@blockly/field-slider";
 
 export const block = {
@@ -35,7 +38,7 @@ export const block = {
 	colour: "#f43f5e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_setAgentBlock = (
@@ -71,4 +74,4 @@ export const locale = {
 		MINECRAFT_SETAGENTBLOCK:
 			"Set blocks %4 of %3 to %2 Agent's  inventory slot %1",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

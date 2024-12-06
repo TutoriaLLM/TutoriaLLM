@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_sendcommandrequest",
 	message0: "%{BKY_MINECRAFT_SENDCOMMANDREQUEST}",
@@ -14,7 +17,7 @@ export const block = {
 	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_sendcommandrequest = (
@@ -42,4 +45,4 @@ export const locale = {
 	en: {
 		MINECRAFT_SENDCOMMANDREQUEST: "Execute command %1",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

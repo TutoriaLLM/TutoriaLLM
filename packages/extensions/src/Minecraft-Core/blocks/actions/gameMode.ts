@@ -1,4 +1,7 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
 export const block = {
 	type: "ext_minecraft_change_game_mode",
 	message0: "%{BKY_MINECRAFT_CHANGE_GAME_MODE}",
@@ -19,7 +22,7 @@ export const block = {
 	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_change_game_mode = (
@@ -55,4 +58,4 @@ export const locale = {
 		ADVENTURE: "Adventure",
 		SPECTATOR: "Spectator",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

@@ -1,40 +1,23 @@
 import * as Blockly from "blockly";
 
-import * as extensionModules from "extensions";
-
-// src/extensions/*/toolbox/以下からすべてのツールボックスを動的にインポート
-// const extensionModules = import.meta.glob(
-// 	"/src/extensions/*/toolbox/**/index.*",
-// 	{
-// 		eager: true,
-// 	},
-// );
-const loadedToolbox = Object.values(extensionModules).flatMap(
-	(mod: any) => mod.Toolbox,
-);
-console.log("loadedToolbox for toolbox", loadedToolbox);
-
-// 基本カテゴリをインポート
-const basicModules = import.meta.glob(
-	"/src/components/Editor/Blockly/toolbox/category/basics/blocks/*.*",
-	{
-		eager: true,
-	},
-);
-
+import extensionModules from "extensions";
+import basicModules from "./basics/blocks";
 import separator from "./basics/separator.js";
 
+const loadedToolbox = Object.values(extensionModules).flatMap(
+	(mod) => mod.Toolbox,
+);
+
+// 基本カテゴリをインポート
+const loadedBasicModules = Object.values(basicModules).map((mod) => mod);
+
 // モジュールを結合。
-const combinedModules = {
-	...basicModules,
-	separator,
-	...loadedToolbox,
-};
+const combinedModules = [...loadedBasicModules, separator, ...loadedToolbox];
 console.log("combinedModules for toolbox", combinedModules);
 
 const loadExtensions = () => {
 	const extensions = Object.values(combinedModules);
-	return extensions.map((mod: any) => mod);
+	return extensions.map((mod) => mod);
 };
 
 const loadedExtensions = loadExtensions();
@@ -42,12 +25,13 @@ console.log("loadedExtensions for toolbox", loadedExtensions);
 
 // カテゴリとセパレータのみを取り出す
 const categoryContents = loadedExtensions
-	.filter((ext) => ext && (ext.category || ext === separator)) // ext と ext.category の存在を確認
-	.map((ext) => ext.category || ext);
-
-// カテゴリの翻訳を行う関数
+	.filter(
+		(ext) => ext && (("category" in ext && ext.category) || ext === separator),
+	) // ext と ext.category の存在を確認
+	.map((ext) => (ext === separator ? ext : "category" in ext && ext.category)) // ext がセパレータの場合はそのまま、そうでない場合は category を取り出す
+	.filter((ext) => ext !== false); // カテゴリの翻訳を行う関数
 export function translateCategories(language: string) {
-	for (const ext of loadedExtensions) {
+	for (const ext of loadedExtensions.filter((ext) => ext && "locale" in ext)) {
 		if (ext.locale?.[language]) {
 			// localeが記述されている場合は登録する(json形式)
 			for (const key in ext.locale[language]) {
@@ -57,14 +41,16 @@ export function translateCategories(language: string) {
 			}
 		} else {
 			// localeが記述されていない場合は英語を登録する
-			for (const key in ext.locale?.en) {
-				if (Object.prototype.hasOwnProperty.call(ext.locale.en, key)) {
-					Blockly.Msg[key] = ext.locale.en[key];
+			if (ext.locale?.en) {
+				for (const key in ext.locale?.en) {
+					if (Object.prototype.hasOwnProperty.call(ext.locale.en, key)) {
+						Blockly.Msg[key] = ext.locale.en[key];
+					}
 				}
 			}
 			//英語も登録されていない場合はエラーを出力
-			if (!ext.locale?.en) {
-				console.log("No locale found for", ext);
+			else {
+				console.error(`locale not found in ${ext}`);
 			}
 		}
 	}
@@ -73,6 +59,6 @@ export function translateCategories(language: string) {
 export const toolboxCategories = {
 	kind: "categoryToolbox",
 	contents: categoryContents,
-};
+} satisfies Blockly.utils.toolbox.ToolboxItemInfo;
 
 export default toolboxCategories;

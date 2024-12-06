@@ -1,4 +1,3 @@
-import type { ICollapsibleToolboxItem, IToolbox } from "blockly";
 import * as Blockly from "blockly/core";
 
 export * from "./category/index.js";

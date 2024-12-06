@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_agentPlaceBlock",
 	message0: "%{BKY_MINECRAFT_AGENTPLACEBLOCK}",
@@ -30,7 +33,7 @@ export const block = {
 	colour: "#f43f5e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_agentPlaceBlock = (
@@ -71,4 +74,4 @@ export const locale = {
 		MINECRAFT_UP: "up",
 		MINECRAFT_DOWN: "down",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

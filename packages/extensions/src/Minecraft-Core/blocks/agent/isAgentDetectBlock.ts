@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 //WIP - Not working
 export const block = {
 	type: "ext_minecraft_isAgentDetectBlock",
@@ -29,7 +32,7 @@ export const block = {
 	],
 
 	output: "Boolean",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_isAgentDetectBlock = (
@@ -69,4 +72,4 @@ export const locale = {
 		MINECRAFT_UP: "上",
 		MINECRAFT_DOWN: "下",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

@@ -1,4 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_change_specific_time",
 	message0: "%{BKY_MINECRAFT_CHANGE_SPECIFIC_TIME}",
@@ -14,7 +18,7 @@ export const block = {
 	colour: "#d97706",
 	tooltip: "Set time to specific time by game tick (0-24000)",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_change_specific_time = (
@@ -43,4 +47,4 @@ export const locale = {
 	en: {
 		MINECRAFT_CHANGE_SPECIFIC_TIME: "Change time to %1",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

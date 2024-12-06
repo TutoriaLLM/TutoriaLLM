@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_summon_monster",
 	message0: "%{BKY_MINECRAFT_SUMMONMONSTER}",
@@ -52,7 +55,7 @@ export const block = {
 	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_summon_monster = (
@@ -145,4 +148,4 @@ export const locale = {
 		ZOMBIE: "Zombie",
 		ZOMBIE_VILLAGER: "Zombie Villager",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

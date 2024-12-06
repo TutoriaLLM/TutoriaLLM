@@ -1,6 +1,9 @@
 import * as Blockly from "blockly";
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_debugmessage",
 	message0: "%{BKY_MINECRAFT_DEBUGMESSAGE}",
@@ -12,7 +15,7 @@ export const block = {
 	customInit: function (this: Blockly.Block) {
 		this.setWarningText(Blockly.Msg.THISISFORDEBUGGING);
 	},
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_debugmessage = (
@@ -39,4 +42,4 @@ export const locale = {
 		MINECRAFT_DEBUGMESSAGE: "Display message",
 		THISISFORDEBUGGING: "This is for debugging",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

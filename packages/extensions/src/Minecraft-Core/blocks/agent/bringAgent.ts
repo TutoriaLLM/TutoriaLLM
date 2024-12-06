@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_TeleportAgentToPlayer",
 	message0: "%{BKY_MINECRAFT_TELEPORTAGENTTOPLAYER}",
@@ -9,7 +12,7 @@ export const block = {
 	colour: "#f43f5e",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_TeleportAgentToPlayer = (
@@ -38,4 +41,4 @@ export const locale = {
 	en: {
 		MINECRAFT_TELEPORTAGENTTOPLAYER: "Teleport Agent to Player",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

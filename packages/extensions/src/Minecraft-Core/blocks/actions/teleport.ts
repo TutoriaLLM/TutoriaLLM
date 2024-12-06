@@ -1,4 +1,7 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
+
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
 export const block = {
 	type: "ext_minecraft_teleport",
 	message0: "%{BKY_MINECRAFT_TELEPORT}",
@@ -35,7 +38,7 @@ export const block = {
 	colour: "#d97706",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_teleport = (block, generator) => {
@@ -80,4 +83,4 @@ export const locale = {
 		RANDOM_PLAYER: "Random player",
 		YOURSELF: "Yourself",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

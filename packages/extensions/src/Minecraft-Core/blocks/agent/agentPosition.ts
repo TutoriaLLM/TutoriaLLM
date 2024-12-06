@@ -1,11 +1,14 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_var_AgentPos", //XYZ座標を取得するブロック
 	colour: "#6366f1",
 	message0: "%{BKY_MINECRAFT_VAR_AGENTPOS}", //プレイヤーの座標
 	output: "Position",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_var_AgentPos = (
@@ -30,4 +33,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_VAR_AGENTPOS: "エージェントの座標",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;

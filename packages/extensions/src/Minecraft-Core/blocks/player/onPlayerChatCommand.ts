@@ -1,5 +1,8 @@
 import { Order, javascriptGenerator } from "blockly/javascript";
 
+import type { Block } from "@/types/block";
+import type { Locale } from "@/types/locale";
+
 export const block = {
 	type: "ext_minecraft_onplayerchatcommand",
 	message0: "%{BKY_MINECRAFT_ONPLAYERCHATCOMMAND}",
@@ -20,7 +23,7 @@ export const block = {
 	colour: "#6366f1",
 	tooltip: "",
 	helpUrl: "",
-} satisfies globalThis.block;
+} satisfies Block;
 
 export function code() {
 	javascriptGenerator.forBlock.ext_minecraft_onplayerchatcommand = (
@@ -70,4 +73,4 @@ export const locale = {
 	ja: {
 		MINECRAFT_ONPLAYERCHATCOMMAND: "プレイヤーが %1 とチャットしたとき %2 %3",
 	},
-} satisfies globalThis.locale;
+} satisfies Locale;
