@@ -161,11 +161,11 @@ export async function ExecCodeTest(
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
 			workerData: { joinCode, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
-				// codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
-				// maxOldGenerationSizeMb:
-				// 	config.Code_Execution_Limits.Max_OldGenerationSizeMb,
-				// maxYoungGenerationSizeMb:
-				// 	config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
+				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
+				maxOldGenerationSizeMb:
+					config.Code_Execution_Limits.Max_OldGenerationSizeMb,
+				maxYoungGenerationSizeMb:
+					config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
 			},
 		});
 		console.log("resourceLimits", worker.resourceLimits);
