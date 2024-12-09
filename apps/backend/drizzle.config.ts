@@ -17,7 +17,7 @@ export default defineConfig({
 		password: process.env.POSTGRES_PASSWORD || "postgres",
 		host: process.env.DB_HOST || "localhost",
 		port: (process.env.DB_PORT as unknown as number) || 5432,
-		database: process.env.POSTGRES_DB || "code_tutorial_db",
+		database: process.env.POSTGRES_DB || "tutoriallm_db",
 		ssl: (process.env.DB_SSL as unknown as boolean) || false,
 	},
 });

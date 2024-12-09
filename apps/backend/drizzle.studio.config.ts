@@ -13,7 +13,7 @@ export default defineConfig({
 		//Using Localhost as default(to prevent using docker's IP)
 		host: "localhost",
 		port: (process.env.DB_PORT as unknown as number) || 5432,
-		database: process.env.POSTGRES_DB || "code_tutorial_db",
+		database: process.env.POSTGRES_DB || "tutoriallm_db",
 		ssl: (process.env.DB_SSL as unknown as boolean) || false,
 	},
 });
