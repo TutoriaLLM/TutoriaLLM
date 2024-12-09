@@ -9,7 +9,7 @@ services:
       - "9411:9411"
 
   db:
-    container_name: code-tutorial-db-dev
+    container_name: tutoriallm_db
     image: pgvector/pgvector:pg14
     ports:
       - "5432:5432"
@@ -31,7 +31,7 @@ services:
       - db_data_db:/var/lib/postgresql/data
 
   frontend:
-    container_name: tutoriallm_dev-frontend
+    container_name: tutoriallm_frontend
     build:
       context: .
       dockerfile: Dockerfile
@@ -40,12 +40,9 @@ services:
       - "3000:3000"
     env_file:
       - ./apps/frontend/.env
-    volumes:
-      - ./apps/frontend:/app
-      - /app/node_modules
 
   backend: 
-    container_name: tutoriallm_dev-backend
+    container_name: tutoriallm_backend
     build:
       context: .
       dockerfile: Dockerfile
@@ -75,9 +72,8 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - ./apps/backend:/app
       - ./app_data:/app_data
-      - /app/node_modules
+
 
 volumes:
   db_data_db:
