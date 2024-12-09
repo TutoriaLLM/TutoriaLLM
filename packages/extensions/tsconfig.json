@@ -15,7 +15,7 @@
 		"esModuleInterop": true,
 		"baseUrl": "./",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["src/*"]
 		},
 		"typeRoots": ["./types", "./node_modules/@types"] // カスタム型定義フォルダとデフォルト型定義フォルダ
 	},
