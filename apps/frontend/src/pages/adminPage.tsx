@@ -27,10 +27,10 @@ export default function AdminPage() {
 
 	useEffect(() => {
 		async function fetchAuthInfo() {
-			const response = await fetch(`${backendUrl}/auth/session`);
+			const response = await fetch(`${backendUrl}/credential`);
 			if (response.status === 200) {
-				const authInfo = await response.json();
-				console.log("authInfo", authInfo.session);
+				const authInfo = await response.body;
+				console.log("authInfo", authInfo);
 				setIsAuthenticated(true);
 				setShowPopup(false);
 			} else {

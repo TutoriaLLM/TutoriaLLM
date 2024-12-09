@@ -17,9 +17,9 @@ export default function Login() {
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;
 
-		const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+		const BACKEND_URL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 
-		const response = await fetch(`${backendUrl}/login`, {
+		const response = await fetch(`${BACKEND_URL}/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -56,7 +56,6 @@ export default function Login() {
 					className=" w-[60%] p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
 					type="text"
 					id="username"
-					defaultValue="Pedro Duarte"
 					ref={usernameRef}
 				/>
 			</div>
@@ -68,7 +67,6 @@ export default function Login() {
 					className=" w-[60%] p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
 					type="password"
 					id="password"
-					defaultValue=""
 					ref={passwordRef}
 				/>
 			</div>
