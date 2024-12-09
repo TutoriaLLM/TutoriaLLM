@@ -5,9 +5,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	server: {
-		port: Number(process.env.PORT) || 3000,
-	},
 	optimizeDeps: {
 		include: ["blockly"],
 	},
@@ -87,8 +84,12 @@ export default defineConfig({
 			},
 		},
 	},
+	server: {
+		port: Number(process.env.PORT) || 3000,
+	},
 	preview: {
 		port: Number(process.env.PORT) || 3000,
 		strictPort: true,
+		host: true,
 	},
 });
