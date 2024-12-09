@@ -83,15 +83,7 @@ export default function SavedData() {
 	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
 	async function createOrContinueSession(localSessionValue: SessionValuePost) {
 		const sessionCode = localSessionValue.sessioncode;
-		// const {
-		// 	data: receivedSessionValue,
-		// 	isLoading,
-		// 	isError,
-		// } = useQuery({
-		// 	queryKey: ["session", sessionCode],
-		// 	queryFn: () => getSession({ key: sessionCode }),
-		// 	retry: false,
-		// });
+
 		const queryClient = useQueryClient();
 		const receivedSessionValue = await queryClient.fetchQuery({
 			queryKey: ["session", sessionCode],

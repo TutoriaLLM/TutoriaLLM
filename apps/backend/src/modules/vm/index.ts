@@ -40,7 +40,6 @@ if (process.env.VM_PORT) {
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 //参加コードに対してプロキシを保存するマップ
-// const vmProxies = new Map<string, any>();
 const proxy = createProxyMiddleware({
 	router: async (req) => {
 		const code = req.url?.split("/")[1];
@@ -89,35 +88,6 @@ const proxy = createProxyMiddleware({
 	},
 });
 
-// app.all("/:code/*", async (c, next) => {
-// 	const code = c.req.param("code");
-// 	const session = await db.query.appSessions.findFirst({
-// 		where: eq(appSessions.sessioncode, code),
-// 	});
-// 	if (!session) {
-// 		return errorResponse(c, {
-// 			message: "Invalid session",
-// 			type: "NOT_FOUND",
-// 		});
-// 	}
-// 	const uuid = session.uuid;
-// 	const instance = vmInstances[uuid];
-// 	if (instance) {
-// 		console.log(
-// 			"instance found on vm manager. proxying to: ",
-// 			instance.ip,
-// 			instance.port,
-// 		);
-// 		// return c.proxy(`http://${instance.ip}:${instance.port}`);
-// 		return fetch(`http://${instance.ip}:${instance.port}`, c.req);
-// 	}
-// 	// VMが見つからない場合は、404 を返す
-// 	return errorResponse(c, {
-// 		message: "VM not found",
-// 		type: "NOT_FOUND",
-// 	});
-// });
-
 app.use("*", (c, next) => {
 	return new Promise((resolve, reject) => {
 		proxy(c.env.incoming, c.env.outgoing, (err) => {
@@ -135,17 +105,6 @@ serve({
 	port: vmPort,
 });
 
-// // VMインスタンス作成時に新しいプロキシをリストに追加する関数
-// function setupVMProxy(code: string, ip: string, port: number) {
-// 	console.log("setting up proxy for", code, ip, port);
-// 	vmProxies.set(code, proxy);
-// 	console.log("new vmProxies", vmProxies);
-// }
-// // VMインスタンス停止時にプロキシを削除する関数
-// function removeVMProxy(code: string) {
-// 	vmProxies.delete(code);
-// }
-// 修正されたExecCodeTest関数
 export async function ExecCodeTest(
 	code: string,
 	uuid: string,

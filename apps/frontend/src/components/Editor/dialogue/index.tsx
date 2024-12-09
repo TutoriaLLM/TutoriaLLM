@@ -34,15 +34,6 @@ export default function DialogueView() {
 
 	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
 
-	// useEffect(() => {
-	// 	async function fetchConfig() {
-	// 		const result = await fetch("/api/config");
-	// 		const response = (await result.json()) as AppConfig;
-	// 		setConfig(response);
-	// 	}
-	// 	fetchConfig();
-	// }, []);
-
 	const { config } = useConfig();
 
 	useEffect(() => {
