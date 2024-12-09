@@ -10,10 +10,10 @@ import { appSessions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { errorResponse } from "@/libs/errors";
-import { serve } from "@hono/node-server";
+import { type HttpBindings, serve } from "@hono/node-server";
 import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
-
+import { createProxyMiddleware } from "http-proxy-middleware";
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,85 +38,95 @@ if (process.env.VM_PORT) {
 	}
 }
 
-const app = new Hono();
+const app = new Hono<{ Bindings: HttpBindings }>();
 //参加コードに対してプロキシを保存するマップ
 // const vmProxies = new Map<string, any>();
+const proxy = createProxyMiddleware({
+	router: async (req) => {
+		const code = req.url?.split("/")[1];
+		if (!code) {
+			console.log("Invalid code");
+			throw new Error("Invalid code");
+		}
+		const session = await db
+			.select()
+			.from(appSessions)
+			.where(eq(appSessions.sessioncode, code));
 
-// const proxy = createProxyMiddleware({
-// 	router: async (req) => {
-// 		const code = req.url?.split("/")[1];
-// 		if (!code) {
-// 			console.log("Invalid code");
-// 			throw new Error("Invalid code");
-// 		}
-// 		const session = await db
-// 			.select()
-// 			.from(appSessions)
-// 			.where(eq(appSessions.sessioncode, code));
+		const uuid = session[0].uuid;
+		const instance = vmInstances[uuid];
+		if (instance) {
+			console.log(
+				"instance found on vm manager. proxying to: ",
+				instance.ip,
+				instance.port,
+			);
+			return `http://${instance.ip}:${instance.port}`;
+		}
+		// VMが見つからない場合は、undefined を返す
+		// これにより、後続の処理で 404 を返すことができる
+		console.log("VM not found");
+		throw new Error("VM not found");
+	},
+	pathRewrite: (path, req) => {
+		return path.replace(req.url?.split("/")[1] || "", "");
+	},
+	ws: true,
+	logger: console,
+	on: {
+		close: (res, socket, head) => {
+			console.log("vm manager close");
+		},
+		error: (err, req, res) => {
+			console.log("vm manager error on proxy", err);
+		},
+		proxyReqWs: (proxyReq, req, socket, options, head) => {
+			console.log("vm manager proxyReqWs");
+		},
+		proxyReq: (proxyReq, req, res) => {
+			console.log("vm manager proxyReq");
+		},
+	},
+});
 
-// 		const uuid = session[0].uuid;
-// 		const instance = vmInstances[uuid];
-// 		if (instance) {
-// 			console.log(
-// 				"instance found on vm manager. proxying to: ",
-// 				instance.ip,
-// 				instance.port,
-// 			);
-// 			return `http://${instance.ip}:${instance.port}`;
-// 		}
-// 		// VMが見つからない場合は、undefined を返す
-// 		// これにより、後続の処理で 404 を返すことができる
-// 		console.log("VM not found");
-// 		throw new Error("VM not found");
-// 	},
-// 	pathRewrite: (path, req) => {
-// 		return path.replace(req.url?.split("/")[1] || "", "");
-// 	},
-// 	ws: true,
-// 	logger: console,
-// 	on: {
-// 		close: (res, socket, head) => {
-// 			console.log("vm manager close");
-// 		},
-// 		error: (err, req, res) => {
-// 			console.log("vm manager error on proxy", err);
-// 		},
-// 		proxyReqWs: (proxyReq, req, socket, options, head) => {
-// 			console.log("vm manager proxyReqWs");
-// 		},
-// 		proxyReq: (proxyReq, req, res) => {
-// 			console.log("vm manager proxyReq");
-// 		},
-// 	},
+// app.all("/:code/*", async (c, next) => {
+// 	const code = c.req.param("code");
+// 	const session = await db.query.appSessions.findFirst({
+// 		where: eq(appSessions.sessioncode, code),
+// 	});
+// 	if (!session) {
+// 		return errorResponse(c, {
+// 			message: "Invalid session",
+// 			type: "NOT_FOUND",
+// 		});
+// 	}
+// 	const uuid = session.uuid;
+// 	const instance = vmInstances[uuid];
+// 	if (instance) {
+// 		console.log(
+// 			"instance found on vm manager. proxying to: ",
+// 			instance.ip,
+// 			instance.port,
+// 		);
+// 		// return c.proxy(`http://${instance.ip}:${instance.port}`);
+// 		return fetch(`http://${instance.ip}:${instance.port}`, c.req);
+// 	}
+// 	// VMが見つからない場合は、404 を返す
+// 	return errorResponse(c, {
+// 		message: "VM not found",
+// 		type: "NOT_FOUND",
+// 	});
 // });
-//Honoのミドルウェアを使用して、リクエストをプロキシする
-//Honoは動的なプロキシが利用できる
-app.all("/:code/*", async (c, next) => {
-	const code = c.req.param("code");
-	const session = await db.query.appSessions.findFirst({
-		where: eq(appSessions.sessioncode, code),
-	});
-	if (!session) {
-		return errorResponse(c, {
-			message: "Invalid session",
-			type: "NOT_FOUND",
+
+app.use("*", (c, next) => {
+	return new Promise((resolve, reject) => {
+		proxy(c.env.incoming, c.env.outgoing, (err) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve();
+			}
 		});
-	}
-	const uuid = session.uuid;
-	const instance = vmInstances[uuid];
-	if (instance) {
-		console.log(
-			"instance found on vm manager. proxying to: ",
-			instance.ip,
-			instance.port,
-		);
-		// return c.proxy(`http://${instance.ip}:${instance.port}`);
-		return fetch(`http://${instance.ip}:${instance.port}`, c.req);
-	}
-	// VMが見つからない場合は、404 を返す
-	return errorResponse(c, {
-		message: "VM not found",
-		type: "NOT_FOUND",
 	});
 });
 
