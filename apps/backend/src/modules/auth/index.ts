@@ -8,13 +8,17 @@ import { z } from "@hono/zod-openapi";
 import { lucia } from "@/libs/lucia";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { defaultHook } from "@/libs/default-hook";
+import { errorResponse } from "@/libs/errors";
 
 //ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
 export const app = new OpenAPIHono<Context>({ defaultHook });
 
 app.get("/credential", (c, next) => {
 	if (c.get("session")) {
-		return c.json({ message: "認証情報がありません" }, 401);
+		return errorResponse(c, {
+			message: "Unauthorized",
+			type: "UNAUTHORIZED",
+		});
 	}
 	return c.json(c.get("session"));
 });
@@ -31,44 +35,37 @@ app.post(
 	async (c, next) => {
 		const { username, password } = c.req.valid("json");
 
-		try {
-			const existingUserQuery = await db
-				.select()
-				.from(users)
-				.where(eq(users.username, username));
-			const existingUser = existingUserQuery[0] as User | undefined;
+		const existingUserQuery = await db
+			.select()
+			.from(users)
+			.where(eq(users.username, username));
+		const existingUser = existingUserQuery[0] as User | undefined;
 
-			if (!existingUser) {
-				return c.json(
-					{ message: "パスワードまたはユーザー名が間違っています" },
-					401,
-				);
-			}
-
-			const validPassword = await comparePasswordToHash(
-				password,
-				existingUser.password,
-			);
-			if (!validPassword) {
-				return c.json(
-					{ message: "パスワードまたはユーザー名が間違っています" },
-					401,
-				);
-			}
-
-			const session = await lucia.createSession(existingUser.id, {});
-			console.log("session created", session);
-			c.header(
-				"Set-Cookie",
-				lucia.createSessionCookie(session.id).serialize(),
-				{ append: true },
-			);
-			c.header("Location", "/", { append: true });
-			return c.redirect("/");
-		} catch (error) {
-			console.error("login error", error);
-			return c.json({ message: "ログインに失敗しました" }, 500);
+		if (!existingUser) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
 		}
+
+		const validPassword = await comparePasswordToHash(
+			password,
+			existingUser.password,
+		);
+		if (!validPassword) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
+
+		const session = await lucia.createSession(existingUser.id, {});
+		console.log("session created", session);
+		c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
+			append: true,
+		});
+		c.header("Location", "/", { append: true });
+		return c.json({ message: "Success" }, 200);
 	},
 );
 
