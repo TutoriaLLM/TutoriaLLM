@@ -7,30 +7,17 @@ import {
 	useNavigationType,
 } from "react-router-dom";
 import GA4 from "react-ga4";
-import type { AppConfig } from "./type.js";
+import { getConfig } from "./api/config.js";
 
 const FrontendTracer = () => {
 	const pageLocation = useLocation();
 
 	const ReactGA = GA4; // typeが壊れていたので応急処置
 
-	// 設定を非同期で取得する関数
-	const fetchConfig = async (): Promise<AppConfig> => {
-		try {
-			const response = await fetch("/api/config/");
-			const data = (await response.json()) as AppConfig;
-			return data;
-		} catch (error) {
-			console.error("Failed to fetch config:", error);
-		}
-		return {} as AppConfig;
-	};
-
 	useEffect(() => {
 		// 非同期処理をuseEffect内で行う
 		const initializeAnalyticsAndSentry = async () => {
-			const config = await fetchConfig();
-
+			const config = await getConfig();
 			// Google Analyticsの設定
 			console.log(
 				"Google Analytics Tracking ID:",
