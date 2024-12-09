@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../../../../state.js";
 import Popup from "../../../../ui/Popup.js";
 import { langToStr } from "@/utils/langToStr.js";
+import { getTagList, getTutorialList } from "@/api/tutorials.js";
+import type { Tutorial } from "@/type.js";
 
 // Define TutorialType
 type TutorialType = Pick<Tutorial, "id" | "metadata" | "language" | "tags">;
@@ -26,12 +28,8 @@ function SelectTutorialUI() {
 	useEffect(() => {
 		const fetchTutorials = async () => {
 			try {
-				const response = await fetch("api/tutorial");
-				if (response.status === 404) {
-					console.log("Tutorials not found");
-				}
-				const data: Tutorial[] = await response.json();
-				setTutorials(data);
+				const response = await getTutorialList();
+				setTutorials(response);
 			} catch (error) {
 				console.error("Error fetching tutorials:", error);
 			}
@@ -39,12 +37,8 @@ function SelectTutorialUI() {
 
 		const fetchTags = async () => {
 			try {
-				const response = await fetch("api/tutorial/tags");
-				if (response.status === 404) {
-					console.log("Tags not found");
-				}
-				const data: TagType[] = await response.json();
-				setTags(data);
+				const response = await getTagList();
+				setTags(response);
 			} catch (error) {
 				console.error("Error fetching tags:", error);
 			}
@@ -87,9 +81,9 @@ function SelectTutorialUI() {
 					progress: 10,
 				},
 				dialogue: [
-					...prev.dialogue,
+					...(prev.dialogue || []),
 					{
-						id: prev.dialogue.length + 1,
+						id: (prev.dialogue?.length ?? 0) + 1,
 						contentType: "log",
 						isuser: false,
 						content: t("tutorial.startTutorial"),
@@ -116,7 +110,9 @@ function SelectTutorialUI() {
 	// Filter tutorials by selected tags
 	const filteredTutorials = selectedTags.length
 		? tutorials.filter((tutorial) =>
-				selectedTags.every((tagName) => tutorial.tags.includes(tagName)),
+				selectedTags.every((tagName) =>
+					tutorial.tags.some((tag) => tag.name === tagName),
+				),
 			)
 		: tutorials;
 
@@ -193,10 +189,10 @@ function SelectTutorialUI() {
 											<span className="flex flex-wrap gap-1">
 												{tutorial.tags.map((tag) => (
 													<span
-														key={tag}
+														key={tag.name}
 														className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
 													>
-														{tag}
+														{tag.name}
 													</span>
 												))}
 											</span>
@@ -256,10 +252,10 @@ function SelectTutorialUI() {
 											<span className="flex flex-wrap gap-1">
 												{tutorial.tags.map((tag) => (
 													<span
-														key={tag}
+														key={tag.name}
 														className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
 													>
-														{tag}
+														{tag.name}
 													</span>
 												))}
 											</span>

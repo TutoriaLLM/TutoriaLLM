@@ -56,9 +56,11 @@ export default function SideBar(props: { path: string[] }) {
 		);
 	};
 
+	const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+
 	const handleSignOut = async () => {
 		console.log("signing out");
-		const res = await fetch("/api/auth/logout", {
+		const res = await fetch(`${backendUrl}/logout`, {
 			method: "POST",
 		});
 		if (res.status === 200) {

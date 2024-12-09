@@ -8,7 +8,7 @@ function renderGroupLogBubble(
 	content: Array<any>,
 	markdownComponents: Components,
 	t: TFunction,
-	setting: AppConfig | null,
+	setting: AppConfig | undefined,
 	id: number,
 ) {
 	return (

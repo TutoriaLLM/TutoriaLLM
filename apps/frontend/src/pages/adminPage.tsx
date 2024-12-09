@@ -17,6 +17,8 @@ export default function AdminPage() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+	const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+
 	useEffect(() => {
 		const storedLanguage = localStorage.getItem("language") || languageToStart;
 		i18next.changeLanguage(storedLanguage);
@@ -25,7 +27,7 @@ export default function AdminPage() {
 
 	useEffect(() => {
 		async function fetchAuthInfo() {
-			const response = await fetch("/api/auth/session");
+			const response = await fetch(`${backendUrl}/auth/session`);
 			if (response.status === 200) {
 				const authInfo = await response.json();
 				console.log("authInfo", authInfo.session);

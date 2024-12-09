@@ -1,18 +1,14 @@
 import type { TFunction } from "i18next";
-import { useAtomValue } from "jotai";
 import { Bot, Headphones } from "lucide-react";
-import Markdown, { type Components } from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import { currentSessionState } from "../../../../../state.js";
-import type { SavedAudio } from "../../../../../../type.js";
-import { au } from "vitest/dist/chunks/reporters.C4ZHgdxQ.js";
+import type { Components } from "react-markdown";
+import type { AIAudios } from "@/type.js";
 
 function renderAIaudioBubble(
 	content: string,
 	markdownComponents: Components,
 	t: TFunction,
 	id: number,
-	audios: SavedAudio[] | undefined, // audiosを追加
+	audios: AIAudios | undefined, // audiosを追加
 	easymode: boolean, // stateを追加
 ) {
 	console.log("Content:", content);
@@ -25,7 +21,7 @@ function renderAIaudioBubble(
 
 	console.log("Parsed Content:", parsedContent);
 
-	const audio = audios?.find((audio) => audio.id === parsedContent.id);
+	const audio = audios?.find((audio) => audio?.id === parsedContent.id);
 
 	console.log("Found Audio:", audio);
 

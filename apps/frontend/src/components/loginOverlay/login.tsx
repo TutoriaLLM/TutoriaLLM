@@ -17,7 +17,9 @@ export default function Login() {
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;
 
-		const response = await fetch("/api/auth/login", {
+		const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+
+		const response = await fetch(`${backendUrl}/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

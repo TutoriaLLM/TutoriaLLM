@@ -25,7 +25,7 @@
 		"drizzle:studio": "drizzle-kit studio --config=drizzle.studio.config.ts",
 		"reset-credential": "tsx src/server/db/users.ts --reset-credentials",
 		"tsc": "tsc",
-		"cli": "tsx src/server/cli.ts"
+		"cli": "tsx src/cli.ts"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.13.2",

@@ -24,6 +24,12 @@ import {
 import Popup from "../../ui/Popup.js";
 import { msToTime, timeAgo } from "../../../utils/time.js";
 import { SessionValueView } from "../../SessionValueView/index.js";
+import {
+	deleteSession,
+	downloadAllSessions,
+	listSessions,
+} from "@/api/admin/session.js";
+import { getSession } from "@/api/session.js";
 
 export default function Sessions() {
 	const [sessions, setSessions] = useState<SessionValue[]>([]);
@@ -38,35 +44,43 @@ export default function Sessions() {
 	const [pageSize, setPageSize] = useState(10);
 	const [totalSessions, setTotalSessions] = useState(0);
 	const [downloading, setDownloading] = useState(false);
-	const [sortField, setSortField] = useState("updatedAt");
+	const [sortField, setSortField] = useState<keyof SessionValue>("updatedAt");
 	const [sortOrder, setSortOrder] = useState("desc");
 
 	const fetchSessions = (
 		page: number,
 		pageSize: number,
-		sortField: string,
+		sortField: keyof SessionValue,
 		sortOrder: string,
 	) => {
-		fetch(
-			`/api/admin/sessions/list?page=${page}&limit=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}`,
-		)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
+		// fetch(
+		// 	`/api/admin/sessions/list?page=${page}&limit=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}`,
+		// )
+		// 	.then((response) => {
+		// 		if (!response.ok) {
+		// 			throw new Error(`Network response was not ok ${response.statusText}`);
+		// 		}
+		// 		return response.json();
+		// 	})
+		// 	.then((data) => {
+		// 		setSessions(data.sessions);
+		// 		setTotalSessions(data.total);
+		// 		setLoading(false);
+		// 		setShowLoader(true);
+		// 	})
+		// 	.catch((error) => {
+		// 		setError(error.message);
+		// 		setLoading(false);
+		// 		setShowLoader(true);
+		// 	});
+		listSessions({ page, limit: pageSize, sortField, sortOrder }).then(
+			(data) => {
 				setSessions(data.sessions);
 				setTotalSessions(data.total);
 				setLoading(false);
 				setShowLoader(true);
-			})
-			.catch((error) => {
-				setError(error.message);
-				setLoading(false);
-				setShowLoader(true);
-			});
+			},
+		);
 	};
 
 	useEffect(() => {
@@ -97,45 +111,61 @@ export default function Sessions() {
 	}, [loading]);
 
 	const handleDeleteSession = (key: string) => {
-		fetch(`/api/admin/sessions/${key}`, {
-			method: "DELETE",
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				setSessions(sessions.filter((session) => session.sessioncode !== key));
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
+		// fetch(`/api/admin/sessions/${key}`, {
+		// 	method: "DELETE",
+		// })
+		// 	.then((response) => {
+		// 		if (!response.ok) {
+		// 			throw new Error(response.statusText);
+		// 		}
+		// 		setSessions(sessions.filter((session) => session.sessioncode !== key));
+		// 	})
+		// 	.catch((error) => {
+		// 		setError(error.message);
+		// 	});
+		deleteSession({ sessionCode: key }).then(() => {
+			setSessions(sessions.filter((session) => session.sessioncode !== key));
+		});
 	};
 
 	const handleDownloadAllSession = () => {
 		setDownloading(true);
-		fetch("/api/admin/sessions/download", {
-			method: "GET",
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				return response.blob();
-			})
-			.then((blob) => {
-				const url = window.URL.createObjectURL(blob);
-				const a = document.createElement("a");
-				a.href = url;
-				a.download = `download-${new Date().toISOString()}.json`;
-				document.body.appendChild(a);
-				a.click();
-				a.remove();
-				setDownloading(false);
-			})
-			.catch((error) => {
-				setError(error.message);
-				setDownloading(false);
+		// fetch("/api/admin/sessions/download", {
+		// 	method: "GET",
+		// })
+		// 	.then((response) => {
+		// 		if (!response.ok) {
+		// 			throw new Error(response.statusText);
+		// 		}
+		// 		return response.blob();
+		// 	})
+		// 	.then((blob) => {
+		// 		const url = window.URL.createObjectURL(blob);
+		// 		const a = document.createElement("a");
+		// 		a.href = url;
+		// 		a.download = `download-${new Date().toISOString()}.json`;
+		// 		document.body.appendChild(a);
+		// 		a.click();
+		// 		a.remove();
+		// 		setDownloading(false);
+		// 	})
+		// 	.catch((error) => {
+		// 		setError(error.message);
+		// 		setDownloading(false);
+		// 	});
+		downloadAllSessions().then((value) => {
+			const blob = new Blob([JSON.stringify(value)], {
+				type: "application/json",
 			});
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = `download-${new Date().toISOString()}.json`;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+			setDownloading(false);
+		});
 	};
 
 	const handleStatsPopup = (code: string) => {
@@ -146,7 +176,7 @@ export default function Sessions() {
 		setPopupSessionFromCode(null);
 	};
 
-	const handleSort = (field: string) => {
+	const handleSort = (field: keyof SessionValue) => {
 		if (sortField === field) {
 			setSortOrder(sortOrder === "asc" ? "desc" : "asc");
 		} else {
@@ -169,16 +199,16 @@ export default function Sessions() {
 				return (
 					<div
 						className={`text-base font-semibold flex ${
-							row.original?.clients[0]
+							row.original?.clients?.[0]
 								? "text-green-700 font-bold"
 								: "text-black"
 						}`}
 					>
 						{row.original.sessioncode}
-						{row.original?.clients[0] ? (
+						{row.original?.clients?.[0] ? (
 							<span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
 						) : null}
-						<span className="text-xs">{row.original?.clients.length}</span>
+						<span className="text-xs">{row.original?.clients?.length}</span>
 					</div>
 				);
 			},
@@ -187,7 +217,7 @@ export default function Sessions() {
 			header: "Session Language",
 			accessorKey: "language",
 			cell: ({ row }) => {
-				return <div>{langToStr(row.original.language)}</div>;
+				return <div>{langToStr(row.original.language || "unknown")}</div>;
 			},
 		},
 		{
@@ -340,10 +370,12 @@ export default function Sessions() {
 									<th
 										key={header.id}
 										className="px-6 py-4 cursor-pointer"
-										onClick={() => handleSort(header.column.id)}
+										onClick={() =>
+											handleSort(header.column.id as keyof SessionValue)
+										}
 										onKeyUp={(e) => {
 											if (e.key === "Enter" || e.key === " ") {
-												handleSort(header.column.id);
+												handleSort(header.column.id as keyof SessionValue);
 											}
 										}}
 									>

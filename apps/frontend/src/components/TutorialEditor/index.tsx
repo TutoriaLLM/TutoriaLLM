@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Popup from "../ui/Popup.js";
-// import type { Tutorial } from "../../../server/db/schema.js"; - RPCの方に置き換える？
-
 import {
 	ReactFlow,
 	useNodesState,
@@ -10,7 +8,6 @@ import {
 	Controls,
 	Panel,
 	Background,
-	useReactFlow,
 	applyNodeChanges,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
@@ -21,6 +18,7 @@ import Toolbar from "./toolbar.js";
 import { ExampleCode } from "./nodes/exampleCode.js";
 import { MarkdownGen } from "./nodes/markdownGen.js";
 import { MetadataGen } from "./nodes/metadataGen.js";
+import type { Tutorial } from "@/type.js";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 

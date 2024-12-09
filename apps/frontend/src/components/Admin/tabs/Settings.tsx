@@ -40,7 +40,7 @@ function ConfigManager() {
 
 	return (
 		<div className="flex flex-col gap-2">
-			<JSONField obj={config || {}} setObj={setConfig ?? {}} />
+			<JSONField obj={config || {}} setObj={() => setConfig} />
 			<div>
 				<button
 					type="button"
@@ -52,7 +52,7 @@ function ConfigManager() {
 						}
 
 						mutate({
-							json: config,
+							...config,
 						});
 					}}
 				>

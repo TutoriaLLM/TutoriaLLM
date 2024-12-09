@@ -1,25 +1,18 @@
 import { useTranslation } from "react-i18next";
-import type { Components } from "react-markdown";
-
 import * as Blockly from "blockly";
 
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import {
 	blockNameFromMenuState,
-	currentTabState,
 	highlightedBlockState,
 } from "../../../../state.js";
-import type { TFunction } from "i18next";
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import { getExternalBlocks } from "../../Blockly/blocks/index.js";
-import { listAllBlocks } from "../../../../../utils/blockList.js";
+import { useEffect, useRef, useState } from "react";
 import generateImageFromBlockName from "../../generateImageFromBlockName.js";
 import {
 	getImageFromIndexedDB,
 	saveImageToIndexedDB,
 } from "../../../../indexedDB.js";
 import { Puzzle, ScanSearch, X } from "lucide-react";
-import type { SessionValue } from "../../../../../type.js";
 
 function HighlightedBlockName({
 	text,

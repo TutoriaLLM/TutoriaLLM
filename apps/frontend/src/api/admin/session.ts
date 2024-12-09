@@ -7,7 +7,7 @@ export const downloadAllSessions = async () => {
 };
 
 export const listSessions = async (
-	query: InferRequestType<typeof adminClient.admin.session.list>["query"],
+	query: InferRequestType<typeof adminClient.admin.session.list.$get>["query"],
 ) => {
 	const response = await adminClient.admin.session.list.$get({
 		query,

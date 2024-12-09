@@ -1,10 +1,8 @@
-import React from "react";
 import { useAtom } from "jotai";
 import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../../../../state.js";
 import * as Switch from "@radix-ui/react-switch";
 import { Headphones, Text } from "lucide-react";
-import { set } from "zod";
 
 function SwitchModeUI(props: { audio: boolean | undefined }) {
 	const { t } = useTranslation();
@@ -19,9 +17,9 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 				...prev,
 				easyMode: !prev.easyMode,
 				dialogue: [
-					...prev.dialogue,
+					...(prev.dialogue || []),
 					{
-						id: prev.dialogue.length + 1,
+						id: (prev.dialogue?.length ?? 0) + 1,
 						contentType: "log",
 						isuser: false,
 						content: t("tutorial.easyModeChanged", {
@@ -42,9 +40,9 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 				...prev,
 				responseMode: prev.responseMode === "text" ? "audio" : "text",
 				dialogue: [
-					...prev.dialogue,
+					...(prev.dialogue || []),
 					{
-						id: prev.dialogue.length + 1,
+						id: (prev.dialogue?.length ?? 0) + 1,
 						contentType: "log",
 						isuser: false,
 						content: t("tutorial.responseModeChanged", {
@@ -74,7 +72,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 					<Switch.Root
 						className="w-14 h-8 md:w-16 md:h-10 shrink-0 rounded-2xl bg-gray-300 data-[state=checked]:bg-green-100"
 						onCheckedChange={toggleIsEasyMode} // スイッチの状態変更時に実行する関数を設定
-						checked={SessionState?.easyMode} // スイッチの状態を設定
+						checked={SessionState?.easyMode || false} // スイッチの状態を設定
 					>
 						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
 					</Switch.Root>
