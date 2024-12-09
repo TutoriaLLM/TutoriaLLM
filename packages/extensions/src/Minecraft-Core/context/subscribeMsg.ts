@@ -1,4 +1,4 @@
-import { v4 as UUID } from "uuid";
+import { uuidv7 as UUID } from "uuidv7";
 
 export default function subscribeMsg(eventName: string) {
 	console.log(`Subscribed${eventName}`);
