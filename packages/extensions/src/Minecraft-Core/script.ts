@@ -189,8 +189,8 @@ const minecraftWorldState = {
 const translatedMessage = {
 	message: "extension.minecraft-core.connectInfo",
 	placeholder: {
-		host: "serverRootPath",
-		userCode: "joinCode",
+		host: serverRootPath,
+		userCode: joinCode,
 	},
 };
 console.info(JSON.stringify(translatedMessage));
