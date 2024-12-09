@@ -14,7 +14,7 @@ export function initialData(code: string, language: string): AppSession {
 		dialogue: [
 			{
 				id: 0,
-				contentType: "ai",
+				contentType: "log",
 				isuser: false,
 				content: "dialogue.Introduction",
 			},
