@@ -1,10 +1,10 @@
-import { randomUUID } from "node:crypto";
+import { v4 as UUID } from "uuid";
 
 export default function subscribeMsg(eventName: string) {
 	console.log(`Subscribed${eventName}`);
 	return {
 		header: {
-			requestId: randomUUID(),
+			requestId: UUID(),
 			messagePurpose: "subscribe",
 			version: 17039360,
 			messageType: "commandRequest",

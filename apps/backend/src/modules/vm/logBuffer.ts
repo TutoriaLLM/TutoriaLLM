@@ -7,7 +7,7 @@ import type {
 
 const config = getConfig();
 export default class LogBuffer {
-	private buffer: string[] = [];
+	private buffer: [string, "error" | "info" | "log"][] = [];
 	private interval: NodeJS.Timeout | null = null;
 	private readonly maxBufferSize: number;
 
@@ -32,20 +32,20 @@ export default class LogBuffer {
 		}
 	}
 
-	add(log: string) {
+	add(log: string, type: "error" | "info" | "log" = "log") {
 		if (this.buffer.length - 1 >= this.maxBufferSize) {
 			this.buffer.shift();
 		}
-		this.buffer.push(log);
+		this.buffer.push([log, type]);
 	}
 
 	error(error: string) {
-		this.add(`Error: ${error}`);
+		this.add(error, "error");
 		this.flush();
 	}
 
 	info(info: string) {
-		this.add(`Info: ${info}`);
+		this.add(info, "info");
 		this.flush();
 	}
 
@@ -62,14 +62,9 @@ export default class LogBuffer {
 			isuser: false,
 			content: this.buffer.map((log, index) => ({
 				id: index + 1,
-				contentType: log.startsWith("Error:")
-					? ("error" as ContentType)
-					: log.startsWith("Info:")
-						? ("info" as ContentType)
-						: ("log" as ContentType),
-
+				contentType: log[1] as ContentType,
 				isuser: false,
-				content: log,
+				content: log[0],
 			})),
 		};
 		this.buffer = [];

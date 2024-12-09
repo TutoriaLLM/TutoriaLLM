@@ -1,7 +1,8 @@
 import type { TFunction } from "i18next";
 import { CircleCheck, Info, Server, TriangleAlert } from "lucide-react";
 import Markdown, { type Components } from "react-markdown";
-import type { AppConfig } from "../../../../../../type.js";
+import { i18nParser } from "@/utils/i18nParser.js";
+import type { AppConfig } from "@/type";
 
 function renderGroupLogBubble(
 	content: Array<any>,
@@ -63,7 +64,7 @@ function renderGroupLogBubble(
 								""
 							)}
 							<Markdown components={markdownComponents}>
-								{logItem.content as string}
+								{i18nParser(logItem.content)}
 							</Markdown>
 						</span>
 					))}

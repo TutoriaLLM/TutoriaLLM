@@ -10,9 +10,11 @@
 		"@blockly/field-grid-dropdown": "^5.0.9",
 		"@blockly/field-slider": "^7.0.9",
 		"blockly": "^11.1.1",
-		"hono": "^4.6.5"
+		"hono": "^4.6.5",
+		"uuid": "^9.0.1"
 	},
 	"devDependencies": {
-		"@types/node": "^20.16.12"
+		"@types/node": "^20.16.12",
+		"@types/uuid": "^9.0.8"
 	}
 }

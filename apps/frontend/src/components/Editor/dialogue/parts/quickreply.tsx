@@ -1,3 +1,4 @@
+import { i18nParser } from "@/utils/i18nParser";
 import type React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -16,7 +17,7 @@ const QuickReply: React.FC<QuickReplyProps> = ({ onReply, quickReplies }) => {
 					className="bg-gray-200 text-nowrap text-sm md:text-md text-gray-700 hover:bg-sky-200 transition-all p-1.5 md:p-2 font-medium rounded-full"
 					onClick={() => onReply(reply)}
 				>
-					{reply}
+					{i18nParser(reply)}
 				</button>
 			))}
 		</div>

@@ -1,5 +1,6 @@
 import type { Hono } from "hono";
 import type { UpgradeWebSocket } from "hono/ws";
+import type { UUID } from "node:crypto";
 
 declare global {
 	// const context: extScriptContext;
@@ -7,7 +8,6 @@ declare global {
 	const joinCode: string;
 	const session: any;
 	const serverRootPath: string;
-	// const randomUUID: typeof import("crypto").randomUUID;
 	const upgradeWebSocket: UpgradeWebSocket;
 	// const console: {
 	// 	log: (...args: string[]) => void;

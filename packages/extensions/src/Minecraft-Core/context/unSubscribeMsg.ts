@@ -1,10 +1,10 @@
-import { randomUUID } from "node:crypto";
+import { v4 as UUID } from "uuid";
 
 export default function unsubscribeMsg(eventName: string) {
 	console.log(`Unsubscribed${eventName}`);
 	return {
 		header: {
-			requestId: randomUUID(),
+			requestId: UUID(),
 			messagePurpose: "unsubscribe",
 			version: 17039360,
 			messageType: "commandRequest",

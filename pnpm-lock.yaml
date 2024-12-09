@@ -499,10 +499,16 @@ importers:
       hono:
         specifier: ^4.6.5
         version: 4.6.5
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
     devDependencies:
       '@types/node':
         specifier: ^20.16.12
         version: 20.16.12
+      '@types/uuid':
+        specifier: ^9.0.8
+        version: 9.0.8
 
 packages:
 

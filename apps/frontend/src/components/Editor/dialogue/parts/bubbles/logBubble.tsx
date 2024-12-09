@@ -1,3 +1,4 @@
+import { i18nParser } from "@/utils/i18nParser";
 import type { TFunction } from "i18next";
 import { Server } from "lucide-react";
 import Markdown, { type Components } from "react-markdown";
@@ -24,7 +25,9 @@ function renderLogBubble(
 					{t("textbubble.log")}:
 				</p>
 				<span className="prose prose-sm md:prose-base">
-					<Markdown components={markdownComponents}>{content}</Markdown>
+					<Markdown components={markdownComponents}>
+						{i18nParser(content)}
+					</Markdown>
 				</span>
 			</div>
 		</div>
