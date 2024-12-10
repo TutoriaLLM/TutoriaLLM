@@ -46,7 +46,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			.values(initialData(code, language.toString()))
 			.execute();
 		console.log("session created by api");
-		return c.text(code, 200);
+		return c.json({ code }, 200);
 	})
 	.openapi(resumeSession, async (c) => {
 		const sessionData = c.req.valid("json");
@@ -102,7 +102,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				},
 			})
 			.execute();
-		return c.text(code, 200);
+		return c.json(code, 200);
 	})
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;
@@ -121,7 +121,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			.update(appSessions)
 			.set(sessionData)
 			.where(eq(appSessions.sessioncode, key));
-		return c.text("Session updated", 200);
+		return c.json({ message: "Session updated" }, 200);
 	})
 	.openapi(deleteSession, async (c) => {
 		const key = c.req.valid("param").key;
@@ -136,7 +136,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			});
 		}
 		await db.delete(appSessions).where(eq(appSessions.sessioncode, key));
-		return c.text("Session deleted", 200);
+		return c.json({ message: "Session deleted" }, 200);
 	})
 	.openapi(getSession, async (c) => {
 		const key = c.req.valid("param").key;

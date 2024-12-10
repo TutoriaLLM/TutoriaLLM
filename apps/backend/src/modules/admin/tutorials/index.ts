@@ -59,7 +59,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				type: "NOT_FOUND",
 			});
 		}
-		return c.text(`Tutorial ${result[0].id} deleted`, 200);
+		return c.json(result, 200);
 	})
 	.openapi(createTutorial, async (c) => {
 		const data = c.req.valid("json");
@@ -96,7 +96,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 					});
 				}
 			}
-			return c.text(`Tutorial ${tutorial[0].id} created`, 200);
+			return c.json(tutorial, 200);
 		} catch (e) {
 			return errorResponse(c, {
 				message: "Failed to create tutorial",
@@ -173,7 +173,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				await db.delete(tags).where(eq(tags.id, tag.id));
 			}
 
-			return c.text("Tutorial updated", 200);
+			return c.json(tutorial, 200);
 		} catch (e) {
 			return errorResponse(c, {
 				message: "Failed to update tutorial",

@@ -66,7 +66,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				type: "NOT_FOUND",
 			});
 		}
-		return c.text(`Data ${id} deleted`, 200);
+		return c.json(result, 200);
 	})
 	.openapi(newGuide, async (c) => {
 		const data = c.req.valid("json");
@@ -74,7 +74,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			const createdGuide = await createGuideFromTrainingData(data);
 			await db.insert(guides).values(createdGuide);
 			await db.delete(trainingData).where(eq(trainingData.id, data.id));
-			return c.text("Guide created", 201);
+			return c.json(createdGuide, 200);
 		} catch (e) {
 			console.error(e);
 			return errorResponse(c, {
@@ -141,7 +141,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			...data,
 		};
 		await db.update(guides).set(updatedGuide).where(eq(guides.id, id));
-		return c.text("Guide updated", 200);
+		return c.json(updatedGuide, 200);
 	})
 	.openapi(deleteGuide, async (c) => {
 		const id = c.req.valid("param").id;
@@ -155,7 +155,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				type: "NOT_FOUND",
 			});
 		}
-		return c.text(`Guide ${id} deleted`, 200);
+		return c.json(result, 200);
 	});
 
 export default app;

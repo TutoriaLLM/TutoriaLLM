@@ -209,7 +209,7 @@ parentPort.on("message", (message) => {
 });
 
 app.all("**", (c) => {
-	return c.text("Not Found", 404);
+	return c.json({ message: "Not found" }, 404);
 });
 
 export default app;
