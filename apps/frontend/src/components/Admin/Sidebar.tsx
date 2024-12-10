@@ -62,6 +62,7 @@ export default function SideBar(props: { path: string[] }) {
 		console.log("signing out");
 		const res = await fetch(`${backendUrl}/logout`, {
 			method: "POST",
+			credentials: "include",
 		});
 		if (res.status === 200) {
 			window.location.href = "/";

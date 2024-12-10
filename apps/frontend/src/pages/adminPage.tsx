@@ -27,7 +27,9 @@ export default function AdminPage() {
 
 	useEffect(() => {
 		async function fetchAuthInfo() {
-			const response = await fetch(`${backendUrl}/credential`);
+			const response = await fetch(`${backendUrl}/credential`, {
+				credentials: "include",
+			});
 			if (response.status === 200) {
 				const authInfo = await response.body;
 				console.log("authInfo", authInfo);
