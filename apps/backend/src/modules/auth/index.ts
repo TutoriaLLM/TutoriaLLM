@@ -14,13 +14,13 @@ import { errorResponse } from "@/libs/errors";
 export const app = new OpenAPIHono<Context>({ defaultHook });
 
 app.get("/credential", (c, next) => {
-	if (c.get("session")) {
+	if (!c.get("session")) {
 		return errorResponse(c, {
 			message: "Unauthorized",
 			type: "UNAUTHORIZED",
 		});
 	}
-	return c.json(c.get("session"));
+	return c.json(c.get("session"), 200);
 });
 
 app.post(
