@@ -4,7 +4,7 @@ import { t } from "i18next";
 
 type JSONFieldProps = {
 	obj: Record<string, unknown>;
-	setObj: (newObj: Record<string, unknown>) => void;
+	setObj: (newObj: Record<string, unknown> | undefined) => void;
 	path?: string[];
 };
 

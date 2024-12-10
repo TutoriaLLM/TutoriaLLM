@@ -4,11 +4,11 @@ import { useMutation } from "@/hooks/use-mutations";
 import JSONField from "../../ui/jsonViewer.js";
 import type { adminClient } from "@/api";
 import type { InferResponseType } from "backend/hc";
+import { getConfig } from "@/api/config.js";
+import type { AppConfig } from "@/type.js";
 
 function ConfigManager() {
-	const [config, setConfig] = useState<InferResponseType<
-		typeof adminClient.admin.config.update.$post
-	> | null>(null);
+	const [config, setConfig] = useState<AppConfig | undefined>(undefined);
 
 	useEffect(() => {
 		fetchConfig();
@@ -16,9 +16,8 @@ function ConfigManager() {
 
 	const fetchConfig = async () => {
 		try {
-			const response = await fetch("/api/admin/config/");
-			const data = await response.json();
-			setConfig(data);
+			const response = await getConfig();
+			setConfig(response);
 		} catch (error) {
 			console.error("Failed to fetch config:", error);
 		}
@@ -40,7 +39,10 @@ function ConfigManager() {
 
 	return (
 		<div className="flex flex-col gap-2">
-			<JSONField obj={config || {}} setObj={() => setConfig} />
+			<JSONField
+				obj={config ?? {}}
+				setObj={(newObj) => setConfig(newObj as AppConfig)}
+			/>
 			<p>config: {JSON.stringify(config)}</p>
 			<div>
 				<button
