@@ -2,52 +2,67 @@ import { useEffect, useState } from "react";
 import TutorialEditor from "../../TutorialEditor/index.js";
 // import type { Tutorial } from "../../../../server/db/schema.js";
 import { langToStr } from "@/utils/langToStr.js";
+import { useListTutorials } from "@/hooks/admin/tutorials.js";
+import type { Tutorial } from "@/type.js";
+import { useMutation } from "@tanstack/react-query";
+import { deleteTutorial } from "@/api/admin/tutorials.js";
+import { a } from "vitest/dist/chunks/suite.BMWOKiTe.js";
 
 export default function Tutorials() {
-	const [tutorials, setTutorials] = useState<Tutorial[]>([]);
-	const [loading, setLoading] = useState(true);
+	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [error, setError] = useState<string | null>(null);
 	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // アップロードしたJSONを管理する状態
 
-	const fetchTutorials = () => {
-		fetch("/api/admin/tutorials")
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setTutorials(data);
-				setLoading(false);
-			})
-			.catch((error) => {
-				setError(error.message);
-				setLoading(false);
-			});
-	};
+	// const fetchTutorials = () => {
+	// 	fetch("/api/admin/tutorials")
+	// 		.then((response) => {
+	// 			if (!response.ok) {
+	// 				throw new Error(`Network response was not ok ${response.statusText}`);
+	// 			}
+	// 			return response.json();
+	// 		})
+	// 		.then((data) => {
+	// 			setTutorials(data);
+	// 			setLoading(false);
+	// 		})
+	// 		.catch((error) => {
+	// 			setError(error.message);
+	// 			setLoading(false);
+	// 		});
+	// };
 
-	useEffect(() => {
-		fetchTutorials();
-	}, []);
+	// useEffect(() => {
+	// 	fetchTutorials();
+	// }, []);
+	const { tutorials, isLoading } = useListTutorials();
 
-	const handleDeleteTutorial = (id: number) => {
-		fetch(`/api/admin/tutorials/${id}`, {
-			method: "DELETE",
-		})
-			.then((response) => {
-				console.log(response);
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				setTutorials((prevTutorial) =>
-					prevTutorial.filter((tutorial) => tutorial.id !== id),
-				);
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
-	};
+	const { mutate: del } = useMutation({
+		mutationFn: deleteTutorial,
+		onSuccess: () => {
+			alert("Tutorial deleted successfully");
+		},
+		onError: (error) => {
+			setError(error.message);
+			alert(`An error occurred: ${error}`);
+		},
+	});
+	// const handleDeleteTutorial = (id: number) => {
+	// 	fetch(`/api/admin/tutorials/${id}`, {
+	// 		method: "DELETE",
+	// 	})
+	// 		.then((response) => {
+	// 			console.log(response);
+	// 			if (!response.ok) {
+	// 				throw new Error(response.statusText);
+	// 			}
+	// 			setTutorials((prevTutorial) =>
+	// 				prevTutorial.filter((tutorial) => tutorial.id !== id),
+	// 			);
+	// 		})
+	// 		.catch((error) => {
+	// 			setError(error.message);
+	// 		});
+	// };
 
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
@@ -138,10 +153,10 @@ export default function Tutorials() {
 						</tr>
 					</thead>
 					<tbody className="gap-2">
-						{loading ? (
+						{isLoading ? (
 							<SkeletonRows />
-						) : tutorials.length > 0 ? (
-							tutorials.map((tutorial) => {
+						) : tutorials && tutorials.length > 0 ? (
+							tutorials?.map((tutorial) => {
 								const metadata = tutorial.metadata;
 								return (
 									<tr
@@ -171,7 +186,7 @@ export default function Tutorials() {
 											<button
 												type="button"
 												className="p-2 w-full min-w-16 h-full rounded-full bg-red-500 font-semibold text-white hover:bg-red-600"
-												onClick={() => handleDeleteTutorial(tutorial.id)}
+												onClick={() => del({ id: tutorial.id })}
 											>
 												Delete
 											</button>

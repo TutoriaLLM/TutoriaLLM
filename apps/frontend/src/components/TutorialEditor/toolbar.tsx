@@ -1,4 +1,10 @@
+import {
+	createTutorial,
+	getSpecificTutorial,
+	updateTutorial,
+} from "@/api/admin/tutorials";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { useMutation } from "@tanstack/react-query";
 import { useReactFlow } from "@xyflow/react";
 import {
 	Bot,
@@ -61,12 +67,31 @@ export default function Toolbar(props: {
 		setNodes([...nodes, node]);
 	}
 
+	const { mutate: post } = useMutation({
+		mutationFn: createTutorial,
+		onSuccess: () => {
+			alert("Tutorial created successfully");
+		},
+		onError: (error) => {
+			alert(`An error occurred: ${error}`);
+		},
+	});
+	const { mutate: put } = useMutation({
+		mutationFn: updateTutorial,
+		onSuccess: () => {
+			alert("Tutorial updated successfully");
+		},
+		onError: (error) => {
+			alert(`An error occurred: ${error}`);
+		},
+	});
+
 	const handleSave = () => {
-		const url =
-			props.id === null
-				? "/api/admin/tutorials/new"
-				: `/api/admin/tutorials/${props.id}`;
-		const method = props.id === null ? "POST" : "PUT";
+		// const url =
+		// 	props.id === null
+		// 		? "/api/admin/tutorials/new"
+		// 		: `/api/admin/tutorials/${props.id}`;
+		// const method = props.id === null ? "POST" : "PUT";
 
 		// Outputノードからデータを取得
 		const outputNode = nodes.find((node) => node.type === "output");
@@ -87,7 +112,15 @@ export default function Toolbar(props: {
 
 			// contentとmetadataを初期化
 			let content = "";
-			let metadata = {};
+			let metadata: {
+				title: string;
+				description: string;
+				selectCount: number;
+			} = {
+				title: "",
+				description: "",
+				selectCount: 0,
+			};
 			let tags = [];
 			let language = "";
 
@@ -100,7 +133,7 @@ export default function Toolbar(props: {
 					metadata = {
 						title: node.data.title,
 						description: node.data.description,
-						selectCount: node.data.selectCount,
+						selectCount: node.data.selectCount || 0,
 					};
 					language = node.data.language;
 					tags = node.data.tags;
@@ -111,34 +144,55 @@ export default function Toolbar(props: {
 			const serializednodes = JSON.stringify({ nodes, edges });
 
 			// APIにデータを送信
-			fetch(url, {
-				method,
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
+			// fetch(url, {
+			// 	method,
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 	},
+			// 	body: JSON.stringify({
+			// 		serializednodes: serializednodes,
+			// 		metadata: metadata,
+			// 		tags: tags,
+			// 		language: language,
+			// 		content: content,
+			// 	}),
+			// })
+			// 	.then((response) => {
+			// 		if (!response.ok) {
+			// 			throw new Error("Network response was not ok");
+			// 		}
+			// 		return response.text();
+			// 	})
+			// 	.then((data) => {
+			// 		console.log(data);
+			// 		alert("Tutorial saved successfully!");
+			// 		handleClosePopup();
+			// 	})
+			// 	.catch((error) => {
+			// 		console.error("Error saving tutorial:", error);
+			// 		alert("Failed to save tutorial");
+			// 	});
+
+			if (props.id) {
+				put({
+					id: props.id,
+					tutorial: {
+						serializednodes: serializednodes,
+						metadata: metadata,
+						tags: tags.map((tag: any) => tag.name),
+						language: language,
+						content: content,
+					},
+				});
+			} else {
+				post({
 					serializednodes: serializednodes,
 					metadata: metadata,
-					tags: tags,
+					tags: tags.map((tag: any) => tag.name),
 					language: language,
 					content: content,
-				}),
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error("Network response was not ok");
-					}
-					return response.text();
-				})
-				.then((data) => {
-					console.log(data);
-					alert("Tutorial saved successfully!");
-					handleClosePopup();
-				})
-				.catch((error) => {
-					console.error("Error saving tutorial:", error);
-					alert("Failed to save tutorial");
 				});
+			}
 		} else {
 			alert("Output node not found.");
 		}
@@ -150,37 +204,48 @@ export default function Toolbar(props: {
 			return;
 		}
 
-		const url = `/api/admin/tutorials/${props.id}`;
+		// const url = `/api/admin/tutorials/${props.id}`;
 
 		// APIからデータを取得してダウンロード
-		fetch(url, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Network response was not ok");
-				}
-				return response.json();
-			})
-			.then((data) => {
-				// Blobを作成してダウンロードリンクをクリックさせる
-				const blob = new Blob([JSON.stringify(data, null, 2)], {
-					type: "application/json",
-				});
-				const url = URL.createObjectURL(blob);
-				const a = document.createElement("a");
-				a.href = url;
-				a.download = `tutorial_${props.id}.json`;
-				a.click();
-				URL.revokeObjectURL(url);
-			})
-			.catch((error) => {
-				console.error("Error downloading tutorial:", error);
-				alert("Failed to download tutorial");
+		// fetch(url, {
+		// 	method: "GET",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// })
+		// 	.then((response) => {
+		// 		if (!response.ok) {
+		// 			throw new Error("Network response was not ok");
+		// 		}
+		// 		return response.json();
+		// 	})
+		// 	.then((data) => {
+		// 		// Blobを作成してダウンロードリンクをクリックさせる
+		// 		const blob = new Blob([JSON.stringify(data, null, 2)], {
+		// 			type: "application/json",
+		// 		});
+		// 		const url = URL.createObjectURL(blob);
+		// 		const a = document.createElement("a");
+		// 		a.href = url;
+		// 		a.download = `tutorial_${props.id}.json`;
+		// 		a.click();
+		// 		URL.revokeObjectURL(url);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error("Error downloading tutorial:", error);
+		// 		alert("Failed to download tutorial");
+		// 	});
+		getSpecificTutorial({ id: props.id }).then((data) => {
+			const blob = new Blob([JSON.stringify(data, null, 2)], {
+				type: "application/json",
 			});
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = `tutorial_${props.id}.json`;
+			a.click();
+			URL.revokeObjectURL(url);
+		});
 	};
 
 	function MenuText(props: {

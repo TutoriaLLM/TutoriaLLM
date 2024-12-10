@@ -19,6 +19,7 @@ import { ExampleCode } from "./nodes/exampleCode.js";
 import { MarkdownGen } from "./nodes/markdownGen.js";
 import { MetadataGen } from "./nodes/metadataGen.js";
 import type { Tutorial } from "@/type.js";
+import { getSpecificTutorial } from "@/api/admin/tutorials.js";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -132,13 +133,12 @@ export default function llTutorialEditor(props: {
 		if (props.id !== null) {
 			setIsLoading(true); // データ取得開始時にローディングを開始
 			try {
-				const response = await fetch(`/api/admin/tutorials/${props.id}`);
-				const data = (await response.json()) as Tutorial;
-				console.log(data);
+				const response = await getSpecificTutorial({ id: props.id });
+				console.log(response);
 				setTutorialData({
-					metadata: data.metadata,
-					content: data.content,
-					serializednodes: data.serializednodes,
+					metadata: response.metadata,
+					content: response.content,
+					serializednodes: response.serializednodes,
 				});
 				setIsLoading(false); // データ取得完了後にローディングを終了
 				setIsPopupOpen(true);
