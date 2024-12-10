@@ -4,7 +4,7 @@ import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
 import { stringToNumber } from "@/utils/zStringtoNumber";
 
 export const tagSchema = z.object({
-	id: z.number(),
+	id: z.number().nullable(), //serial - auto increment
 	name: z.string(),
 });
 

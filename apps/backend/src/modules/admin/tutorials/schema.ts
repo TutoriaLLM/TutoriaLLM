@@ -4,7 +4,7 @@ import { stringToNumber } from "@/utils/zStringtoNumber";
 
 //タグテーブルのスキーマ
 export const tagSchema = z.object({
-	id: z.number(),
+	id: z.number().nullable(), //serial - auto increment
 	name: z.string(),
 });
 
@@ -27,6 +27,8 @@ export const tutorialSchema = z.object({
 	serializednodes: z.string(),
 });
 
+export const newTutorialSchema = tutorialSchema.omit({ id: true });
+
 export const getTutorialsSchema = z.array(
 	tutorialSchema.pick({ id: true, tags: true, language: true, metadata: true }),
 );
@@ -48,7 +50,7 @@ export const specificTutorialParam = {
 		),
 };
 export const newTutorialRequest = {
-	schema: tutorialSchema.openapi("NewTutorialRequest"),
+	schema: newTutorialSchema.openapi("NewTutorialRequest"),
 	vErr: () =>
 		createValidationErrorResponseSchema(newTutorialRequest.schema).openapi(
 			"NewTutorialRequestValidationErrorResponse",
