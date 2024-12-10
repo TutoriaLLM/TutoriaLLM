@@ -24,135 +24,52 @@ import {
 import Popup from "../../ui/Popup.js";
 import { msToTime, timeAgo } from "../../../utils/time.js";
 import { SessionValueView } from "../../SessionValueView/index.js";
-import {
-	deleteSession,
-	downloadAllSessions,
-	listSessions,
-} from "@/api/admin/session.js";
-import { getSession } from "@/api/session.js";
+import { deleteSession, downloadAllSessions } from "@/api/admin/session.js";
+import { type Pagination, useListSessions } from "@/hooks/admin/session.js";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Sessions() {
-	const [sessions, setSessions] = useState<SessionValue[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const [autoUpdate, setAutoUpdate] = useState(true);
+	const [autoUpdateMs, setAutoUpdateMs] = useState<number | false>(5000);
 	const [popupSessionFromCode, setPopupSessionFromCode] = useState<
 		string | null
 	>(null);
-	const [showLoader, setShowLoader] = useState(true); // ローディング表示の管理
-	const [page, setPage] = useState(1);
-	const [pageSize, setPageSize] = useState(10);
+	const [pagination, setPagination] = useState<Pagination>({
+		page: 1,
+		pageSize: 10,
+		sortField: "updatedAt",
+		sortOrder: "desc",
+	});
 	const [totalSessions, setTotalSessions] = useState(0);
 	const [downloading, setDownloading] = useState(false);
-	const [sortField, setSortField] = useState<keyof SessionValue>("updatedAt");
-	const [sortOrder, setSortOrder] = useState("desc");
 
-	const fetchSessions = (
-		page: number,
-		pageSize: number,
-		sortField: keyof SessionValue,
-		sortOrder: string,
-	) => {
-		// fetch(
-		// 	`/api/admin/sessions/list?page=${page}&limit=${pageSize}&sortField=${sortField}&sortOrder=${sortOrder}`,
-		// )
-		// 	.then((response) => {
-		// 		if (!response.ok) {
-		// 			throw new Error(`Network response was not ok ${response.statusText}`);
-		// 		}
-		// 		return response.json();
-		// 	})
-		// 	.then((data) => {
-		// 		setSessions(data.sessions);
-		// 		setTotalSessions(data.total);
-		// 		setLoading(false);
-		// 		setShowLoader(true);
-		// 	})
-		// 	.catch((error) => {
-		// 		setError(error.message);
-		// 		setLoading(false);
-		// 		setShowLoader(true);
-		// 	});
-		listSessions({ page, limit: pageSize, sortField, sortOrder }).then(
-			(data) => {
-				setSessions(data.sessions);
-				setTotalSessions(data.total);
-				setLoading(false);
-				setShowLoader(true);
-			},
-		);
-	};
+	const { sessions } = useListSessions(pagination, setLoading, autoUpdateMs);
 
-	useEffect(() => {
-		fetchSessions(page, pageSize, sortField, sortOrder);
-		let interval: NodeJS.Timeout | null = null;
-		if (autoUpdate) {
-			interval = setInterval(
-				() => fetchSessions(page, pageSize, sortField, sortOrder),
-				5000,
-			); // 5秒ごとにデータをフェッチ
-		}
-		return () => {
-			if (interval) {
-				clearInterval(interval); // クリーンアップ
-			}
-		};
-	}, [autoUpdate, page, pageSize, sortField, sortOrder]);
-
-	useEffect(() => {
-		fetchSessions(page, pageSize, sortField, sortOrder);
-	}, [page, pageSize, autoUpdate, sortField, sortOrder]);
+	const { mutate: del } = useMutation({
+		mutationFn: deleteSession,
+		onSuccess: () => {
+			alert("Session deleted successfully");
+		},
+		onError: (error) => {
+			alert("Failed to delete session");
+			console.error("Failed to delete session:", error);
+		},
+	});
 
 	useEffect(() => {
 		if (!loading) {
-			const timer = setTimeout(() => setShowLoader(false), 1000); // 1秒後にローディングスピナーを非表示
+			const timer = setTimeout(() => setLoading(false), 1000); // 1秒後にローディングスピナーを非表示
 			return () => clearTimeout(timer); // クリーンアップ
 		}
 	}, [loading]);
 
 	const handleDeleteSession = (key: string) => {
-		// fetch(`/api/admin/sessions/${key}`, {
-		// 	method: "DELETE",
-		// })
-		// 	.then((response) => {
-		// 		if (!response.ok) {
-		// 			throw new Error(response.statusText);
-		// 		}
-		// 		setSessions(sessions.filter((session) => session.sessioncode !== key));
-		// 	})
-		// 	.catch((error) => {
-		// 		setError(error.message);
-		// 	});
-		deleteSession({ sessionCode: key }).then(() => {
-			setSessions(sessions.filter((session) => session.sessioncode !== key));
-		});
+		del({ sessionCode: key });
 	};
 
 	const handleDownloadAllSession = () => {
 		setDownloading(true);
-		// fetch("/api/admin/sessions/download", {
-		// 	method: "GET",
-		// })
-		// 	.then((response) => {
-		// 		if (!response.ok) {
-		// 			throw new Error(response.statusText);
-		// 		}
-		// 		return response.blob();
-		// 	})
-		// 	.then((blob) => {
-		// 		const url = window.URL.createObjectURL(blob);
-		// 		const a = document.createElement("a");
-		// 		a.href = url;
-		// 		a.download = `download-${new Date().toISOString()}.json`;
-		// 		document.body.appendChild(a);
-		// 		a.click();
-		// 		a.remove();
-		// 		setDownloading(false);
-		// 	})
-		// 	.catch((error) => {
-		// 		setError(error.message);
-		// 		setDownloading(false);
-		// 	});
 		downloadAllSessions().then((value) => {
 			const blob = new Blob([JSON.stringify(value)], {
 				type: "application/json",
@@ -177,11 +94,17 @@ export default function Sessions() {
 	};
 
 	const handleSort = (field: keyof SessionValue) => {
-		if (sortField === field) {
-			setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+		if (pagination.sortField === field) {
+			setPagination((prev) => ({
+				...prev,
+				sortOrder: prev.sortOrder === "asc" ? "desc" : "asc",
+			}));
 		} else {
-			setSortField(field);
-			setSortOrder("asc");
+			setPagination((prev) => ({
+				...prev,
+				sortField: field,
+				sortOrder: "asc",
+			}));
 		}
 	};
 
@@ -314,7 +237,7 @@ export default function Sessions() {
 
 	const table = useReactTable<SessionValue>({
 		columns,
-		data: sessions,
+		data: sessions?.sessions || [],
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
 		initialState: {
@@ -336,7 +259,7 @@ export default function Sessions() {
 			/>
 			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Sessions</h2>
-				{showLoader && (
+				{loading && (
 					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
 						<LoaderCircle />
 					</span>
@@ -345,8 +268,8 @@ export default function Sessions() {
 					<label className="flex items-center gap-2">
 						<input
 							type="checkbox"
-							checked={autoUpdate}
-							onChange={() => setAutoUpdate(!autoUpdate)}
+							checked={typeof autoUpdateMs === "number"}
+							onChange={() => setAutoUpdateMs(!autoUpdateMs ? 5000 : false)}
 							className="form-checkbox h-4 w-4"
 						/>
 						<span>Auto Update</span>
@@ -383,8 +306,8 @@ export default function Sessions() {
 											header.column.columnDef.header,
 											header.getContext(),
 										)}
-										{sortField === header.column.id ? (
-											sortOrder === "desc" ? (
+										{pagination.sortField === header.column.id ? (
+											pagination.sortOrder === "desc" ? (
 												<ChevronDown />
 											) : (
 												<ChevronUp />
@@ -402,7 +325,7 @@ export default function Sessions() {
 							table.getRowModel().rows.map((row) => (
 								<tr
 									key={row.id}
-									className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
+									className="border-y-2 border-gray-300 rounded-2xl bg-gray-200 animate-fade-in"
 								>
 									{row.getVisibleCells().map((cell) => (
 										<td key={cell.id} className="px-6 py-4">
@@ -435,50 +358,81 @@ export default function Sessions() {
 				<button
 					type="button"
 					className={`p-2 rounded-full font-semibold text-white ${
-						page === 1 ? "bg-gray-400" : "bg-sky-500"
+						pagination.page === 1 ? "bg-gray-400" : "bg-sky-500"
 					}`}
-					onClick={() => setPage(1)}
-					disabled={page === 1}
+					// onClick={() => setPage(1)}
+					onClick={() => setPagination((prev) => ({ ...prev, page: 1 }))}
+					disabled={pagination.page === 1}
 				>
 					<ChevronsLeft />
 				</button>
 				<button
 					type="button"
 					className={`p-2 rounded-full font-semibold text-white ${
-						page === 1 ? "bg-gray-400" : "bg-sky-500"
+						pagination.page === 1 ? "bg-gray-400" : "bg-sky-500"
 					}`}
-					onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-					disabled={page === 1}
+					// onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+					onClick={() =>
+						setPagination((prev) => ({
+							...prev,
+							page: Math.max(prev.page - 1, 1),
+						}))
+					}
+					disabled={pagination.page === 1}
 				>
 					<ChevronLeft />
 				</button>
 				<button
 					type="button"
 					className={`p-2 rounded-full font-semibold text-white ${
-						page * pageSize >= totalSessions ? "bg-gray-400" : "bg-sky-500"
+						pagination.page * pagination.pageSize >= totalSessions
+							? "bg-gray-400"
+							: "bg-sky-500"
 					}`}
-					onClick={() => setPage((prev) => prev + 1)}
-					disabled={page * pageSize >= totalSessions}
+					// onClick={() => setPage((prev) => prev + 1)}
+					onClick={() =>
+						setPagination((prev) => ({
+							...prev,
+							page: Math.min(
+								prev.page + 1,
+								Math.ceil(totalSessions / pagination.pageSize),
+							),
+						}))
+					}
+					disabled={pagination.page * pagination.pageSize >= totalSessions}
 				>
 					<ChevronRight />
 				</button>
 				<button
 					type="button"
 					className={`p-2 rounded-full font-semibold text-white ${
-						page * pageSize >= totalSessions ? "bg-gray-400" : "bg-sky-500"
+						pagination.page * pagination.pageSize >= totalSessions
+							? "bg-gray-400"
+							: "bg-sky-500"
 					}`}
-					onClick={() => setPage(Math.ceil(totalSessions / pageSize))}
-					disabled={page * pageSize >= totalSessions}
+					// onClick={() => setPage(Math.ceil(totalSessions / pagination.pageSize))}
+					onClick={() =>
+						setPagination((prev) => ({
+							...prev,
+							page: Math.ceil(totalSessions / pagination.pageSize),
+						}))
+					}
+					disabled={pagination.page * pagination.pageSize >= totalSessions}
 				>
 					<ChevronsRight />
 				</button>
 
 				<select
 					className="p-2 rounded-full bg-white text-gray-800 font-semibold"
-					value={pageSize}
+					value={pagination.pageSize}
 					onChange={(e) => {
-						setPageSize(Number(e.target.value));
-						setPage(1); // Reset to first page when page size changes
+						// setPageSize(Number(e.target.value));
+						// setPage(1); // Reset to first page when page size changes
+						setPagination((prev) => ({
+							...prev,
+							pageSize: Number(e.target.value),
+							page: 1,
+						}));
 					}}
 				>
 					{[10, 20, 30, 40, 50].map((size) => (

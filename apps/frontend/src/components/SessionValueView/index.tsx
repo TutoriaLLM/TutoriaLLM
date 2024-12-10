@@ -9,60 +9,60 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { useState, useEffect } from "react";
 import { LoaderCircle } from "lucide-react";
 import { langToStr } from "@/utils/langToStr.js";
+import { useSession } from "@/hooks/session.js";
 
 export function SessionValueView(props: { session: string }) {
 	const { session: sessionCode } = props; // 文字列のセッションコードを受け取る
 	const { t } = useTranslation();
 
 	// State management for session data, errors, and loading state
-	const [session, setSession] = useState<SessionValue | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [showLoader, setShowLoader] = useState(true); // 表示状態を管理
 
-	useEffect(() => {
-		if (!loading) {
-			// loadingがfalseになったら1秒後にshowLoaderをfalseに設定
-			const timer = setTimeout(() => {
-				setShowLoader(false);
-			}, 1000);
+	const { session } = useSession(sessionCode, 5000);
 
-			// クリーンアップ関数を使用してタイマーをクリア
-			return () => clearTimeout(timer);
-		}
-		// loadingがtrueのときにはshowLoaderをtrueにリセット
-		setShowLoader(true);
-	}, [loading]);
+	// useEffect(() => {
+	// 	if (!loading) {
+	// 		// loadingがfalseになったら1秒後にshowLoaderをfalseに設定
+	// 		const timer = setTimeout(() => {
+	// 			setShowLoader(false);
+	// 		}, 1000);
 
-	// Function to fetch session data
-	async function fetchSessionData(code: string) {
-		setLoading(true); // Set loading state to true
-		try {
-			const response = await fetch(`/api/session/${code}`);
-			if (!response.ok || response.status === 404) {
-				throw new Error(response.statusText);
-			}
-			const data = (await response.json()) as SessionValue;
-			setSession(data); // Set fetched session data to state
-		} catch (error: any) {
-			setError(error.message); // Handle errors
-		} finally {
-			setLoading(false); // Set loading state to false
-		}
-	}
+	// 		// クリーンアップ関数を使用してタイマーをクリア
+	// 		return () => clearTimeout(timer);
+	// 	}
+	// 	// loadingがtrueのときにはshowLoaderをtrueにリセット
+	// 	setShowLoader(true);
+	// }, [loading]);
 
-	// Fetch data on component mount and every 10 seconds
-	useEffect(() => {
-		if (sessionCode) {
-			fetchSessionData(sessionCode); // Fetch data based on sessionCode
+	// // Function to fetch session data
+	// async function fetchSessionData(code: string) {
+	// 	setLoading(true); // Set loading state to true
+	// 	try {
+	// 		const response = await fetch(`/api/session/${code}`);
+	// 		if (!response.ok || response.status === 404) {
+	// 			throw new Error(response.statusText);
+	// 		}
+	// 		const data = (await response.json()) as SessionValue;
+	// 		setSession(data); // Set fetched session data to state
+	// 	} catch (error: any) {
+	// 		setError(error.message); // Handle errors
+	// 	} finally {
+	// 		setLoading(false); // Set loading state to false
+	// 	}
+	// }
 
-			const intervalId = setInterval(() => {
-				fetchSessionData(sessionCode);
-			}, 5000); // Fetch data every 5 seconds
+	// // Fetch data on component mount and every 10 seconds
+	// useEffect(() => {
+	// 	if (sessionCode) {
+	// 		fetchSessionData(sessionCode); // Fetch data based on sessionCode
 
-			return () => clearInterval(intervalId); // Clear interval on component unmount
-		}
-	}, [sessionCode]);
+	// 		const intervalId = setInterval(() => {
+	// 			fetchSessionData(sessionCode);
+	// 		}, 5000); // Fetch data every 5 seconds
+
+	// 		return () => clearInterval(intervalId); // Clear interval on component unmount
+	// 	}
+	// }, [sessionCode]);
 
 	if (error) {
 		return (
@@ -78,11 +78,6 @@ export function SessionValueView(props: { session: string }) {
 
 	return (
 		<div className="w-full flex flex-col gap-3 relative">
-			{showLoader && (
-				<span className="text-gray-600 absolute top-5 right-5 animate-spin">
-					<LoaderCircle />
-				</span>
-			)}{" "}
 			<h1 className="text-2xl font-bold">{t("admin.sessionAnalytics")}</h1>
 			<p className="text-gray-600 text-base">
 				{t("admin.sessionCode")}: {session.sessioncode}

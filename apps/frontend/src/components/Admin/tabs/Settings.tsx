@@ -41,6 +41,7 @@ function ConfigManager() {
 	return (
 		<div className="flex flex-col gap-2">
 			<JSONField obj={config || {}} setObj={() => setConfig} />
+			<p>config: {JSON.stringify(config)}</p>
 			<div>
 				<button
 					type="button"
