@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { updateConfig } from "@/api/admin/config";
 import { useMutation } from "@/hooks/use-mutations";
 import JSONField from "../../ui/jsonViewer.js";
-import type { adminClient } from "@/api";
-import type { InferResponseType } from "backend/hc";
 import { getConfig } from "@/api/config.js";
 import type { AppConfig } from "@/type.js";
 
