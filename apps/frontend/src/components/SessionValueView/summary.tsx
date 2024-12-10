@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Check, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { SquareDashedMousePointer, X } from "lucide-react";
 import Heatmap from "../ui/heatmap.js";
 import { useTranslation } from "react-i18next";
 import type { Clicks, SessionValue } from "@/type.js";
@@ -77,7 +77,7 @@ export default function Summary(props: { session: SessionValue }) {
 								showHeatmap ? "rotate-90" : "rotate-0"
 							}`}
 						>
-							{showHeatmap ? <X /> : <Check />}
+							{showHeatmap ? <X /> : <SquareDashedMousePointer />}
 						</span>
 						{t("admin.showHeatmap")}
 					</button>
