@@ -8,44 +8,87 @@ import {
 	Trash2,
 	UserRound,
 } from "lucide-react";
+import {
+	createNewGuide,
+	getRandomTrainingData,
+	listGuides,
+	searchGuides,
+} from "@/api/admin/training";
+import type { adminClient } from "@/api";
+import type { InferResponseType } from "backend/hc";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Training() {
-	const [trainingData, setTrainingData] = useState(null);
+	type TrainingData = InferResponseType<
+		typeof adminClient.admin.training.data.random.$get,
+		200
+	>;
+	type SearchResult = InferResponseType<
+		typeof adminClient.admin.training.guide.search.$post,
+		200
+	>;
+	type SearchResultAsList = InferResponseType<
+		typeof adminClient.admin.training.guide.list.$get,
+		200
+	>; //embeddingが表示されない
+	const [trainingData, setTrainingData] = useState<TrainingData | null>(null);
 	const [answer, setAnswer] = useState<string>("");
 	const [searchText, setSearchText] = useState<string>("");
-	const [searchResult, setSearchResult] = useState(null);
+	const [searchResult, setSearchResult] = useState<
+		SearchResult | SearchResultAsList | null
+	>(null);
 
 	const fetchTrainingData = () => {
 		console.log("Fetching training data...");
 		// Fetch data from the API
-		fetch("/api/admin/training/data/random")
-			.then((response) => {
-				if (response.status === 404) {
-					throw new Error("Data not found (404)");
-				}
-				return response.json();
-			})
-			.then((data: TrainingData) => {
-				if (data?.question && data.answer) {
-					console.log("Training data fetched:", data);
-					setTrainingData(data);
-					setAnswer(data.answer); // Set the initial answer
-				} else {
-					setTrainingData(null); // No valid data available
-				}
-			})
-			.catch((error) => {
-				if (error.message === "Data not found (404)") {
-					console.error("Error: Data not found (404)");
-				} else {
-					console.error("Error fetching training data:", error);
-				}
-			});
+		// fetch("/api/admin/training/data/random")
+		// 	.then((response) => {
+		// 		if (response.status === 404) {
+		// 			throw new Error("Data not found (404)");
+		// 		}
+		// 		return response.json();
+		// 	})
+		// 	.then((data: TrainingData) => {
+		// 		if (data?.question && data.answer) {
+		// 			console.log("Training data fetched:", data);
+		// 			setTrainingData(data);
+		// 			setAnswer(data.answer); // Set the initial answer
+		// 		} else {
+		// 			setTrainingData(null); // No valid data available
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		if (error.message === "Data not found (404)") {
+		// 			console.error("Error: Data not found (404)");
+		// 		} else {
+		// 			console.error("Error fetching training data:", error);
+		// 		}
+		// 	});
+		getRandomTrainingData().then((data) => {
+			if (data?.question && data.answer) {
+				console.log("Training data fetched:", data);
+				setTrainingData(data);
+				setAnswer(data.answer); // Set the initial answer
+			} else {
+				console.log("No valid data available");
+				setTrainingData(null); // No valid data available
+			}
+		});
 	};
 
 	useEffect(() => {
 		fetchTrainingData(); // Initial fetch
 	}, []);
+
+	const { mutate: postData } = useMutation({
+		mutationFn: createNewGuide,
+		onSuccess: () => {
+			console.log("Data successfully updated");
+		},
+		onError: (error) => {
+			console.error("Error updating training data:", error);
+		},
+	});
 
 	const handleConfirm = () => {
 		if (!trainingData) return;
@@ -65,21 +108,23 @@ export default function Training() {
 			answer,
 		};
 
-		// Send the updated data to the API
-		fetch("/api/admin/training/guide/new", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(updatedData),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				console.log("Data successfully updated:", data);
-			})
-			.catch((error) => console.error("Error updating training data:", error));
+		// // Send the updated data to the API
+		// fetch("/api/admin/training/guide/new", {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify(updatedData),
+		// })
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		console.log("Data successfully updated:", data);
+		// 	})
+		// 	.catch((error) => console.error("Error updating training data:", error));
 
-		setTrainingData(null); // Clear the data after confirmation
+		// setTrainingData(null); // Clear the data after confirmation
+
+		postData(updatedData);
 
 		// Fetch new data
 		fetchTrainingData();
@@ -103,53 +148,70 @@ export default function Training() {
 			.catch((error) => console.error("Error deleting training data:", error));
 	};
 
+	const { mutate: search } = useMutation({
+		mutationFn: searchGuides,
+		onSuccess: (data) => {
+			if (data.length === 0) {
+				return;
+			}
+			setSearchResult(data);
+		},
+		onError: (error) => {
+			console.error("Error fetching search results:", error);
+		},
+	});
+
 	const handleSearch = () => {
 		if (!searchText) {
 			//検索テキストが空の場合、ガイドのリストを取得
-			fetch("/api/admin/training/guide/list")
-				.then((response) => {
-					if (response.status === 404) {
-						throw new Error("Guides not found (404)");
-					}
-					return response.json();
-				})
-				.then((result) => {
-					setSearchResult(result);
-				})
-				.catch((error) => {
-					if (error.message === "Guides not found (404)") {
-						console.error("Error: Guides not found (404)");
-					} else {
-						console.error("Error fetching guides:", error);
-					}
-				});
-			return;
+			// fetch("/api/admin/training/guide/list")
+			// 	.then((response) => {
+			// 		if (response.status === 404) {
+			// 			throw new Error("Guides not found (404)");
+			// 		}
+			// 		return response.json();
+			// 	})
+			// 	.then((result) => {
+			// 		setSearchResult(result);
+			// 	})
+			// 	.catch((error) => {
+			// 		if (error.message === "Guides not found (404)") {
+			// 			console.error("Error: Guides not found (404)");
+			// 		} else {
+			// 			console.error("Error fetching guides:", error);
+			// 		}
+			// 	});
+			// return;
+			listGuides().then((result) => {
+				setSearchResult(result);
+			});
 		}
 
 		// Send search request to the API
-		fetch("/api/admin/training/guide/search", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ query: searchText }),
-		})
-			.then((response) => {
-				if (response.status === 404) {
-					throw new Error("Search results not found (404)");
-				}
-				return response.json();
-			})
-			.then((result) => {
-				setSearchResult(result);
-			})
-			.catch((error) => {
-				if (error.message === "Search results not found (404)") {
-					console.error("Error: Search results not found (404)");
-				} else {
-					console.error("Error fetching search results:", error);
-				}
-			});
+		// fetch("/api/admin/training/guide/search", {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify({ query: searchText }),
+		// })
+		// 	.then((response) => {
+		// 		if (response.status === 404) {
+		// 			throw new Error("Search results not found (404)");
+		// 		}
+		// 		return response.json();
+		// 	})
+		// 	.then((result) => {
+		// 		setSearchResult(result);
+		// 	})
+		// 	.catch((error) => {
+		// 		if (error.message === "Search results not found (404)") {
+		// 			console.error("Error: Search results not found (404)");
+		// 		} else {
+		// 			console.error("Error fetching search results:", error);
+		// 		}
+		// 	});
+		search({ query: searchText });
 	};
 
 	const renderSearchResults = () => {
