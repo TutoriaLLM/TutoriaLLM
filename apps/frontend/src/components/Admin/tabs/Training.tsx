@@ -40,30 +40,6 @@ export default function Training() {
 
 	const fetchTrainingData = () => {
 		console.log("Fetching training data...");
-		// Fetch data from the API
-		// fetch("/api/admin/training/data/random")
-		// 	.then((response) => {
-		// 		if (response.status === 404) {
-		// 			throw new Error("Data not found (404)");
-		// 		}
-		// 		return response.json();
-		// 	})
-		// 	.then((data: TrainingData) => {
-		// 		if (data?.question && data.answer) {
-		// 			console.log("Training data fetched:", data);
-		// 			setTrainingData(data);
-		// 			setAnswer(data.answer); // Set the initial answer
-		// 		} else {
-		// 			setTrainingData(null); // No valid data available
-		// 		}
-		// 	})
-		// 	.catch((error) => {
-		// 		if (error.message === "Data not found (404)") {
-		// 			console.error("Error: Data not found (404)");
-		// 		} else {
-		// 			console.error("Error fetching training data:", error);
-		// 		}
-		// 	});
 		getRandomTrainingData().then((data) => {
 			if (data?.question && data.answer) {
 				console.log("Training data fetched:", data);
@@ -107,21 +83,6 @@ export default function Training() {
 			},
 			answer,
 		};
-
-		// // Send the updated data to the API
-		// fetch("/api/admin/training/guide/new", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify(updatedData),
-		// })
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		console.log("Data successfully updated:", data);
-		// 	})
-		// 	.catch((error) => console.error("Error updating training data:", error));
-
 		// setTrainingData(null); // Clear the data after confirmation
 
 		postData(updatedData);
@@ -164,53 +125,12 @@ export default function Training() {
 	const handleSearch = () => {
 		if (!searchText) {
 			//検索テキストが空の場合、ガイドのリストを取得
-			// fetch("/api/admin/training/guide/list")
-			// 	.then((response) => {
-			// 		if (response.status === 404) {
-			// 			throw new Error("Guides not found (404)");
-			// 		}
-			// 		return response.json();
-			// 	})
-			// 	.then((result) => {
-			// 		setSearchResult(result);
-			// 	})
-			// 	.catch((error) => {
-			// 		if (error.message === "Guides not found (404)") {
-			// 			console.error("Error: Guides not found (404)");
-			// 		} else {
-			// 			console.error("Error fetching guides:", error);
-			// 		}
-			// 	});
-			// return;
 			listGuides().then((result) => {
 				setSearchResult(result);
 			});
 		}
 
 		// Send search request to the API
-		// fetch("/api/admin/training/guide/search", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify({ query: searchText }),
-		// })
-		// 	.then((response) => {
-		// 		if (response.status === 404) {
-		// 			throw new Error("Search results not found (404)");
-		// 		}
-		// 		return response.json();
-		// 	})
-		// 	.then((result) => {
-		// 		setSearchResult(result);
-		// 	})
-		// 	.catch((error) => {
-		// 		if (error.message === "Search results not found (404)") {
-		// 			console.error("Error: Search results not found (404)");
-		// 		} else {
-		// 			console.error("Error fetching search results:", error);
-		// 		}
-		// 	});
 		search({ query: searchText });
 	};
 
