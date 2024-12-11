@@ -8,7 +8,7 @@ export const createSession = async ({ language }: { language: string }) => {
 		},
 	});
 
-	return response.text();
+	return handleResponse(response);
 };
 
 const SessionToResume = client.session.resume.$post;

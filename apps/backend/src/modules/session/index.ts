@@ -46,7 +46,12 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			.values(initialData(code, language.toString()))
 			.execute();
 		console.log("session created by api");
-		return c.json({ code }, 200);
+		return c.json(
+			{
+				sessionCode: code,
+			},
+			200,
+		);
 	})
 	.openapi(resumeSession, async (c) => {
 		const sessionData = c.req.valid("json");
@@ -102,7 +107,12 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				},
 			})
 			.execute();
-		return c.json(code, 200);
+		return c.json(
+			{
+				sessionCode: code,
+			},
+			200,
+		);
 	})
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;

@@ -18,11 +18,7 @@ const newSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: {
-				"text/plain": {
-					schema: sessionCodeSchema,
-				},
-			},
+			content: jsonBody(sessionCodeSchema),
 			description: "Returns the session id",
 		},
 		...errorResponses({
@@ -42,11 +38,7 @@ const resumeSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: {
-				"text/plain": {
-					schema: sessionCodeSchema,
-				},
-			},
+			content: jsonBody(sessionCodeSchema),
 			description:
 				"Returns the session id. If the session provided, it will return the session id to continue the session from existing session, or create a new session based on the provided data.",
 		},
