@@ -1,39 +1,48 @@
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { User } from "../../../../server/db/schema.js";
+import {
+	createUser,
+	deleteUser,
+	getUser,
+	getUserList,
+} from "@/api/admin/users.js";
+import { InferRequestType, type InferResponseType } from "backend/hc";
+import type { adminClient } from "@/api";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Users() {
-	const [users, setUsers] = useState<User[]>([]);
+	type UserArray = InferResponseType<typeof adminClient.admin.users.$get, 200>;
+	type User = UserArray[number];
+	type UserType = {
+		id: number;
+		username: string;
+		password: string;
+	};
+	const [users, setUsers] = useState<UserArray>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [selectedUser, setSelectedUser] = useState<User | null>(null);
-	const [editUser, setEditUser] = useState<Partial<User>>({});
+	const [editUser, setEditUser] = useState<Partial<UserType>>({});
 	const [newUser, setNewUser] = useState({ username: "", password: "" });
 	const [currentUserID, setCurrentUserID] = useState(null);
 
 	const fetchUsers = () => {
-		fetch("/api/admin/users")
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setUsers(data);
-				setLoading(false);
-			})
-			.catch((error) => {
-				setError(error.message);
-				setLoading(false);
-			});
+		getUserList().then((data) => {
+			setUsers(data);
+			setLoading(false);
+		});
 	};
 
 	useEffect(() => {
 		fetchUsers();
 
-		// 現在のユーザー情報を取得
-		fetch("/api/auth/session")
+		const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+
+		// 現在のユーザーIDを取得（ログイン中に自身を誤って削除するのを防止するため）
+		//auth以下のルートはopenapiで定義されていないため、fetchを利用
+		fetch(`${backendUrl}/credential`, {
+			credentials: "include",
+		})
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error(`Network response was not ok ${response.statusText}`);
@@ -45,25 +54,15 @@ export default function Users() {
 				setCurrentUserID(data.userId);
 			})
 			.catch((error) => {
-				setError(error.message);
+				setError(`aaaa!${error.message}`);
 			});
 	}, []);
 
 	const handleUserClick = (id: number) => {
-		fetch(`/api/admin/users/${id}`)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setSelectedUser(data);
-				setEditUser(data);
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
+		getUser({ id }).then((response) => {
+			setSelectedUser(response);
+			setEditUser(response);
+		});
 	};
 
 	const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,50 +106,38 @@ export default function Users() {
 		}
 	};
 
+	const { mutate: del } = useMutation({
+		mutationFn: deleteUser,
+		onSuccess: () => {
+			console.log("Data successfully deleted");
+			fetchUsers();
+			setSelectedUser(null); // Clear the data after deletion
+		},
+	});
+
 	const handleDeleteUser = (id: number) => {
 		if (currentUserID === id) {
 			alert("You cannot delete the logged-in user.");
 			return;
 		}
-		fetch(`/api/admin/users/${id}`, {
-			method: "DELETE",
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
+
+		del({ id });
 	};
+
+	const { mutate: post } = useMutation({
+		mutationFn: createUser,
+		onSuccess: (data) => {
+			setUsers((prevUsers) => [...prevUsers, data]);
+			setNewUser({ username: "", password: "" });
+		},
+	});
 
 	const handleCreateUser = () => {
 		if (!newUser.username || !newUser.password) {
 			console.error("Invalid user data");
 			return;
 		}
-		fetch("/api/admin/users/new", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(newUser),
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setUsers((prevUsers) => [...prevUsers, data]);
-				setNewUser({ username: "", password: "" });
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
+		post({ password: newUser.password, username: newUser.username });
 	};
 
 	if (loading) {
