@@ -13,27 +13,6 @@ export default function Tutorials() {
 	const [error, setError] = useState<string | null>(null);
 	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // アップロードしたJSONを管理する状態
 
-	// const fetchTutorials = () => {
-	// 	fetch("/api/admin/tutorials")
-	// 		.then((response) => {
-	// 			if (!response.ok) {
-	// 				throw new Error(`Network response was not ok ${response.statusText}`);
-	// 			}
-	// 			return response.json();
-	// 		})
-	// 		.then((data) => {
-	// 			setTutorials(data);
-	// 			setLoading(false);
-	// 		})
-	// 		.catch((error) => {
-	// 			setError(error.message);
-	// 			setLoading(false);
-	// 		});
-	// };
-
-	// useEffect(() => {
-	// 	fetchTutorials();
-	// }, []);
 	const { tutorials, isLoading } = useListTutorials();
 
 	const { mutate: del } = useMutation({
@@ -46,23 +25,6 @@ export default function Tutorials() {
 			alert(`An error occurred: ${error}`);
 		},
 	});
-	// const handleDeleteTutorial = (id: number) => {
-	// 	fetch(`/api/admin/tutorials/${id}`, {
-	// 		method: "DELETE",
-	// 	})
-	// 		.then((response) => {
-	// 			console.log(response);
-	// 			if (!response.ok) {
-	// 				throw new Error(response.statusText);
-	// 			}
-	// 			setTutorials((prevTutorial) =>
-	// 				prevTutorial.filter((tutorial) => tutorial.id !== id),
-	// 			);
-	// 		})
-	// 		.catch((error) => {
-	// 			setError(error.message);
-	// 		});
-	// };
 
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];

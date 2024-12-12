@@ -20,50 +20,6 @@ export function SessionValueView(props: { session: string }) {
 
 	const { session } = useSession(sessionCode, 5000);
 
-	// useEffect(() => {
-	// 	if (!loading) {
-	// 		// loadingがfalseになったら1秒後にshowLoaderをfalseに設定
-	// 		const timer = setTimeout(() => {
-	// 			setShowLoader(false);
-	// 		}, 1000);
-
-	// 		// クリーンアップ関数を使用してタイマーをクリア
-	// 		return () => clearTimeout(timer);
-	// 	}
-	// 	// loadingがtrueのときにはshowLoaderをtrueにリセット
-	// 	setShowLoader(true);
-	// }, [loading]);
-
-	// // Function to fetch session data
-	// async function fetchSessionData(code: string) {
-	// 	setLoading(true); // Set loading state to true
-	// 	try {
-	// 		const response = await fetch(`/api/session/${code}`);
-	// 		if (!response.ok || response.status === 404) {
-	// 			throw new Error(response.statusText);
-	// 		}
-	// 		const data = (await response.json()) as SessionValue;
-	// 		setSession(data); // Set fetched session data to state
-	// 	} catch (error: any) {
-	// 		setError(error.message); // Handle errors
-	// 	} finally {
-	// 		setLoading(false); // Set loading state to false
-	// 	}
-	// }
-
-	// // Fetch data on component mount and every 10 seconds
-	// useEffect(() => {
-	// 	if (sessionCode) {
-	// 		fetchSessionData(sessionCode); // Fetch data based on sessionCode
-
-	// 		const intervalId = setInterval(() => {
-	// 			fetchSessionData(sessionCode);
-	// 		}, 5000); // Fetch data every 5 seconds
-
-	// 		return () => clearInterval(intervalId); // Clear interval on component unmount
-	// 	}
-	// }, [sessionCode]);
-
 	if (error) {
 		return (
 			<p className="text-red-500">

@@ -201,7 +201,6 @@ export default function EditorPage() {
 	useEffect(() => {
 		async function checkSession() {
 			if (sessionCode !== "") {
-				// const response = await fetch(`/api/session/${sessionCode}`);
 				const response = await getSession({ key: sessionCode });
 				if (!response) {
 					// セッションが存在しない場合はスキップする
