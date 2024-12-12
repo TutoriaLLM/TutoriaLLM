@@ -13,6 +13,7 @@ import React, { useEffect } from "react";
 import "blockly/javascript";
 import WorkspacePreview from "../../ui/workspacePreview.js";
 import { ArrowBigDownIcon, Trash2 } from "lucide-react";
+import { getSession } from "@/api/session.js";
 
 // Component to fetch Blockly code, display it, and generate output code
 export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
@@ -41,29 +42,16 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	const fetchCodeData = async () => {
 		if (inputRef.current) {
 			try {
-				const response = await fetch(`/api/session/${inputRef.current.value}`);
-				if (!response.ok) {
-					if (response.status === 404) {
-						alert("Session not found");
-					}
-					if (inputRef.current) {
-						inputRef.current.value = "";
-					}
-					return;
-				}
-				const data: SessionValue = await response.json();
+				const data = await getSession({ key: inputRef.current.value });
 
 				//容量が大きくなる可能性があるデータを削除
-				const filteredData: SessionValue = {
-					...data,
-					audios: [],
-					screenshot: "",
-					dialogue: [],
-				};
+				if (data) data.audios = [];
+				data.screenshot = "";
+				data.dialogue = [];
 
-				setSession(filteredData);
+				setSession(data);
 
-				handleChangeSession("sessionValue", filteredData);
+				handleChangeSession("sessionValue", data);
 
 				inputRef.current.value = "";
 			} catch (error) {
