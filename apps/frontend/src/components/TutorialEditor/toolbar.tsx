@@ -177,6 +177,7 @@ export default function Toolbar(props: {
 				put({
 					id: props.id,
 					tutorial: {
+						id: props.id,
 						serializednodes: serializednodes,
 						metadata: metadata,
 						tags: tags.map((tag: any) => tag.name),
