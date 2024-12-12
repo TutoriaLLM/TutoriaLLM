@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import TutorialEditor from "../../TutorialEditor/index.js";
-// import type { Tutorial } from "../../../../server/db/schema.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useListTutorials } from "@/hooks/admin/tutorials.js";
 import type { Tutorial } from "@/type.js";
 import { useMutation } from "@tanstack/react-query";
 import { deleteTutorial } from "@/api/admin/tutorials.js";
-import { a } from "vitest/dist/chunks/suite.BMWOKiTe.js";
 
 export default function Tutorials() {
 	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
@@ -205,24 +203,24 @@ const SkeletonRows = () => {
 			className="border-y-2 border-gray-300 rounded-2xl bg-gray-200"
 		>
 			<td className="px-6 py-4">
-				<div className="h-4 bg-gray-300 rounded" />
+				<div className="h-4  rounded animate-loading-flow bg-gradient-to-r from-gray-300 from-30% via-gray-200 via-50% to-gray-300 to-70% bg-[size:280%] bg-center" />
 			</td>
 			<td className="px-6 py-4 w-full">
-				<div className="h-4 bg-gray-300 rounded" />
+				<div className="h-4  rounded animate-loading-flow bg-gradient-to-r from-gray-300 from-30% via-gray-200 via-50% to-gray-300 to-70% bg-[size:280%] bg-center" />
 			</td>
 			<td className="px-6 py-4 w-full">
-				<div className="h-4 bg-gray-300 rounded" />
+				<div className="h-4  rounded animate-loading-flow bg-gradient-to-r from-gray-300 from-30% via-gray-200 via-50% to-gray-300 to-70% bg-[size:280%] bg-center" />
 			</td>
 			<td className="px-6 py-4">
-				<div className="h-4 bg-gray-300 rounded" />
+				<div className="h-4  rounded animate-loading-flow bg-gradient-to-r from-gray-300 from-30% via-gray-200 via-50% to-gray-300 to-70% bg-[size:280%] bg-center" />
 			</td>
 
 			<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
 				<div className="min-w-16">
-					<div className="h-8 bg-gray-300 rounded" />
+					<div className="h-8 rounded animate-loading-flow bg-gradient-to-r from-gray-300 from-30% via-gray-200 via-50% to-gray-300 to-70% bg-[size:280%] bg-center" />
 				</div>
 				<div className="min-w-16">
-					<div className="h-8 bg-gray-300 rounded" />
+					<div className="h-8 rounded animate-loading-flow bg-gradient-to-r from-gray-300 from-30% via-gray-200 via-50% to-gray-300 to-70% bg-[size:280%] bg-center" />
 				</div>
 			</td>
 		</tr>
