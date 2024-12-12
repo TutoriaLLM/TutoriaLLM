@@ -5,6 +5,7 @@ import {
 	deleteUser,
 	getUser,
 	getUserList,
+	updateUser,
 } from "@/api/admin/users.js";
 import { InferRequestType, type InferResponseType } from "backend/hc";
 import type { adminClient } from "@/api";
@@ -75,34 +76,31 @@ export default function Users() {
 		setNewUser((prev) => ({ ...prev, [name]: value }));
 	};
 
+	const { mutate: put } = useMutation({
+		mutationFn: ({ id, user }: { id: number; user: Partial<UserType> }) =>
+			updateUser(
+				{
+					id,
+				},
+				user,
+			),
+		onSuccess: () => {
+			console.log("Data successfully updated");
+			fetchUsers();
+			setSelectedUser(null); // Clear the data after updating
+		},
+		onError: (error) => {
+			console.error("Error updating user data:", error);
+		},
+	});
+
 	const handleUpdateUser = () => {
 		if (!editUser.username || (editUser.password && !editUser.password)) {
 			console.error("Invalid user data");
 			return;
 		}
 		if (selectedUser) {
-			fetch(`/api/admin/users/${selectedUser.id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(editUser),
-			})
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error(
-							`Network response was not ok ${response.statusText}`,
-						);
-					}
-					return response.json();
-				})
-				.then(() => {
-					fetchUsers();
-					setSelectedUser(null);
-				})
-				.catch((error) => {
-					setError(error.message);
-				});
+			put({ id: selectedUser.id, user: editUser });
 		}
 	};
 
