@@ -1,25 +1,17 @@
+import { getSpecificTutorial } from "@/api/admin/tutorials";
 import type { SessionValue, Tutorial } from "@/type";
 import { useEffect, useState } from "react";
 
+//for admin
 export default function SelectedTutorial(props: { session: SessionValue }) {
 	const { session } = props;
 	const tutorialId = session.tutorial.tutorialId;
 	const [tutorial, setTutorial] = useState<null | Tutorial>(null);
 	useEffect(() => {
 		if (tutorialId) {
-			fetch(`/api/tutorial/${tutorialId}`)
-				.then(async (response) => {
-					if (!response.ok) {
-						throw new Error(
-							`Network response was not ok ${response.statusText}`,
-						);
-					}
-
-					setTutorial(await response.json());
-				})
-				.catch((error) => {
-					setTutorial(null);
-				});
+			getSpecificTutorial({ id: tutorialId }).then((response) => {
+				setTutorial(response);
+			});
 		}
 	}, [tutorialId]);
 	return (
