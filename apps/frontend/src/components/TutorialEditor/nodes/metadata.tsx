@@ -11,24 +11,31 @@ import { Trash2 } from "lucide-react";
 import { LangPicker } from "../../ui/Langpicker.js";
 import i18next from "i18next";
 import { WithContext as ReactTags, KEYS } from "react-tag-input";
+import { getTagList } from "@/api/tutorials.js";
 
 type Tag = {
 	id: string;
-	text: string;
+	className: string;
+	text?: string;
 };
 
 export function Metadata({ id, data }: NodeProps<metadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 
 	const [tags, setTags] = useState<Tag[]>(
-		data.tags.map((tag) => ({ id: tag, text: tag })) || [],
+		data.tags.map((tag) => ({
+			id: tag,
+			className: "",
+
+			text: tag,
+		})) || [],
 	);
 	const [suggestions, setSuggestions] = useState<Tag[]>([]);
 
 	const handleChange = (field: string, value: string) => {
 		if (field === "tags") {
 			const tagsArray = value.split(",").map((tag) => tag.trim());
-			setTags(tagsArray.map((tag) => ({ id: tag, text: tag })));
+			setTags(tagsArray.map((tag) => ({ id: tag, className: "", text: tag })));
 			updateNodeData(id, { ...data, [field]: tagsArray });
 		} else {
 			updateNodeData(id, { ...data, [field]: value });
@@ -74,25 +81,16 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 
 	// タグをAPIからフェッチ
 	useEffect(() => {
-		const fetchTags = async () => {
-			try {
-				const response = await fetch("/api/tutorial/tags");
-				if (response.status === 404) {
-					console.error("Tags not found (404)");
-					return;
-				}
-				const result = await response.json();
-				const fetchedTags = result.map((tag: { id: number; name: string }) => ({
-					id: tag.id.toString(), // idを文字列に変換
+		getTagList().then((result) => {
+			const fetchedTags = result.map(
+				(tag: { id: number | null; name: string }) => ({
+					id: tag.id?.toString() || "", // idを文字列に変換
+					className: "",
 					text: tag.name, // nameをtextに変換
-				}));
-				setSuggestions(fetchedTags);
-			} catch (error) {
-				console.error("Error fetching tags:", error);
-			}
-		};
-
-		fetchTags();
+				}),
+			);
+			setSuggestions(fetchedTags);
+		});
 	}, []);
 
 	return (
