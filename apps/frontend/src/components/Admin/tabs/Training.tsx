@@ -17,6 +17,7 @@ import {
 import type { adminClient } from "@/api";
 import type { InferResponseType } from "backend/hc";
 import { useMutation } from "@tanstack/react-query";
+import { deleteUser } from "@/api/admin/users";
 
 export default function Training() {
 	type TrainingData = InferResponseType<
@@ -91,23 +92,13 @@ export default function Training() {
 		fetchTrainingData();
 	};
 
-	const handleDelete = () => {
-		if (!trainingData) return;
-
-		// Send DELETE request to the API
-		fetch(`/api/admin/training/data/${trainingData.id}`, {
-			method: "DELETE",
-		})
-			.then((response) => {
-				if (response.ok) {
-					console.log("Data successfully deleted");
-					setTrainingData(null); // Clear the data after deletion
-				} else {
-					console.error("Error deleting training data");
-				}
-			})
-			.catch((error) => console.error("Error deleting training data:", error));
-	};
+	const { mutate: deleteData } = useMutation({
+		mutationFn: deleteUser,
+		onSuccess: () => {
+			console.log("Data successfully deleted");
+			setTrainingData(null); // Clear the data after deletion
+		},
+	});
 
 	const { mutate: search } = useMutation({
 		mutationFn: searchGuides,
@@ -134,6 +125,13 @@ export default function Training() {
 		search({ query: searchText });
 	};
 
+	const { mutate: deleteGuide } = useMutation({
+		mutationFn: deleteUser,
+		onSuccess: () => {
+			console.log("Data successfully deleted");
+			handleSearch();
+		},
+	});
 	const renderSearchResults = () => {
 		if (typeof searchResult === "string") {
 			return <p>{searchResult}</p>;
@@ -190,23 +188,7 @@ export default function Training() {
 									<button
 										type="button"
 										className="text-red-500"
-										onClick={() => {
-											// Delete the guide
-											fetch(`/api/admin/training/guide/${result.id}`, {
-												method: "DELETE",
-											})
-												.then((response) => {
-													if (response.ok) {
-														console.log("Guide successfully deleted");
-														handleSearch();
-													} else {
-														console.error("Error deleting guide");
-													}
-												})
-												.catch((error) =>
-													console.error("Error deleting guide:", error),
-												);
-										}}
+										onClick={() => deleteGuide({ id: result.id })}
 									>
 										Delete
 									</button>
@@ -251,7 +233,7 @@ export default function Training() {
 							<button
 								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
 								type="button"
-								onClick={handleDelete}
+								onClick={() => deleteData({ id: trainingData.id })}
 							>
 								<Trash2 />
 							</button>
