@@ -144,34 +144,6 @@ export default function Toolbar(props: {
 			const serializednodes = JSON.stringify({ nodes, edges });
 
 			// APIにデータを送信
-			// fetch(url, {
-			// 	method,
-			// 	headers: {
-			// 		"Content-Type": "application/json",
-			// 	},
-			// 	body: JSON.stringify({
-			// 		serializednodes: serializednodes,
-			// 		metadata: metadata,
-			// 		tags: tags,
-			// 		language: language,
-			// 		content: content,
-			// 	}),
-			// })
-			// 	.then((response) => {
-			// 		if (!response.ok) {
-			// 			throw new Error("Network response was not ok");
-			// 		}
-			// 		return response.text();
-			// 	})
-			// 	.then((data) => {
-			// 		console.log(data);
-			// 		alert("Tutorial saved successfully!");
-			// 		handleClosePopup();
-			// 	})
-			// 	.catch((error) => {
-			// 		console.error("Error saving tutorial:", error);
-			// 		alert("Failed to save tutorial");
-			// 	});
 
 			if (props.id) {
 				put({
@@ -205,37 +177,6 @@ export default function Toolbar(props: {
 			return;
 		}
 
-		// const url = `/api/admin/tutorials/${props.id}`;
-
-		// APIからデータを取得してダウンロード
-		// fetch(url, {
-		// 	method: "GET",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// })
-		// 	.then((response) => {
-		// 		if (!response.ok) {
-		// 			throw new Error("Network response was not ok");
-		// 		}
-		// 		return response.json();
-		// 	})
-		// 	.then((data) => {
-		// 		// Blobを作成してダウンロードリンクをクリックさせる
-		// 		const blob = new Blob([JSON.stringify(data, null, 2)], {
-		// 			type: "application/json",
-		// 		});
-		// 		const url = URL.createObjectURL(blob);
-		// 		const a = document.createElement("a");
-		// 		a.href = url;
-		// 		a.download = `tutorial_${props.id}.json`;
-		// 		a.click();
-		// 		URL.revokeObjectURL(url);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.error("Error downloading tutorial:", error);
-		// 		alert("Failed to download tutorial");
-		// 	});
 		getSpecificTutorial({ id: props.id }).then((data) => {
 			const blob = new Blob([JSON.stringify(data, null, 2)], {
 				type: "application/json",
