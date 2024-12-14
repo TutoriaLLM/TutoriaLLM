@@ -29,6 +29,19 @@ interface VMInstance {
 // VMのインスタンスを管理するオブジェクト
 const vmInstances: { [key: string]: VMInstance } = {};
 
+//VMのコードとプロキシを紐づけて管理するオブジェクト
+const vmProxies = new Map<string, any>();
+// VMインスタンス作成時に新しいプロキシをリストに追加する関数
+function setupVMProxy(code: string, ip: string, port: number) {
+	console.log("setting up proxy for", code, ip, port);
+	vmProxies.set(code, proxy);
+	console.log("new vmProxies", vmProxies);
+}
+// VMインスタンス停止時にプロキシを削除する関数
+function removeVMProxy(code: string) {
+	vmProxies.delete(code);
+}
+
 let vmPort = 3002;
 if (process.env.VM_PORT) {
 	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
@@ -43,10 +56,12 @@ const app = new Hono<{ Bindings: HttpBindings }>();
 const proxy = createProxyMiddleware({
 	router: async (req) => {
 		const code = req.url?.split("/")[1];
+		console.log("proxying to", code);
 		if (!code) {
 			console.log("Invalid code");
 			throw new Error("Invalid code");
 		}
+
 		const session = await db
 			.select()
 			.from(appSessions)
@@ -60,11 +75,10 @@ const proxy = createProxyMiddleware({
 				instance.ip,
 				instance.port,
 			);
+			console.log("VM not found");
+
 			return `http://${instance.ip}:${instance.port}`;
 		}
-		// VMが見つからない場合は、undefined を返す
-		// これにより、後続の処理で 404 を返すことができる
-		console.log("VM not found");
 		throw new Error("VM not found");
 	},
 	pathRewrite: (path, req) => {
@@ -88,16 +102,26 @@ const proxy = createProxyMiddleware({
 	},
 });
 
-app.use("*", (c, next) => {
-	return new Promise((resolve, reject) => {
-		proxy(c.env.incoming, c.env.outgoing, (err) => {
-			if (err) {
-				reject(err);
-			} else {
-				resolve();
-			}
+app.use("*", async (c, next) => {
+	const code = c.req.url?.split("/")[1];
+	if (!code) {
+		c.status(400);
+		return;
+	}
+	console.log("code", code);
+
+	if (vmProxies.has(code)) {
+		return new Promise((resolve, reject) => {
+			proxy(c.env.incoming, c.env.outgoing, (err) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve();
+				}
+			});
 		});
-	});
+	}
+	return c.status(404);
 });
 
 serve({
@@ -189,7 +213,7 @@ export async function ExecCodeTest(
 				vmInstances[uuid].ip = ip;
 
 				// プロキシの設定
-				// setupVMProxy(code, ip, port);
+				setupVMProxy(code, ip, port);
 			}
 		});
 
@@ -295,7 +319,7 @@ export async function StopCodeTest(
 		// }
 
 		// プロキシを削除
-		// removeVMProxy(code);
+		removeVMProxy(code);
 		delete vmInstances[uuid];
 
 		// DBを更新し、クライアントに通知
