@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import { updateConfig } from "@/api/admin/config";
-import { useMutation } from "@/hooks/use-mutations";
-import JSONField from "../../ui/jsonViewer.js";
 import { getConfig } from "@/api/config.js";
+import { useMutation } from "@/hooks/use-mutations";
 import type { AppConfig } from "@/type.js";
+import { useEffect, useState } from "react";
+import JSONField from "../../ui/jsonViewer.js";
 
 function ConfigManager() {
 	const [config, setConfig] = useState<AppConfig | undefined>(undefined);

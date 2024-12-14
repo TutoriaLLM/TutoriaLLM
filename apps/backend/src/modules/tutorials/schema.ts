@@ -1,7 +1,7 @@
-import { z } from "@hono/zod-openapi";
 import { tags } from "@/db/schema";
 import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
 import { stringToNumber } from "@/utils/zStringtoNumber";
+import { z } from "@hono/zod-openapi";
 
 export const tagSchema = z.object({
 	id: z.number().nullable(), //serial - auto increment

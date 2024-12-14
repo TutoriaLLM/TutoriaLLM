@@ -4,14 +4,14 @@ import {
 	useHandleConnections,
 	useNodesData,
 } from "@xyflow/react";
+import Markdown from "react-markdown";
+import CustomHandle from "../customHandle.js";
 import {
+	type MyNode,
 	isTextNode,
 	type markdownNode,
 	type metadataNode,
-	type MyNode,
 } from "./nodetype.js";
-import CustomHandle from "../customHandle.js";
-import Markdown from "react-markdown";
 
 export default function Output() {
 	const metadataConnections = useHandleConnections({

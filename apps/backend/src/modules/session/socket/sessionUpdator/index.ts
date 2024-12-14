@@ -1,15 +1,15 @@
-import type { Socket } from "socket.io";
-import type { Operation } from "rfc6902";
+import { db } from "@/db";
+import { tutorials } from "@/db/schema";
+import type { Dialogue, SessionValue } from "@/modules/session/schema";
 import createNewSessionValue from "@/modules/session/socket/sessionUpdator/createNewValue";
+import { updateDialogueWithLLM } from "@/modules/session/socket/sessionUpdator/updateDialogue";
 import {
 	updateAndBroadcastDiff,
 	updateAndBroadcastDiffToAll,
 } from "@/modules/session/socket/updateDB";
-import { updateDialogueWithLLM } from "@/modules/session/socket/sessionUpdator/updateDialogue";
-import { db } from "@/db";
-import { tutorials } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import type { Dialogue, SessionValue } from "@/modules/session/schema";
+import type { Operation } from "rfc6902";
+import type { Socket } from "socket.io";
 
 export async function updateSession(
 	currentDataJson: SessionValue,

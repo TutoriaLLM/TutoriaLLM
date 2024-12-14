@@ -1,12 +1,12 @@
-import { useEffect } from "react";
 import * as Sentry from "@sentry/react";
+import { useEffect } from "react";
+import GA4 from "react-ga4";
 import {
 	createRoutesFromChildren,
 	matchRoutes,
 	useLocation,
 	useNavigationType,
 } from "react-router-dom";
-import GA4 from "react-ga4";
 import { getConfig } from "./api/config.js";
 
 const FrontendTracer = () => {

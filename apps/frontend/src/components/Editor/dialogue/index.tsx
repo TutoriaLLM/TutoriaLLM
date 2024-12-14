@@ -1,20 +1,20 @@
-import { useAtom, useAtomValue } from "jotai";
-import { Bot, Send, Mic, Trash, Play, Pause } from "lucide-react";
-import { useEffect, useRef, useState, useCallback } from "react";
-import { currentSessionState } from "../../../state.js";
-import TextBubble from "./parts/textbubble.js";
-import { SwitchModeUI } from "./parts/ui/switchModeUI.js";
-import { useTranslation } from "react-i18next";
-import QuickReply from "./parts/quickreply.js";
 import { updateStats } from "@/utils/statsUpdater.js";
+import { useAtom, useAtomValue } from "jotai";
+import { Bot, Mic, Pause, Play, Send, Trash } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import WaveSurfer from "wavesurfer.js";
+import { currentSessionState } from "../../../state.js";
 import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
 } from "../../ui/horizontalScroll.js";
-import WaveSurfer from "wavesurfer.js";
+import QuickReply from "./parts/quickreply.js";
+import TextBubble from "./parts/textbubble.js";
+import { SwitchModeUI } from "./parts/ui/switchModeUI.js";
 
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { useConfig } from "@/hooks/config.js";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 export default function DialogueView() {
 	const { t } = useTranslation();

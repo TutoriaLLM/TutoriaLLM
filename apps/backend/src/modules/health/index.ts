@@ -1,5 +1,5 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { getStatus } from "@/modules/health/routes";
+import { OpenAPIHono } from "@hono/zod-openapi";
 
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";

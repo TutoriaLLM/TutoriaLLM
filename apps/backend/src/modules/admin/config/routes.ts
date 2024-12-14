@@ -1,6 +1,6 @@
-import { createRoute } from "@hono/zod-openapi";
-import { AppConfigSchema } from "@/modules/admin/config/schema";
 import { jsonBody } from "@/libs/openapi";
+import { AppConfigSchema } from "@/modules/admin/config/schema";
+import { createRoute } from "@hono/zod-openapi";
 
 const updateConfigApp = createRoute({
 	method: "post",

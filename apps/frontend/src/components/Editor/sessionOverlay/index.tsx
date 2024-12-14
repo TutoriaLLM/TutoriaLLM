@@ -14,13 +14,13 @@ import CreateNewSession from "./newsession.js";
 import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 
+import { getStatus } from "@/api/health.js";
+import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { LanguageToStart } from "../../../state.js";
 import { LangPicker } from "../../ui/Langpicker.js";
 import Overlay from "../../ui/Overlay.js";
 import { DebugInfo } from "./debuginfo.js";
-import { useQuery } from "@tanstack/react-query";
-import { getStatus } from "@/api/health.js";
 
 export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {

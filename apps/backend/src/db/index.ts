@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/node-postgres";
 import * as schema from "@/db/schema";
+import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
 const isProduction = process.env.NODE_ENV === "production";
 const client = new pg.Client({

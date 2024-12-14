@@ -1,14 +1,14 @@
 //sentry support with opentelemetry
 
-import * as Sentry from "@sentry/node";
 import { GenericPoolInstrumentation } from "@opentelemetry/instrumentation-generic-pool";
+import * as Sentry from "@sentry/node";
 
-import * as opentelemetry from "@opentelemetry/sdk-node";
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
-import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
-import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
 import { Resource } from "@opentelemetry/resources";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import * as opentelemetry from "@opentelemetry/sdk-node";
 
 // Make sure to call "Sentry.init" BEFORE initializing the OpenTelemetry SDK
 if (process.env.SENTRY_DSN) {

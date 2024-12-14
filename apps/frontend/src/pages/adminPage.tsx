@@ -6,11 +6,11 @@ import SideBar from "../components/Admin/Sidebar.js";
 import Dashboard from "../components/Admin/tabs/Dashboard.js";
 import Sessions from "../components/Admin/tabs/Sessions.js";
 import Settings from "../components/Admin/tabs/Settings.js";
+import Training from "../components/Admin/tabs/Training.js";
 import Tutorials from "../components/Admin/tabs/Tutorials.js";
 import Users from "../components/Admin/tabs/Users.js";
 import LoginPopup from "../components/loginOverlay/index.js";
 import { LanguageToStart } from "../state.js";
-import Training from "../components/Admin/tabs/Training.js";
 
 export default function AdminPage() {
 	const languageToStart = useAtomValue(LanguageToStart);

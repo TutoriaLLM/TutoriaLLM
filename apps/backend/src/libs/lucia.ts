@@ -1,8 +1,8 @@
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 
-import { Lucia } from "lucia";
-import { authSessions, type User, users } from "@/db/schema";
 import { db } from "@/db";
+import { type User, authSessions, users } from "@/db/schema";
+import { Lucia } from "lucia";
 declare module "lucia" {
 	interface Register {
 		Lucia: typeof lucia;

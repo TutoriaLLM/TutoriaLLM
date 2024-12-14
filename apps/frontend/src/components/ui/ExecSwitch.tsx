@@ -2,13 +2,13 @@ import * as Switch from "@radix-ui/react-switch";
 
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import sleep from "../../utils/sleep";
 import {
 	currentSessionState,
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	socketIoInstance,
 } from "../../state.js";
+import sleep from "../../utils/sleep";
 
 import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";

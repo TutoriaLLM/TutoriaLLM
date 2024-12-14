@@ -1,6 +1,6 @@
+import * as Blockly from "blockly";
 import { workspaceToPngBase64 } from "../ui/workspaceToPng.js";
 import Theme from "./Blockly/theme/index.js";
-import * as Blockly from "blockly";
 async function generateImageFromBlockName(
 	hiddenWorkspaceRef: React.MutableRefObject<Blockly.WorkspaceSvg | null>,
 	hiddenDivRef: React.MutableRefObject<HTMLDivElement | null>,

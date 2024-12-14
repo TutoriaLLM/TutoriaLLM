@@ -1,6 +1,6 @@
+import { t } from "i18next";
 import type React from "react";
 import { Trans } from "react-i18next";
-import { t } from "i18next";
 
 type JSONFieldProps = {
 	obj: Record<string, unknown>;

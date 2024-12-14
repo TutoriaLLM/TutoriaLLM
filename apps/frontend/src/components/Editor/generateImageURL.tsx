@@ -1,9 +1,9 @@
-import { useRef } from "react";
+import { blocklyLocale } from "@/i18n/blocklyLocale.js";
 import * as Blockly from "blockly";
+import { useRef } from "react";
+import { workspaceToPngBase64 } from "../ui/workspaceToPng.js";
 import registerBlocks from "./Blockly/blocks/index.js";
 import Theme from "./Blockly/theme/index.js";
-import { workspaceToPngBase64 } from "../ui/workspaceToPng.js";
-import { blocklyLocale } from "@/i18n/blocklyLocale.js";
 
 async function getImageFromSerializedWorkspace(
 	serializedWorkspace: {

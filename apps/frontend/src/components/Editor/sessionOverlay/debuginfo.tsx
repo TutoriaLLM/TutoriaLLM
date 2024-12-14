@@ -1,7 +1,7 @@
+import { deleteDB } from "idb";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Popup from "../../ui/Popup.js";
-import { deleteDB } from "idb";
 
 /**
  * The BeforeInstallPromptEvent is fired at the Window.onbeforeinstallprompt handler

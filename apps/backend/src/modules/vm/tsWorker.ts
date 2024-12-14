@@ -1,16 +1,16 @@
-import vm, { createContext } from "node:vm";
-import path from "node:path";
-import { parentPort, workerData } from "node:worker_threads";
-import { loadExtensions, loadScript } from "@/modules/vm/extensionLoader";
-import { fileURLToPath } from "node:url";
-import getPort, { portNumbers } from "get-port";
 import { exec } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import os from "node:os";
-import { Hono } from "hono";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import vm, { createContext } from "node:vm";
+import { parentPort, workerData } from "node:worker_threads";
+import type { SessionValue } from "@/modules/session/schema";
+import { loadExtensions, loadScript } from "@/modules/vm/extensionLoader";
 import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
-import type { SessionValue } from "@/modules/session/schema";
-import { randomUUID } from "node:crypto";
+import getPort, { portNumbers } from "get-port";
+import { Hono } from "hono";
 
 const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
 

@@ -1,7 +1,7 @@
+import type { AIAudios } from "@/type.js";
 import type { TFunction } from "i18next";
 import { Bot, Headphones } from "lucide-react";
 import type { Components } from "react-markdown";
-import type { AIAudios } from "@/type.js";
 
 function renderAIaudioBubble(
 	content: string,

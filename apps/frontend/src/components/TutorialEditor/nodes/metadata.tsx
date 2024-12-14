@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import {
-	Position,
-	type NodeProps,
-	Handle,
-	useReactFlow,
-	NodeToolbar,
-} from "@xyflow/react";
-import type { metadataNode } from "./nodetype.js";
-import { Trash2 } from "lucide-react";
-import { LangPicker } from "../../ui/Langpicker.js";
-import i18next from "i18next";
-import { WithContext as ReactTags, KEYS } from "react-tag-input";
 import { getTagList } from "@/api/tutorials.js";
+import {
+	Handle,
+	type NodeProps,
+	NodeToolbar,
+	Position,
+	useReactFlow,
+} from "@xyflow/react";
+import i18next from "i18next";
+import { Trash2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { KEYS, WithContext as ReactTags } from "react-tag-input";
+import { LangPicker } from "../../ui/Langpicker.js";
+import type { metadataNode } from "./nodetype.js";
 
 type Tag = {
 	id: string;

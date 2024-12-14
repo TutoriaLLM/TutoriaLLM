@@ -1,19 +1,19 @@
-import {
-	Position,
-	type NodeProps,
-	Handle,
-	useReactFlow,
-	type Node,
-	NodeToolbar,
-} from "@xyflow/react";
-import type { workspaceNode } from "./nodetype.js";
-import CodeInput from "../../ui/Codeinput.js";
 import type { SessionValue } from "@/type.js";
+import {
+	Handle,
+	type Node,
+	type NodeProps,
+	NodeToolbar,
+	Position,
+	useReactFlow,
+} from "@xyflow/react";
 import React, { useEffect } from "react";
+import CodeInput from "../../ui/Codeinput.js";
+import type { workspaceNode } from "./nodetype.js";
 import "blockly/javascript";
-import WorkspacePreview from "../../ui/workspacePreview.js";
-import { ArrowBigDownIcon, Trash2 } from "lucide-react";
 import { getSession } from "@/api/session.js";
+import { ArrowBigDownIcon, Trash2 } from "lucide-react";
+import WorkspacePreview from "../../ui/workspacePreview.js";
 
 // Component to fetch Blockly code, display it, and generate output code
 export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {

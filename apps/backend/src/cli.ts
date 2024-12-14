@@ -1,13 +1,13 @@
 //TutoriaLLM CLI
 
+import fs from "node:fs";
 import { Command } from "commander";
 import inquirer from "inquirer";
-import fs from "node:fs";
 
-import dotenv from "dotenv";
 import { resetCredentials } from "@/db/users";
-import { saltAndHashPassword } from "@/utils/password";
 import { createConfig, deleteConfig } from "@/modules/config";
+import { saltAndHashPassword } from "@/utils/password";
+import dotenv from "dotenv";
 
 const program = new Command();
 dotenv.config();

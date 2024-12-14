@@ -1,18 +1,18 @@
-import { useTranslation } from "react-i18next";
-import { useAtomValue } from "jotai";
-import { currentSessionState } from "../../../../state.js";
-import { renderUserBubble } from "./bubbles/userBubble.js";
-import { renderAIBubble } from "./bubbles/aiBubble.js";
-import { renderLogBubble } from "./bubbles/logBubble.js";
-import { renderErrorBubble } from "./bubbles/renderErrorBubble.js";
-import { renderGroupLogBubble } from "./bubbles/groupLogBubble.js";
-import { SelectTutorialUI } from "./ui/tutorialSelectorUI.js";
-import React, { useEffect, useMemo, useRef } from "react";
-import getMarkdownComponents from "./markdown.js";
-import { renderAIaudioBubble } from "./bubbles/aiAudioBubble.js";
-import { renderUserAudioBubble } from "./bubbles/userAudioBubble.js";
 import { useConfig } from "@/hooks/config.js";
 import type { SessionValue } from "@/type.js";
+import { useAtomValue } from "jotai";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { currentSessionState } from "../../../../state.js";
+import { renderAIaudioBubble } from "./bubbles/aiAudioBubble.js";
+import { renderAIBubble } from "./bubbles/aiBubble.js";
+import { renderGroupLogBubble } from "./bubbles/groupLogBubble.js";
+import { renderLogBubble } from "./bubbles/logBubble.js";
+import { renderErrorBubble } from "./bubbles/renderErrorBubble.js";
+import { renderUserAudioBubble } from "./bubbles/userAudioBubble.js";
+import { renderUserBubble } from "./bubbles/userBubble.js";
+import getMarkdownComponents from "./markdown.js";
+import { SelectTutorialUI } from "./ui/tutorialSelectorUI.js";
 
 const TextBubble = React.forwardRef(function TextBubble(
 	props: {

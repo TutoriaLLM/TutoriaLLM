@@ -1,4 +1,3 @@
-import { createRoute } from "@hono/zod-openapi";
 import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	getSpecificTutorialParam,
@@ -6,6 +5,7 @@ import {
 	tagsSchema,
 	tutorialSchema,
 } from "@/modules/tutorials/schema";
+import { createRoute } from "@hono/zod-openapi";
 
 const getTutorials = createRoute({
 	method: "get",

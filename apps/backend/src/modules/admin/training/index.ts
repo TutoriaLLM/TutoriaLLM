@@ -1,6 +1,8 @@
 // import express from "express";
 
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { db } from "@/db";
+import { guides, trainingData } from "@/db/schema";
+import { errorResponse } from "@/libs/errors";
 import {
 	deleteData,
 	deleteGuide,
@@ -12,12 +14,10 @@ import {
 	searchGuides,
 	updateGuide,
 } from "@/modules/admin/training/routes";
-import { db } from "@/db";
-import { eq, sql } from "drizzle-orm";
-import { errorResponse } from "@/libs/errors";
-import { guides, trainingData } from "@/db/schema";
 import { createGuideFromTrainingData } from "@/modules/admin/training/utils/guide";
 import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
+import { OpenAPIHono } from "@hono/zod-openapi";
+import { eq, sql } from "drizzle-orm";
 
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";

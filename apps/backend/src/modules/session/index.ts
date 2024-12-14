@@ -1,19 +1,19 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
+import type { Context } from "@/context";
+import { db } from "@/db";
+import { appSessions } from "@/db/schema";
+import { initialData } from "@/db/session";
+import { defaultHook } from "@/libs/default-hook";
+import { errorResponse } from "@/libs/errors";
 import {
+	deleteSession,
 	getSession,
 	newSession,
 	putSession,
-	deleteSession,
 	resumeSession,
 } from "@/modules/session/routes";
 import joincodeGen from "@/utils/joincodeGen";
-import { db } from "@/db";
-import { appSessions } from "@/db/schema";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq } from "drizzle-orm";
-import { initialData } from "@/db/session";
-import { errorResponse } from "@/libs/errors";
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
 
 const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(newSession, async (c) => {

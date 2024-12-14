@@ -1,9 +1,9 @@
 import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	generateContentRequest,
+	generateMetadataRequest,
 	generatedContentSchema,
 	generatedMetadataSchema,
-	generateMetadataRequest,
 	getTutorialsSchema,
 	newTutorialRequest,
 	specificTutorialParam,

@@ -1,7 +1,3 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
-import { ExitButton } from "../ui/exitButton.js";
 import {
 	Activity,
 	Bot,
@@ -11,6 +7,10 @@ import {
 	Sidebar,
 	User,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
+import { ExitButton } from "../ui/exitButton.js";
 
 export default function SideBar(props: { path: string[] }) {
 	const { t } = useTranslation();

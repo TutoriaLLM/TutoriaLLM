@@ -1,10 +1,10 @@
+import type { Locale } from "@/types/locale";
 import type * as Blockly from "blockly";
 import { actions } from "./contents/actions";
-import { playerEvents } from "./contents/playerEvents";
 import { agent } from "./contents/agent";
 import { block } from "./contents/block";
+import { playerEvents } from "./contents/playerEvents";
 import { position } from "./contents/position";
-import type { Locale } from "@/types/locale";
 export const category: Blockly.utils.toolbox.CategoryInfo = {
 	kind: "category",
 	name: "%{BKY_MINECRAFT}",

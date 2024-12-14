@@ -1,4 +1,13 @@
-import React, { useEffect, useState } from "react";
+import type { adminClient } from "@/api";
+import {
+	createNewGuide,
+	getRandomTrainingData,
+	listGuides,
+	searchGuides,
+} from "@/api/admin/training";
+import { deleteUser } from "@/api/admin/users";
+import { useMutation } from "@tanstack/react-query";
+import type { InferResponseType } from "backend/hc";
 import {
 	CalendarClock,
 	CheckCircle2,
@@ -8,16 +17,7 @@ import {
 	Trash2,
 	UserRound,
 } from "lucide-react";
-import {
-	createNewGuide,
-	getRandomTrainingData,
-	listGuides,
-	searchGuides,
-} from "@/api/admin/training";
-import type { adminClient } from "@/api";
-import type { InferResponseType } from "backend/hc";
-import { useMutation } from "@tanstack/react-query";
-import { deleteUser } from "@/api/admin/users";
+import React, { useEffect, useState } from "react";
 
 export default function Training() {
 	type TrainingData = InferResponseType<

@@ -1,16 +1,3 @@
-import {
-	integer,
-	varchar,
-	json,
-	pgTable,
-	serial,
-	text,
-	timestamp,
-	vector,
-	index,
-	boolean,
-	pgEnum,
-} from "drizzle-orm/pg-core";
 import type {
 	Click,
 	Dialogue,
@@ -19,6 +6,19 @@ import type {
 	TutorialStats,
 } from "@/modules/session/schema";
 import type { Tags } from "@/modules/tutorials/schema";
+import {
+	boolean,
+	index,
+	integer,
+	json,
+	pgEnum,
+	pgTable,
+	serial,
+	text,
+	timestamp,
+	varchar,
+	vector,
+} from "drizzle-orm/pg-core";
 
 // WARN: DO NOT GENERATE ZOD SCHEMA FROM THIS FILE
 

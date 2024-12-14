@@ -1,5 +1,4 @@
-import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import type { adminClient } from "@/api";
 import {
 	createUser,
 	deleteUser,
@@ -7,9 +6,10 @@ import {
 	getUserList,
 	updateUser,
 } from "@/api/admin/users.js";
-import { InferRequestType, type InferResponseType } from "backend/hc";
-import type { adminClient } from "@/api";
 import { useMutation } from "@tanstack/react-query";
+import { InferRequestType, type InferResponseType } from "backend/hc";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Users() {
 	type UserArray = InferResponseType<typeof adminClient.admin.users.$get, 200>;

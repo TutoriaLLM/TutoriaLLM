@@ -1,10 +1,10 @@
-import OpenAI from "openai";
-import { listAllBlocks } from "@/utils/blockList";
-import { z } from "@hono/zod-openapi";
-import { zodResponseFormat } from "openai/helpers/zod.mjs";
-import { getConfig } from "@/modules/admin/config";
 import { db } from "@/db";
 import { tags } from "@/db/schema";
+import { getConfig } from "@/modules/admin/config";
+import { listAllBlocks } from "@/utils/blockList";
+import { z } from "@hono/zod-openapi";
+import OpenAI from "openai";
+import { zodResponseFormat } from "openai/helpers/zod.mjs";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,

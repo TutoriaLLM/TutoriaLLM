@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import ts from "typescript";
-import glob from "fast-glob";
-import extensionModules from "extensions";
 import type { Context } from "node:vm";
+import extensionModules from "extensions";
+import glob from "fast-glob";
+import ts from "typescript";
 
 export async function loadExtensions(context: Context): Promise<void> {
 	console.log("loading extensions...", extensionModules);

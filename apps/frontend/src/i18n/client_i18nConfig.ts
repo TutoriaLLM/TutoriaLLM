@@ -1,31 +1,31 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
+import translation_bn from "./bn.json";
+import translation_de from "./de.json";
 // 言語jsonファイルのimport
 import translation_en from "./en.json";
-import translation_ja from "./ja.json";
-import translation_my from "./ms.json";
-import translation_id from "./id.json";
-import translation_zh from "./zh.json";
-import translation_ko from "./ko.json";
 import translation_es from "./es.json";
+// import translation_ar from "./ar.json";
+// import translation_he from "./he.json";
+import translation_fa from "./fa.json";
 import translation_fr from "./fr.json";
-import translation_de from "./de.json";
+import translation_hi from "./hi.json";
+import translation_id from "./id.json";
 import translation_it from "./it.json";
+import translation_ja from "./ja.json";
+import translation_ko from "./ko.json";
+import translation_my from "./ms.json";
 import translation_nl from "./nl.json";
 import translation_pl from "./pl.json";
 import translation_pt from "./pt.json";
 import translation_ru from "./ru.json";
-import translation_tr from "./tr.json";
-import translation_vi from "./vi.json";
-import translation_th from "./th.json";
-// import translation_ar from "./ar.json";
-// import translation_he from "./he.json";
-import translation_fa from "./fa.json";
-import translation_hi from "./hi.json";
-import translation_bn from "./bn.json";
 import translation_ta from "./ta.json";
 import translation_te from "./te.json";
+import translation_th from "./th.json";
+import translation_tr from "./tr.json";
+import translation_vi from "./vi.json";
+import translation_zh from "./zh.json";
 
 const resources = {
 	ja: {

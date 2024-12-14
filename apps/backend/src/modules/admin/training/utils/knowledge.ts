@@ -1,8 +1,8 @@
-import { cosineDistance, desc, gt, sql } from "drizzle-orm";
+import { db } from "@/db";
+import { guides } from "@/db/schema";
 import type { Guide } from "@/modules/admin/training/schema";
 import { generateEmbedding } from "@/modules/admin/training/utils/embedding";
-import { guides } from "@/db/schema";
-import { db } from "@/db";
+import { cosineDistance, desc, gt, sql } from "drizzle-orm";
 
 //Vectorをもとに知識を検索するAPI
 export async function getKnowledge(

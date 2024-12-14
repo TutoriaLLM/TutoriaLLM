@@ -1,15 +1,15 @@
-import { useTranslation } from "react-i18next";
+import { useSession } from "@/hooks/session.js";
 import type { SessionValue } from "@/type.js";
-import Summary from "./summary.js";
+import { langToStr } from "@/utils/langToStr.js";
+import * as Tabs from "@radix-ui/react-tabs";
+import { LoaderCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import WorkspacePreview from "../ui/workspacePreview.js";
 import Stats from "./stats.js";
+import Summary from "./summary.js";
 import Time from "./time.js";
 import SelectedTutorial from "./tutorial.js";
-import WorkspacePreview from "../ui/workspacePreview.js";
-import * as Tabs from "@radix-ui/react-tabs";
-import { useState, useEffect } from "react";
-import { LoaderCircle } from "lucide-react";
-import { langToStr } from "@/utils/langToStr.js";
-import { useSession } from "@/hooks/session.js";
 
 export function SessionValueView(props: { session: string }) {
 	const { session: sessionCode } = props; // 文字列のセッションコードを受け取る

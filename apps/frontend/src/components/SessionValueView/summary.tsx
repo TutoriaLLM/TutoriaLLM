@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { SquareDashedMousePointer, X } from "lucide-react";
-import Heatmap from "../ui/heatmap.js";
-import { useTranslation } from "react-i18next";
 import type { Clicks, SessionValue } from "@/type.js";
+import { SquareDashedMousePointer, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Heatmap from "../ui/heatmap.js";
 
 export default function Summary(props: { session: SessionValue }) {
 	const session = props.session;

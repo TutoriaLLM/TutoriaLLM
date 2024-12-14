@@ -1,14 +1,14 @@
-import * as Progress from "@radix-ui/react-progress";
-import { DoorOpen, HelpCircle } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import ExecSwitch from "../ui/ExecSwitch.js";
-import { ExitButton } from "../ui/exitButton.js";
-import { useAtomValue } from "jotai";
-import { currentSessionState } from "../../state.js";
-import { useTour } from "@reactour/tour";
 import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
 import type { SessionValue } from "@/type.js";
 import { SessionValueToPost } from "@/utils/SessionValueToPost.js";
+import * as Progress from "@radix-ui/react-progress";
+import { useTour } from "@reactour/tour";
+import { useAtomValue } from "jotai";
+import { DoorOpen, HelpCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { currentSessionState } from "../../state.js";
+import ExecSwitch from "../ui/ExecSwitch.js";
+import { ExitButton } from "../ui/exitButton.js";
 
 export default function Navbar(props: {
 	code: string;

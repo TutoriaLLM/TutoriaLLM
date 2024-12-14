@@ -1,12 +1,12 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { db } from "@/db";
+import { tags, tutorials } from "@/db/schema";
+import { errorResponse } from "@/libs/errors";
 import {
 	getSpecificTutorial,
 	getTags,
 	getTutorials,
 } from "@/modules/tutorials/routes";
-import { db } from "@/db";
-import { tags, tutorials } from "@/db/schema";
-import { errorResponse } from "@/libs/errors";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq } from "drizzle-orm";
 
 import type { Context } from "@/context";

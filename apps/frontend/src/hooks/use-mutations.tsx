@@ -1,9 +1,9 @@
+import type { ApiError } from "@/api";
 import {
 	type UseMutationOptions,
 	type UseMutationResult,
 	useMutation as useBaseMutation,
 } from "@tanstack/react-query";
-import type { ApiError } from "@/api";
 
 export const useMutation = <
 	TData = unknown,

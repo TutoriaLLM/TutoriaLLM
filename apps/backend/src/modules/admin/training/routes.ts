@@ -1,4 +1,3 @@
-import { createRoute } from "@hono/zod-openapi";
 import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	dataListSchema,
@@ -12,6 +11,7 @@ import {
 	newGuideRequest,
 	updateGuideRequest,
 } from "@/modules/admin/training/schema";
+import { createRoute } from "@hono/zod-openapi";
 
 // トレーニングデータの管理を行うAPI
 export const getRandomData = createRoute({

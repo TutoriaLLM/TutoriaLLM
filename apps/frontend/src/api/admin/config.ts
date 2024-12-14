@@ -1,5 +1,5 @@
-import { adminClient, handleResponse } from "..";
 import type { InferResponseType } from "backend/hc";
+import { adminClient, handleResponse } from "..";
 
 export const updateConfig = async (
 	config: InferResponseType<typeof adminClient.admin.config.update.$post>,

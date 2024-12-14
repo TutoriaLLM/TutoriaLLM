@@ -1,31 +1,31 @@
-import OpenAI from "openai";
-import { zodResponseFormat } from "openai/helpers/zod";
-import { eq, is } from "drizzle-orm";
+import fs from "node:fs";
+import { db } from "@/db";
+import { type Guide, tutorials } from "@/db/schema";
+import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
+import { getConfig } from "@/modules/config";
+import type { SessionValue } from "@/modules/session/schema";
 import {
-	generateAudioUserTemplate,
-	generateUserTemplate,
-} from "@/modules/session/socket/llm/userTemplate";
+	zodAudioSchema,
+	zodTextSchema,
+} from "@/modules/session/socket/llm/responseFormat";
 import {
 	generateAudioSystemTemplate,
 	generateSystemTemplate,
 	generateSystemTemplateFor4oPreview,
 } from "@/modules/session/socket/llm/systemTemplate";
 import {
-	zodAudioSchema,
-	zodTextSchema,
-} from "@/modules/session/socket/llm/responseFormat";
-import ffmpeg from "fluent-ffmpeg";
-import fs from "node:fs";
-import type { Socket } from "socket.io";
+	generateAudioUserTemplate,
+	generateUserTemplate,
+} from "@/modules/session/socket/llm/userTemplate";
 import { updateAudioDialogue } from "@/modules/session/socket/llm/whisper";
-import type { SessionValue } from "@/modules/session/schema";
-import { getConfig } from "@/modules/config";
 import { listAllBlocks } from "@/utils/blockList";
-import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
-import { tutorials, type Guide } from "@/db/schema";
 import generateTrainingData from "@/utils/generateTrainingData";
 import { applyRuby } from "@/utils/japaneseWithRuby";
-import { db } from "@/db";
+import { eq, is } from "drizzle-orm";
+import ffmpeg from "fluent-ffmpeg";
+import OpenAI from "openai";
+import { zodResponseFormat } from "openai/helpers/zod";
+import type { Socket } from "socket.io";
 
 // Converts webm audio format to mp3 format
 async function convertWebMToMp3(webmInput: string): Promise<string> {

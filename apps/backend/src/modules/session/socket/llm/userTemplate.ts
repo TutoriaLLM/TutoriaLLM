@@ -1,6 +1,6 @@
 import type { Guide } from "@/db/schema";
-import stringifyKnowledge from "@/utils/stringifyKnowledge";
 import type { SessionValue } from "@/modules/session/schema";
+import stringifyKnowledge from "@/utils/stringifyKnowledge";
 
 // Simplifies the dialogue by mapping the session dialogue to a simpler format.
 async function simplifyDialogue(session: SessionValue, limit: number) {

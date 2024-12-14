@@ -1,8 +1,8 @@
+import * as Switch from "@radix-ui/react-switch";
 import { useAtom } from "jotai";
+import { Headphones, Text } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../../../../state.js";
-import * as Switch from "@radix-ui/react-switch";
-import { Headphones, Text } from "lucide-react";
 
 function SwitchModeUI(props: { audio: boolean | undefined }) {
 	const { t } = useTranslation();

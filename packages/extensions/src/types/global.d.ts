@@ -1,6 +1,6 @@
+import type { UUID } from "node:crypto";
 import type { Hono } from "hono";
 import type { UpgradeWebSocket } from "hono/ws";
-import type { UUID } from "node:crypto";
 
 declare global {
 	const app: Hono;

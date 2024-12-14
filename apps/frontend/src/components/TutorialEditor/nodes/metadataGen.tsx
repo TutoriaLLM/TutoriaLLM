@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
 import {
-	Position,
-	type NodeProps,
 	Handle,
-	useReactFlow,
+	type NodeProps,
 	NodeToolbar,
+	Position,
 	useHandleConnections,
 	useNodesData,
+	useReactFlow,
 } from "@xyflow/react";
+import { useEffect, useState } from "react";
 import "@mdxeditor/editor/style.css";
+import { generateMetadata } from "@/api/admin/tutorials";
+import { useMutation } from "@/hooks/use-mutations";
 import { Bot, Trash2 } from "lucide-react";
 import CustomHandle from "../customHandle.js";
 import type { markdownNode, mdToMetadataNode } from "./nodetype.js";
-import { generateMetadata } from "@/api/admin/tutorials";
-import { useMutation } from "@/hooks/use-mutations";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();

@@ -1,4 +1,8 @@
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { db } from "@/db";
+import { tags, tutorials, tutorialsTags } from "@/db/schema";
+import { errorResponse } from "@/libs/errors";
+import { generateMetadataFromContent } from "@/modules/admin/tutorials/llm/metadata";
+import { generateContentFromContent } from "@/modules/admin/tutorials/llm/tutorial";
 import {
 	createTutorial,
 	deleteTutorial,
@@ -8,12 +12,8 @@ import {
 	getTutorialList,
 	updateTutorial,
 } from "@/modules/admin/tutorials/routes";
-import { db } from "@/db";
-import { tags, tutorials, tutorialsTags } from "@/db/schema";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq, isNull } from "drizzle-orm";
-import { errorResponse } from "@/libs/errors";
-import { generateContentFromContent } from "@/modules/admin/tutorials/llm/tutorial";
-import { generateMetadataFromContent } from "@/modules/admin/tutorials/llm/metadata";
 
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";

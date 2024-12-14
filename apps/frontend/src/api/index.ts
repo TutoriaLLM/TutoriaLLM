@@ -1,4 +1,4 @@
-import { adminHcWithType, type ClientResponse, hcWithType } from "backend/hc";
+import { type ClientResponse, adminHcWithType, hcWithType } from "backend/hc";
 
 type ApiErrorType =
 	| "BAD_REQUEST"

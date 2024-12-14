@@ -1,6 +1,6 @@
-import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
-import { msToTime } from "@/utils/time";
 import type { SessionValue } from "@/type";
+import { msToTime } from "@/utils/time";
+import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 
 export default function Stats(props: { session: SessionValue }) {
 	const { session } = props;

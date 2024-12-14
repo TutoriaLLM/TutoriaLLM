@@ -1,20 +1,20 @@
+//モバイル利用時のタブ切り替え
+import * as Tabs from "@radix-ui/react-tabs";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { useParams } from "react-router-dom";
-import type { Clicks, SessionValue, Tab } from "../type";
 import Editor from "../components/Editor/Blockly/index.js";
 import Navbar from "../components/Editor/Navbar.js";
-//モバイル利用時のタブ切り替え
-import * as Tabs from "@radix-ui/react-tabs";
+import type { Clicks, SessionValue, Tab } from "../type";
 
 //言語の読み込み
 import { useTranslation } from "react-i18next";
 
-//差分の検知
-import { applyPatch, createPatch, type Operation } from "rfc6902";
 //ツアーの読み込み
 import { TourProvider, useTour } from "@reactour/tour";
+//差分の検知
+import { type Operation, applyPatch, createPatch } from "rfc6902";
 import { tourSteps } from "./editorTour.js";
 
 //視覚的な統計作成に利用するライブラリ
@@ -31,21 +31,21 @@ import SessionPopup, {
 //stateの読み込み
 import {
 	LanguageToStart,
+	blockNameFromMenuState,
 	currentSessionState,
+	currentTabState,
 	isPopupOpen,
 	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	prevSessionState,
-	userSessionCode,
 	socketIoInstance,
-	currentTabState,
-	blockNameFromMenuState,
+	userSessionCode,
 } from "../state.js";
 
-import { io } from "socket.io-client";
-import { MessageCircleMore, Puzzle, PanelRightClose } from "lucide-react";
-import { useConfig } from "@/hooks/config.js";
 import { getSession } from "@/api/session.js";
+import { useConfig } from "@/hooks/config.js";
+import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
+import { io } from "socket.io-client";
 
 export default function EditorPage() {
 	const { code: codeFromPath } = useParams();

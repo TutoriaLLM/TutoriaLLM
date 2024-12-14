@@ -14,9 +14,9 @@ import {
 } from "../../../state.js";
 import { BlockHighlight } from "./blockHighlight.js";
 
-import { forwardRef } from "react";
 import { blocklyLocale } from "@/i18n/blocklyLocale.js";
 import { updateStats } from "@/utils/statsUpdater.js";
+import { forwardRef } from "react";
 
 const Editor = forwardRef<HTMLDivElement, { menuOpen: boolean }>(
 	(props, ref) => {

@@ -13,8 +13,8 @@ import {
 import EditorPage from "./pages/editorPage.js";
 
 import "./i18n/client_i18nConfig";
-import AdminPage from "./pages/adminPage.js";
 import FrontendTracer from "./clientTelemetry.js";
+import AdminPage from "./pages/adminPage.js";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 

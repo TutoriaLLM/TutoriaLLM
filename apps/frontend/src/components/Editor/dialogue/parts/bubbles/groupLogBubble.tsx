@@ -1,8 +1,8 @@
+import type { AppConfig } from "@/type";
+import { i18nParser } from "@/utils/i18nParser.js";
 import type { TFunction } from "i18next";
 import { CircleCheck, Info, Server, TriangleAlert } from "lucide-react";
 import Markdown, { type Components } from "react-markdown";
-import { i18nParser } from "@/utils/i18nParser.js";
-import type { AppConfig } from "@/type";
 
 function renderGroupLogBubble(
 	content: Array<any>,

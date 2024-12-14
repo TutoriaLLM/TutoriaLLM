@@ -1,25 +1,25 @@
-import { useState, useEffect, useCallback } from "react";
-import Popup from "../ui/Popup.js";
 import {
-	ReactFlow,
-	useNodesState,
-	useEdgesState,
-	addEdge,
+	Background,
 	Controls,
 	Panel,
-	Background,
+	ReactFlow,
+	addEdge,
 	applyNodeChanges,
+	useEdgesState,
+	useNodesState,
 } from "@xyflow/react";
+import { useCallback, useEffect, useState } from "react";
+import Popup from "../ui/Popup.js";
 import "@xyflow/react/dist/style.css";
+import { getSpecificTutorial } from "@/api/admin/tutorials.js";
+import type { Tutorial } from "@/type.js";
+import { ExampleCode } from "./nodes/exampleCode.js";
 import { Markdown } from "./nodes/markdown.js";
+import { MarkdownGen } from "./nodes/markdownGen.js";
 import { Metadata } from "./nodes/metadata.js";
+import { MetadataGen } from "./nodes/metadataGen.js";
 import Output from "./nodes/output.js";
 import Toolbar from "./toolbar.js";
-import { ExampleCode } from "./nodes/exampleCode.js";
-import { MarkdownGen } from "./nodes/markdownGen.js";
-import { MetadataGen } from "./nodes/metadataGen.js";
-import type { Tutorial } from "@/type.js";
-import { getSpecificTutorial } from "@/api/admin/tutorials.js";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 

@@ -1,13 +1,12 @@
 //受信したmp3を非同期で文字起こしし、Dialogueに保存（配信）する
 
-import OpenAI from "openai";
 import fs from "node:fs";
-// import { sessionDB } from "../../db/session.js";
-import type { Socket } from "socket.io";
-import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { updateAndBroadcastDiffToAll } from "@/modules/session/socket/updateDB";
+import { eq } from "drizzle-orm";
+import OpenAI from "openai";
+import type { Socket } from "socket.io";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,

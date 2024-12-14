@@ -1,6 +1,6 @@
-import { applyPatch, type Operation } from "rfc6902";
-import type { Socket } from "socket.io";
 import type { SessionValue } from "@/modules/session/schema";
+import { type Operation, applyPatch } from "rfc6902";
+import type { Socket } from "socket.io";
 
 export default function createNewSessionValue(
 	socket: Socket,

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import type { SessionValue } from "@/type.js";
 import * as Blockly from "blockly";
+import React, { useEffect, useRef } from "react";
+import registerBlocks from "../Editor/Blockly/blocks/index.js";
 import Theme from "../Editor/Blockly/theme/index.js";
 import { translateCategories } from "../Editor/Blockly/toolbox/index.js";
-import registerBlocks from "../Editor/Blockly/blocks/index.js";
-import type { SessionValue } from "@/type.js";
 
 export default function WorkspacePreview(props: { session: SessionValue }) {
 	const { session } = props;

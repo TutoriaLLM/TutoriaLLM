@@ -1,34 +1,34 @@
 import {
-	Position,
-	type NodeProps,
-	Handle,
-	useReactFlow,
-	type Node,
 	Connection,
+	Handle,
+	type Node,
+	type NodeProps,
 	NodeToolbar,
+	Position,
 	useHandleConnections,
 	useNodesData,
+	useReactFlow,
 } from "@xyflow/react";
 
 import {
-	markdownShortcutPlugin,
 	MDXEditor,
 	type MDXEditorMethods,
+	markdownShortcutPlugin,
 } from "@mdxeditor/editor";
 import {
-	UndoRedo,
+	BlockTypeSelect,
 	BoldItalicUnderlineToggles,
 	ListsToggle,
-	BlockTypeSelect,
-	toolbarPlugin,
+	UndoRedo,
 	headingsPlugin,
 	listsPlugin,
+	toolbarPlugin,
 } from "@mdxeditor/editor";
 
 import "@mdxeditor/editor/style.css";
-import React, { useEffect, useState } from "react";
-import type { markdownNode, MyNode, workspaceNode } from "./nodetype.js";
 import { Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import type { MyNode, markdownNode, workspaceNode } from "./nodetype.js";
 
 export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	const { updateNodeData, getNode, deleteElements } = useReactFlow();

@@ -1,20 +1,20 @@
+import { useMutation } from "@/hooks/use-mutations";
 import {
-	Position,
-	type NodeProps,
 	Handle,
-	useReactFlow,
+	type NodeProps,
 	NodeToolbar,
+	Position,
 	useHandleConnections,
 	useNodesData,
+	useReactFlow,
 } from "@xyflow/react";
-import { useMutation } from "@/hooks/use-mutations";
 import "@mdxeditor/editor/style.css";
-import { useEffect, useState } from "react";
-import type { markdownNode, mdToMdNode, MyNode } from "./nodetype.js";
-import { Bot, Trash2 } from "lucide-react";
-import CustomHandle from "../customHandle.js";
-import Markdown from "react-markdown";
 import { generateContent } from "@/api/admin/tutorials.js";
+import { Bot, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
+import CustomHandle from "../customHandle.js";
+import type { MyNode, markdownNode, mdToMdNode } from "./nodetype.js";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();

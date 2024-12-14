@@ -1,5 +1,5 @@
 import type { InferRequestType } from "backend/hc";
-import { handleResponse, adminClient } from "..";
+import { adminClient, handleResponse } from "..";
 
 export const getTutorials = async () => {
 	const response = await adminClient.admin.tutorials.$get();
