@@ -1,5 +1,3 @@
-// import express from "express";
-
 import { db } from "@/db";
 import { guides, trainingData } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";

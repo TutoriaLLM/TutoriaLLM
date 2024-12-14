@@ -1,5 +1,4 @@
 import { Handle, type HandleProps, useHandleConnections } from "@xyflow/react";
-import React, { useEffect } from "react";
 
 interface CustomHandleProps extends HandleProps {
 	connectionCount: number;

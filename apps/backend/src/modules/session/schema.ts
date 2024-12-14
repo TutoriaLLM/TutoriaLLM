@@ -1,5 +1,4 @@
 import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
-import { stringToNumber } from "@/utils/zStringtoNumber";
 import { z } from "@hono/zod-openapi";
 
 const contentTypeEnum = [

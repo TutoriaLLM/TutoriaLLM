@@ -1,6 +1,4 @@
 import type { Server as HttpServer } from "node:http";
-import { server } from "@/.";
-// import { sessionDB } from "../../db/session.js";
 import { db } from "@/db";
 import codeGen from "@/libs/blocklyCodeGenerator";
 import { getConfig } from "@/modules/config";
@@ -9,20 +7,16 @@ import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "@/modules/vm";
 import { updateDialogue } from "@/utils/dialogueUpdater";
 import { updateStats } from "@/utils/statsUpdater";
 import { createMiddleware } from "hono/factory";
-import { type Operation, applyPatch } from "rfc6902";
+import type { Operation } from "rfc6902";
 import { Server } from "socket.io";
 
 import { appSessions } from "@/db/schema";
-import type {
-	SessionValue,
-	sessionValueSchema,
-} from "@/modules/session/schema";
+import type { SessionValue } from "@/modules/session/schema";
 import {
 	updateAndBroadcastDiff,
 	updateAndBroadcastDiffToAll,
 } from "@/modules/session/socket/updateDB";
 import { eq } from "drizzle-orm";
-import type { Socket } from "socket.io";
 
 const config = getConfig();
 

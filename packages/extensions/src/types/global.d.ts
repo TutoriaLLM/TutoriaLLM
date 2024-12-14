@@ -1,4 +1,3 @@
-import type { UUID } from "node:crypto";
 import type { Hono } from "hono";
 import type { UpgradeWebSocket } from "hono/ws";
 

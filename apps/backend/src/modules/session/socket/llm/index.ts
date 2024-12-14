@@ -4,10 +4,7 @@ import { type Guide, tutorials } from "@/db/schema";
 import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
 import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
-import {
-	zodAudioSchema,
-	zodTextSchema,
-} from "@/modules/session/socket/llm/responseFormat";
+import { zodTextSchema } from "@/modules/session/socket/llm/responseFormat";
 import {
 	generateAudioSystemTemplate,
 	generateSystemTemplate,
@@ -21,7 +18,7 @@ import { updateAudioDialogue } from "@/modules/session/socket/llm/whisper";
 import { listAllBlocks } from "@/utils/blockList";
 import generateTrainingData from "@/utils/generateTrainingData";
 import { applyRuby } from "@/utils/japaneseWithRuby";
-import { eq, is } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import ffmpeg from "fluent-ffmpeg";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";

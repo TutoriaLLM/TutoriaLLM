@@ -1,7 +1,6 @@
 import type { SessionValue } from "@/type.js";
 import {
 	Handle,
-	type Node,
 	type NodeProps,
 	NodeToolbar,
 	Position,

@@ -1,5 +1,5 @@
 import { updateStats } from "@/utils/statsUpdater.js";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { Bot, Mic, Pause, Play, Send, Trash } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

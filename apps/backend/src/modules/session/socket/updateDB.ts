@@ -1,4 +1,3 @@
-// import { sessionDB } from "../../db/session.js";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import type { SessionValue } from "@/modules/session/schema";

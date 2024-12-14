@@ -1,5 +1,5 @@
 import { deleteDB } from "idb";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Popup from "../../ui/Popup.js";
 

@@ -1,5 +1,4 @@
 import { getSession } from "@/api/session";
-import type { SessionValue } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 
 // export const getAndSetSession = async (

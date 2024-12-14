@@ -8,7 +8,7 @@ import {
 } from "@xyflow/react";
 import i18next from "i18next";
 import { Trash2 } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { KEYS, WithContext as ReactTags } from "react-tag-input";
 import { LangPicker } from "../../ui/Langpicker.js";
 import type { metadataNode } from "./nodetype.js";

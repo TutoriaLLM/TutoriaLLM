@@ -1,9 +1,7 @@
 import { useSession } from "@/hooks/session.js";
-import type { SessionValue } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
 import * as Tabs from "@radix-ui/react-tabs";
-import { LoaderCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import WorkspacePreview from "../ui/workspacePreview.js";
 import Stats from "./stats.js";

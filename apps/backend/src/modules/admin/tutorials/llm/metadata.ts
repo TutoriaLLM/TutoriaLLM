@@ -1,7 +1,6 @@
 import { db } from "@/db";
 import { tags } from "@/db/schema";
 import { getConfig } from "@/modules/admin/config";
-import { listAllBlocks } from "@/utils/blockList";
 import { z } from "@hono/zod-openapi";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod.mjs";

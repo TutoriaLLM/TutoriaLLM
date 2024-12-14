@@ -3,7 +3,7 @@ import { useListTutorials } from "@/hooks/admin/tutorials.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TutorialEditor from "../../TutorialEditor/index.js";
 
 export default function Tutorials() {

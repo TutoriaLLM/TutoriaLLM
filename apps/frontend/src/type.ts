@@ -1,5 +1,5 @@
 import type { InferRequestType, InferResponseType } from "backend/hc";
-import { adminClient, client } from "./api/index.js";
+import { client } from "./api/index.js";
 
 const $Config = client.config.$get;
 export type AppConfig = InferResponseType<typeof $Config>;

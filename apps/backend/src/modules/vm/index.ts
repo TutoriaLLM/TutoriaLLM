@@ -3,7 +3,6 @@ import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
-import { errorResponse } from "@/libs/errors";
 import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
 import LogBuffer from "@/modules/vm/logBuffer";

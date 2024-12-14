@@ -1,7 +1,5 @@
 import {
-	Connection,
 	Handle,
-	type Node,
 	type NodeProps,
 	NodeToolbar,
 	Position,
@@ -27,7 +25,7 @@ import {
 
 import "@mdxeditor/editor/style.css";
 import { Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import type { MyNode, markdownNode, workspaceNode } from "./nodetype.js";
 
 export function Markdown({ id, data }: NodeProps<markdownNode>) {

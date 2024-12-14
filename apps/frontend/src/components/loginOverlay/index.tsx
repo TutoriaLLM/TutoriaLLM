@@ -1,7 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import i18n from "i18next";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageToStart } from "../../state.js";
 import { LangPicker } from "../ui/Langpicker.js";

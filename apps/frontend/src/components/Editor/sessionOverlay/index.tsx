@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import * as Dialog from "@radix-ui/react-dialog";
 import {
 	CheckCircle,
 	CircleAlert,
 	CircleAlertIcon,
-	HelpCircle,
 	LoaderCircle,
 } from "lucide-react";
 import JoinSession from "./joinsession.js";

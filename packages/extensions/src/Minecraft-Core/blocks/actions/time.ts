@@ -1,4 +1,4 @@
-import { Order, javascriptGenerator } from "blockly/javascript";
+import { javascriptGenerator } from "blockly/javascript";
 
 import type { Block } from "@/types/block";
 import type { Locale } from "@/types/locale";

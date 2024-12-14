@@ -3,7 +3,7 @@ import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useAtom } from "jotai";
 import { ArrowRight, BookDashed, EyeIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../../../../state.js";
 import Popup from "../../../../ui/Popup.js";

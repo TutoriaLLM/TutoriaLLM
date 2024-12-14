@@ -17,7 +17,7 @@ import {
 	Trash2,
 	UserRound,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Training() {
 	type TrainingData = InferResponseType<

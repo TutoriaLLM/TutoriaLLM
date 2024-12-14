@@ -1,8 +1,5 @@
-import { exec } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import os from "node:os";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import vm, { createContext } from "node:vm";
 import { parentPort, workerData } from "node:worker_threads";
 import type { SessionValue } from "@/modules/session/schema";

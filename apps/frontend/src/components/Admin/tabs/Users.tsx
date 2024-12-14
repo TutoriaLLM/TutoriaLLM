@@ -7,7 +7,7 @@ import {
 	updateUser,
 } from "@/api/admin/users.js";
 import { useMutation } from "@tanstack/react-query";
-import { InferRequestType, type InferResponseType } from "backend/hc";
+import type { InferResponseType } from "backend/hc";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 

@@ -1,4 +1,3 @@
-import { inputs } from "blockly";
 import { Order, javascriptGenerator } from "blockly/javascript";
 
 import type { Block } from "@/types/block";

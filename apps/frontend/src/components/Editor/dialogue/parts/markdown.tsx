@@ -1,23 +1,16 @@
 import type { SessionValue } from "@/type.js";
 import { listAllBlocks } from "@/utils/blockList.js";
-import type * as Blockly from "blockly";
 import type { TFunction } from "i18next";
 import { useAtom, useSetAtom } from "jotai";
-import { Copy, ScanSearch, X } from "lucide-react";
-import React, { useMemo, useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { Copy } from "lucide-react";
+import React, { useCallback } from "react";
 import type { Components } from "react-markdown";
-import {
-	getImageFromIndexedDB,
-	saveImageToIndexedDB,
-} from "../../../../indexedDB.js";
 import {
 	blockNameFromMenuState,
 	currentTabState,
 	highlightedBlockState,
 } from "../../../../state.js";
 import { getExternalBlocks } from "../../Blockly/blocks/index.js";
-import generateImageFromBlockName from "../../generateImageFromBlockName.js";
 import { HighlightedBlockId, HighlightedBlockName } from "./highlight.js";
 
 // テキストをハイライトする関数

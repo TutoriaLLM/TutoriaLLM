@@ -2,13 +2,7 @@ import "./styles/index.css";
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import {
-	BrowserRouter,
-	Link,
-	Route,
-	Routes,
-	useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import EditorPage from "./pages/editorPage.js";
 

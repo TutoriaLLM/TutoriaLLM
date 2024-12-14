@@ -4,7 +4,7 @@ import { SessionValueToPost } from "@/utils/SessionValueToPost.js";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
 import { useAtomValue } from "jotai";
-import { DoorOpen, HelpCircle } from "lucide-react";
+import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { currentSessionState } from "../../state.js";
 import ExecSwitch from "../ui/ExecSwitch.js";

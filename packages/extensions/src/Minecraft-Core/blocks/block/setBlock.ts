@@ -3,7 +3,6 @@ import { Order, javascriptGenerator } from "blockly/javascript";
 import type { Block } from "@/types/block";
 import type { Locale } from "@/types/locale";
 import "@blockly/field-slider";
-import { inputs } from "blockly";
 
 export const block = {
 	type: "ext_minecraft_setBlock",
