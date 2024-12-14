@@ -30,10 +30,8 @@ const vmInstances: { [key: string]: VMInstance } = {};
 //VMのコードとプロキシを紐づけて管理するオブジェクト
 const vmProxies = new Map<string, any>();
 // VMインスタンス作成時に新しいプロキシをリストに追加する関数
-function setupVMProxy(code: string, ip: string, port: number) {
-	console.log("setting up proxy for", code, ip, port);
+function setupVMProxy(code: string) {
 	vmProxies.set(code, proxy);
-	console.log("new vmProxies", vmProxies);
 }
 // VMインスタンス停止時にプロキシを削除する関数
 function removeVMProxy(code: string) {
@@ -57,7 +55,7 @@ const proxy = createProxyMiddleware({
 		console.log("proxying to", code);
 		if (!code) {
 			console.log("Invalid code");
-			throw new Error("Invalid code");
+			return;
 		}
 
 		const session = await db
@@ -73,11 +71,10 @@ const proxy = createProxyMiddleware({
 				instance.ip,
 				instance.port,
 			);
-			console.log("VM not found");
-
 			return `http://${instance.ip}:${instance.port}`;
 		}
-		throw new Error("VM not found");
+		console.log("instance not found on vm manager");
+		return;
 	},
 	pathRewrite: (path, req) => {
 		return path.replace(req.url?.split("/")[1] || "", "");
@@ -100,8 +97,8 @@ const proxy = createProxyMiddleware({
 	},
 });
 
-app.use("*", async (c, next) => {
-	const code = c.req.url?.split("/")[1];
+app.all("/:code", async (c, next) => {
+	const code = c.req.param("code");
 	if (!code) {
 		c.status(400);
 		return;
@@ -110,13 +107,18 @@ app.use("*", async (c, next) => {
 
 	if (vmProxies.has(code)) {
 		return new Promise((resolve, reject) => {
-			proxy(c.env.incoming, c.env.outgoing, (err) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve();
-				}
-			});
+			try {
+				proxy(c.env.incoming, c.env.outgoing, (err) => {
+					if (err) {
+						reject(err);
+					} else {
+						resolve();
+					}
+				});
+			} catch (e) {
+				console.log("error on proxy", e);
+				reject(e);
+			}
 		});
 	}
 	return c.status(404);
@@ -211,7 +213,7 @@ export async function ExecCodeTest(
 				vmInstances[uuid].ip = ip;
 
 				// プロキシの設定
-				setupVMProxy(code, ip, port);
+				setupVMProxy(code);
 			}
 		});
 
@@ -312,6 +314,15 @@ export async function StopCodeTest(
 		// for (let i = stack.length - 1; i >= 0; i--) {
 		// 	const layer = stack[i];
 		// 	if (layer.route?.path?.toString().includes(code)) {
+		// 		stack.splice(i, 1);
+		// 	}
+		// }
+
+		//honoのルーターからプロキシを削除
+		// const stack = app.routes;
+		// for (let i = stack.length - 1; i >= 0; i--) {
+		// 	const layer = stack[i];
+		// 	if (layer.path?.toString().includes(code)) {
 		// 		stack.splice(i, 1);
 		// 	}
 		// }
