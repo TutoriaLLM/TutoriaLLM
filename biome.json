@@ -13,7 +13,8 @@
 		"rules": {
 			"recommended": true,
 			"correctness": {
-				"useExhaustiveDependencies": "info"
+				"useExhaustiveDependencies": "info",
+				"noUnusedImports": "warn"
 			},
 			"suspicious": {
 				"noExplicitAny": "warn",
