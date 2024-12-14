@@ -1,9 +1,8 @@
-import bcrypt from "bcrypt";
-
+import argon2 from "argon2";
 export async function saltAndHashPassword(password: string) {
 	try {
 		// generate hashed password
-		const hashedPassword = await bcrypt.hash(password, 12);
+		const hashedPassword = await argon2.hash(password);
 		return hashedPassword;
 	} catch (error: any) {
 		throw new Error(`Error salting and hashing password: ${error.message}`);
@@ -11,7 +10,7 @@ export async function saltAndHashPassword(password: string) {
 }
 
 export async function comparePasswordToHash(password: string, hash: string) {
-	const match = await bcrypt.compare(password, hash);
+	const match = await argon2.verify(hash, password);
 	return match;
 }
 
