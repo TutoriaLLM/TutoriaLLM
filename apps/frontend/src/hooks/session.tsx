@@ -19,7 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useSession = (code: string, refetchInterval?: number | false) => {
 	const {
 		data: session,
-		isLoading,
+		isPending,
 		isError,
 	} = useQuery({
 		queryKey: ["session", code],
@@ -28,5 +28,5 @@ export const useSession = (code: string, refetchInterval?: number | false) => {
 		refetchOnReconnect: true,
 		refetchInterval,
 	});
-	return { session, isLoading, isError };
+	return { session, isPending, isError };
 };

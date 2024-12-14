@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useConfig = () => {
 	const {
 		data: config,
-		isLoading,
+		isPending,
 		isError,
 	} = useQuery({
 		queryKey: ["config"],
@@ -12,5 +12,5 @@ export const useConfig = () => {
 		staleTime: 1000 * 60 * 3, // 3 minutes
 		refetchOnReconnect: true,
 	});
-	return { config, isLoading, isError };
+	return { config, isPending, isError };
 };

@@ -11,7 +11,7 @@ export default function Tutorials() {
 	const [error, setError] = useState<string | null>(null);
 	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // アップロードしたJSONを管理する状態
 
-	const { tutorials, isLoading } = useListTutorials();
+	const { tutorials, isPending } = useListTutorials();
 
 	const { mutate: del } = useMutation({
 		mutationFn: deleteTutorial,
@@ -113,7 +113,7 @@ export default function Tutorials() {
 						</tr>
 					</thead>
 					<tbody className="gap-2">
-						{isLoading ? (
+						{isPending ? (
 							<SkeletonRows />
 						) : tutorials && tutorials.length > 0 ? (
 							tutorials?.map((tutorial) => {

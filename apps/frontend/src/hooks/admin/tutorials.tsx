@@ -4,13 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 export const useListTutorials = () => {
 	const {
 		data: tutorials,
-		isLoading,
+		isPending,
 		isError,
 	} = useQuery({
 		queryKey: ["tutorials"],
 		queryFn: () => getTutorials(),
+		retry: false,
 		staleTime: 1000 * 60 * 1, // 1 minute of cache
 		refetchOnReconnect: true,
 	});
-	return { tutorials, isLoading, isError };
+	return { tutorials, isPending, isError };
 };

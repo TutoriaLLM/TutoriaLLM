@@ -16,7 +16,7 @@ export const useListSessions = (
 ) => {
 	const {
 		data: sessions,
-		isLoading,
+		isPending,
 		isError,
 	} = useQuery({
 		queryKey: ["sessions", pagination],
@@ -30,5 +30,5 @@ export const useListSessions = (
 		refetchOnReconnect: true,
 		refetchInterval,
 	});
-	return { sessions, isLoading, isError };
+	return { sessions, isPending, isError };
 };
