@@ -1,3 +1,4 @@
+import "dotenv/config";
 import type { Server as HttpServer } from "node:http";
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";

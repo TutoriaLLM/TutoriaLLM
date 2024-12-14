@@ -1,6 +1,4 @@
 import bcrypt from "bcrypt";
-import dotenv from "dotenv";
-dotenv.config();
 
 export async function saltAndHashPassword(password: string) {
 	try {

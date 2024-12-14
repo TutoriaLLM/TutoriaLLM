@@ -7,10 +7,8 @@ import inquirer from "inquirer";
 import { resetCredentials } from "@/db/users";
 import { createConfig, deleteConfig } from "@/modules/config";
 import { saltAndHashPassword } from "@/utils/password";
-import dotenv from "dotenv";
 
 const program = new Command();
-dotenv.config();
 
 // ユーザー登録コマンド
 program
