@@ -1,5 +1,5 @@
 import "dotenv/config";
-import type { Server as HttpServer } from "node:http";
+import { createServer, type Server as HttpServer } from "node:http";
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";
 import { errorResponse } from "@/libs/errors";
@@ -10,7 +10,7 @@ import configRoutes from "@/modules/config";
 import healthRoutes from "@/modules/health";
 import sessionRoutes from "@/modules/session";
 import tutorialRoutes from "@/modules/tutorials";
-import vmProxyRoutes from "@/modules/vmProxy";
+import vmProxyRoutes, { vmProxy } from "@/modules/vmProxy";
 import { serve } from "@hono/node-server";
 import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
@@ -18,6 +18,7 @@ import { cors } from "hono/cors";
 import { showRoutes } from "hono/dev";
 import { verifyRequestOrigin } from "lucia";
 import { initSocketServer } from "./modules/session/socket";
+import type { Socket } from "node:net";
 
 const app = new OpenAPIHono<Context>({ defaultHook });
 
@@ -88,7 +89,9 @@ if (process.env.SERVER_PORT) {
 
 export const server = serve({
 	fetch: app.fetch,
+	overrideGlobalObjects: false,
 	port: port,
+	createServer: createServer,
 });
 
 //サーバー起動後に実行される処理
@@ -110,6 +113,14 @@ export const route = app
 // The OpenAPI documentation will be available at /doc
 app.route("/", adminRoutes);
 
+//vmに対するwebsocketプロキシは、サーバーに直接設定し、処理する
+server.on("upgrade", (req, socket, head) => {
+	if (req.url?.startsWith("/vm")) {
+		vmProxy.upgrade(req, socket as Socket, head);
+	}
+});
+
+//通常のプロキシはルーターで処理
 app.route("/vm", vmProxyRoutes);
 
 /**

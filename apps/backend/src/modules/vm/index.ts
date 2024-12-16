@@ -12,6 +12,8 @@ import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { Socket } from "socket.io";
+import type { Socket as nodeSocket } from "node:net";
+import { createServer } from "node:http";
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -97,6 +99,16 @@ const proxy = createProxyMiddleware({
 	},
 });
 
+const server = serve({
+	fetch: app.fetch,
+	overrideGlobalObjects: false,
+	port: vmPort,
+	createServer: createServer,
+});
+server.on("upgrade", (req, socket, head) => {
+	proxy.upgrade(req, socket as nodeSocket, head);
+});
+
 app.all("/:code", async (c, next) => {
 	const code = c.req.param("code");
 	if (!code) {
@@ -122,11 +134,6 @@ app.all("/:code", async (c, next) => {
 		});
 	}
 	return c.status(404);
-});
-
-serve({
-	fetch: app.fetch,
-	port: vmPort,
 });
 
 export async function ExecCodeTest(

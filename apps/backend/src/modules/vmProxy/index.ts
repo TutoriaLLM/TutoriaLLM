@@ -1,6 +1,7 @@
 import type { HttpBindings } from "@hono/node-server";
 import { Hono } from "hono";
 import { createProxyMiddleware } from "http-proxy-middleware";
+
 let vmPort = 3002;
 if (process.env.VM_PORT) {
 	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
@@ -10,7 +11,7 @@ if (process.env.VM_PORT) {
 	}
 }
 
-const vmProxy = createProxyMiddleware({
+export const vmProxy = createProxyMiddleware({
 	target: `http://localhost:${vmPort}`,
 	pathFilter: (path) => {
 		return path.startsWith("/vm");
@@ -36,7 +37,7 @@ const vmProxy = createProxyMiddleware({
 	},
 });
 
-const app = new Hono<{ Bindings: HttpBindings }>().use("*", (c) => {
+const app = new Hono<{ Bindings: HttpBindings }>().use("*", (c, next) => {
 	console.log("vmProxy");
 	return new Promise((resolve, reject) => {
 		vmProxy(c.env.incoming, c.env.outgoing, (err) => {
