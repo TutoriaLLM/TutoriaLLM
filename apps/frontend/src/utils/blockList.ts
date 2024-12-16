@@ -1,0 +1,57 @@
+const basicBlocks = [
+	"controls_repeat_ext",
+	"controls_whileUntil",
+	"controls_for",
+	"controls_forEach",
+	"controls_flow_statements",
+	"controls_if",
+	"logic_compare",
+	"logic_operation",
+	"logic_negate",
+	"logic_boolean",
+	"logic_null",
+	"logic_ternary",
+	"math_number",
+	"math_arithmetic",
+	//"math_single",
+	//"math_trig",
+	//"math_constant",
+	"math_number_property",
+	"math_round",
+	"math_on_list",
+	"math_modulo",
+	"math_constrain",
+	"math_random_int",
+	"math_random_float",
+	//"math_atan2",
+	"text",
+	"text_join",
+	"text_append",
+	"text_length",
+	"text_isEmpty",
+	"text_indexOf",
+	"text_charAt",
+	"text_getSubstring",
+	"text_changeCase",
+	"text_trim",
+	"text_count",
+	"text_replace",
+	"text_reverse",
+	//"text_print",
+	"lists_create_empty",
+	"lists_create_with",
+	"lists_repeat",
+	"lists_length",
+	"lists_isEmpty",
+	"lists_indexOf",
+	"lists_getIndex",
+	"lists_setIndex",
+];
+
+//const allBlocks = basicBlocks.concat(availableBlocks);
+
+function listAllBlocks(availableBlocks: string[]) {
+	return basicBlocks.concat(availableBlocks);
+}
+
+export { listAllBlocks };
