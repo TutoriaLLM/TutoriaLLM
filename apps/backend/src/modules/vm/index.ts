@@ -1,3 +1,5 @@
+import { createServer } from "node:http";
+import type { Socket as nodeSocket } from "node:net";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
@@ -12,8 +14,6 @@ import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { Socket } from "socket.io";
-import type { Socket as nodeSocket } from "node:net";
-import { createServer } from "node:http";
 // `__dirname` を取得
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

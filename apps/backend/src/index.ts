@@ -1,5 +1,6 @@
 import "dotenv/config";
-import { createServer, type Server as HttpServer } from "node:http";
+import { type Server as HttpServer, createServer } from "node:http";
+import type { Socket } from "node:net";
 import type { Context } from "@/context";
 import { defaultHook } from "@/libs/default-hook";
 import { errorResponse } from "@/libs/errors";
@@ -18,7 +19,6 @@ import { cors } from "hono/cors";
 import { showRoutes } from "hono/dev";
 import { verifyRequestOrigin } from "lucia";
 import { initSocketServer } from "./modules/session/socket";
-import type { Socket } from "node:net";
 
 const app = new OpenAPIHono<Context>({ defaultHook });
 
