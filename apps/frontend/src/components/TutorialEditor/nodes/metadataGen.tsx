@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import "@mdxeditor/editor/style.css";
 import { generateMetadata } from "@/api/admin/tutorials";
-import { useMutation } from "@/hooks/use-mutations";
+import { useMutation } from "@/hooks/useMutations.js";
 import { Bot, Trash2 } from "lucide-react";
 import CustomHandle from "../customHandle.js";
 import type { markdownNode, mdToMetadataNode } from "./nodetype.js";

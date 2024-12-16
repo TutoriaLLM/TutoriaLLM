@@ -1,4 +1,4 @@
-import { useMutation } from "@/hooks/use-mutations";
+import { useMutation } from "@/hooks/useMutations.js";
 import {
 	Handle,
 	type NodeProps,

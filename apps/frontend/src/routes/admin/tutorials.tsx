@@ -3,10 +3,15 @@ import { useListTutorials } from "@/hooks/admin/tutorials.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import TutorialEditor from "../../TutorialEditor/index.js";
+import TutorialEditor from "../../components/TutorialEditor/index.js";
 
-export default function Tutorials() {
+export const Route = createFileRoute("/admin/tutorials")({
+	component: Tutorials, // This is the main
+});
+
+function Tutorials() {
 	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [error, setError] = useState<string | null>(null);
 	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // アップロードしたJSONを管理する状態

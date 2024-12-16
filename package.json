@@ -15,7 +15,7 @@
 	},
 	"pre-commit": "",
 	"simple-git-hooks": {
-		"pre-commit": "pnpm format && pnpm lint:repo"
+		"pre-commit": "pnpm format && pnpm lint:repo && pnpm check"
 	},
 	"keywords": [],
 	"author": "",

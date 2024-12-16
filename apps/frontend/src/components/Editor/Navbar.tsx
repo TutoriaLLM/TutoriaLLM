@@ -3,6 +3,7 @@ import type { SessionValue } from "@/type.js";
 import { SessionValueToPost } from "@/utils/SessionValueToPost.js";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
+import { useRouter } from "@tanstack/react-router";
 import { useAtomValue } from "jotai";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -18,8 +19,9 @@ export default function Navbar(props: {
 }) {
 	const { t } = useTranslation();
 	const sessionValue = useAtomValue(currentSessionState);
+	const router = useRouter();
+
 	function handleExit() {
-		location.href = "/";
 		const sessionValueToSave = {
 			...sessionValue,
 			clients: [],
@@ -33,6 +35,7 @@ export default function Navbar(props: {
 				convertedSessionValue,
 			);
 		}
+		router.navigate({ to: "/" });
 	}
 	//可能な場合はローカルストレージにデータを保存
 	const { setIsOpen } = useTour(); // ツアーの開始/終了を管理するフック

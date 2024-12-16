@@ -1,6 +1,7 @@
 import { deleteSession, downloadAllSessions } from "@/api/admin/session.js";
 import { type Pagination, useListSessions } from "@/hooks/admin/session.js";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import {
 	type ColumnDef,
 	flexRender,
@@ -22,13 +23,16 @@ import {
 	Puzzle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { SessionValue } from "../../../type.js";
-import { langToStr } from "../../../utils/langToStr.js";
-import { msToTime, timeAgo } from "../../../utils/time.js";
-import { SessionValueView } from "../../SessionValueView/index.js";
-import Popup from "../../ui/Popup.js";
+import { SessionValueView } from "../../components/SessionValueView/index.js";
+import Popup from "../../components/ui/Popup.js";
+import type { SessionValue } from "../../type.js";
+import { langToStr } from "../../utils/langToStr.js";
+import { msToTime, timeAgo } from "../../utils/time.js";
 
-export default function Sessions() {
+export const Route = createFileRoute("/admin/sessions")({
+	component: Sessions, // This is the main
+});
+function Sessions() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [autoUpdateMs, setAutoUpdateMs] = useState<number | false>(5000);

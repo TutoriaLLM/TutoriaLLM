@@ -14,6 +14,7 @@ import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 
 import { getStatus } from "@/api/health.js";
+import type { Message } from "@/routes/index.js";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { LanguageToStart } from "../../../state.js";
@@ -24,24 +25,14 @@ import { DebugInfo } from "./debuginfo.js";
 export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {
 	isPopupOpen: boolean;
-	message: string;
-	messageType: "error" | "info";
+	message: Message;
+	setMessage: (message: Message) => void;
 }) {
 	const { t } = useTranslation();
 	const showPopup = props.isPopupOpen;
 	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
-	// const [isServerOnline, setIsServerOnline] = useState<boolean | null>(null);
 
-	// function useServerStatus() {
-	// 	return useQuery({
-	// 		queryKey: ["serverStatus"], // クエリキー
-	// 		queryFn: getStatus, // クエリ関数
-	// 		staleTime: 0, // キャッシュの有効期間
-	// 		refetchOnWindowFocus: false, // ウィンドウフォーカス時にリフェッチするかどうか
-	// 		retry: false, // リトライを無効化
-	// 	});
-	// }
-
+	const messageText = t(props.message.message);
 	const { data: isServerOnline } = useQuery({
 		queryKey: ["serverStatus"],
 		queryFn: getStatus,
@@ -107,13 +98,16 @@ export default function SessionPopup(props: {
 							<div className="bg-gray-50 rounded-3xl shadow p-3 w-full">
 								<div className="p-1.5 py-2 bg-yellow-200 text-gray-600 font-normal border rounded-2xl w-full h-full flex justify-center items-center">
 									<CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
-									<p className="text-left w-full">{props.message}</p>
+									<p className="text-left w-full">{messageText}</p>
 								</div>
 								<div className="flex flex-col text-gray-700 justify-center items-center gap-3 p-6">
-									<CreateNewSession language={languageToStart} />
+									<CreateNewSession
+										language={languageToStart}
+										setMessage={props.setMessage}
+									/>
 
 									<span>{t("session.or")}</span>
-									<JoinSession />
+									<JoinSession setMessage={props.setMessage} />
 								</div>
 							</div>
 							<LangPicker

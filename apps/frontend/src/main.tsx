@@ -1,55 +1,53 @@
-import "./styles/index.css";
-
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-import EditorPage from "./pages/editorPage.js";
-
-import "./i18n/client_i18nConfig";
-import FrontendTracer from "./clientTelemetry.js";
-import AdminPage from "./pages/adminPage.js";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { routeTree } from "./routeTree.gen";
+import "./i18n/client_i18nConfig";
+import "./styles/index.css";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// Set up a Router instance
+export const queryClient = new QueryClient();
 
-export default function App(): React.ReactElement {
-	//Sentry/Opentelemetry/GAの実行
+const router = createRouter({
+	routeTree,
+	defaultPreload: "intent",
+	defaultStaleTime: 5000,
+	context: {
+		queryClient,
+	},
+});
 
-	const isDev = process.env.NODE_ENV === "development";
-	// デバッグモードの場合以外は、console.logを無効にする
-	if (!isDev) {
-		console.log = () => {};
+// Register things for typesafety
+declare module "@tanstack/react-router" {
+	interface Register {
+		router: typeof router;
 	}
-	const queryClient = new QueryClient();
-
-	// アプリのページ定義
-	return (
-		<React.StrictMode>
-			<QueryClientProvider client={queryClient}>
-				<BrowserRouter>
-					<FrontendTracer />
-					<Routes>
-						<Route path="/admin/*" element={<AdminPage />} />
-						<Route path="/:code" element={<EditorPage />} />
-						<Route path="/*" element={<EditorPage />} />
-					</Routes>
-				</BrowserRouter>
-			</QueryClientProvider>
-		</React.StrictMode>
-	);
 }
-try {
-	const domNode = document.getElementById("root");
-	if (!domNode) throw new Error("Root element not found");
-	const root = createRoot(domNode);
+const isDev = process.env.NODE_ENV === "development";
+// デバッグモードの場合以外は、console.logを無効にする
+if (!isDev) {
+	console.log = () => {};
+}
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const rootElement = document.getElementById("root")!;
+
+const App = () => (
+	<React.StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<ReactQueryDevtools initialIsOpen={false} />
+			<RouterProvider router={router} />
+		</QueryClientProvider>
+	</React.StrictMode>
+);
+
+if (!rootElement.innerHTML) {
+	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App />);
-} catch (e) {
-	console.error(e);
 }
-
 // Reactアプリがレンダリングされた後にローディング画面を非表示にする
 const loadingElement = document.getElementById("loading");
-const rootElement = document.getElementById("root");
 if (loadingElement && rootElement) {
 	loadingElement.style.display = "none";
 	rootElement.style.display = "block";

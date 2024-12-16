@@ -7,6 +7,7 @@ import {
 } from "@/api/admin/training";
 import { deleteUser } from "@/api/admin/users";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import type { InferResponseType } from "backend/hc";
 import {
 	CalendarClock,
@@ -19,7 +20,11 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function Training() {
+export const Route = createFileRoute("/admin/training")({
+	component: Training, // This is the main
+});
+
+function Training() {
 	type TrainingData = InferResponseType<
 		typeof adminClient.admin.training.data.random.$get,
 		200

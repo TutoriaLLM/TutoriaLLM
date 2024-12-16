@@ -7,11 +7,16 @@ import {
 	updateUser,
 } from "@/api/admin/users.js";
 import { useMutation } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 import type { InferResponseType } from "backend/hc";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function Users() {
+export const Route = createFileRoute("/admin/users")({
+	component: Users, // This is the main
+});
+
+function Users() {
 	type UserArray = InferResponseType<typeof adminClient.admin.users.$get, 200>;
 	type User = UserArray[number];
 	type UserType = {

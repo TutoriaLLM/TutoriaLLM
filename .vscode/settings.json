@@ -17,6 +17,9 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"files.eol": "\n",
+	"files.watcherExclude": {
+		"**/routeTree.gen.ts": true
+	},
 	"editor.codeActionsOnSave": {
 		"quickfix.biome": "explicit",
 		"source.organizeImports.biome": "never"

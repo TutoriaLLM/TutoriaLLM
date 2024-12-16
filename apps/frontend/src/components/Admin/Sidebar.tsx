@@ -1,3 +1,4 @@
+import { Link, useLocation } from "@tanstack/react-router";
 import {
 	Activity,
 	Bot,
@@ -7,27 +8,19 @@ import {
 	Sidebar,
 	User,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
 import { ExitButton } from "../ui/exitButton.js";
 
-export default function SideBar(props: { path: string[] }) {
+export default function SideBar() {
 	const { t } = useTranslation();
-	const location = useLocation();
+	const location = useLocation().pathname;
 
-	const [isOpen, setIsOpen] = useState(false);
-	const path = props.path;
-	const [currentSegment, setCurrentSegment] = useState(path[path.length - 1]);
+	const [isOpen, setIsOpen] = useState(true);
 
 	const toggleSidebar = () => {
 		setIsOpen(!isOpen);
 	};
-
-	useEffect(() => {
-		const newPath = location.pathname.split("/");
-		setCurrentSegment(newPath[newPath.length - 1]);
-	}, [location]);
 
 	const SidebarItem = ({
 		href,
@@ -38,16 +31,14 @@ export default function SideBar(props: { path: string[] }) {
 		icon: React.FC;
 		label: string;
 	}) => {
-		const linkList = href.split("/");
 		return (
 			<Link
 				to={href}
 				className={`hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap ${
-					currentSegment === linkList[linkList.length - 1] ? "bg-gray-300" : ""
+					location === href ? "bg-gray-300" : ""
 				}`}
 				onClick={() => {
 					setIsOpen(false);
-					setCurrentSegment(linkList[linkList.length - 1]);
 				}}
 			>
 				<Icon />

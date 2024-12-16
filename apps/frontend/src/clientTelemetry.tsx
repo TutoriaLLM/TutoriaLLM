@@ -1,15 +1,11 @@
 import * as Sentry from "@sentry/react";
+import { useLocation, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import GA4 from "react-ga4";
-import {
-	createRoutesFromChildren,
-	matchRoutes,
-	useLocation,
-	useNavigationType,
-} from "react-router-dom";
 import { getConfig } from "./api/config.js";
 
 const FrontendTracer = () => {
+	const router = useRouter();
 	const pageLocation = useLocation();
 
 	const ReactGA = GA4; // typeが壊れていたので応急処置
@@ -42,13 +38,7 @@ const FrontendTracer = () => {
 					replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate || 0,
 					replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate || 0,
 					integrations: [
-						Sentry.reactRouterV6BrowserTracingIntegration({
-							useEffect,
-							useLocation,
-							useNavigationType,
-							createRoutesFromChildren,
-							matchRoutes,
-						}),
+						Sentry.tanstackRouterBrowserTracingIntegration(router),
 						Sentry.replayIntegration({
 							maskAllText: false,
 						}),

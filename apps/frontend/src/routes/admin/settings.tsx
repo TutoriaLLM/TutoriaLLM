@@ -1,9 +1,14 @@
 import { updateConfig } from "@/api/admin/config";
 import { getConfig } from "@/api/config.js";
-import { useMutation } from "@/hooks/use-mutations";
+import { useMutation } from "@/hooks/useMutations.js";
 import type { AppConfig } from "@/type.js";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import JSONField from "../../ui/jsonViewer.js";
+import JSONField from "../../components/ui/jsonViewer.js";
+
+export const Route = createFileRoute("/admin/settings")({
+	component: ConfigManager, // This is the main
+});
 
 function ConfigManager() {
 	const [config, setConfig] = useState<AppConfig | undefined>(undefined);

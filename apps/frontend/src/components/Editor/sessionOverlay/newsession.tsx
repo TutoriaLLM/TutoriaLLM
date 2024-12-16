@@ -1,23 +1,28 @@
 import { createSession } from "@/api/session";
 import SavedData from "@/components/Editor/sessionOverlay/savedData";
-import { useMutation } from "@/hooks/use-mutations";
+import { useMutation } from "@/hooks/useMutations";
+import type { Message } from "@/routes";
+import { useRouter } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export default function CreateNewSession(props: { language: string }) {
+export default function CreateNewSession({
+	language,
+	setMessage,
+}: { language: string; setMessage: (message: Message) => void }) {
 	const { t } = useTranslation();
-
+	const router = useRouter();
 	const { mutate, isPending } = useMutation({
 		onMutate: () => {
 			console.log("create session");
 		},
 		mutationFn: createSession,
-		onSuccess: (sessionCode) => {
-			console.log(`session created${sessionCode}`);
-			window.location.href = `/${sessionCode.sessionCode}`;
+		onSuccess: ({ sessionCode }) => {
+			router.navigate({ to: `/${sessionCode}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);
+			setMessage({ type: "error", message: t("session.failedCreate") });
 		},
 	});
 
@@ -30,7 +35,7 @@ export default function CreateNewSession(props: { language: string }) {
 				}`}
 				onClick={() => {
 					mutate({
-						language: props.language,
+						language: language,
 					});
 				}}
 				disabled={isPending}

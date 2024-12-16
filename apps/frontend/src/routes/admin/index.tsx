@@ -1,7 +1,11 @@
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
 
-export default function Dashboard() {
+export const Route = createFileRoute("/admin/")({
+	component: Dashboard, // This is the main
+});
+
+function Dashboard() {
 	return (
 		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl text-gray-700">
 			<div className="flex w-full h-full justify-between items-center p-3">

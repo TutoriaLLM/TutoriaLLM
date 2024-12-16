@@ -1,18 +1,15 @@
+import SideBar from "@/components/Admin/Sidebar";
+import LoginPopup from "@/components/loginOverlay/index";
+import { LanguageToStart } from "@/state";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
 import i18next from "i18next";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import SideBar from "../components/Admin/Sidebar.js";
-import Dashboard from "../components/Admin/tabs/Dashboard.js";
-import Sessions from "../components/Admin/tabs/Sessions.js";
-import Settings from "../components/Admin/tabs/Settings.js";
-import Training from "../components/Admin/tabs/Training.js";
-import Tutorials from "../components/Admin/tabs/Tutorials.js";
-import Users from "../components/Admin/tabs/Users.js";
-import LoginPopup from "../components/loginOverlay/index.js";
-import { LanguageToStart } from "../state.js";
 
-export default function AdminPage() {
+export const Route = createFileRoute("/admin")({
+	component: AdminPage,
+});
+function AdminPage() {
 	const languageToStart = useAtomValue(LanguageToStart);
 	const [showPopup, setShowPopup] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -49,23 +46,14 @@ export default function AdminPage() {
 		i18next.changeLanguage(languageToStart);
 	}, [languageToStart]);
 
-	const [path, setPath] = useState(window.location.pathname.split("/"));
-
 	return (
 		<div className="min-h-screen flex flex-col bg-gray-200 text-gray-800">
 			{isAuthenticated ? (
 				<div className="w-full h-full max-w-[96rem]">
 					<div className="h-full flex w-full">
-						<SideBar path={path} />
+						<SideBar />
 						<div className="w-full h-full max-h-svh overflow-auto p-2 pt-16 md:p-4">
-							<Routes>
-								<Route path="/" element={<Dashboard />} />
-								<Route path="/users" element={<Users />} />
-								<Route path="/tutorials" element={<Tutorials />} />
-								<Route path="/sessions" element={<Sessions />} />
-								<Route path="/settings" element={<Settings />} />
-								<Route path="/training" element={<Training />} />
-							</Routes>
+							<Outlet />
 						</div>
 					</div>
 				</div>
