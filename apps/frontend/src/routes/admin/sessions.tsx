@@ -1,4 +1,6 @@
 import { deleteSession, downloadAllSessions } from "@/api/admin/session.js";
+import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { type Pagination, useListSessions } from "@/hooks/admin/session.js";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -23,7 +25,6 @@ import {
 	Puzzle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { SessionValueView } from "../../components/SessionValueView/index.js";
 import Popup from "../../components/ui/Popup.js";
 import type { SessionValue } from "../../type.js";
 import { langToStr } from "../../utils/langToStr.js";
@@ -214,26 +215,23 @@ function Sessions() {
 			accessorKey: "actions",
 			cell: ({ row }) => (
 				<span className="flex gap-2">
-					<a
-						href={`/${row.original.sessioncode}`}
-						className="p-1.5 rounded-full bg-sky-500 px-2 font-semibold text-white hover:bg-sky-600"
-					>
+					<a href={`/${row.original.sessioncode}`} className={buttonVariants()}>
 						Open
 					</a>
-					<button
+					<Button
 						type="button"
-						className="p-1.5 rounded-full bg-orange-500 px-2 font-semibold text-white hover:bg-orange-600"
+						variant="orange"
 						onClick={() => handleStatsPopup(row.original.sessioncode)}
 					>
 						Stats
-					</button>
-					<button
-						type="button"
-						className="p-1.5 rounded-full bg-red-500 px-2 font-semibold text-white hover:bg-red-600"
+					</Button>
+
+					<Button
+						variant="red"
 						onClick={() => handleDeleteSession(row.original.sessioncode)}
 					>
 						Delete
-					</button>
+					</Button>
 				</span>
 			),
 		},

@@ -1,11 +1,11 @@
 import { deleteTutorial } from "@/api/admin/tutorials.js";
+import TutorialEditor from "@/components/features/admin/TutorialEditor/index.js";
 import { useListTutorials } from "@/hooks/admin/tutorials.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import TutorialEditor from "../../components/TutorialEditor/index.js";
 
 export const Route = createFileRoute("/admin/tutorials")({
 	component: Tutorials, // This is the main

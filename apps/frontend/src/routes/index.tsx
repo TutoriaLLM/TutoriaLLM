@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { createFileRoute } from "@tanstack/react-router";
 //ツアーの読み込み
 import SessionPopup, {
 	type sessionPopupMessageTypes,
-} from "../components/Editor/sessionOverlay/index.js";
+} from "@/components/features/editor/sessionOverlay/index.js";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
 	component: EditorPage, // This is the main

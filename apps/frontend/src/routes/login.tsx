@@ -1,4 +1,4 @@
-import LoginPopup from "@/components/loginOverlay";
+import LoginPopup from "@/components/features/admin/loginOverlay";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 

@@ -3,10 +3,10 @@ import { TourProvider } from "@reactour/tour";
 import { createFileRoute } from "@tanstack/react-router";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
-import Editor from "@/components/Editor/Blockly/index.js";
-import Navbar from "@/components/Editor/Navbar.js";
-import DialogueView from "@/components/Editor/dialogue/index.js";
-import { Onboarding } from "@/components/Editor/onboarding.js";
+import Editor from "@/components/common/Blockly/index.js";
+import DialogueView from "@/components/features/editor/dialogue/index.js";
+import Navbar from "@/components/features/editor/navbar.js";
+import { Onboarding } from "@/components/features/editor/onboarding.js";
 import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
