@@ -35,12 +35,6 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 	})
 	.openapi(listData, async (c) => {
 		const data = await db.query.trainingData.findMany();
-		if (data.length === 0) {
-			return errorResponse(c, {
-				message: "No data found",
-				type: "NOT_FOUND",
-			});
-		}
 		return c.json(data, 200);
 	})
 	.openapi(deleteData, async (c) => {
@@ -84,12 +78,6 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 	.openapi(searchGuides, async (c) => {
 		const searchString = c.req.valid("query").query;
 		const result = await getKnowledge(searchString);
-		if (typeof result === "string") {
-			return errorResponse(c, {
-				message: result,
-				type: "SERVER_ERROR",
-			});
-		}
 		return c.json(result, 200);
 	})
 	.openapi(listGuides, async (c) => {
@@ -101,12 +89,6 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				answer: true,
 			},
 		});
-		if (guidesList.length === 0) {
-			return errorResponse(c, {
-				message: "No guides found",
-				type: "NOT_FOUND",
-			});
-		}
 		return c.json(guidesList, 200);
 	})
 	.openapi(getGuide, async (c) => {

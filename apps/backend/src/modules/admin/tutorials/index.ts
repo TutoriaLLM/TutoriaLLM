@@ -23,12 +23,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 		const allTutorials = await db
 			.select() //不要なフィールドは消した方が良いかもしれない
 			.from(tutorials);
-		if (allTutorials.length === 0) {
-			return errorResponse(c, {
-				message: "No tutorials found",
-				type: "NOT_FOUND",
-			});
-		}
+
 		return c.json(allTutorials, 200);
 	})
 	.openapi(getSpecificTutorial, async (c) => {

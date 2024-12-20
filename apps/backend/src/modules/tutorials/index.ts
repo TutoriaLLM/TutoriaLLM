@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import { tags, tutorials } from "@/db/schema";
-import { errorResponse } from "@/libs/errors";
 import {
 	getSpecificTutorial,
 	getTags,
@@ -22,22 +21,10 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				metadata: tutorials.metadata,
 			})
 			.from(tutorials);
-		if (getTutorials.length === 0) {
-			return errorResponse(c, {
-				message: "No tutorials found",
-				type: "NOT_FOUND",
-			});
-		}
 		return c.json(getTutorials, 200);
 	})
 	.openapi(getTags, async (c) => {
 		const allTags = await db.select().from(tags);
-		if (allTags.length === 0) {
-			return errorResponse(c, {
-				message: "No tags found",
-				type: "NOT_FOUND",
-			});
-		}
 		return c.json(allTags, 200);
 	})
 	.openapi(getSpecificTutorial, async (c) => {
