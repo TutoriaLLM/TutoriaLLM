@@ -2,6 +2,7 @@ import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+// import { visualizer } from "rollup-plugin-visualizer";
 
 import svgr from "vite-plugin-svgr";
 
@@ -80,6 +81,7 @@ export default defineConfig({
 			include: [/node_modules/],
 		},
 		rollupOptions: {
+			// plugins: [visualizer() as any],
 			output: {
 				manualChunks: {
 					blockly: ["blockly"],
