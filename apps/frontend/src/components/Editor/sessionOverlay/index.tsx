@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 
 import { getStatus } from "@/api/health.js";
 import type { Message } from "@/routes/index.js";
+import { setLanguageState } from "@/utils/setdefaultLanguage.js";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { LanguageToStart } from "../../../state.js";
@@ -43,15 +44,7 @@ export default function SessionPopup(props: {
 
 	useEffect(() => {
 		if (languageToStart === "") {
-			const detectedLanguage = navigator.language || i18n.language;
-			const baseLanguage = detectedLanguage.split("-")[0]; // Get the base language code
-			const supportedLanguages = i18n.languages;
-			console.log("Detected language: ", baseLanguage);
-			console.log("Supported languages: ", supportedLanguages);
-			const language = supportedLanguages.includes(baseLanguage)
-				? baseLanguage
-				: "en"; // Default to English if the detected language is not supported
-			setLanguageToStart(language);
+			setLanguageState(setLanguageToStart);
 		}
 	}, [languageToStart, setLanguageToStart]);
 

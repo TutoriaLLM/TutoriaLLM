@@ -7,7 +7,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useAtomValue } from "jotai";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { currentSessionState } from "../../state.js";
+import { currentSessionState, socketIoInstance } from "../../state.js";
 import ExecSwitch from "../ui/ExecSwitch.js";
 import { ExitButton } from "../ui/exitButton.js";
 
@@ -20,6 +20,8 @@ export default function Navbar(props: {
 	const { t } = useTranslation();
 	const sessionValue = useAtomValue(currentSessionState);
 	const router = useRouter();
+
+	const socket = useAtomValue(socketIoInstance);
 
 	function handleExit() {
 		const sessionValueToSave = {
@@ -35,6 +37,7 @@ export default function Navbar(props: {
 				convertedSessionValue,
 			);
 		}
+		socket?.disconnect();
 		router.navigate({ to: "/" });
 	}
 	//可能な場合はローカルストレージにデータを保存

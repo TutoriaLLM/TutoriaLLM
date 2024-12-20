@@ -9,9 +9,9 @@ import Overlay from "../ui/Overlay.js";
 import Login from "./login.js";
 
 export default function LoginPopup(props: {
-	langToStart: string;
 	isPopupOpen: boolean;
 	message: string;
+	redirectTo: string;
 }) {
 	const { t } = useTranslation();
 	const showPopup = props.isPopupOpen;
@@ -44,7 +44,7 @@ export default function LoginPopup(props: {
 								</Dialog.Description>
 							</div>
 							<div className=" bg-white rounded-3xl shadow p-3 w-full">
-								<Login />
+								<Login redirectTo={props.redirectTo} />
 							</div>
 							<LangPicker
 								language={languageToStart}

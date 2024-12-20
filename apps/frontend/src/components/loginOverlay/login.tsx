@@ -1,16 +1,17 @@
 import * as Label from "@radix-ui/react-label";
+import { useRouter } from "@tanstack/react-router";
 import { CircleAlert } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function Login() {
+export default function Login(props: { redirectTo: string }) {
 	const { t } = useTranslation();
 	const usernameRef = React.useRef<HTMLInputElement>(null);
 	const passwordRef = React.useRef<HTMLInputElement>(null);
 
 	const [loginWarning, setLoginWarning] = useState("");
 
-	const currentPage = window.location.href;
+	const router = useRouter();
 
 	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -31,7 +32,7 @@ export default function Login() {
 			}),
 		});
 		if (response.status === 200) {
-			window.location.href = currentPage;
+			router.history.push(props.redirectTo);
 		} else {
 			setLoginWarning(t("login.loginFailed"));
 		}

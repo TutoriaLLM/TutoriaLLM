@@ -9,6 +9,7 @@ import DialogueView from "@/components/Editor/dialogue/index.js";
 import { Onboarding } from "@/components/Editor/onboarding.js";
 import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
+import { getSocket } from "@/libs/socket.js";
 import { queryClient } from "@/main.js";
 import {
 	LanguageToStart,
@@ -24,12 +25,11 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import i18next from "i18next";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
-import { io } from "socket.io-client";
 import { tourSteps } from "../pages/editorTour.js";
 
 const sessionQueryOptions = (sessionCode: string) =>
@@ -53,7 +53,7 @@ function RouteComponent() {
 	const [prevSession, setPrevSession] = useAtom(prevSessionState);
 	const recordedClicksRef = useRef<Clicks>([]);
 	const currentSessionRef = useRef<SessionValue | null>(null);
-	const languageToStart = useAtomValue(LanguageToStart);
+	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
 
 	const [WorkspaceConnection, setWorkspaceConnection] =
 		useAtom(isWorkspaceConnected);
@@ -71,12 +71,101 @@ function RouteComponent() {
 	useEffect(() => {
 		i18next.changeLanguage(languageToStart);
 	}, [languageToStart]);
+
 	useEffect(() => {
+		const socket = getSocket(sessionCode, session.uuid);
+
+		console.warn("sessionCode", sessionCode);
+
+		function onConnect() {
+			console.log("connected");
+			setWorkspaceConnection(true);
+			setSocketInstance(socket); // Socketインスタンスを保存
+		}
+
+		function onDisconnect(reason: string) {
+			console.log("disconnect", reason);
+			setWorkspaceConnection(false);
+			setSocketInstance(null); // Socketインスタンスをクリア
+		}
+
+		function onPushedCurrentSession(data: SessionValue) {
+			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
+			console.log("Received current session from server!", data);
+			setCurrentSession(data);
+			setPrevSession(data);
+			setIsCodeRunning(data?.isVMRunning ?? false);
+			isInternalUpdateRef.current = true; // フラグをリセット
+		}
+
+		function onReceivedDiff(diff: Operation[]) {
+			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
+			console.log("Received session diff from server!", diff);
+
+			// 差分を currentSession に適用
+			setCurrentSession((prevSession) => {
+				setPrevSession(prevSession); // 前回のセッションを保存
+				if (prevSession) {
+					const updatedSession = { ...prevSession }; // 現在のセッションのコピーを作成
+					applyPatch(updatedSession, diff); // 差分を適用
+					setIsCodeRunning(updatedSession?.isVMRunning ?? false);
+					return updatedSession; // 更新されたセッションを返す
+				}
+				console.error("Current session is null.");
+				return prevSession;
+			});
+
+			isInternalUpdateRef.current = true; // フラグをリセット
+		}
+
+		function onReceivedReplyingNotification() {
+			console.log("Received isReplying notification for sender");
+			setCurrentSession((prev) => {
+				if (prev) {
+					return {
+						...prev,
+						isReplying: true,
+					};
+				}
+				return prev;
+			});
+		}
+
+		async function onReceivedScreenshotRequest() {
+			console.log("Received screenshot request");
+			const image = await takeScreenshot();
+			setCurrentSession((prev) => {
+				if (prev) {
+					return {
+						...prev,
+						screenshot: image,
+						clicks: recordedClicksRef.current, // 最新のクリック情報を使用
+					};
+				}
+				return prev;
+			});
+		}
+
 		setCurrentSession(session);
 		setPrevSession(session);
-		connectSocket(session);
 		i18next.changeLanguage(session.language ?? "en");
-	}, [session]);
+
+		socket.on("connect", onConnect);
+		socket.on("disconnect", onDisconnect);
+		socket.on("PushCurrentSession", onPushedCurrentSession);
+		socket.on("PushSessionDiff", onReceivedDiff);
+		socket.on("notifyIsReplyingforSender", onReceivedReplyingNotification);
+		socket.on("RequestScreenshot", onReceivedScreenshotRequest);
+
+		return () => {
+			socket.off("connect", onConnect);
+			socket.off("disconnect", onDisconnect);
+			socket.off("PushCurrentSession", onPushedCurrentSession);
+			socket.off("PushSessionDiff", onReceivedDiff);
+			socket.off("notifyIsReplyingforSender", onReceivedReplyingNotification);
+			socket.off("RequestScreenshot", onReceivedScreenshotRequest);
+		};
+	}, [sessionCode]);
 
 	// スクリーンショットの撮影機能
 	async function takeScreenshot() {
@@ -116,92 +205,6 @@ function RouteComponent() {
 		return newClicks;
 	};
 	window.addEventListener("click", handleClick);
-
-	async function connectSocket(data: SessionValue) {
-		const host = import.meta.env.VITE_PUBLIC_BACKEND_URL;
-		console.log(`processing socket.io connection: ${host}`);
-
-		const socket = io(host, {
-			path: "/session/socket/connect",
-			query: {
-				code: sessionCode,
-				uuid: data.uuid,
-			},
-		});
-
-		socket.on("connect", () => {
-			console.log("connected");
-			setWorkspaceConnection(true);
-			setSocketInstance(socket); // Socketインスタンスを保存
-		});
-
-		//初回接続時に現在のすべてのセッション情報を受信
-		socket.on("PushCurrentSession", (data: SessionValue) => {
-			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
-			console.log("Received current session from server!", data);
-			setCurrentSession(data);
-			setPrevSession(data);
-			setIsCodeRunning(data?.isVMRunning ?? false);
-			isInternalUpdateRef.current = true; // フラグをリセット
-		});
-
-		//このクライアントがメッセージを送信後、有効になったisReplyingフラグを受信(notifyIsReplyingforSender)
-		socket.on("notifyIsReplyingforSender", () => {
-			console.log("Received isReplying notification for sender");
-			setCurrentSession((prev) => {
-				if (prev) {
-					return {
-						...prev,
-						isReplying: true,
-					};
-				}
-				return prev;
-			});
-		});
-
-		socket.on("PushSessionDiff", (diff: Operation[]) => {
-			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
-			console.log("Received session diff from server!", diff);
-
-			// 差分を currentSession に適用
-			setCurrentSession((prevSession) => {
-				setPrevSession(prevSession); // 前回のセッションを保存
-				if (prevSession) {
-					const updatedSession = { ...prevSession }; // 現在のセッションのコピーを作成
-					applyPatch(updatedSession, diff); // 差分を適用
-					setIsCodeRunning(updatedSession?.isVMRunning ?? false);
-					return updatedSession; // 更新されたセッションを返す
-				}
-				console.error("Current session is null.");
-				return prevSession;
-			});
-
-			isInternalUpdateRef.current = true; // フラグをリセット
-		});
-
-		// スクリーンショットのリクエストを受信したときに最新のクリック情報を使用する
-		socket.on("RequestScreenshot", async () => {
-			console.log("Received screenshot request");
-			const image = await takeScreenshot();
-
-			setCurrentSession((prev) => {
-				if (prev) {
-					return {
-						...prev,
-						screenshot: image,
-						clicks: recordedClicksRef.current, // 最新のクリック情報を使用
-					};
-				}
-				return prev;
-			});
-		});
-
-		socket.on("disconnect", () => {
-			console.log("disconnected");
-			setWorkspaceConnection(false);
-			setSocketInstance(null); // Socketインスタンスをクリア
-		});
-	}
 
 	useEffect(() => {
 		// currentSession が変更されるたびに ref を更新する
@@ -252,29 +255,6 @@ function RouteComponent() {
 			}
 		}
 	}, [currentSession, socketInstance]);
-	useEffect(() => {
-		let reconnectInterval: NodeJS.Timeout;
-
-		if (!WorkspaceConnection) {
-			reconnectInterval = setInterval(async () => {
-				if (sessionCode) {
-					// 再接続を試行
-					console.log("Attempting to reconnect...");
-					try {
-						const data = await getSession({ key: sessionCode });
-						setCurrentSession(data);
-						setPrevSession(data);
-						connectSocket(data);
-					} catch (error) {
-						console.error("Error reconnecting:", error);
-					}
-				}
-			}, 5000);
-		}
-
-		return () => clearInterval(reconnectInterval);
-	}, [WorkspaceConnection, sessionCode]);
-
 	return (
 		<TourProvider
 			steps={tourSteps(isMobile)}
@@ -343,7 +323,11 @@ function RouteComponent() {
 									value="workspaceTab"
 									asChild
 								>
-									<Editor menuOpen={isMenuOpen} />
+									<Editor
+										isConnecting={WorkspaceConnection}
+										menuOpen={isMenuOpen}
+										language={session.language ?? "en"}
+									/>
 								</Tabs.Content>
 								<Tabs.Content
 									className="w-full h-full overflow-auto"
@@ -363,7 +347,11 @@ function RouteComponent() {
 								maxSize={80}
 								minSize={20}
 							>
-								<Editor menuOpen={isMenuOpen} />
+								<Editor
+									isConnecting={WorkspaceConnection}
+									menuOpen={isMenuOpen}
+									language={session.language ?? "en"}
+								/>
 							</Panel>
 							<PanelResizeHandle className="h-full group w-3 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
 								<div className="py-2 px-1 z-50 flex flex-col gap-1">
