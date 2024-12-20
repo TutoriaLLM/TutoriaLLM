@@ -45,7 +45,7 @@ function renderGroupLogBubble(
 					</span>
 				)}
 				<div className="prose-invert flex flex-col w-full gap-2">
-					{content.map((logItem, index) => (
+					{content.map((logItem) => (
 						<span
 							className={`text-sm font-mono break-words ${
 								logItem.contentType === "error"

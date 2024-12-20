@@ -1,4 +1,5 @@
 import { ExitButton } from "@/components/common/exitButton.js";
+import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
 import { currentSessionState, socketIoInstance } from "@/state.js";
 import type { SessionValue } from "@/type.js";
@@ -9,7 +10,6 @@ import { useRouter } from "@tanstack/react-router";
 import { useAtomValue } from "jotai";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import ExecSwitch from "@/components/features/editor/ExecSwitch";
 
 export default function Navbar(props: {
 	code: string;

@@ -1,8 +1,8 @@
+import { getConfig } from "@/api/config";
 import * as Sentry from "@sentry/react";
 import { useLocation, useRouter } from "@tanstack/react-router";
 import { useEffect } from "react";
 import GA4 from "react-ga4";
-import { getConfig } from "@/api/config";
 
 const FrontendTracer = () => {
 	const router = useRouter();

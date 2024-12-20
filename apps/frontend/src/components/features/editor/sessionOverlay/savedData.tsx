@@ -1,14 +1,14 @@
 import { getSession, resumeSession } from "@/api/session.js";
+import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 import Popup from "@/components/ui/Popup.js";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { SessionValuePost } from "@/type";
-import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import type * as Blockly from "blockly";
 import { openDB } from "idb";
 import { Clock, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 
 // IndexedDBをオープンする関数
 const dbPromise = openDB("app-data", 1, {
@@ -26,6 +26,8 @@ export default function SavedData() {
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
+	const router = useRouter();
+
 	function switchIsSavedDataOpen() {
 		setIsSavedDataOpen(!isSavedDataOpen);
 	}
@@ -33,7 +35,7 @@ export default function SavedData() {
 	const { mutate } = useMutation({
 		mutationFn: resumeSession,
 		onSuccess: (sessionCode) => {
-			window.location.href = `/${sessionCode}`;
+			router.navigate({ to: `/${sessionCode}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);
@@ -84,23 +86,33 @@ export default function SavedData() {
 	async function createOrContinueSession(localSessionValue: SessionValuePost) {
 		const sessionCode = localSessionValue.sessioncode;
 
-		const queryClient = useQueryClient();
-		const receivedSessionValue = await queryClient.fetchQuery({
-			queryKey: ["session", sessionCode],
-			queryFn: () => getSession({ key: sessionCode }),
-		});
+		const getSessionValue = async () => {
+			try {
+				console.log("get session");
+				return await getSession({ key: sessionCode });
+			} catch (error) {
+				console.error("Failed to get session:", error);
+				return null;
+			}
+		};
+
+		const receivedSessionValue = await getSessionValue();
 
 		if (
 			(receivedSessionValue?.workspace ?? []).toString() ===
 			(localSessionValue.workspace ?? []).toString()
 		) {
-			window.location.href = `/${sessionCode}`;
+			router.navigate({ to: `/${sessionCode}` });
 			console.log(`continue session at ${sessionCode}`);
 		} else {
 			if (!localSessionValue || localSessionValue === null) {
 				return;
 			}
-			mutate(localSessionValue);
+			mutate({
+				...localSessionValue,
+				createdAt: new Date(localSessionValue.createdAt),
+				updatedAt: new Date(localSessionValue.updatedAt),
+			});
 		}
 	}
 

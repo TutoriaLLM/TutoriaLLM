@@ -83,12 +83,10 @@ function Users() {
 
 	const { mutate: put } = useMutation({
 		mutationFn: ({ id, user }: { id: number; user: Partial<UserType> }) =>
-			updateUser(
-				{
-					id,
-				},
+			updateUser({
+				id,
 				user,
-			),
+			}),
 		onSuccess: () => {
 			console.log("Data successfully updated");
 			fetchUsers();

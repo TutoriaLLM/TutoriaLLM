@@ -15,33 +15,35 @@ export const createUser = async (user: UserToCreate["json"]) => {
 	return handleResponse(response);
 };
 
-const UserIdToGet = adminClient.admin.users[":id"].$get;
-type UserIdToGet = InferRequestType<typeof UserIdToGet>;
-export const getUser = async (id: UserIdToGet["param"]) => {
+export const getUser = async ({ id }: { id: number }) => {
 	const response = await adminClient.admin.users[":id"].$get({
-		param: id,
+		param: {
+			id: id.toString(),
+		},
 	});
 	return handleResponse(response);
 };
 
 const UserIdToUpdate = adminClient.admin.users[":id"].$put;
 type UserIdToUpdate = InferRequestType<typeof UserIdToUpdate>;
-export const updateUser = async (
-	id: UserIdToUpdate["param"],
-	user: UserIdToUpdate["json"],
-) => {
+export const updateUser = async ({
+	id,
+	user,
+}: { id: number; user: UserIdToUpdate["json"] }) => {
 	const response = await adminClient.admin.users[":id"].$put({
-		param: id,
+		param: {
+			id: id.toString(),
+		},
 		json: user,
 	});
 	return handleResponse(response);
 };
 
-const UserIdToDelete = adminClient.admin.users[":id"].$delete;
-type UserIdToDelete = InferRequestType<typeof UserIdToDelete>;
-export const deleteUser = async (id: UserIdToDelete["param"]) => {
+export const deleteUser = async ({ id }: { id: number }) => {
 	const response = await adminClient.admin.users[":id"].$delete({
-		param: id,
+		param: {
+			id: id.toString(),
+		},
 	});
 	return handleResponse(response);
 };

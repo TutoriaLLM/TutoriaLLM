@@ -24,12 +24,16 @@ import {
 } from "@mdxeditor/editor";
 
 import "@mdxeditor/editor/style.css";
+import type {
+	MyNode,
+	markdownNode,
+	workspaceNode,
+} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
-import type { MyNode, markdownNode, workspaceNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 
 export function Markdown({ id, data }: NodeProps<markdownNode>) {
-	const { updateNodeData, getNode, deleteElements } = useReactFlow();
+	const { updateNodeData, deleteElements } = useReactFlow();
 
 	const handleSourceChange = (field: string, value: string) => {
 		updateNodeData(id, { ...data, [field]: value });

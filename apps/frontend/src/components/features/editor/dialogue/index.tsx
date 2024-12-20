@@ -1,3 +1,6 @@
+import QuickReply from "@/components/features/editor/dialogue/parts/quickreply";
+import TextBubble from "@/components/features/editor/dialogue/parts/textbubble";
+import { SwitchModeUI } from "@/components/features/editor/dialogue/parts/ui/switchModeUI";
 import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
@@ -9,9 +12,6 @@ import { Bot, Mic, Pause, Play, Send, Trash } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import WaveSurfer from "wavesurfer.js";
-import QuickReply from "@/components/features/editor/dialogue/parts/quickreply";
-import TextBubble from "@/components/features/editor/dialogue/parts/textbubble";
-import { SwitchModeUI } from "@/components/features/editor/dialogue/parts/ui/switchModeUI";
 
 import { useConfig } from "@/hooks/config.js";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -23,7 +23,6 @@ export default function DialogueView() {
 	const [audioURL, setAudioURL] = useState("");
 	const [isRecording, setIsRecording] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [recordingTime, setRecordingTime] = useState(0);
 	const [remainingTime, setRemainingTime] = useState(10);
 	const [isHttps, setIsHttps] = useState(false); // HTTPSかどうかを管理
 	const parentRef = useRef<HTMLDivElement>(null);
@@ -181,17 +180,9 @@ export default function DialogueView() {
 			});
 
 			setIsRecording(true);
-			setRecordingTime(0);
 			setRemainingTime(10);
 
 			intervalRef.current = setInterval(() => {
-				setRecordingTime((prev) => {
-					if (prev >= 10) {
-						stopRecording();
-						return prev;
-					}
-					return prev + 1;
-				});
 				setRemainingTime((prev) => prev - 1);
 			}, 1000);
 		});

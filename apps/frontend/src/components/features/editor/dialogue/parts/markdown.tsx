@@ -1,5 +1,9 @@
 import { getExternalBlocks } from "@/components/common/Blockly/blocks/index.js";
 import {
+	HighlightedBlockId,
+	HighlightedBlockName,
+} from "@/components/features/editor/dialogue/parts/highlight";
+import {
 	blockNameFromMenuState,
 	currentTabState,
 	highlightedBlockState,
@@ -11,7 +15,6 @@ import { useAtom, useSetAtom } from "jotai";
 import { Copy } from "lucide-react";
 import React, { useCallback } from "react";
 import type { Components } from "react-markdown";
-import { HighlightedBlockId, HighlightedBlockName } from "@/components/features/editor/dialogue/parts/highlight";
 
 // テキストをハイライトする関数
 function highlightText(

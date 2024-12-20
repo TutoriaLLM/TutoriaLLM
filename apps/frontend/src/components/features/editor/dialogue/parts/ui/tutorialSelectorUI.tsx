@@ -3,7 +3,8 @@ import Popup from "@/components/ui/Popup.js";
 import { currentSessionState } from "@/state.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
-import { useAtom } from "jotai";
+
+import { useSetAtom } from "jotai";
 import { ArrowRight, BookDashed, EyeIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -65,7 +66,7 @@ function SelectTutorialUI() {
 		return () => window.removeEventListener("resize", updateColumns);
 	}, []);
 
-	const [SessionState, setSessionState] = useAtom(currentSessionState);
+	const setSessionState = useSetAtom(currentSessionState);
 
 	// Select a tutorial and update session state
 	function selectTutorial(tutorial: TutorialType) {

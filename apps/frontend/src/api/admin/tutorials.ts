@@ -10,7 +10,7 @@ export const getTutorials = async () => {
 export const getSpecificTutorial = async ({ id }: { id: number }) => {
 	const response = await adminClient.admin.tutorials[":id"].$get({
 		param: {
-			id,
+			id: id.toString(),
 		},
 	});
 
@@ -24,7 +24,7 @@ export const deleteTutorial = async ({
 }) => {
 	const response = await adminClient.admin.tutorials[":id"].$delete({
 		param: {
-			id,
+			id: id.toString(),
 		},
 	});
 
@@ -51,7 +51,7 @@ export const updateTutorial = async ({
 }) => {
 	const response = await TutorialToUpdate({
 		param: {
-			id,
+			id: id.toString(),
 		},
 		json: tutorial,
 	});

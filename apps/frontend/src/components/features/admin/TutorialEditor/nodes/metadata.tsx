@@ -1,5 +1,6 @@
 import { getTagList } from "@/api/tutorials.js";
 import { LangPicker } from "@/components/common/Langpicker.js";
+import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import {
 	Handle,
 	type NodeProps,
@@ -11,7 +12,6 @@ import i18next from "i18next";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { KEYS, WithContext as ReactTags } from "react-tag-input";
-import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 
 type Tag = {
 	id: string;

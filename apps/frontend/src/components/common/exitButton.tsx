@@ -1,5 +1,5 @@
-import { DoorOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DoorOpen } from "lucide-react";
 
 export function ExitButton(props: { text: string; onClick: () => void }) {
 	return (

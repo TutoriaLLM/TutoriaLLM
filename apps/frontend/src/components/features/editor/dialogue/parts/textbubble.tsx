@@ -1,9 +1,3 @@
-import { useConfig } from "@/hooks/config.js";
-import { currentSessionState } from "@/state.js";
-import type { SessionValue } from "@/type.js";
-import { useAtomValue } from "jotai";
-import React, { useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { renderAIaudioBubble } from "@/components/features/editor/dialogue/parts/bubbles/aiAudioBubble";
 import { renderAIBubble } from "@/components/features/editor/dialogue/parts/bubbles/aiBubble";
 import { renderGroupLogBubble } from "@/components/features/editor/dialogue/parts/bubbles/groupLogBubble";
@@ -13,6 +7,12 @@ import { renderUserAudioBubble } from "@/components/features/editor/dialogue/par
 import { renderUserBubble } from "@/components/features/editor/dialogue/parts/bubbles/userBubble";
 import getMarkdownComponents from "@/components/features/editor/dialogue/parts/markdown";
 import { SelectTutorialUI } from "@/components/features/editor/dialogue/parts/ui/tutorialSelectorUI";
+import { useConfig } from "@/hooks/config.js";
+import { currentSessionState } from "@/state.js";
+import type { SessionValue } from "@/type.js";
+import { useAtomValue } from "jotai";
+import React, { useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const TextBubble = React.forwardRef(function TextBubble(
 	props: {
@@ -69,11 +69,9 @@ const TextBubble = React.forwardRef(function TextBubble(
 			case "ai_audio":
 				return renderAIaudioBubble(
 					content,
-					markdownComponents,
 					t,
 					props.item.id,
 					currenSession?.audios ?? [],
-					props.easyMode,
 				);
 			case "ui":
 				return props.item.ui === "selectTutorial" ? <SelectTutorialUI /> : null;

@@ -1,7 +1,10 @@
+import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
+import type {
+	markdownNode,
+	metadataNode,
+} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { Position, useHandleConnections, useNodesData } from "@xyflow/react";
 import Markdown from "react-markdown";
-import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
-import type { markdownNode, metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 
 export default function Output() {
 	const metadataConnections = useHandleConnections({

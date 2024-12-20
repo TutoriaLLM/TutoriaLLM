@@ -19,8 +19,8 @@ export type ContentType = (typeof contentTypeEnum)[number];
 const responseModeEnum = ["text", "audio"] as const;
 // timestamp用のスキーマ
 export const timestampSchema = z.object({
-	createdAt: z.date(), // ISO文字列として扱う
-	updatedAt: z.date(), // ISO文字列として扱う
+	createdAt: z.date(),
+	updatedAt: z.date(),
 });
 
 export type DialogueType = {

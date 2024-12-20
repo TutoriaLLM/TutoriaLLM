@@ -25,10 +25,10 @@ export default function Toolbar(props: {
 	nodes: any[];
 	edges: any[];
 	setNodes: (nodes: any[]) => void;
-	handleClosePopup: () => void;
+	// handleClosePopup: () => void;
 	isPopupOpen: boolean;
 }) {
-	const { nodes, edges, handleClosePopup, isPopupOpen, setNodes } = props;
+	const { nodes, edges, isPopupOpen, setNodes } = props;
 
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 

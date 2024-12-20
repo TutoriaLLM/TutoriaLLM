@@ -5,6 +5,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import Editor from "@/components/common/Blockly/index.js";
 import DialogueView from "@/components/features/editor/dialogue/index.js";
+import { tourSteps } from "@/components/features/editor/editorTour";
 import Navbar from "@/components/features/editor/navbar.js";
 import { Onboarding } from "@/components/features/editor/onboarding.js";
 import SessionPopup from "@/components/features/editor/sessionOverlay/index.js";
@@ -18,6 +19,7 @@ import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
 import { queryClient } from "@/main.js";
+import type { Message } from "@/routes";
 import {
 	LanguageToStart,
 	currentSessionState,
@@ -31,13 +33,11 @@ import type { Clicks, SessionValue, Tab } from "@/type.js";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import i18next from "i18next";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
-import { tourSteps } from "@/pages/editorTour";
-import type { Message } from "@/routes";
 
 const sessionQueryOptions = (sessionCode: string) =>
 	queryOptions({
@@ -69,7 +69,7 @@ function RouteComponent() {
 	const [prevSession, setPrevSession] = useAtom(prevSessionState);
 	const recordedClicksRef = useRef<Clicks>([]);
 	const currentSessionRef = useRef<SessionValue | null>(null);
-	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
+	const languageToStart = useAtomValue(LanguageToStart);
 
 	const [WorkspaceConnection, setWorkspaceConnection] =
 		useAtom(isWorkspaceConnected);

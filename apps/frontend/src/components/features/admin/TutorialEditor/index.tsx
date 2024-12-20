@@ -12,7 +12,6 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import { getSpecificTutorial } from "@/api/admin/tutorials.js";
-import type { Tutorial } from "@/type.js";
 import { ExampleCode } from "@/components/features/admin/TutorialEditor/nodes/exampleCode";
 import { Markdown } from "@/components/features/admin/TutorialEditor/nodes/markdown";
 import { MarkdownGen } from "@/components/features/admin/TutorialEditor/nodes/markdownGen";
@@ -20,6 +19,7 @@ import { Metadata } from "@/components/features/admin/TutorialEditor/nodes/metad
 import { MetadataGen } from "@/components/features/admin/TutorialEditor/nodes/metadataGen";
 import Output from "@/components/features/admin/TutorialEditor/nodes/output";
 import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
+import type { Tutorial } from "@/type.js";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -104,7 +104,7 @@ export default function llTutorialEditor(props: {
 		},
 	];
 
-	const [nodes, setNodes, onNodesChangeBase] = useNodesState(initialNodes);
+	const [nodes, setNodes] = useNodesState(initialNodes);
 	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
 	// Prevent "output" node from being deleted
@@ -227,7 +227,7 @@ export default function llTutorialEditor(props: {
 						nodes={nodes}
 						setNodes={setNodes}
 						edges={edges}
-						handleClosePopup={handleClosePopup}
+						// handleClosePopup={handleClosePopup}
 						isPopupOpen={isPopupOpen}
 					/>
 				</Panel>

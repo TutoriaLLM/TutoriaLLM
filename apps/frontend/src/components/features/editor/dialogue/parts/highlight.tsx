@@ -1,12 +1,12 @@
-import * as Blockly from "blockly";
+import type * as Blockly from "blockly";
 import { useTranslation } from "react-i18next";
 
+import generateImageFromBlockName from "@/components/features/editor/generateImageFromBlockName";
 import { getImageFromIndexedDB, saveImageToIndexedDB } from "@/indexedDB.js";
 import { blockNameFromMenuState, highlightedBlockState } from "@/state.js";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { Puzzle, ScanSearch, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import generateImageFromBlockName from "@/components/features/editor/generateImageFromBlockName";
 
 function HighlightedBlockName({
 	text,
@@ -15,11 +15,8 @@ function HighlightedBlockName({
 	text: string;
 	handleBlockNameClick: (blockName: string) => void;
 }) {
-	const { t } = useTranslation();
 	const [image, setImage] = useState<string | null>(null);
-	const [blockNameFromMenu, setBlockNameFromMenu] = useAtom(
-		blockNameFromMenuState,
-	);
+	const blockNameFromMenu = useAtomValue(blockNameFromMenuState);
 
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
@@ -95,12 +92,7 @@ function HighlightedBlockId({
 }) {
 	const { t } = useTranslation();
 
-	const [highlightedBlock, setHighlightedBlock] = useAtom(
-		highlightedBlockState,
-	);
-
-	const workspace = Blockly.getMainWorkspace();
-	const blockName = workspace?.getBlockById(text)?.type;
+	const highlightedBlock = useAtomValue(highlightedBlockState);
 
 	// useStateとuseEffectを使わずに、直接isHighlightedを計算する
 	const isHighlighted = highlightedBlock?.blockId === text;

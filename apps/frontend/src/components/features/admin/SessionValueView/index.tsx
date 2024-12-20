@@ -1,3 +1,8 @@
+import Stats from "@/components/features/admin/SessionValueView/stats";
+import Summary from "@/components/features/admin/SessionValueView/summary";
+import Time from "@/components/features/admin/SessionValueView/time";
+import SelectedTutorial from "@/components/features/admin/SessionValueView/tutorial";
+import WorkspacePreview from "@/components/features/admin/workspacePreview";
 import {
 	Tabs,
 	TabsContent,
@@ -6,30 +11,13 @@ import {
 } from "@/components/ui/tabs.js";
 import { useSession } from "@/hooks/session.js";
 import { langToStr } from "@/utils/langToStr.js";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import WorkspacePreview from "@/components/features/admin/workspacePreview";
-import Stats from "@/components/features/admin/SessionValueView/stats";
-import Summary from "@/components/features/admin/SessionValueView/summary";
-import Time from "@/components/features/admin/SessionValueView/time";
-import SelectedTutorial from "@/components/features/admin/SessionValueView/tutorial";
 
 export function SessionValueView(props: { session: string }) {
 	const { session: sessionCode } = props; // 文字列のセッションコードを受け取る
 	const { t } = useTranslation();
 
-	// State management for session data, errors, and loading state
-	const [error, setError] = useState<string | null>(null);
-
 	const { session } = useSession(sessionCode, 5000);
-
-	if (error) {
-		return (
-			<p className="text-red-500">
-				{t("admin.error")}: {error}
-			</p>
-		);
-	}
 
 	if (!session) {
 		return <p className="text-gray-600">{t("admin.loading")}</p>;
@@ -47,31 +35,6 @@ export function SessionValueView(props: { session: string }) {
 			<p className="text-gray-600 text-base">
 				{t("admin.sessionEasyMode")}: {session.easyMode ? t("on") : t("off")}
 			</p>
-			{/* <Tabs.Root
-				defaultValue="summaryView"
-				className="w-full h-full flex flex-col"
-			>
-				<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs">
-					<Tabs.Trigger
-						className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
-						value="summaryView"
-					>
-						{t("admin.summary")}
-					</Tabs.Trigger>
-					<Tabs.Trigger
-						className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner"
-						value="workspaceView"
-					>
-						{t("admin.workspace")}
-					</Tabs.Trigger>
-				</Tabs.List>
-				<Tabs.Content className="w-full h-full" value="workspaceView">
-					<WorkspacePreview session={session} />
-				</Tabs.Content>
-				<Tabs.Content className="w-full h-full" value="summaryView">
-					<Summary session={session} />
-				</Tabs.Content>
-			</Tabs.Root> */}
 			<Tabs defaultValue="summaryView" className="w-full h-full flex flex-col">
 				<TabsList>
 					<TabsTrigger value="summaryView">{t("admin.summary")}</TabsTrigger>

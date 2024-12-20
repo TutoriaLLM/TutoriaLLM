@@ -1,8 +1,8 @@
 import * as Blockly from "blockly";
 
-import extensionModules from "extensions";
 import basicModules from "@/components/common/Blockly/toolbox/category/basics/blocks";
 import separator from "@/components/common/Blockly/toolbox/category/basics/separator";
+import extensionModules from "extensions";
 
 const loadedToolbox = Object.values(extensionModules).flatMap(
 	(mod) => mod.Toolbox,

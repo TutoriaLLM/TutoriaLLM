@@ -1,7 +1,11 @@
 import { deleteSession, downloadAllSessions } from "@/api/admin/session.js";
 import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
+import Popup from "@/components/ui/Popup";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { type Pagination, useListSessions } from "@/hooks/admin/session.js";
+import type { SessionValue } from "@/type";
+import { langToStr } from "@/utils/langToStr";
+import { msToTime, timeAgo } from "@/utils/time";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
@@ -24,17 +28,12 @@ import {
 	Play,
 	Puzzle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import Popup from "@/components/ui/Popup";
-import type { SessionValue } from "@/type";
-import { langToStr } from "@/utils/langToStr";
-import { msToTime, timeAgo } from "@/utils/time";
+import { useState } from "react";
 
 export const Route = createFileRoute("/admin/sessions")({
 	component: Sessions, // This is the main
 });
 function Sessions() {
-	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [autoUpdateMs, setAutoUpdateMs] = useState<number | false>(5000);
 	const [popupSessionFromCode, setPopupSessionFromCode] = useState<
@@ -42,14 +41,16 @@ function Sessions() {
 	>(null);
 	const [pagination, setPagination] = useState<Pagination>({
 		page: 1,
-		pageSize: 10,
+		limit: 50,
 		sortField: "updatedAt",
 		sortOrder: "desc",
 	});
-	const [totalSessions, setTotalSessions] = useState(0);
 	const [downloading, setDownloading] = useState(false);
 
-	const { sessions } = useListSessions(pagination, setLoading, autoUpdateMs);
+	const { sessions, isPending } = useListSessions(pagination, autoUpdateMs);
+
+	const totalSessions = sessions?.total || 0;
+	console.log("totalSessions", totalSessions);
 
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
@@ -61,13 +62,6 @@ function Sessions() {
 			console.error("Failed to delete session:", error);
 		},
 	});
-
-	useEffect(() => {
-		if (!loading) {
-			const timer = setTimeout(() => setLoading(false), 1000); // 1秒後にローディングスピナーを非表示
-			return () => clearTimeout(timer); // クリーンアップ
-		}
-	}, [loading]);
 
 	const handleDeleteSession = (key: string) => {
 		del({ sessionCode: key });
@@ -261,7 +255,7 @@ function Sessions() {
 			/>
 			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Sessions</h2>
-				{loading && (
+				{isPending && (
 					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
 						<LoaderCircle />
 					</span>
@@ -387,7 +381,7 @@ function Sessions() {
 				<button
 					type="button"
 					className={`p-2 rounded-full font-semibold text-white ${
-						pagination.page * pagination.pageSize >= totalSessions
+						pagination.page * pagination.limit >= totalSessions
 							? "bg-gray-400"
 							: "bg-sky-500"
 					}`}
@@ -397,42 +391,39 @@ function Sessions() {
 							...prev,
 							page: Math.min(
 								prev.page + 1,
-								Math.ceil(totalSessions / pagination.pageSize),
+								Math.ceil(totalSessions / pagination.limit),
 							),
 						}))
 					}
-					disabled={pagination.page * pagination.pageSize >= totalSessions}
+					disabled={pagination.page * pagination.limit >= totalSessions}
 				>
 					<ChevronRight />
 				</button>
 				<button
 					type="button"
 					className={`p-2 rounded-full font-semibold text-white ${
-						pagination.page * pagination.pageSize >= totalSessions
+						pagination.page * pagination.limit >= totalSessions
 							? "bg-gray-400"
 							: "bg-sky-500"
 					}`}
-					// onClick={() => setPage(Math.ceil(totalSessions / pagination.pageSize))}
 					onClick={() =>
 						setPagination((prev) => ({
 							...prev,
-							page: Math.ceil(totalSessions / pagination.pageSize),
+							page: Math.ceil(totalSessions / pagination.limit),
 						}))
 					}
-					disabled={pagination.page * pagination.pageSize >= totalSessions}
+					disabled={pagination.page * pagination.limit >= totalSessions}
 				>
 					<ChevronsRight />
 				</button>
 
 				<select
 					className="p-2 rounded-full bg-white text-gray-800 font-semibold"
-					value={pagination.pageSize}
+					value={pagination.limit}
 					onChange={(e) => {
-						// setPageSize(Number(e.target.value));
-						// setPage(1); // Reset to first page when page size changes
 						setPagination((prev) => ({
 							...prev,
-							pageSize: Number(e.target.value),
+							limit: Number(e.target.value),
 							page: 1,
 						}));
 					}}

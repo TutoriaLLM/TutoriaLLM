@@ -22,9 +22,9 @@ export const highlightedBlockState = atom<HighlightedBlock>(null);
 //メニューから取り出すブロックの状態
 export const blockNameFromMenuState = atom<string | null>(null);
 
+import type { HighlightedBlock, SessionValue, Tab } from "@/type";
 //WSインスタンス
 import type { Socket } from "socket.io-client";
-import type { HighlightedBlock, SessionValue, Tab } from "@/type";
 export const socketIoInstance = atom<Socket | null>(null);
 
 //ワークスペースのコードが実行されているかどうか

@@ -1,15 +1,11 @@
 import type { AIAudios } from "@/type.js";
 import type { TFunction } from "i18next";
 import { Bot, Headphones } from "lucide-react";
-import type { Components } from "react-markdown";
-
 function renderAIaudioBubble(
 	content: string,
-	markdownComponents: Components,
 	t: TFunction,
 	id: number,
 	audios: AIAudios | undefined, // audiosを追加
-	easymode: boolean, // stateを追加
 ) {
 	console.log("Content:", content);
 	console.log("Audios:", audios);

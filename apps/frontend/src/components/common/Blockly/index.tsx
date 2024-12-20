@@ -3,8 +3,12 @@ import { useEffect, useRef } from "react";
 
 import registerBlocks from "@/components/common/Blockly/blocks";
 import Theme from "@/components/common/Blockly/theme";
-import { toolboxCategories, translateCategories } from "@/components/common/Blockly/toolbox";
+import {
+	toolboxCategories,
+	translateCategories,
+} from "@/components/common/Blockly/toolbox";
 import "@/styles/blockly.css";
+import { BlockHighlight } from "@/components/common/Blockly/blockHighlight";
 import {
 	blockNameFromMenuState,
 	currentSessionState,
@@ -12,7 +16,6 @@ import {
 	prevSessionState,
 } from "@/state.js";
 import { useAtom, useAtomValue } from "jotai";
-import { BlockHighlight } from "@/components/common/Blockly/blockHighlight";
 
 import { blocklyLocale } from "@/i18n/blocklyLocale.js";
 import { updateStats } from "@/utils/statsUpdater.js";
@@ -47,7 +50,7 @@ const Editor = forwardRef<
 		async function getWorkspace() {
 			const workspaceArea = document.getElementById("workspaceArea");
 			if (workspaceArea) {
-				const resizeObserver = new ResizeObserver((entries) => {
+				const resizeObserver = new ResizeObserver(() => {
 					onResize();
 				});
 				resizeObserver.observe(workspaceArea);
