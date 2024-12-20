@@ -1,9 +1,14 @@
-import WorkspacePreview from "@/components/features/admin/workspacePreview.js";
+import {
+	Tabs,
+	TabsContent,
+	TabsList,
+	TabsTrigger,
+} from "@/components/ui/tabs.js";
 import { useSession } from "@/hooks/session.js";
 import { langToStr } from "@/utils/langToStr.js";
-import * as Tabs from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import WorkspacePreview from "../workspacePreview.js";
 import Stats from "./stats.js";
 import Summary from "./summary.js";
 import Time from "./time.js";
@@ -42,7 +47,7 @@ export function SessionValueView(props: { session: string }) {
 			<p className="text-gray-600 text-base">
 				{t("admin.sessionEasyMode")}: {session.easyMode ? t("on") : t("off")}
 			</p>
-			<Tabs.Root
+			{/* <Tabs.Root
 				defaultValue="summaryView"
 				className="w-full h-full flex flex-col"
 			>
@@ -66,7 +71,21 @@ export function SessionValueView(props: { session: string }) {
 				<Tabs.Content className="w-full h-full" value="summaryView">
 					<Summary session={session} />
 				</Tabs.Content>
-			</Tabs.Root>
+			</Tabs.Root> */}
+			<Tabs defaultValue="summaryView" className="w-full h-full flex flex-col">
+				<TabsList>
+					<TabsTrigger value="summaryView">{t("admin.summary")}</TabsTrigger>
+					<TabsTrigger value="workspaceView">
+						{t("admin.workspace")}
+					</TabsTrigger>
+				</TabsList>
+				<TabsContent value="workspaceView">
+					<WorkspacePreview session={session} />
+				</TabsContent>
+				<TabsContent value="summaryView">
+					<Summary session={session} />
+				</TabsContent>
+			</Tabs>
 			<Stats session={session} />
 			<Time session={session} />
 			<SelectedTutorial session={session} />

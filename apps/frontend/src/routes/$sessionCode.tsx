@@ -8,6 +8,12 @@ import DialogueView from "@/components/features/editor/dialogue/index.js";
 import Navbar from "@/components/features/editor/navbar.js";
 import { Onboarding } from "@/components/features/editor/onboarding.js";
 import SessionPopup from "@/components/features/editor/sessionOverlay/index.js";
+import {
+	Tabs,
+	TabsContent,
+	TabsList,
+	TabsTrigger,
+} from "@/components/ui/tabs.js";
 import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
@@ -22,7 +28,6 @@ import {
 	socketIoInstance,
 } from "@/state.js";
 import type { Clicks, SessionValue, Tab } from "@/type.js";
-import * as Tabs from "@radix-ui/react-tabs";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import i18next from "i18next";
@@ -306,49 +311,33 @@ function RouteComponent() {
 						<PanelRightClose />
 					</button>
 					{isMobile ? (
-						<Tabs.Root
+						<Tabs
 							defaultValue="workspaceTab"
 							value={activeTab}
 							onValueChange={(value) => setActiveTab(value as Tab)}
 							className="w-full h-full flex flex-col"
 						>
-							<Tabs.List className="flex-shrink-0 flex justify-center gap-2 p-2 font-semibold text-xs tabs">
-								<Tabs.Trigger
-									className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner workspaceTab"
-									value="workspaceTab"
-								>
+							<TabsList>
+								<TabsTrigger value="workspaceTab">
 									<Puzzle className="w-4 h-4" />
 									{t("editor.workspaceTab")}
-								</Tabs.Trigger>
-								<Tabs.Trigger
-									className="p-2 rounded-lg flex gap-2 hover:bg-gray-200 hover:shadow-none data-[state=active]:bg-gray-300 data-[state=active]:shadow shadow-inner dialogueTab"
-									value="dialogueTab"
-								>
+								</TabsTrigger>
+								<TabsTrigger value="dialogueTab">
 									<MessageCircleMore className="w-4 h-4" />
 									{t("editor.dialogueTab")}
-								</Tabs.Trigger>
-							</Tabs.List>
-							<div className="flex-grow overflow-hidden h-full w-full">
-								<Tabs.Content
-									className="w-full h-full overflow-auto"
-									value="workspaceTab"
-									asChild
-								>
-									<Editor
-										isConnecting={WorkspaceConnection}
-										menuOpen={isMenuOpen}
-										language={session.language ?? "en"}
-									/>
-								</Tabs.Content>
-								<Tabs.Content
-									className="w-full h-full overflow-auto"
-									value="dialogueTab"
-									asChild
-								>
-									<DialogueView />
-								</Tabs.Content>
-							</div>
-						</Tabs.Root>
+								</TabsTrigger>
+							</TabsList>
+							<TabsContent value="workspaceTab">
+								<Editor
+									isConnecting={WorkspaceConnection}
+									menuOpen={isMenuOpen}
+									language={session.language ?? "en"}
+								/>
+							</TabsContent>
+							<TabsContent value="dialogueTab">
+								<DialogueView />
+							</TabsContent>
+						</Tabs>
 					) : (
 						<PanelGroup autoSaveId="workspace" direction="horizontal">
 							<Panel
