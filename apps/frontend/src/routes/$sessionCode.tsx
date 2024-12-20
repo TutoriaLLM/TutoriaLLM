@@ -7,6 +7,7 @@ import Editor from "@/components/common/Blockly/index.js";
 import DialogueView from "@/components/features/editor/dialogue/index.js";
 import Navbar from "@/components/features/editor/navbar.js";
 import { Onboarding } from "@/components/features/editor/onboarding.js";
+import SessionPopup from "@/components/features/editor/sessionOverlay/index.js";
 import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
@@ -31,17 +32,27 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
 import { tourSteps } from "../pages/editorTour.js";
+import type { Message } from "./index.js";
 
 const sessionQueryOptions = (sessionCode: string) =>
 	queryOptions({
 		queryKey: ["session", sessionCode],
 		queryFn: () => getSession({ key: sessionCode }),
 	});
-
 export const Route = createFileRoute("/$sessionCode")({
 	component: RouteComponent,
-	loader: async ({ params }) =>
-		queryClient.ensureQueryData(sessionQueryOptions(params.sessionCode)),
+	errorComponent: () => {
+		const [message, setMessage] = useState<Message>({
+			type: "error",
+			message: "session.sessionNotFoundMsg",
+		});
+		return (
+			<SessionPopup isPopupOpen message={message} setMessage={setMessage} />
+		);
+	},
+	loader: async ({ params }) => {
+		queryClient.ensureQueryData(sessionQueryOptions(params.sessionCode));
+	},
 });
 
 function RouteComponent() {
