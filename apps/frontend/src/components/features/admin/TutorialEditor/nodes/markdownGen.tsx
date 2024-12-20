@@ -13,8 +13,8 @@ import { generateContent } from "@/api/admin/tutorials.js";
 import { Bot, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
-import CustomHandle from "../customHandle.js";
-import type { MyNode, markdownNode, mdToMdNode } from "./nodetype.js";
+import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
+import type { MyNode, markdownNode, mdToMdNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();

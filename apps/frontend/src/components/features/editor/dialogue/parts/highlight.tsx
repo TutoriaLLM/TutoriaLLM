@@ -6,7 +6,7 @@ import { blockNameFromMenuState, highlightedBlockState } from "@/state.js";
 import { useAtom } from "jotai";
 import { Puzzle, ScanSearch, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import generateImageFromBlockName from "../../generateImageFromBlockName.js";
+import generateImageFromBlockName from "@/components/features/editor/generateImageFromBlockName";
 
 function HighlightedBlockName({
 	text,

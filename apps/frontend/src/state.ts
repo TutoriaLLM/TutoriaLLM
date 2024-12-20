@@ -24,7 +24,7 @@ export const blockNameFromMenuState = atom<string | null>(null);
 
 //WSインスタンス
 import type { Socket } from "socket.io-client";
-import type { HighlightedBlock, SessionValue, Tab } from "./type.js";
+import type { HighlightedBlock, SessionValue, Tab } from "@/type";
 export const socketIoInstance = atom<Socket | null>(null);
 
 //ワークスペースのコードが実行されているかどうか

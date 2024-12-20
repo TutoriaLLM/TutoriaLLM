@@ -11,7 +11,7 @@ import i18next from "i18next";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { KEYS, WithContext as ReactTags } from "react-tag-input";
-import type { metadataNode } from "./nodetype.js";
+import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 
 type Tag = {
 	id: string;

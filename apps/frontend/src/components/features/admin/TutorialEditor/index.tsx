@@ -13,13 +13,13 @@ import { useCallback, useEffect, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import { getSpecificTutorial } from "@/api/admin/tutorials.js";
 import type { Tutorial } from "@/type.js";
-import { ExampleCode } from "./nodes/exampleCode.js";
-import { Markdown } from "./nodes/markdown.js";
-import { MarkdownGen } from "./nodes/markdownGen.js";
-import { Metadata } from "./nodes/metadata.js";
-import { MetadataGen } from "./nodes/metadataGen.js";
-import Output from "./nodes/output.js";
-import Toolbar from "./toolbar.js";
+import { ExampleCode } from "@/components/features/admin/TutorialEditor/nodes/exampleCode";
+import { Markdown } from "@/components/features/admin/TutorialEditor/nodes/markdown";
+import { MarkdownGen } from "@/components/features/admin/TutorialEditor/nodes/markdownGen";
+import { Metadata } from "@/components/features/admin/TutorialEditor/nodes/metadata";
+import { MetadataGen } from "@/components/features/admin/TutorialEditor/nodes/metadataGen";
+import Output from "@/components/features/admin/TutorialEditor/nodes/output";
+import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 

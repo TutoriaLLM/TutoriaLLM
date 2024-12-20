@@ -9,9 +9,9 @@ import { Bot, Mic, Pause, Play, Send, Trash } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import WaveSurfer from "wavesurfer.js";
-import QuickReply from "./parts/quickreply.js";
-import TextBubble from "./parts/textbubble.js";
-import { SwitchModeUI } from "./parts/ui/switchModeUI.js";
+import QuickReply from "@/components/features/editor/dialogue/parts/quickreply";
+import TextBubble from "@/components/features/editor/dialogue/parts/textbubble";
+import { SwitchModeUI } from "@/components/features/editor/dialogue/parts/ui/switchModeUI";
 
 import { useConfig } from "@/hooks/config.js";
 import { useVirtualizer } from "@tanstack/react-virtual";

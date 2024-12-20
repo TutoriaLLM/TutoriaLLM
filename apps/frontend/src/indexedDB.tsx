@@ -1,5 +1,5 @@
 import { openDB } from "idb";
-import type { SessionValue, SessionValuePost } from "./type";
+import type { SessionValue, SessionValuePost } from "@/type";
 
 // IndexedDBをオープンする関数（画像とセッションデータを同じDBで管理）
 const dbPromise = openDB("app-data", 1, {

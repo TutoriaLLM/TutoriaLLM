@@ -6,7 +6,7 @@ import i18n from "i18next";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Login from "./login.js";
+import Login from "@/components/features/admin/loginOverlay/login";
 
 export default function LoginPopup(props: {
 	isPopupOpen: boolean;

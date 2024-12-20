@@ -8,11 +8,11 @@ import { useSession } from "@/hooks/session.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import WorkspacePreview from "../workspacePreview.js";
-import Stats from "./stats.js";
-import Summary from "./summary.js";
-import Time from "./time.js";
-import SelectedTutorial from "./tutorial.js";
+import WorkspacePreview from "@/components/features/admin/workspacePreview";
+import Stats from "@/components/features/admin/SessionValueView/stats";
+import Summary from "@/components/features/admin/SessionValueView/summary";
+import Time from "@/components/features/admin/SessionValueView/time";
+import SelectedTutorial from "@/components/features/admin/SessionValueView/tutorial";
 
 export function SessionValueView(props: { session: string }) {
 	const { session: sessionCode } = props; // 文字列のセッションコードを受け取る

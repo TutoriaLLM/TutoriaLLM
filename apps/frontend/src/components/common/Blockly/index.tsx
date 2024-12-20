@@ -1,9 +1,9 @@
 import * as Blockly from "blockly/core";
 import { useEffect, useRef } from "react";
 
-import registerBlocks from "./blocks/index.js";
-import Theme from "./theme/index.js";
-import { toolboxCategories, translateCategories } from "./toolbox/index.js";
+import registerBlocks from "@/components/common/Blockly/blocks";
+import Theme from "@/components/common/Blockly/theme";
+import { toolboxCategories, translateCategories } from "@/components/common/Blockly/toolbox";
 import "@/styles/blockly.css";
 import {
 	blockNameFromMenuState,
@@ -12,7 +12,7 @@ import {
 	prevSessionState,
 } from "@/state.js";
 import { useAtom, useAtomValue } from "jotai";
-import { BlockHighlight } from "./blockHighlight.js";
+import { BlockHighlight } from "@/components/common/Blockly/blockHighlight";
 
 import { blocklyLocale } from "@/i18n/blocklyLocale.js";
 import { updateStats } from "@/utils/statsUpdater.js";

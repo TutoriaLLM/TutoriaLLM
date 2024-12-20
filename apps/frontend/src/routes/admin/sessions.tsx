@@ -25,10 +25,10 @@ import {
 	Puzzle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import Popup from "../../components/ui/Popup.js";
-import type { SessionValue } from "../../type.js";
-import { langToStr } from "../../utils/langToStr.js";
-import { msToTime, timeAgo } from "../../utils/time.js";
+import Popup from "@/components/ui/Popup";
+import type { SessionValue } from "@/type";
+import { langToStr } from "@/utils/langToStr";
+import { msToTime, timeAgo } from "@/utils/time";
 
 export const Route = createFileRoute("/admin/sessions")({
 	component: Sessions, // This is the main

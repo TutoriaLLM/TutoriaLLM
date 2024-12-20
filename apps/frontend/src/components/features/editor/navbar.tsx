@@ -9,7 +9,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useAtomValue } from "jotai";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import ExecSwitch from "./ExecSwitch.js";
+import ExecSwitch from "@/components/features/editor/ExecSwitch";
 
 export default function Navbar(props: {
 	code: string;

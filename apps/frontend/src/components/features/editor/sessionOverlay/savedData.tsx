@@ -8,7 +8,7 @@ import { openDB } from "idb";
 import { Clock, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import getImageFromSerializedWorkspace from "../generateImageURL.js";
+import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 
 // IndexedDBをオープンする関数
 const dbPromise = openDB("app-data", 1, {

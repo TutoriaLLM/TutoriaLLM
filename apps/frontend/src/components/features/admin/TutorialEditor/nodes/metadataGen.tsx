@@ -12,8 +12,8 @@ import "@mdxeditor/editor/style.css";
 import { generateMetadata } from "@/api/admin/tutorials";
 import { useMutation } from "@/hooks/useMutations.js";
 import { Bot, Trash2 } from "lucide-react";
-import CustomHandle from "../customHandle.js";
-import type { markdownNode, mdToMetadataNode } from "./nodetype.js";
+import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
+import type { markdownNode, mdToMetadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();

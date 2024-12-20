@@ -7,8 +7,8 @@ import {
 	CircleAlertIcon,
 	LoaderCircle,
 } from "lucide-react";
-import JoinSession from "./joinsession.js";
-import CreateNewSession from "./newsession.js";
+import JoinSession from "@/components/features/editor/sessionOverlay/joinsession";
+import CreateNewSession from "@/components/features/editor/sessionOverlay/newsession";
 
 import i18n from "i18next";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ import { LanguageToStart } from "@/state.js";
 import { setLanguageState } from "@/utils/setdefaultLanguage.js";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { DebugInfo } from "./debuginfo.js";
+import { DebugInfo } from "@/components/features/editor/sessionOverlay/debuginfo";
 
 export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {

@@ -8,7 +8,7 @@ import {
 	useReactFlow,
 } from "@xyflow/react";
 import React, { useEffect } from "react";
-import type { workspaceNode } from "./nodetype.js";
+import type { workspaceNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import "blockly/javascript";
 import { getSession } from "@/api/session.js";
 import WorkspacePreview from "@/components/features/admin/workspacePreview.js";

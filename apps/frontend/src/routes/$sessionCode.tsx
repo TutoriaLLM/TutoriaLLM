@@ -36,8 +36,8 @@ import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
-import { tourSteps } from "../pages/editorTour.js";
-import type { Message } from "./index.js";
+import { tourSteps } from "@/pages/editorTour";
+import type { Message } from "@/routes";
 
 const sessionQueryOptions = (sessionCode: string) =>
 	queryOptions({
