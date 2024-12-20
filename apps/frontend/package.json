@@ -7,7 +7,7 @@
 		"dev": "vite",
 		"start": "NODE_ENV=production vite preview",
 		"build": "pnpm tsc && vite build",
-		"tsc": "tsc"
+		"tsc": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@blockly/field-grid-dropdown": "^5.0.9",
