@@ -10,7 +10,7 @@ import { Clock, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-// IndexedDBをオープンする関数
+// Function to open IndexedDB
 const dbPromise = openDB("app-data", 1, {
 	upgrade(db) {
 		db.createObjectStore("sessions", { keyPath: "key" });
@@ -46,7 +46,7 @@ export default function SavedData() {
 		},
 	});
 
-	// IndexedDBからセッションデータを取得する関数
+	// Function to retrieve session data from IndexedDB
 	async function getSessionDataFromIndexedDB() {
 		const db = await dbPromise;
 		const allSessions = await db.getAll("sessions");
@@ -76,12 +76,12 @@ export default function SavedData() {
 		return data;
 	}
 
-	// IndexedDBからセッションデータを削除する関数
+	// Function to delete session data from IndexedDB
 	async function deleteSessionDataFromIndexedDB(key: string) {
-		//keyはUUIDを指す
+		// key refers to UUID
 		const db = await dbPromise;
 		await db.delete("sessions", key);
-		//削除後、再度データを取得する
+		// Retrieve data again after deletion
 		const data = await getSessionDataFromIndexedDB();
 		setSavedData(data);
 	}

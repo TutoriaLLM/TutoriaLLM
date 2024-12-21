@@ -9,7 +9,7 @@ export default function Summary(props: { session: SessionValue }) {
 	const clicks = session.clicks;
 	const [displaySize, setDisplaySize] = useState({ width: 0, height: 0 });
 	const imageRef = useRef<HTMLDivElement>(null);
-	const [showHeatmap, setShowHeatmap] = useState(false); // ヒートマップの表示状態を管理するための状態
+	const [showHeatmap, setShowHeatmap] = useState(false); // State to manage heatmap display status
 
 	const { t } = useTranslation();
 
@@ -21,8 +21,8 @@ export default function Summary(props: { session: SessionValue }) {
 	};
 
 	useEffect(() => {
-		// 最初のレンダリング時とウィンドウサイズが変更された時に、updateDisplaySizeを呼び出す
-		updateDisplaySize(); // 初回レンダリング時にも呼び出す
+		// Calls updateDisplaySize when first rendered and when window size is changed
+		updateDisplaySize(); // Also called at first rendering
 
 		window.addEventListener("resize", updateDisplaySize);
 		return () => {
@@ -30,7 +30,7 @@ export default function Summary(props: { session: SessionValue }) {
 		};
 	}, []);
 
-	// 相対座標を絶対座標に変換する関数
+	// Function to convert relative coordinates to absolute coordinates
 	const convertToAbsoluteCoordinates = (
 		clicks: Clicks,
 		width: number,
@@ -44,7 +44,7 @@ export default function Summary(props: { session: SessionValue }) {
 		}));
 	};
 
-	// 画像のサイズに基づいてクリックを絶対座標に変換
+	// Convert clicks to absolute coordinates based on image size
 	const absoluteClicks =
 		displaySize.width > 0 && displaySize.height > 0
 			? convertToAbsoluteCoordinates(
@@ -89,7 +89,7 @@ export default function Summary(props: { session: SessionValue }) {
 						/>
 						{showHeatmap && displaySize.width > 0 && displaySize.height > 0 && (
 							<Heatmap
-								clicks={absoluteClicks || []} // 絶対座標のクリックデータを渡す
+								clicks={absoluteClicks || []} // Passing absolute coordinate click data
 								width={displaySize.width}
 								height={displaySize.height}
 								className="absolute top-0 left-0"

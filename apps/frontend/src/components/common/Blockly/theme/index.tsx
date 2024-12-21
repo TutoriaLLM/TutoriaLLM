@@ -44,7 +44,7 @@ const Theme = Blockly.Theme.defineTheme("theme", {
 			colourSecondary: "#fb923c",
 			colourTertiary: "#fdba74",
 		},
-		//関数ブロックのこと
+		// Function Blocks.
 		procedure_blocks: {
 			colourPrimary: "#6366f1",
 			colourSecondary: "#818cf8",

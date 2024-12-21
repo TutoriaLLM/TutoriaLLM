@@ -24,7 +24,7 @@ function SelectTutorialUI() {
 	const [isTutorialSelectorOpen, setIsTutorialSelectorOpen] = useState(false);
 	const [tags, setTags] = useState<TagType[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
-	const [columns, setColumns] = useState(3); // カラム数のステートを追加
+	const [columns, setColumns] = useState(3); // Add column count states
 
 	useEffect(() => {
 		const fetchTutorials = async () => {
@@ -92,7 +92,7 @@ function SelectTutorialUI() {
 				],
 			};
 		});
-		setIsTutorialSelectorOpen(false); // ポップアップを閉じる
+		setIsTutorialSelectorOpen(false); // Close the popup
 	}
 
 	function switchTutorialSelector() {

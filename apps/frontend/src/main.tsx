@@ -25,7 +25,7 @@ declare module "@tanstack/react-router" {
 	}
 }
 const isDev = import.meta.env.MODE === "development";
-// デバッグモードの場合以外は、console.logを無効にする
+// Disable console.log except when in debug mode
 if (!isDev) {
 	console.log = () => {};
 	console.info = () => {};
@@ -47,7 +47,7 @@ if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App />);
 }
-// Reactアプリがレンダリングされた後にローディング画面を非表示にする
+// Hide the loading screen after the React app is rendered
 const loadingElement = document.getElementById("loading");
 if (loadingElement && rootElement) {
 	loadingElement.style.display = "none";

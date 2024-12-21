@@ -101,9 +101,9 @@ const Editor = forwardRef<
 
 		const toolbox = workspace.getToolbox() as Blockly.Toolbox;
 
-		//ハイライトするツールボックスの項目がある場合、そのメニュー項目をハイライトする
+		// Highlight the menu item in the toolbox item to be highlighted, if any
 		const toolboxItem = toolbox.getToolboxItems();
-		// カテゴリとその親カテゴリをハイライトする関数
+		// Function to highlight a category and its parent categories
 		function highlightCategory(category: Blockly.ToolboxCategory) {
 			const div = category.getDiv();
 			const labelDOM = div?.getElementsByClassName(
@@ -111,10 +111,10 @@ const Editor = forwardRef<
 			)[0] as HTMLElement;
 			if (labelDOM) {
 				labelDOM.style.backgroundColor = "#ef4444";
-				labelDOM.classList.add("highlight"); // highlightはCSSファイル内で定義されている
+				labelDOM.classList.add("highlight"); // highlight is defined in the CSS file
 			}
 		}
-		//最上位の階層まで全てハイライトする関数
+		// Function to highlight everything up to the top level hierarchy
 		function highlightParentCategory(category: Blockly.ToolboxCategory) {
 			let parent = category.getParent();
 			while (parent) {
@@ -137,13 +137,13 @@ const Editor = forwardRef<
 						blockNameFromMenu &&
 						containsBlockType(contents, blockNameFromMenu)
 					) {
-						// カテゴリ名が一致する場合、そのカテゴリの色を変更する
+						// If the category name matches, change the color of that category
 						highlightCategory(category);
 					}
 				}
 				if (item.isCollapsible()) {
 					const category = item as Blockly.CollapsibleToolboxCategory;
-					// 子アイテムを取得
+					// Retrieve child items
 					const children = category.getChildToolboxItems();
 					for (const child of children) {
 						const item = child as Blockly.ToolboxCategory;
@@ -153,9 +153,9 @@ const Editor = forwardRef<
 							blockNameFromMenu &&
 							containsBlockType(contents, blockNameFromMenu)
 						) {
-							// カテゴリ名が一致する場合、そのカテゴリの色を変更する
+							// If the category name matches, change the color of that category
 							highlightCategory(item);
-							// 親カテゴリの色も変更する
+							// Also change the color of the parent category
 							highlightParentCategory(item);
 						}
 					}
@@ -165,7 +165,7 @@ const Editor = forwardRef<
 						blockNameFromMenu &&
 						containsBlockType(contents, blockNameFromMenu)
 					) {
-						// カテゴリ名が一致する場合、そのカテゴリの色を変更する
+						// If the category name matches, change the color of that category
 						highlightCategory(category);
 					}
 				}
@@ -177,7 +177,7 @@ const Editor = forwardRef<
 			blockType: string,
 		): boolean {
 			for (const content of contents) {
-				// content がブロックであり、type プロパティを持つ場合をチェック
+				// Checks if content is a block and has a type property
 				if (
 					content.kind === "block" &&
 					"type" in content &&
@@ -229,7 +229,7 @@ const Editor = forwardRef<
 					});
 				}
 				if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
-					//カテゴリを開いている際に、Stateからツールボックス内の探す必要のあるブロックがある場合は、そのブロックを探し、ツールボックス内のワークスペースでハイライトする
+					// If you have a category open and there is a block you need to find in the toolbox from State, find that block and highlight it in the workspace in the toolbox
 					if (
 						blockNameFromMenu &&
 						toolbox.getSelectedItem() !== null &&
@@ -241,13 +241,13 @@ const Editor = forwardRef<
 							const block = workspace?.getBlocksByType(blockNameFromMenu);
 
 							if (block && block.length > 0 && workspace) {
-								//ハイライトする
+								// Highlight.
 								setHighlightedBlock({
 									workspace: workspace,
 									blockId: block[0].id,
 								});
 							}
-							//ブロックが存在しない場合は、空のidからハイライトする
+							// If the block does not exist, highlight from an empty id
 							if (block && block.length === 0 && workspace) {
 								setHighlightedBlock({
 									workspace: workspace,
@@ -258,12 +258,12 @@ const Editor = forwardRef<
 							return null;
 						}
 					}
-					//カテゴリを閉じた場合は、ハイライトを解除する
+					// If the category is closed, de-highlight it
 					if (toolbox.getFlyout()?.isVisible() === false) {
 						setHighlightedBlock(null);
 					}
 				}
-				//メニューから指定したブロックが移動された場合、ハイライトを解除する
+				// Unhighlight if the block specified in the menu has been moved
 				if (event.type === Blockly.Events.MOVE) {
 					const moveEvent = event as Blockly.Events.BlockMove;
 					const toolbox = workspace.getToolbox() as Blockly.Toolbox;
@@ -288,7 +288,7 @@ const Editor = forwardRef<
 		};
 	}, [blockNameFromMenu]);
 
-	//ツールボックスを非表示/表示する
+	// Hide/Show toolbox
 	useEffect(() => {
 		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
 		if (workspace) {
@@ -306,7 +306,7 @@ const Editor = forwardRef<
 					currentSession.workspace || {},
 					workspace,
 				);
-				//ハイライトを解除する
+				// Unhighlight
 				setHighlightedBlock(null);
 			} catch (error) {
 				console.error("Failed to load the workspace:", error);
@@ -314,7 +314,7 @@ const Editor = forwardRef<
 		}
 	}, [currentSession, prevSession]);
 
-	// ハイライトされたブロックを更新。１つ以上ハイライトはできない。
+	// Update highlighted blocks; cannot highlight more than one.
 	useEffect(() => {
 		if (blockHighlightRef.current) {
 			blockHighlightRef.current.dispose();
