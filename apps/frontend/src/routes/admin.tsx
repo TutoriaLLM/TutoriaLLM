@@ -4,7 +4,7 @@ import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/admin")({
 	component: AdminPage,
 	beforeLoad: async ({ location }) => {
-		const backendUrl = import.meta.env.BACKEND_URL;
+		const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
 		const response = await fetch(`${backendUrl}/credential`, {
 			credentials: "include",
 		});
