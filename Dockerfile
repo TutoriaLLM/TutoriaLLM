@@ -3,6 +3,7 @@ FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+RUN apt-get update && apt-get install -y iproute2 net-tools ffmpeg
 
 # フロントエンドビルド (バックエンドはビルドするが、フロントエンドで参照する目的のため、実行ファイルは存在しない)
 FROM base AS build

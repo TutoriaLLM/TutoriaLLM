@@ -28,6 +28,7 @@ const isDev = import.meta.env.MODE === "development";
 // デバッグモードの場合以外は、console.logを無効にする
 if (!isDev) {
 	console.log = () => {};
+	console.info = () => {};
 }
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>

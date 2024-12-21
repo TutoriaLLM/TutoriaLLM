@@ -1,11 +1,11 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite preview",
+    "start": "cross-env NODE_ENV=production vite preview",
     "build": "pnpm tsc && vite build",
     "tsc": "tsc --noEmit"
   },
