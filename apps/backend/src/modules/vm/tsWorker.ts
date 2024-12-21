@@ -7,7 +7,7 @@ import { loadExtensions, loadScript } from "@/modules/vm/extensionLoader";
 import { serve } from "@hono/node-server";
 import { createNodeWebSocket } from "@hono/node-ws";
 import getPort, { portNumbers } from "get-port";
-import { Hono } from "hono";
+import { Hono } from "hono/tiny";
 
 const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
 
