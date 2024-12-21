@@ -52,7 +52,11 @@ export const Route = createFileRoute("/$sessionCode")({
 			message: "session.sessionNotFoundMsg",
 		});
 		return (
-			<SessionPopup isPopupOpen message={message} setMessage={setMessage} />
+			<SessionPopup
+				isPopupOpen={true}
+				message={message}
+				setMessage={setMessage}
+			/>
 		);
 	},
 	loader: async ({ params }) => {
@@ -94,20 +98,17 @@ function RouteComponent() {
 		console.warn("sessionCode", sessionCode);
 
 		function onConnect() {
-			console.log("connected");
 			setWorkspaceConnection(true);
 			setSocketInstance(socket); // Socketインスタンスを保存
 		}
 
 		function onDisconnect(reason: string) {
-			console.log("disconnect", reason);
 			setWorkspaceConnection(false);
 			setSocketInstance(null); // Socketインスタンスをクリア
 		}
 
 		function onPushedCurrentSession(data: SessionValue) {
 			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
-			console.log("Received current session from server!", data);
 			setCurrentSession(data);
 			setPrevSession(data);
 			setIsCodeRunning(data?.isVMRunning ?? false);
@@ -116,7 +117,6 @@ function RouteComponent() {
 
 		function onReceivedDiff(diff: Operation[]) {
 			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
-			console.log("Received session diff from server!", diff);
 
 			// 差分を currentSession に適用
 			setCurrentSession((prevSession) => {
@@ -135,7 +135,6 @@ function RouteComponent() {
 		}
 
 		function onReceivedReplyingNotification() {
-			console.log("Received isReplying notification for sender");
 			setCurrentSession((prev) => {
 				if (prev) {
 					return {
@@ -148,7 +147,6 @@ function RouteComponent() {
 		}
 
 		async function onReceivedScreenshotRequest() {
-			console.log("Received screenshot request");
 			const image = await takeScreenshot();
 			setCurrentSession((prev) => {
 				if (prev) {
@@ -210,7 +208,6 @@ function RouteComponent() {
 			value: 1,
 			timestamp: now,
 		};
-		console.log(click);
 
 		// 新しいクリックを追加して、配列の最後の20件のみを保持する
 		const newClicks = [...(updatedClicks ?? []), click].slice(-20);
@@ -243,30 +240,20 @@ function RouteComponent() {
 				if (prevSession && isInternalUpdateRef.current) {
 					// 差分を計算
 					const diff = createPatch(prevSession, currentSession);
-					console.log("diff:", diff);
 
 					// 差分がある場合のみ送信し、prevSessionを更新
 					if (diff.length > 0) {
 						socketInstance?.emit("UpdateCurrentSessionDiff", diff);
-						console.log(
-							"Sent session diff to server and saved prev session:",
-							diff,
-						);
+
 						setPrevSession(currentSession);
 					}
 				} else {
 					// 前回のセッションがない場合、空のオブジェクトと比較
 					const diff = createPatch({}, currentSession);
 
-					console.log("diff for empty session:", diff);
-
 					// 差分を送信
 					socketInstance?.emit("UpdateCurrentSessionDiff", diff);
 					setPrevSession(currentSession);
-					console.log(
-						"Sent initial session diff to server and saved prev session:",
-						diff,
-					);
 				}
 			}
 		}
@@ -274,7 +261,7 @@ function RouteComponent() {
 	return (
 		<TourProvider
 			steps={tourSteps(isMobile)}
-			disableFocusLock
+			disableFocusLock={true}
 			className="w-64 sm:w-full font-medium text-base border"
 			padding={{
 				popover: [-10, 0],

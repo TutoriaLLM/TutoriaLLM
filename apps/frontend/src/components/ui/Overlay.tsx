@@ -17,7 +17,7 @@ export default function Overlay(props: {
 						<Dialog.Content
 							onPointerDownOutside={avoidDefaultDomBehavior}
 							onInteractOutside={avoidDefaultDomBehavior}
-							asChild
+							asChild={true}
 						>
 							<div className="flex justify-center items-center w-full h-full">
 								{props.Content}

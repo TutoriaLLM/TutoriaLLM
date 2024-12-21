@@ -8,15 +8,11 @@ const loadedExtensions = Object.values(extensionModules).flatMap(
 const loadedBlocks = loadedExtensions.flatMap((module) =>
 	Object.values(module).flat(),
 );
-console.log("loadedBlocks for block", loadedBlocks);
 
 function registerBlocks(language: string) {
-	//console.log("registerBlocks");
-
 	for (const module of loadedBlocks) {
 		if (module && typeof module === "object") {
 			const { block, code, locale } = module;
-			//console.log("registerBlocks", block);
 
 			if (block) {
 				Blockly.Blocks[block.type] = {
@@ -37,8 +33,6 @@ function registerBlocks(language: string) {
 
 				if (locale?.[language]) {
 					// localeが記述されている場合は登録する(json形式)
-					//console.log("register locale", locale);
-					console.log("register language", language);
 					for (const key in locale[language]) {
 						if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
 							Blockly.Msg[key] = locale[language][key];

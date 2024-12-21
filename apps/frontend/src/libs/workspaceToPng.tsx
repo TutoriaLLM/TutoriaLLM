@@ -12,7 +12,7 @@ export async function workspaceToPngBase64(
 		function formatWorkspace(workspace: Blockly.WorkspaceSvg) {
 			for (const block of workspace.getAllBlocks()) {
 				if (block.getDisabledReasons()) {
-					console.log("Disabled block found", block.getDisabledReasons());
+					console.info("Disabled block found", block.getDisabledReasons());
 					block.setEnabled(true);
 				}
 			}

@@ -26,7 +26,6 @@ export function Onboarding({
 				(timeSinceLastOnboarding !== null &&
 					timeSinceLastOnboarding > oneDayInMs)
 			) {
-				console.log("Starting onboarding");
 				setIsOpen(true);
 				setCookie("lastonBoarding", now);
 				setHasStartedOnboarding(true);

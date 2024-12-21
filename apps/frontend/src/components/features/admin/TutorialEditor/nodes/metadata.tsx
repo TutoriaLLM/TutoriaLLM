@@ -68,10 +68,6 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 		updateNodeData(id, { ...data, tags: newTags.map((tag) => tag.text) });
 	};
 
-	const handleTagClick = (index: number) => {
-		console.log(`The tag at index ${index} was clicked`);
-	};
-
 	// デフォルト言語を一度だけ設定するために useEffect を利用
 	useEffect(() => {
 		if (!data.language) {
@@ -124,7 +120,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
 						/>
 					</label>
-					<label className="block mb-2">
+					<div className="block mb-2">
 						<span className="text-gray-700">Tags:</span>
 						<ReactTags
 							tags={tags}
@@ -133,7 +129,6 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 							handleDelete={handleTagDelete}
 							handleAddition={handleTagAddition}
 							handleDrag={handleTagDrag}
-							handleTagClick={handleTagClick}
 							classNames={{
 								tags: "flex flex-col flex-wrap items-center rounded-2xl p-2 bg-gray-100",
 								tagInput: "bg-white p-1 rounded-2xl w-full",
@@ -149,14 +144,14 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 								clearAll: "cursor-pointer text-red-500",
 							}}
 						/>
-					</label>
-					<label className="block mb-2">
+					</div>
+					<div className="block mb-2">
 						<span className="text-gray-700">Language:</span>
 						<LangPicker
 							language={data.language}
 							setLanguage={(lang) => handleChange("language", lang)}
 						/>
-					</label>
+					</div>
 				</div>
 			</div>
 

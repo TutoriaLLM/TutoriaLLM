@@ -95,6 +95,7 @@ const context = createContext({
 	console: {
 		log: (...args: string[]) => {
 			const logMessage = args.join(" ");
+			// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 			console.log(`log from VM: ${logMessage}`);
 			parentPort?.postMessage({
 				type: "log",
@@ -135,7 +136,6 @@ function getValidIp() {
 }
 
 async function startServer() {
-	console.log("Starting server...");
 	const ip = getValidIp();
 	const port = await getPort({
 		port: portNumbers(40000, 50000),
@@ -150,6 +150,7 @@ async function startServer() {
 	});
 	injectWebSocket(server);
 
+	// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 	console.log(`Server with ws is listening with address: ${ip}:${port}`);
 	parentPort?.postMessage({
 		type: "openVM",
@@ -162,6 +163,7 @@ startServer();
 
 await loadExtensions(context);
 const extScript = await loadScript();
+// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 console.log("loaded script:", extScript);
 
 const initialScript = /* javascript */ `
@@ -171,6 +173,7 @@ function script() {
 }
 script();
 `;
+// biome-ignore lint/suspicious/noConsoleLog: <explanation>
 console.log("running script:", initialScript);
 const script = new vm.Script(initialScript);
 script.runInContext(context);

@@ -109,7 +109,6 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 		},
 		onSuccess: (metadata) => {
 			if (metadata && typeof metadata === "object") {
-				console.log("Generated metadata:", metadata);
 				setGeneratedMetadata(metadata);
 				setIsGenerated(true);
 				setIsCompared(true);

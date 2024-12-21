@@ -31,11 +31,11 @@ export function initSocketServer(server: HttpServer) {
 	});
 
 	io.on("connection", async (socket) => {
-		console.log("new connection request from client");
+		console.info("new connection request from client");
 		const code = socket.handshake.query.code as string;
 		const uuid = socket.handshake.query.uuid as string;
 
-		console.log("on connect:", code, uuid);
+		console.info("on connect:", code, uuid);
 		try {
 			// コードが存在しない場合は接続を拒否
 			//RedisからPostgresに移行しました: from 1.0.0
@@ -93,7 +93,6 @@ export function initSocketServer(server: HttpServer) {
 			socket.on("UpdateCurrentSessionDiff", async (diff: Operation[]) => {
 				const currentDataJson = await getCurrentDataJson(code);
 				if (!currentDataJson) {
-					console.log("Session not found");
 					socket.disconnect();
 					return;
 				}
@@ -106,10 +105,8 @@ export function initSocketServer(server: HttpServer) {
 				}
 			});
 			socket.on("openVM", async () => {
-				console.log("openVM");
 				const currentDataJson = await getCurrentDataJson(code);
 				if (!currentDataJson) {
-					console.log("Session not found");
 					socket.disconnect();
 					return;
 				}
@@ -146,7 +143,6 @@ export function initSocketServer(server: HttpServer) {
 					);
 					return;
 				}
-				console.log("test code received. Executing...");
 				const serverRootPath = `${socket.request.headers.host}`;
 				const result = await ExecCodeTest(
 					code,
@@ -157,24 +153,18 @@ export function initSocketServer(server: HttpServer) {
 					updateAndBroadcastDiffToAll,
 				);
 				if (result === "Valid uuid") {
-					console.log("Script is running...");
 					isRunning = true;
 					currentDataJson.isVMRunning = isRunning;
 					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
-					console.log("sending to all clients true");
 				} else {
-					console.log(result);
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
 					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
-					console.log("sending to all clients false");
 				}
 			});
 			socket.on("updateVM", async (callback) => {
-				console.log("updateVM");
 				const currentDataJson = await getCurrentDataJson(code);
-				if (!currentDataJson || !currentDataJson.workspace) {
-					console.log("Session not found");
+				if (!currentDataJson?.workspace) {
 					socket.disconnect();
 					return;
 				}
@@ -188,24 +178,15 @@ export function initSocketServer(server: HttpServer) {
 					generatedCode,
 				);
 				callback("ok");
-				console.log(result);
 			});
 			socket.on("stopVM", async () => {
-				console.log("stopVM");
 				const currentDataJson = await getCurrentDataJson(code);
 				if (!currentDataJson) {
-					console.log("Session not found");
 					socket.disconnect();
 					return;
 				}
 				let isRunning = currentDataJson.isVMRunning;
-				const result = await StopCodeTest(
-					code,
-					uuid,
-					socket,
-					updateAndBroadcastDiffToAll,
-				);
-				console.log(result);
+				await StopCodeTest(code, uuid, socket, updateAndBroadcastDiffToAll);
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
 
@@ -223,7 +204,6 @@ export function initSocketServer(server: HttpServer) {
 			});
 
 			socket.on("disconnect", async () => {
-				console.log("disconnected client");
 				clearInterval(screenshotInterval);
 				try {
 					//RedisからPostgresに移行しました: from 1.0.0
@@ -256,7 +236,6 @@ export function initSocketServer(server: HttpServer) {
 							socket,
 							updateAndBroadcastDiff,
 						);
-						console.log(`${result.message} VM stopped. no clients connected.`);
 						currentDataJson.isVMRunning = false;
 					}
 					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
@@ -264,8 +243,7 @@ export function initSocketServer(server: HttpServer) {
 					console.error("Error closing connection:", error);
 				}
 			});
-		} catch (error) {
-			console.log("Error connecting:", error);
+		} catch {
 			socket.emit("error", "Server error");
 			socket.disconnect();
 		}

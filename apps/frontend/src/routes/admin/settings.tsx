@@ -29,8 +29,6 @@ function ConfigManager() {
 	const { mutate } = useMutation({
 		mutationFn: updateConfig,
 		onSuccess: (data) => {
-			console.log(data);
-
 			alert("Config updated successfully");
 		},
 		onError: (error) => {

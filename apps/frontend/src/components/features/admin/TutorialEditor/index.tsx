@@ -134,7 +134,6 @@ export default function llTutorialEditor(props: {
 			setIsLoading(true); // データ取得開始時にローディングを開始
 			try {
 				const response = await getSpecificTutorial({ id: props.id });
-				console.log(response);
 				setTutorialData({
 					metadata: response.metadata,
 					content: response.content,
@@ -218,8 +217,8 @@ export default function llTutorialEditor(props: {
 				onEdgesChange={onEdgesChange}
 				nodeOrigin={[0.5, 0.5]}
 				onConnect={onConnect}
-				panOnScroll
-				zoomOnPinch
+				panOnScroll={true}
+				zoomOnPinch={true}
 			>
 				<Panel>
 					<Toolbar

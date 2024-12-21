@@ -25,7 +25,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 
 		const code = joincodeGen();
 
-		console.log("session created with initial data");
+		console.info("session created with initial data");
 
 		//既に同じコードのセッションが存在する場合はエラーを返す
 		const value = await db.query.appSessions.findFirst({
@@ -45,7 +45,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 			.insert(appSessions)
 			.values(initialData(code, language.toString()))
 			.execute();
-		console.log("session created by api");
+		console.info("session created by api");
 		return c.json(
 			{
 				sessionCode: code,

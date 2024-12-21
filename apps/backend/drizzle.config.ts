@@ -3,11 +3,6 @@ import { defineConfig } from "drizzle-kit";
 
 config({ path: ".env" });
 
-console.log("POSTGRES_USER:", process.env.POSTGRES_USER);
-console.log("POSTGRES_PASSWORD:", process.env.POSTGRES_PASSWORD);
-console.log("DB_HOST:", process.env.DB_HOST);
-console.log("DB_PORT:", process.env.DB_PORT);
-console.log("POSTGRES_DB:", process.env.POSTGRES_DB);
 export default defineConfig({
 	schema: "./src/db/schema.ts",
 	out: "./migrations",

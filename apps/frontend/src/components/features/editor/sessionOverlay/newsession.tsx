@@ -13,9 +13,6 @@ export default function CreateNewSession({
 	const { t } = useTranslation();
 	const router = useRouter();
 	const { mutate, isPending } = useMutation({
-		onMutate: () => {
-			console.log("create session");
-		},
 		mutationFn: createSession,
 		onSuccess: ({ sessionCode }) => {
 			router.navigate({ to: `/${sessionCode}` });

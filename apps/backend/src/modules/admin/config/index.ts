@@ -29,7 +29,7 @@ export function updateConfig(newConfig: any) {
 	}
 
 	fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
-	console.log("Config updated");
+	console.info("Config updated");
 }
 
 export function createConfig() {
@@ -37,11 +37,11 @@ export function createConfig() {
 	if (fs.existsSync(path.dirname(volumePath))) {
 		// Create a new config file in the volume if it doesn't exist
 		fs.copyFileSync(defaultConfigPath, `${volumePath}/appConfig.json`);
-		console.log("Config file created in volume");
+		console.info("Config file created in volume");
 	} else {
 		// Fallback to local config if volume is not available
 		fs.copyFileSync(defaultConfigPath, path.resolve("appConfig.json"));
-		console.log("Config file created locally");
+		console.info("Config file created locally");
 	}
 }
 

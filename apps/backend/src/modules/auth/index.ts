@@ -60,7 +60,7 @@ app.post(
 		}
 
 		const session = await lucia.createSession(existingUser.id, {});
-		console.log("session created", session);
+		console.info("session created", session);
 		c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
 			append: true,
 		});
@@ -70,7 +70,7 @@ app.post(
 );
 
 app.post("/logout", async (c, next) => {
-	console.log("logout request");
+	console.info("logout request");
 	const session = c.get("session");
 	if (!session) {
 		return c.body(null, 401);

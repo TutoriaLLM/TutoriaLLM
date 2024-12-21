@@ -14,14 +14,10 @@ const FrontendTracer = () => {
 		// 非同期処理をuseEffect内で行う
 		const initializeAnalyticsAndSentry = async () => {
 			const config = await getConfig();
-			// Google Analyticsの設定
-			console.log(
-				"Google Analytics Tracking ID:",
-				config.Client_Settings.GA_Tracking_ID,
-			);
+
 			const id = config.Client_Settings.GA_Tracking_ID;
 			if (id && id !== "") {
-				console.log("Google Analytics is enabled");
+				console.info("Google Analytics is enabled");
 				ReactGA.initialize(id);
 				ReactGA.send({
 					hitType: "pageview",
@@ -45,7 +41,7 @@ const FrontendTracer = () => {
 					],
 				});
 			} else {
-				console.log("Sentry is disabled");
+				console.info("Sentry is disabled");
 			}
 		};
 

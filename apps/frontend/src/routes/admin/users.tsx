@@ -56,11 +56,10 @@ function Users() {
 				return response.json();
 			})
 			.then((data) => {
-				console.log("userid", data.userId);
 				setCurrentUserID(data.userId);
 			})
 			.catch((error) => {
-				setError(`aaaa!${error.message}`);
+				setError(error.message);
 			});
 	}, []);
 
@@ -88,7 +87,6 @@ function Users() {
 				user,
 			}),
 		onSuccess: () => {
-			console.log("Data successfully updated");
 			fetchUsers();
 			setSelectedUser(null); // Clear the data after updating
 		},
@@ -110,7 +108,6 @@ function Users() {
 	const { mutate: del } = useMutation({
 		mutationFn: deleteUser,
 		onSuccess: () => {
-			console.log("Data successfully deleted");
 			fetchUsers();
 			setSelectedUser(null); // Clear the data after deletion
 		},

@@ -45,14 +45,11 @@ function Training() {
 	>(null);
 
 	const fetchTrainingData = () => {
-		console.log("Fetching training data...");
 		getRandomTrainingData().then((data) => {
 			if (data?.question && data.answer) {
-				console.log("Training data fetched:", data);
 				setTrainingData(data);
 				setAnswer(data.answer); // Set the initial answer
 			} else {
-				console.log("No valid data available");
 				setTrainingData(null); // No valid data available
 			}
 		});
@@ -64,9 +61,6 @@ function Training() {
 
 	const { mutate: postData } = useMutation({
 		mutationFn: createNewGuide,
-		onSuccess: () => {
-			console.log("Data successfully updated");
-		},
 		onError: (error) => {
 			console.error("Error updating training data:", error);
 		},
@@ -100,7 +94,6 @@ function Training() {
 	const { mutate: deleteData } = useMutation({
 		mutationFn: deleteUser,
 		onSuccess: () => {
-			console.log("Data successfully deleted");
 			setTrainingData(null); // Clear the data after deletion
 		},
 	});
@@ -133,7 +126,6 @@ function Training() {
 	const { mutate: deleteGuide } = useMutation({
 		mutationFn: deleteUser,
 		onSuccess: () => {
-			console.log("Data successfully deleted");
 			handleSearch();
 		},
 	});

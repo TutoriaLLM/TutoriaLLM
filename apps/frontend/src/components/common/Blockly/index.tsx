@@ -38,12 +38,10 @@ const Editor = forwardRef<
 
 	useEffect(() => {
 		const language = props.language;
-		console.log("langState", language);
+
 		if (language && blocklyLocale[language]) {
-			console.log("Setting Blockly locale to", language);
 			Blockly.setLocale(blocklyLocale[language]);
 		} else {
-			console.log("Setting Blockly locale to English");
 			Blockly.setLocale(blocklyLocale.en);
 		}
 
@@ -201,12 +199,10 @@ const Editor = forwardRef<
 					event.type === Blockly.Events.FINISHED_LOADING ||
 					event.type === Blockly.Events.MOVE
 				) {
-					console.log("event type:", event.type);
 					if (event.type === Blockly.Events.MOVE) {
 						const moveEvent = event as Blockly.Events.BlockMove;
 						if (Array.isArray(moveEvent.reason)) {
 							if (moveEvent.reason.includes("disconnect")) {
-								console.log("Block disconnection detected, not saving.");
 								return;
 							}
 						}
@@ -233,17 +229,12 @@ const Editor = forwardRef<
 					});
 				}
 				if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
-					console.log("Toolbox item selected");
 					//カテゴリを開いている際に、Stateからツールボックス内の探す必要のあるブロックがある場合は、そのブロックを探し、ツールボックス内のワークスペースでハイライトする
 					if (
 						blockNameFromMenu &&
 						toolbox.getSelectedItem() !== null &&
 						toolbox.getSelectedItem() !== undefined
 					) {
-						console.log(
-							"Toolbox item selected, highlighting block. selected item:",
-							toolbox.getSelectedItem(),
-						);
 						try {
 							const flyout = toolbox.getFlyout();
 							const workspace = flyout?.getWorkspace();
@@ -263,17 +254,12 @@ const Editor = forwardRef<
 									blockId: "",
 								});
 							}
-						} catch (error) {
-							console.log(
-								"Error in saveWorkspace, toolbox item select:",
-								error,
-							);
+						} catch {
 							return null;
 						}
 					}
 					//カテゴリを閉じた場合は、ハイライトを解除する
 					if (toolbox.getFlyout()?.isVisible() === false) {
-						console.log("Flyout is closed, clearing highlighted block");
 						setHighlightedBlock(null);
 					}
 				}
@@ -287,7 +273,6 @@ const Editor = forwardRef<
 					}
 					const block = toolWorkspace.getBlocksByType(blockNameFromMenu);
 					if (moveEvent?.blockId === block[0]?.id) {
-						console.log("Block moved from toolbox, clearing highlighted block");
 						setBlockNameFromMenu(null);
 					}
 				}
@@ -313,11 +298,7 @@ const Editor = forwardRef<
 	}, [props.menuOpen]);
 
 	useEffect(() => {
-		console.log("currentSession changed", currentSession);
 		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-		console.log("current", currentSession);
-		console.log("prev", prevSession);
-		console.log("diff", currentSession !== prevSession);
 
 		if (currentSession && prevSession) {
 			try {
@@ -325,7 +306,6 @@ const Editor = forwardRef<
 					currentSession.workspace || {},
 					workspace,
 				);
-				console.log("workspace refreshed from currentSession state");
 				//ハイライトを解除する
 				setHighlightedBlock(null);
 			} catch (error) {
@@ -336,8 +316,6 @@ const Editor = forwardRef<
 
 	// ハイライトされたブロックを更新。１つ以上ハイライトはできない。
 	useEffect(() => {
-		console.log("highlightedBlock changed", highlightedBlock);
-
 		if (blockHighlightRef.current) {
 			blockHighlightRef.current.dispose();
 		}
@@ -348,7 +326,6 @@ const Editor = forwardRef<
 			blockHighlightRef.current = new BlockHighlight(
 				highlightedBlock.workspace || currentWorkspace,
 			);
-			console.log("highlightedBlock changed", highlightedBlock);
 			blockHighlightRef.current.init(10, highlightedBlock.blockId);
 		} else {
 			blockHighlightRef.current = null;

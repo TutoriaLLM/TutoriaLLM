@@ -1,29 +1,29 @@
 {
-	"name": "tutoriallm",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"private": true,
-	"packageManager": "pnpm@9.6.0",
-	"scripts": {
-		"preinstall": "npx only-allow pnpm",
-		"test": "vitest run",
-		"prepare": "pnpm simple-git-hooks",
-		"format": "biome format . --write",
-		"check": "biome check . --fix",
-		"lint:repo": "sherif"
-	},
-	"pre-commit": "",
-	"simple-git-hooks": {
-		"pre-commit": "pnpm format && pnpm lint:repo && pnpm check"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"devDependencies": {
-		"@biomejs/biome": "1.8.3",
-		"sherif": "^1.0.2",
-		"simple-git-hooks": "^2.11.1",
-		"vitest": "^2.1.3"
-	}
+  "name": "tutoriallm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "packageManager": "pnpm@9.6.0",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "test": "vitest run",
+    "prepare": "pnpm simple-git-hooks",
+    "format": "biome format . --write",
+    "check": "biome check . --fix",
+    "lint:repo": "sherif"
+  },
+  "pre-commit": "",
+  "simple-git-hooks": {
+    "pre-commit": "pnpm format && pnpm lint:repo && pnpm check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "sherif": "^1.0.2",
+    "simple-git-hooks": "^2.11.1",
+    "vitest": "^2.1.3"
+  }
 }

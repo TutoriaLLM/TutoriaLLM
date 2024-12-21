@@ -5,21 +5,14 @@ import extensionModules from "extensions";
 import glob from "fast-glob";
 import ts from "typescript";
 
-export async function loadExtensions(context: Context): Promise<void> {
-	console.log("loading extensions...", extensionModules);
-
+export function loadExtensions(context: Context): void {
 	for (const [key, mod] of Object.entries(extensionModules)) {
 		try {
-			console.log("loading extension", key);
-
 			// `Context` が存在する場合のみ処理
 			if ("Context" in mod) {
 				for (const [ctxKey, ctxValue] of Object.entries(mod.Context)) {
 					context[ctxKey] = ctxValue;
 				}
-			} else {
-				// `Context` がない場合はスキップ
-				console.log(`Skipping extension ${key}, no Context found.`);
 			}
 		} catch (error) {
 			console.error(`Error loading extension ${key}:`, error);
@@ -28,20 +21,16 @@ export async function loadExtensions(context: Context): Promise<void> {
 }
 
 export async function loadScript(): Promise<string | null> {
-	console.log("loading script...");
-
 	async function findScriptFromModule(
 		moduleName: string,
 		fileName: string,
 	): Promise<string | null> {
 		const modulePath = path.join(process.cwd(), "node_modules", moduleName);
 		//modulePathに存在するすべてのディレクトリ内からfileNameを探す
-		const dirs = fs.readdirSync(modulePath);
 		const files = await glob(`**/${fileName}`, { cwd: modulePath });
 		for (const file of files) {
 			const scriptPath = path.join(modulePath, file);
 			if (fs.existsSync(scriptPath)) {
-				console.log("Loading extension script:", scriptPath);
 				const scriptContent = fs.readFileSync(scriptPath, "utf-8");
 				const result = ts.transpileModule(scriptContent, {
 					compilerOptions: {

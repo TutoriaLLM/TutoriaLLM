@@ -38,20 +38,22 @@ app.use("*", async (c, next) => {
 	}
 	const originHeader = c.req.header("Origin") ?? null;
 	const hostHeader = c.req.header("Host") ?? null;
-	console.log("Origin Header:", originHeader);
-	console.log("Host Header:", hostHeader);
+	console.info("Origin Header:", originHeader);
+	console.info("Host Header:", hostHeader);
 	if (
-		!originHeader ||
-		!hostHeader ||
-		!verifyRequestOrigin(originHeader, [
-			hostHeader,
-			process.env.CORS_ORIGIN ?? "http://localhost:3000",
-		])
+		!(
+			originHeader &&
+			hostHeader &&
+			verifyRequestOrigin(originHeader, [
+				hostHeader,
+				process.env.CORS_ORIGIN ?? "http://localhost:3000",
+			])
+		)
 	) {
-		console.log("Invalid origin");
+		console.info("Invalid origin");
 		return c.body(null, 403);
 	}
-	return next();
+	await next();
 });
 
 app.use("*", async (c, next) => {
@@ -127,7 +129,7 @@ app.route("/vm", vmProxyRoutes);
  * 404エラー時の共通処理
  */
 app.notFound((c) => {
-	console.log("not found");
+	console.error("not found");
 	return errorResponse(c, {
 		type: "NOT_FOUND",
 		message: "Route not found",

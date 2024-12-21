@@ -50,7 +50,6 @@ function Sessions() {
 	const { sessions, isPending } = useListSessions(pagination, autoUpdateMs);
 
 	const totalSessions = sessions?.total || 0;
-	console.log("totalSessions", totalSessions);
 
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
@@ -265,7 +264,7 @@ function Sessions() {
 						<input
 							type="checkbox"
 							checked={typeof autoUpdateMs === "number"}
-							onChange={() => setAutoUpdateMs(!autoUpdateMs ? 5000 : false)}
+							onChange={() => setAutoUpdateMs(autoUpdateMs ? false : 5000)}
 							className="form-checkbox h-4 w-4"
 						/>
 						<span>Auto Update</span>

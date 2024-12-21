@@ -9,7 +9,6 @@ export function updateDialogue(
 	currentDataJson: SessionValue,
 	contentType: ContentType,
 ): SessionValue {
-	console.log("updateDialogue");
 	return {
 		...currentDataJson,
 		dialogue: [

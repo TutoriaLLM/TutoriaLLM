@@ -8,7 +8,6 @@ export default async function codeGen(
 	},
 	language: string,
 ) {
-	console.log("codeGen running");
 	// ワークスペースの定義
 	const workspace = new Blockly.Workspace();
 
@@ -20,7 +19,7 @@ export default async function codeGen(
 
 	// ワークスペースをJavaScriptコードに変換
 	const generatedCode = javascriptGenerator.workspaceToCode(workspace);
-	console.log("generated code", generatedCode);
+	console.info("generated code", generatedCode);
 
 	return generatedCode;
 }

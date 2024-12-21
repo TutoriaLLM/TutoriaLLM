@@ -32,27 +32,22 @@ export function ExecSwitch() {
 		useState<reloadButtonStatusType>("disabled");
 
 	function ChangeSwitch() {
-		if (!isConnected || !socketInstance || !currentSession) {
-			console.log("An error occurred. Please try again later.");
+		if (!(isConnected && socketInstance && currentSession)) {
 			return;
 		}
 
 		if (isSwitchDisabled) {
-			console.log("Switch is disabled.");
 			return;
 		}
 
 		//スイッチが変更されたときの処理を書く
 		if (isCodeRunning) {
 			//スイッチがオンのとき
-			console.log("stop");
-			//スクリプトの実行を停止する処理を書く
 			socketInstance.emit("stopVM");
 			setReloadButtonStatus("disabled");
 		}
 		if (!isCodeRunning) {
 			//スイッチがオフのとき
-			console.log("start");
 			socketInstance.emit("openVM");
 			setRunningWorkspaceContent(JSON.stringify(currentSession.workspace));
 		}
@@ -73,7 +68,6 @@ export function ExecSwitch() {
 				// タイムアウト処理を追加（例えば5秒）
 				const timeout = setTimeout(() => {
 					setReloadButtonStatus("disabled");
-					console.log("Timeout occurred, reloading failed.");
 				}, 5000);
 
 				socketInstance.emit("updateVM", (response: string) => {
@@ -94,7 +88,6 @@ export function ExecSwitch() {
 	useEffect(() => {
 		const newWorkspaceContent = JSON.stringify(currentSession?.workspace);
 		if (runningWorkspaceContent !== newWorkspaceContent && isCodeRunning) {
-			console.log("Workspace content has changed.");
 			setReloadButtonStatus("idle");
 		}
 		// ワークスペースの内容を更新

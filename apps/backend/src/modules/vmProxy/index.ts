@@ -21,24 +21,9 @@ export const vmProxy = createProxyMiddleware({
 	secure: false,
 	ws: true,
 	logger: console,
-	on: {
-		close: (res, socket, head) => {
-			console.log("root close");
-		},
-		proxyReq: (proxyReq, req, res) => {
-			console.log("root proxyReq");
-		},
-		error: (err, req, res) => {
-			console.log("root error on proxy", err);
-		},
-		proxyReqWs: (proxyReq, req, socket, options, head) => {
-			console.log("root proxyReqWs");
-		},
-	},
 });
 
 const app = new Hono<{ Bindings: HttpBindings }>().use("*", (c, next) => {
-	console.log("vmProxy");
 	return new Promise((resolve, reject) => {
 		vmProxy(c.env.incoming, c.env.outgoing, (err) => {
 			if (err) {

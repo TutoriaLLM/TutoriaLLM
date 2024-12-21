@@ -59,7 +59,7 @@ export default function DialogueView() {
 					if (prev) {
 						const lastId =
 							(prev.dialogue?.length || 0) > 0
-								? prev.dialogue?.[prev.dialogue.length - 1]?.id ?? 0
+								? (prev.dialogue?.[prev.dialogue.length - 1]?.id ?? 0)
 								: 0;
 						return {
 							...prev,
@@ -96,7 +96,7 @@ export default function DialogueView() {
 					if (prev) {
 						const lastId =
 							(prev.dialogue?.length || 0) > 0
-								? prev.dialogue?.[prev.dialogue.length - 1]?.id ?? 0
+								? (prev.dialogue?.[prev.dialogue.length - 1]?.id ?? 0)
 								: 0;
 						return {
 							...prev,
@@ -153,7 +153,6 @@ export default function DialogueView() {
 					// waveformコンテナが存在するかチェック
 					const waveformContainer = document.querySelector("#waveform");
 					if (!waveformContainer) {
-						console.log("waveform container not found");
 						return;
 					}
 					// 新しい wavesurfer インスタンスを生成
@@ -302,13 +301,12 @@ export default function DialogueView() {
 										if (el) {
 											// 要素がマウントされた後に`measureElement`を呼び出す
 											rowVirtualizer.measureElement(el);
-										} else {
-											console.log("el is null");
 										}
 									}}
 									data-index={virtualRow.index}
 									key={virtualRow.key}
 									item={item}
+									// biome-ignore lint/complexity/useSimplifiedLogicExpression: <explanation>
 									easyMode={session?.easyMode || false}
 								/>
 							);

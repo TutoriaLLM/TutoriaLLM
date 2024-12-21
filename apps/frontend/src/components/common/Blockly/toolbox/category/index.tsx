@@ -13,14 +13,12 @@ const loadedBasicModules = Object.values(basicModules).map((mod) => mod);
 
 // モジュールを結合。
 const combinedModules = [...loadedBasicModules, separator, ...loadedToolbox];
-console.log("combinedModules for toolbox", combinedModules);
 const loadExtensions = () => {
 	const extensions = Object.values(combinedModules);
 	return extensions.map((mod) => mod);
 };
 
 const loadedExtensions = loadExtensions();
-console.log("loadedExtensions for toolbox", loadedExtensions);
 
 // カテゴリとセパレータのみを取り出す
 const categoryContents = loadedExtensions
@@ -48,6 +46,7 @@ export function translateCategories(language: string) {
 			}
 		} else {
 			// localeが記述されていない場合は英語を登録する
+			// biome-ignore lint/style/useCollapsedElseIf: Not working without else if
 			if (locale.en) {
 				for (const key in ext.locale?.en) {
 					if (Object.prototype.hasOwnProperty.call(ext.locale.en, key)) {

@@ -25,7 +25,6 @@ export async function updateDialogueWithLLM(
 		return data;
 	}
 
-	console.log("updateDialogueLLM");
 	const language = data.language;
 
 	const blockNames = await getBlockNames();

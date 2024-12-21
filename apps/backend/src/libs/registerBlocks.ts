@@ -15,8 +15,6 @@ export function registerAvailableBlocks(
 	language: string,
 ) {
 	for (const { block, code, locale } of availableBlocks) {
-		console.log("registerBlocks", block);
-
 		Blockly.Blocks[block.type] = {
 			init: function () {
 				this.jsonInit(block);
@@ -27,8 +25,6 @@ export function registerAvailableBlocks(
 
 		if (locale?.[language]) {
 			// localeが記述されている場合は登録する(json形式)
-			//console.log("register locale", locale);
-			console.log("register language", language);
 			for (const key in locale[language]) {
 				if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
 					Blockly.Msg[key] = locale[language][key];
@@ -39,10 +35,9 @@ export function registerAvailableBlocks(
 }
 
 // ブロックファイルの取得、利用可能ブロックの取得、ブロックの登録を順番に行う
-export async function registerBlocks(language: string) {
+export function registerBlocks(language: string) {
 	//block, code, localeをモジュールから取り出す
 
-	console.log("loadedExtensions", loadedExtensions);
 	const availableBlocks: AvailableBlock[] = [];
 	for (const module of loadedExtensions) {
 		for (const mod of Object.values(module).flat()) {

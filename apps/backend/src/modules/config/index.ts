@@ -26,17 +26,17 @@ export function createConfig() {
 	if (fs.existsSync(path.dirname(volumePath))) {
 		// Create a new config file in the volume if it doesn't exist
 		fs.copyFileSync(defaultConfigPath, `${volumePath}/appConfig.json`);
-		console.log("Config file created in volume");
+		console.info("Config file created in volume");
 	} else {
 		// Fallback to local config if volume is not available
 		fs.copyFileSync(defaultConfigPath, path.resolve("appConfig.json"));
-		console.log("Config file created locally");
+		console.info("Config file created locally");
 	}
 }
 export function deleteConfig() {
 	if (fs.existsSync(configPath)) {
 		fs.unlinkSync(configPath);
-		console.log("Config file deleted");
+		console.info("Config file deleted");
 	}
 }
 

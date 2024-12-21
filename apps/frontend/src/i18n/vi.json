@@ -1,170 +1,170 @@
 {
-	"AppConfig": {
-		"AI_Settings": "Cài đặt AI",
-		"AutoReply": "Trả lời tự động từ AI",
-		"Chat_AI_Model": "Mô hình AI trò chuyện",
-		"Chat_AI_Temperature": "Nhiệt độ trò chuyện AI",
-		"Client_Sentry_Settings": "Cài đặt Sentry của Khách hàng",
-		"Client_Settings": "Cài đặt máy khách",
-		"Code_Execution_Limits": "Giới hạn thực thi mã (VM)",
-		"Enable_Create_Room": "Bật Tạo phòng",
-		"Enable_Join_by_code": "Bật Tham gia bằng mã",
-		"Enable_Memory_Use_Log": "Bật nhật ký sử dụng bộ nhớ",
-		"GA_Tracking_ID": "ID theo dõi Google Analytics",
-		"General_Settings": "Cài đặt chung",
-		"Max_CPU_Usage": "Mức sử dụng CPU tối đa trên VM",
-		"Max_CodeRangeSizeMb": "Kích thước CodeRange tối đa tính bằng Mb",
-		"Max_Num_Message_Queue": "Hàng đợi tin nhắn số tối đa trên VM",
-		"Max_OldGenerationSizeMb": "Kích thước thế hệ cũ tối đa tính bằng Mb",
-		"Max_YoungGenerationSizeMb": "Kích thước thế hệ trẻ tối đa tính bằng Mb",
-		"Reply_Time_ms": "Thời gian trả lời ms",
-		"Screenshot_Interval_min": "Khoảng thời gian chụp ảnh màn hình tối thiểu",
-		"Sentry_DSN": "Sentry DSN(Để trống để tắt)",
-		"replaysOnErrorSampleRate": "Tỷ lệ mẫu cho các câu trả lời có lỗi",
-		"replaysSessionSampleRate": "Tỷ lệ mẫu cho số lần phát lại trong phiên",
-		"tracesSampleRate": "Tỷ lệ mẫu cho dấu vết"
-	},
-	"admin": {
-		"loading": "Đang tải",
-		"noScreenshotAvailable": "Không có ảnh chụp màn hình",
-		"sessionAnalytics": "Phân tích phiên",
-		"sessionCode": "Mã phiên",
-		"sessionEasyMode": "Chế độ dễ dàng",
-		"sessionLanguage": "Ngôn ngữ",
-		"sessionSummary": "Tóm tắt phiên",
-		"showHeatmap": "Hiển thị bản đồ nhiệt",
-		"summary": "Bản tóm tắt",
-		"workspace": "Không gian làm việc"
-	},
-	"dialogue": {
-		"Introduction": "CHÀO! \nhãy nhấp vào nút trả lời nhanh trong loại câu hỏi của bạn để chọn việc cần làm!",
-		"NewSessionWithData": "Bắt đầu phiên mới với dữ liệu đã lưu"
-	},
-	"editor": {
-		"dialogueTab": "Trò chuyện",
-		"workspaceTab": "Không gian làm việc"
-	},
-	"error": {
-		"empty_code": "Mã không hợp lệ hoặc trống",
-		"error": "Lỗi"
-	},
-	"execSwitch": {
-		"Running": "Đang chạy",
-		"Stopped": "Đã dừng",
-		"label": "Chạy mã"
-	},
-	"extension": {
-		"minecraft-core": {
-			"connectInfo": "Kết nối Minecraft của bạn từ **/connect {{host}}/vm/{{userCode}}/mc**. \nHãy thử lại nếu kết nối không thành công. \nTắt yêu cầu mã hóa."
-		}
-	},
-	"generic": {
-		"connected": "Đã kết nối"
-	},
-	"logbuffer": {
-		"tooManyLogs": "Quá nhiều tin nhắn. \nnhật ký cũ bị loại bỏ."
-	},
-	"login": {
-		"login": "Đăng nhập",
-		"loginFailed": "Đăng nhập không thành công",
-		"password": "Mật khẩu",
-		"title": "Đăng nhập",
-		"username": "Tên người dùng",
-		"welcome": "Đăng nhập để tiếp tục"
-	},
-	"navbar": {
-		"connected": "đã kết nối",
-		"execSwitch": "Chạy mã",
-		"home": "Trang chủ",
-		"joinCode": "Mã tham gia",
-		"leave": "rời khỏi",
-		"noTutorial": "Chưa có hướng dẫn nào được chọn",
-		"reconnecting": "bị ngắt kết nối. \nđang cố gắng kết nối lại.",
-		"reload": "Tải lại",
-		"saveAndLeave": "lưu và rời đi",
-		"signout": "Đăng xuất"
-	},
-	"off": "Tắt",
-	"on": "TRÊN",
-	"quickReply": {
-		"BeginTutorial": "Bắt đầu hướng dẫn",
-		"HowToUse": "Làm thế nào để sử dụng cái này?",
-		"WhatINeed": "Tôi cần phải làm gì?"
-	},
-	"session": {
-		"about": "Giới thiệu về ứng dụng này",
-		"aboutText": "Ứng dụng này là phần mềm tự lưu trữ cung cấp các hướng dẫn sử dụng LLM (AI).  \nỨng dụng cho phép quản trị viên trang web thu thập dữ liệu về cách sử dụng của người dùng và các tuyên bố được đưa ra dưới dạng không thể nhận dạng cá nhân và dữ liệu được thu thập sẽ được sử dụng để tìm hiểu chức năng trò chuyện trong ứng dụng và cải thiện hành vi của AI.  \nĐể biết thêm thông tin về việc xử lý dữ liệu do ứng dụng cung cấp, vui lòng liên hệ với quản trị viên trang web. \nVì ứng dụng được xuất bản dưới dạng nguồn mở và mã nguồn có thể đã được sửa đổi, nên không nên sử dụng ứng dụng nếu không rõ quản trị viên trang web.  \nDữ liệu về thông tin về các phiên được tạo có thể bị xóa.",
-		"available": "Ứng dụng có sẵn",
-		"checkingServer": "Đang kiểm tra trạng thái máy chủ...",
-		"continueSession": "Tiếp tục phiên này",
-		"createSession": "Tạo phòng mới",
-		"creating": "tạo ra...",
-		"debuginfo": "Thông tin gỡ lỗi",
-		"deleteSession": "Xóa phiên này",
-		"findSavedSession": "Sử dụng dữ liệu đã lưu",
-		"hello": "Xin chào",
-		"joinsession": "tham gia bằng mã",
-		"noSavedSession": "Không tìm thấy phiên đã lưu",
-		"or": "hoặc",
-		"savedSession": "Phiên đã lưu",
-		"serverDownMsg": "Không thể kết nối máy chủ. \nKiểm tra internet của bạn hoặc hỏi quản trị viên hệ thống.",
-		"serverOffline": "Máy chủ đang ngoại tuyến - Ứng dụng không khả dụng",
-		"serverOnline": "Trực tuyến",
-		"sessionNotFoundMsg": "Không tìm thấy phiên. \nNhập mã khác hoặc tạo phiên mới để bắt đầu.",
-		"typecodeMsg": "Nhập mã của bạn hoặc tạo phòng mới để bắt đầu.",
-		"welcome": "Nghiên cứu mã hóa với AI"
-	},
-	"sidebar": {
-		"dashboard": "Trang tổng quan",
-		"sessions": "Phiên",
-		"settings": "Cài đặt",
-		"toggle": "Thanh bên",
-		"trainingForAI": "Đào tạo AI",
-		"tutorials": "Hướng dẫn",
-		"users": "Người dùng"
-	},
-	"textbubble": {
-		"ai": "trí tuệ nhân tạo",
-		"ask": "Hỏi bất cứ điều gì...",
-		"block": "Khối",
-		"blocksuggestions": "Khối đề xuất",
-		"copiedToClipboard": "Đã sao chép!",
-		"errorLog": "Nhật ký lỗi",
-		"findBlock": "Tìm khối",
-		"findBlockFromMenu": "Tìm từ trình đơn",
-		"log": "Nhật ký",
-		"replying": "Đang trả lời...",
-		"server": "Máy chủ",
-		"showingLatest": "Hiển thị tin nhắn {{count}} mới nhất",
-		"you": "Bạn"
-	},
-	"tour": {
-		"blocklyWorkspace": "Không gian làm việc là nơi để tạo mã của bạn.",
-		"dialogue": "Bạn có thể nói chuyện với AI để được trợ giúp hoặc học bài học từ AI kèm theo phần hướng dẫn.",
-		"execSwitch": "Bạn có thể chạy mã của mình trên không gian làm việc.",
-		"joinCode": "Đây là mã cho phiên này. \nBạn có thể quay lại đây và lưu mã này cho lần sau.",
-		"switchToDialogue": "Được rồi, hãy quay lại tab trò chuyện.",
-		"switchToWorkspace": "Hãy chuyển sang không gian làm việc.",
-		"syncCode": "Bạn có thể cập nhật mã từ đây",
-		"tabs": "Bạn có thể chuyển đổi các tab để di chuyển giữa trò chuyện và không gian làm việc.",
-		"tourAgain": "Bạn có thể thực hiện lại chuyến tham quan này bằng cách nhấp vào nút này.",
-		"tutorialSelector": "Bạn có thể chọn bất kỳ hướng dẫn nào bạn muốn thực hiện.",
-		"welcome": "Chào mừng lên tàu! \nChuyến tham quan này cung cấp tổng quan ngắn gọn về cách sử dụng ứng dụng này."
-	},
-	"tutorial": {
-		"description": "Chọn những gì bạn muốn học",
-		"easyMode": "Chế độ dễ dàng",
-		"easyModeChanged": "Chuyển chế độ Dễ sang {{status}}",
-		"easyModeDescription": "Phản ứng của AI sẽ dễ dàng hơn.",
-		"start": "Bắt đầu hướng dẫn",
-		"startTour": "Hãy nhìn xem bạn có thể làm được gì.",
-		"startTutorial": "Hướng dẫn đã chọn",
-		"title": "Chọn hướng dẫn",
-		"tour": "Bắt đầu chuyến tham quan"
-	},
-	"vm": {
-		"outOfMemory": "Máy đã đạt giới hạn bộ nhớ",
-		"updatedScriptError": "Lỗi khi thực thi tập lệnh đã cập nhật: {{error}}",
-		"updatedScriptSuccess": "Tập lệnh cập nhật được thực thi thành công."
-	}
+  "AppConfig": {
+    "AI_Settings": "Cài đặt AI",
+    "AutoReply": "Trả lời tự động từ AI",
+    "Chat_AI_Model": "Mô hình AI trò chuyện",
+    "Chat_AI_Temperature": "Nhiệt độ trò chuyện AI",
+    "Client_Sentry_Settings": "Cài đặt Sentry của Khách hàng",
+    "Client_Settings": "Cài đặt máy khách",
+    "Code_Execution_Limits": "Giới hạn thực thi mã (VM)",
+    "Enable_Create_Room": "Bật Tạo phòng",
+    "Enable_Join_by_code": "Bật Tham gia bằng mã",
+    "Enable_Memory_Use_Log": "Bật nhật ký sử dụng bộ nhớ",
+    "GA_Tracking_ID": "ID theo dõi Google Analytics",
+    "General_Settings": "Cài đặt chung",
+    "Max_CPU_Usage": "Mức sử dụng CPU tối đa trên VM",
+    "Max_CodeRangeSizeMb": "Kích thước CodeRange tối đa tính bằng Mb",
+    "Max_Num_Message_Queue": "Hàng đợi tin nhắn số tối đa trên VM",
+    "Max_OldGenerationSizeMb": "Kích thước thế hệ cũ tối đa tính bằng Mb",
+    "Max_YoungGenerationSizeMb": "Kích thước thế hệ trẻ tối đa tính bằng Mb",
+    "Reply_Time_ms": "Thời gian trả lời ms",
+    "Screenshot_Interval_min": "Khoảng thời gian chụp ảnh màn hình tối thiểu",
+    "Sentry_DSN": "Sentry DSN(Để trống để tắt)",
+    "replaysOnErrorSampleRate": "Tỷ lệ mẫu cho các câu trả lời có lỗi",
+    "replaysSessionSampleRate": "Tỷ lệ mẫu cho số lần phát lại trong phiên",
+    "tracesSampleRate": "Tỷ lệ mẫu cho dấu vết"
+  },
+  "admin": {
+    "loading": "Đang tải",
+    "noScreenshotAvailable": "Không có ảnh chụp màn hình",
+    "sessionAnalytics": "Phân tích phiên",
+    "sessionCode": "Mã phiên",
+    "sessionEasyMode": "Chế độ dễ dàng",
+    "sessionLanguage": "Ngôn ngữ",
+    "sessionSummary": "Tóm tắt phiên",
+    "showHeatmap": "Hiển thị bản đồ nhiệt",
+    "summary": "Bản tóm tắt",
+    "workspace": "Không gian làm việc"
+  },
+  "dialogue": {
+    "Introduction": "CHÀO! \nhãy nhấp vào nút trả lời nhanh trong loại câu hỏi của bạn để chọn việc cần làm!",
+    "NewSessionWithData": "Bắt đầu phiên mới với dữ liệu đã lưu"
+  },
+  "editor": {
+    "dialogueTab": "Trò chuyện",
+    "workspaceTab": "Không gian làm việc"
+  },
+  "error": {
+    "empty_code": "Mã không hợp lệ hoặc trống",
+    "error": "Lỗi"
+  },
+  "execSwitch": {
+    "Running": "Đang chạy",
+    "Stopped": "Đã dừng",
+    "label": "Chạy mã"
+  },
+  "extension": {
+    "minecraft-core": {
+      "connectInfo": "Kết nối Minecraft của bạn từ **/connect {{host}}/vm/{{userCode}}/mc**. \nHãy thử lại nếu kết nối không thành công. \nTắt yêu cầu mã hóa."
+    }
+  },
+  "generic": {
+    "connected": "Đã kết nối"
+  },
+  "logbuffer": {
+    "tooManyLogs": "Quá nhiều tin nhắn. \nnhật ký cũ bị loại bỏ."
+  },
+  "login": {
+    "login": "Đăng nhập",
+    "loginFailed": "Đăng nhập không thành công",
+    "password": "Mật khẩu",
+    "title": "Đăng nhập",
+    "username": "Tên người dùng",
+    "welcome": "Đăng nhập để tiếp tục"
+  },
+  "navbar": {
+    "connected": "đã kết nối",
+    "execSwitch": "Chạy mã",
+    "home": "Trang chủ",
+    "joinCode": "Mã tham gia",
+    "leave": "rời khỏi",
+    "noTutorial": "Chưa có hướng dẫn nào được chọn",
+    "reconnecting": "bị ngắt kết nối. \nđang cố gắng kết nối lại.",
+    "reload": "Tải lại",
+    "saveAndLeave": "lưu và rời đi",
+    "signout": "Đăng xuất"
+  },
+  "off": "Tắt",
+  "on": "TRÊN",
+  "quickReply": {
+    "BeginTutorial": "Bắt đầu hướng dẫn",
+    "HowToUse": "Làm thế nào để sử dụng cái này?",
+    "WhatINeed": "Tôi cần phải làm gì?"
+  },
+  "session": {
+    "about": "Giới thiệu về ứng dụng này",
+    "aboutText": "Ứng dụng này là phần mềm tự lưu trữ cung cấp các hướng dẫn sử dụng LLM (AI).  \nỨng dụng cho phép quản trị viên trang web thu thập dữ liệu về cách sử dụng của người dùng và các tuyên bố được đưa ra dưới dạng không thể nhận dạng cá nhân và dữ liệu được thu thập sẽ được sử dụng để tìm hiểu chức năng trò chuyện trong ứng dụng và cải thiện hành vi của AI.  \nĐể biết thêm thông tin về việc xử lý dữ liệu do ứng dụng cung cấp, vui lòng liên hệ với quản trị viên trang web. \nVì ứng dụng được xuất bản dưới dạng nguồn mở và mã nguồn có thể đã được sửa đổi, nên không nên sử dụng ứng dụng nếu không rõ quản trị viên trang web.  \nDữ liệu về thông tin về các phiên được tạo có thể bị xóa.",
+    "available": "Ứng dụng có sẵn",
+    "checkingServer": "Đang kiểm tra trạng thái máy chủ...",
+    "continueSession": "Tiếp tục phiên này",
+    "createSession": "Tạo phòng mới",
+    "creating": "tạo ra...",
+    "debuginfo": "Thông tin gỡ lỗi",
+    "deleteSession": "Xóa phiên này",
+    "findSavedSession": "Sử dụng dữ liệu đã lưu",
+    "hello": "Xin chào",
+    "joinsession": "tham gia bằng mã",
+    "noSavedSession": "Không tìm thấy phiên đã lưu",
+    "or": "hoặc",
+    "savedSession": "Phiên đã lưu",
+    "serverDownMsg": "Không thể kết nối máy chủ. \nKiểm tra internet của bạn hoặc hỏi quản trị viên hệ thống.",
+    "serverOffline": "Máy chủ đang ngoại tuyến - Ứng dụng không khả dụng",
+    "serverOnline": "Trực tuyến",
+    "sessionNotFoundMsg": "Không tìm thấy phiên. \nNhập mã khác hoặc tạo phiên mới để bắt đầu.",
+    "typecodeMsg": "Nhập mã của bạn hoặc tạo phòng mới để bắt đầu.",
+    "welcome": "Nghiên cứu mã hóa với AI"
+  },
+  "sidebar": {
+    "dashboard": "Trang tổng quan",
+    "sessions": "Phiên",
+    "settings": "Cài đặt",
+    "toggle": "Thanh bên",
+    "trainingForAI": "Đào tạo AI",
+    "tutorials": "Hướng dẫn",
+    "users": "Người dùng"
+  },
+  "textbubble": {
+    "ai": "trí tuệ nhân tạo",
+    "ask": "Hỏi bất cứ điều gì...",
+    "block": "Khối",
+    "blocksuggestions": "Khối đề xuất",
+    "copiedToClipboard": "Đã sao chép!",
+    "errorLog": "Nhật ký lỗi",
+    "findBlock": "Tìm khối",
+    "findBlockFromMenu": "Tìm từ trình đơn",
+    "log": "Nhật ký",
+    "replying": "Đang trả lời...",
+    "server": "Máy chủ",
+    "showingLatest": "Hiển thị tin nhắn {{count}} mới nhất",
+    "you": "Bạn"
+  },
+  "tour": {
+    "blocklyWorkspace": "Không gian làm việc là nơi để tạo mã của bạn.",
+    "dialogue": "Bạn có thể nói chuyện với AI để được trợ giúp hoặc học bài học từ AI kèm theo phần hướng dẫn.",
+    "execSwitch": "Bạn có thể chạy mã của mình trên không gian làm việc.",
+    "joinCode": "Đây là mã cho phiên này. \nBạn có thể quay lại đây và lưu mã này cho lần sau.",
+    "switchToDialogue": "Được rồi, hãy quay lại tab trò chuyện.",
+    "switchToWorkspace": "Hãy chuyển sang không gian làm việc.",
+    "syncCode": "Bạn có thể cập nhật mã từ đây",
+    "tabs": "Bạn có thể chuyển đổi các tab để di chuyển giữa trò chuyện và không gian làm việc.",
+    "tourAgain": "Bạn có thể thực hiện lại chuyến tham quan này bằng cách nhấp vào nút này.",
+    "tutorialSelector": "Bạn có thể chọn bất kỳ hướng dẫn nào bạn muốn thực hiện.",
+    "welcome": "Chào mừng lên tàu! \nChuyến tham quan này cung cấp tổng quan ngắn gọn về cách sử dụng ứng dụng này."
+  },
+  "tutorial": {
+    "description": "Chọn những gì bạn muốn học",
+    "easyMode": "Chế độ dễ dàng",
+    "easyModeChanged": "Chuyển chế độ Dễ sang {{status}}",
+    "easyModeDescription": "Phản ứng của AI sẽ dễ dàng hơn.",
+    "start": "Bắt đầu hướng dẫn",
+    "startTour": "Hãy nhìn xem bạn có thể làm được gì.",
+    "startTutorial": "Hướng dẫn đã chọn",
+    "title": "Chọn hướng dẫn",
+    "tour": "Bắt đầu chuyến tham quan"
+  },
+  "vm": {
+    "outOfMemory": "Máy đã đạt giới hạn bộ nhớ",
+    "updatedScriptError": "Lỗi khi thực thi tập lệnh đã cập nhật: {{error}}",
+    "updatedScriptSuccess": "Tập lệnh cập nhật được thực thi thành công."
+  }
 }

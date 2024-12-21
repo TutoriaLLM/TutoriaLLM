@@ -77,12 +77,7 @@ export function DebugInfo() {
 	const handleInstallClick = () => {
 		if (deferredPrompt) {
 			deferredPrompt.prompt(); // インストールプロンプトを表示
-			deferredPrompt.userChoice.then((choiceResult) => {
-				if (choiceResult.outcome === "accepted") {
-					console.log("PWA installed");
-				} else {
-					console.log("PWA installation dismissed");
-				}
+			deferredPrompt.userChoice.then(() => {
 				setDeferredPrompt(null); // プロンプトの使用が終了したらクリア
 			});
 		}
@@ -94,7 +89,6 @@ export function DebugInfo() {
 		window.localStorage.clear(); // localStorageを削除
 		window.sessionStorage.clear(); // sessionStorageを削除
 		window.location.reload(); // ページをリロード
-		console.log("Local storage cleared");
 	};
 
 	return (

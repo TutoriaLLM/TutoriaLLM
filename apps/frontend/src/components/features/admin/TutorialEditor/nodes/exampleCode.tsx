@@ -26,7 +26,6 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 		if (inputRef.current && data.sessionValue) {
 			// inputRef.current.value = data.sessionValue.sessioncode;
 			setSession(data.sessionValue);
-			console.log("session", session);
 		}
 	}, [data.sessionValue]);
 

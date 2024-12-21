@@ -23,7 +23,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 						contentType: "log",
 						isuser: false,
 						content: t("tutorial.easyModeChanged", {
-							status: !prev.easyMode ? t("on") : t("off"),
+							status: prev.easyMode ? t("off") : t("on"),
 						}),
 					},
 				],

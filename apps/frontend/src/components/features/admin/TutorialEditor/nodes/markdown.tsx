@@ -59,18 +59,15 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	useEffect(() => {
 		if (mdxEditorRef.current) {
 			mdxEditorRef.current.setMarkdown(data.editorContent);
-			console.log("setMarkdown", nodesData);
 		}
 
 		// Blocklyノードが接続されているか確認
 		if (nodesData && nodesData.length > 0) {
 			const blocklyNode = nodesData.find((node) => node.type === "blockly");
 			if (blocklyNode?.data) {
-				console.log("blocklyNode", blocklyNode);
 				const blocklyData = blocklyNode.data as workspaceNode["data"];
 				const sessionValue = blocklyData.sessionValue;
 				if (sessionValue) {
-					console.log("sessionValue", sessionValue);
 					handleSourceChange(
 						"source",
 						`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(

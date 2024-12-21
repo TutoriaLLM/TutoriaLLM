@@ -76,7 +76,6 @@ export async function invokeLLM(
 	availableBlocks: string[],
 	socket: Socket,
 ) {
-	console.log("invokeLLM");
 	const config = getConfig();
 
 	const allBlocks = listAllBlocks(availableBlocks);
@@ -108,7 +107,6 @@ export async function invokeLLM(
 		try {
 			const mp3Path = await convertWebMToMp3(webmInputPath);
 
-			console.log("userAudio", mp3Path);
 			updateAudioDialogue(
 				session.sessioncode,
 				lastDialogue.id,
@@ -143,7 +141,6 @@ export async function invokeLLM(
 			async function textFromAudio() {
 				//audioからテキストを生成する（音声出力はなし）
 				//構造化出力に対応させるためにはBeta版のSDKが必要
-				console.log("textFromAudio");
 
 				const completion = await openai.chat.completions.create({
 					model: "gpt-4o-audio-preview",
@@ -186,7 +183,6 @@ export async function invokeLLM(
 			}
 			async function audioFromAudio() {
 				//AIによる音声モードを利用して音声から出力となる音声を直接生成する
-				console.log("audioFromAudio");
 
 				const completion = await openai.chat.completions.create({
 					model: "gpt-4o-audio-preview",
@@ -265,7 +261,6 @@ export async function invokeLLM(
 	);
 	async function audioFromText() {
 		//AIによる音声モードを利用してテキストから出力となる音声を直接生成する
-		console.log("audioFromText");
 
 		//オーディオモデルでBeta版の構造化出力は対応していないので、通常のバージョンでオーディオを生成する
 		const completion = await openai.chat.completions.create({
@@ -281,7 +276,6 @@ export async function invokeLLM(
 
 		//zodAudioSchemaに合わせて返却する
 		const response = completion.choices[0].message.audio;
-		console.log(response);
 		//zodから型を生成する
 		return response;
 	}
@@ -289,7 +283,6 @@ export async function invokeLLM(
 	async function textFromText() {
 		//通常のテキストモードを利用してテキストを生成する
 		//構造か出力はbetaのSDKが必要っぽい
-		console.log("textFromText");
 		const completion = await openai.beta.chat.completions.parse({
 			messages: [
 				{ role: "system", content: systemTemplate },
@@ -321,9 +314,6 @@ export async function invokeLLM(
 	if ("isQuestion" in response && "formattedUserQuestion" in response) {
 		if (response.isQuestion && response.formattedUserQuestion) {
 			//ユーザーからの質問である場合、その質問を別のAIがトレーニングデータとして生成する
-			console.log(
-				"User asked a question. Generating training data for the AI.",
-			);
 			generateTrainingData(
 				response.formattedUserQuestion,
 				{
@@ -334,9 +324,6 @@ export async function invokeLLM(
 				response.response,
 			);
 		}
-
-		console.log("Response from the AI model: ", response);
-
 		//振り仮名をparsedContentに適用
 		response.response = await applyRuby(response.response);
 	}

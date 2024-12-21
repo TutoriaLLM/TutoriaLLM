@@ -54,9 +54,7 @@ const app = new Hono<{ Bindings: HttpBindings }>();
 const proxy = createProxyMiddleware({
 	router: async (req) => {
 		const code = req.url?.split("/")[1];
-		console.log("proxying to", code);
 		if (!code) {
-			console.log("Invalid code");
 			return;
 		}
 
@@ -68,14 +66,8 @@ const proxy = createProxyMiddleware({
 		const uuid = session[0].uuid;
 		const instance = vmInstances[uuid];
 		if (instance) {
-			console.log(
-				"instance found on vm manager. proxying to: ",
-				instance.ip,
-				instance.port,
-			);
 			return `http://${instance.ip}:${instance.port}`;
 		}
-		console.log("instance not found on vm manager");
 		return;
 	},
 	pathRewrite: (path, req) => {
@@ -83,20 +75,6 @@ const proxy = createProxyMiddleware({
 	},
 	ws: true,
 	logger: console,
-	on: {
-		close: (res, socket, head) => {
-			console.log("vm manager close");
-		},
-		error: (err, req, res) => {
-			console.log("vm manager error on proxy", err);
-		},
-		proxyReqWs: (proxyReq, req, socket, options, head) => {
-			console.log("vm manager proxyReqWs");
-		},
-		proxyReq: (proxyReq, req, res) => {
-			console.log("vm manager proxyReq");
-		},
-	},
 });
 
 const server = serve({
@@ -115,7 +93,6 @@ app.all("/:code", async (c, next) => {
 		c.status(400);
 		return;
 	}
-	console.log("code", code);
 
 	if (vmProxies.has(code)) {
 		return new Promise((resolve, reject) => {
@@ -128,7 +105,6 @@ app.all("/:code", async (c, next) => {
 					}
 				});
 			} catch (e) {
-				console.log("error on proxy", e);
 				reject(e);
 			}
 		});
@@ -199,7 +175,6 @@ export async function ExecCodeTest(
 					config.Code_Execution_Limits.Max_YoungGenerationSizeMb,
 			},
 		});
-		console.log("resourceLimits", worker.resourceLimits);
 
 		worker.on("message", (msg: vmMessage) => {
 			if (msg.type === "log") logBuffer.add(msg.content);
@@ -207,8 +182,6 @@ export async function ExecCodeTest(
 			if (msg.type === "info") logBuffer.info(msg.content);
 
 			if (msg.type === "openVM") {
-				console.log("VM server received on port", msg.port);
-
 				const port = msg.port;
 				const ip = msg.ip;
 				if (!port) {
@@ -230,11 +203,9 @@ export async function ExecCodeTest(
 			} else {
 				logBuffer.error(`${err.message}`);
 			}
-			console.log("Worker error:", err);
 		});
 
 		worker.on("exit", (exitcode) => {
-			console.log(`Worker stopped with exit code ${exitcode}`);
 			logBuffer.stop();
 			StopCodeTest(code, uuid, socket, DBupdator);
 		});
@@ -242,8 +213,6 @@ export async function ExecCodeTest(
 		// workerインスタンスを保存
 		vmInstances[uuid] = { running: true, worker: worker };
 	} catch (e) {
-		console.log("error on VM execution");
-		console.log(e);
 		await StopCodeTest(code, uuid, socket, DBupdator);
 	}
 
@@ -311,7 +280,6 @@ export async function StopCodeTest(
 				error: "Invalid uuid",
 			};
 		}
-		console.log("updating session result");
 
 		// Workerを終了
 		await instance.worker.terminate();

@@ -7,19 +7,12 @@ function renderAIaudioBubble(
 	id: number,
 	audios: AIAudios | undefined, // audiosを追加
 ) {
-	console.log("Content:", content);
-	console.log("Audios:", audios);
-
 	const parsedContent = JSON.parse(content) as {
 		id: string;
 		transcript: string;
 	};
 
-	console.log("Parsed Content:", parsedContent);
-
 	const audio = audios?.find((audio) => audio?.id === parsedContent.id);
-
-	console.log("Found Audio:", audio);
 
 	return (
 		<div
@@ -41,7 +34,7 @@ function renderAIaudioBubble(
 				<p className="text-gray-600 italic prose prose-sm md:prose-base shadow p-2 rounded-2xl bg-sky-200/40 backdrop-blur">
 					{parsedContent.transcript}
 				</p>
-				<audio controls className="w-full">
+				<audio controls={true} className="w-full">
 					<source
 						src={`data:audio/mp3;base64,${audio?.base64}`}
 						type="audio/mp3"

@@ -24,9 +24,6 @@ function HighlightedBlockName({
 	// useStateとuseEffectを使わずに、直接isHighlightedを計算する
 	const isHighlighted = blockNameFromMenu === text;
 
-	if (isHighlighted) {
-		console.log("Highlighting:", text);
-	}
 	useEffect(() => {
 		const fetchImage = async () => {
 			// IndexedDBからキャッシュを確認

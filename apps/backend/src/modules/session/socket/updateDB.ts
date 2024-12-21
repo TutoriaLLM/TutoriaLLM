@@ -35,7 +35,6 @@ const updateAndBroadcastDiff = async (
 	const diff = existingData
 		? createPatch(existingData, dataWithoutPrivacy)
 		: [];
-	console.log("diff", diff);
 
 	if (diff.length > 0) {
 		await db
@@ -65,7 +64,6 @@ const updateAndBroadcastDiffToAll = async (
 	const diff = existingData
 		? createPatch(existingData, dataWithoutPrivacy)
 		: [];
-	console.log("diff", diff);
 
 	if (diff.length > 0) {
 		await db

@@ -52,7 +52,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 	})
 	.openapi(deleteSession, async (c) => {
 		const code = c.req.valid("param").sessionCode;
-		console.log(code);
+		console.info(code);
 		try {
 			await db
 				.delete(appSessions)

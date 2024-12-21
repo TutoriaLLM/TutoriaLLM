@@ -20,14 +20,14 @@ program
 		const { DEFAULT_USER_NAME, DEFAULT_USER_PASSWORD } = process.env;
 
 		if (DEFAULT_USER_NAME && DEFAULT_USER_PASSWORD) {
-			console.log(
+			console.info(
 				`Registering user from environment variables: ${DEFAULT_USER_NAME}`,
 			);
 			// ここにユーザー登録処理を追加
 			const hashedPassword = await saltAndHashPassword(DEFAULT_USER_PASSWORD);
 			resetCredentials(DEFAULT_USER_NAME, hashedPassword)
 				.then((result) => {
-					console.log("User created:", result);
+					console.info("User created:", result);
 					process.exit();
 				})
 				.catch((error) => {
@@ -47,12 +47,12 @@ program
 					message: "Type your password:",
 				},
 			]);
-			console.log(`Registering user: ${answers.username}`);
+			console.info(`Registering user: ${answers.username}`);
 			// ここにユーザー登録処理を追加
 			const hashedPassword = await saltAndHashPassword(answers.password);
 			resetCredentials(answers.username, hashedPassword)
 				.then((result) => {
-					console.log("User created:", result);
+					console.info("User created:", result);
 					process.exit();
 				})
 				.catch((error) => {
@@ -76,13 +76,13 @@ program
 		]);
 
 		if (confirmInit) {
-			console.log("Initializing Config...");
+			console.info("Initializing Config...");
 			deleteConfig();
 			createConfig();
-			console.log("Config initialized.");
+			console.info("Config initialized.");
 			process.exit();
 		} else {
-			console.log("Initialization canceled.");
+			console.info("Initialization canceled.");
 			process.exit();
 		}
 	});
@@ -102,15 +102,15 @@ program
 		]);
 
 		if (deleteInit) {
-			console.log("Deleting .initialized...");
+			console.info("Deleting .initialized...");
 			if (fs.existsSync("/app_data/.initialized")) {
 				fs.unlinkSync("/app_data/.initialized");
-				console.log(".initialized deleted");
+				console.info(".initialized deleted");
 			} else {
-				console.log(".initialized file does not exist.");
+				console.info(".initialized file does not exist.");
 			}
 		} else {
-			console.log("Operation cancelled.");
+			console.info("Operation cancelled.");
 		}
 	});
 

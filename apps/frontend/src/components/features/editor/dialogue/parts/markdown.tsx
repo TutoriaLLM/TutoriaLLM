@@ -33,10 +33,8 @@ function highlightText(
 	const handleBlockNameClick = useCallback(
 		(blockName: string) => {
 			if (blockNameFromMenu === blockName) {
-				console.log("Turning off the block name:", blockName);
 				setBlockNameFromMenu(null);
 			} else {
-				console.log("Turning on the block name:", blockName);
 				setBlockNameFromMenu(blockName);
 				setHighlightedBlock(null);
 				setActiveTab("workspaceTab");
@@ -119,7 +117,6 @@ function getMarkdownComponents(
 	t: TFunction,
 	workspace: SessionValue["workspace"] | undefined,
 ) {
-	console.log("getMarkdownComponents");
 	const externalBlocks = () => getExternalBlocks();
 	const allBlocks = () => listAllBlocks(externalBlocks());
 

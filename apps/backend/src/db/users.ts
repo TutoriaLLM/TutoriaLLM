@@ -7,7 +7,7 @@ export async function resetCredentials(
 	adminUsername: string,
 	adminPasswordHash: string,
 ) {
-	console.log("resetCredentials");
+	console.info("resetCredentials");
 
 	// Create the initial admin user
 	const result = await db
@@ -37,7 +37,7 @@ if (process.argv.includes("--reset-credentials")) {
 
 		resetCredentials(adminUsername, adminPasswordHash)
 			.then((result) => {
-				console.log("Admin user created:", result);
+				console.info("Admin user created:", result);
 				process.exit();
 			})
 			.catch((error) => {
