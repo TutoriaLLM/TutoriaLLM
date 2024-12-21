@@ -11,7 +11,8 @@
     "prepare": "pnpm simple-git-hooks",
     "format": "biome format . --write",
     "check": "biome check . --fix",
-    "lint:repo": "sherif"
+    "lint:repo": "sherif",
+    "build:all": "pnpm -r build"
   },
   "pre-commit": "",
   "simple-git-hooks": {
