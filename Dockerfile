@@ -30,6 +30,7 @@ CMD [ "pnpm", "start" ]
 
 
 # フロントエンドのセットアップ
+# docker hubには公開しない - Not public
 FROM base AS frontend
 COPY --from=build /prod/frontend /frontend
 WORKDIR /frontend

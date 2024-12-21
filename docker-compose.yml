@@ -30,7 +30,7 @@ services:
     volumes:
       - db_data_db:/var/lib/postgresql/data
 
-  frontend:
+  frontend: # Usually, frontend is hosted by cloud services like Vercel, Netlify, etc. This is just for local development.
     container_name: tutoriallm_frontend
     build:
       context: .

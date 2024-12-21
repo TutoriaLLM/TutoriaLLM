@@ -35,16 +35,16 @@ jobs:
         VERSION=$(jq -r '.version' package.json)
         echo "PACKAGE_VERSION=${VERSION}" >> $GITHUB_ENV
 
-    - name: Build and push Docker image(Frontend)
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        file: ./Dockerfile
-        target: frontend
-        push: true
-        tags: |
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:latest-preview
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
+    # - name: Build and push Docker image(Frontend)
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: .
+    #     file: ./Dockerfile
+    #     target: frontend
+    #     push: true
+    #     tags: |
+    #       ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:latest-preview
+    #       ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
 
     - name: Build and push Docker image(Backend)
       uses: docker/build-push-action@v2
@@ -54,8 +54,8 @@ jobs:
         target: backend
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_backend:latest-preview
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_backend:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
+          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_api:latest-preview
+          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_api:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
 
 
     - name: Create GitHub Release
