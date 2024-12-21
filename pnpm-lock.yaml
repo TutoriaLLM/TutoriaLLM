@@ -122,6 +122,9 @@ importers:
       drizzle-orm:
         specifier: ^0.32.2
         version: 0.32.2(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@9.6.0)(kysely@0.27.4)(pg@8.13.0)(react@18.3.1)
+      drizzle-zod:
+        specifier: ^0.6.0
+        version: 0.6.0(drizzle-orm@0.32.2(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@9.6.0)(kysely@0.27.4)(pg@8.13.0)(react@18.3.1))(zod@3.23.8)
       extensions:
         specifier: workspace:^
         version: link:../../packages/extensions
@@ -4576,6 +4579,12 @@ packages:
         optional: true
       sqlite3:
         optional: true
+
+  drizzle-zod@0.6.0:
+    resolution: {integrity: sha512-7K1k7Y/5Jw9D4cTlrHL3mRTLg3oaglbi4VvBIYmSAtMvYkgqvusPtra7cnntMCe1r1cBcwxhlEkfiNdU23lp2g==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -11839,6 +11848,11 @@ snapshots:
       kysely: 0.27.4
       pg: 8.13.0
       react: 18.3.1
+
+  drizzle-zod@0.6.0(drizzle-orm@0.32.2(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@9.6.0)(kysely@0.27.4)(pg@8.13.0)(react@18.3.1))(zod@3.23.8):
+    dependencies:
+      drizzle-orm: 0.32.2(@opentelemetry/api@1.9.0)(@types/better-sqlite3@7.6.11)(@types/pg@8.11.10)(@types/react@18.3.11)(better-sqlite3@9.6.0)(kysely@0.27.4)(pg@8.13.0)(react@18.3.1)
+      zod: 3.23.8
 
   eastasianwidth@0.2.0: {}
 

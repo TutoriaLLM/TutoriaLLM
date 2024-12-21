@@ -19,8 +19,8 @@ export type ContentType = (typeof contentTypeEnum)[number];
 const responseModeEnum = ["text", "audio"] as const;
 // timestamp用のスキーマ
 export const timestampSchema = z.object({
-	createdAt: z.date(),
-	updatedAt: z.date(),
+	createdAt: z.string().datetime(),
+	updatedAt: z.string().datetime(),
 });
 
 export type DialogueType = {
@@ -113,7 +113,7 @@ export const sessionValueSchema = z
 		// UI関連
 		quickReplies: z.array(z.string()).nullable(),
 		isReplying: z.boolean(),
-		workspace: z.record(z.string()).nullable(),
+		workspace: z.record(z.any()).nullable(),
 		isVMRunning: z.boolean(),
 		clients: z.array(z.string()).nullable(),
 

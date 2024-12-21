@@ -9,8 +9,8 @@ export function initialData(code: string, language: string): AppSession {
 	return {
 		sessioncode: code,
 		uuid: crypto.randomUUID(),
-		createdAt: new Date(),
-		updatedAt: new Date(),
+		createdAt: new Date().toISOString(),
+		updatedAt: new Date().toISOString(),
 		dialogue: [
 			{
 				id: 0,

@@ -1,4 +1,4 @@
-import { getSession, resumeSession } from "@/api/session.js";
+import { resumeSession } from "@/api/session.js";
 import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 import Popup from "@/components/ui/Popup.js";
 import { useMutation } from "@/hooks/useMutations.js";
@@ -33,9 +33,13 @@ export default function SavedData() {
 	}
 
 	const { mutate } = useMutation({
-		mutationFn: resumeSession,
-		onSuccess: (sessionCode) => {
-			router.navigate({ to: `/${sessionCode}` });
+		mutationFn: ({
+			key,
+			sessionData,
+		}: { key: { key: string }; sessionData: SessionValuePost }) =>
+			resumeSession(sessionData, key),
+		onSuccess: (value) => {
+			router.navigate({ to: `/${value.sessionCode}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);
@@ -82,38 +86,10 @@ export default function SavedData() {
 		setSavedData(data);
 	}
 
-	// サーバー側で同じ番号かつ同じワークスペース内容のセッションが残っているか確認する
 	async function createOrContinueSession(localSessionValue: SessionValuePost) {
 		const sessionCode = localSessionValue.sessioncode;
-
-		const getSessionValue = async () => {
-			try {
-				console.log("get session");
-				return await getSession({ key: sessionCode });
-			} catch (error) {
-				console.error("Failed to get session:", error);
-				return null;
-			}
-		};
-
-		const receivedSessionValue = await getSessionValue();
-
-		if (
-			(receivedSessionValue?.workspace ?? []).toString() ===
-			(localSessionValue.workspace ?? []).toString()
-		) {
-			router.navigate({ to: `/${sessionCode}` });
-			console.log(`continue session at ${sessionCode}`);
-		} else {
-			if (!localSessionValue || localSessionValue === null) {
-				return;
-			}
-			mutate({
-				...localSessionValue,
-				createdAt: new Date(localSessionValue.createdAt),
-				updatedAt: new Date(localSessionValue.updatedAt),
-			});
-		}
+		localSessionValue.workspace;
+		mutate({ key: { key: sessionCode }, sessionData: localSessionValue });
 	}
 
 	useEffect(() => {

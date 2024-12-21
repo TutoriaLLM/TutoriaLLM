@@ -7,7 +7,7 @@ export type AppConfig = InferResponseType<typeof $Config>;
 const $Session = client.session[":key"].$get;
 export type SessionValue = InferResponseType<typeof $Session, 200>;
 
-const $SessionPost = client.session.resume.$post;
+const $SessionPost = client.session.resume[":key"].$post;
 type SessionPost = InferRequestType<typeof $SessionPost>;
 
 const $Tutorial = client.tutorials[":id"].$get;

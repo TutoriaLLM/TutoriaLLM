@@ -54,65 +54,81 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 		);
 	})
 	.openapi(resumeSession, async (c) => {
-		const sessionData = c.req.valid("json");
-		console.log("session created with data");
-		const code = joincodeGen();
-		console.log("sessionData", sessionData);
+		const key = c.req.valid("param").key;
 
-		//RedisからPostgresに移行しました: from 1.0.0
-		const {
-			uuid,
-			dialogue,
-			quickReplies,
-			workspace,
-			language,
-			easyMode,
-			responseMode,
-			llmContext,
-			tutorial,
-			stats,
-			clicks,
-		} = sessionData;
-		await db
-			.insert(appSessions)
-			.values({
-				sessioncode: code,
+		const sessionData = c.req.valid("json");
+		//そのkeyのセッションが存在するかどうかを確認する
+		const value = await db.query.appSessions.findFirst({
+			where: eq(appSessions.sessioncode, key),
+		});
+		if (
+			!value ||
+			value.workspace?.toString() !== sessionData.workspace?.toString()
+		) {
+			//セッションがない場合や、セッションデータが一致しない場合はデータを元に新しいセッションを作成する
+			const code = joincodeGen();
+			const {
 				uuid,
-				createdAt: new Date(),
-				updatedAt: new Date(),
-				...(quickReplies && { quickReplies }),
-				dialogue: [
-					...(dialogue ?? []),
-					{
-						id: (dialogue?.length ?? 0) + 1,
-						contentType: "log",
-						isuser: false,
-						content: "dialogue.NewSessionWithData",
-					},
-				],
-				isReplying: false,
+				dialogue,
+				quickReplies,
 				workspace,
-				isVMRunning: false,
-				clients: [],
 				language,
 				easyMode,
 				responseMode,
 				llmContext,
 				tutorial,
-				stats: stats ?? {
-					audios: [],
-					userAudio: "",
-					screenshot: "",
-					clicks: clicks ?? [],
+				stats,
+				clicks,
+			} = sessionData;
+			await db
+				.insert(appSessions)
+				.values({
+					sessioncode: code,
+					uuid,
+					createdAt: new Date().toISOString(),
+					updatedAt: new Date().toISOString(),
+					...(quickReplies && { quickReplies }),
+					dialogue: [
+						...(dialogue ?? []),
+						{
+							id: (dialogue?.length ?? 0) + 1,
+							contentType: "log",
+							isuser: false,
+							content: "dialogue.NewSessionWithData",
+						},
+					],
+					isReplying: false,
+					workspace,
+					isVMRunning: false,
+					clients: [],
+					language,
+					easyMode,
+					responseMode,
+					llmContext,
+					tutorial,
+					stats: stats ?? {
+						audios: [],
+						userAudio: "",
+						screenshot: "",
+						clicks: clicks ?? [],
+					},
+				})
+				.execute();
+			return c.json(
+				{
+					sessionCode: code,
 				},
-			})
-			.execute();
+				200,
+			);
+		}
 		return c.json(
 			{
-				sessionCode: code,
+				sessionCode: key,
 			},
 			200,
 		);
+
+		//RedisからPostgresに移行しました: from 1.0.0
 	})
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;

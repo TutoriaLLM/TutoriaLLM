@@ -29,9 +29,10 @@ const newSession = createRoute({
 
 const resumeSession = createRoute({
 	method: "post",
-	path: "/session/resume",
+	path: "/session/resume/{key}",
 	summary: "Resume a session, from the provided session data",
 	request: {
+		params: sessionParam.schema,
 		body: {
 			content: jsonBody(newSessionRequest.schema),
 		},
