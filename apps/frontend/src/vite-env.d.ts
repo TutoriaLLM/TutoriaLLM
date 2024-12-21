@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
+
+declare const VITE_BACKEND_URL: string;
 interface ImportMetaEnv {
-	readonly VITE_PUBLIC_BACKEND_URL: string;
 	readonly PORT: string;
 }
 interface ImportMeta {

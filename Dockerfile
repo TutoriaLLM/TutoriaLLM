@@ -8,11 +8,10 @@ RUN corepack enable
 FROM base AS build
 COPY . /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile -r
-#ビルドに必要な環境変数を設定
-ENV VITE_PUBLIC_BACKEND_URL=http://localhost:3001
-
-RUN pnpm run -r build
+RUN pnpm run -r build 
 RUN pnpm deploy --filter=frontend --prod /prod/frontend
 
 # バックエンドのセットアップ (ビルドを行わず、そのままstartを実行)

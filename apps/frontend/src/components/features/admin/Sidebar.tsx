@@ -47,10 +47,8 @@ export default function SideBar() {
 		);
 	};
 
-	const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
-
 	const handleSignOut = async () => {
-		const res = await fetch(`${backendUrl}/logout`, {
+		const res = await fetch(`${VITE_BACKEND_URL}/logout`, {
 			method: "POST",
 			credentials: "include",
 		});

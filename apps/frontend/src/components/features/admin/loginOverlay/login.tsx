@@ -17,10 +17,7 @@ export default function Login(props: { redirectTo: string }) {
 		event.preventDefault();
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;
-
-		const VITE_PUBLIC_BACKEND_URL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
-
-		const response = await fetch(`${VITE_PUBLIC_BACKEND_URL}/login`, {
+		const response = await fetch(`${VITE_BACKEND_URL}/login`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

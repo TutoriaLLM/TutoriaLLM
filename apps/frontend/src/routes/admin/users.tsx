@@ -42,11 +42,9 @@ function Users() {
 	useEffect(() => {
 		fetchUsers();
 
-		const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
-
 		// 現在のユーザーIDを取得（ログイン中に自身を誤って削除するのを防止するため）
 		//auth以下のルートはopenapiで定義されていないため、fetchを利用
-		fetch(`${backendUrl}/credential`, {
+		fetch(`${VITE_BACKEND_URL}/credential`, {
 			credentials: "include",
 		})
 			.then((response) => {

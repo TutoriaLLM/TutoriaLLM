@@ -36,10 +36,10 @@ services:
       context: .
       dockerfile: Dockerfile
       target: frontend
+      args:
+        VITE_BACKEND_URL: http://localhost:3001
     ports:
       - "3000:3000"
-    env_file:
-      - ./apps/frontend/.env
 
   backend: 
     container_name: tutoriallm_backend

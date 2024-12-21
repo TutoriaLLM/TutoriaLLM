@@ -27,36 +27,30 @@ export class ApiError extends Error {
 	}
 }
 
-export const client = hcWithType(
-	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
-	{
-		headers: {
-			Origin: import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
-			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
-			"Content-Type": "application/json",
-		},
-		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
-			fetch(input, {
-				...requestInit,
-				credentials: "include",
-			}),
+export const client = hcWithType(VITE_BACKEND_URL as string, {
+	headers: {
+		Origin: VITE_BACKEND_URL as string,
+		Host: new URL(VITE_BACKEND_URL as string).host,
+		"Content-Type": "application/json",
 	},
-);
-export const adminClient = adminHcWithType(
-	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
-	{
-		headers: {
-			Origin: import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
-			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
-			"Content-Type": "application/json",
-		},
-		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
-			fetch(input, {
-				...requestInit,
-				credentials: "include",
-			}),
+	fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
+		fetch(input, {
+			...requestInit,
+			credentials: "include",
+		}),
+});
+export const adminClient = adminHcWithType(VITE_BACKEND_URL as string, {
+	headers: {
+		Origin: VITE_BACKEND_URL as string,
+		Host: new URL(VITE_BACKEND_URL as string).host,
+		"Content-Type": "application/json",
 	},
-);
+	fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
+		fetch(input, {
+			...requestInit,
+			credentials: "include",
+		}),
+});
 
 export const handleResponse = async <
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>

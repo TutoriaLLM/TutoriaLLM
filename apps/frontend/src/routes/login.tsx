@@ -7,8 +7,7 @@ export const Route = createFileRoute("/login")({
 		redirect: z.string().optional(),
 	}),
 	beforeLoad: async ({ search }) => {
-		const backendUrl = import.meta.env.VITE_PUBLIC_BACKEND_URL;
-		const response = await fetch(`${backendUrl}/credential`, {
+		const response = await fetch(`${VITE_BACKEND_URL}/credential`, {
 			credentials: "include",
 		});
 
