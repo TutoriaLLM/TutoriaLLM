@@ -4,8 +4,8 @@ import { route } from "@/modules/config/routes";
 import type { AppConfig } from "@/modules/config/schema";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
-// const volumePath = "/app_data";
-const volumePath = path.resolve("testconfig");
+const volumePath = "/app_data";
+// const volumePath = path.resolve("testconfig");
 
 const configPath = fs.existsSync(volumePath)
 	? `${volumePath}/appConfig.json`
