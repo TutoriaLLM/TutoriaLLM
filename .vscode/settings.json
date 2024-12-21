@@ -1,27 +1,35 @@
 {
-	"i18n-ally.localesPaths": ["src/i18n"],
-	"i18n-ally.keystyle": "nested",
+  "i18n-ally.localesPaths": ["apps/frontend/src/i18n"],
+  "i18n-ally.keystyle": "nested",
 
-	"editor.formatOnSave": true,
-	"editor.defaultFormatter": "biomejs.biome",
-	"[javascript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[javascriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescriptreact]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"files.eol": "\n",
-	"editor.codeActionsOnSave": {
-		"quickfix.biome": "explicit",
-		"source.organizeImports.biome": "never"
-	},
-	"yaml.schemas": {
-		"https://json.schemastore.org/github-workflow.json": "file:///Users/soumame/Documents/GitHub/kids-code-tutorial/.github/workflows/deploy.yaml"
-	}
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+
+  "files.eol": "\n",
+  "files.watcherExclude": {
+    "**/routeTree.gen.ts": true
+  },
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "never"
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/soumame/Documents/GitHub/kids-code-tutorial/.github/workflows/deploy.yaml"
+  }
 }

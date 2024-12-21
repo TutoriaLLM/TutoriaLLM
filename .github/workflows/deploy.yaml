@@ -37,15 +37,28 @@ jobs:
           exit 1
         fi
 
-    - name: Build and push Docker image
+    # - name: Build and push Docker image(Frontend)
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: .
+    #     file: ./Dockerfile
+    #     target: frontend
+    #     push: true
+    #     tags: |
+    #       ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:latest
+    #       ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:${{ env.PACKAGE_VERSION }}
+
+    - name: Build and push Docker image(Backend)
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: ./Dockerfile.prod
+        file: ./Dockerfile
+        target: backend
         push: true
         tags: |
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm:latest
-          ${{ secrets.DOCKER_USERNAME }}/tutoriallm:${{ env.PACKAGE_VERSION }}
+          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_api:latest
+          ${{ secrets.DOCKER_USERNAME }}/tutoriallm_api:${{ env.PACKAGE_VERSION }}
+      
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
@@ -60,4 +73,6 @@ jobs:
           Changes in this release:
           ${{ github.event.head_commit.message }}
 
-          The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:${{ env.PACKAGE_VERSION }}
+          The release is also available on Docker Hub:
+          Frontend: ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:${{ env.PACKAGE_VERSION }}
+          Backend: ${{ secrets.DOCKER_USERNAME }}/tutoriallm_backend:${{ env.PACKAGE_VERSION }}
