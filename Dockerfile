@@ -8,13 +8,16 @@ RUN corepack enable
 FROM base AS build
 COPY . /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile -r
+#ビルドに必要な環境変数を設定
+ENV VITE_PUBLIC_BACKEND_URL=http://localhost:3001
+
 RUN pnpm run -r build
 RUN pnpm deploy --filter=frontend --prod /prod/frontend
 
 # バックエンドのセットアップ (ビルドを行わず、そのままstartを実行)
 FROM base AS backend
-COPY . /usr/src/tutoriallm
+COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm/apps/backend
 # backend パッケージの依存関係だけをインストール
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter=backend
@@ -33,8 +36,6 @@ COPY --from=build /prod/frontend /frontend
 WORKDIR /frontend
 # 環境変数の設定
 ENV PORT=3000
-ARG VITE_PUBLIC_BACKEND_URL
-ENV VITE_PUBLIC_BACKEND_URL=${VITE_PUBLIC_BACKEND_URL}
 # 必要なポートを公開
 EXPOSE 3000
 # アプリケーションの起動

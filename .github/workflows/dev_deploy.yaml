@@ -42,7 +42,6 @@ jobs:
         file: ./Dockerfile
         target: frontend
         push: true
-        build-args: VITE_PUBLIC_BACKEND_URL=http://localhost:3001
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:latest-preview
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:${{ env.PACKAGE_VERSION }}-preview.${{ env.RELEASE_TAG }}
