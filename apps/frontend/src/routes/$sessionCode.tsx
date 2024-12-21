@@ -102,7 +102,7 @@ function RouteComponent() {
 			setSocketInstance(socket); // Socketインスタンスを保存
 		}
 
-		function onDisconnect(reason: string) {
+		function onDisconnect() {
 			setWorkspaceConnection(false);
 			setSocketInstance(null); // Socketインスタンスをクリア
 		}
