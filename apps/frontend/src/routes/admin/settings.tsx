@@ -46,7 +46,6 @@ function ConfigManager() {
 				obj={config ?? {}}
 				setObj={(newObj) => setConfig(newObj as AppConfig)}
 			/>
-			<p>config: {JSON.stringify(config)}</p>
 			<div>
 				<button
 					type="button"
