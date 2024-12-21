@@ -3,7 +3,6 @@ import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
 import { currentSessionState, socketIoInstance } from "@/state.js";
 import type { SessionValue } from "@/type.js";
-import { SessionValueToPost } from "@/utils/SessionValueToPost.js";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
 import { useRouter } from "@tanstack/react-router";
@@ -30,11 +29,10 @@ export default function Navbar(props: {
 			screenshot: "",
 			clicks: [],
 		} as SessionValue;
-		const convertedSessionValue = SessionValueToPost(sessionValueToSave);
 		if (sessionValue) {
 			saveSessionDataToIndexedDB(
 				`session-${sessionValue.uuid}`,
-				convertedSessionValue,
+				sessionValueToSave,
 			);
 		}
 		socket?.disconnect();
