@@ -8,7 +8,7 @@ import { z } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { eq } from "drizzle-orm";
 
-//ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
+// Authenticate the user and store the session in a cookie if present
 export const app = createHonoApp();
 
 app.get("/credential", (c) => {

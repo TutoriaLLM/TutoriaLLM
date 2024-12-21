@@ -37,13 +37,13 @@ export function initSocketServer(server: HttpServer) {
 
 		console.info("on connect:", code, uuid);
 		try {
-			// コードが存在しない場合は接続を拒否
-			//RedisからPostgresに移行しました: from 1.0.0
+			// If the code does not exist, the connection is rejected
+			// Migrated from Redis to Postgres: from 1.0.0
 			const data = await db.query.appSessions.findFirst({
 				where: eq(appSessions.sessioncode, code),
 			});
 
-			// uuidが一致しない場合は接続を拒否
+			// Connection denied if uuid does not match
 			if (data?.uuid !== uuid) {
 				socket.emit("error", "Invalid uuid");
 				socket.disconnect();
@@ -59,17 +59,17 @@ export function initSocketServer(server: HttpServer) {
 
 			socket.emit("PushCurrentSession", dataWithNewClient);
 
-			// クライアントを追加
+			// Add Client
 			updateAndBroadcastDiffToAll(
 				code,
-				dataWithNewClient, // クライアントを追加したデータ
+				dataWithNewClient, // Data with additional clients
 				socket,
 			);
 
 			async function getCurrentDataJson(
 				code: string,
 			): Promise<SessionValue | null> {
-				//RedisからPostgresに移行しました: from 1.0.0
+				// Migrated from Redis to Postgres: from 1.0.0
 				const data = await db.query.appSessions.findFirst({
 					where: eq(appSessions.sessioncode, code),
 				});
@@ -81,14 +81,14 @@ export function initSocketServer(server: HttpServer) {
 				return data;
 			}
 
-			//自動的に指定した分おきにスクリーンショットのリクエストを送信する
+			// Automatically send screenshot requests every specified minute
 			const interval = config.Client_Settings.Screenshot_Interval_min || 1;
 			const screenshotInterval = setInterval(
 				() => {
 					socket.emit("RequestScreenshot");
 				},
 				interval * 60 * 1000,
-			); // 指定された分ごとにスクリーンショットをリクエスト
+			); // Request screenshots every specified minute
 
 			socket.on("UpdateCurrentSessionDiff", async (diff: Operation[]) => {
 				const currentDataJson = await getCurrentDataJson(code);
@@ -206,7 +206,7 @@ export function initSocketServer(server: HttpServer) {
 			socket.on("disconnect", async () => {
 				clearInterval(screenshotInterval);
 				try {
-					//RedisからPostgresに移行しました: from 1.0.0
+					// Migrated from Redis to Postgres: from 1.0.0
 					const rawData = await db
 						.select()
 						.from(appSessions)
@@ -225,7 +225,7 @@ export function initSocketServer(server: HttpServer) {
 						);
 					}
 
-					//VMが実行中かつすべてのクライアントが切断された場合、VMを停止する
+					// If a VM is running and all clients are disconnected, stop the VM
 					if (
 						currentDataJson.isVMRunning &&
 						currentDataJson?.clients?.length === 0

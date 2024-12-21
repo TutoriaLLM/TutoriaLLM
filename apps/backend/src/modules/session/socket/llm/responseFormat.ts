@@ -24,7 +24,7 @@ export const zodTextSchema = z.object({
 });
 
 export const zodAudioSchema = z.object({
-	//このスキーマはOpenAI側で検証できないので、サーバー側で検証する
+	// This schema cannot be verified on the OpenAI side, so it is verified on the server side
 	id: z.string().describe("id of the audio data."),
 	expires_at: z.string().describe("expiration date of the audio data."),
 	data: z.string().describe("base64 encoded audio data."),

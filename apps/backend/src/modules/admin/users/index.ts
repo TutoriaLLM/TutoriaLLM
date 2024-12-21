@@ -10,7 +10,7 @@ import {
 	updateUser,
 } from "@/modules/admin/users/routes";
 import { saltAndHashPassword } from "@/utils/password";
-// 既存のDBに接続する
+// Connect to existing DB
 import { eq } from "drizzle-orm";
 
 const app = createHonoApp()

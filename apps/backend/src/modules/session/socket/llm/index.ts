@@ -99,9 +99,9 @@ export async function invokeLLM(
 
 	const isUserSentAudio = isAudioMessageFromUser();
 
-	//ここから処理を分岐(リファクタリングする）
+	// From here, the process is branched (refactored)
 	if (isUserSentAudio && session.userAudio) {
-		const userAudio = session.userAudio.split(",")[1]; //webm形式になっている
+		const userAudio = session.userAudio.split(",")[1]; // It is in webm format.
 
 		const webmBuffer = Buffer.from(userAudio, "base64");
 		const webmInputPath = `/tmp/${Date.now()}.webm`;
@@ -116,13 +116,13 @@ export async function invokeLLM(
 				socket,
 				mp3Path,
 			);
-			//knowledgeは利用不可
+			// KNOWLEDGE NOT AVAILABLE
 
 			const tutorialContent = await getTutorialContent(session);
 
 			const audioSystemTemplate = generateAudioSystemTemplate(session);
 			const gpt4oAudioPreviewTemplate = generateSystemTemplateFor4oPreview(
-				//4o audio previewは構図化出力をサポートしていないため、別のプロンプトを使用する
+				// 4o audio preview does not support compositional output, use a different prompt
 				session,
 				allBlocks,
 			);
@@ -146,8 +146,8 @@ export async function invokeLLM(
 			});
 
 			async function textFromAudio() {
-				//audioからテキストを生成する（音声出力はなし）
-				//構造化出力に対応させるためにはBeta版のSDKが必要
+				// Generate text from audio (no audio output)
+				// Beta version of SDK is required to support structured output
 
 				const completion = await openai.chat.completions.create({
 					model: "gpt-4o-audio-preview",
@@ -157,7 +157,7 @@ export async function invokeLLM(
 						{
 							role: "user",
 							content: [
-								//Dialogueとaudioを両方入力する
+								// Input both DIALOGUE and AUDIO
 								{ type: "text", text: userTemplate },
 								{
 									type: "input_audio",
@@ -169,10 +169,10 @@ export async function invokeLLM(
 							],
 						},
 					],
-					// response_format: zodResponseFormat(zodTextSchema, "response_schema"), //利用できない
+					// response_format: zodResponseFormat(zodTextSchema, "response_schema"), //not available
 				});
 
-				//zodで検証し、返答が間違っている場合はその部分を空の文字列にする
+				// Validate with zod and if the reply is wrong, make the part an empty string
 				let response = completion.choices[0].message.content;
 				try {
 					if (response) {
@@ -189,7 +189,7 @@ export async function invokeLLM(
 				return parsedResponse.data;
 			}
 			async function audioFromAudio() {
-				//AIによる音声モードを利用して音声から出力となる音声を直接生成する
+				// Generate audio as output directly from voice using AI voice mode.
 
 				const completion = await openai.chat.completions.create({
 					model: "gpt-4o-audio-preview",
@@ -200,7 +200,7 @@ export async function invokeLLM(
 						{
 							role: "user",
 							content: [
-								//Dialogueとaudioを両方入力する
+								// Input both DIALOGUE and AUDIO
 								{ type: "text", text: audioUserTemplate },
 								{
 									type: "input_audio",
@@ -212,7 +212,7 @@ export async function invokeLLM(
 							],
 						},
 					],
-					// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //利用できない
+					// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //not available
 				});
 
 				const response = completion.choices[0].message.audio;
@@ -243,7 +243,7 @@ export async function invokeLLM(
 		}
 	}
 
-	//ここからテキストメッセージの処理
+	// Process text messages from here
 
 	const lastMessage = lastDialogue.content.toString();
 	const knowledge = (await getKnowledge(lastMessage)) as Guide[] | string;
@@ -272,9 +272,9 @@ export async function invokeLLM(
 	});
 
 	async function audioFromText() {
-		//AIによる音声モードを利用してテキストから出力となる音声を直接生成する
+		// Generate output speech directly from text using AI voice mode
 
-		//オーディオモデルでBeta版の構造化出力は対応していないので、通常のバージョンでオーディオを生成する
+		// Generate audio with the regular version, as the audio model does not support the Beta version of the structured output.
 		const completion = await openai.chat.completions.create({
 			model: "gpt-4o-audio-preview",
 			modalities: ["text", "audio"],
@@ -283,18 +283,18 @@ export async function invokeLLM(
 				{ role: "system", content: audioSystemTemplate },
 				{ role: "user", content: audioUserTemplate },
 			],
-			// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //利用できない
+			// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //not available
 		});
 
-		//zodAudioSchemaに合わせて返却する
+		// Returned according to zodAudioSchema
 		const response = completion.choices[0].message.audio;
-		//zodから型を生成する
+		// Generate type from zod
 		return response;
 	}
 
 	async function textFromText() {
-		//通常のテキストモードを利用してテキストを生成する
-		//構造か出力はbetaのSDKが必要っぽい
+		// Generate text using normal text mode
+		// Structure or output seems to require a beta SDK.
 		const completion = await openai.beta.chat.completions.parse({
 			messages: [
 				{ role: "system", content: systemTemplate },
@@ -325,7 +325,7 @@ export async function invokeLLM(
 
 	if ("isQuestion" in response && "formattedUserQuestion" in response) {
 		if (response.isQuestion && response.formattedUserQuestion) {
-			//ユーザーからの質問である場合、その質問を別のAIがトレーニングデータとして生成する
+			// If the question is from a user, another AI generates the question as training data
 			generateTrainingData(
 				response.formattedUserQuestion,
 				{
@@ -336,7 +336,7 @@ export async function invokeLLM(
 				response.response,
 			);
 		}
-		//振り仮名をparsedContentに適用
+		// Apply furigana to parsedContent
 		response.response = await applyRuby(response.response);
 	}
 

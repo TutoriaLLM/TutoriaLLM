@@ -1,4 +1,4 @@
-//受信したmp3を非同期で文字起こしし、Dialogueに保存（配信）する
+// Asynchronously transcribe received mp3s and save (deliver) them to Dialogue
 
 import fs from "node:fs";
 import { db } from "@/db";
@@ -30,13 +30,13 @@ export async function updateAudioDialogue(
 ) {
 	const transcript = await audioToText(mp3Path);
 
-	//RedisからPostgresに移行しました: from 1.0.0
+	// Migrated from Redis to Postgres: from 1.0.0
 	const data = await db.query.appSessions.findFirst({
 		where: eq(appSessions.sessioncode, code),
 	});
 	const newData = data
 		? {
-				//特定のIDのダイアログにAIのテキストを上書き
+				// Overwrite AI text in dialog for a specific ID
 				...data,
 				dialogue: data.dialogue
 					? [

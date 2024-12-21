@@ -25,7 +25,7 @@ const app = createHonoApp()
 
 		console.info("session created with initial data");
 
-		//既に同じコードのセッションが存在する場合はエラーを返す
+		// Returns an error if a session with the same code already exists
 		const value = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessioncode, code),
 		});
@@ -37,8 +37,8 @@ const app = createHonoApp()
 			});
 		}
 
-		//RedisからPostgresに移行しました: from 1.0.0
-		//初期データが指定されていない場合は、初期データを生成し、セッションを作成する
+		// Migrated from Redis to Postgres: from 1.0.0
+		// If initial data is not specified, generate initial data and create session
 		await db
 			.insert(appSessions)
 			.values(initialData(code, language.toString()))
@@ -55,7 +55,7 @@ const app = createHonoApp()
 		const key = c.req.valid("param").key;
 
 		const sessionData = c.req.valid("json");
-		//そのkeyのセッションが存在するかどうかを確認する
+		// Check to see if a session for that key exists
 		const value = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessioncode, key),
 		});
@@ -63,7 +63,7 @@ const app = createHonoApp()
 			!value ||
 			value.workspace?.toString() !== sessionData.workspace?.toString()
 		) {
-			//セッションがない場合や、セッションデータが一致しない場合はデータを元に新しいセッションを作成する
+			// If there is no session or the session data does not match, create a new session based on the data
 			const code = joincodeGen();
 			const {
 				uuid,
@@ -126,12 +126,12 @@ const app = createHonoApp()
 			200,
 		);
 
-		//RedisからPostgresに移行しました: from 1.0.0
+		// Migrated from Redis to Postgres: from 1.0.0
 	})
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;
 		const sessionData = c.req.valid("json");
-		// RedisからPostgresに移行しました: from 1.0.0
+		// Migrated from Redis to Postgres: from 1.0.0
 		const existingSession = await db.query.users.findFirst({
 			where: eq(appSessions.sessioncode, key),
 		});
@@ -149,7 +149,7 @@ const app = createHonoApp()
 	})
 	.openapi(deleteSession, async (c) => {
 		const key = c.req.valid("param").key;
-		// RedisからPostgresに移行しました: from 1.0.0
+		// Migrated from Redis to Postgres: from 1.0.0
 		const existingSession = await db.query.users.findFirst({
 			where: eq(appSessions.sessioncode, key),
 		});
@@ -164,7 +164,7 @@ const app = createHonoApp()
 	})
 	.openapi(getSession, async (c) => {
 		const key = c.req.valid("param").key;
-		//RedisからPostgresに移行しました: from 1.0.0
+		// Migrated from Redis to Postgres: from 1.0.0
 		const data = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessioncode, key),
 		});

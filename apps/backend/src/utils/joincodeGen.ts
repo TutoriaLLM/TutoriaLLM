@@ -1,4 +1,4 @@
-//複数セッションを管理するのに使用するコード
+// Code used to manage multiple sessions
 export default function joincodeGen(): string {
 	const digits = "0123456789";
 	const letters = "";

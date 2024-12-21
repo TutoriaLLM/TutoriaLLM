@@ -6,8 +6,8 @@ import {
 import { z } from "@hono/zod-openapi";
 import type { createRoute } from "@hono/zod-openapi";
 
-/**
- * application/json形式のスキーマは頻出なため、毎回書かなくてもいいようにする関数
+/* *
+ * Functions that do not need to be written every time application/json format schema is frequently used.
  */
 export const jsonBody = <
 	T extends
@@ -33,8 +33,8 @@ export const jsonBody = <
 	};
 };
 
-/**
- * エラーレスポンスのOpen API用の定義
+/* *
+ * Define error responses for Open API
  */
 export const errorResponses = ({
 	validationErrorResnponseSchemas,

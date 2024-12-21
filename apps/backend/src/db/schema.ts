@@ -22,7 +22,7 @@ import {
 
 // WARN: DO NOT GENERATE ZOD SCHEMA FROM THIS FILE
 
-// ユーザーの定義
+// User Definition
 
 export const users = pgTable("user", {
 	id: serial("id").primaryKey(),
@@ -30,7 +30,7 @@ export const users = pgTable("user", {
 	password: varchar("password", { length: 255 }).notNull(),
 });
 
-// ログインセッションの定義
+// Definition of a login session
 
 export const authSessions = pgTable("session", {
 	id: text("id").primaryKey(),
@@ -43,7 +43,7 @@ export const authSessions = pgTable("session", {
 	}).notNull(),
 });
 
-//アプリセッションの定義
+// Definition of an app session
 export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
 
 export const appSessions = pgTable("app_session", {
@@ -75,7 +75,7 @@ export const appSessions = pgTable("app_session", {
 	clicks: json("clicks").$type<Click[]>(),
 });
 
-// チュートリアルの保存
+// Save Tutorial
 
 export type TutorialMetadata = {
 	title: string;
@@ -86,11 +86,11 @@ export type TutorialMetadata = {
 
 export const tags = pgTable("tags", {
 	id: serial("id").primaryKey(),
-	name: text("name").notNull().unique(), // タグ名（ユニーク）
+	name: text("name").notNull().unique(), // Tag Name (Unique)
 });
 
 export const tutorialsTags = pgTable("tutorials_tags", {
-	//中間テーブル
+	// intermediate table
 	tutorialId: integer("tutorial_id")
 		.notNull()
 		.references(() => tutorials.id),
@@ -105,7 +105,7 @@ export const tutorials = pgTable("tutorials", {
 	tags: json("tags").$type<Tags>().notNull(),
 	language: varchar("language", { length: 255 }).notNull(),
 	metadata: json("metadata").$type<TutorialMetadata>().notNull(),
-	serializednodes: text("serializednodes").notNull(), // 新しく追加
+	serializednodes: text("serializednodes").notNull(), // Newly added
 });
 
 export type TrainingMetadata = {
@@ -162,7 +162,7 @@ export type SelectGuide = typeof guides.$inferSelect;
 export type InsertTrainingData = typeof trainingData.$inferInsert;
 export type SelectTrainingData = typeof trainingData.$inferSelect;
 
-//移行が完了するまでの暫定的な型エイリアス
+// Temporary type aliases until migration is complete
 export type User = SelectUser;
 export type AuthSession = SelectAuthSession;
 export type AppSession = SelectAppSession;

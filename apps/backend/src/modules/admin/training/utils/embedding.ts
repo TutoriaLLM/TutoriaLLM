@@ -2,7 +2,7 @@ import OpenAI from "openai";
 
 export async function generateEmbedding(value: string): Promise<number[]> {
 	const input = value.replaceAll("\n", " ");
-	//データをもとに埋め込みを作成
+	// Create embedding based on data
 	const openai = new OpenAI({
 		apiKey: process.env.OPENAI_API_KEY,
 		baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",

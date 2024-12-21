@@ -3,16 +3,16 @@ import { AppErrorStatusCode, type AppErrorType } from "@/libs/errors/config";
 import type { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
 import type { Hook } from "@hono/zod-openapi";
 
-/**
- * バリデーションエラーが発生した時のデフォルト処理
+/* *
+ * Default processing when a validation error occurs
  */
 export const defaultHook: Hook<unknown, Context, "", unknown> = (result, c) => {
 	if (result.success) return;
 
-	// エラーをfflatenして取得
+	// Fflaten and retrieve errors
 	const { formErrors, fieldErrors } = result.error.flatten();
 
-	// アプリケーション内でエラーの種類を識別するための文字列
+	// String to identify the type of error in the application
 	const errorType = "VALIDATION_ERROR" satisfies AppErrorType;
 
 	const status = AppErrorStatusCode[errorType];
@@ -23,9 +23,9 @@ export const defaultHook: Hook<unknown, Context, "", unknown> = (result, c) => {
 				message: "Validation error occurred",
 				type: errorType,
 				status,
-				// フォーム全体に関するエラーメッセージ
+				// Error messages about the entire form
 				formErrors: formErrors[0],
-				// flattenしたフィールド名とエラーメッセージのキーバリュー
+				// Key values for flattened field names and error messages
 				fieldErrors: Object.fromEntries(
 					Object.entries(fieldErrors).map(([key, value]) => [
 						key,

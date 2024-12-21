@@ -113,6 +113,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      deepl:
+        specifier: ^1.0.13
+        version: 1.0.13
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -179,6 +182,9 @@ importers:
       tiny-worker:
         specifier: ^2.3.0
         version: 2.3.0
+      ts-morph:
+        specifier: ^24.0.0
+        version: 24.0.0
       tsx:
         specifier: ^4.19.1
         version: 4.19.1
@@ -3687,6 +3693,9 @@ packages:
     resolution: {integrity: sha512-PTpeM8SHL7AJM0pJOacFvHribbUODS51qe9NsMqku4mogh6BWObY1EeVmeGnp9o3VngAEsf+rJMs2zqIVz3WFA==}
     engines: {node: '>=12'}
 
+  '@ts-morph/common@0.25.0':
+    resolution: {integrity: sha512-kMnZz+vGGHi4GoHnLmMhGNjm44kGtKUXGnOvrKmMwAuvNjM/PgKVGfUnL7IDvK7Jb2QQ82jq3Zmp04Gy+r3Dkg==}
+
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
 
@@ -4036,6 +4045,9 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
+  axios@0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+
   babel-dead-code-elimination@1.0.6:
     resolution: {integrity: sha512-JxFi9qyRJpN0LjEbbjbN8g0ux71Qppn9R8Qe3k6QzHg2CaKsbUQtbn307LQGiDLGjV6JCtEFqfxzVig9MyDCHQ==}
 
@@ -4229,6 +4241,9 @@ packages:
       '@codemirror/view': ^6.0.0
       '@lezer/highlight': ^1.0.0
 
+  code-block-writer@13.0.3:
+    resolution: {integrity: sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg==}
+
   codemirror@6.0.1:
     resolution: {integrity: sha512-J8j+nZ+CdWmIeFIGXEFbFPtpiYacFMDR8GlHK3IyHQJMCaVRfGx9NT+Hxivv1ckLWPvNdZqndbr/7lVhrf/Svg==}
 
@@ -4417,6 +4432,9 @@ packages:
   deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
     engines: {node: '>=4.0.0'}
+
+  deepl@1.0.13:
+    resolution: {integrity: sha512-ieaHKo+Y2u1jTpbX3SkhFGaOLgXB20gYoLqPhqtjxr612GC9wSMUqrHIfhvQzpevTVcI6H4kgElXActg3DHnqg==}
 
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
@@ -5769,6 +5787,9 @@ packages:
   parse5@7.2.0:
     resolution: {integrity: sha512-ZkDsAOcxsUMZ4Lz5fVciOehNcJ+Gb8gTzcA4yl3wnc273BAybYWrQ+Ks/OjCjSEpjvQkDSeZbybK9qj2VHHdGA==}
 
+  path-browserify@1.0.1:
+    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
+
   path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
@@ -5987,6 +6008,11 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+
+  querystring@0.2.1:
+    resolution: {integrity: sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==}
+    engines: {node: '>=0.4.x'}
+    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
 
   querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
@@ -6627,6 +6653,9 @@ packages:
 
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
+
+  ts-morph@24.0.0:
+    resolution: {integrity: sha512-2OAOg/Ob5yx9Et7ZX4CvTCc0UFoZHwLEJ+dpDPSUi5TgwwlTlX47w+iFRrEwzUZwYACjq83cgjS/Da50Ga37uw==}
 
   ts-node@10.9.2:
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
@@ -10969,6 +10998,12 @@ snapshots:
 
   '@tanstack/virtual-file-routes@1.87.6': {}
 
+  '@ts-morph/common@0.25.0':
+    dependencies:
+      minimatch: 9.0.5
+      path-browserify: 1.0.1
+      tinyglobby: 0.2.9
+
   '@tsconfig/node10@1.0.11':
     optional: true
 
@@ -11372,6 +11407,12 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
+  axios@0.21.4:
+    dependencies:
+      follow-redirects: 1.15.9(debug@4.3.7)
+    transitivePeerDependencies:
+      - debug
+
   babel-dead-code-elimination@1.0.6:
     dependencies:
       '@babel/core': 7.26.0
@@ -11584,6 +11625,8 @@ snapshots:
       '@codemirror/view': 6.34.1
       '@lezer/highlight': 1.2.1
 
+  code-block-writer@13.0.3: {}
+
   codemirror@6.0.1(@lezer/common@1.2.3):
     dependencies:
       '@codemirror/autocomplete': 6.18.1(@codemirror/language@6.10.3)(@codemirror/state@6.4.1)(@codemirror/view@6.34.1)(@lezer/common@1.2.3)
@@ -11764,6 +11807,13 @@ snapshots:
 
   deep-extend@0.6.0:
     optional: true
+
+  deepl@1.0.13:
+    dependencies:
+      axios: 0.21.4
+      querystring: 0.2.1
+    transitivePeerDependencies:
+      - debug
 
   deepmerge@4.3.1: {}
 
@@ -13508,6 +13558,8 @@ snapshots:
     dependencies:
       entities: 4.5.0
 
+  path-browserify@1.0.1: {}
+
   path-is-absolute@1.0.1: {}
 
   path-key@3.1.1: {}
@@ -13711,6 +13763,8 @@ snapshots:
     optional: true
 
   punycode@2.3.1: {}
+
+  querystring@0.2.1: {}
 
   querystringify@2.2.0: {}
 
@@ -14467,6 +14521,11 @@ snapshots:
   trough@2.2.0: {}
 
   ts-interface-checker@0.1.13: {}
+
+  ts-morph@24.0.0:
+    dependencies:
+      '@ts-morph/common': 0.25.0
+      code-block-writer: 13.0.3
 
   ts-node@10.9.2(@types/node@20.16.12)(typescript@5.6.3):
     dependencies:

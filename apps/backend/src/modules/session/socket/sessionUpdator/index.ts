@@ -34,12 +34,12 @@ export async function updateSession(
 		return newData.dialogue !== oldData.dialogue;
 	}
 
-	//チュートリアルが選択された場合の挙動を追加
+	// Added behavior when tutorial is selected
 	if (
 		newDataJson.tutorial !== currentDataJson.tutorial &&
 		typeof newDataJson.tutorial.tutorialId === "number"
 	) {
-		//DBのselectCountをインクリメント
+		// Increment DB's selectCount
 		const id = newDataJson.tutorial.tutorialId;
 		const tutorial = await db
 			.select()
@@ -62,7 +62,7 @@ export async function updateSession(
 		isLastMessageByUser(newDataJson.dialogue || []) &&
 		newDataJson.isReplying === false
 	) {
-		//送信者をのぞくすべてのクライアントにdiffを送信する
+		// Send diffs to all clients except the sender
 		updateAndBroadcastDiff(
 			code,
 			{
@@ -75,7 +75,7 @@ export async function updateSession(
 			},
 			socket,
 		);
-		//送信者はisReplyingをtrueにするdiffだけを送信する必要がある。それ以外を送信すると、送信者はメッセージが二重に表示される
+		// The sender should only send diffs that set isReplying to true. Sending anything else will cause the sender to see the message twice.
 		socket.emit("notifyIsReplyingforSender");
 
 		updateDialogueWithLLM(newDataJson, socket)

@@ -98,7 +98,7 @@ export const updateTutorial = createRoute({
 	},
 });
 
-//AIを使用してコンテンツを生成するためのエンドポイント
+// Endpoints for generating content using AI
 export const generateContent = createRoute({
 	method: "post",
 	path: "/admin/tutorials/generate-content",

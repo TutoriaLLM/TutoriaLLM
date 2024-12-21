@@ -8,14 +8,14 @@ import { invokeLLM } from "@/modules/session/socket/llm";
 import { eq } from "drizzle-orm";
 import type { Socket } from "socket.io";
 
-//非同期でLLMを呼び出し、メッセージが作成されたタイミングでプッシュする
+// Call LLM asynchronously and push when the message is created
 export async function updateDialogueWithLLM(
 	data: SessionValue,
 	socket: Socket,
 ): Promise<SessionValue> {
-	//処理が終わり、最終データを返す際直前のデータを再取得する
+	// At the end of processing, when the final data is returned, the previous data is re-retrieved.
 	async function getLatestData(code: string) {
-		//RedisからPostgresに移行しました: from 1.0.0
+		// Migrated from Redis to Postgres: from 1.0.0
 		const rawData = await db
 			.select()
 			.from(appSessions)
@@ -31,9 +31,9 @@ export async function updateDialogueWithLLM(
 
 	const message = await invokeLLM(data, blockNames, socket);
 
-	//出力が音声だった場合の処理
-	//テスト目的なので、実際には音声ファイルを生成する処理が必要
-	//bae64エンコードされた音声を保存し、DialogueにそのIDを追加する
+	// Processing when the output is audio
+	// For testing purposes only, so the actual process of generating audio files is required
+	// Save the bae64-encoded audio and add its ID to Dialogue
 	if (
 		typeof message !== "string" &&
 		message &&
@@ -49,7 +49,7 @@ export async function updateDialogueWithLLM(
 			},
 		];
 
-		// オーディオの件数が5件を超えたら最新の5つが残るようにする
+		// If the number of audios exceeds 5, the latest 5 should remain.
 		if (updatedAudios.length > 5) {
 			updatedAudios.splice(0, updatedAudios.length - 5);
 		}
@@ -73,7 +73,7 @@ export async function updateDialogueWithLLM(
 		};
 	}
 
-	//出力がテキストだった場合の処理
+	// Processing when output is text
 	if (typeof message !== "string" && message && "response" in message) {
 		const latestData2 = await getLatestData(data.sessioncode);
 		let updatedDialogue = updateDialogue(message.response, latestData2, "ai");
@@ -81,7 +81,7 @@ export async function updateDialogueWithLLM(
 		// quick replies
 		const updatedQuickReplies = [...(data.quickReplies || [])];
 		if (message.quickReplies) {
-			// 既存の配列を上書きする
+			// Overwrite existing array
 			updatedQuickReplies.splice(0, updatedQuickReplies.length);
 			for (const reply of message.quickReplies) {
 				updatedQuickReplies.push(reply);
@@ -116,7 +116,7 @@ export async function updateDialogueWithLLM(
 		};
 	}
 
-	//メッセージが文字列だった場合の処理
+	// Processing when the message is a string
 	if (typeof message === "string") {
 		const updatedDialogue = updateDialogue(message, data, "ai");
 		const latestData = await getLatestData(data.sessioncode);
@@ -127,14 +127,14 @@ export async function updateDialogueWithLLM(
 		};
 	}
 
-	//ユーザーの音声が含まれている場合はその音声を削除する
+	// Delete the user's audio if it is included
 	if (data.userAudio) {
 		const latestData = await getLatestData(data.sessioncode);
 		latestData.userAudio = "";
 		return latestData;
 	}
 
-	//失敗した場合、最新のデータを取得してそのまま返す
+	// If failed, retrieve the latest data and return it as is
 	const latestData = await getLatestData(data.sessioncode);
 	latestData.isReplying = false;
 	return latestData;
