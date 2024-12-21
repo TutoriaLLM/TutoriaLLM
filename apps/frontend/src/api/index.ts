@@ -31,7 +31,7 @@ export const client = hcWithType(
 	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 	{
 		headers: {
-			Origin: import.meta.env.VITE_PUBLIC_FRONTEND_URL as string,
+			Origin: import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
 			"Content-Type": "application/json",
 		},
@@ -46,7 +46,7 @@ export const adminClient = adminHcWithType(
 	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 	{
 		headers: {
-			Origin: import.meta.env.VITE_PUBLIC_FRONTEND_URL as string,
+			Origin: import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
 			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
 			"Content-Type": "application/json",
 		},

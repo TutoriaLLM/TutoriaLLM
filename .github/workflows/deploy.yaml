@@ -73,4 +73,6 @@ jobs:
           Changes in this release:
           ${{ github.event.head_commit.message }}
 
-          The release is also available on Docker Hub as ${{ secrets.DOCKER_USERNAME }}/tutoriallm:${{ env.PACKAGE_VERSION }}
+          The release is also available on Docker Hub:
+          Frontend: ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:${{ env.PACKAGE_VERSION }}
+          Backend: ${{ secrets.DOCKER_USERNAME }}/tutoriallm_backend:${{ env.PACKAGE_VERSION }}
