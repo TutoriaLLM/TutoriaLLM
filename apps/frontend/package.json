@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite preview",
+    "start": "cross-env NODE_ENV=production vite preview",
     "build": "pnpm tsc && vite build",
     "tsc": "tsc --noEmit"
   },
