@@ -11,9 +11,10 @@ import {
 	generateSystemTemplateFor4oPreview,
 } from "@/modules/session/socket/llm/systemTemplate";
 import {
-	generateAudioUserTemplate,
-	generateUserTemplate,
-} from "@/modules/session/socket/llm/userTemplate";
+	audioGuidanceTemplate,
+	guidanceTemplate,
+	simplifyDialogue,
+} from "@/prompts/guidance";
 import { updateAudioDialogue } from "@/modules/session/socket/llm/whisper";
 import { listAllBlocks } from "@/utils/blockList";
 import generateTrainingData from "@/utils/generateTrainingData";
@@ -23,6 +24,8 @@ import ffmpeg from "fluent-ffmpeg";
 import OpenAI from "openai";
 import { zodResponseFormat } from "openai/helpers/zod";
 import type { Socket } from "socket.io";
+import { fillPrompt } from "@/utils/prompts";
+import stringifyKnowledge from "@/utils/stringifyKnowledge";
 
 // Converts webm audio format to mp3 format
 async function convertWebMToMp3(webmInput: string): Promise<string> {
@@ -124,19 +127,23 @@ export async function invokeLLM(
 				allBlocks,
 			);
 
-			const userTemplate = await generateUserTemplate(
-				session,
-				JSON.stringify(tutorialContent),
-				"",
-				"The user sent an audio message.",
-			);
+			const userTemplate = fillPrompt(guidanceTemplate, {
+				dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+				tutorialContent: JSON.stringify(tutorialContent),
+				knowledge: stringifyKnowledge(""),
+				lastMessage: "The user sent an audio message.",
+				easyMode: String(session.easyMode),
+				workspace: JSON.stringify(session.workspace),
+			});
 
-			const audioUserTemplate = await generateAudioUserTemplate(
-				session,
-				JSON.stringify(tutorialContent),
-				"",
-				"The user sent an audio message.",
-			);
+			const audioUserTemplate = fillPrompt(audioGuidanceTemplate, {
+				dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+				tutorialContent: JSON.stringify(tutorialContent),
+				knowledge: stringifyKnowledge(""),
+				lastMessage: "The user sent an audio message.",
+				easyMode: String(session.easyMode),
+				workspace: JSON.stringify(session.workspace),
+			});
 
 			async function textFromAudio() {
 				//audioからテキストを生成する（音声出力はなし）
@@ -171,7 +178,7 @@ export async function invokeLLM(
 					if (response) {
 						response = JSON.parse(response);
 					}
-				} catch (e) {
+				} catch {
 					return response; // Return the raw response as a string
 				}
 				const parsedResponse = zodTextSchema.safeParse(response);
@@ -246,19 +253,24 @@ export async function invokeLLM(
 	const systemTemplate = generateSystemTemplate(session, allBlocks);
 	const audioSystemTemplate = generateAudioSystemTemplate(session);
 
-	const userTemplate = await generateUserTemplate(
-		session,
-		JSON.stringify(tutorialContent),
-		knowledge,
+	const userTemplate = fillPrompt(guidanceTemplate, {
+		dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+		tutorialContent: JSON.stringify(tutorialContent),
+		knowledge: stringifyKnowledge(knowledge),
 		lastMessage,
-	);
+		easyMode: String(session.easyMode),
+		workspace: JSON.stringify(session.workspace),
+	});
 
-	const audioUserTemplate = await generateAudioUserTemplate(
-		session,
-		JSON.stringify(tutorialContent),
-		knowledge,
+	const audioUserTemplate = fillPrompt(audioGuidanceTemplate, {
+		dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+		tutorialContent: JSON.stringify(tutorialContent),
+		knowledge: stringifyKnowledge(knowledge),
 		lastMessage,
-	);
+		easyMode: String(session.easyMode),
+		workspace: JSON.stringify(session.workspace),
+	});
+
 	async function audioFromText() {
 		//AIによる音声モードを利用してテキストから出力となる音声を直接生成する
 
