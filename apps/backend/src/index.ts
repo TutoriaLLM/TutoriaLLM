@@ -1,8 +1,6 @@
 import "dotenv/config";
 import { type Server as HttpServer, createServer } from "node:http";
 import type { Socket } from "node:net";
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
 import { errorResponse } from "@/libs/errors";
 import { lucia } from "@/libs/lucia";
 import adminRoutes from "@/modules/admin";
@@ -14,13 +12,13 @@ import tutorialRoutes from "@/modules/tutorials";
 import vmProxyRoutes, { vmProxy } from "@/modules/vmProxy";
 import { serve } from "@hono/node-server";
 import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
 import { showRoutes } from "hono/dev";
 import { verifyRequestOrigin } from "lucia";
 import { initSocketServer } from "./modules/session/socket";
+import { createHonoApp } from "./create-app";
 
-const app = new OpenAPIHono<Context>({ defaultHook });
+const app = createHonoApp();
 
 app.use(
 	"*",

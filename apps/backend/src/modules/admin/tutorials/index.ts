@@ -12,13 +12,10 @@ import {
 	getTutorialList,
 	updateTutorial,
 } from "@/modules/admin/tutorials/routes";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq, isNull } from "drizzle-orm";
+import { createHonoApp } from "@/create-app";
 
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
-
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(getTutorialList, async (c) => {
 		const allTutorials = await db
 			.select() //不要なフィールドは消した方が良いかもしれない

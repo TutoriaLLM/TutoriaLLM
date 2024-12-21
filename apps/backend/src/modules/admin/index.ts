@@ -1,15 +1,13 @@
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
+import { createHonoApp } from "@/create-app";
 import { errorResponse } from "@/libs/errors";
 import appConfigRoute from "@/modules/admin/config";
 import sessionManagerRoute from "@/modules/admin/session";
 import trainingManagerRoute from "@/modules/admin/training";
 import tutorialsManagerRoute from "@/modules/admin/tutorials";
 import userRoute from "@/modules/admin/users";
-import { OpenAPIHono } from "@hono/zod-openapi";
 
 // 管理者ページが使用するAPIのエントリーポイント
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	// 権限がない場合は、管理者ページにアクセスできないようにする
 	.use("/admin/*", async (c, next) => {
 		if (!c.get("user")) {

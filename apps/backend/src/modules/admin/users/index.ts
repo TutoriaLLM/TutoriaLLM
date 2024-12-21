@@ -1,3 +1,4 @@
+import { createHonoApp } from "@/create-app";
 import { db } from "@/db";
 import { authSessions, users } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";
@@ -9,14 +10,10 @@ import {
 	updateUser,
 } from "@/modules/admin/users/routes";
 import { saltAndHashPassword } from "@/utils/password";
-import { OpenAPIHono } from "@hono/zod-openapi";
 // 既存のDBに接続する
 import { eq } from "drizzle-orm";
 
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
-
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(getUserList, async (c) => {
 		const getUsers = await db
 			.select({
