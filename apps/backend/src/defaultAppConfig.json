@@ -1,0 +1,31 @@
+{
+  "General_Settings": {
+    "Enable_Join_by_code": true,
+    "Enable_Create_Room": true,
+    "Enable_Memory_Use_Log": false
+  },
+  "AI_Settings": {
+    "Chat_AI_Model": "gpt-4o",
+    "Chat_Audio": true,
+    "Chat_AI_Temperature": 0.5
+  },
+  "Client_Settings": {
+    "AutoReply": false,
+    "Reply_Time_ms": 5000,
+    "Screenshot_Interval_min": 2,
+    "GA_Tracking_ID": ""
+  },
+  "Code_Execution_Limits": {
+    "Max_CodeRangeSizeMb": 50,
+    "Max_OldGenerationSizeMb": 50,
+    "Max_YoungGenerationSizeMb": 50,
+    "Max_Num_Message_Queue": 10,
+    "Max_CPU_Usage": 20
+  },
+  "Client_Sentry_Settings": {
+    "Sentry_DSN": "",
+    "replaysOnErrorSampleRate": 0,
+    "replaysSessionSampleRate": 0,
+    "tracesSampleRate": 1
+  }
+}

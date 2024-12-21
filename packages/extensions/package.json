@@ -1,0 +1,23 @@
+{
+  "name": "extensions",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "dependencies": {
+    "@blockly/field-grid-dropdown": "^5.0.9",
+    "@blockly/field-slider": "^7.0.9",
+    "blockly": "^11.1.1",
+    "hono": "^4.6.5",
+    "uuidv7": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.12",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  }
+}

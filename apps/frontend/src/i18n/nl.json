@@ -1,0 +1,170 @@
+{
+  "AppConfig": {
+    "AI_Settings": "AI-instellingen",
+    "AutoReply": "Automatisch antwoord van AI",
+    "Chat_AI_Model": "Chat AI-model",
+    "Chat_AI_Temperature": "Chat AI-temperatuur",
+    "Client_Sentry_Settings": "Client Sentry-instellingen",
+    "Client_Settings": "Klantinstellingen",
+    "Code_Execution_Limits": "Limieten voor code-uitvoering (VM).",
+    "Enable_Create_Room": "Schakel Ruimte maken in",
+    "Enable_Join_by_code": "Schakel Deelnemen via code in",
+    "Enable_Memory_Use_Log": "Logboek geheugengebruik inschakelen",
+    "GA_Tracking_ID": "Tracking-ID van Google Analytics",
+    "General_Settings": "Algemene instellingen",
+    "Max_CPU_Usage": "Maximaal CPU-gebruik op VM",
+    "Max_CodeRangeSizeMb": "Max. codebereikgrootte in MB",
+    "Max_Num_Message_Queue": "Max. aantal berichtenwachtrij op VM",
+    "Max_OldGenerationSizeMb": "Max. oude generatiegrootte in MB",
+    "Max_YoungGenerationSizeMb": "Max YoungGenerationGrootte in MB",
+    "Reply_Time_ms": "Antwoordtijd ms",
+    "Screenshot_Interval_min": "Schermafbeelding Interval min",
+    "Sentry_DSN": "Sentry DSN (leeg laten om uit te schakelen)",
+    "replaysOnErrorSampleRate": "Samplefrequentie voor herhalingen bij fouten",
+    "replaysSessionSampleRate": "Samplefrequentie voor herhalingen tijdens een sessie",
+    "tracesSampleRate": "Bemonsteringsfrequentie voor sporen"
+  },
+  "admin": {
+    "loading": "Laden",
+    "noScreenshotAvailable": "Geen schermafdruk beschikbaar",
+    "sessionAnalytics": "Sessieanalyse",
+    "sessionCode": "Sessiecode",
+    "sessionEasyMode": "Gemakkelijke modus",
+    "sessionLanguage": "Taal",
+    "sessionSummary": "Samenvatting van de sessie",
+    "showHeatmap": "Toon hittekaart",
+    "summary": "Samenvatting",
+    "workspace": "Werkruimte"
+  },
+  "dialogue": {
+    "Introduction": "Hoi! \nklik op de snelle antwoordknop van het type in uw vragen om te kiezen wat u wilt doen!",
+    "NewSessionWithData": "Nieuwe sessie starten met opgeslagen gegevens"
+  },
+  "editor": {
+    "dialogueTab": "Chatten",
+    "workspaceTab": "Werkruimte"
+  },
+  "error": {
+    "empty_code": "Code is ongeldig of leeg",
+    "error": "Fout"
+  },
+  "execSwitch": {
+    "Running": "Rennen",
+    "Stopped": "Gestopt",
+    "label": "Voer code uit"
+  },
+  "extension": {
+    "minecraft-core": {
+      "connectInfo": "Verbind uw Minecraft vanaf **/connect {{host}}/vm/{{userCode}}/mc**. \nProbeer het opnieuw als de verbinding mislukt is. \nSchakel versleutelingsverzoek uit."
+    }
+  },
+  "generic": {
+    "connected": "Aangesloten"
+  },
+  "logbuffer": {
+    "tooManyLogs": "Te veel berichten. \noude logs verwijderd."
+  },
+  "login": {
+    "login": "Login",
+    "loginFailed": "Inloggen mislukt",
+    "password": "Wachtwoord",
+    "title": "Login",
+    "username": "Gebruikersnaam",
+    "welcome": "Log in om door te gaan"
+  },
+  "navbar": {
+    "connected": "aangesloten",
+    "execSwitch": "Code uitvoeren",
+    "home": "Thuis",
+    "joinCode": "Sluit je aan bij Code",
+    "leave": "vertrekken",
+    "noTutorial": "Er is geen tutorial geselecteerd",
+    "reconnecting": "losgekoppeld. \nprobeert opnieuw verbinding te maken.",
+    "reload": "Herladen",
+    "saveAndLeave": "opslaan en vertrekken",
+    "signout": "Meld u af"
+  },
+  "off": "Uit",
+  "on": "Op",
+  "quickReply": {
+    "BeginTutorial": "Begin met de tutorial",
+    "HowToUse": "Hoe gebruik je dit?",
+    "WhatINeed": "Wat moet ik doen?"
+  },
+  "session": {
+    "about": "Over deze app",
+    "aboutText": "Deze applicatie is zelfgehoste software die tutorials biedt met behulp van LLM (AI).  \nMet de applicatie kan de sitebeheerder gegevens verzamelen over gebruikersgebruik en verklaringen in een niet-persoonlijk identificeerbare vorm, en de verzamelde gegevens worden gebruikt om de chatfunctie in de app te leren en het gedrag van de AI te verbeteren.  \nVoor meer informatie over de omgang met de door de app verstrekte gegevens kunt u contact opnemen met de websitebeheerder. \nOmdat de applicatie als open source is gepubliceerd en de broncode mogelijk is gewijzigd, wordt aangeraden de applicatie niet te gebruiken als de websitebeheerder onbekend is.  \nGegevens over informatie over aangemaakte sessies kunnen worden verwijderd.",
+    "available": "App beschikbaar",
+    "checkingServer": "Serverstatus controleren...",
+    "continueSession": "Ga door met deze sessie",
+    "createSession": "Nieuwe kamer maken",
+    "creating": "creëren...",
+    "debuginfo": "Foutopsporingsinformatie",
+    "deleteSession": "Verwijder deze sessie",
+    "findSavedSession": "Gebruik opgeslagen gegevens",
+    "hello": "Hallo",
+    "joinsession": "meedoen met code",
+    "noSavedSession": "Geen opgeslagen sessie gevonden",
+    "or": "of",
+    "savedSession": "Opgeslagen sessie",
+    "serverDownMsg": "Kan geen verbinding maken met de server. \nControleer uw internet of vraag het aan de systeembeheerder.",
+    "serverOffline": "Server is offline - App is niet beschikbaar",
+    "serverOnline": "Online",
+    "sessionNotFoundMsg": "Sessie niet gevonden. \nTyp nog een code of maak een nieuwe sessie om te starten.",
+    "typecodeMsg": "Typ uw code of maak een nieuwe ruimte om te beginnen.",
+    "welcome": "Bestudeer coderen met AI"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "sessions": "Sessies",
+    "settings": "Instellingen",
+    "toggle": "Zijbalk",
+    "trainingForAI": "AI-training",
+    "tutorials": "Handleidingen",
+    "users": "Gebruikers"
+  },
+  "textbubble": {
+    "ai": "AI",
+    "ask": "Vraag alles...",
+    "block": "Blok",
+    "blocksuggestions": "Voorgesteld blok",
+    "copiedToClipboard": "Gekopieerd!",
+    "errorLog": "Foutenlogboek",
+    "findBlock": "Zoek blok",
+    "findBlockFromMenu": "Zoek via menu",
+    "log": "Logboek",
+    "replying": "Beantwoorden...",
+    "server": "Server",
+    "showingLatest": "Toont de laatste {{count}} berichten",
+    "you": "Jij"
+  },
+  "tour": {
+    "blocklyWorkspace": "Werkruimte is de plaats waar u uw code kunt maken.",
+    "dialogue": "U kunt voor hulp met AI praten, of een les volgen van AI met tutorial.",
+    "execSwitch": "U kunt uw code op de werkruimte uitvoeren.",
+    "joinCode": "Dit is code voor deze sessie. \nU kunt hier terugkomen en deze code opslaan voor de volgende keer.",
+    "switchToDialogue": "Oké, laten we teruggaan naar het chattabblad.",
+    "switchToWorkspace": "Laten we overschakelen naar de werkruimte.",
+    "syncCode": "U kunt de code vanaf hier bijwerken",
+    "tabs": "U kunt tussen de tabbladen schakelen om tussen chat en werkruimte te schakelen.",
+    "tourAgain": "U kunt deze tour opnieuw volgen door op deze knop te klikken.",
+    "tutorialSelector": "U kunt elke tutorial selecteren die u wilt maken.",
+    "welcome": "Welkom aan boord! \nDeze rondleiding biedt een kort overzicht van het gebruik van deze applicatie."
+  },
+  "tutorial": {
+    "description": "Kies wat je wilt leren",
+    "easyMode": "Gemakkelijke modus",
+    "easyModeChanged": "Zet de Easy-modus op {{status}}",
+    "easyModeDescription": "De reactie van AI zal eenvoudiger zijn.",
+    "start": "Start de zelfstudie",
+    "startTour": "Kijk wat je kunt doen.",
+    "startTutorial": "Tutorial is geselecteerd",
+    "title": "Kies zelfstudie",
+    "tour": "Rondleiding starten"
+  },
+  "vm": {
+    "outOfMemory": "Machine heeft de geheugenlimiet bereikt",
+    "updatedScriptError": "Fout bij het uitvoeren van bijgewerkt script: {{error}}",
+    "updatedScriptSuccess": "Bijgewerkt script succesvol uitgevoerd."
+  }
+}

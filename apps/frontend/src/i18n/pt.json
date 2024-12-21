@@ -1,0 +1,170 @@
+{
+  "AppConfig": {
+    "AI_Settings": "Configurações de IA",
+    "AutoReply": "Resposta automática da IA",
+    "Chat_AI_Model": "Modelo de IA de bate-papo",
+    "Chat_AI_Temperature": "Temperatura de IA do bate-papo",
+    "Client_Sentry_Settings": "Configurações de sentinela do cliente",
+    "Client_Settings": "Configurações do cliente",
+    "Code_Execution_Limits": "Limites de execução de código (VM)",
+    "Enable_Create_Room": "Ativar Criar Sala",
+    "Enable_Join_by_code": "Ativar adesão por código",
+    "Enable_Memory_Use_Log": "Habilitar registro de uso de memória",
+    "GA_Tracking_ID": "ID de acompanhamento do Google Analytics",
+    "General_Settings": "Configurações Gerais",
+    "Max_CPU_Usage": "Uso máximo de CPU na VM",
+    "Max_CodeRangeSizeMb": "Tamanho máximo de CodeRange em Mb",
+    "Max_Num_Message_Queue": "Número máximo de filas de mensagens na VM",
+    "Max_OldGenerationSizeMb": "Tamanho máximo de OldGeneration em Mb",
+    "Max_YoungGenerationSizeMb": "Tamanho máximo de YoungGeneration em Mb",
+    "Reply_Time_ms": "Tempo de resposta ms",
+    "Screenshot_Interval_min": "Intervalo mínimo de captura de tela",
+    "Sentry_DSN": "Sentry DSN (deixe em branco para desativar)",
+    "replaysOnErrorSampleRate": "Taxa de amostragem para replays em caso de erro",
+    "replaysSessionSampleRate": "Taxa de amostragem para replays na sessão",
+    "tracesSampleRate": "Taxa de amostragem para rastreamentos"
+  },
+  "admin": {
+    "loading": "Carregando",
+    "noScreenshotAvailable": "Nenhuma captura de tela disponível",
+    "sessionAnalytics": "Análise de sessão",
+    "sessionCode": "Código de sessão",
+    "sessionEasyMode": "Modo Fácil",
+    "sessionLanguage": "Linguagem",
+    "sessionSummary": "Resumo da sessão",
+    "showHeatmap": "Mostrar mapa de calor",
+    "summary": "Resumo",
+    "workspace": "Espaço de trabalho"
+  },
+  "dialogue": {
+    "Introduction": "Oi! \nclique no botão de resposta rápida digite suas perguntas para escolher o que fazer!",
+    "NewSessionWithData": "Iniciando nova sessão com dados salvos"
+  },
+  "editor": {
+    "dialogueTab": "Bater papo",
+    "workspaceTab": "Espaço de trabalho"
+  },
+  "error": {
+    "empty_code": "O código é inválido ou está vazio",
+    "error": "Erro"
+  },
+  "execSwitch": {
+    "Running": "Correndo",
+    "Stopped": "Parou",
+    "label": "Executar código"
+  },
+  "extension": {
+    "minecraft-core": {
+      "connectInfo": "Conecte seu Minecraft em **/connect {{host}}/vm/{{userCode}}/mc**. \nTente novamente se a conexão falhar. \nDesative a solicitação de criptografia."
+    }
+  },
+  "generic": {
+    "connected": "Conectado"
+  },
+  "logbuffer": {
+    "tooManyLogs": "Muitas mensagens. \nregistros antigos removidos."
+  },
+  "login": {
+    "login": "Conecte-se",
+    "loginFailed": "falha no login",
+    "password": "Senha",
+    "title": "Conecte-se",
+    "username": "Nome de usuário",
+    "welcome": "Faça login para continuar"
+  },
+  "navbar": {
+    "connected": "conectado",
+    "execSwitch": "Executar código",
+    "home": "Lar",
+    "joinCode": "Código de adesão",
+    "leave": "deixar",
+    "noTutorial": "Nenhum tutorial foi selecionado",
+    "reconnecting": "desconectado. \ntentando se reconectar.",
+    "reload": "Recarregar",
+    "saveAndLeave": "salve e saia",
+    "signout": "sair"
+  },
+  "off": "Desligado",
+  "on": "Sobre",
+  "quickReply": {
+    "BeginTutorial": "Começar o tutorial",
+    "HowToUse": "Como usar isso?",
+    "WhatINeed": "O que eu preciso fazer?"
+  },
+  "session": {
+    "about": "Sobre este aplicativo",
+    "aboutText": "Este aplicativo é um software auto-hospedado que fornece tutoriais usando LLM (AI).  \nO aplicativo permite que o administrador do site colete dados sobre o uso do usuário e declarações feitas de forma não pessoalmente identificável, e os dados coletados são usados ​​para aprender a função de chat no aplicativo e para melhorar o comportamento da IA.  \nPara mais informações sobre o tratamento dos dados fornecidos pelo aplicativo, entre em contato com o administrador do site. \nComo o aplicativo é publicado como código aberto e o código-fonte pode ter sido modificado, é recomendável não utilizar o aplicativo se o administrador do site for desconhecido.  \nOs dados sobre informações sobre as sessões criadas podem ser excluídos.",
+    "available": "Aplicativo disponível",
+    "checkingServer": "Verificando o status do servidor...",
+    "continueSession": "Continuar esta sessão",
+    "createSession": "Criar nova sala",
+    "creating": "criando...",
+    "debuginfo": "Informações de depuração",
+    "deleteSession": "Excluir esta sessão",
+    "findSavedSession": "Usar dados salvos",
+    "hello": "Olá",
+    "joinsession": "junte-se com código",
+    "noSavedSession": "Nenhuma sessão salva encontrada",
+    "or": "ou",
+    "savedSession": "Sessão salva",
+    "serverDownMsg": "Não é possível conectar o servidor. \nVerifique sua internet ou pergunte ao administrador do sistema.",
+    "serverOffline": "O servidor está off-line - o aplicativo não está disponível",
+    "serverOnline": "On-line",
+    "sessionNotFoundMsg": "Sessão não encontrada. \nDigite outro código ou crie uma nova sessão para iniciar.",
+    "typecodeMsg": "Digite seu código ou crie uma nova sala para começar.",
+    "welcome": "Estude codificação com IA"
+  },
+  "sidebar": {
+    "dashboard": "Painel",
+    "sessions": "Sessões",
+    "settings": "Configurações",
+    "toggle": "Barra lateral",
+    "trainingForAI": "Treinamento de IA",
+    "tutorials": "Tutoriais",
+    "users": "Usuários"
+  },
+  "textbubble": {
+    "ai": "IA",
+    "ask": "Pergunte qualquer coisa...",
+    "block": "Bloquear",
+    "blocksuggestions": "Bloco sugerido",
+    "copiedToClipboard": "Copiado!",
+    "errorLog": "Registro de erros",
+    "findBlock": "Encontrar bloco",
+    "findBlockFromMenu": "Encontrar no menu",
+    "log": "Registro",
+    "replying": "Respondendo...",
+    "server": "Servidor",
+    "showingLatest": "Mostrando {{count}} mensagens mais recentes",
+    "you": "Você"
+  },
+  "tour": {
+    "blocklyWorkspace": "O espaço de trabalho é o local para fazer seu código.",
+    "dialogue": "Você pode conversar com a IA para obter ajuda ou aprender uma lição de IA com tutorial.",
+    "execSwitch": "Você pode executar seu código no espaço de trabalho.",
+    "joinCode": "Este é o código para esta sessão. \nVocê pode voltar aqui salvando este código para a próxima vez.",
+    "switchToDialogue": "Ok, vamos voltar à aba de bate-papo.",
+    "switchToWorkspace": "Vamos mudar para o espaço de trabalho.",
+    "syncCode": "Você pode atualizar o código aqui",
+    "tabs": "Você pode alternar as guias para alternar entre o chat e a área de trabalho.",
+    "tourAgain": "Você pode fazer este passeio novamente clicando neste botão.",
+    "tutorialSelector": "Você pode selecionar qualquer tutorial que deseja fazer.",
+    "welcome": "Bem-vindo a bordo! \nEste tour fornece uma breve visão geral de como usar este aplicativo."
+  },
+  "tutorial": {
+    "description": "Escolha o que você quer aprender",
+    "easyMode": "Modo Fácil",
+    "easyModeChanged": "Mude o modo Fácil para {{status}}",
+    "easyModeDescription": "A resposta da IA ​​será mais fácil.",
+    "start": "Iniciar tutorial",
+    "startTour": "Veja o que você pode fazer.",
+    "startTutorial": "O tutorial selecionou",
+    "title": "Escolha o tutorial",
+    "tour": "Iniciar passeio"
+  },
+  "vm": {
+    "outOfMemory": "A máquina atingiu o limite de memória",
+    "updatedScriptError": "Erro ao executar script atualizado: {{error}}",
+    "updatedScriptSuccess": "Script atualizado executado com sucesso."
+  }
+}

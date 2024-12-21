@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["node"],
+
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strict": true, // 厳格モードを有効化
+    "strictPropertyInitialization": true, // プロパティ初期化を厳密化		"skipLibCheck": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "typeRoots": ["./types", "./node_modules/@types"] // カスタム型定義フォルダとデフォルト型定義フォルダ
+  },
+  "include": ["src/**/*", "types/**/*.d.ts"], // d.ts ファイルのパスを明示
+
+  "exclude": ["node_modules"]
+}
