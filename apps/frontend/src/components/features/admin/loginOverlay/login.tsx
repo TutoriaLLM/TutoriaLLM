@@ -18,7 +18,7 @@ export default function Login(props: { redirectTo: string }) {
 		const username = usernameRef.current?.value;
 		const password = passwordRef.current?.value;
 
-		const BACKEND_URL = import.meta.env.VITE_PUBLIC_BACKEND_URL;
+		const BACKEND_URL = import.meta.env.BACKEND_URL;
 
 		const response = await fetch(`${BACKEND_URL}/login`, {
 			method: "POST",

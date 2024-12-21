@@ -27,27 +27,24 @@ export class ApiError extends Error {
 	}
 }
 
-export const client = hcWithType(
-	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
-	{
-		headers: {
-			Origin: import.meta.env.VITE_PUBLIC_FRONTEND_URL as string,
-			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
-			"Content-Type": "application/json",
-		},
-		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
-			fetch(input, {
-				...requestInit,
-				credentials: "include",
-			}),
+export const client = hcWithType(import.meta.env.BACKEND_URL as string, {
+	headers: {
+		Origin: import.meta.env.BACKEND_URL as string,
+		Host: new URL(import.meta.env.BACKEND_URL as string).host,
+		"Content-Type": "application/json",
 	},
-);
+	fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
+		fetch(input, {
+			...requestInit,
+			credentials: "include",
+		}),
+});
 export const adminClient = adminHcWithType(
-	import.meta.env.VITE_PUBLIC_BACKEND_URL as string,
+	import.meta.env.BACKEND_URL as string,
 	{
 		headers: {
-			Origin: import.meta.env.VITE_PUBLIC_FRONTEND_URL as string,
-			Host: new URL(import.meta.env.VITE_PUBLIC_BACKEND_URL as string).host,
+			Origin: import.meta.env.BACKEND_URL as string,
+			Host: new URL(import.meta.env.BACKEND_URL as string).host,
 			"Content-Type": "application/json",
 		},
 		fetch: (input: RequestInfo | URL, requestInit?: RequestInit) =>
