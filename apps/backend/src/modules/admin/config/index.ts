@@ -1,10 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
 import { getConfigApp, updateConfigApp } from "@/modules/admin/config/routes";
 import type { AppConfig } from "@/modules/admin/config/schema";
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { createHonoApp } from "@/create-app";
 
 const volumePath = "/app_data";
 // const volumePath = path.resolve("testconfig");
@@ -45,7 +43,7 @@ export function createConfig() {
 	}
 }
 
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(getConfigApp, (c) => {
 		const config = getConfig();
 		return c.json(config);

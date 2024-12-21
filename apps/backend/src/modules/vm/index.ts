@@ -14,11 +14,11 @@ import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { Socket } from "socket.io";
-// `__dirname` を取得
+// Get `__dirname`.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// VMのインスタンスを管理するインターフェース
+// Interface to manage VM instances
 interface VMInstance {
 	running: boolean;
 	worker: Worker;
@@ -26,31 +26,31 @@ interface VMInstance {
 	ip?: string;
 }
 
-// VMのインスタンスを管理するオブジェクト
+// Objects that manage VM instances
 const vmInstances: { [key: string]: VMInstance } = {};
 
-//VMのコードとプロキシを紐づけて管理するオブジェクト
+// Objects that tie and manage VM code and proxies
 const vmProxies = new Map<string, any>();
-// VMインスタンス作成時に新しいプロキシをリストに追加する関数
+// Function to add a new proxy to the list when creating a VM instance
 function setupVMProxy(code: string) {
 	vmProxies.set(code, proxy);
 }
-// VMインスタンス停止時にプロキシを削除する関数
+// Function to delete proxy when VM instance is stopped
 function removeVMProxy(code: string) {
 	vmProxies.delete(code);
 }
 
 let vmPort = 3002;
 if (process.env.VM_PORT) {
-	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
+	const basePort = Number.parseInt(process.env.VM_PORT, 10); // Interpreted as a decimal number
 	if (!Number.isNaN(basePort)) {
-		// basePortがNaNでないか確認
+		// Check if basePort is not NaN
 		vmPort = basePort;
 	}
 }
 
 const app = new Hono<{ Bindings: HttpBindings }>();
-//参加コードに対してプロキシを保存するマップ
+// Maps that store proxies for participation codes
 const proxy = createProxyMiddleware({
 	router: async (req) => {
 		const code = req.url?.split("/")[1];
@@ -160,7 +160,7 @@ export async function ExecCodeTest(
 	);
 
 	try {
-		//configを読み込む
+		// Load config.
 		const config = getConfig();
 
 		const joinCode = code;
@@ -188,11 +188,11 @@ export async function ExecCodeTest(
 					return;
 				}
 
-				// vmInstancesにIPとポートを保存
+				// Save IP and port in vmInstances
 				vmInstances[uuid].port = port;
 				vmInstances[uuid].ip = ip;
 
-				// プロキシの設定
+				// Proxy Settings
 				setupVMProxy(code);
 			}
 		});
@@ -210,7 +210,7 @@ export async function ExecCodeTest(
 			StopCodeTest(code, uuid, socket, DBupdator);
 		});
 
-		// workerインスタンスを保存
+		// Save worker instance
 		vmInstances[uuid] = { running: true, worker: worker };
 	} catch (e) {
 		await StopCodeTest(code, uuid, socket, DBupdator);
@@ -221,7 +221,7 @@ export async function ExecCodeTest(
 	return "Valid uuid";
 }
 
-// ExecCodeTestで実行しているWorkerを通して、コードを更新するための関数
+// Function to update code through Worker running in ExecCodeTest
 export async function UpdateCodeTest(
 	code: string,
 	uuid: string,
@@ -240,7 +240,7 @@ export async function UpdateCodeTest(
 		if (sessionValue.uuid !== uuid) {
 			return "Invalid uuid";
 		}
-		// Workerに新しいコードを送信
+		// Send new code to Worker
 		instance.worker.postMessage({
 			type: "updateScript",
 			code: newUserScript,
@@ -250,7 +250,7 @@ export async function UpdateCodeTest(
 	return "Script is not running.";
 }
 
-// 修正されたStopCodeTest関数
+// Modified StopCodeTest function
 export async function StopCodeTest(
 	code: string,
 	uuid: string,
@@ -281,10 +281,10 @@ export async function StopCodeTest(
 			};
 		}
 
-		// Workerを終了
+		// Exit Worker
 		await instance.worker.terminate();
 
-		// プロキシをクリア
+		// Clear proxies
 		// const stack = vmExpress._router.stack;
 		// for (let i = stack.length - 1; i >= 0; i--) {
 		// 	const layer = stack[i];
@@ -293,7 +293,7 @@ export async function StopCodeTest(
 		// 	}
 		// }
 
-		//honoのルーターからプロキシを削除
+		// Remove proxy from HONO router
 		// const stack = app.routes;
 		// for (let i = stack.length - 1; i >= 0; i--) {
 		// 	const layer = stack[i];
@@ -302,11 +302,11 @@ export async function StopCodeTest(
 		// 	}
 		// }
 
-		// プロキシを削除
+		// Delete proxy
 		removeVMProxy(code);
 		delete vmInstances[uuid];
 
-		// DBを更新し、クライアントに通知
+		// Update DB and notify client
 		const sessionValue: SessionValue = session[0];
 		sessionValue.isVMRunning = false;
 		await DBupdator(code, sessionValue, socket);

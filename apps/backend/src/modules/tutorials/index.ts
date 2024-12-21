@@ -5,13 +5,10 @@ import {
 	getTags,
 	getTutorials,
 } from "@/modules/tutorials/routes";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq } from "drizzle-orm";
+import { createHonoApp } from "@/create-app";
 
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
-
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(getTutorials, async (c) => {
 		const getTutorials = await db
 			.select({

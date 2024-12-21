@@ -3,7 +3,7 @@ import { type TrainingData, trainingData } from "@/db/schema";
 import { getConfig } from "@/modules/config";
 import { asc, eq } from "drizzle-orm";
 
-//トレーニングデータを生成し、保存するAPI。内部でも使用される。
+// API to generate and store training data, also used internally.
 export default async function generateTrainingData(
 	question: string,
 	metadata: TrainingData["metadata"],
@@ -11,7 +11,7 @@ export default async function generateTrainingData(
 ) {
 	const config = getConfig();
 	try {
-		//１００件以上のデータがある場合、最も古いデータを削除
+		// If there are more than 100 data, delete the oldest data
 		await db
 			.delete(trainingData)
 			.where(

@@ -15,8 +15,8 @@ export const AppErrorType = [
 
 export type AppErrorType = (typeof AppErrorType)[number];
 
-/**
- * アプリケーション内で扱うエラータイプとそれに対応するステータスコードを管理する
+/* *
+ * Manage error types and corresponding status codes handled within the application
  */
 export const AppErrorStatusCode = {
 	BAD_REQUEST: 400,
@@ -26,7 +26,7 @@ export const AppErrorStatusCode = {
 	NOT_FOUND: 404,
 	TOO_MANY_REQUESTS: 429,
 	SERVER_ERROR: 500,
-	// 他のステータスコードも必要に応じて追加
+	// Add other status codes as needed
 } as const satisfies Record<
 	AppErrorType,
 	ClientErrorStatusCode | ServerErrorStatusCode

@@ -79,7 +79,7 @@ function RouteComponent() {
 		useAtom(isWorkspaceConnected);
 	const [socketInstance, setSocketInstance] = useAtom(socketIoInstance);
 	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
-	const isInternalUpdateRef = useRef(true); // useRef でフラグを管理
+	const isInternalUpdateRef = useRef(true); // Manage flags with useRef
 
 	const [isMenuOpen, setIsMenuOpen] = useState(true);
 	function handleToggle() {
@@ -99,39 +99,39 @@ function RouteComponent() {
 
 		function onConnect() {
 			setWorkspaceConnection(true);
-			setSocketInstance(socket); // Socketインスタンスを保存
+			setSocketInstance(socket); // Save Socket instance
 		}
 
 		function onDisconnect() {
 			setWorkspaceConnection(false);
-			setSocketInstance(null); // Socketインスタンスをクリア
+			setSocketInstance(null); // Clear Socket instance
 		}
 
 		function onPushedCurrentSession(data: SessionValue) {
-			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
+			isInternalUpdateRef.current = false; // Update flags based on useRef
 			setCurrentSession(data);
 			setPrevSession(data);
 			setIsCodeRunning(data?.isVMRunning ?? false);
-			isInternalUpdateRef.current = true; // フラグをリセット
+			isInternalUpdateRef.current = true; // Reset Flag
 		}
 
 		function onReceivedDiff(diff: Operation[]) {
-			isInternalUpdateRef.current = false; // フラグを useRef に基づいて更新
+			isInternalUpdateRef.current = false; // Update flags based on useRef
 
-			// 差分を currentSession に適用
+			// Apply the difference to currentSession
 			setCurrentSession((prevSession) => {
-				setPrevSession(prevSession); // 前回のセッションを保存
+				setPrevSession(prevSession); // Save Previous Session
 				if (prevSession) {
-					const updatedSession = { ...prevSession }; // 現在のセッションのコピーを作成
-					applyPatch(updatedSession, diff); // 差分を適用
+					const updatedSession = { ...prevSession }; // Create a copy of the current session
+					applyPatch(updatedSession, diff); // Apply Difference
 					setIsCodeRunning(updatedSession?.isVMRunning ?? false);
-					return updatedSession; // 更新されたセッションを返す
+					return updatedSession; // Returns updated sessions
 				}
 				console.error("Current session is null.");
 				return prevSession;
 			});
 
-			isInternalUpdateRef.current = true; // フラグをリセット
+			isInternalUpdateRef.current = true; // Reset Flag
 		}
 
 		function onReceivedReplyingNotification() {
@@ -153,7 +153,7 @@ function RouteComponent() {
 					return {
 						...prev,
 						screenshot: image,
-						clicks: recordedClicksRef.current, // 最新のクリック情報を使用
+						clicks: recordedClicksRef.current, // Use the latest click information
 					};
 				}
 				return prev;
@@ -181,11 +181,11 @@ function RouteComponent() {
 		};
 	}, [sessionCode]);
 
-	// スクリーンショットの撮影機能
+	// Ability to take screenshots
 	async function takeScreenshot() {
-		const element = document.body; // スクリーンショットを撮りたい要素
-		const canvas = await html2canvas(element); // html2canvasの型定義がおかしいためanyで回避
-		const imgData = canvas.toDataURL("image/png", 0.3); // Base64形式の画像データ
+		const element = document.body; // Elements you want to take screenshots of
+		const canvas = await html2canvas(element); // html2canvas type definition is wrong, so workaround with any
+		const imgData = canvas.toDataURL("image/png", 0.3); // Image data in Base64 format
 		return imgData;
 	}
 
@@ -209,10 +209,10 @@ function RouteComponent() {
 			timestamp: now,
 		};
 
-		// 新しいクリックを追加して、配列の最後の20件のみを保持する
+		// Add a new click and keep only the last 20 in the array
 		const newClicks = [...(updatedClicks ?? []), click].slice(-20);
 
-		// 最新のクリック情報をrefに更新
+		// Updated with the latest click info ref.
 		recordedClicksRef.current = newClicks;
 
 		return newClicks;
@@ -220,10 +220,10 @@ function RouteComponent() {
 	window.addEventListener("click", handleClick);
 
 	useEffect(() => {
-		// currentSession が変更されるたびに ref を更新する
+		// Update ref each time currentSession is changed
 		currentSessionRef.current = currentSession;
 		if (socketInstance && currentSession) {
-			//アップデートの対象となるデータがあるか確認
+			// Check if there is data to be updated
 			if (
 				JSON.stringify(currentSession.workspace) !==
 					JSON.stringify(prevSession?.workspace) ||
@@ -236,22 +236,22 @@ function RouteComponent() {
 				JSON.stringify(currentSession.clicks) !==
 					JSON.stringify(prevSession?.clicks)
 			) {
-				// セッションの差分を計算し、sendDataToServerを利用する
+				// Calculate session differences and use sendDataToServer
 				if (prevSession && isInternalUpdateRef.current) {
-					// 差分を計算
+					// Calculate the difference
 					const diff = createPatch(prevSession, currentSession);
 
-					// 差分がある場合のみ送信し、prevSessionを更新
+					// Send only if there is a difference, and update prevSession
 					if (diff.length > 0) {
 						socketInstance?.emit("UpdateCurrentSessionDiff", diff);
 
 						setPrevSession(currentSession);
 					}
 				} else {
-					// 前回のセッションがない場合、空のオブジェクトと比較
+					// Compare with empty object if no previous session
 					const diff = createPatch({}, currentSession);
 
-					// 差分を送信
+					// Send difference
 					socketInstance?.emit("UpdateCurrentSessionDiff", diff);
 					setPrevSession(currentSession);
 				}

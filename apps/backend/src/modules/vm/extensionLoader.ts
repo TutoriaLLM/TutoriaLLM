@@ -8,7 +8,7 @@ import ts from "typescript";
 export function loadExtensions(context: Context): void {
 	for (const [key, mod] of Object.entries(extensionModules)) {
 		try {
-			// `Context` が存在する場合のみ処理
+			// Process only if `Context` exists.
 			if ("Context" in mod) {
 				for (const [ctxKey, ctxValue] of Object.entries(mod.Context)) {
 					context[ctxKey] = ctxValue;
@@ -26,7 +26,7 @@ export async function loadScript(): Promise<string | null> {
 		fileName: string,
 	): Promise<string | null> {
 		const modulePath = path.join(process.cwd(), "node_modules", moduleName);
-		//modulePathに存在するすべてのディレクトリ内からfileNameを探す
+		// Find fileName in all directories that exist in modulePath
 		const files = await glob(`**/${fileName}`, { cwd: modulePath });
 		for (const file of files) {
 			const scriptPath = path.join(modulePath, file);
@@ -54,7 +54,7 @@ export async function loadScript(): Promise<string | null> {
 		return null;
 	}
 
-	// `extScriptContent` を必要に応じて構築
+	// Build `extScriptContent` as needed
 	return extScript;
 }
 

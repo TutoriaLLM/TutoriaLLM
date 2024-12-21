@@ -4,22 +4,22 @@ import { zodLiteralUnionType } from "@/libs/errors/zod";
 import { z } from "@hono/zod-openapi";
 import type { AnyZodObject } from "zod";
 
-/**
- * エラーレスポンスのスキーマ
+/* *
+ * Schema of error responses
  */
 export const errorResponseSchema = z.object({
 	error: z.object({
 		message: z.string(),
 		type: z.enum(AppErrorType),
-		/**
-		 * アプリ内で明示的に使用しているHttpエラーのステータスコードだけを許容する
+		/* *
+		 * Only allow Http error status codes that are explicitly used in the app.
 		 */
 		status: zodLiteralUnionType(Object.values(AppErrorStatusCode)),
 	}),
 });
 
-/**
- * エラーレスポンスのスキーマを生成する
+/* *
+ * Generate schema for error responses
  */
 export const createErrorResponseSchema = (
 	type: typeof errorResponseSchema.shape.error._type.type,
@@ -36,35 +36,35 @@ export const createErrorResponseSchema = (
 	);
 };
 
-/**
- * あるスキーマに対応するバリデーションエラーレスポンスのスキーマを生成する
+/* *
+ * Generate a schema for a validation error response for a given schema.
  */
 export const createValidationErrorResponseSchema = <T extends AnyZodObject>(
 	schema: T,
 ) => {
-	// flattenしたエラーを返すため、最上位のキーのみをスキーマから取得する
-	// flattenしないとレスポンスの構造が複雑になってしまう
+	// Retrieve only the topmost key from the schema to return a flattened error
+	// Without FLATTEN, the response structure will be complicated.
 	const keys = getKeys(schema.shape);
 
-	// 上で取得したキーとそれのエラーメッセージのキーバリューのスキーマを生成
+	// Generate a schema of key values for the keys retrieved above and their error messages
 	const fieldErrorSchemas = Object.fromEntries(
 		keys.map((k) => [k, z.string().optional()]),
 	);
 
-	// アプリケーション内でエラーの種類を識別するための文字列
+	// String to identify the type of error in the application
 	const errorType = "VALIDATION_ERROR" satisfies AppErrorType;
 
-	// 通常のエラーの情報も持つため、スキーマをマージする
+	// Merge schema to have information about normal errors as well
 	return errorResponseSchema.merge(
 		z.object({
 			error: errorResponseSchema.shape.error.merge(
 				z.object({
-					// バリデーションエラー時のtypeとstatusは一意に固定する
+					// Uniquely fix type and status on validation error
 					type: z.literal(errorType),
 					status: z.literal(AppErrorStatusCode[errorType]),
-					// フォーム全体に関するエラーメッセージ
+					// Error messages about the entire form
 					formErrors: z.string(),
-					// flattenしたフィールドごとのエラーメッセージ
+					// Error messages for each flattened field
 					fieldErrors: z.object(fieldErrorSchemas),
 				}),
 			),

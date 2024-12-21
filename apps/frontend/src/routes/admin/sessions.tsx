@@ -242,7 +242,7 @@ function Sessions() {
 
 	if (error) {
 		alert(error);
-		setError(null); // エラーをリセットして表示を続行
+		setError(null); // Reset error and continue display
 	}
 
 	return (

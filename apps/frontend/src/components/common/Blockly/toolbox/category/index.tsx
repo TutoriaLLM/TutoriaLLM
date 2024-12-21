@@ -8,10 +8,10 @@ const loadedToolbox = Object.values(extensionModules).flatMap(
 	(mod) => mod.Toolbox,
 );
 
-// 基本カテゴリをインポート
+// Import basic categories
 const loadedBasicModules = Object.values(basicModules).map((mod) => mod);
 
-// モジュールを結合。
+// Combine modules.
 const combinedModules = [...loadedBasicModules, separator, ...loadedToolbox];
 const loadExtensions = () => {
 	const extensions = Object.values(combinedModules);
@@ -20,13 +20,13 @@ const loadExtensions = () => {
 
 const loadedExtensions = loadExtensions();
 
-// カテゴリとセパレータのみを取り出す
+// Extract categories and separators only
 const categoryContents = loadedExtensions
 	.filter(
 		(ext) => ext && (("category" in ext && ext.category) || ext === separator),
-	) // ext と ext.category の存在を確認
-	.map((ext) => (ext === separator ? ext : "category" in ext && ext.category)) // ext がセパレータの場合はそのまま、そうでない場合は category を取り出す
-	.filter((ext) => ext !== false); // カテゴリの翻訳を行う関数
+	) // Confirm existence of ext and ext.category
+	.map((ext) => (ext === separator ? ext : "category" in ext && ext.category)) // If ext is a separator, leave it as is; otherwise, take out category.
+	.filter((ext) => ext !== false); // Function to translate a category
 
 //same as extensions package
 type Locale = {
@@ -38,14 +38,14 @@ export function translateCategories(language: string) {
 	for (const ext of loadedExtensions.filter((ext) => ext && "locale" in ext)) {
 		const locale = ext.locale as Locale;
 		if (locale[language]) {
-			// localeが記述されている場合は登録する(json形式)
+			// Register if locale is described (json format)
 			for (const key in locale[language]) {
 				if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
 					Blockly.Msg[key] = locale[language][key];
 				}
 			}
 		} else {
-			// localeが記述されていない場合は英語を登録する
+			// Register English if locale is not described
 			// biome-ignore lint/style/useCollapsedElseIf: Not working without else if
 			if (locale.en) {
 				for (const key in ext.locale?.en) {
@@ -54,7 +54,7 @@ export function translateCategories(language: string) {
 					}
 				}
 			}
-			//英語も登録されていない場合はエラーを出力
+			// Outputs an error if English is not also registered
 			else {
 				console.error(`locale not found in ${ext}`);
 			}

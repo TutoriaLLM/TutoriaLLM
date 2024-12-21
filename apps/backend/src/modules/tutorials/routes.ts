@@ -37,7 +37,7 @@ const getSpecificTutorial = createRoute({
 	},
 });
 
-//タグAPIを追加
+// Add Tag API
 
 const getTags = createRoute({
 	method: "get",

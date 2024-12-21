@@ -24,19 +24,19 @@ export default function DialogueView() {
 	const [isRecording, setIsRecording] = useState(false);
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [remainingTime, setRemainingTime] = useState(10);
-	const [isHttps, setIsHttps] = useState(false); // HTTPSかどうかを管理
+	const [isHttps, setIsHttps] = useState(false); // Manage HTTPS or not
 	const parentRef = useRef<HTMLDivElement>(null);
 	const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 	const wavesurferRef = useRef<WaveSurfer | null>(null);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
-	const streamRef = useRef<MediaStream | null>(null); // マイクストリームを管理
+	const streamRef = useRef<MediaStream | null>(null); // Manage microphone streams
 
-	const [isSending, setIsSending] = useState(false); // メッセージ送信中かどうかを管理
+	const [isSending, setIsSending] = useState(false); // Manage whether a message is being sent or not
 
 	const { config } = useConfig();
 
 	useEffect(() => {
-		// ページがHTTPSで提供されているかどうかを確認
+		// Check if the page is served with HTTPS
 		if (window.location.protocol === "https:") {
 			setIsHttps(true);
 		}
@@ -44,17 +44,17 @@ export default function DialogueView() {
 
 	const sendMessage = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
-			e.preventDefault(); // デフォルトのフォーム送信を防止
+			e.preventDefault(); // Prevent default form submissions
 
-			//オーディオの場合（メッセージは空である必要がある）
+			// For audio (message must be empty)
 			if (
 				audioURL &&
 				!isSending &&
 				!message &&
 				config?.AI_Settings.Chat_Audio === true
 			) {
-				// すでに送信中でないことを確認
-				setIsSending(true); // 送信中フラグを立てる
+				// Confirmation that the transmission is not already in progress
+				setIsSending(true); // Set the sending flag
 				setSession((prev) => {
 					if (prev) {
 						const lastId =
@@ -78,20 +78,20 @@ export default function DialogueView() {
 								},
 								prev,
 							).stats,
-							userAudio: audioURL, // base64エンコードされたMP3データを設定
+							userAudio: audioURL, // Set base64 encoded MP3 data
 						};
 					}
 					return prev;
 				});
-				setMessage(""); // メッセージ送信後にフィールドをクリア
-				setAudioURL(""); // オーディオURLをクリア
-				setIsSending(false); // 送信完了後に送信中フラグをリセット
+				setMessage(""); // Clear field after message is sent
+				setAudioURL(""); // Clear audio URL
+				setIsSending(false); // Reset the in-transmission flag after transmission is complete
 			}
 
-			//メッセージの場合
+			// For messages
 			if (message && !isSending && !audioURL) {
-				// すでに送信中でないことを確認
-				setIsSending(true); // 送信中フラグを立てる
+				// Confirmation that the transmission is not already in progress
+				setIsSending(true); // Set the sending flag
 				setSession((prev) => {
 					if (prev) {
 						const lastId =
@@ -119,9 +119,9 @@ export default function DialogueView() {
 					}
 					return prev;
 				});
-				setMessage(""); // メッセージ送信後にフィールドをクリア
-				setAudioURL(""); // オーディオURLをクリア
-				setIsSending(false); // 送信完了後に送信中フラグをリセット
+				setMessage(""); // Clear field after message is sent
+				setAudioURL(""); // Clear audio URL
+				setIsSending(false); // Reset the in-transmission flag after transmission is complete
 			}
 		},
 		[message, audioURL, isSending, setSession],
@@ -133,7 +133,7 @@ export default function DialogueView() {
 
 	const startRecording = () => {
 		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			streamRef.current = stream; // ストリームを保存
+			streamRef.current = stream; // Save Stream
 			const mediaRecorder = new MediaRecorder(stream);
 			mediaRecorderRef.current = mediaRecorder;
 			mediaRecorder.start();
@@ -144,18 +144,18 @@ export default function DialogueView() {
 			});
 
 			mediaRecorder.addEventListener("stop", () => {
-				const audioBlob = new Blob(audioChunks, { type: "audio/mp3" }); // MP3形式に設定
+				const audioBlob = new Blob(audioChunks, { type: "audio/mp3" }); // Set to MP3 format
 				const reader = new FileReader();
 				reader.readAsDataURL(audioBlob);
 				reader.onloadend = () => {
 					const base64data = reader.result as string;
 					setAudioURL(base64data);
-					// waveformコンテナが存在するかチェック
+					// Check if waveform container exists
 					const waveformContainer = document.querySelector("#waveform");
 					if (!waveformContainer) {
 						return;
 					}
-					// 新しい wavesurfer インスタンスを生成
+					// Create a new wavesurfer instance
 					if (wavesurferRef.current) {
 						wavesurferRef.current.destroy();
 					}
@@ -201,7 +201,7 @@ export default function DialogueView() {
 			}
 			if (streamRef.current) {
 				for (const track of streamRef.current.getTracks()) {
-					track.stop(); // マイクアクセスを終了
+					track.stop(); // Terminate microphone access
 				}
 				streamRef.current = null;
 			}
@@ -247,12 +247,12 @@ export default function DialogueView() {
 				});
 			}
 			wavesurferRef.current.load(audioURL);
-			//テキストメッセージは無効にする
+			// Disable text messages.
 			setMessage("");
 		}
 	}, [audioURL]);
 
-	//仮想スクロールの設定
+	// Virtual Scroll Settings
 	const rowVirtualizer = useVirtualizer({
 		overscan: 5,
 		count: session?.dialogue ? session.dialogue.length : 0,
@@ -262,7 +262,7 @@ export default function DialogueView() {
 		estimateSize: () => 80,
 		enabled: true,
 	});
-	rowVirtualizer.scrollDirection = "forward"; // 逆スクロールを有効にする
+	rowVirtualizer.scrollDirection = "forward"; // Enable reverse scrolling
 
 	useEffect(() => {
 		if (session?.dialogue) {
@@ -299,7 +299,7 @@ export default function DialogueView() {
 									className="w-full"
 									ref={(el) => {
 										if (el) {
-											// 要素がマウントされた後に`measureElement`を呼び出す
+											// Call `measureElement` after the element is mounted
 											rowVirtualizer.measureElement(el);
 										}
 									}}
@@ -314,7 +314,7 @@ export default function DialogueView() {
 					</div>
 				</div>
 
-				{/*返信中のアニメーションを表示*/}
+				{/* Show animation while replying */}
 				{session?.isReplying && (
 					<div className="flex px-4 py-2 justify-start items-end gap-2 animate-loading-blink">
 						<div className="text-gray-600 flex flex-col items-center">
@@ -335,7 +335,7 @@ export default function DialogueView() {
 				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
 					{session?.quickReplies && (
 						<div className="relative w-full py-2.5 overflow-clip">
-							{/* HorizontalScrollProviderでコンテキストを提供 */}
+							{/* Provide context with HorizontalScrollProvider */}
 							<HorizontalScrollProvider>
 								<QuickReplyContainer
 									onReply={handleQuickReply}
@@ -441,12 +441,12 @@ export default function DialogueView() {
 	);
 }
 
-// QuickReplyをラップするコンテナコンポーネントを作成
+// Create a container component that wraps QuickReply
 const QuickReplyContainer: React.FC<{
 	onReply: (reply: string) => void;
 	quickReplies: string[] | null;
 }> = ({ onReply, quickReplies }) => {
-	const scrollRef = useHorizontalScroll(); // useHorizontalScrollをここで使用
+	const scrollRef = useHorizontalScroll(); // useHorizontalScroll here
 
 	return (
 		<div className="flex flex-wrap w-full overflow-auto pb-2" ref={scrollRef}>

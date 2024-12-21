@@ -80,7 +80,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 			{Object.keys(obj).map((key, index) => {
 				const value = obj[key];
 
-				// Trans を使ってローカライズされた文字列を取得
+				// Get localized strings using Trans
 				const localizedKey = <Trans t={t}>AppConfig.{key}</Trans>;
 
 				if (typeof value === "object" && value !== null) {

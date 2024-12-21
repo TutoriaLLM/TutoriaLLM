@@ -14,7 +14,7 @@ export function tourSteps(isMobile: boolean) {
 			selector: ".joinCode",
 			content: () => t("tour.joinCode"),
 		},
-		//mobileの場合はワークスペースに移動する
+		// For mobile, move to workspace
 		...(isMobile
 			? [
 					{
@@ -43,7 +43,7 @@ export function tourSteps(isMobile: boolean) {
 			selector: ".sync",
 			content: () => t("tour.syncCode"),
 		},
-		//mobileの場合はDialogに移動する
+		// For mobile, go to Dialog
 		...(isMobile
 			? [
 					{

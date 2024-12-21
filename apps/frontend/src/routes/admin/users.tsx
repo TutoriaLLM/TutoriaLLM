@@ -42,8 +42,8 @@ function Users() {
 	useEffect(() => {
 		fetchUsers();
 
-		// 現在のユーザーIDを取得（ログイン中に自身を誤って削除するのを防止するため）
-		//auth以下のルートはopenapiで定義されていないため、fetchを利用
+		// Retrieve the current user ID (to prevent accidental deletion of itself during login)
+		// The route under auth is not defined in openapi, so fetch is used
 		fetch(`${VITE_BACKEND_URL}/credential`, {
 			credentials: "include",
 		})
@@ -142,7 +142,7 @@ function Users() {
 
 	if (error) {
 		alert(error);
-		setError(null); // エラーをリセットして表示を続行
+		setError(null); // Reset error and continue display
 	}
 
 	return (

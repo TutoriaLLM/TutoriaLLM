@@ -48,20 +48,20 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 		id: "blockly",
 	});
 
-	// Blocklyハンドルの接続先のノードデータを取得
+	// Obtain node data for Blockly handles to which they are connected
 	const nodesData = useNodesData<MyNode>(
 		connections.map((connection) => connection.source),
 	);
 
 	const mdxEditorRef = React.useRef<MDXEditorMethods>(null);
 
-	// dataが変更されたら、mdxEditorのmarkdownを更新する
+	// Update markdown in mdxEditor when data is changed
 	useEffect(() => {
 		if (mdxEditorRef.current) {
 			mdxEditorRef.current.setMarkdown(data.editorContent);
 		}
 
-		// Blocklyノードが接続されているか確認
+		// Check if Blockly node is connected
 		if (nodesData && nodesData.length > 0) {
 			const blocklyNode = nodesData.find((node) => node.type === "blockly");
 			if (blocklyNode?.data) {
@@ -78,12 +78,12 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 					handleSourceChange("source", data.editorContent);
 				}
 			}
-			// Blocklyノードが接続されているが、中身がない場合はそのまま出力
+			// If a Blockly node is connected but has no contents, output as is
 			else {
 				handleSourceChange("source", data.editorContent);
 			}
 		} else {
-			// Blocklyノードが接続されていない場合はそのまま出力
+			// Output as is if no Blockly node is connected
 			handleSourceChange("source", data.editorContent);
 		}
 	}, [data.editorContent, nodesData]);

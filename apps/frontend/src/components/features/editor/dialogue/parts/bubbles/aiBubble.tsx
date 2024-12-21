@@ -3,7 +3,7 @@ import { Bot } from "lucide-react";
 import Markdown, { type Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 
-// ルビタグを削除する関数
+// Function to remove ruby tags
 function removeRubyTags(content: string): string {
 	return content.replace(/<ruby>(.*?)<rt>.*?<\/rt><\/ruby>/g, "$1");
 }
@@ -13,9 +13,9 @@ function renderAIBubble(
 	markdownComponents: Components,
 	t: TFunction,
 	id: number,
-	easymode: boolean, // stateを追加
+	easymode: boolean, // Add state
 ) {
-	// stateがfalseの場合、ルビタグを削除
+	// If state is false, ruby tags are removed
 	const displayContent = easymode ? content : removeRubyTags(content);
 
 	return (
@@ -31,7 +31,7 @@ function renderAIBubble(
 			</div>
 			<div className="rounded-2xl rounded-bl-none bg-sky-200 text-white p-3 shadow max-w-sm">
 				<span className="prose prose-sm md:prose-base">
-					{/* rehypeRawを追加してHTMLを許可 */}
+					{/* Add rehypeRaw to allow HTML */}
 					<Markdown components={markdownComponents} rehypePlugins={[rehypeRaw]}>
 						{displayContent}
 					</Markdown>

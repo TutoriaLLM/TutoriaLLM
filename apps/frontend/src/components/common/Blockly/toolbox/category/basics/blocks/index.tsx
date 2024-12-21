@@ -2,7 +2,7 @@ import * as functions from "@/components/common/Blockly/toolbox/category/basics/
 import * as lists from "@/components/common/Blockly/toolbox/category/basics/blocks/lists";
 import * as logic from "@/components/common/Blockly/toolbox/category/basics/blocks/logic";
 // Blockly Blocks - Basics
-//配列でエクスポートする
+// Export as an array
 import * as loop from "@/components/common/Blockly/toolbox/category/basics/blocks/loop";
 import * as math from "@/components/common/Blockly/toolbox/category/basics/blocks/math";
 import * as text from "@/components/common/Blockly/toolbox/category/basics/blocks/text";

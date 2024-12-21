@@ -34,11 +34,11 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export function DebugInfo() {
-	// PWAのインストール状態を保持するステート
+	// State that maintains the installation status of the PWA
 	const [isPWAInstalled, setIsPWAInstalled] = useState<boolean>(false);
 	const [isDebugInfoOpen, setIsDebugInfoOpen] = useState<boolean>(false);
 	const [deferredPrompt, setDeferredPrompt] =
-		useState<BeforeInstallPromptEvent | null>(null); // インストールプロンプトを保持するステート
+		useState<BeforeInstallPromptEvent | null>(null); // State to hold the installation prompt
 
 	function switchDebugInfo() {
 		setIsDebugInfoOpen(!isDebugInfoOpen);
@@ -47,17 +47,17 @@ export function DebugInfo() {
 	const { t } = useTranslation();
 
 	useEffect(() => {
-		// PWAのインストール状況を確認する
+		// Check PWA installation status
 		if (window.matchMedia("(display-mode: standalone)").matches) {
 			setIsPWAInstalled(true);
 		} else {
 			setIsPWAInstalled(false);
 		}
 
-		// beforeinstallpromptイベントを監視する
+		// Monitor beforeinstallprompt event
 		const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-			e.preventDefault(); // デフォルトのプロンプトを防止
-			setDeferredPrompt(e); // イベントを保存
+			e.preventDefault(); // Prevent default prompts
+			setDeferredPrompt(e); // Save Event
 		};
 
 		window.addEventListener(
@@ -65,7 +65,7 @@ export function DebugInfo() {
 			handleBeforeInstallPrompt as EventListener,
 		);
 
-		// クリーンアップイベントリスナー
+		// Cleanup Event Listener
 		return () =>
 			window.removeEventListener(
 				"beforeinstallprompt",
@@ -73,22 +73,22 @@ export function DebugInfo() {
 			);
 	}, []);
 
-	// インストールボタンをクリックしたときの処理
+	// Processing when the install button is clicked
 	const handleInstallClick = () => {
 		if (deferredPrompt) {
-			deferredPrompt.prompt(); // インストールプロンプトを表示
+			deferredPrompt.prompt(); // Show installation prompt
 			deferredPrompt.userChoice.then(() => {
-				setDeferredPrompt(null); // プロンプトの使用が終了したらクリア
+				setDeferredPrompt(null); // Clear when finished using prompts.
 			});
 		}
 	};
 
-	// ローカルストレージ(indexedDB)を削除する
+	// Delete local storage (indexedDB)
 	const handleDeleteStorageClick = () => {
-		deleteDB("app-data"); // indexedDBを削除
-		window.localStorage.clear(); // localStorageを削除
-		window.sessionStorage.clear(); // sessionStorageを削除
-		window.location.reload(); // ページをリロード
+		deleteDB("app-data"); // Delete indexedDB
+		window.localStorage.clear(); // Delete localStorage
+		window.sessionStorage.clear(); // Delete sessionStorage
+		window.location.reload(); // Reload page
 	};
 
 	return (
@@ -118,7 +118,7 @@ export function DebugInfo() {
 								<p>
 									PWA Status: {isPWAInstalled ? "Installed" : "Not Installed"}
 								</p>
-								{/* インストールボタン */}
+								{/* install button */}
 								{!isPWAInstalled && deferredPrompt && (
 									<button
 										type="button"
@@ -135,7 +135,7 @@ export function DebugInfo() {
 								>
 									{t("session.deleteStorage")}
 								</button>
-								{/* 他のデバッグ情報をここに追加する */}
+								{/* Add other debugging information here */}
 							</div>
 							<p className="italic font-bold">
 								&#9829;Developed by So Tokumaru with many contributors. <br />

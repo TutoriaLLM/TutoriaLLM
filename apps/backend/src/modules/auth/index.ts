@@ -1,19 +1,17 @@
-import type { Context } from "@/context";
 import { db } from "@/db";
 import { type User, users } from "@/db/schema";
-import { defaultHook } from "@/libs/default-hook";
+import { createHonoApp } from "@/create-app";
 import { errorResponse } from "@/libs/errors";
 import { lucia } from "@/libs/lucia";
 import { comparePasswordToHash } from "@/utils/password";
 import { z } from "@hono/zod-openapi";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { zValidator } from "@hono/zod-validator";
 import { eq } from "drizzle-orm";
 
-//ユーザーの認証を行い、存在した場合はCookieにセッションを保存する
-export const app = new OpenAPIHono<Context>({ defaultHook });
+// Authenticate the user and store the session in a cookie if present
+export const app = createHonoApp();
 
-app.get("/credential", (c, next) => {
+app.get("/credential", (c) => {
 	if (!c.get("session")) {
 		return errorResponse(c, {
 			message: "Unauthorized",
@@ -32,7 +30,7 @@ app.post(
 			password: z.string(),
 		}),
 	),
-	async (c, next) => {
+	async (c) => {
 		const { username, password } = c.req.valid("json");
 
 		const existingUserQuery = await db
@@ -69,7 +67,7 @@ app.post(
 	},
 );
 
-app.post("/logout", async (c, next) => {
+app.post("/logout", async (c) => {
 	console.info("logout request");
 	const session = c.get("session");
 	if (!session) {

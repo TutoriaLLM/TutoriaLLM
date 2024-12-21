@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-//ツアーの読み込み
+// Loading Tour
 import SessionPopup, {
 	type sessionPopupMessageTypes,
 } from "@/components/features/editor/sessionOverlay/index.js";

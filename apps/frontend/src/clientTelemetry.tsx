@@ -8,10 +8,10 @@ const FrontendTracer = () => {
 	const router = useRouter();
 	const pageLocation = useLocation();
 
-	const ReactGA = GA4; // typeが壊れていたので応急処置
+	const ReactGA = GA4; // Type was broken, so first aid was required.
 
 	useEffect(() => {
-		// 非同期処理をuseEffect内で行う
+		// Asynchronous processing in useEffect
 		const initializeAnalyticsAndSentry = async () => {
 			const config = await getConfig();
 
@@ -25,7 +25,7 @@ const FrontendTracer = () => {
 				});
 			}
 
-			// Sentryの設定
+			// Sentry Configuration
 			const sentrysetting = config.Client_Sentry_Settings;
 			if (sentrysetting.Sentry_DSN) {
 				Sentry.init({
@@ -48,7 +48,7 @@ const FrontendTracer = () => {
 		initializeAnalyticsAndSentry();
 	}, [pageLocation]);
 
-	return null; // このコンポーネントはUIを持たないので、何も返さない
+	return null; // This component has no UI and returns nothing
 };
 
 export default FrontendTracer;

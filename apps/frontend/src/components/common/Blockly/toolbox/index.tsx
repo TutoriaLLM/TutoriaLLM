@@ -46,7 +46,7 @@ class CustomCategory extends Blockly.ToolboxCategory {
 		}
 	}
 }
-//ネストしているカテゴリの背景色を変更する
+// Change the background color of nested categories
 class CustomCollapsibleCategory extends Blockly.CollapsibleToolboxCategory {
 	/** @override */
 	addColourBorder_(colour: string) {

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
-//このスイッチでコードを実行するかどうかを切り替える。親コンポーネントに依存せずに動作するようにする。
+// This switch toggles whether the code is executed or not. It should work independently of the parent component.
 export function ExecSwitch() {
 	const { t } = useTranslation();
 	const isCodeRunning = useAtomValue(isWorkspaceCodeRunning);
@@ -20,13 +20,13 @@ export function ExecSwitch() {
 	const socketInstance = useAtomValue(socketIoInstance);
 	const currentSession = useAtomValue(currentSessionState);
 
-	//スイッチの無効化を管理
+	// Manage switch deactivation
 	const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
 
-	//実行中のワークスペース内容の変更を管理
+	// Manage changes to running workspace content
 	const [runningWorkspaceContent, setRunningWorkspaceContent] = useState("");
 
-	//再読み込みボタンのステータス
+	// Status of the reload button
 	type reloadButtonStatusType = "idle" | "reloading" | "disabled";
 	const [reloadButtonStatus, setReloadButtonStatus] =
 		useState<reloadButtonStatusType>("disabled");
@@ -40,61 +40,61 @@ export function ExecSwitch() {
 			return;
 		}
 
-		//スイッチが変更されたときの処理を書く
+		// Write the process when the switch is changed.
 		if (isCodeRunning) {
-			//スイッチがオンのとき
+			// When the switch is on
 			socketInstance.emit("stopVM");
 			setReloadButtonStatus("disabled");
 		}
 		if (!isCodeRunning) {
-			//スイッチがオフのとき
+			// When the switch is off
 			socketInstance.emit("openVM");
 			setRunningWorkspaceContent(JSON.stringify(currentSession.workspace));
 		}
 		setIsSwitchDisabled(true);
 	}
-	// リロードボタンを押した時に、新しいコードを送信する
+	// Send a new code when you press the reload button
 	function updateCode() {
 		if (reloadButtonStatus === "reloading") {
-			// reloading の場合、クリックを無視する
+			// Ignore clicks if reloading
 			return;
 		}
 
 		if (isCodeRunning && socketInstance && currentSession) {
 			setReloadButtonStatus("reloading");
 
-			// 1秒間 reloading 状態を維持する
+			// Maintain reloading state for 1 second
 			setTimeout(() => {
-				// タイムアウト処理を追加（例えば5秒）
+				// Add timeout processing (e.g., 5 seconds)
 				const timeout = setTimeout(() => {
 					setReloadButtonStatus("disabled");
 				}, 5000);
 
 				socketInstance.emit("updateVM", (response: string) => {
-					clearTimeout(timeout); // タイムアウトのクリア
+					clearTimeout(timeout); // Clear Timeout
 
 					if (response === "ok") {
 						setReloadButtonStatus("disabled");
 					} else {
-						// エラーが起きた際はボタンを無効化する（エラーを防ぐため、ユーザーはサーバーの停止処理で対応する）
+						// Disable the button when an error occurs (to prevent errors, users respond with a server shutdown process)
 						console.error("Error occurred while updating VM:", response);
 						setReloadButtonStatus("disabled");
 					}
 				});
-			}, 1000); // 1秒間待機する
+			}, 1000); // Wait for 1 second
 		}
 	}
-	//ワークスペース変更時にリロードボタンを有効化するかどうかを判定する
+	// Determine whether to enable the reload button when changing workspace
 	useEffect(() => {
 		const newWorkspaceContent = JSON.stringify(currentSession?.workspace);
 		if (runningWorkspaceContent !== newWorkspaceContent && isCodeRunning) {
 			setReloadButtonStatus("idle");
 		}
-		// ワークスペースの内容を更新
+		// Update workspace content
 		setRunningWorkspaceContent(newWorkspaceContent);
 	}, [currentSession?.workspace, runningWorkspaceContent]);
 
-	//スイッチの状態が外部から変更されるまで待つ
+	// Wait until the switch state is changed externally
 	useEffect(() => {
 		sleep(1000).then(() => {
 			setIsSwitchDisabled(false);

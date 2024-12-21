@@ -21,12 +21,12 @@ function HighlightedBlockName({
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
-	// useStateとuseEffectを使わずに、直接isHighlightedを計算する
+	// Calculate isHighlighted directly without useState and useEffect
 	const isHighlighted = blockNameFromMenu === text;
 
 	useEffect(() => {
 		const fetchImage = async () => {
-			// IndexedDBからキャッシュを確認
+			// Check cache from IndexedDB
 			const cachedImage = await getImageFromIndexedDB(`image_${text}`);
 			if (cachedImage) {
 				setImage(cachedImage);
@@ -37,13 +37,13 @@ function HighlightedBlockName({
 					text,
 				);
 				setImage(generatedImage);
-				// IndexedDBに保存
+				// Stored in IndexedDB
 				await saveImageToIndexedDB(`image_${text}`, generatedImage);
 			}
 		};
 		fetchImage();
 
-		// クリーンアップ関数
+		// cleanup function
 		return () => {
 			if (hiddenDivRef.current) {
 				try {
@@ -91,7 +91,7 @@ function HighlightedBlockId({
 
 	const highlightedBlock = useAtomValue(highlightedBlockState);
 
-	// useStateとuseEffectを使わずに、直接isHighlightedを計算する
+	// Calculate isHighlighted directly without useState and useEffect
 	const isHighlighted = highlightedBlock?.blockId === text;
 
 	return (

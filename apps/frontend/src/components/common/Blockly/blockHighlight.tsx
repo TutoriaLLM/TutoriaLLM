@@ -108,19 +108,19 @@ export class BlockHighlight {
 
 		this.onChangeWrapper = this.onChange.bind(this);
 		this.workspace.addChangeListener(this.onChangeWrapper);
-		this.dimNonTargetBlocks(); // フォーカスしていないブロックを暗くする
+		this.dimNonTargetBlocks(); // Darken unfocused blocks.
 	}
 
 	dispose() {
-		this.restoreBlockOpacity(); // すべてのブロックの透明度を元に戻す
+		this.restoreBlockOpacity(); // Restore transparency of all blocks
 		if (this.svgGroup) {
 			this.svgGroup.setAttribute("opacity", "0");
 			Blockly.utils.dom.removeNode(this.svgGroup);
-			this.svgGroup = undefined; // 確実にメモリリークを防ぐためにnullに設定
+			this.svgGroup = undefined; // Set to null to ensure no memory leaks
 		}
 		if (this.onChangeWrapper) {
 			this.workspace.removeChangeListener(this.onChangeWrapper);
-			this.onChangeWrapper = undefined; // 確実にメモリリークを防ぐためにnullに設定
+			this.onChangeWrapper = undefined; // Set to null to ensure no memory leaks
 		}
 	}
 
@@ -140,17 +140,17 @@ export class BlockHighlight {
 			this.resize();
 		}
 		if (!this.isDragging) {
-			this.dimNonTargetBlocks(); // フォーカスしていないブロックを暗くする
+			this.dimNonTargetBlocks(); // Darken unfocused blocks.
 		}
 	}
 
 	private handleBlockDrag(event: Blockly.Events.BlockDrag) {
 		if (event.isStart) {
 			this.isDragging = true;
-			this.restoreBlockOpacity(); // ドラッグ中はすべてのブロックの透明度を1にする
+			this.restoreBlockOpacity(); // Transparency of all blocks is set to 1 while dragging
 		} else {
 			this.isDragging = false;
-			this.dispose(); // ドラッグ終了後にハイライトを消す
+			this.dispose(); // Remove highlight after drag ends.
 		}
 
 		if (this.svgGroup) {
@@ -228,10 +228,10 @@ export class BlockHighlight {
 				blockSvg.style.transition = `opacity ${animationTime}s`;
 				if (block.id !== this.targetBlockId) {
 					blockSvg.setAttribute("opacity", "0.5");
-					this.updatePathStroke(blockSvg, "none"); // 非対象ブロックはボーダーなし
+					this.updatePathStroke(blockSvg, "none"); // No border for non-targeted blocks
 				} else {
 					blockSvg.setAttribute("opacity", "1");
-					this.updatePathStroke(blockSvg, "red", "3px"); // 対象ブロックは赤いボーダー
+					this.updatePathStroke(blockSvg, "red", "3px"); // Target block has a red border
 				}
 			}
 		}
@@ -244,12 +244,12 @@ export class BlockHighlight {
 			if (blockSvg) {
 				blockSvg.style.transition = `opacity ${animationTime}s`;
 				blockSvg.setAttribute("opacity", "1");
-				this.updatePathStroke(blockSvg, "none"); // ボーダーを消す
+				this.updatePathStroke(blockSvg, "none"); // Erase borders
 			}
 		}
 	}
 
-	// <path>のstrokeとstrokeWidthを更新するためのヘルパーメソッド
+	// Helper method to update stroke and strokeWidth of <path>.
 	private updatePathStroke(
 		blockSvg: SVGElement,
 		strokeColor: string,

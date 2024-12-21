@@ -4,7 +4,7 @@ import { generateEmbedding } from "@/modules/admin/training/utils/embedding";
 export async function createGuideFromTrainingData(
 	trainingData: TrainingData,
 ): Promise<Guide> {
-	//TrainingDataをもとに埋め込みようのデータを作成
+	// Create data for embedding based on TrainingData
 	const data = await generateEmbedding(trainingData.question);
 
 	return {

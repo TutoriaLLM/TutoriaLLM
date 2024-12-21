@@ -35,13 +35,13 @@ const nodeTypes = {
 export default function llTutorialEditor(props: {
 	id: number | null;
 	buttonText: string;
-	json?: TutorialType | null; // JSONを引数として追加
+	json?: TutorialType | null; // Add JSON as an argument
 }) {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(false); // ローディング状態を追加
+	const [isLoading, setIsLoading] = useState(false); // Add loading status
 	const [tutorialData, setTutorialData] = useState<TutorialType | null>(
 		props.json || null,
-	); // jsonがあれば初期化
+	); // Initialize json if available
 
 	const initialNodes = [
 		{
@@ -128,10 +128,10 @@ export default function llTutorialEditor(props: {
 		[setNodes],
 	);
 
-	// チュートリアルデータの取得とエディタへの反映を担当
+	// Responsible for acquiring tutorial data and reflecting it in the editor
 	const fetchTutorialData = useCallback(async () => {
 		if (props.id !== null) {
-			setIsLoading(true); // データ取得開始時にローディングを開始
+			setIsLoading(true); // Loading starts at the start of data acquisition
 			try {
 				const response = await getSpecificTutorial({ id: props.id });
 				setTutorialData({
@@ -139,15 +139,15 @@ export default function llTutorialEditor(props: {
 					content: response.content,
 					serializednodes: response.serializednodes,
 				});
-				setIsLoading(false); // データ取得完了後にローディングを終了
+				setIsLoading(false); // Loading is terminated after data acquisition is complete
 				setIsPopupOpen(true);
 			} catch (error) {
 				console.error("Error fetching tutorial data:", error);
-				setIsLoading(false); // エラー時もローディングを終了
+				setIsLoading(false); // Terminates loading even in the event of an error
 			}
 		} else if (props.json) {
-			// 新規作成時にJSONデータがある場合はそれを使用
-			// JSONが指定したフォーマットでない場合はalertを表示し、初期データを使用
+			// If JSON data is available when creating a new file, use it.
+			// If JSON is not in the specified format, display alert and use initial data
 			if (
 				!props.json.metadata ||
 				!props.json.content ||
@@ -169,7 +169,7 @@ export default function llTutorialEditor(props: {
 			setTutorialData(props.json);
 			setIsPopupOpen(true);
 		} else {
-			// 新規作成の場合はデフォルトのデータを使用
+			// Use default data for new creation
 			setTutorialData({
 				metadata: {
 					title: "",
@@ -200,7 +200,7 @@ export default function llTutorialEditor(props: {
 	);
 
 	const handleOpenPopup = () => {
-		fetchTutorialData(); // データを取得してポップアップを開く
+		fetchTutorialData(); // Retrieve data and open popup
 	};
 
 	const handleClosePopup = () => {
@@ -245,7 +245,7 @@ export default function llTutorialEditor(props: {
 			>
 				{props.buttonText}
 			</button>
-			{isLoading && <div>Loading...</div>} {/* ローディング中の表示 */}
+			{isLoading && <div>Loading...</div>} {/* Loading display */}
 			<Popup
 				openState={isPopupOpen}
 				onClose={handleClosePopup}

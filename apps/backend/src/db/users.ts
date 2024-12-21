@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { saltAndHashPassword } from "@/utils/password";
 
-// ユーザーの認証情報をリセット
+// Reset user credentials
 export async function resetCredentials(
 	adminUsername: string,
 	adminPasswordHash: string,
@@ -28,7 +28,7 @@ export async function resetCredentials(
 	};
 }
 
-// Adminユーザーの認証情報をリセット
+// Reset Admin user credentials
 if (process.argv.includes("--reset-credentials")) {
 	(async () => {
 		const adminUsername = process.env.DEFAULT_USER_NAME as string; // Set your admin username here

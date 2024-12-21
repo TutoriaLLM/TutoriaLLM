@@ -8,29 +8,29 @@ import {
 	useRef,
 } from "react";
 
-// コンテキストの型定義
+// Context Type Definition
 interface HorizontalScrollContextType {
 	scrollRef: RefObject<HTMLDivElement>;
 }
 
-// デフォルト値をnullで定義
+// Define default value as null
 const HorizontalScrollContext = createContext<
 	HorizontalScrollContextType | undefined
 >(undefined);
 
-// プロバイダーコンポーネントの型定義
+// Provider Component Type Definition
 interface HorizontalScrollProviderProps {
 	children: ReactNode;
 }
 
-// プロバイダーの実装
-/**
- * 縦スクロールを横スクロールに変換するプロバイダーコンポーネント
- * @example
- * ```tsx
- * import { HorizontalScrollProvider, useHorizontalScroll } from './HorizontalScrollProvider'; // プロバイダーをインポート
+// Provider Implementation
+/* *
+ * Provider component to convert vertical scrolling to horizontal scrolling
+ * @example.
+ * ``tsx
+ * import { HorizontalScrollProvider, useHorizontalScroll } from '. /HorizontalScrollProvider'; // import provider
  * <HorizontalScrollProvider>
- *  <div ref={scrollRef}>...コンテンツ</div>
+ * <div ref={scrollRef}>... Content</div>
  * </HorizontalScrollProvider>
  * ```
  */
@@ -47,10 +47,10 @@ export const HorizontalScrollProvider: React.FC<
 			const maxScrollLeft =
 				scrollElement.scrollWidth - scrollElement.clientWidth;
 
-			// 横スクロールの入力の場合、処理を行わない
+			// Do not process if the input is a horizontal scroll
 			if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
 
-			// スクロールの限界に達している場合、縦スクロールを許可
+			// Allow vertical scrolling if scrolling limits are reached
 			if (
 				(scrollElement.scrollLeft <= 0 && e.deltaY < 0) ||
 				(scrollElement.scrollLeft >= maxScrollLeft && e.deltaY > 0)
@@ -58,15 +58,15 @@ export const HorizontalScrollProvider: React.FC<
 				return;
 			}
 
-			// 縦スクロールを横スクロールに変換
+			// Convert vertical scrolling to horizontal scrolling
 			e.preventDefault();
 			scrollElement.scrollLeft += e.deltaY;
 		};
 
-		// イベントリスナーの追加
+		// Add event listeners
 		scrollElement.addEventListener("wheel", handleWheel);
 
-		// クリーンアップ関数
+		// cleanup function
 		return () => {
 			scrollElement.removeEventListener("wheel", handleWheel);
 		};
@@ -79,7 +79,7 @@ export const HorizontalScrollProvider: React.FC<
 	);
 };
 
-// カスタムフックでコンテキストを使用する
+// Use context in custom hooks
 export const useHorizontalScroll = (): RefObject<HTMLDivElement> => {
 	const context = useContext(HorizontalScrollContext);
 	if (!context) {

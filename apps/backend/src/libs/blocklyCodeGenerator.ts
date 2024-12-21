@@ -8,16 +8,16 @@ export default async function codeGen(
 	},
 	language: string,
 ) {
-	// ワークスペースの定義
+	// Workspace Definition
 	const workspace = new Blockly.Workspace();
 
-	// ブロックの登録
+	// Block Registration
 	await registerBlocks(language);
 
-	// ワークスペースの読み込み
+	// Loading a workspace
 	Blockly.serialization.workspaces.load(serializedWorkspace, workspace);
 
-	// ワークスペースをJavaScriptコードに変換
+	// Convert workspace to JavaScript code
 	const generatedCode = javascriptGenerator.workspaceToCode(workspace);
 	console.info("generated code", generatedCode);
 

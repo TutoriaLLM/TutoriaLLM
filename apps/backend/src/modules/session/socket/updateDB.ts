@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { createPatch } from "rfc6902";
 import type { Socket } from "socket.io";
 
-//プライバシーに関わる情報を除く関数。保存はするが、送信はしない。
+// Functions excluding privacy sensitive information. Save but do not send.
 function removePrivacyInfo(data: SessionValue): SessionValue {
 	const removedData = {
 		...data,
@@ -14,10 +14,10 @@ function removePrivacyInfo(data: SessionValue): SessionValue {
 	return removedData;
 }
 
-//そのままbroadcastすると、全ての部屋に対して通知されてしまうので、ちゃんと部屋を指定すること！
+// If you broadcast as is, notifications will be sent to all rooms, so be sure to specify the room properly!
 
-//変更点をブロードキャストし、データベースを更新する関数
-//注意：変更を行なったクライアントには値は返されない
+// Function to broadcast changes and update the database
+// Note: No value is returned to the client who made the change.
 const updateAndBroadcastDiff = async (
 	code: string,
 	newData: SessionValue,
@@ -47,7 +47,7 @@ const updateAndBroadcastDiff = async (
 	}
 };
 
-//すべてのクライアントに対して新しい変更点をブロードキャストする
+// Broadcast new changes to all clients
 const updateAndBroadcastDiffToAll = async (
 	code: string,
 	newData: SessionValue,

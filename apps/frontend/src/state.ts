@@ -1,31 +1,31 @@
 import { atom } from "jotai";
 
-// 状態管理
-//セッションコード
+// state management
+// session code
 export const userSessionCode = atom("");
-//開始する言語の状態。i18nから取得する。セッション開始後にはSessionStateを使用する。
+// State of the language to start, obtained from i18n. SessionState is used after the session has started.
 export const LanguageToStart = atom("");
-//セッションを作成、参加するためのポップアップの表示
+// Display pop-up to create and join a session
 export const isPopupOpen = atom(false);
-//ワークスペースが接続されているかどうか
+// Whether the workspace is connected
 export const isWorkspaceConnected = atom(false);
-//現在のセッション/比較に使用する１つ前のセッションの状態
+// Current session/state of one previous session used for comparison
 export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
 
-//現在のタブ状態
+// Current tab state
 export const currentTabState = atom<Tab>("workspaceTab");
 
-//ハイライトするブロックの状態
+// State of the block to highlight
 export const highlightedBlockState = atom<HighlightedBlock>(null);
 
-//メニューから取り出すブロックの状態
+// State of the block to be retrieved from the menu
 export const blockNameFromMenuState = atom<string | null>(null);
 
 import type { HighlightedBlock, SessionValue, Tab } from "@/type";
-//WSインスタンス
+// WS Instance
 import type { Socket } from "socket.io-client";
 export const socketIoInstance = atom<Socket | null>(null);
 
-//ワークスペースのコードが実行されているかどうか
+// Whether the code in the workspace is running
 export const isWorkspaceCodeRunning = atom(false);

@@ -36,7 +36,7 @@ export const i18nParser = (
 	if (!i18nObject) {
 		return "";
 	}
-	//文字列をパースできるか検証し、できない場合はそのまま返す
+	// Verifies if the string can be parsed and returns it as is if not
 	const parsedObject =
 		typeof i18nObject === "string"
 			? (() => {
@@ -54,7 +54,7 @@ export const i18nParser = (
 		return t(parsedObject).toString();
 	}
 
-	//messageとplaceholderがある場合はそれを使ってテキストを生成
+	// Generate text using message and placeholder if available
 	const { message, placeholder } = parsedObject as {
 		message: string;
 		placeholder: any;

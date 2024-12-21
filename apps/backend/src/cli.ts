@@ -10,7 +10,7 @@ import { saltAndHashPassword } from "@/utils/password";
 
 const program = new Command();
 
-// ユーザー登録コマンド
+// User Registration Commands
 program
 	.command("register")
 	.description(
@@ -23,7 +23,7 @@ program
 			console.info(
 				`Registering user from environment variables: ${DEFAULT_USER_NAME}`,
 			);
-			// ここにユーザー登録処理を追加
+			// Add user registration process here
 			const hashedPassword = await saltAndHashPassword(DEFAULT_USER_PASSWORD);
 			resetCredentials(DEFAULT_USER_NAME, hashedPassword)
 				.then((result) => {
@@ -48,7 +48,7 @@ program
 				},
 			]);
 			console.info(`Registering user: ${answers.username}`);
-			// ここにユーザー登録処理を追加
+			// Add user registration process here
 			const hashedPassword = await saltAndHashPassword(answers.password);
 			resetCredentials(answers.username, hashedPassword)
 				.then((result) => {
@@ -62,7 +62,7 @@ program
 		}
 	});
 
-// 初期化コマンド
+// initialization command
 program
 	.command("init")
 	.description("Initialize config.")
@@ -87,7 +87,7 @@ program
 		}
 	});
 
-// .initializedを削除するコマンド
+// Command to delete .initialized
 program
 	.command("delete-initialized")
 	.description("Delete the .initialized file in app_data.")
@@ -114,5 +114,5 @@ program
 		}
 	});
 
-// コマンドの解析と実行
+// Parse and execute commands
 program.parse(process.argv);

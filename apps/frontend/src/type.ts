@@ -18,12 +18,12 @@ export type Clicks = SessionValue["clicks"];
 export type AIAudios = SessionValue["audios"];
 export type Stats = SessionValue["stats"];
 
-//ハイライトするブロック
+// Blocks to highlight
 import type Blockly from "blockly";
 export type HighlightedBlock = {
 	blockId: string;
 	workspace: Blockly.WorkspaceSvg | null;
 } | null;
 
-//タブの種類を定義するための型
+// Type for defining tab types
 export type Tab = "workspaceTab" | "dialogueTab";

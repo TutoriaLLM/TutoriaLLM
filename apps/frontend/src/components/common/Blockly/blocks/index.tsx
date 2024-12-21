@@ -3,7 +3,7 @@ import extensionModules from "extensions";
 
 const loadedExtensions = Object.values(extensionModules).flatMap(
 	(mod) => mod.Blocks,
-); // 各モジュールの Blocks プロパティをフラット化して1つの配列に結合
+); // Flatten the Blocks property of each module and combine them into a single array
 
 const loadedBlocks = loadedExtensions.flatMap((module) =>
 	Object.values(module).flat(),
@@ -19,7 +19,7 @@ function registerBlocks(language: string) {
 					init: function () {
 						this.jsonInit(block);
 
-						// `customInit` メソッドが定義されている場合にそれを呼び出す
+						// Call the `customInit` method if it is defined.
 						if (typeof block.customInit === "function") {
 							block.customInit.call(this);
 						}
@@ -27,24 +27,24 @@ function registerBlocks(language: string) {
 				};
 
 				if (code) {
-					// codeを登録する関数がある場合は実行する
+					// If there is a function to register code, execute it.
 					code();
 				}
 
 				if (locale?.[language]) {
-					// localeが記述されている場合は登録する(json形式)
+					// Register if locale is described (json format)
 					for (const key in locale[language]) {
 						if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
 							Blockly.Msg[key] = locale[language][key];
 						}
 					}
 				} else {
-					// localeが記述されていない場合は英語を登録する
+					// Register English if locale is not described
 					for (const key in locale?.en) {
 						if (Object.prototype.hasOwnProperty.call(locale.en, key)) {
 							Blockly.Msg[key] = locale.en[key];
 						}
-						//英語も登録されていない場合はエラーを出力
+						// Outputs an error if English is not also registered
 						if (!locale?.en) {
 							console.error("No English locale found for", module);
 						}
@@ -58,8 +58,8 @@ function registerBlocks(language: string) {
 }
 
 export function getExternalBlocks() {
-	//フロントエンドで利用可能な拡張ブロックのリストを取得
-	//block, code, localeを持つモジュールから、blockだけを取り出したリストを作成
+	// Get a list of extension blocks available on the front end
+	// Create a list with only blocks from a module with block, code, and locale
 	const blockList: string[] = [];
 	const availableBlocks = loadedBlocks.map((module: any) => module);
 	for (const block of availableBlocks) {

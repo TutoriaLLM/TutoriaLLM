@@ -15,7 +15,7 @@ export default function JoinSession({
 
 	const inputRef = useRef<HTMLInputElement>(null);
 	async function moveToPath() {
-		//指定されたセッションのパスに移動する
+		// Navigate to the specified session path
 		const inputCode = inputRef.current?.value as string;
 		const session = await getSession({ key: inputCode });
 		if (!session) {

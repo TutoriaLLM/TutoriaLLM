@@ -15,12 +15,12 @@ if (process.env.SENTRY_DSN) {
 	Sentry.init({
 		dsn: process.env.SENTRY_DSN,
 		tracesSampleRate: 1.0,
-		registerEsmLoaderHooks: { onlyIncludeInstrumentedModules: true }, //これを追加しないと一部のモジュールが読み込まれないエラーを起こす
+		registerEsmLoaderHooks: { onlyIncludeInstrumentedModules: true }, // If you don't add this, some modules will cause errors that will not load.
 	});
 	Sentry.addOpenTelemetryInstrumentation(new GenericPoolInstrumentation());
 }
 
-// Sentryが有効でない場合は、ローカルでのテレメトリを利用するため、OpenTelemetry SDKを初期化する
+// If Sentry is not enabled, initialize OpenTelemetry SDK to use local telemetry
 if (process.env.TELEMETRY_EXPORT_URL) {
 	const sdk = new opentelemetry.NodeSDK({
 		resource: new Resource({

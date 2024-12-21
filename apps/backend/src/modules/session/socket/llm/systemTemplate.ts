@@ -49,7 +49,7 @@ ${ui.map((u) => `${u.ui} - ${u.description} ${u.warn}`).join("\n")}
 }
 
 function generateSystemTemplateFor4oPreview(
-	//4oのaudio previewは構造化出力をサポートしていないため、ここでJSONを定義する
+	// Define JSON here because 4o's audio preview does not support structured output
 	session: SessionValue,
 	allBlocks: string[],
 ): string {

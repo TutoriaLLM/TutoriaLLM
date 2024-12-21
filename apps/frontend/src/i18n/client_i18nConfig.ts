@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 
 import translation_bn from "@/i18n/bn.json";
 import translation_de from "@/i18n/de.json";
-// 言語jsonファイルのimport
+// Import of language json files
 import translation_en from "@/i18n/en.json";
 import translation_es from "@/i18n/es.json";
 // import translation_ar from "./ar.json";

@@ -68,21 +68,21 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 		updateNodeData(id, { ...data, tags: newTags.map((tag) => tag.text) });
 	};
 
-	// デフォルト言語を一度だけ設定するために useEffect を利用
+	// Use useEffect to set the default language only once
 	useEffect(() => {
 		if (!data.language) {
 			updateNodeData(id, { ...data, language: i18next.language });
 		}
 	}, [data.language, id, updateNodeData]);
 
-	// タグをAPIからフェッチ
+	// Fetching tags from the API
 	useEffect(() => {
 		getTagList().then((result) => {
 			const fetchedTags = result.map(
 				(tag: { id: number | null; name: string }) => ({
-					id: tag.id?.toString() || "", // idを文字列に変換
+					id: tag.id?.toString() || "", // Convert id to string
 					className: "",
-					text: tag.name, // nameをtextに変換
+					text: tag.name, // Convert name to text
 				}),
 			);
 			setSuggestions(fetchedTags);

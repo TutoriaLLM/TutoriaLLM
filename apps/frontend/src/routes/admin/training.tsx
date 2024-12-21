@@ -36,7 +36,7 @@ function Training() {
 	type SearchResultAsList = InferResponseType<
 		typeof adminClient.admin.training.guide.list.$get,
 		200
-	>; //embeddingが表示されない
+	>; // embedding is not displayed.
 	const [trainingData, setTrainingData] = useState<TrainingData | null>(null);
 	const [answer, setAnswer] = useState<string>("");
 	const [searchText, setSearchText] = useState<string>("");
@@ -75,7 +75,7 @@ function Training() {
 				...trainingData.metadata,
 				date: new Date().toISOString(), // Update the date
 
-				//answerが変更された場合、authorを更新
+				// Update author if answer changes
 				author:
 					answer !== trainingData.answer
 						? "AI, Edited by Admin"
@@ -113,7 +113,7 @@ function Training() {
 
 	const handleSearch = () => {
 		if (!searchText) {
-			//検索テキストが空の場合、ガイドのリストを取得
+			// If search text is empty, get list of guides
 			listGuides().then((result) => {
 				setSearchResult(result);
 			});

@@ -2,7 +2,7 @@ import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
 import { stringToNumber } from "@/utils/zStringtoNumber";
 import { z } from "@hono/zod-openapi";
 
-//タグテーブルのスキーマ
+// Schema for tag table
 export const tagSchema = z.object({
 	id: z.number().nullable(), //serial - auto increment
 	name: z.string(),
@@ -10,7 +10,7 @@ export const tagSchema = z.object({
 
 export const tagsSchema = z.array(tagSchema);
 
-//メタデータのスキーマ
+// Metadata Schema
 export const metadataSchema = z.object({
 	title: z.string(),
 	description: z.string(),
@@ -64,7 +64,7 @@ export const updateTutorialRequest = {
 		),
 };
 
-//AIを使用してコンテンツを生成するためのスキーマ
+// Schema for generating content using AI
 export const generateContentSchema = z.object({
 	content: z.string(),
 });
