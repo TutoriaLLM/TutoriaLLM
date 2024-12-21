@@ -33,6 +33,7 @@ COPY --from=build /prod/frontend /frontend
 WORKDIR /frontend
 # 環境変数の設定
 ENV PORT=3000
+ENV VITE_PUBLIC_BACKEND_URL=http://localhost:3001
 # 必要なポートを公開
 EXPOSE 3000
 # アプリケーションの起動
