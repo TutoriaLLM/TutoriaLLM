@@ -7,6 +7,7 @@
     "dev": "vite",
     "start": "vite preview",
     "build": "pnpm tsc && vite build",
+    "build:all": "cd ../backend && pnpm build && cd ../frontend && pnpm tsc && vite build",
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
