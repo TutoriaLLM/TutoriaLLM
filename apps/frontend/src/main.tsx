@@ -24,7 +24,7 @@ declare module "@tanstack/react-router" {
 		router: typeof router;
 	}
 }
-const isDev = process.env.NODE_ENV === "development";
+const isDev = import.meta.env.MODE === "development";
 // デバッグモードの場合以外は、console.logを無効にする
 if (!isDev) {
 	console.log = () => {};
