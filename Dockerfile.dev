@@ -5,39 +5,28 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 RUN apt-get update && apt-get install -y iproute2 net-tools ffmpeg
 
-#Build entire repository to ensure that all dependencies are installed and built
 FROM base AS build
 COPY . /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile -r
 RUN pnpm run -r build 
 
-# Backend setup (skip build and start directly)
-FROM base AS backend
+FROM base AS backend-dev
 COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm/apps/backend
-# Install only the dependencies of the backend package
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter=backend
-# Set environment variables
 ENV SERVER_PORT=3001
 ENV VM_PORT=3002
-# Expose the necessary ports
 EXPOSE 3001 3002
-# Start the application (skip build and start directly)
-CMD [ "pnpm", "start" ]
+CMD [ "pnpm", "dev" ]
 
 
-# Frontend setup (build in this stage)
-FROM base AS frontend
+FROM base AS frontend-dev
 COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm/apps/frontend
 ARG VITE_BACKEND_URL
 ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
-# Set environment variables
 ENV PORT=3000
-# Expose the necessary ports
 EXPOSE 3000
-# Install the necessary dependencies
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter=frontend
-# Build and start the server at startup
-CMD ["sh", "-c", "pnpm run build && pnpm start"]
+CMD ["sh", "-c", "pnpm dev"]
