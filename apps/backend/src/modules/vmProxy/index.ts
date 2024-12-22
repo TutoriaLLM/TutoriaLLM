@@ -4,9 +4,9 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 let vmPort = 3002;
 if (process.env.VM_PORT) {
-	const basePort = Number.parseInt(process.env.VM_PORT, 10); // 10進数として解釈
+	const basePort = Number.parseInt(process.env.VM_PORT, 10); // Interpreted as a decimal number
 	if (!Number.isNaN(basePort)) {
-		// basePortがNaNでないか確認
+		// Check if basePort is not NaN
 		vmPort = basePort;
 	}
 }

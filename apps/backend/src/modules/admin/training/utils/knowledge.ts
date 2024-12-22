@@ -4,7 +4,7 @@ import type { Guide } from "@/modules/admin/training/schema";
 import { generateEmbedding } from "@/modules/admin/training/utils/embedding";
 import { cosineDistance, desc, gt, sql } from "drizzle-orm";
 
-//Vectorをもとに知識を検索するAPI
+// API to search knowledge based on Vector
 export async function getKnowledge(searchString: string): Promise<Guide[]> {
 	const embedding = await generateEmbedding(searchString);
 	const similarity = sql<number>`1 - (${cosineDistance(guides.embedding, embedding)})`;

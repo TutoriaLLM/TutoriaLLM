@@ -15,7 +15,7 @@ export const Route = createFileRoute("/login")({
 			const fallback = "/admin";
 			const redirectTo = search.redirect || fallback;
 
-			// /admin/login へのリダイレクトを防ぐ
+			// Prevent redirects to /admin/login
 			if (redirectTo === "/login") {
 				throw redirect({ to: fallback });
 			}

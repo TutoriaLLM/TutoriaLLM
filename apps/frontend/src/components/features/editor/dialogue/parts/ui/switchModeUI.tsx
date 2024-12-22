@@ -71,8 +71,8 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 					</span>
 					<Switch.Root
 						className="w-14 h-8 md:w-16 md:h-10 shrink-0 rounded-2xl bg-gray-300 data-[state=checked]:bg-green-100"
-						onCheckedChange={toggleIsEasyMode} // スイッチの状態変更時に実行する関数を設定
-						checked={SessionState?.easyMode || false} // スイッチの状態を設定
+						onCheckedChange={toggleIsEasyMode} // Set function to execute when switch state is changed
+						checked={SessionState?.easyMode || false} // Set switch status
 					>
 						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
 					</Switch.Root>
@@ -95,7 +95,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 								onCheckedChange={toggleResponseMode}
 								checked={SessionState?.responseMode === "audio"}
 							>
-								{/* 左側のアイコン */}
+								{/* Icon on the left */}
 								<div
 									className={`absolute z-20 left-2 transition-opacity duration-200 ${
 										SessionState?.responseMode === "audio"
@@ -106,7 +106,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 									<Text className="md:w-6 md:h-6 w-4 h-4" />
 								</div>
 
-								{/*右側のアイコン */}
+								{/* Icon on the right */}
 								<div
 									className={`absolute z-20 right-2 transition-opacity duration-200 ${
 										SessionState?.responseMode === "text"

@@ -12,16 +12,13 @@ import {
 	getTutorialList,
 	updateTutorial,
 } from "@/modules/admin/tutorials/routes";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq, isNull } from "drizzle-orm";
+import { createHonoApp } from "@/create-app";
 
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
-
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(getTutorialList, async (c) => {
 		const allTutorials = await db
-			.select() //不要なフィールドは消した方が良いかもしれない
+			.select() // Might be better to eliminate unnecessary fields.
 			.from(tutorials);
 
 		return c.json(allTutorials, 200);
@@ -41,9 +38,9 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 	})
 	.openapi(deleteTutorial, async (c) => {
 		const id = c.req.valid("param").id;
-		//先に関連する tutorialsTags を削除
+		// Delete tutorialsTags related to the preceding
 		await db.delete(tutorialsTags).where(eq(tutorialsTags.tutorialId, id));
-		// tutorials のレコードを削除
+		// Delete tutorials records
 		const result = await db
 			.delete(tutorials)
 			.where(eq(tutorials.id, id))
@@ -71,7 +68,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 						.where(eq(tags.name, tag.name));
 
 					if (existingTag.length === 0) {
-						// タグが存在しない場合は作成
+						// If the tag does not exist, create it
 						const [newTag] = await db
 							.insert(tags)
 							.values({ name: tag.name })
@@ -84,7 +81,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 						];
 					}
 
-					// tutorialsTags テーブルに関連付けを追加
+					// Add association to tutorialsTags table
 					await db.insert(tutorialsTags).values({
 						tutorialId: tutorial[0].id,
 						tagId: existingTag[0].id,
@@ -113,7 +110,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				});
 			}
 			const tutorialToUpdate = c.req.valid("json");
-			//チュートリアルの内容を更新
+			// Updated tutorial content
 			await db
 				.update(tutorials)
 				.set({
@@ -124,12 +121,12 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				})
 				.where(eq(tutorials.id, id));
 
-			// タグの更新
+			// Update Tags
 			if (tutorialToUpdate.tags && tutorialToUpdate.tags.length > 0) {
-				// 既存のタグ関連付けを削除
+				// Delete existing tag associations
 				await db.delete(tutorialsTags).where(eq(tutorialsTags.tutorialId, id));
 
-				// 新しいタグを tutorialsTags テーブルに追加
+				// Add new tag to tutorialsTags table
 				for (const tag of tutorialToUpdate.tags) {
 					let existingTag = await db
 						.select()
@@ -137,7 +134,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 						.where(eq(tags.name, tag.name));
 
 					if (existingTag.length === 0) {
-						// タグが存在しない場合は作成
+						// If the tag does not exist, create it
 						const [newTag] = await db
 							.insert(tags)
 							.values({ name: tag.name })
@@ -150,7 +147,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 						];
 					}
 
-					// tutorialsTags テーブルに関連付けを追加
+					// Add association to tutorialsTags table
 					await db.insert(tutorialsTags).values({
 						tutorialId: id,
 						tagId: existingTag[0].id,
@@ -158,7 +155,7 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 				}
 			}
 
-			// 未使用のタグを削除
+			// Remove unused tags
 			const unusedTags = await db
 				.select({ id: tags.id })
 				.from(tags)

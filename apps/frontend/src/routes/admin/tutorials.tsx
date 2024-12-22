@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/tutorials")({
 function Tutorials() {
 	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [error, setError] = useState<string | null>(null);
-	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // アップロードしたJSONを管理する状態
+	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // State to manage uploaded JSON
 
 	const { tutorials, isPending } = useListTutorials();
 
@@ -37,7 +37,7 @@ function Tutorials() {
 				try {
 					const json = JSON.parse(e.target?.result as string);
 					const partialTutorial = parsePartialTutorial(json);
-					setUploadedJson(partialTutorial as Tutorial); // JSONデータを状態にセット
+					setUploadedJson(partialTutorial as Tutorial); // Set JSON data to state
 				} catch (error) {
 					alert("Falied to parse JSON. Please check the format and try again.");
 				}
@@ -88,7 +88,7 @@ function Tutorials() {
 
 	if (error) {
 		alert(error);
-		setError(null); // エラーをリセットして表示を続行
+		setError(null); // Reset error and continue display
 	}
 
 	return (

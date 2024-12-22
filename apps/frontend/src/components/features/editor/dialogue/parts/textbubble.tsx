@@ -25,7 +25,7 @@ const TextBubble = React.forwardRef(function TextBubble(
 ) {
 	const bubbleRef = useRef<HTMLDivElement | null>(null);
 
-	// `measureElement`を呼び出すための副作用
+	// Side effects for calling `measureElement
 	useEffect(() => {
 		if (bubbleRef.current) {
 			if (typeof ref === "function") {
@@ -39,17 +39,17 @@ const TextBubble = React.forwardRef(function TextBubble(
 		}
 	}, [ref, props.item]);
 
-	// 設定をロード
+	// Load configuration
 	const { config } = useConfig();
 	const currenSession = useAtomValue(currentSessionState);
 	const { t } = useTranslation();
 
-	// markdownコンポーネントを取得
+	// Get markdown component
 	const markdownComponents = useMemo(() => {
 		return getMarkdownComponents(t, currenSession?.workspace);
 	}, [t]);
 
-	// バブルの内容をレンダリング
+	// Rendering the contents of the bubble
 	const renderBubbleContent = () => {
 		const content = props.item.content as string;
 

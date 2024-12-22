@@ -22,14 +22,14 @@ import Markdown from "react-markdown";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
-	const [isGenerated, setIsGenerated] = useState(false); // AI生成のフラグ
-	const [markdown, setMarkdown] = useState(data.source || ""); // 初期値をdata.sourceから取得
+	const [isGenerated, setIsGenerated] = useState(false); // AI generation flags
+	const [markdown, setMarkdown] = useState(data.source || ""); // Get initial values from data.source
 	const [generatedMarkdown, setGeneratedMarkdown] = useState(
 		data.outputFromAI || "",
-	); // AIで生成されたMarkdown
-	const [isCompared, setIsCompared] = useState(false); // 比較フラグ
+	); // AI-generated Markdown
+	const [isCompared, setIsCompared] = useState(false); // Compare flag
 
-	//sourceは入力したMarkdown, editorContentは出力するMarkdown
+	// source is the input Markdown, editorContent is the output Markdown
 
 	const handleSourceChange = (field: string, value: string) => {
 		updateNodeData(id, { ...data, [field]: value });
@@ -44,12 +44,12 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 		id: "markdown",
 	});
 
-	//Markdownのinputノードを取得
+	// Get Markdown input node
 	const nodesData = useNodesData<MyNode>(
 		markdownConnections.map((connection) => connection.source),
 	);
 
-	//AI生成のデータがすでに存在する場合、それを表示
+	// If AI-generated data already exists, display it
 	useEffect(() => {
 		if (data.outputFromAI) {
 			setGeneratedMarkdown(data.outputFromAI);
@@ -59,37 +59,37 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	}, []);
 
 	useEffect(() => {
-		// nodesDataが存在する場合、他のノードのデータが更新されたかをチェック
+		// If nodesData exists, check if data on other nodes has been updated
 		if (nodesData && nodesData.length > 0) {
 			const markdownNode = nodesData.find((node) => node.type === "md");
 			if (markdownNode?.data) {
 				const markdownData = markdownNode.data as markdownNode["data"];
 
-				// AI生成されたデータではなく、他のノードのデータが変更された場合
+				// If the data on other nodes has been changed instead of AI-generated data
 				if (markdown !== markdownData.source && !isGenerated) {
-					setMarkdown(markdownData.source); // 他のノードデータを反映
+					setMarkdown(markdownData.source); // Reflects other node data
 					handleSourceChange("source", markdownData.source);
 				}
-				// 他のノードデータと現在のmarkdownが一致しない場合、AI生成を破棄
+				// Discard AI generation if current markdown does not match other node data
 				if (isGenerated && markdown !== markdownData.source) {
-					setIsGenerated(false); // AI生成フラグを解除
-					setGeneratedMarkdown(""); // 生成されたMarkdownをクリア
+					setIsGenerated(false); // Cancel AI generation flag
+					setGeneratedMarkdown(""); // Clear generated Markdown
 				}
 			} else {
 				handleSourceChange("source", "");
-				setGeneratedMarkdown(""); // 生成されたMarkdownをクリア
-				setMarkdown(""); // 入力をクリア
-				setIsCompared(false); // 比較フラグを解除
-				setIsGenerated(false); // AI生成フラグを解除
+				setGeneratedMarkdown(""); // Clear generated Markdown
+				setMarkdown(""); // Clear input
+				setIsCompared(false); // Cancel comparison flag
+				setIsGenerated(false); // Cancel AI generation flag
 			}
 		} else {
 			handleSourceChange("source", "");
-			setGeneratedMarkdown(""); // 生成されたMarkdownをクリア
-			setMarkdown(""); // 入力をクリア
-			setIsCompared(false); // 比較フラグを解除
-			setIsGenerated(false); // AI生成フラグを解除
+			setGeneratedMarkdown(""); // Clear generated Markdown
+			setMarkdown(""); // Clear input
+			setIsCompared(false); // Cancel comparison flag
+			setIsGenerated(false); // Cancel AI generation flag
 		}
-	}, [data.source, nodesData]); // markdownを依存関係から削除
+	}, [data.source, nodesData]); // Remove markdown from dependencies
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: generateContent,
@@ -98,8 +98,8 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 			if (content && typeof content === "string") {
 				setGeneratedMarkdown(content);
 				setIsGenerated(true);
-				setIsCompared(true); // 比較フラグを立てる
-				// 取得したデータをノードのデータに保存
+				setIsCompared(true); // set a comparison flag
+				// Store acquired data in node data
 				updateNodeData(id, { ...data, generatedMarkdown: content });
 			} else {
 				console.error("Invalid response format:", content);
@@ -110,7 +110,7 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 		},
 	});
 
-	// AI生成完了時のみsourceを更新
+	// Update source only when AI generation is complete
 	useEffect(() => {
 		if (isGenerated) {
 			handleSourceChange("source", generatedMarkdown);
@@ -161,13 +161,13 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 					Generate Markdown from AI
 				</button>
 			</div>
-			{/* 生成中のメッセージを表示 */}
+			{/* Display messages being generated */}
 			{isPending ? (
 				<p className="w-full h-full p-2 text-center text-gray-500">
 					Generating Markdown...
 				</p>
 			) : null}
-			{/* 入力データと出力データの比較を表示 */}
+			{/* Displays comparison of input and output data */}
 			{isCompared && (
 				<div className="w-full h-full p-4 bg-gray-100 border-t ">
 					<div className="flex gap-4 max-w-xl">

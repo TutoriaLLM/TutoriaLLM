@@ -12,7 +12,7 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 	useEffect(() => {
 		if (!blocklyDivRef.current) return;
 
-		// Blockly のワークスペースを作成
+		// Create a Blockly workspace
 		const workspace = Blockly.inject(blocklyDivRef.current, {
 			theme: Theme,
 			renderer: "zelos",
@@ -33,14 +33,14 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 			},
 		});
 
-		//拡張ブロックの登録
+		// Registration of Extension Blocks
 		registerBlocks(session.language as string);
 		translateCategories(session.language as string);
 
-		// シリアライズされたワークスペースをロード
+		// Load serialized workspace
 		Blockly.serialization.workspaces.load(session.workspace || {}, workspace);
 
-		// クリーンアップ用の関数を返す（コンポーネントがアンマウントされたときに実行される）
+		// Return function for cleanup (executed when component is unmounted)
 		return () => {
 			workspace.dispose();
 		};

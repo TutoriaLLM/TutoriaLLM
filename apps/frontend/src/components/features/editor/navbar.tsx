@@ -38,8 +38,8 @@ export default function Navbar(props: {
 		socket?.disconnect();
 		router.navigate({ to: "/" });
 	}
-	//可能な場合はローカルストレージにデータを保存
-	const { setIsOpen } = useTour(); // ツアーの開始/終了を管理するフック
+	// Save data to local storage when possible
+	const { setIsOpen } = useTour(); // Hooks to manage tour start/end
 
 	return (
 		<div className="navbar flex-col sm:flex-row justify-center shrink w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex gap-2">
@@ -90,7 +90,7 @@ export default function Navbar(props: {
 					<span className="flex gap-1.5 justify-center items-center">
 						<button
 							type="button"
-							onClick={() => setIsOpen(true)} // ツアーを開始する
+							onClick={() => setIsOpen(true)} // Start Tour
 							className="bg-gray-300 group text-gray-500 flex justify-center items-center text-sm max-w-sm rounded-2xl p-1.5 md:p-2 hover:text-gray-200 gap-2 transition-all startTour"
 						>
 							<HelpCircle className="group-hover:text" />

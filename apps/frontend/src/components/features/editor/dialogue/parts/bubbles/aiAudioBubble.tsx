@@ -5,7 +5,7 @@ function renderAIaudioBubble(
 	content: string,
 	t: TFunction,
 	id: number,
-	audios: AIAudios | undefined, // audiosを追加
+	audios: AIAudios | undefined, // Add audios
 ) {
 	const parsedContent = JSON.parse(content) as {
 		id: string;

@@ -14,7 +14,7 @@ import { langToStr } from "@/utils/langToStr.js";
 import { useTranslation } from "react-i18next";
 
 export function SessionValueView(props: { session: string }) {
-	const { session: sessionCode } = props; // 文字列のセッションコードを受け取る
+	const { session: sessionCode } = props; // Accepts a string session code
 	const { t } = useTranslation();
 
 	const { session } = useSession(sessionCode, 5000);

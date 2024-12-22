@@ -14,13 +14,10 @@ import {
 } from "@/modules/admin/training/routes";
 import { createGuideFromTrainingData } from "@/modules/admin/training/utils/guide";
 import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { eq, sql } from "drizzle-orm";
+import { createHonoApp } from "@/create-app";
 
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
-
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(getRandomData, async (c) => {
 		const data = await db.query.trainingData.findFirst({
 			orderBy: sql`random()`,
