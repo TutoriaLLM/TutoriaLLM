@@ -1,6 +1,6 @@
 {
   "name": "tutoriallm",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "packageManager": "pnpm@9.6.0",
   "scripts": {

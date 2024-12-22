@@ -1,14 +1,14 @@
 import { db } from "@/db";
 import { tags } from "@/db/schema";
+import { openai } from "@/libs/openai";
 import { getConfig } from "@/modules/admin/config";
+import {
+	metadataGenSystemTemplate,
+	metadataGenUserTemplate,
+} from "@/prompts/metadataGen";
+import { fillPrompt } from "@/utils/prompts";
 import { z } from "@hono/zod-openapi";
-import OpenAI from "openai";
-import { zodResponseFormat } from "openai/helpers/zod.mjs";
-
-const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
-	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
-});
+import { generateObject, NoObjectGeneratedError } from "ai";
 
 async function generateMetadataFromContent(content?: string) {
 	const config = getConfig();
@@ -57,45 +57,44 @@ async function generateMetadataFromContent(content?: string) {
 
 	const existingTags = await getExistingTags();
 
-	const systemTemplate = `
-    You are revisor of the tutorial content.
-	Generate metadata from the tutorial content based on user's input.
-	Use user's language to generate metadata.
-	There are title, description, and tags in the metadata.
-	Title is the title of the tutorial.
-	Description is the brief description of the tutorial.
-	Tags are the tags that describe the tutorial.
-	These metadata are used for search to provide tutorial, so please provide accurate and attractive metadata. For tags, use 3 to 5 tags that describe the tutorial.
-	These are existing tags can be used: ${existingTags}.
-	If there are no existing tags that is suitable, please generate new tags.
-	
-	The language of the tutorial is based on the input of the user. If the language is not provided, use en.
-	These languages are available: ${languages.join(", ")}.
-    `;
-	const userTemplate = `
-    This is the tutorial content that user has written:
-    ${content || ""}
-    If the content is not provided, please generate a random one to prevent the error.
-    `;
+	try {
+		const result = await generateObject({
+			model: openai(config.AI_Settings.Chat_AI_Model, {
+				structuredOutputs: true,
+			}),
+			schema: schema,
+			messages: [
+				{
+					role: "system",
+					content: fillPrompt(metadataGenSystemTemplate, {
+						existingTags: existingTags,
+						languages: languages.join(", "),
+					}),
+				},
+				{
+					role: "user",
+					content: fillPrompt(metadataGenUserTemplate, {
+						content:
+							content || "Please generate random metadata to avoid errors.",
+					}),
+				},
+			],
+			temperature: config.AI_Settings.Chat_AI_Temperature,
+		});
 
-	const completion = await openai.beta.chat.completions.parse({
-		messages: [
-			{ role: "system", content: systemTemplate },
-			{ role: "user", content: userTemplate },
-		],
-		model: config.AI_Settings.Chat_AI_Model,
-		response_format: zodResponseFormat(schema, "response_schema"),
-		temperature: config.AI_Settings.Chat_AI_Temperature,
-	});
+		const response = result.object;
 
-	const response = completion.choices[0].message.parsed;
-
-	if (!response) {
-		console.error("No response from the AI model.");
+		return response;
+	} catch (e) {
+		if (NoObjectGeneratedError.isInstance(e)) {
+			console.error("NoObjectGeneratedError");
+			console.error("Cause:", e.cause);
+			console.error("Text:", e.text);
+			console.error("Response:", e.response);
+			console.error("Usage:", e.usage);
+		}
 		return null;
 	}
-
-	return response;
 }
 
 export { generateMetadataFromContent };

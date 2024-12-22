@@ -2,7 +2,7 @@
   "name": "extensions",
   "private": true,
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "exports": {
     ".": "./dist/index.js"
   },

@@ -8,7 +8,7 @@ export const zodTextSchema = z.object({
 		),
 	formattedUserQuestion: z
 		.string()
-		.optional()
+		.nullable()
 		.describe(
 			"Formatted user question for training data. Contain background information of the question, such as what user doing. only if isQuestion is true. Use user's language for this field.",
 		),
@@ -16,7 +16,7 @@ export const zodTextSchema = z.object({
 	progress: z.number().describe("progress of the tutorial shown by 10 to 100."),
 	ui: z
 		.enum(["selectTutorial", ""])
-		.optional()
+		.nullable()
 		.describe(
 			"Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response.",
 		),
