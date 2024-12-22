@@ -27,17 +27,14 @@ EXPOSE 3001 3002
 CMD [ "pnpm", "start" ]
 
 
-# Frontend setup (build in this stage)
+# Frontend setup (build at runtime)
 FROM base AS frontend
 COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm/apps/frontend
-ARG VITE_BACKEND_URL
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
-# Set environment variables
-ENV PORT=3000
-# Expose the necessary ports
-EXPOSE 3000
 # Install the necessary dependencies
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter=frontend
-# Build and start the server at startup
-CMD ["sh", "-c", "pnpm run build && pnpm start"]
+# Expose the frontend port
+ENV PORT=3000
+EXPOSE 3000
+# Runtime build and start using VITE_BACKEND_URL
+CMD ["sh", "-c", "VITE_BACKEND_URL=$VITE_BACKEND_URL pnpm run build && pnpm start"]
