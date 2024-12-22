@@ -10,7 +10,7 @@ FROM base AS build
 COPY . /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile -r
-RUN pnpm run -r build 
+RUN pnpm run -r --filter=!frontend build
 
 # Backend setup (skip build and start directly)
 FROM base AS backend
