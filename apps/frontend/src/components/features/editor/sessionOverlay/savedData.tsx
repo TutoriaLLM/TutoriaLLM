@@ -44,8 +44,10 @@ export default function SavedData() {
 		onSuccess: (value) => {
 			router.navigate({ to: `/${value.sessionId}` });
 		},
-		onError: (error) => {
+		onError: (error, key) => {
 			console.error("Failed to create a new session:", error);
+			//remove the session from the indexedDB and update the UI
+			deleteSessionDataFromIndexedDB(key.key.key);
 		},
 	});
 
