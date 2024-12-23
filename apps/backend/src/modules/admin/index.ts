@@ -16,7 +16,7 @@ const app = createHonoApp()
 				type: "UNAUTHORIZED",
 			});
 		}
-		return next();
+		await next();
 	})
 	// API to configure the entire app Config.
 	.route("/", appConfigRoute)
