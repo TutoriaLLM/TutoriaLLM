@@ -1,4 +1,3 @@
-import CodeInput from "@/components/common/Codeinput.js";
 import type { workspaceNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import type { SessionValue } from "@/type.js";
 import {
@@ -78,7 +77,8 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 
 			<div className="text-wrap p-3 text-center">
 				<div>Fetch External Blockly Code</div>
-				<CodeInput onComplete={() => onComplete()} ref={inputRef} />
+				{/* <CodeInput onComplete={() => onComplete()} ref={inputRef} /> */}
+				<input ref={inputRef} type="text" placeholder="Enter key" />
 
 				<ArrowBigDownIcon className="w-full text-center h-10" />
 

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-import JoinSession from "@/components/features/editor/sessionOverlay/joinsession";
 import CreateNewSession from "@/components/features/editor/sessionOverlay/newsession";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
@@ -98,9 +97,6 @@ export default function SessionPopup(props: {
 										language={languageToStart}
 										setMessage={props.setMessage}
 									/>
-
-									<span>{t("session.or")}</span>
-									<JoinSession setMessage={props.setMessage} />
 								</div>
 							</div>
 							<LangPicker
