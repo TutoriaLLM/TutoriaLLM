@@ -66,6 +66,7 @@ const Editor = forwardRef<
 
 		const workspace = Blockly.inject("blocklyDiv", {
 			toolbox: toolboxCategories,
+			sounds: false,
 			theme: Theme,
 			renderer: "zelos",
 			media: "/",
