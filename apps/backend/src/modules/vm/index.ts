@@ -29,15 +29,15 @@ interface VMInstance {
 // Objects that manage VM instances
 const vmInstances: { [key: string]: VMInstance } = {};
 
-// Objects that tie and manage VM uuid and proxies
+// Objects that tie and manage VM sessionId and proxies
 const vmProxies = new Map<string, any>();
 // Function to add a new proxy to the list when creating a VM instance
-function setupVMProxy(uuid: string) {
-	vmProxies.set(uuid, proxy);
+function setupVMProxy(sessionId: string) {
+	vmProxies.set(sessionId, proxy);
 }
 // Function to delete proxy when VM instance is stopped
-function removeVMProxy(uuid: string) {
-	vmProxies.delete(uuid);
+function removeVMProxy(sessionId: string) {
+	vmProxies.delete(sessionId);
 }
 
 let vmPort = 3002;
@@ -50,21 +50,21 @@ if (process.env.VM_PORT) {
 }
 
 const app = new Hono<{ Bindings: HttpBindings }>();
-// Maps that store proxies for participation uuid
+// Maps that store proxies for participation sessionId
 const proxy = createProxyMiddleware({
 	router: async (req) => {
-		const uuidPath = req.url?.split("/")[1];
-		if (!uuidPath) {
+		const sessionIdPath = req.url?.split("/")[1];
+		if (!sessionIdPath) {
 			return;
 		}
 
 		const session = await db
 			.select()
 			.from(appSessions)
-			.where(eq(appSessions.uuid, uuidPath));
+			.where(eq(appSessions.sessionId, sessionIdPath));
 
-		const uuid = session[0].uuid;
-		const instance = vmInstances[uuid];
+		const sessionId = session[0].sessionId;
+		const instance = vmInstances[sessionId];
 		if (instance) {
 			return `http://${instance.ip}:${instance.port}`;
 		}
@@ -87,14 +87,14 @@ server.on("upgrade", (req, socket, head) => {
 	proxy.upgrade(req, socket as nodeSocket, head);
 });
 
-app.all("/:uuid", async (c, next) => {
-	const uuid = c.req.param("uuid");
-	if (!uuid) {
+app.all("/:sessionId", async (c, next) => {
+	const sessionId = c.req.param("sessionId");
+	if (!sessionId) {
 		c.status(400);
 		return;
 	}
 
-	if (vmProxies.has(uuid)) {
+	if (vmProxies.has(sessionId)) {
 		return new Promise((resolve, reject) => {
 			try {
 				proxy(c.env.incoming, c.env.outgoing, (err) => {
@@ -113,12 +113,12 @@ app.all("/:uuid", async (c, next) => {
 });
 
 export async function ExecCodeTest(
-	uuid: string,
+	sessionId: string,
 	userScript: string,
 	serverRootPath: string,
 	socket: Socket,
 	DBupdator: (
-		uuid: string,
+		sessionId: string,
 		newData: SessionValue,
 		socket: Socket,
 	) => Promise<void>,
@@ -126,34 +126,34 @@ export async function ExecCodeTest(
 	const session = await db
 		.select()
 		.from(appSessions)
-		.where(eq(appSessions.uuid, uuid));
+		.where(eq(appSessions.sessionId, sessionId));
 	if (!session) {
 		return "Invalid session";
 	}
 	const sessionValue: SessionValue = session[0];
-	if (sessionValue.uuid !== uuid) {
-		return "Invalid uuid";
+	if (sessionValue.sessionId !== sessionId) {
+		return "Invalid sessionId";
 	}
 
 	const logBuffer = new LogBuffer(
-		async (uuid, logs) => {
+		async (sessionId, logs) => {
 			const session = await db
 				.select()
 				.from(appSessions)
-				.where(eq(appSessions.uuid, uuid));
+				.where(eq(appSessions.sessionId, sessionId));
 			if (!session) {
 				return;
 			}
 			const sessionValue: SessionValue = session[0];
 			sessionValue.dialogue?.push(logs);
-			await DBupdator(uuid, sessionValue, socket);
+			await DBupdator(sessionId, sessionValue, socket);
 		},
-		uuid,
+		sessionId,
 		async () => {
 			const session = await db
 				.select()
 				.from(appSessions)
-				.where(eq(appSessions.uuid, uuid));
+				.where(eq(appSessions.sessionId, sessionId));
 			return session[0];
 		},
 	);
@@ -162,10 +162,10 @@ export async function ExecCodeTest(
 		// Load config.
 		const config = getConfig();
 
-		const joinUUID = uuid;
+		const joinSessionId = sessionId;
 
 		const worker = new Worker(path.resolve(__dirname, "./worker.mjs"), {
-			workerData: { joinUUID, sessionValue, serverRootPath, userScript },
+			workerData: { joinSessionId, sessionValue, serverRootPath, userScript },
 			resourceLimits: {
 				codeRangeSizeMb: config.Code_Execution_Limits.Max_CodeRangeSizeMb,
 				maxOldGenerationSizeMb:
@@ -188,11 +188,11 @@ export async function ExecCodeTest(
 				}
 
 				// Save IP and port in vmInstances
-				vmInstances[uuid].port = port;
-				vmInstances[uuid].ip = ip;
+				vmInstances[sessionId].port = port;
+				vmInstances[sessionId].ip = ip;
 
 				// Proxy Settings
-				setupVMProxy(uuid);
+				setupVMProxy(sessionId);
 			}
 		});
 
@@ -206,37 +206,37 @@ export async function ExecCodeTest(
 
 		worker.on("exit", (exitcode) => {
 			logBuffer.stop();
-			StopCodeTest(uuid, socket, DBupdator);
+			StopCodeTest(sessionId, socket, DBupdator);
 		});
 
 		// Save worker instance
-		vmInstances[uuid] = { running: true, worker: worker };
+		vmInstances[sessionId] = { running: true, worker: worker };
 	} catch (e) {
-		await StopCodeTest(uuid, socket, DBupdator);
+		await StopCodeTest(sessionId, socket, DBupdator);
 	}
 
 	logBuffer.start();
 
-	return "Valid uuid";
+	return "Valid sessionId";
 }
 
 // Function to update code through Worker running in ExecCodeTest
 export async function UpdateCodeTest(
-	uuid: string,
+	sessionId: string,
 	newUserScript: string,
 ): Promise<string> {
-	const instance = vmInstances[uuid];
+	const instance = vmInstances[sessionId];
 	if (instance?.running) {
 		const session = await db
 			.select()
 			.from(appSessions)
-			.where(eq(appSessions.uuid, uuid));
+			.where(eq(appSessions.sessionId, sessionId));
 		if (!session) {
 			return "Invalid session";
 		}
 		const sessionValue: SessionValue = session[0];
-		if (sessionValue.uuid !== uuid) {
-			return "Invalid uuid";
+		if (sessionValue.sessionId !== sessionId) {
+			return "Invalid sessionId";
 		}
 		// Send new code to Worker
 		instance.worker.postMessage({
@@ -250,31 +250,31 @@ export async function UpdateCodeTest(
 
 // Modified StopCodeTest function
 export async function StopCodeTest(
-	uuid: string,
+	sessionId: string,
 	socket: Socket,
 	DBupdator: (
-		uuid: string,
+		sessionId: string,
 		newData: SessionValue,
 		socket: Socket,
 	) => Promise<void>,
 ): Promise<{ message: string; error: string }> {
-	const instance = vmInstances[uuid];
+	const instance = vmInstances[sessionId];
 	if (instance?.running) {
 		instance.running = false;
 		const session = await db
 			.select()
 			.from(appSessions)
-			.where(eq(appSessions.uuid, uuid));
+			.where(eq(appSessions.sessionId, sessionId));
 		if (!session) {
 			return {
 				message: "Invalid session",
 				error: "Invalid session",
 			};
 		}
-		if (session[0].uuid !== uuid) {
+		if (session[0].sessionId !== sessionId) {
 			return {
-				message: "Invalid uuid",
-				error: "Invalid uuid",
+				message: "Invalid sessionId",
+				error: "Invalid sessionId",
 			};
 		}
 
@@ -300,13 +300,13 @@ export async function StopCodeTest(
 		// }
 
 		// Delete proxy
-		removeVMProxy(uuid);
-		delete vmInstances[uuid];
+		removeVMProxy(sessionId);
+		delete vmInstances[sessionId];
 
 		// Update DB and notify client
 		const sessionValue: SessionValue = session[0];
 		sessionValue.isVMRunning = false;
-		await DBupdator(uuid, sessionValue, socket);
+		await DBupdator(sessionId, sessionValue, socket);
 		return {
 			message: "Script execution stopped successfully.",
 			error: "",

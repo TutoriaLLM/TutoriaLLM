@@ -15,14 +15,17 @@ import { useQuery } from "@tanstack/react-query";
 // 	}
 // };
 
-export const useSession = (uuid: string, refetchInterval?: number | false) => {
+export const useSession = (
+	sessionId: string,
+	refetchInterval?: number | false,
+) => {
 	const {
 		data: session,
 		isPending,
 		isError,
 	} = useQuery({
-		queryKey: ["session", uuid],
-		queryFn: () => getSession({ key: uuid }),
+		queryKey: ["session", sessionId],
+		queryFn: () => getSession({ key: sessionId }),
 		staleTime: 1000 * 5, // 5 seconds of cache
 		refetchOnReconnect: true,
 		refetchInterval,

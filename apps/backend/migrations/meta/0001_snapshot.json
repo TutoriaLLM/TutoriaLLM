@@ -1,6 +1,6 @@
 {
-  "id": "5bfb8f32-1e5b-4805-a534-9a10f190b690",
-  "prevId": "b75e86a4-82a9-4270-a754-82f16037628a",
+  "id": "1e1fb654-e72c-4ba9-8ff6-188bb44bbeaf",
+  "prevId": "0ea1040a-b73f-48f8-8620-2c23cab8f006",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -8,8 +8,8 @@
       "name": "app_session",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
+        "session_id": {
+          "name": "session_id",
           "type": "text",
           "primaryKey": true,
           "notNull": true

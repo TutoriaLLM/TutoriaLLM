@@ -5,7 +5,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "app_session" (
-	"uuid" text PRIMARY KEY NOT NULL,
+	"session_id" text PRIMARY KEY NOT NULL,
 	"created_at" timestamp with time zone NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL,
 	"dialogue" json,

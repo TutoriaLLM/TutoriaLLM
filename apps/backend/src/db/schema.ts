@@ -47,7 +47,7 @@ export const authSessions = pgTable("session", {
 export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
 
 export const appSessions = pgTable("app_session", {
-	uuid: text("uuid").primaryKey().notNull(),
+	sessionId: text("session_id").primaryKey().notNull(), // use nanoid
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 		mode: "string",
@@ -110,7 +110,7 @@ export const tutorials = pgTable("tutorials", {
 export type TrainingMetadata = {
 	author?: string;
 	date?: string;
-	uuid?: string;
+	sessionId?: string;
 };
 
 export const guides = pgTable(

@@ -39,12 +39,12 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
 
-const sessionQueryOptions = (sessionUUID: string) =>
+const sessionQueryOptions = (sessionId: string) =>
 	queryOptions({
-		queryKey: ["session", sessionUUID],
-		queryFn: () => getSession({ key: sessionUUID }),
+		queryKey: ["session", sessionId],
+		queryFn: () => getSession({ key: sessionId }),
 	});
-export const Route = createFileRoute("/$sessionUUID")({
+export const Route = createFileRoute("/$sessionId")({
 	component: RouteComponent,
 	errorComponent: () => {
 		const [message, setMessage] = useState<Message>({
@@ -60,13 +60,13 @@ export const Route = createFileRoute("/$sessionUUID")({
 		);
 	},
 	loader: async ({ params }) => {
-		queryClient.ensureQueryData(sessionQueryOptions(params.sessionUUID));
+		queryClient.ensureQueryData(sessionQueryOptions(params.sessionId));
 	},
 });
 
 function RouteComponent() {
-	const { sessionUUID } = Route.useParams();
-	const { data: session } = useSuspenseQuery(sessionQueryOptions(sessionUUID));
+	const { sessionId } = Route.useParams();
+	const { data: session } = useSuspenseQuery(sessionQueryOptions(sessionId));
 	const isMobile = useIsMobile();
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
@@ -93,9 +93,9 @@ function RouteComponent() {
 	}, [languageToStart]);
 
 	useEffect(() => {
-		const socket = getSocket(session.uuid);
+		const socket = getSocket(session.sessionId);
 
-		console.warn("session UUID", session.uuid);
+		console.warn("session UUID", session.sessionId);
 
 		function onConnect() {
 			setWorkspaceConnection(true);
@@ -179,7 +179,7 @@ function RouteComponent() {
 			socket.off("notifyIsReplyingforSender", onReceivedReplyingNotification);
 			socket.off("RequestScreenshot", onReceivedScreenshotRequest);
 		};
-	}, [sessionUUID]);
+	}, [sessionId]);
 
 	// Ability to take screenshots
 	async function takeScreenshot() {
@@ -286,7 +286,7 @@ function RouteComponent() {
 			<Onboarding currentSession={currentSession} />
 			<div className="max-h-svh h-svh w-svw overflow-hidden flex flex-col bg-gray-200 text-gray-800 app">
 				<Navbar
-					uuid={sessionUUID}
+					sessionId={sessionId}
 					isConnected={WorkspaceConnection}
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}

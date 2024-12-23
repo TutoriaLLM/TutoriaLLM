@@ -49,14 +49,14 @@ const app = createHonoApp()
 		}
 	})
 	.openapi(deleteSession, async (c) => {
-		const uuid = c.req.valid("param").uuid;
-		console.info(uuid);
+		const sessionId = c.req.valid("param").sessionId;
+		console.info(sessionId);
 		try {
 			await db
 				.delete(appSessions)
-				.where(eq(appSessions.uuid, uuid))
-				.returning({ deletedId: appSessions.uuid });
-			return c.json({ uuid: uuid }, 200);
+				.where(eq(appSessions.sessionId, sessionId))
+				.returning({ deletedId: appSessions.sessionId });
+			return c.json({ sessionId: sessionId }, 200);
 		} catch (err) {
 			console.error(err);
 			return errorResponse(c, {

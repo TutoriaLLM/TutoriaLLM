@@ -119,7 +119,7 @@ export async function invokeLLM(
 		try {
 			const mp3Path = await convertWebMToMp3(webmInputPath);
 
-			updateAudioDialogue(session.uuid, lastDialogue.id, socket, mp3Path);
+			updateAudioDialogue(session.sessionId, lastDialogue.id, socket, mp3Path);
 			// KNOWLEDGE NOT AVAILABLE
 
 			const tutorialContent = await getTutorialContent(session);
@@ -360,7 +360,7 @@ export async function invokeLLM(
 				{
 					author: "AI",
 					date: new Date().toISOString(),
-					uuid: session.uuid,
+					sessionId: session.sessionId,
 				},
 				response.response,
 			);

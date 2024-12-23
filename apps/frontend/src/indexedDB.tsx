@@ -29,12 +29,12 @@ async function getImageFromIndexedDB(key: string): Promise<string | null> {
 
 // Function to store session data in IndexedDB
 async function saveSessionDataToIndexedDB(
-	uuid: string,
+	sessionId: string,
 	sessionValue: SessionValue,
 ) {
 	const db = await dbPromise;
 	await db.put("sessions", {
-		key: uuid,
+		key: sessionId,
 		sessionValue,
 	});
 }

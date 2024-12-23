@@ -42,7 +42,7 @@ export default function SavedData() {
 			return resumeSession(key);
 		},
 		onSuccess: (value) => {
-			router.navigate({ to: `/${value.uuid}` });
+			router.navigate({ to: `/${value.sessionId}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);
@@ -81,7 +81,7 @@ export default function SavedData() {
 
 	// Function to delete session data from IndexedDB
 	async function deleteSessionDataFromIndexedDB(key: string) {
-		// key refers to UUID
+		// key refers to sessionId
 		const db = await dbPromise;
 		await db.delete("sessions", key);
 		// Retrieve data again after deletion
@@ -90,9 +90,9 @@ export default function SavedData() {
 	}
 
 	async function createOrContinueSession(localSessionValue: SessionValue) {
-		const uuid = localSessionValue.uuid;
+		const sessionId = localSessionValue.sessionId;
 		localSessionValue.workspace;
-		mutate({ key: { key: uuid }, sessionData: localSessionValue });
+		mutate({ key: { key: sessionId }, sessionData: localSessionValue });
 	}
 
 	useEffect(() => {
@@ -129,7 +129,7 @@ export default function SavedData() {
 							/>
 							<p className="text-xs font-base text-gray-500">{key}</p>
 							<p className="text-xs font-base text-gray-500">
-								{value.sessionValue.uuid}
+								{value.sessionValue.sessionId}
 							</p>
 
 							<button

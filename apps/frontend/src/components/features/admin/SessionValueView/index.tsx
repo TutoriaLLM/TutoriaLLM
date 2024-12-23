@@ -14,10 +14,10 @@ import { langToStr } from "@/utils/langToStr.js";
 import { useTranslation } from "react-i18next";
 
 export function SessionValueView(props: { session: string }) {
-	const { session: uuid } = props; // Accepts a string session uuid
+	const { session: sessionId } = props; // Accepts a string session sessionId
 	const { t } = useTranslation();
 
-	const { session } = useSession(uuid, 5000);
+	const { session } = useSession(sessionId, 5000);
 
 	if (!session) {
 		return <p className="text-gray-600">{t("admin.loading")}</p>;
@@ -27,7 +27,7 @@ export function SessionValueView(props: { session: string }) {
 		<div className="w-full flex flex-col gap-3 relative">
 			<h1 className="text-2xl font-bold">{t("admin.sessionAnalytics")}</h1>
 			<p className="text-gray-600 text-base">
-				{t("admin.sessionCode")}: {session.uuid}
+				{t("admin.sessionCode")}: {session.sessionId}
 			</p>
 			<p className="text-gray-600 text-base">
 				{t("admin.sessionLanguage")}: {langToStr(session.language || "en")}

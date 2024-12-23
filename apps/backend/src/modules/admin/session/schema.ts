@@ -82,7 +82,7 @@ export type TutorialMetadata = z.infer<typeof TutorialMetadataSchema>;
 export const TrainingMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	uuid: z.string().optional(),
+	sessionId: z.string().optional(),
 });
 export type TrainingMetadata = z.infer<typeof TrainingMetadataSchema>;
 
@@ -104,7 +104,7 @@ export type SavedAudio = z.infer<typeof AudioSchema>;
 export const sessionValueSchema = z
 	.object({
 		// Basic Information
-		uuid: z.string(),
+		sessionId: z.string(),
 
 		// Dialogue related
 		dialogue: z.array(DialogueOpenApiSchema).nullable(),
@@ -148,10 +148,10 @@ export const SessionValueListSchemaWithSort = z.object({
 export type SessionValue = z.infer<typeof sessionValueSchema>;
 export type SessionValueList = z.infer<typeof SessionValueListSchema>;
 
-export const uuidSchema = z.object({
-	uuid: z.string().openapi({
+export const sessionIdSchema = z.object({
+	sessionId: z.string().openapi({
 		param: {
-			name: "uuid",
+			name: "sessionId",
 			in: "path",
 		},
 	}),
@@ -170,7 +170,7 @@ export const SessionQuerySchema = z.object({
 });
 
 export const deleteSessionParam = {
-	schema: uuidSchema.openapi("DeleteSessionParam"),
+	schema: sessionIdSchema.openapi("DeleteSessionParam"),
 	vErr: () =>
 		createValidationErrorResponseSchema(deleteSessionParam.schema).openapi(
 			"DeleteSessionParamValidationErrorResponse",

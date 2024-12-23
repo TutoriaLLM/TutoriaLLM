@@ -156,8 +156,8 @@ function Training() {
 										<Ellipsis />
 										<span className="gap-0.5">
 											<p className="text-xs text-gray-500">Session</p>
-											<a href={`/${result.metadata?.uuid}`}>
-												{result.metadata?.uuid}
+											<a href={`/${result.metadata?.sessionId}`}>
+												{result.metadata?.sessionId}
 											</a>
 										</span>
 									</div>{" "}

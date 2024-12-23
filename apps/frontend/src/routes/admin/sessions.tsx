@@ -36,7 +36,7 @@ export const Route = createFileRoute("/admin/sessions")({
 function Sessions() {
 	const [error, setError] = useState<string | null>(null);
 	const [autoUpdateMs, setAutoUpdateMs] = useState<number | false>(5000);
-	const [popupSessionFromUUID, setPopupSessionFromUUID] = useState<
+	const [popupSessionFromSessionId, setPopupSessionFromSessionId] = useState<
 		string | null
 	>(null);
 	const [pagination, setPagination] = useState<Pagination>({
@@ -63,7 +63,7 @@ function Sessions() {
 	});
 
 	const handleDeleteSession = (key: string) => {
-		del({ uuid: key });
+		del({ sessionId: key });
 	};
 
 	const handleDownloadAllSession = () => {
@@ -83,12 +83,12 @@ function Sessions() {
 		});
 	};
 
-	const handleStatsPopup = (uuid: string) => {
-		setPopupSessionFromUUID(uuid);
+	const handleStatsPopup = (sessionId: string) => {
+		setPopupSessionFromSessionId(sessionId);
 	};
 
 	const handleClosePopup = () => {
-		setPopupSessionFromUUID(null);
+		setPopupSessionFromSessionId(null);
 	};
 
 	const handleSort = (field: keyof SessionValue) => {
@@ -106,16 +106,16 @@ function Sessions() {
 		}
 	};
 
-	const PopupContent = popupSessionFromUUID ? (
-		<SessionValueView session={popupSessionFromUUID} />
+	const PopupContent = popupSessionFromSessionId ? (
+		<SessionValueView session={popupSessionFromSessionId} />
 	) : (
 		<div>Session not found</div>
 	);
 
 	const columns: ColumnDef<SessionValue>[] = [
 		{
-			header: "Session uuid",
-			accessorKey: "uuid",
+			header: "Session sessionId",
+			accessorKey: "sessionId",
 			cell: ({ row }) => {
 				return (
 					<div
@@ -125,7 +125,7 @@ function Sessions() {
 								: "text-black"
 						}`}
 					>
-						{row.original.uuid}
+						{row.original.sessionId}
 						{row.original?.clients?.[0] ? (
 							<span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
 						) : null}
@@ -210,20 +210,20 @@ function Sessions() {
 			accessorKey: "actions",
 			cell: ({ row }) => (
 				<span className="flex gap-2">
-					<a href={`/${row.original.uuid}`} className={buttonVariants()}>
+					<a href={`/${row.original.sessionId}`} className={buttonVariants()}>
 						Open
 					</a>
 					<Button
 						type="button"
 						variant="orange"
-						onClick={() => handleStatsPopup(row.original.uuid)}
+						onClick={() => handleStatsPopup(row.original.sessionId)}
 					>
 						Stats
 					</Button>
 
 					<Button
 						variant="red"
-						onClick={() => handleDeleteSession(row.original.uuid)}
+						onClick={() => handleDeleteSession(row.original.sessionId)}
 					>
 						Delete
 					</Button>
@@ -250,7 +250,7 @@ function Sessions() {
 	return (
 		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
 			<Popup
-				openState={popupSessionFromUUID !== null}
+				openState={popupSessionFromSessionId !== null}
 				onClose={handleClosePopup}
 				Content={PopupContent}
 			/>

@@ -11,7 +11,7 @@ import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export default function Navbar(props: {
-	uuid: string;
+	sessionId: string;
 	isConnected: boolean;
 	isTutorial: boolean;
 	tutorialProgress: number | null | undefined;
@@ -30,7 +30,7 @@ export default function Navbar(props: {
 			clicks: [],
 		} as SessionValue;
 		if (sessionValue) {
-			saveSessionDataToIndexedDB(sessionValue.uuid, sessionValueToSave);
+			saveSessionDataToIndexedDB(sessionValue.sessionId, sessionValueToSave);
 		}
 		socket?.disconnect();
 		router.navigate({ to: "/" });
@@ -49,7 +49,7 @@ export default function Navbar(props: {
 					<span className="text-xs joinCode">
 						<p>{t("navbar.joinCode")}</p>
 						<p className="font-semibold text-base md:text-xl tracking-widest">
-							{props.uuid}
+							{props.sessionId}
 						</p>
 					</span>
 				</div>

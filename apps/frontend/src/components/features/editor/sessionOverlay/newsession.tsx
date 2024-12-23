@@ -14,8 +14,8 @@ export default function CreateNewSession({
 	const router = useRouter();
 	const { mutate, isPending } = useMutation({
 		mutationFn: createSession,
-		onSuccess: ({ uuid }) => {
-			router.navigate({ to: `/${uuid}` });
+		onSuccess: ({ sessionId }) => {
+			router.navigate({ to: `/${sessionId}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);

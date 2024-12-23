@@ -40,14 +40,14 @@ export const listSessions = createRoute({
 
 export const deleteSession = createRoute({
 	method: "delete",
-	path: "/admin/session/{uuid}",
+	path: "/admin/session/{sessionId}",
 	summary: "Delete a session",
 	request: {
 		params: deleteSessionParam.schema,
 	},
 	responses: {
 		200: {
-			description: "Returns the session uuid",
+			description: "Returns the session sessionId",
 		},
 		...errorResponses({
 			validationErrorResnponseSchemas: [deleteSessionParam.vErr()],
