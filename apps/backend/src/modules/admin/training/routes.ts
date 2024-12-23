@@ -13,7 +13,7 @@ import {
 } from "@/modules/admin/training/schema";
 import { createRoute } from "@hono/zod-openapi";
 
-// トレーニングデータの管理を行うAPI
+// API to manage training data
 export const getRandomData = createRoute({
 	method: "get",
 	path: "/admin/training/data/random",
@@ -71,7 +71,7 @@ export const deleteData = createRoute({
 // 	},
 // });
 
-//データを元に作成するガイドのAPI
+// API for guides to be created based on data
 
 export const newGuide = createRoute({
 	method: "post",

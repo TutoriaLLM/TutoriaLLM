@@ -1,4 +1,4 @@
-import type { AppSession } from "@/db/schema"; //DBとやりとりする際に使う型（フロントエンドで利用しているSessionValueとほぼ同じ）
+import type { AppSession } from "@/db/schema"; // Type used when interacting with DB (almost the same as SessionValue used in the front end)
 
 export function initialData(code: string, language: string): AppSession {
 	const quickReplyByLang = [

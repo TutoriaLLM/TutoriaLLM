@@ -1,20 +1,22 @@
 import { getConfig } from "@/api/config";
 import * as Sentry from "@sentry/react";
 import { useLocation, useRouter } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import GA4 from "react-ga4";
 
 const FrontendTracer = () => {
 	const router = useRouter();
 	const pageLocation = useLocation();
+	const isSentryInitialized = useRef(false); // Sentry初期化状態を追跡
 
-	const ReactGA = GA4; // typeが壊れていたので応急処置
+	const ReactGA = GA4; // Type was broken, so first aid was required.
 
 	useEffect(() => {
-		// 非同期処理をuseEffect内で行う
+		// Asynchronous processing in useEffect
 		const initializeAnalyticsAndSentry = async () => {
 			const config = await getConfig();
 
+			// Google Analytics Configuration
 			const id = config.Client_Settings.GA_Tracking_ID;
 			if (id && id !== "") {
 				console.info("Google Analytics is enabled");
@@ -25,30 +27,36 @@ const FrontendTracer = () => {
 				});
 			}
 
-			// Sentryの設定
-			const sentrysetting = config.Client_Sentry_Settings;
-			if (sentrysetting.Sentry_DSN) {
-				Sentry.init({
-					dsn: sentrysetting.Sentry_DSN,
-					tracesSampleRate: sentrysetting.tracesSampleRate || 0,
-					replaysOnErrorSampleRate: sentrysetting.replaysOnErrorSampleRate || 0,
-					replaysSessionSampleRate: sentrysetting.replaysSessionSampleRate || 0,
-					integrations: [
-						Sentry.tanstackRouterBrowserTracingIntegration(router),
-						Sentry.replayIntegration({
-							maskAllText: false,
-						}),
-					],
-				});
-			} else {
-				console.info("Sentry is disabled");
+			// Sentry Configuration (prevent multiple initializations)
+			if (!isSentryInitialized.current) {
+				const sentrysetting = config.Client_Sentry_Settings;
+				if (sentrysetting.Sentry_DSN) {
+					Sentry.init({
+						dsn: sentrysetting.Sentry_DSN,
+						tracesSampleRate: sentrysetting.tracesSampleRate || 0,
+						replaysOnErrorSampleRate:
+							sentrysetting.replaysOnErrorSampleRate || 0,
+						replaysSessionSampleRate:
+							sentrysetting.replaysSessionSampleRate || 0,
+						integrations: [
+							Sentry.tanstackRouterBrowserTracingIntegration(router),
+							Sentry.replayIntegration({
+								maskAllText: false,
+							}),
+						],
+					});
+					isSentryInitialized.current = true; // 初期化済みフラグを設定
+					console.info("Sentry initialized");
+				} else {
+					console.info("Sentry is disabled");
+				}
 			}
 		};
 
 		initializeAnalyticsAndSentry();
 	}, [pageLocation]);
 
-	return null; // このコンポーネントはUIを持たないので、何も返さない
+	return null; // This component has no UI and returns nothing
 };
 
 export default FrontendTracer;

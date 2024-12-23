@@ -60,12 +60,12 @@ services:
           pnpm run drizzle:migrate &&
           pnpm run reset-credential &&
           touch /app_data/.initialized &&
-          pnpm run dev;
+          pnpm run start;
         else
           pnpm install &&
           pnpm run drizzle:generate &&
           pnpm run drizzle:migrate &&
-          pnpm run dev;
+          pnpm run start;
         fi
       "
     depends_on:

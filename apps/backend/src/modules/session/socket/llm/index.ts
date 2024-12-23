@@ -6,14 +6,12 @@ import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
 import { zodTextSchema } from "@/modules/session/socket/llm/responseFormat";
 import {
-	generateAudioSystemTemplate,
-	generateSystemTemplate,
-	generateSystemTemplateFor4oPreview,
-} from "@/modules/session/socket/llm/systemTemplate";
-import {
-	generateAudioUserTemplate,
-	generateUserTemplate,
-} from "@/modules/session/socket/llm/userTemplate";
+	audioDialogueSystemTemplate,
+	audioDialogueUserTemplate,
+	dialgoueSystemTemplate,
+	dialogueUserTemplate,
+	simplifyDialogue,
+} from "@/prompts/guidance";
 import { updateAudioDialogue } from "@/modules/session/socket/llm/whisper";
 import { listAllBlocks } from "@/utils/blockList";
 import generateTrainingData from "@/utils/generateTrainingData";
@@ -21,8 +19,27 @@ import { applyRuby } from "@/utils/japaneseWithRuby";
 import { eq } from "drizzle-orm";
 import ffmpeg from "fluent-ffmpeg";
 import OpenAI from "openai";
-import { zodResponseFormat } from "openai/helpers/zod";
 import type { Socket } from "socket.io";
+import { fillPrompt } from "@/utils/prompts";
+import stringifyKnowledge from "@/utils/stringifyKnowledge";
+import { generateObject, NoObjectGeneratedError } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { langToStr } from "@/utils/langToStr";
+
+// OpenAI API client to support audio modality(temporary)
+const openaiFromOpenAI = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY,
+	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/v1",
+});
+
+const ui = [
+	{
+		ui: "SelectTutorial",
+		description:
+			"Select a tutorial from the list. If the user already has a tutorial selected, users can override the current tutorial.",
+		warn: "Do not use this field if the user already has a tutorial selected or if the user does not need to select a tutorial.",
+	},
+];
 
 // Converts webm audio format to mp3 format
 async function convertWebMToMp3(webmInput: string): Promise<string> {
@@ -66,11 +83,6 @@ async function getTutorialContent(session: SessionValue) {
 	};
 }
 
-const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
-	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
-});
-
 export async function invokeLLM(
 	session: SessionValue,
 	availableBlocks: string[],
@@ -96,9 +108,9 @@ export async function invokeLLM(
 
 	const isUserSentAudio = isAudioMessageFromUser();
 
-	//ここから処理を分岐(リファクタリングする）
+	// From here, the process is branched (refactored)
 	if (isUserSentAudio && session.userAudio) {
-		const userAudio = session.userAudio.split(",")[1]; //webm形式になっている
+		const userAudio = session.userAudio.split(",")[1]; // It is in webm format.
 
 		const webmBuffer = Buffer.from(userAudio, "base64");
 		const webmInputPath = `/tmp/${Date.now()}.webm`;
@@ -113,87 +125,92 @@ export async function invokeLLM(
 				socket,
 				mp3Path,
 			);
-			//knowledgeは利用不可
+			// KNOWLEDGE NOT AVAILABLE
 
 			const tutorialContent = await getTutorialContent(session);
 
-			const audioSystemTemplate = generateAudioSystemTemplate(session);
-			const gpt4oAudioPreviewTemplate = generateSystemTemplateFor4oPreview(
-				//4o audio previewは構図化出力をサポートしていないため、別のプロンプトを使用する
-				session,
-				allBlocks,
-			);
+			const userTemplate = fillPrompt(dialogueUserTemplate, {
+				dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+				tutorialContent: JSON.stringify(tutorialContent),
+				knowledge: stringifyKnowledge(""),
+				lastMessage: "The user sent an audio message.",
+				easyMode: String(session.easyMode),
+				workspace: JSON.stringify(session.workspace),
+			});
 
-			const userTemplate = await generateUserTemplate(
-				session,
-				JSON.stringify(tutorialContent),
-				"",
-				"The user sent an audio message.",
-			);
-
-			const audioUserTemplate = await generateAudioUserTemplate(
-				session,
-				JSON.stringify(tutorialContent),
-				"",
-				"The user sent an audio message.",
-			);
+			const audioUserTemplate = fillPrompt(audioDialogueUserTemplate, {
+				dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+				tutorialContent: JSON.stringify(tutorialContent),
+				knowledge: stringifyKnowledge(""),
+				lastMessage: "The user sent an audio message.",
+				easyMode: String(session.easyMode),
+				workspace: JSON.stringify(session.workspace),
+			});
 
 			async function textFromAudio() {
-				//audioからテキストを生成する（音声出力はなし）
-				//構造化出力に対応させるためにはBeta版のSDKが必要
+				// Generate text from audio (no audio output)
+				// Beta version of SDK is required to support structured output
 
-				const completion = await openai.chat.completions.create({
-					model: "gpt-4o-audio-preview",
-					modalities: ["text"],
-					messages: [
-						{ role: "system", content: gpt4oAudioPreviewTemplate },
-						{
-							role: "user",
-							content: [
-								//Dialogueとaudioを両方入力する
-								{ type: "text", text: userTemplate },
-								{
-									type: "input_audio",
-									input_audio: {
-										data: fs.readFileSync(mp3Path).toString("base64"),
-										format: "mp3",
-									},
-								},
-							],
-						},
-					],
-					// response_format: zodResponseFormat(zodTextSchema, "response_schema"), //利用できない
-				});
-
-				//zodで検証し、返答が間違っている場合はその部分を空の文字列にする
-				let response = completion.choices[0].message.content;
 				try {
-					if (response) {
-						response = JSON.parse(response);
-					}
+					const result = await generateObject({
+						model: openai("gpt-4o-audio-preview"),
+						schema: zodTextSchema,
+						messages: [
+							{
+								role: "system",
+								content: fillPrompt(dialgoueSystemTemplate, {
+									language: langToStr(session.language || "en") || "en",
+									allBlocks: availableBlocks.toString(),
+									uiElements: ui
+										.map((u) => `${u.ui} - ${u.description} ${u.warn}`)
+										.join("\n"),
+								}),
+							},
+							{
+								role: "user",
+								content: [
+									// Input both DIALOGUE and AUDIO
+									{ type: "text", text: userTemplate },
+									{
+										type: "file",
+										mimeType: "audio/mpeg",
+										data: fs.readFileSync(mp3Path).toString("base64"),
+									},
+								],
+							},
+						],
+					});
+					const response = result.object;
+					return response;
 				} catch (e) {
-					return response; // Return the raw response as a string
+					if (NoObjectGeneratedError.isInstance(e)) {
+						console.error("NoObjectGeneratedError");
+						console.error("Cause:", e.cause);
+						console.error("Text:", e.text);
+						console.error("Response:", e.response);
+						console.error("Usage:", e.usage);
+					}
+					return null;
 				}
-				const parsedResponse = zodTextSchema.safeParse(response);
-				if (!parsedResponse.success) {
-					console.error("Response parsing failed:", parsedResponse.error);
-					return response; // Return the raw response as a string
-				}
-				return parsedResponse.data;
 			}
 			async function audioFromAudio() {
-				//AIによる音声モードを利用して音声から出力となる音声を直接生成する
+				// Generate audio as output directly from voice using AI voice mode.
 
-				const completion = await openai.chat.completions.create({
+				const completion = await openaiFromOpenAI.chat.completions.create({
 					model: "gpt-4o-audio-preview",
 					modalities: ["text", "audio"],
 					audio: { voice: "alloy", format: "mp3" },
 					messages: [
-						{ role: "system", content: audioSystemTemplate },
+						{
+							role: "system",
+							content: fillPrompt(audioDialogueSystemTemplate, {
+								language: langToStr(session.language || "en") || "en",
+							}),
+						},
 						{
 							role: "user",
 							content: [
-								//Dialogueとaudioを両方入力する
+								// Input both DIALOGUE and AUDIO
 								{ type: "text", text: audioUserTemplate },
 								{
 									type: "input_audio",
@@ -205,9 +222,7 @@ export async function invokeLLM(
 							],
 						},
 					],
-					// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //利用できない
 				});
-
 				const response = completion.choices[0].message.audio;
 				return response;
 			}
@@ -236,65 +251,96 @@ export async function invokeLLM(
 		}
 	}
 
-	//ここからテキストメッセージの処理
+	// Process text messages from here
 
 	const lastMessage = lastDialogue.content.toString();
 	const knowledge = (await getKnowledge(lastMessage)) as Guide[] | string;
 
 	const tutorialContent = await getTutorialContent(session);
 
-	const systemTemplate = generateSystemTemplate(session, allBlocks);
-	const audioSystemTemplate = generateAudioSystemTemplate(session);
-
-	const userTemplate = await generateUserTemplate(
-		session,
-		JSON.stringify(tutorialContent),
-		knowledge,
+	const userTemplate = fillPrompt(dialogueUserTemplate, {
+		dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+		tutorialContent: JSON.stringify(tutorialContent),
+		knowledge: stringifyKnowledge(knowledge),
 		lastMessage,
-	);
+		easyMode: String(session.easyMode),
+		workspace: JSON.stringify(session.workspace),
+	});
 
-	const audioUserTemplate = await generateAudioUserTemplate(
-		session,
-		JSON.stringify(tutorialContent),
-		knowledge,
+	const audioUserTemplate = fillPrompt(audioDialogueUserTemplate, {
+		dialogueHistory: JSON.stringify(await simplifyDialogue(session, 50)),
+		tutorialContent: JSON.stringify(tutorialContent),
+		knowledge: stringifyKnowledge(knowledge),
 		lastMessage,
-	);
+		easyMode: String(session.easyMode),
+		workspace: JSON.stringify(session.workspace),
+	});
+
 	async function audioFromText() {
-		//AIによる音声モードを利用してテキストから出力となる音声を直接生成する
+		// Generate output speech directly from text using AI voice mode
 
-		//オーディオモデルでBeta版の構造化出力は対応していないので、通常のバージョンでオーディオを生成する
-		const completion = await openai.chat.completions.create({
+		// Generate audio with the regular version, as the audio model does not support the Beta version of the structured output.
+		// ai SDK is unavailable for the audio model
+		const completion = await openaiFromOpenAI.chat.completions.create({
 			model: "gpt-4o-audio-preview",
 			modalities: ["text", "audio"],
 			audio: { voice: "alloy", format: "mp3" },
 			messages: [
-				{ role: "system", content: audioSystemTemplate },
+				{
+					role: "system",
+					content: fillPrompt(audioDialogueSystemTemplate, {
+						language: langToStr(session.language || "en") || "en",
+					}),
+				},
 				{ role: "user", content: audioUserTemplate },
 			],
-			// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //利用できない
+			// response_format: zodResponseFormat(zodAudioSchema, "response_schema"), //not available
 		});
 
-		//zodAudioSchemaに合わせて返却する
+		// Returned according to zodAudioSchema
 		const response = completion.choices[0].message.audio;
-		//zodから型を生成する
+		// Generate type from zod
 		return response;
 	}
 
 	async function textFromText() {
-		//通常のテキストモードを利用してテキストを生成する
-		//構造か出力はbetaのSDKが必要っぽい
-		const completion = await openai.beta.chat.completions.parse({
-			messages: [
-				{ role: "system", content: systemTemplate },
-				{ role: "user", content: userTemplate },
-			],
-			model: config.AI_Settings.Chat_AI_Model,
-			response_format: zodResponseFormat(zodTextSchema, "response_schema"),
-			temperature: config.AI_Settings.Chat_AI_Temperature,
-		});
+		// Generate text using normal text mode
+		// Structure or output seems to require a beta SDK.
 
-		const response = completion.choices[0].message.parsed;
-		return response;
+		try {
+			const result = await generateObject({
+				model: openai(config.AI_Settings.Chat_AI_Model, {
+					structuredOutputs: true,
+				}),
+				schema: zodTextSchema,
+				messages: [
+					{
+						role: "system",
+						content: fillPrompt(dialgoueSystemTemplate, {
+							language: langToStr(session.language || "en") || "en",
+							allBlocks: availableBlocks.toString(),
+							uiElements: ui
+								.map((u) => `${u.ui} - ${u.description} ${u.warn}`)
+								.join("\n"),
+						}),
+					},
+					{ role: "user", content: userTemplate },
+				],
+				temperature: config.AI_Settings.Chat_AI_Temperature,
+			});
+
+			const response = result.object;
+			return response;
+		} catch (e) {
+			if (NoObjectGeneratedError.isInstance(e)) {
+				console.error("NoObjectGeneratedError");
+				console.error("Cause:", e.cause);
+				console.error("Text:", e.text);
+				console.error("Response:", e.response);
+				console.error("Usage:", e.usage);
+			}
+			return null;
+		}
 	}
 
 	function generateResponse() {
@@ -313,7 +359,7 @@ export async function invokeLLM(
 
 	if ("isQuestion" in response && "formattedUserQuestion" in response) {
 		if (response.isQuestion && response.formattedUserQuestion) {
-			//ユーザーからの質問である場合、その質問を別のAIがトレーニングデータとして生成する
+			// If the question is from a user, another AI generates the question as training data
 			generateTrainingData(
 				response.formattedUserQuestion,
 				{
@@ -324,7 +370,7 @@ export async function invokeLLM(
 				response.response,
 			);
 		}
-		//振り仮名をparsedContentに適用
+		// Apply furigana to parsedContent
 		response.response = await applyRuby(response.response);
 	}
 

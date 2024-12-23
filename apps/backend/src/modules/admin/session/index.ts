@@ -1,17 +1,15 @@
-import type { Context } from "@/context";
+import { createHonoApp } from "@/create-app";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
-import { defaultHook } from "@/libs/default-hook";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
 	downloadAllSessions,
 	listSessions,
 } from "@/modules/admin/session/routes";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { asc, count, desc, eq } from "drizzle-orm";
 
-const app = new OpenAPIHono<Context>({ defaultHook })
+const app = createHonoApp()
 	.openapi(downloadAllSessions, async (c) => {
 		const allSessions = await db.select().from(appSessions);
 		return c.json(allSessions, 200);

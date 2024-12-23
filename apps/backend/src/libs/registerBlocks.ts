@@ -1,5 +1,5 @@
 import * as Blockly from "blockly";
-import extensionModules, { type Locale, type Block } from "extensions"; // デフォルトエクスポートとしてインポート
+import extensionModules, { type Locale, type Block } from "extensions"; // Import as default export
 type AvailableBlock = {
 	block: Block;
 	code: () => void;
@@ -8,7 +8,7 @@ type AvailableBlock = {
 
 const loadedExtensions = Object.values(extensionModules).flatMap(
 	(mod) => mod.Blocks,
-); // 各モジュールの Blocks プロパティをフラット化して1つの配列に結合
+); // Flatten the Blocks property of each module and combine them into a single array
 
 export function registerAvailableBlocks(
 	availableBlocks: AvailableBlock[],
@@ -24,7 +24,7 @@ export function registerAvailableBlocks(
 		code();
 
 		if (locale?.[language]) {
-			// localeが記述されている場合は登録する(json形式)
+			// Register if locale is described (json format)
 			for (const key in locale[language]) {
 				if (Object.prototype.hasOwnProperty.call(locale[language], key)) {
 					Blockly.Msg[key] = locale[language][key];
@@ -34,9 +34,9 @@ export function registerAvailableBlocks(
 	}
 }
 
-// ブロックファイルの取得、利用可能ブロックの取得、ブロックの登録を順番に行う
+// Retrieve block files, retrieve available blocks, and register blocks in sequence
 export function registerBlocks(language: string) {
-	//block, code, localeをモジュールから取り出す
+	// Extract block, code, locale from module
 
 	const availableBlocks: AvailableBlock[] = [];
 	for (const module of loadedExtensions) {
@@ -51,7 +51,7 @@ export function registerBlocks(language: string) {
 	registerAvailableBlocks(availableBlocks, language);
 }
 
-//ブロック名だけを取り出し、配列にする
+// Take only the block names and put them in an array
 export async function getBlockNames() {
 	const availableBlocks: AvailableBlock[] = [];
 	for (const module of loadedExtensions) {

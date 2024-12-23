@@ -1,15 +1,12 @@
-import OpenAI from "openai";
+import { openai } from "@/libs/openai";
+import { embed } from "ai";
 
 export async function generateEmbedding(value: string): Promise<number[]> {
 	const input = value.replaceAll("\n", " ");
-	//データをもとに埋め込みを作成
-	const openai = new OpenAI({
-		apiKey: process.env.OPENAI_API_KEY,
-		baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
+
+	const { embedding } = await embed({
+		model: openai.embedding("text-embedding-3-small"),
+		value: input,
 	});
-	const { data } = await openai.embeddings.create({
-		model: "text-embedding-3-small",
-		input,
-	});
-	return data[0].embedding;
+	return embedding;
 }

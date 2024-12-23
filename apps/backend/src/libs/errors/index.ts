@@ -2,10 +2,10 @@ import { AppErrorStatusCode, type AppErrorType } from "@/libs/errors/config";
 import type { errorResponseSchema } from "@/libs/errors/schemas";
 import type { Context } from "hono";
 
-/**
- * エラーレスポンスを返す関数
+/* *
+ * Functions that return error responses
  *
- * ステータスコードはAppErroTypeから関数内で導かれる
+ * status code is derived in the function from AppErroType
  */
 export const errorResponse = <ErrorType extends AppErrorType>(
 	c: Context,

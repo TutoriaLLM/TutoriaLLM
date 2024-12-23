@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "exports": {
     "./hc": {
@@ -23,11 +23,12 @@
     "drizzle:push:local": "drizzle-kit push --config=drizzle.studio.config.ts",
     "drizzle:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
     "drizzle:studio": "drizzle-kit studio --config=drizzle.studio.config.ts",
-    "reset-credential": "tsx src/server/db/users.ts --reset-credentials",
+    "reset-credential": "tsx src/db/users.ts --reset-credentials",
     "tsc": "tsc",
     "cli": "tsx src/cli.ts"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^1.0.11",
     "@hono/node-server": "^1.13.2",
     "@hono/node-ws": "^1.0.4",
     "@hono/swagger-ui": "^0.4.1",
@@ -53,6 +54,7 @@
     "@opentelemetry/sdk-trace-web": "^1.26.0",
     "@opentelemetry/semantic-conventions": "^1.27.0",
     "@sentry/node": "^8.34.0",
+    "ai": "^4.0.22",
     "argon2": "^0.41.1",
     "blockly": "^11.1.1",
     "commander": "^12.1.0",
@@ -74,7 +76,7 @@
     "js-yaml": "^4.1.0",
     "kuromoji": "^0.1.2",
     "lucia": "^3.2.1",
-    "openai": "^4.68.0",
+    "openai": "^4.77.0",
     "pg": "^8.13.0",
     "rehype-raw": "^7.0.0",
     "rfc6902": "^5.1.1",

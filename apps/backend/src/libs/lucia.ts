@@ -9,7 +9,7 @@ declare module "lucia" {
 		UserId: number;
 	}
 }
-// 認証機能をセットアップ
+// Set up authentication functionality
 const adapter = new DrizzlePostgreSQLAdapter(db, authSessions, users);
 
 export const lucia = new Lucia(adapter, {

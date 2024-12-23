@@ -104,6 +104,11 @@ export default defineConfig(() => {
 			},
 		},
 		server: {
+			host: "0.0.0.0",
+			hmr: true,
+			watch: {
+				usePolling: true,
+			},
 			port: Number(process.env.PORT) || 3000,
 		},
 		preview: {

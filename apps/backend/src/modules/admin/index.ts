@@ -1,16 +1,14 @@
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
+import { createHonoApp } from "@/create-app";
 import { errorResponse } from "@/libs/errors";
 import appConfigRoute from "@/modules/admin/config";
 import sessionManagerRoute from "@/modules/admin/session";
 import trainingManagerRoute from "@/modules/admin/training";
 import tutorialsManagerRoute from "@/modules/admin/tutorials";
 import userRoute from "@/modules/admin/users";
-import { OpenAPIHono } from "@hono/zod-openapi";
 
-// 管理者ページが使用するAPIのエントリーポイント
-const app = new OpenAPIHono<Context>({ defaultHook })
-	// 権限がない場合は、管理者ページにアクセスできないようにする
+// API entry point used by the admin page
+const app = createHonoApp()
+	// Disable access to the administrator page if you do not have authorization
 	.use("/admin/*", async (c, next) => {
 		if (!c.get("user")) {
 			return errorResponse(c, {
@@ -20,19 +18,19 @@ const app = new OpenAPIHono<Context>({ defaultHook })
 		}
 		return next();
 	})
-	// アプリ全体のConfigを設定するAPI
+	// API to configure the entire app Config.
 	.route("/", appConfigRoute)
 
-	// // DBrouterからセッションのより詳細な情報を取得する
+	// // Get more information about the session from DBrouter
 	.route("/", sessionManagerRoute)
 
-	// //チュートリアルのガイドのDBを操作するAPI
+	// // API to manipulate the DB in the tutorial guide
 	.route("/", tutorialsManagerRoute)
 
-	// //ユーザーの管理を行うAPI
+	// // API to manage users
 	.route("/", userRoute)
 
-	//AIのトレーニングデータの管理を行うAPI
+	// API to manage AI training data
 	.route("/", trainingManagerRoute);
 
 export type AdminAppType = typeof app;

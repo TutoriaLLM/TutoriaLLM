@@ -16,7 +16,7 @@ import { Copy } from "lucide-react";
 import React, { useCallback } from "react";
 import type { Components } from "react-markdown";
 
-// テキストをハイライトする関数
+// Function to highlight text
 function highlightText(
 	node: React.ReactNode,
 	allBlocks: string[],
@@ -112,7 +112,7 @@ function highlightText(
 	return node;
 }
 
-// markdownComponentsを返す関数
+// Function to return markdownComponents
 function getMarkdownComponents(
 	t: TFunction,
 	workspace: SessionValue["workspace"] | undefined,

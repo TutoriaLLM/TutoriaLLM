@@ -1,43 +1,40 @@
-# ベースイメージ
+# Base image
 FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 RUN apt-get update && apt-get install -y iproute2 net-tools ffmpeg
 
-# フロントエンドビルド (バックエンドはビルドするが、フロントエンドで参照する目的のため、実行ファイルは存在しない)
+#Build entire repository to ensure that all dependencies are installed and built
 FROM base AS build
 COPY . /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm
-ARG VITE_BACKEND_URL
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile -r
-RUN pnpm run -r build 
-RUN pnpm deploy --filter=frontend --prod /prod/frontend
+RUN pnpm run -r --filter=!frontend build
 
-# バックエンドのセットアップ (ビルドを行わず、そのままstartを実行)
+# Backend setup (skip build and start directly)
 FROM base AS backend
 COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm/apps/backend
-# backend パッケージの依存関係だけをインストール
+# Install only the dependencies of the backend package
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter=backend
-# 環境変数の設定
+# Set environment variables
 ENV SERVER_PORT=3001
 ENV VM_PORT=3002
-# 必要なポートを公開
+# Expose the necessary ports
 EXPOSE 3001 3002
-# アプリケーションの起動 (buildをスキップして直接スタート)
+# Start the application (skip build and start directly)
 CMD [ "pnpm", "start" ]
 
 
-# フロントエンドのセットアップ
-# docker hubには公開しない - Not public
+# Frontend setup (build at runtime)
 FROM base AS frontend
-COPY --from=build /prod/frontend /frontend
-WORKDIR /frontend
-# 環境変数の設定
+COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm
+WORKDIR /usr/src/tutoriallm/apps/frontend
+# Install the necessary dependencies
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter=frontend
+# Expose the frontend port
 ENV PORT=3000
-# 必要なポートを公開
 EXPOSE 3000
-# アプリケーションの起動
-CMD [ "pnpm", "start" ]
+# Runtime build and start using VITE_BACKEND_URL
+CMD ["sh", "-c", "VITE_BACKEND_URL=$VITE_BACKEND_URL pnpm run build && pnpm start"]

@@ -75,7 +75,7 @@ function Sessions() {
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement("a");
 			a.href = url;
-			a.download = `download-${new Date().toISOString()}.json`;
+			a.download = `download-${new Date().toLocaleString()}.json`;
 			document.body.appendChild(a);
 			a.click();
 			a.remove();
@@ -152,7 +152,7 @@ function Sessions() {
 						</p>
 						<p className="font-medium text-xs text-gray-600">
 							{row.original.createdAt
-								? row.original.createdAt.toString()
+								? new Date(row.original.createdAt).toLocaleString()
 								: "N/A"}
 						</p>
 					</>
@@ -168,7 +168,9 @@ function Sessions() {
 						{row.original.updatedAt ? timeAgo(row.original.updatedAt) : "N/A"}
 					</p>
 					<p className="font-medium text-xs text-gray-600">
-						{row.original.updatedAt ? row.original.updatedAt.toString() : "N/A"}
+						{row.original.updatedAt
+							? new Date(row.original.updatedAt).toLocaleString()
+							: "N/A"}
 					</p>
 				</>
 			),
@@ -242,7 +244,7 @@ function Sessions() {
 
 	if (error) {
 		alert(error);
-		setError(null); // エラーをリセットして表示を続行
+		setError(null); // Reset error and continue display
 	}
 
 	return (

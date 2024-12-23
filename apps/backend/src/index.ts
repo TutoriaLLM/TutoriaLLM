@@ -1,8 +1,6 @@
 import "dotenv/config";
 import { type Server as HttpServer, createServer } from "node:http";
 import type { Socket } from "node:net";
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
 import { errorResponse } from "@/libs/errors";
 import { lucia } from "@/libs/lucia";
 import adminRoutes from "@/modules/admin";
@@ -14,13 +12,13 @@ import tutorialRoutes from "@/modules/tutorials";
 import vmProxyRoutes, { vmProxy } from "@/modules/vmProxy";
 import { serve } from "@hono/node-server";
 import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
 import { showRoutes } from "hono/dev";
 import { verifyRequestOrigin } from "lucia";
 import { initSocketServer } from "./modules/session/socket";
+import { createHonoApp } from "./create-app";
 
-const app = new OpenAPIHono<Context>({ defaultHook });
+const app = createHonoApp();
 
 app.use(
 	"*",
@@ -82,9 +80,9 @@ app.use("*", async (c, next) => {
 
 let port = 3001;
 if (process.env.SERVER_PORT) {
-	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // 10進数として解釈
+	const basePort = Number.parseInt(process.env.SERVER_PORT, 10); // Interpreted as a decimal number
 	if (!Number.isNaN(basePort)) {
-		// basePortがNaNでないか確認
+		// Check if basePort is not NaN
 		port = basePort;
 	}
 }
@@ -96,7 +94,7 @@ export const server = serve({
 	createServer: createServer,
 });
 
-//サーバー起動後に実行される処理
+// Process executed after server startup
 export const route = app
 	.route("/", authRoutes)
 	.route("/", configRoutes)
@@ -115,18 +113,18 @@ export const route = app
 // The OpenAPI documentation will be available at /doc
 app.route("/", adminRoutes);
 
-//vmに対するwebsocketプロキシは、サーバーに直接設定し、処理する
+// websocket proxy to vm is configured and handled directly on the server
 server.on("upgrade", (req, socket, head) => {
 	if (req.url?.startsWith("/vm")) {
 		vmProxy.upgrade(req, socket as Socket, head);
 	}
 });
 
-//通常のプロキシはルーターで処理
+// Normal proxies are handled by routers
 app.route("/vm", vmProxyRoutes);
 
-/**
- * 404エラー時の共通処理
+/* *
+ * Common handling of 404 errors
  */
 app.notFound((c) => {
 	console.error("not found");
@@ -136,8 +134,8 @@ app.notFound((c) => {
 	});
 });
 
-/**
- * サーバーエラー時の共通処理
+/* *
+ * Common processing for server errors
  */
 app.onError((err, c) => {
 	// c.get("sentry").captureException(err);
@@ -148,7 +146,7 @@ app.onError((err, c) => {
 	});
 });
 
-//socket.ioサーバーの起動
+// Starting the socket.io server
 initSocketServer(server as HttpServer);
 
 const isDev = process.env.NODE_ENV === "development";

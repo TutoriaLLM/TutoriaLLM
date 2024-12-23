@@ -33,14 +33,14 @@ export default function Toolbar(props: {
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 
 	useEffect(() => {
-		// ポップアップが閉じられたらツールバーも閉じる
+		// When the popup is closed, the toolbar is also closed.
 		if (!isPopupOpen) {
 			setIsToolbarOpen(false);
 		}
 	}, [isPopupOpen]);
 
 	function handleToggleToolbar(open: boolean) {
-		setIsToolbarOpen(open); // `open` を使って状態を正しく更新
+		setIsToolbarOpen(open); // Use `open` to update status correctly
 	}
 
 	const { screenToFlowPosition } = useReactFlow();
@@ -93,24 +93,24 @@ export default function Toolbar(props: {
 		// 		: `/api/admin/tutorials/${props.id}`;
 		// const method = props.id === null ? "POST" : "PUT";
 
-		// Outputノードからデータを取得
+		// Get data from Output node
 		const outputNode = nodes.find((node) => node.type === "output");
 
 		if (outputNode) {
-			// Outputノードに接続されているエッジを取得
+			// Get the edge connected to the Output node
 			const connectedEdges = edges.filter(
 				(edge) => edge.target === outputNode.id,
 			);
 
-			// 接続されているノードのIDを取得
+			// Get ID of connected node
 			const connectedNodeIds = connectedEdges.map((edge) => edge.source);
 
-			// 接続されているノードを取得
+			// Get connected nodes
 			const connectedNodes = nodes.filter((node) =>
 				connectedNodeIds.includes(node.id),
 			);
 
-			// contentとmetadataを初期化
+			// Initialize content and metadata
 			let content = "";
 			let metadata: {
 				title: string;
@@ -124,12 +124,12 @@ export default function Toolbar(props: {
 			let tags = [];
 			let language = "";
 
-			// 接続されているノードからデータを取得
+			// Get data from connected nodes
 			for (const node of connectedNodes) {
 				if (node.type === "md" || node.type === "mdGen") {
 					content = node.data.source || ""; // Provide a default value
 				} else if (node.type === "metadata" || node.type === "metadataGen") {
-					//metadataとtagsを分離する
+					// Separate tags from metadata
 					metadata = {
 						title: node.data.title,
 						description: node.data.description,
@@ -140,10 +140,10 @@ export default function Toolbar(props: {
 				}
 			}
 
-			// ノードをシリアライズ
+			// Serialize node
 			const serializednodes = JSON.stringify({ nodes, edges });
 
-			// APIにデータを送信
+			// Send data to API
 
 			if (props.id) {
 				put({

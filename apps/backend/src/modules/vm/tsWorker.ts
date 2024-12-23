@@ -86,7 +86,7 @@ app.get("/", (c) => {
 		`,
 	);
 });
-// 新しいコンテキストを生成する関数
+// Function to create a new context
 const context = createContext({
 	app,
 	upgradeWebSocket,
@@ -178,7 +178,7 @@ console.log("running script:", initialScript);
 const script = new vm.Script(initialScript);
 script.runInContext(context);
 
-// 新しいコードを受信した場合、古いリスナーを削除して新しいコードを実行する
+// When a new code is received, delete the old listener and execute the new code
 parentPort.on("message", (message) => {
 	if (message.type === "updateScript") {
 		try {

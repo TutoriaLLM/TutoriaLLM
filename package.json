@@ -1,8 +1,6 @@
 {
   "name": "tutoriallm",
-  "version": "1.0.1",
-  "description": "",
-  "main": "index.js",
+  "version": "1.0.2",
   "private": true,
   "packageManager": "pnpm@9.6.0",
   "scripts": {
@@ -14,13 +12,9 @@
     "lint:repo": "sherif",
     "build:all": "pnpm -r build"
   },
-  "pre-commit": "",
   "simple-git-hooks": {
     "pre-commit": "pnpm format && pnpm lint:repo && pnpm check"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "sherif": "^1.0.2",

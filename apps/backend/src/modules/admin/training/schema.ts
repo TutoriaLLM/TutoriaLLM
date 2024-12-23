@@ -2,7 +2,7 @@ import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
 import { stringToNumber } from "@/utils/zStringtoNumber";
 import { z } from "@hono/zod-openapi";
 
-// Dataテーブル用
+// For Data table
 export const dataIdSchema = z.object({
 	id: stringToNumber.openapi({
 		param: {
@@ -35,7 +35,7 @@ export const deleteDataParam = {
 		),
 };
 
-// Guideテーブル用
+// For Guide Table
 export const guideIdSchema = z.object({
 	id: stringToNumber.openapi({
 		param: {
@@ -54,7 +54,7 @@ export const guideMetadataSchema = z.object({
 });
 
 export const dataToGuideSchema = z.object({
-	//dataと同一のスキーマ
+	// Same schema as data
 	id: z.number(),
 	question: z.string(),
 	answer: z.string(),

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const MOBILE_BREAKPOINT = 1024; // Tailwind CSSの設定も合わせている
+const MOBILE_BREAKPOINT = 1024; // Tailwind CSS settings are also aligned
 
 export function useIsMobile() {
 	const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined);

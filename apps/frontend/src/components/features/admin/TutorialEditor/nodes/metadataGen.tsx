@@ -58,7 +58,7 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const nodesData = useNodesData<markdownNode>(
 		metadataConnections.map((connection) => connection.source),
 	);
-	//初期化時にAI生成されたデータがあれば、それを表示
+	// AI-generated data at initialization, if any
 	useEffect(() => {
 		if (data.metaData) {
 			setGeneratedMetadata(data.metaData);

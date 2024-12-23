@@ -42,7 +42,7 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 			try {
 				const data = await getSession({ key: inputRef.current.value });
 
-				//容量が大きくなる可能性があるデータを削除
+				// Delete data that could grow in size
 				if (data) data.audios = [];
 				data.screenshot = "";
 				data.dialogue = [];

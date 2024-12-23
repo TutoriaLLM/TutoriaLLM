@@ -8,7 +8,7 @@ export const zodTextSchema = z.object({
 		),
 	formattedUserQuestion: z
 		.string()
-		.optional()
+		.nullable()
 		.describe(
 			"Formatted user question for training data. Contain background information of the question, such as what user doing. only if isQuestion is true. Use user's language for this field.",
 		),
@@ -16,7 +16,7 @@ export const zodTextSchema = z.object({
 	progress: z.number().describe("progress of the tutorial shown by 10 to 100."),
 	ui: z
 		.enum(["selectTutorial", ""])
-		.optional()
+		.nullable()
 		.describe(
 			"Provide UI elements for the user to take action. If the user does not think such an action is necessary, skip this response.",
 		),
@@ -24,7 +24,7 @@ export const zodTextSchema = z.object({
 });
 
 export const zodAudioSchema = z.object({
-	//このスキーマはOpenAI側で検証できないので、サーバー側で検証する
+	// This schema cannot be verified on the OpenAI side, so it is verified on the server side
 	id: z.string().describe("id of the audio data."),
 	expires_at: z.string().describe("expiration date of the audio data."),
 	data: z.string().describe("base64 encoded audio data."),

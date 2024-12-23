@@ -2,9 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { route } from "@/modules/config/routes";
 import type { AppConfig } from "@/modules/config/schema";
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { createHonoApp } from "@/create-app";
 
-const volumePath = "/app_data";
+const volumePath =
+	process.env.NODE_ENV === "production"
+		? "/app_data"
+		: path.resolve("app_data");
 // const volumePath = path.resolve("testconfig");
 
 const configPath = fs.existsSync(volumePath)
@@ -40,9 +43,7 @@ export function deleteConfig() {
 	}
 }
 
-import type { Context } from "@/context";
-import { defaultHook } from "@/libs/default-hook";
-const app = new OpenAPIHono<Context>({ defaultHook }).openapi(route, (c) => {
+const app = createHonoApp().openapi(route, (c) => {
 	const config = getConfig();
 	return c.json(config);
 });

@@ -2,11 +2,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import kuromoji from "kuromoji";
 
-// __dirname の代わりに import.meta.url を使用
+// Use import.meta.url instead of __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// カタカナをひらがなに変換する関数
+// Function to convert katakana to hiragana
 function katakanaToHiragana(katakana: string): string {
 	return katakana.replace(/[\u30A1-\u30FA]/g, (match) => {
 		const charCode = match.charCodeAt(0) - 0x60;
@@ -14,7 +14,7 @@ function katakanaToHiragana(katakana: string): string {
 	});
 }
 
-// ルビを適用するための関数
+// Functions for applying ruby
 async function applyRuby(content: string): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const dicPath = path.resolve(__dirname, "dict");
@@ -25,18 +25,18 @@ async function applyRuby(content: string): Promise<string> {
 			const tokens = tokenizer.tokenize(content);
 			const rubyContent = tokens
 				.map((token) => {
-					// 漢字のトークンのみを対象にする
+					// Only target tokens with kanji characters.
 					if (
 						token.pos === "名詞" &&
 						token.pos_detail_1 === "一般" &&
 						token.reading &&
 						token.surface_form !== token.reading
 					) {
-						// カタカナをひらがなに変換してルビを適用
+						// Convert katakana to hiragana and apply ruby
 						const hiraganaReading = katakanaToHiragana(token.reading);
 						return `<ruby>${token.surface_form}<rt>${hiraganaReading}</rt></ruby>`;
 					}
-					return token.surface_form; // そのまま表示
+					return token.surface_form; // Display as is
 				})
 				.join("");
 
