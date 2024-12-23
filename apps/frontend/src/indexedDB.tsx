@@ -33,7 +33,10 @@ async function saveSessionDataToIndexedDB(
 	sessionValue: SessionValuePost,
 ) {
 	const db = await dbPromise;
-	await db.put("sessions", { key, sessionValue });
+	await db.put("sessions", {
+		key,
+		sessionValue,
+	});
 }
 
 // Function to retrieve session data from IndexedDB

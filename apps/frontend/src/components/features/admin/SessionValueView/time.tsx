@@ -13,7 +13,7 @@ export default function Time(props: { session: SessionValue }) {
 				</span>
 
 				<p>{timeAgo(session.updatedAt)}</p>
-				<p>{session.updatedAt.toString()}</p>
+				<p>{new Date(session.updatedAt).toLocaleString()}</p>
 			</div>
 			<div className="bg-gray-200 rounded-2xl p-2 w-full">
 				<span className="font-semibold text-md text-gray-600 flex gap-1">
@@ -22,7 +22,7 @@ export default function Time(props: { session: SessionValue }) {
 					<h3>Created Time</h3>
 				</span>
 				<p>{timeAgo(session.createdAt)}</p>
-				<p>{session.createdAt.toString()}</p>
+				<p>{new Date(session.createdAt).toLocaleString()}</p>
 			</div>
 		</div>
 	);

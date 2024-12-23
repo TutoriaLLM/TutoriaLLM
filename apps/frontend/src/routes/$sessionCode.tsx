@@ -236,6 +236,10 @@ function RouteComponent() {
 				JSON.stringify(currentSession.clicks) !==
 					JSON.stringify(prevSession?.clicks)
 			) {
+				setCurrentSession({
+					...currentSession,
+					updatedAt: new Date().toISOString(),
+				});
 				// Calculate session differences and use sendDataToServer
 				if (prevSession && isInternalUpdateRef.current) {
 					// Calculate the difference

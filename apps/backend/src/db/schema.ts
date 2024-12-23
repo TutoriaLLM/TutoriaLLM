@@ -50,11 +50,11 @@ export const appSessions = pgTable("app_session", {
 	sessioncode: text("session_code").primaryKey().notNull(),
 	uuid: text("uuid").notNull(),
 	createdAt: timestamp("created_at", {
-		withTimezone: false,
+		withTimezone: true,
 		mode: "string",
 	}).notNull(),
 	updatedAt: timestamp("updated_at", {
-		withTimezone: false,
+		withTimezone: true,
 		mode: "string",
 	}).notNull(),
 	dialogue: json("dialogue").$type<Dialogue[]>(),

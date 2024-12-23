@@ -36,8 +36,11 @@ export default function SavedData() {
 		mutationFn: ({
 			key,
 			sessionData,
-		}: { key: { key: string }; sessionData: SessionValuePost }) =>
-			resumeSession(sessionData, key),
+		}: { key: { key: string }; sessionData: SessionValuePost }) => {
+			sessionData.updatedAt = new Date(sessionData.updatedAt).toISOString();
+			sessionData.createdAt = new Date(sessionData.createdAt).toISOString();
+			return resumeSession(sessionData, key);
+		},
 		onSuccess: (value) => {
 			router.navigate({ to: `/${value.sessionCode}` });
 		},
