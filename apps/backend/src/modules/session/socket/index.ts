@@ -32,15 +32,13 @@ export function initSocketServer(server: HttpServer) {
 
 	io.on("connection", async (socket) => {
 		console.info("new connection request from client");
-		const code = socket.handshake.query.code as string;
 		const uuid = socket.handshake.query.uuid as string;
 
-		console.info("on connect:", code, uuid);
 		try {
 			// If the code does not exist, the connection is rejected
 			// Migrated from Redis to Postgres: from 1.0.0
 			const data = await db.query.appSessions.findFirst({
-				where: eq(appSessions.sessioncode, code),
+				where: eq(appSessions.uuid, uuid),
 			});
 
 			// Connection denied if uuid does not match
@@ -50,7 +48,7 @@ export function initSocketServer(server: HttpServer) {
 				return;
 			}
 
-			socket.join(data.sessioncode);
+			socket.join(data.uuid);
 
 			const dataWithNewClient = {
 				...data,
@@ -61,17 +59,17 @@ export function initSocketServer(server: HttpServer) {
 
 			// Add Client
 			updateAndBroadcastDiffToAll(
-				code,
+				uuid,
 				dataWithNewClient, // Data with additional clients
 				socket,
 			);
 
 			async function getCurrentDataJson(
-				code: string,
+				uuid: string,
 			): Promise<SessionValue | null> {
 				// Migrated from Redis to Postgres: from 1.0.0
 				const data = await db.query.appSessions.findFirst({
-					where: eq(appSessions.sessioncode, code),
+					where: eq(appSessions.uuid, uuid),
 				});
 				if (!data) {
 					socket.emit("error", "Session not found");
@@ -91,7 +89,7 @@ export function initSocketServer(server: HttpServer) {
 			); // Request screenshots every specified minute
 
 			socket.on("UpdateCurrentSessionDiff", async (diff: Operation[]) => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(uuid);
 				if (!currentDataJson) {
 					socket.disconnect();
 					return;
@@ -105,7 +103,7 @@ export function initSocketServer(server: HttpServer) {
 				}
 			});
 			socket.on("openVM", async () => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(uuid);
 				if (!currentDataJson) {
 					socket.disconnect();
 					return;
@@ -117,7 +115,7 @@ export function initSocketServer(server: HttpServer) {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
 					updateAndBroadcastDiffToAll(
-						code,
+						uuid,
 						updateDialogue("error.empty_workspace", currentDataJson, "error"),
 						socket,
 					);
@@ -137,7 +135,7 @@ export function initSocketServer(server: HttpServer) {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
 					updateAndBroadcastDiffToAll(
-						code,
+						uuid,
 						updateDialogue("error.empty_code", currentDataJson, "error"),
 						socket,
 					);
@@ -145,7 +143,6 @@ export function initSocketServer(server: HttpServer) {
 				}
 				const serverRootPath = `${socket.request.headers.host}`;
 				const result = await ExecCodeTest(
-					code,
 					currentDataJson.uuid,
 					generatedCode,
 					serverRootPath,
@@ -155,15 +152,15 @@ export function initSocketServer(server: HttpServer) {
 				if (result === "Valid uuid") {
 					isRunning = true;
 					currentDataJson.isVMRunning = isRunning;
-					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
+					await updateAndBroadcastDiffToAll(uuid, currentDataJson, socket);
 				} else {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
-					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
+					await updateAndBroadcastDiffToAll(uuid, currentDataJson, socket);
 				}
 			});
 			socket.on("updateVM", async (callback) => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(uuid);
 				if (!currentDataJson?.workspace) {
 					socket.disconnect();
 					return;
@@ -173,20 +170,19 @@ export function initSocketServer(server: HttpServer) {
 					currentDataJson.language || "en",
 				);
 				const result = await UpdateCodeTest(
-					code,
 					currentDataJson.uuid,
 					generatedCode,
 				);
 				callback("ok");
 			});
 			socket.on("stopVM", async () => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(uuid);
 				if (!currentDataJson) {
 					socket.disconnect();
 					return;
 				}
 				let isRunning = currentDataJson.isVMRunning;
-				await StopCodeTest(code, uuid, socket, updateAndBroadcastDiffToAll);
+				await StopCodeTest(uuid, socket, updateAndBroadcastDiffToAll);
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
 
@@ -197,7 +193,7 @@ export function initSocketServer(server: HttpServer) {
 					currentDataJson,
 				);
 				await updateAndBroadcastDiffToAll(
-					code,
+					uuid,
 					currentDataJsonWithUpdatedStats,
 					socket,
 				);
@@ -210,7 +206,7 @@ export function initSocketServer(server: HttpServer) {
 					const rawData = await db
 						.select()
 						.from(appSessions)
-						.where(eq(appSessions.sessioncode, code));
+						.where(eq(appSessions.uuid, uuid));
 
 					const currentData: SessionValue = rawData[0];
 
@@ -231,14 +227,13 @@ export function initSocketServer(server: HttpServer) {
 						currentDataJson?.clients?.length === 0
 					) {
 						const result = await StopCodeTest(
-							code,
 							uuid,
 							socket,
 							updateAndBroadcastDiff,
 						);
 						currentDataJson.isVMRunning = false;
 					}
-					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
+					await updateAndBroadcastDiffToAll(uuid, currentDataJson, socket);
 				} catch (error) {
 					console.error("Error closing connection:", error);
 				}

@@ -15,11 +15,11 @@ export const listSessions = async (
 	return handleResponse(response);
 };
 
-const SessionToDelete = adminClient.admin.session[":sessionCode"].$delete;
+const SessionToDelete = adminClient.admin.session[":uuid"].$delete;
 type SessionToDelete = InferRequestType<typeof SessionToDelete>;
-export const deleteSession = async (sessionCode: SessionToDelete["param"]) => {
-	const response = await adminClient.admin.session[":sessionCode"].$delete({
-		param: sessionCode,
+export const deleteSession = async (uuid: SessionToDelete["param"]) => {
+	const response = await adminClient.admin.session[":uuid"].$delete({
+		param: uuid,
 	});
 	return handleResponse(response);
 };

@@ -82,7 +82,7 @@ export type TutorialMetadata = z.infer<typeof TutorialMetadataSchema>;
 export const TrainingMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	uuid: z.string().optional(),
 });
 export type TrainingMetadata = z.infer<typeof TrainingMetadataSchema>;
 
@@ -104,7 +104,6 @@ export type SavedAudio = z.infer<typeof AudioSchema>;
 export const sessionValueSchema = z
 	.object({
 		// Basic Information
-		sessioncode: z.string(),
 		uuid: z.string(),
 
 		// Dialogue related
@@ -152,8 +151,8 @@ export const languageQuerySchema = z.object({
 	language: z.string(),
 });
 
-export const sessionCodeSchema = z.object({
-	sessionCode: z.string(),
+export const uuidSchema = z.object({
+	uuid: z.string(),
 });
 
 export const newSessionQuery = {
@@ -163,14 +162,6 @@ export const newSessionQuery = {
 			"NewSessionQueryValidationErrorResponse",
 		),
 };
-export const newSessionRequest = {
-	schema: sessionValueSchema.openapi("NewSessionRequest"),
-	vErr: () =>
-		createValidationErrorResponseSchema(newSessionRequest.schema).openapi(
-			"NewSessionRequestValidationErrorResponse",
-		),
-};
-
 export const putSessionRequest = {
 	schema: sessionValueSchema.openapi("PutSessionRequest"),
 	vErr: () =>

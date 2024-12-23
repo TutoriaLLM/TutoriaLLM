@@ -13,7 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as AdminImport } from './routes/admin'
-import { Route as SessionCodeImport } from './routes/$sessionCode'
+import { Route as SessionUUIDImport } from './routes/$sessionUUID'
 import { Route as IndexImport } from './routes/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as AdminUsersImport } from './routes/admin/users'
@@ -36,9 +36,9 @@ const AdminRoute = AdminImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const SessionCodeRoute = SessionCodeImport.update({
-  id: '/$sessionCode',
-  path: '/$sessionCode',
+const SessionUUIDRoute = SessionUUIDImport.update({
+  id: '/$sessionUUID',
+  path: '/$sessionUUID',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,11 +95,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/$sessionCode': {
-      id: '/$sessionCode'
-      path: '/$sessionCode'
-      fullPath: '/$sessionCode'
-      preLoaderRoute: typeof SessionCodeImport
+    '/$sessionUUID': {
+      id: '/$sessionUUID'
+      path: '/$sessionUUID'
+      fullPath: '/$sessionUUID'
+      preLoaderRoute: typeof SessionUUIDImport
       parentRoute: typeof rootRoute
     }
     '/admin': {
@@ -185,7 +185,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$sessionCode': typeof SessionCodeRoute
+  '/$sessionUUID': typeof SessionUUIDRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/admin/sessions': typeof AdminSessionsRoute
@@ -198,7 +198,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$sessionCode': typeof SessionCodeRoute
+  '/$sessionUUID': typeof SessionUUIDRoute
   '/login': typeof LoginRoute
   '/admin/sessions': typeof AdminSessionsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -211,7 +211,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/$sessionCode': typeof SessionCodeRoute
+  '/$sessionUUID': typeof SessionUUIDRoute
   '/admin': typeof AdminRouteWithChildren
   '/login': typeof LoginRoute
   '/admin/sessions': typeof AdminSessionsRoute
@@ -226,7 +226,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/$sessionCode'
+    | '/$sessionUUID'
     | '/admin'
     | '/login'
     | '/admin/sessions'
@@ -238,7 +238,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/$sessionCode'
+    | '/$sessionUUID'
     | '/login'
     | '/admin/sessions'
     | '/admin/settings'
@@ -249,7 +249,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/$sessionCode'
+    | '/$sessionUUID'
     | '/admin'
     | '/login'
     | '/admin/sessions'
@@ -263,14 +263,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  SessionCodeRoute: typeof SessionCodeRoute
+  SessionUUIDRoute: typeof SessionUUIDRoute
   AdminRoute: typeof AdminRouteWithChildren
   LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  SessionCodeRoute: SessionCodeRoute,
+  SessionUUIDRoute: SessionUUIDRoute,
   AdminRoute: AdminRouteWithChildren,
   LoginRoute: LoginRoute,
 }
@@ -286,7 +286,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/$sessionCode",
+        "/$sessionUUID",
         "/admin",
         "/login"
       ]
@@ -294,8 +294,8 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
-    "/$sessionCode": {
-      "filePath": "$sessionCode.tsx"
+    "/$sessionUUID": {
+      "filePath": "$sessionUUID.tsx"
     },
     "/admin": {
       "filePath": "admin.tsx",

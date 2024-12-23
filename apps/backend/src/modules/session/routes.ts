@@ -1,11 +1,10 @@
 import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	newSessionQuery,
-	newSessionRequest,
 	putSessionRequest,
-	sessionCodeSchema,
 	sessionParam,
 	sessionValueSchema,
+	uuidSchema,
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
@@ -18,7 +17,7 @@ const newSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: jsonBody(sessionCodeSchema),
+			content: jsonBody(uuidSchema),
 			description: "Returns the session id",
 		},
 		...errorResponses({
@@ -33,21 +32,15 @@ const resumeSession = createRoute({
 	summary: "Resume a session, from the provided session data",
 	request: {
 		params: sessionParam.schema,
-		body: {
-			content: jsonBody(newSessionRequest.schema),
-		},
 	},
 	responses: {
 		200: {
-			content: jsonBody(sessionCodeSchema),
+			content: jsonBody(uuidSchema),
 			description:
 				"Returns the session id. If the session provided, it will return the session id to continue the session from existing session, or create a new session based on the provided data.",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
-				newSessionRequest.vErr(),
-				newSessionQuery.vErr(),
-			],
+			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
 		}),
 	},
 });

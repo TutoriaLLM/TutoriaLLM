@@ -17,7 +17,7 @@ export async function updateSession(
 	socket: Socket,
 ) {
 	const newDataJson = createNewSessionValue(socket, currentDataJson, diff);
-	const code = currentDataJson.sessioncode;
+	const uuid = currentDataJson.uuid;
 
 	if (currentDataJson.uuid !== newDataJson.uuid) {
 		socket.emit("error", "Invalid uuid");
@@ -64,7 +64,7 @@ export async function updateSession(
 	) {
 		// Send diffs to all clients except the sender
 		updateAndBroadcastDiff(
-			code,
+			uuid,
 			{
 				...newDataJson,
 				stats: {
@@ -80,12 +80,12 @@ export async function updateSession(
 
 		updateDialogueWithLLM(newDataJson, socket)
 			.then(async (responseorError) => {
-				updateAndBroadcastDiffToAll(code, responseorError, socket);
+				updateAndBroadcastDiffToAll(uuid, responseorError, socket);
 			})
 			.catch((error) => {
 				console.error("Error invoking LLM:", error);
 			});
 	} else {
-		updateAndBroadcastDiff(code, newDataJson, socket);
+		updateAndBroadcastDiff(uuid, newDataJson, socket);
 	}
 }

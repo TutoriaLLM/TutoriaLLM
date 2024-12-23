@@ -1,4 +1,4 @@
-import type { SessionValue, SessionValuePost } from "@/type";
+import type { SessionValue } from "@/type";
 import { openDB } from "idb";
 
 // Function to open IndexedDB (manage images and session data in the same DB)
@@ -29,12 +29,12 @@ async function getImageFromIndexedDB(key: string): Promise<string | null> {
 
 // Function to store session data in IndexedDB
 async function saveSessionDataToIndexedDB(
-	key: string,
-	sessionValue: SessionValuePost,
+	uuid: string,
+	sessionValue: SessionValue,
 ) {
 	const db = await dbPromise;
 	await db.put("sessions", {
-		key,
+		key: uuid,
 		sessionValue,
 	});
 }

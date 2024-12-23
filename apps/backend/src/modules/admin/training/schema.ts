@@ -14,7 +14,7 @@ export const dataIdSchema = z.object({
 export const dataMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	uuid: z.string().optional(),
 });
 export const dataSchema = z.object({
 	id: z.number(),
@@ -50,7 +50,7 @@ export const guideSearchSchema = z.object({
 export const guideMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	uuid: z.string().optional(),
 });
 
 export const dataToGuideSchema = z.object({

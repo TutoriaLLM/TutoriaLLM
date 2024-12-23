@@ -19,14 +19,14 @@ function removePrivacyInfo(data: SessionValue): SessionValue {
 // Function to broadcast changes and update the database
 // Note: No value is returned to the client who made the change.
 const updateAndBroadcastDiff = async (
-	code: string,
+	uuid: string,
 	newData: SessionValue,
 	socket: Socket,
 ) => {
 	const existingDataJson = await db
 		.select()
 		.from(appSessions)
-		.where(eq(appSessions.sessioncode, code));
+		.where(eq(appSessions.uuid, uuid));
 
 	const existingData: SessionValue = existingDataJson[0];
 
@@ -40,23 +40,23 @@ const updateAndBroadcastDiff = async (
 		await db
 			.update(appSessions)
 			.set(newData)
-			.where(eq(appSessions.sessioncode, code))
+			.where(eq(appSessions.uuid, uuid))
 			.execute();
 		// socket.broadcast.emit("PushSessionDiff", diff);
-		socket.to(code).emit("PushSessionDiff", diff);
+		socket.to(uuid).emit("PushSessionDiff", diff);
 	}
 };
 
 // Broadcast new changes to all clients
 const updateAndBroadcastDiffToAll = async (
-	code: string,
+	uuid: string,
 	newData: SessionValue,
 	socket: Socket,
 ) => {
 	const existingDataJson = await db
 		.select()
 		.from(appSessions)
-		.where(eq(appSessions.sessioncode, code));
+		.where(eq(appSessions.uuid, uuid));
 	const existingData: SessionValue = existingDataJson[0];
 
 	const dataWithoutPrivacy = removePrivacyInfo(newData);
@@ -69,11 +69,11 @@ const updateAndBroadcastDiffToAll = async (
 		await db
 			.update(appSessions)
 			.set(newData)
-			.where(eq(appSessions.sessioncode, code))
+			.where(eq(appSessions.uuid, uuid))
 			.execute();
 		socket.emit("PushSessionDiff", diff);
 		// socket.broadcast.emit("PushSessionDiff", diff);
-		socket.to(code).emit("PushSessionDiff", diff);
+		socket.to(uuid).emit("PushSessionDiff", diff);
 	}
 };
 

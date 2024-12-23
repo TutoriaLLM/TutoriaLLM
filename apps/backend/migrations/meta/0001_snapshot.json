@@ -1,6 +1,6 @@
 {
-  "id": "42b06aeb-53c2-4bc0-9880-50d701e821b9",
-  "prevId": "602e75d9-9f1a-48bd-8b16-1ee86b08b441",
+  "id": "5bfb8f32-1e5b-4805-a534-9a10f190b690",
+  "prevId": "b75e86a4-82a9-4270-a754-82f16037628a",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -8,27 +8,21 @@
       "name": "app_session",
       "schema": "",
       "columns": {
-        "session_code": {
-          "name": "session_code",
+        "uuid": {
+          "name": "uuid",
           "type": "text",
           "primaryKey": true,
           "notNull": true
         },
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true
         },

@@ -85,7 +85,7 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 				{data.sessionValue && (
 					<div className="flex flex-col gap-2">
 						<h3 className="text-xl">
-							Fetched Workspace Data {data.sessionValue.sessioncode}:
+							Fetched Workspace Data {data.sessionValue.uuid}:
 						</h3>
 						<WorkspacePreview session={data.sessionValue} />
 					</div>

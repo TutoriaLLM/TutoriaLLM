@@ -47,8 +47,7 @@ export const authSessions = pgTable("session", {
 export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
 
 export const appSessions = pgTable("app_session", {
-	sessioncode: text("session_code").primaryKey().notNull(),
-	uuid: text("uuid").notNull(),
+	uuid: text("uuid").primaryKey().notNull(),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 		mode: "string",
@@ -111,7 +110,7 @@ export const tutorials = pgTable("tutorials", {
 export type TrainingMetadata = {
 	author?: string;
 	date?: string;
-	sessionCode?: string;
+	uuid?: string;
 };
 
 export const guides = pgTable(

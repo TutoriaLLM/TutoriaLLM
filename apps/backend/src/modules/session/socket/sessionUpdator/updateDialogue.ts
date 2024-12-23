@@ -14,12 +14,12 @@ export async function updateDialogueWithLLM(
 	socket: Socket,
 ): Promise<SessionValue> {
 	// At the end of processing, when the final data is returned, the previous data is re-retrieved.
-	async function getLatestData(code: string) {
+	async function getLatestData(uuid: string) {
 		// Migrated from Redis to Postgres: from 1.0.0
 		const rawData = await db
 			.select()
 			.from(appSessions)
-			.where(eq(appSessions.sessioncode, code));
+			.where(eq(appSessions.uuid, uuid));
 
 		const data: SessionValue = rawData[0];
 		return data;
@@ -40,7 +40,7 @@ export async function updateDialogueWithLLM(
 		"data" in message &&
 		message.data
 	) {
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.uuid);
 		const updatedAudios = [
 			...(latestData.audios || []),
 			{
@@ -75,7 +75,7 @@ export async function updateDialogueWithLLM(
 
 	// Processing when output is text
 	if (typeof message !== "string" && message && "response" in message) {
-		const latestData2 = await getLatestData(data.sessioncode);
+		const latestData2 = await getLatestData(data.uuid);
 		let updatedDialogue = updateDialogue(message.response, latestData2, "ai");
 
 		// quick replies
@@ -103,7 +103,7 @@ export async function updateDialogueWithLLM(
 				],
 			};
 		}
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.uuid);
 		return {
 			...latestData,
 			dialogue: updatedDialogue.dialogue,
@@ -119,7 +119,7 @@ export async function updateDialogueWithLLM(
 	// Processing when the message is a string
 	if (typeof message === "string") {
 		const updatedDialogue = updateDialogue(message, data, "ai");
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.uuid);
 		return {
 			...latestData,
 			dialogue: updatedDialogue.dialogue,
@@ -129,13 +129,13 @@ export async function updateDialogueWithLLM(
 
 	// Delete the user's audio if it is included
 	if (data.userAudio) {
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.uuid);
 		latestData.userAudio = "";
 		return latestData;
 	}
 
 	// If failed, retrieve the latest data and return it as is
-	const latestData = await getLatestData(data.sessioncode);
+	const latestData = await getLatestData(data.uuid);
 	latestData.isReplying = false;
 	return latestData;
 }

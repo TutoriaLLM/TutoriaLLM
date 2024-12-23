@@ -2,7 +2,7 @@ import { resumeSession } from "@/api/session.js";
 import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 import Popup from "@/components/ui/Popup.js";
 import { useMutation } from "@/hooks/useMutations.js";
-import type { SessionValuePost } from "@/type";
+import type { SessionValue } from "@/type";
 import { useRouter } from "@tanstack/react-router";
 import type * as Blockly from "blockly";
 import { openDB } from "idb";
@@ -20,7 +20,7 @@ const dbPromise = openDB("app-data", 1, {
 export default function SavedData() {
 	const [isSavedDataOpen, setIsSavedDataOpen] = useState(false);
 	const [savedData, setSavedData] = useState<{
-		[key: string]: { sessionValue: SessionValuePost; base64image: string };
+		[key: string]: { sessionValue: SessionValue; base64image: string };
 	}>({});
 	const { t } = useTranslation();
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
@@ -36,13 +36,13 @@ export default function SavedData() {
 		mutationFn: ({
 			key,
 			sessionData,
-		}: { key: { key: string }; sessionData: SessionValuePost }) => {
+		}: { key: { key: string }; sessionData: SessionValue }) => {
 			sessionData.updatedAt = new Date(sessionData.updatedAt).toISOString();
 			sessionData.createdAt = new Date(sessionData.createdAt).toISOString();
-			return resumeSession(sessionData, key);
+			return resumeSession(key);
 		},
 		onSuccess: (value) => {
-			router.navigate({ to: `/${value.sessionCode}` });
+			router.navigate({ to: `/${value.uuid}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);
@@ -54,10 +54,10 @@ export default function SavedData() {
 		const db = await dbPromise;
 		const allSessions = await db.getAll("sessions");
 		const data: {
-			[key: string]: { sessionValue: SessionValuePost; base64image: string };
+			[key: string]: { sessionValue: SessionValue; base64image: string };
 		} = {};
 		for (const session of allSessions) {
-			const sessionValue = session.sessionValue as SessionValuePost;
+			const sessionValue = session.sessionValue as SessionValue;
 			try {
 				const imageURL = await getImageFromSerializedWorkspace(
 					sessionValue.workspace ?? [],
@@ -89,10 +89,10 @@ export default function SavedData() {
 		setSavedData(data);
 	}
 
-	async function createOrContinueSession(localSessionValue: SessionValuePost) {
-		const sessionCode = localSessionValue.sessioncode;
+	async function createOrContinueSession(localSessionValue: SessionValue) {
+		const uuid = localSessionValue.uuid;
 		localSessionValue.workspace;
-		mutate({ key: { key: sessionCode }, sessionData: localSessionValue });
+		mutate({ key: { key: uuid }, sessionData: localSessionValue });
 	}
 
 	useEffect(() => {
@@ -129,7 +129,7 @@ export default function SavedData() {
 							/>
 							<p className="text-xs font-base text-gray-500">{key}</p>
 							<p className="text-xs font-base text-gray-500">
-								{value.sessionValue.sessioncode}
+								{value.sessionValue.uuid}
 							</p>
 
 							<button

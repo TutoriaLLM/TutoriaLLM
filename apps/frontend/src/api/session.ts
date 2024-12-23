@@ -13,13 +13,9 @@ export const createSession = async ({ language }: { language: string }) => {
 
 const SessionToResume = client.session.resume[":key"].$post;
 type SessionToResume = InferRequestType<typeof SessionToResume>;
-export const resumeSession = async (
-	sessionData: SessionToResume["json"],
-	key: SessionToResume["param"],
-) => {
+export const resumeSession = async (key: SessionToResume["param"]) => {
 	const response = await client.session.resume[":key"].$post({
 		param: key,
-		json: sessionData,
 	});
 
 	return handleResponse(response);

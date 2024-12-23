@@ -9,7 +9,7 @@ import { createNodeWebSocket } from "@hono/node-ws";
 import getPort, { portNumbers } from "get-port";
 import { Hono } from "hono/tiny";
 
-const { joinCode, sessionValue, serverRootPath, userScript } = workerData;
+const { joinUUID, sessionValue, serverRootPath, userScript } = workerData;
 
 if (!parentPort) {
 	throw new Error("parentPort is not defined");
@@ -32,7 +32,7 @@ app.get("/", (c) => {
 		  <head>
 			<script src="https://cdn.tailwindcss.com"></script>
 			<title>
-				${sessionValue.sessioncode} - VM
+				${sessionValue.uuid} - VM
 			</title>
 			<meta charset="utf-8" />
 		  </head>
@@ -40,7 +40,7 @@ app.get("/", (c) => {
 			<div class="max-w-2xl w-full h-full rounded-2xl bg-gray-100 shadow p-2">
 				<div class="rounded-2xl bg-gray-200 shadow-lg p-3">
 					<h1 class="text-2xl">
-					VM for ${sessionValue.sessioncode} is running!
+					VM for ${sessionValue.uuid} is running!
 					</h1>
 					<p class="">
 						This information is not synced with the server. To get the latest information, please stop and start the VM again. / このサーバーの情報は同期されていません。最新の情報を取得するには、VMを停止して再起動してください。
@@ -68,7 +68,7 @@ app.get("/", (c) => {
 					Server root path: ${serverRootPath}
 					</p>
 					<p class="">
-					Join code: ${sessionValue.joinCode}
+					Join uuid: ${sessionValue.uuid}
 					</p>
 					<code class="bg-gray-700 text-white rounded-2xl p-2">
 					Running script: ${userScript}
@@ -91,7 +91,7 @@ const context = createContext({
 	app,
 	upgradeWebSocket,
 	randomUUID,
-	joinCode,
+	joinUUID,
 	console: {
 		log: (...args: string[]) => {
 			const logMessage = args.join(" ");

@@ -5,22 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1733133986103,
-      "tag": "0000_wet_sabretooth",
+      "when": 1734943309499,
+      "tag": "0000_high_captain_marvel",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1733134004100,
-      "tag": "0001_natural_luke_cage",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1734915698676,
-      "tag": "0002_unusual_dracula",
+      "when": 1734943320236,
+      "tag": "0001_breezy_clint_barton",
       "breakpoints": true
     }
   ]
