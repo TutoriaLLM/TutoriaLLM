@@ -73,13 +73,7 @@ const putSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: {
-				"text/plain": {
-					schema: {
-						type: "string",
-					},
-				},
-			},
+			content: jsonBody(sessionIdSchema),
 			description: "Session updated",
 		},
 		...errorResponses({
@@ -99,13 +93,7 @@ const deleteSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: {
-				"text/plain": {
-					schema: {
-						type: "string",
-					},
-				},
-			},
+			content: jsonBody(sessionIdSchema),
 			description: "Session deleted",
 		},
 		...errorResponses({

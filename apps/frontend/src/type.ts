@@ -1,6 +1,12 @@
 import { client } from "@/api";
 import type { InferResponseType } from "backend/hc";
+import { authClient } from "./libs/auth-client";
 
+//auth
+const AuthSession = authClient.$Infer.Session;
+export type AuthSession = typeof AuthSession;
+
+//from backend/hc and api
 const $Config = client.config.$get;
 export type AppConfig = InferResponseType<typeof $Config>;
 

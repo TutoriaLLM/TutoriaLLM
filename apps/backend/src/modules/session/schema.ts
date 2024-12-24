@@ -104,6 +104,7 @@ export type SavedAudio = z.infer<typeof AudioSchema>;
 export const sessionValueSchema = z
 	.object({
 		// Basic Information
+		uuid: z.string(),
 		sessionId: z.string(),
 
 		// Dialogue related

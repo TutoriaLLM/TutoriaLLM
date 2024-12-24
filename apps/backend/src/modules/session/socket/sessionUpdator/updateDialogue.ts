@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { appSessions } from "@/db/schema";
 import { updateDialogue } from "@/utils/dialogueUpdater";
 
 import { getBlockNames } from "@/libs/registerBlocks";
@@ -7,6 +6,7 @@ import type { SessionValue } from "@/modules/session/schema";
 import { invokeLLM } from "@/modules/session/socket/llm";
 import { eq } from "drizzle-orm";
 import type { Socket } from "socket.io";
+import { appSessions } from "@/db/schema";
 
 // Call LLM asynchronously and push when the message is created
 export async function updateDialogueWithLLM(

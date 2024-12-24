@@ -1,143 +1,58 @@
-import type { adminClient } from "@/api";
-import {
-	createUser,
-	deleteUser,
-	getUser,
-	getUserList,
-	updateUser,
-} from "@/api/admin/users.js";
-import { useMutation } from "@tanstack/react-query";
+import { authClient } from "@/libs/auth-client";
 import { createFileRoute } from "@tanstack/react-router";
-import type { InferResponseType } from "backend/hc";
-import { X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/admin/users")({
 	component: Users, // This is the main
 });
 
-function Users() {
-	type UserArray = InferResponseType<typeof adminClient.admin.users.$get, 200>;
-	type User = UserArray[number];
-	type UserType = {
-		id: number;
-		username: string;
-		password: string;
-	};
-	const [users, setUsers] = useState<UserArray>([]);
-	const [loading, setLoading] = useState(true);
+async function Users() {
 	const [error, setError] = useState<string | null>(null);
-	const [selectedUser, setSelectedUser] = useState<User | null>(null);
-	const [editUser, setEditUser] = useState<Partial<UserType>>({});
-	const [newUser, setNewUser] = useState({ username: "", password: "" });
-	const [currentUserID, setCurrentUserID] = useState(null);
+	const [newUser, setNewUser] = useState({
+		username: "",
+		email: "",
+		password: "",
+		role: "user",
+	});
 
-	const fetchUsers = () => {
-		getUserList().then((data) => {
-			setUsers(data);
-			setLoading(false);
+	const data = await authClient.admin.listUsers({
+		query: {
+			limit: undefined,
+		},
+	});
+
+	const currentUserId = (await authClient.getSession()).data?.user.id;
+
+	async function handleNewUserChange(
+		event: React.ChangeEvent<HTMLInputElement>,
+	) {
+		setNewUser((prev) => ({
+			...prev,
+			[event.target.name]: event.target.value,
+		}));
+	}
+
+	async function handleSelectRole(event: React.ChangeEvent<HTMLSelectElement>) {
+		setNewUser((prev) => ({
+			...prev,
+			role: event.target.value,
+		}));
+	}
+
+	async function handleDeleteUser(id: string) {
+		await authClient.admin.removeUser({
+			userId: id,
 		});
-	};
+	}
 
-	useEffect(() => {
-		fetchUsers();
-
-		// Retrieve the current user ID (to prevent accidental deletion of itself during login)
-		// The route under auth is not defined in openapi, so fetch is used
-		fetch(`${VITE_BACKEND_URL}/credential`, {
-			credentials: "include",
-		})
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error(`Network response was not ok ${response.statusText}`);
-				}
-				return response.json();
-			})
-			.then((data) => {
-				setCurrentUserID(data.userId);
-			})
-			.catch((error) => {
-				setError(error.message);
-			});
-	}, []);
-
-	const handleUserClick = (id: number) => {
-		getUser({ id }).then((response) => {
-			setSelectedUser(response);
-			setEditUser(response);
+	async function handleCreateUser() {
+		await authClient.admin.createUser({
+			name: newUser.username,
+			email: newUser.email,
+			password: newUser.password,
+			role: newUser.role,
 		});
-	};
-
-	const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setEditUser((prev) => ({ ...prev, [name]: value }));
-	};
-
-	const handleNewUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setNewUser((prev) => ({ ...prev, [name]: value }));
-	};
-
-	const { mutate: put } = useMutation({
-		mutationFn: ({ id, user }: { id: number; user: Partial<UserType> }) =>
-			updateUser({
-				id,
-				user,
-			}),
-		onSuccess: () => {
-			fetchUsers();
-			setSelectedUser(null); // Clear the data after updating
-		},
-		onError: (error) => {
-			console.error("Error updating user data:", error);
-		},
-	});
-
-	const handleUpdateUser = () => {
-		if (!editUser.username || (editUser.password && !editUser.password)) {
-			console.error("Invalid user data");
-			return;
-		}
-		if (selectedUser) {
-			put({ id: selectedUser.id, user: editUser });
-		}
-	};
-
-	const { mutate: del } = useMutation({
-		mutationFn: deleteUser,
-		onSuccess: () => {
-			fetchUsers();
-			setSelectedUser(null); // Clear the data after deletion
-		},
-	});
-
-	const handleDeleteUser = (id: number) => {
-		if (currentUserID === id) {
-			alert("You cannot delete the logged-in user.");
-			return;
-		}
-
-		del({ id });
-	};
-
-	const { mutate: post } = useMutation({
-		mutationFn: createUser,
-		onSuccess: (data) => {
-			setUsers((prevUsers) => [...prevUsers, data]);
-			setNewUser({ username: "", password: "" });
-		},
-	});
-
-	const handleCreateUser = () => {
-		if (!newUser.username || !newUser.password) {
-			console.error("Invalid user data");
-			return;
-		}
-		post({ password: newUser.password, username: newUser.username });
-	};
-
-	if (loading) {
-		return <div>Loading...</div>;
+		setNewUser({ username: "", password: "", email: "", role: "user" });
 	}
 
 	if (error) {
@@ -160,30 +75,23 @@ function Users() {
 					</tr>
 				</thead>
 				<tbody className="gap-2">
-					{users.map((user) => (
+					{data.data?.users.map((user) => (
 						<tr
 							key={user.id}
 							className="border-y-2 border-gray-300 rounded-2xl bg-gray-200 sentry-block"
 						>
-							<th className="px-6 py-4">{user.username}</th>
+							<th className="px-6 py-4">{user.name}</th>
 
-							<td className="px-6 py-4">{user.id}</td>
+							<td className="px-6 py-4">{user.email}</td>
 							<td className="px-6 py-4 border-l-2 border-gray-300">
 								<span className="flex gap-2">
 									<button
 										type="button"
-										className="p-1.5 rounded-full bg-sky-500 px-2 font-semibold text-white hover:bg-sky-600"
-										onClick={() => handleUserClick(user.id)}
-									>
-										View
-									</button>
-									<button
-										type="button"
 										className={`p-1.5 rounded-full bg-red-500 px-2 font-semibold text-white hover:bg-red-600 ${
-											currentUserID === user.id ? "hidden" : "block"
+											currentUserId === user.id ? "hidden" : "block"
 										}`}
 										onClick={() => handleDeleteUser(user.id)}
-										disabled={currentUserID === user.id}
+										disabled={currentUserId === user.id}
 									>
 										Delete
 									</button>
@@ -193,38 +101,6 @@ function Users() {
 					))}
 				</tbody>
 			</table>
-
-			{selectedUser && (
-				<div className="p-2 bg-gray-300 rounded-2xl">
-					<button type="button" onClick={() => setSelectedUser(null)}>
-						<X />
-					</button>
-					<form>
-						<label>
-							Username:
-							<input
-								type="text"
-								name="username"
-								value={editUser.username || ""}
-								onChange={handleEditChange}
-							/>
-						</label>
-						<label>
-							New password (optional):
-							<input
-								type="password"
-								name="password"
-								value={editUser.password || ""}
-								onChange={handleEditChange}
-							/>
-						</label>
-						<button type="button" onClick={handleUpdateUser}>
-							Update
-						</button>
-					</form>
-				</div>
-			)}
-
 			<div className="p-2 border-b-2 border-gray-300 bg-gray-300">
 				<h2 className="py-2 font-semibold">Create New User</h2>
 				<form className="gap-2 flex">
@@ -239,6 +115,16 @@ function Users() {
 						/>
 					</label>
 					<label>
+						Email:
+						<input
+							className="p-1.5 rounded-2xl bg-white"
+							type="email"
+							name="email"
+							value={newUser.email}
+							onChange={handleNewUserChange}
+						/>
+					</label>
+					<label>
 						Password:
 						<input
 							className="p-1.5 rounded-2xl bg-white"
@@ -247,6 +133,18 @@ function Users() {
 							value={newUser.password}
 							onChange={handleNewUserChange}
 						/>
+					</label>
+					<label>
+						Role:
+						<select
+							className="p-1.5 rounded-2xl bg-white"
+							name="role"
+							value={newUser.role}
+							onChange={handleSelectRole}
+						>
+							<option value="admin">Admin</option>
+							<option value="user">User</option>
+						</select>
 					</label>
 					<button
 						type="button"

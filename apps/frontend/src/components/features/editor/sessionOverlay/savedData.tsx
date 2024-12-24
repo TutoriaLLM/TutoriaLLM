@@ -1,5 +1,6 @@
 import { resumeSession } from "@/api/session.js";
 import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
+import { Button } from "@/components/ui/button";
 import Popup from "@/components/ui/Popup.js";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { SessionValue } from "@/type";
@@ -157,16 +158,10 @@ export default function SavedData() {
 
 	return (
 		<div className="">
-			<button
-				type="button"
-				className={
-					"bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center "
-				}
-				onClick={switchIsSavedDataOpen}
-			>
+			<Button className="" onClick={switchIsSavedDataOpen}>
 				{t("session.findSavedSession")}
 				<Search />
-			</button>
+			</Button>
 			{isSavedDataOpen ? (
 				<Popup
 					openState={isSavedDataOpen}

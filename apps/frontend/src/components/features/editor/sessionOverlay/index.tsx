@@ -21,12 +21,15 @@ import { LanguageToStart } from "@/state.js";
 import { setLanguageState } from "@/utils/setdefaultLanguage.js";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import type { AuthSession } from "@/type";
+import { UserAccount } from "@/components/common/account";
 
 export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {
 	isPopupOpen: boolean;
 	message: Message;
 	setMessage: (message: Message) => void;
+	session: AuthSession;
 }) {
 	const { t } = useTranslation();
 	const showPopup = props.isPopupOpen;
@@ -57,11 +60,14 @@ export default function SessionPopup(props: {
 				<Overlay
 					openState={showPopup}
 					Content={
-						<div className="flex flex-col justify-center items-center max-w-xl w-full gap-3 bg-transparent p-2 z-[999] font-semibold">
+						<div className="flex flex-col justify-center items-center max-w-xl w-full gap-3 bg-transparent p-2 z-[999] font-semibold ">
 							<div className="w-full flex justify-between items-center p-2">
 								<div className="flex flex-col gap-2 w-full flex-nowrap">
 									<Dialog.Title className="text-3xl">
 										{t("session.hello")}
+										{props.session.user.name === "Anonymous"
+											? ""
+											: `, ${props.session.user.name}`}
 									</Dialog.Title>
 									<Dialog.Description className="text-md font-medium text-gray-600">
 										{t("session.welcome")}
@@ -87,16 +93,19 @@ export default function SessionPopup(props: {
 								</div>
 							</div>
 
-							<div className="bg-gray-50 rounded-3xl shadow p-3 w-full">
-								<div className="p-1.5 py-2 bg-yellow-200 text-gray-600 font-normal border rounded-2xl w-full h-full flex justify-center items-center">
-									<CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
-									<p className="text-left w-full">{messageText}</p>
-								</div>
-								<div className="flex flex-col text-gray-700 justify-center items-center gap-3 p-6">
-									<CreateNewSession
-										language={languageToStart}
-										setMessage={props.setMessage}
-									/>
+							<div className=" p-3 w-full flex flex-col gap-2">
+								<UserAccount session={props.session} />
+								<div className="flex flex-col gap-2 p-2 rounded-3xl bg-gray-100 shadow">
+									<div className="p-3 bg-yellow-200 text-gray-600 font-normal border rounded-3xl w-full h-full flex justify-center items-center">
+										<CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
+										<p className="text-left w-full">{messageText}</p>
+									</div>
+									<div className="flex flex-col text-gray-700 justify-center items-center gap-3 p-6">
+										<CreateNewSession
+											language={languageToStart}
+											setMessage={props.setMessage}
+										/>
+									</div>
 								</div>
 							</div>
 							<LangPicker

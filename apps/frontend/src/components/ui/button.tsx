@@ -4,7 +4,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
 const buttonVariants = cva(
-	"rounded-full font-semibold justify-center items-center flex gap-0.5",
+	"rounded-2xl font-semibold justify-center items-center flex gap-0.5",
 	{
 		variants: {
 			variant: {
@@ -13,7 +13,8 @@ const buttonVariants = cva(
 				orange: "bg-orange-500 text-white hover:bg-orange-600 ",
 			},
 			size: {
-				default: "p-1.5 px-2",
+				sm: "py-1.5 px-2.5 text-sm",
+				default: "py-2 px-4 md:py-2.5 md:px-3",
 				lg: "p-2.5 md:p-3 md:px-4",
 				xl: "p-2.5 px-3 md:p-4",
 			},

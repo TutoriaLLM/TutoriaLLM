@@ -10,13 +10,13 @@ import { createMiddleware } from "hono/factory";
 import type { Operation } from "rfc6902";
 import { Server } from "socket.io";
 
-import { appSessions } from "@/db/schema";
 import type { SessionValue } from "@/modules/session/schema";
 import {
 	updateAndBroadcastDiff,
 	updateAndBroadcastDiffToAll,
 } from "@/modules/session/socket/updateDB";
 import { eq } from "drizzle-orm";
+import { appSessions } from "@/db/schema";
 
 const config = getConfig();
 

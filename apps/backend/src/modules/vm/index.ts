@@ -4,7 +4,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Worker } from "node:worker_threads";
 import { db } from "@/db";
-import { appSessions } from "@/db/schema";
 import { getConfig } from "@/modules/config";
 import type { SessionValue } from "@/modules/session/schema";
 import LogBuffer from "@/modules/vm/logBuffer";
@@ -14,6 +13,7 @@ import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { Socket } from "socket.io";
+import { appSessions } from "@/db/schema/session";
 // Get `__dirname`.
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

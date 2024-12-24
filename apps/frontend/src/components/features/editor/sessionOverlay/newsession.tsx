@@ -1,5 +1,6 @@
 import { createSession } from "@/api/session";
 import SavedData from "@/components/features/editor/sessionOverlay/savedData";
+import { Button } from "@/components/ui/button";
 import { useMutation } from "@/hooks/useMutations";
 import type { Message } from "@/routes";
 import { useRouter } from "@tanstack/react-router";
@@ -25,11 +26,8 @@ export default function CreateNewSession({
 
 	return (
 		<div className="flex gap-2">
-			<button
-				type="button"
-				className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center ${
-					isPending ? "opacity-50 cursor-not-allowed" : ""
-				}`}
+			<Button
+				className=""
 				onClick={() => {
 					mutate({
 						language: language,
@@ -39,7 +37,8 @@ export default function CreateNewSession({
 			>
 				{isPending ? t("session.creating") : t("session.createSession")}{" "}
 				<Plus />
-			</button>
+			</Button>
+
 			<SavedData />
 		</div>
 	);

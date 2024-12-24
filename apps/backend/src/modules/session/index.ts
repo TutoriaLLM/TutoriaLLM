@@ -2,6 +2,7 @@ import { createHonoApp } from "@/create-app";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { initialData } from "@/db/session";
+import { auth } from "@/libs/auth";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
@@ -12,6 +13,7 @@ import {
 } from "@/modules/session/routes";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
+import { uuidv7 } from "uuidv7";
 
 const app = createHonoApp()
 	.openapi(newSession, async (c) => {
@@ -22,7 +24,8 @@ const app = createHonoApp()
 		}
 		console.info("session created with initial data");
 
-		const sessionId = nanoid();
+		const sessionId = nanoid(12);
+		const uuid = uuidv7();
 
 		// Returns an error if a session with the same code already exists
 		const value = await db.query.appSessions.findFirst({
@@ -40,7 +43,7 @@ const app = createHonoApp()
 		// If initial data is not specified, generate initial data and create session
 		await db
 			.insert(appSessions)
-			.values(initialData(sessionId, language.toString()))
+			.values(initialData(uuid, sessionId, language.toString()))
 			.execute();
 		console.info("session created by api");
 		return c.json(
@@ -77,7 +80,7 @@ const app = createHonoApp()
 		const key = c.req.valid("param").key;
 		const sessionData = c.req.valid("json");
 		// Migrated from Redis to Postgres: from 1.0.0
-		const existingSession = await db.query.users.findFirst({
+		const existingSession = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
 		});
 		if (!existingSession) {
@@ -86,16 +89,17 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
-		await db
+		const result = await db
 			.update(appSessions)
 			.set(sessionData)
-			.where(eq(appSessions.sessionId, key));
-		return c.json({ message: "Session updated" }, 200);
+			.where(eq(appSessions.sessionId, key))
+			.returning({ id: appSessions.sessionId });
+		return c.json({ sessionId: result[0].id }, 200);
 	})
 	.openapi(deleteSession, async (c) => {
 		const key = c.req.valid("param").key;
 		// Migrated from Redis to Postgres: from 1.0.0
-		const existingSession = await db.query.users.findFirst({
+		const existingSession = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
 		});
 		if (!existingSession) {
@@ -104,8 +108,11 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
-		await db.delete(appSessions).where(eq(appSessions.sessionId, key));
-		return c.json({ message: "Session deleted" }, 200);
+		const result = await db
+			.delete(appSessions)
+			.where(eq(appSessions.sessionId, key))
+			.returning({ id: appSessions.sessionId });
+		return c.json({ sessionId: result[0].id }, 200);
 	})
 	.openapi(getSession, async (c) => {
 		const key = c.req.valid("param").key;
@@ -121,5 +128,19 @@ const app = createHonoApp()
 		}
 		return c.json(data, 200);
 	});
+
+app.use("/session/**", async (c, next) => {
+	const session = await auth.api.getSession({
+		headers: c.req.raw.headers,
+	});
+	if (!session) {
+		console.info("no session");
+		return errorResponse(c, {
+			message: "Unauthorized",
+			type: "UNAUTHORIZED",
+		});
+	}
+	await next();
+});
 
 export default app;

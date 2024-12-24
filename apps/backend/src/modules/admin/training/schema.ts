@@ -17,7 +17,7 @@ export const dataMetadataSchema = z.object({
 	sessionId: z.string().optional(),
 });
 export const dataSchema = z.object({
-	id: z.number(),
+	id: stringToNumber,
 	question: z.string(),
 	answer: z.string(),
 	metadata: dataMetadataSchema,
@@ -55,13 +55,13 @@ export const guideMetadataSchema = z.object({
 
 export const dataToGuideSchema = z.object({
 	// Same schema as data
-	id: z.number(),
+	id: stringToNumber,
 	question: z.string(),
 	answer: z.string(),
 	metadata: guideMetadataSchema,
 });
 export const guideSchema = z.object({
-	id: z.number(),
+	id: stringToNumber,
 	metadata: guideMetadataSchema,
 	question: z.string(),
 	answer: z.string(),

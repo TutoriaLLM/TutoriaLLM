@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { tags, tutorials, tutorialsTags } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";
 import { generateMetadataFromContent } from "@/modules/admin/tutorials/llm/metadata";
 import { generateContentFromContent } from "@/modules/admin/tutorials/llm/tutorial";
@@ -14,6 +13,7 @@ import {
 } from "@/modules/admin/tutorials/routes";
 import { eq, isNull } from "drizzle-orm";
 import { createHonoApp } from "@/create-app";
+import { tags, tutorials, tutorialsTags } from "@/db/schema";
 
 const app = createHonoApp()
 	.openapi(getTutorialList, async (c) => {

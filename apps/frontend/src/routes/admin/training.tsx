@@ -1,11 +1,12 @@
 import type { adminClient } from "@/api";
 import {
 	createNewGuide,
+	deleteGuide,
+	deleteTrainingData,
 	getRandomTrainingData,
 	listGuides,
 	searchGuides,
 } from "@/api/admin/training";
-import { deleteUser } from "@/api/admin/users";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { InferResponseType } from "backend/hc";
@@ -85,14 +86,17 @@ function Training() {
 		};
 		// setTrainingData(null); // Clear the data after confirmation
 
-		postData(updatedData);
+		postData({
+			...updatedData,
+			id: updatedData.id.toString(),
+		});
 
 		// Fetch new data
 		fetchTrainingData();
 	};
 
 	const { mutate: deleteData } = useMutation({
-		mutationFn: deleteUser,
+		mutationFn: deleteTrainingData,
 		onSuccess: () => {
 			setTrainingData(null); // Clear the data after deletion
 		},
@@ -123,8 +127,8 @@ function Training() {
 		search({ query: searchText });
 	};
 
-	const { mutate: deleteGuide } = useMutation({
-		mutationFn: deleteUser,
+	const { mutate: deleteGuideMutate } = useMutation({
+		mutationFn: deleteGuide,
 		onSuccess: () => {
 			handleSearch();
 		},
@@ -185,7 +189,9 @@ function Training() {
 									<button
 										type="button"
 										className="text-red-500"
-										onClick={() => deleteGuide({ id: result.id })}
+										onClick={() =>
+											deleteGuideMutate({ id: result.id.toString() })
+										}
 									>
 										Delete
 									</button>
@@ -230,7 +236,7 @@ function Training() {
 							<button
 								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
 								type="button"
-								onClick={() => deleteData({ id: trainingData.id })}
+								onClick={() => deleteData({ id: trainingData.id.toString() })}
 							>
 								<Trash2 />
 							</button>

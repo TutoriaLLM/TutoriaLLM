@@ -103,6 +103,7 @@ export type SavedAudio = z.infer<typeof AudioSchema>;
 
 export const sessionValueSchema = z
 	.object({
+		uuid: z.string(),
 		// Basic Information
 		sessionId: z.string(),
 

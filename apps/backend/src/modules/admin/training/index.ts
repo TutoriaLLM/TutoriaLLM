@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { guides, trainingData } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteData,
@@ -16,6 +15,7 @@ import { createGuideFromTrainingData } from "@/modules/admin/training/utils/guid
 import { getKnowledge } from "@/modules/admin/training/utils/knowledge";
 import { eq, sql } from "drizzle-orm";
 import { createHonoApp } from "@/create-app";
+import { guides, trainingData } from "@/db/schema";
 
 const app = createHonoApp()
 	.openapi(getRandomData, async (c) => {

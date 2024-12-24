@@ -1,6 +1,6 @@
 import { getSession } from "@/api/session";
 import { TourProvider } from "@reactour/tour";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import Editor from "@/components/common/Blockly/index.js";
@@ -38,6 +38,7 @@ import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
+import { authClient } from "@/libs/auth-client";
 
 const sessionQueryOptions = (sessionId: string) =>
 	queryOptions({
@@ -46,7 +47,26 @@ const sessionQueryOptions = (sessionId: string) =>
 	});
 export const Route = createFileRoute("/$sessionId")({
 	component: RouteComponent,
+	beforeLoad: async ({ location }) => ({
+		getSession: async () => {
+			const session = await authClient.getSession();
+			if (!session.data) {
+				throw redirect({
+					to: "/login",
+					search: {
+						redirect: location.href,
+					},
+				});
+			}
+			return session.data;
+		},
+	}),
+	loader: async ({ params, context: { getSession } }) => {
+		queryClient.ensureQueryData(sessionQueryOptions(params.sessionId));
+		return await getSession();
+	},
 	errorComponent: () => {
+		const session = Route.useLoaderData();
 		const [message, setMessage] = useState<Message>({
 			type: "error",
 			message: "session.sessionNotFoundMsg",
@@ -56,11 +76,9 @@ export const Route = createFileRoute("/$sessionId")({
 				isPopupOpen={true}
 				message={message}
 				setMessage={setMessage}
+				session={session}
 			/>
 		);
-	},
-	loader: async ({ params }) => {
-		queryClient.ensureQueryData(sessionQueryOptions(params.sessionId));
 	},
 });
 
