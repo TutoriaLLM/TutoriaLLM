@@ -5,17 +5,6 @@ import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/admin")({
 	component: AdminPage,
 	beforeLoad: async ({ location }) => {
-		// const response = await fetch(`${VITE_BACKEND_URL}/credential`, {
-		// 	credentials: "include",
-		// });
-		// if (response.status !== 200) {
-		// 	throw redirect({
-		// 		to: "/login",
-		// 		search: {
-		// 			redirect: location.href,
-		// 		},
-		// 	});
-		// }
 		const session = await authClient.getSession();
 		if (!session.data) {
 			throw redirect({

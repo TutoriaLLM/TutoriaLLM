@@ -22,6 +22,7 @@ export const Route = createFileRoute("/")({
 			return session.data;
 		},
 	}),
+	shouldReload: true,
 	loader: async ({ context: { getSession } }) => {
 		return await getSession();
 	},

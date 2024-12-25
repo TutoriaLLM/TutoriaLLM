@@ -22,7 +22,7 @@ import { setLanguageState } from "@/utils/setdefaultLanguage.js";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import type { AuthSession } from "@/type";
-import { UserAccount } from "@/components/common/account";
+import { UserAccount } from "@/components/common/profile/profile";
 
 export type sessionPopupMessageTypes = "error" | "info";
 export default function SessionPopup(props: {

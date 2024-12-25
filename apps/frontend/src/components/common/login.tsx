@@ -1,33 +1,48 @@
 import { authClient } from "@/libs/auth-client";
 import * as Label from "@radix-ui/react-label";
 import { useRouter } from "@tanstack/react-router";
-import { CircleAlert } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { CircleAlert } from "lucide-react";
+import { loginSchema, type LoginSchemaType } from "@/schema/auth";
 export default function Login(props: { redirectTo: string }) {
 	const { t } = useTranslation();
-	const usernameRef = React.useRef<HTMLInputElement>(null);
-	const passwordRef = React.useRef<HTMLInputElement>(null);
 
 	const [loginWarning, setLoginWarning] = useState("");
 
 	const router = useRouter();
 
-	const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const username = usernameRef.current?.value;
-		const password = passwordRef.current?.value;
-		if (!username || !password) {
-			setLoginWarning(t("login.loginFailed"));
-			return;
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginSchemaType>({
+		resolver: zodResolver(loginSchema),
+		defaultValues: {
+			username: "",
+			password: "",
+		},
+	});
+
+	const handleLogin = async (data: LoginSchemaType) => {
+		function signIn() {
+			if (z.string().email().safeParse(data.username).success) {
+				return authClient.signIn.email({
+					email: data.username,
+					password: data.password,
+				});
+			}
+			return authClient.signIn.username({
+				username: data.username,
+				password: data.password,
+			});
 		}
-		const data = await authClient.signIn.username({
-			username,
-			password,
-		});
-		if (data.data) {
-			router.history.push(props.redirectTo);
+		const result = await signIn();
+		if (result.data) {
+			router.navigate({ to: props.redirectTo });
 		} else {
 			setLoginWarning(t("login.loginFailed"));
 		}
@@ -36,7 +51,7 @@ export default function Login(props: { redirectTo: string }) {
 	const handleGuest = async () => {
 		const user = await authClient.signIn.anonymous();
 		if (user.data) {
-			router.history.push(props.redirectTo);
+			router.navigate({ to: props.redirectTo });
 		} else {
 			setLoginWarning(t("login.loginFailed"));
 		}
@@ -45,7 +60,7 @@ export default function Login(props: { redirectTo: string }) {
 	return (
 		<div>
 			<form
-				onSubmit={handleLogin}
+				onSubmit={handleSubmit(handleLogin)}
 				className="flex flex-col justify-center items-center gap-3 sentry-block"
 			>
 				{loginWarning === "" ? null : (
@@ -55,26 +70,31 @@ export default function Login(props: { redirectTo: string }) {
 					</div>
 				)}
 
-				<div className="w-full flex p-2 flex-wrap gap-3 items-center justify-between">
+				<div className="w-full flex p-2 gap-3 items-center justify-between">
 					<Label.Root className="text-md text-gray-500" htmlFor="username">
 						{t("login.username")}
+						{errors.username && (
+							<p className="text-red-500 text-sm">{errors.username.message}</p>
+						)}
 					</Label.Root>
+
 					<input
-						className=" w-[60%] p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
-						type="text"
 						id="username"
-						ref={usernameRef}
+						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
+						{...register("username", { required: true })}
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-3 items-center justify-between">
 					<Label.Root className="text-md text-gray-500" htmlFor="password">
 						{t("login.password")}
+						{errors.password && (
+							<p className="text-red-500 text-sm">{errors.password.message}</p>
+						)}
 					</Label.Root>
 					<input
-						className=" w-[60%] p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
 						type="password"
-						id="password"
-						ref={passwordRef}
+						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
+						{...register("password", { required: true })}
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-3 items-center justify-center">

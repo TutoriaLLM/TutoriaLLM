@@ -5,7 +5,15 @@ import { admin, anonymous, username } from "better-auth/plugins";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
-	plugins: [admin(), username(), anonymous()],
+	plugins: [
+		admin(),
+		username(),
+		anonymous({
+			onLinkAccount: async ({ anonymousUser, newUser }) => {
+				//データを移行する処理
+			},
+		}),
+	],
 	database: drizzleAdapter(db, {
 		provider: "pg",
 	}),

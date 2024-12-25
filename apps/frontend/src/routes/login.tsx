@@ -31,6 +31,7 @@ export const Route = createFileRoute("/login")({
 			throw redirect({ to: redirectTo });
 		}
 	},
+	shouldReload: true,
 	component: AdminLogin,
 });
 function AdminLogin() {
@@ -48,7 +49,7 @@ function AdminLogin() {
 		i18n.changeLanguage(languageToStart);
 	}, [languageToStart]);
 
-	const redirect = search.redirect || "/admin";
+	const redirect = search.redirect || "/";
 	return (
 		<Overlay
 			openState={true}

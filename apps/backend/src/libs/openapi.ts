@@ -13,7 +13,7 @@ export const jsonBody = <
 	T extends
 		| NonNullable<
 				NonNullable<
-					//NEED TO FIX THIS any TYPE
+					//NEED TO FIX THIS any
 					Extract<
 						Parameters<typeof createRoute>["0"]["responses"][number],
 						{ content: any }
