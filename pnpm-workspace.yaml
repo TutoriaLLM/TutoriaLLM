@@ -7,6 +7,7 @@ catalog:
   dotenv: ^16.4.5
   drizzle-kit: ^0.30.1
   drizzle-orm: ^0.38.2
+  hono: ^4.6.5
   rfc6902: ^5.1.1
   tsx: ^4.19.2
   zod: ^3.23.8
