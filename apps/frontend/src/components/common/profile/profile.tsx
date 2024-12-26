@@ -21,6 +21,7 @@ export function UserAccount(props: { session: AuthSession }) {
 		router.history.push("/login");
 	}
 	const isAnonymous = session.user.isAnonymous;
+	const isAdmin = session.user.role === "admin";
 
 	async function handleDeleteAnonymousAccount() {
 		if (!isAnonymous) {
@@ -34,6 +35,10 @@ export function UserAccount(props: { session: AuthSession }) {
 		router.history.push("/login");
 	}
 
+	function handleOpenAdmin() {
+		router.history.push("/admin");
+	}
+
 	const UserActions = () => {
 		return (
 			<div className="flex items-center gap-3">
@@ -42,6 +47,12 @@ export function UserAccount(props: { session: AuthSession }) {
 					Logout
 				</Button>
 				<ProfileEditor session={session} />
+				{isAdmin && (
+					<Button variant={"orange"} size={"sm"} onClick={handleOpenAdmin}>
+						<DoorOpenIcon className="w-5 h-5" />
+						Admin
+					</Button>
+				)}
 			</div>
 		);
 	};
@@ -61,7 +72,10 @@ export function UserAccount(props: { session: AuthSession }) {
 		);
 	};
 	return (
-		<div className="flex flex-col rounded-3xl shadow p-3 w-full bg-gray-100 gap-3">
+		<div
+			className={`flex flex-col rounded-3xl shadow p-3 w-full bg-gray-100 gap-3
+		${isAdmin ? "border-2 border-orange-500 shadow-orange-300" : ""}`}
+		>
 			<div className="flex gap-3 justify-left items-center">
 				{session.user.image ? (
 					<Avatar className="w-10 h-10 ">
