@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { authClient } from "@/libs/auth-client";
 import {
 	updatePasswordSchema,
@@ -40,7 +40,7 @@ export function EditPassword() {
 				className="space-y-2 p-3 rounded-3xl bg-gray-100 shadow"
 			>
 				<h2 className="w-full font-bold text-2xl">Change password</h2>
-				<div className="space-y-2 max-w-md">
+				<div className="space-y-2 max-w-">
 					<FormField
 						control={form.control}
 						name="oldPassword"

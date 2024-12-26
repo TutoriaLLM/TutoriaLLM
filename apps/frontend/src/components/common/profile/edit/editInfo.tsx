@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { authClient } from "@/libs/auth-client";
 import { updateUserSchema, type UpdateUserSchemaType } from "@/schema/auth";
 import type { AuthSession } from "@/type";
