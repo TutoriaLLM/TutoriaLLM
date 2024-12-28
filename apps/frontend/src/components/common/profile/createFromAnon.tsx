@@ -26,11 +26,9 @@ export function CreateFromAnonymous(props: { session: AuthSession }) {
 				Create Account
 			</Button>
 			{isPopupOpen ? (
-				<Popup
-					openState={isPopupOpen}
-					onClose={togglePopup}
-					Content={<PopupContent />}
-				/>
+				<Popup openState={isPopupOpen} onClose={togglePopup}>
+					<PopupContent />
+				</Popup>
 			) : null}
 		</div>
 	);

@@ -1,15 +1,14 @@
 import { deleteSession } from "@/api/admin/session.js";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {} from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {} from "@/hooks/admin/session.js";
 import type { SessionValue } from "@/type";
-import { getInitials } from "@/utils/initial";
 import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
 import { useMutation } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
-import BoringAvatar from "boring-avatars";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
+import UserCard from "../../userEditor/card";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -39,41 +38,15 @@ export function sessionColumns(
 			accessorKey: "userInfo",
 			cell: ({ row }) => {
 				return (
-					<div className="max-w-xs">
+					<div>
 						{typeof row.original.userInfo !== "string" &&
 						row.original.userInfo ? (
-							<div className="flex items-center gap-3 bg-gray-200 px-2 py-3 rounded-2xl overflow-clip">
-								{row.original.userInfo?.image ? (
-									<Avatar className="w-10 h-10 flex-shrink-0">
-										<AvatarImage src={row.original.userInfo.image} />
-										<AvatarFallback>
-											{getInitials(row.original.userInfo.username)}
-										</AvatarFallback>
-									</Avatar>
-								) : (
-									<BoringAvatar
-										size="40px"
-										className="w-10 h-10 rounded-full flex-shrink-0"
-										name={
-											typeof row.original.userInfo === "string"
-												? row.original.userInfo
-												: row.original.userInfo?.id
-										}
-										variant="beam"
-									/>
-								)}
-								<div className="">
-									<p className="font-semibold text-gray-800">
-										{row.original.userInfo.username}
-									</p>
-									<p
-										className="text-xs text-gray-500 break-words"
-										style={{ wordBreak: "break-word" }}
-									>
-										{row.original.userInfo.email}
-									</p>
-								</div>
-							</div>
+							<UserCard
+								image={row.original.userInfo.image}
+								header={row.original.userInfo.username}
+								subheader={row.original.userInfo.email}
+								id={row.original.userInfo.id}
+							/>
 						) : (
 							row.original.userInfo || "No user information"
 						)}

@@ -5,6 +5,7 @@ import appConfigRoute from "@/modules/admin/config";
 import sessionManagerRoute from "@/modules/admin/session";
 import trainingManagerRoute from "@/modules/admin/training";
 import tutorialsManagerRoute from "@/modules/admin/tutorials";
+import userManagerRoute from "@/modules/admin/users";
 
 // API entry point used by the admin page
 const app = createHonoApp()
@@ -31,7 +32,9 @@ const app = createHonoApp()
 	.route("/", tutorialsManagerRoute)
 
 	// API to manage AI training data
-	.route("/", trainingManagerRoute);
+	.route("/", trainingManagerRoute)
 
+	// API to extend better-auth's features manually
+	.route("/", userManagerRoute);
 export type AdminAppType = typeof app;
 export default app;

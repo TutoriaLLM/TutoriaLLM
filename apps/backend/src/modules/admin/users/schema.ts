@@ -1,33 +1,42 @@
 import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
 import { z } from "@hono/zod-openapi";
 
-export const userStrSchema = z.object({
-	string: z.union([z.string(), z.string().email()]),
-});
-
-export const sessionIdSchema = z.object({
-	sessionId: z.string(),
-});
-
-export const userInfoSchema = z.object({
+export const userIdSchema = z.object({
 	id: z.string(),
-	username: z.string().nullable(),
-	email: z.string(),
-	role: z.string().nullable(),
 });
 
-export const findUserIdFromStrParam = {
-	schema: userStrSchema.openapi("userStrSchema"),
+export const userDetailSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	email: z.string(),
+	image: z.string().nullable(),
+	createdAt: z.string().date(),
+	updatedAt: z.string().date(),
+	role: z.string().nullable(),
+	username: z.string().nullable(),
+	isAnonymous: z.boolean().nullable(),
+});
+
+export const updateUserDetailSchema = z.object({
+	name: z.string(),
+	email: z.string(),
+	image: z.string().nullable(),
+	role: z.string().nullable(),
+	username: z.string().nullable(),
+});
+
+export const userDetailParam = {
+	schema: userIdSchema.openapi("userIdSchema"),
 	vErr: () =>
-		createValidationErrorResponseSchema(findUserIdFromStrParam.schema).openapi(
+		createValidationErrorResponseSchema(userDetailParam.schema).openapi(
 			"FindUserIdFromStrValidationErrorResponse",
 		),
 };
 
-export const findUserIdFromSessionParam = {
-	schema: sessionIdSchema.openapi("FindUserIdFromSessionSchema"),
+export const updateUserDetailRequest = {
+	schema: updateUserDetailSchema.openapi("userDetailSchema"),
 	vErr: () =>
-		createValidationErrorResponseSchema(
-			findUserIdFromSessionParam.schema,
-		).openapi("FindUserIdFromSessionValidationErrorResponse"),
+		createValidationErrorResponseSchema(updateUserDetailRequest.schema).openapi(
+			"UpdateUserDetailValidationErrorResponse",
+		),
 };

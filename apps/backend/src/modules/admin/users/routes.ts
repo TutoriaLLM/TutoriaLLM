@@ -1,45 +1,49 @@
 import { createRoute } from "@hono/zod-openapi";
 import {
-	findUserIdFromSessionParam,
-	findUserIdFromStrParam,
-	userInfoSchema,
+	updateUserDetailRequest,
+	userDetailParam,
+	userDetailSchema,
+	userIdSchema,
 } from "./schema";
 import { errorResponses, jsonBody } from "@/libs/openapi";
 
-//get user information from username or email
-export const findUserIdFromStr = createRoute({
+//get user's detailed information from id
+export const userDetailFromId = createRoute({
 	method: "get",
-	path: "/admin/users/find/{string}",
-	summary: "Find user by username or email",
+	summary: "Get user's detailed information from id",
+	path: "/admin/users/{id}",
 	request: {
-		params: findUserIdFromStrParam.schema,
+		params: userDetailParam.schema,
 	},
 	responses: {
 		200: {
-			content: jsonBody(userInfoSchema),
-			description: "Returns the user information",
+			content: jsonBody(userDetailSchema),
+			description: "Returns the user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [findUserIdFromStrParam.vErr()],
+			validationErrorResnponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });
 
-//get user information from session
-export const findUserIdFromSession = createRoute({
-	method: "get",
-	path: "/admin/users/find/session/{sessionId}",
-	summary: "Find user by session id",
+//update user's detailed information manually instead of Better-auth
+export const updateUserDetail = createRoute({
+	method: "put",
+	summary: "Update user's detailed information",
+	path: "/admin/users/{id}",
 	request: {
-		params: findUserIdFromSessionParam.schema,
+		params: userDetailParam.schema,
+		body: {
+			content: jsonBody(updateUserDetailRequest.schema),
+		},
 	},
 	responses: {
 		200: {
-			content: jsonBody(userInfoSchema),
-			description: "Returns the user information",
+			content: jsonBody(userIdSchema),
+			description: "Returns the updated user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [findUserIdFromSessionParam.vErr()],
+			validationErrorResnponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });

@@ -163,11 +163,9 @@ export default function SavedData() {
 				<Search />
 			</Button>
 			{isSavedDataOpen ? (
-				<Popup
-					openState={isSavedDataOpen}
-					onClose={switchIsSavedDataOpen}
-					Content={popupContent}
-				/>
+				<Popup openState={isSavedDataOpen} onClose={switchIsSavedDataOpen}>
+					{popupContent}
+				</Popup>
 			) : null}
 		</div>
 	);

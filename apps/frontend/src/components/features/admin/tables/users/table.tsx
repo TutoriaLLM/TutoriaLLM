@@ -32,6 +32,8 @@ import type { userQuerySchema } from "@/routes/admin/users";
 import { getRouteApi } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
+import Popup from "@/components/ui/Popup";
+import { AdminUserEditor } from "../../userEditor/userEditor";
 
 export function UserTable(props: {
 	userId: string;
@@ -40,6 +42,10 @@ export function UserTable(props: {
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
 	const [data, setData] = useState<UserWithRole[]>([]);
+	const [popupUserEditorId, setPopupUserEditorId] = useState<string | null>(
+		null,
+	);
+	const [popupUserInfoId, setPopupUserInfoId] = useState<string | null>(null);
 
 	async function getUsers({
 		page,
@@ -91,8 +97,20 @@ export function UserTable(props: {
 		});
 	}
 
+	const onCloseEditorPopup = () => {
+		setPopupUserEditorId(null);
+	};
+
+	const onCloseUserInfoPopup = () => {
+		setPopupUserInfoId(null);
+	};
+
 	const table = useReactTable<UserWithRole>({
-		columns: userColumns(props.userId),
+		columns: userColumns(
+			props.userId,
+			setPopupUserEditorId,
+			setPopupUserInfoId,
+		),
 		data,
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
@@ -100,53 +118,73 @@ export function UserTable(props: {
 			sorting: [{ id: "id", desc: false }],
 		},
 	});
-
 	return (
 		<div>
-			<Table>
-				<TableHeader>
-					{table.getHeaderGroups().map((headerGroup) => (
-						<TableRow key={headerGroup.id}>
-							{headerGroup.headers.map((header) => (
-								<TableHead
-									key={header.column.id}
-									onClick={() => handleSort(header.column.id)}
-								>
-									{flexRender(
-										header.column.columnDef.header,
-										header.getContext(),
-									)}
-									{search.sortField === header.column.id &&
-										(search.sortOrder === "asc" ? (
-											<ChevronUp />
-										) : (
-											<ChevronDown />
-										))}
-								</TableHead>
-							))}
-						</TableRow>
-					))}
-				</TableHeader>
-				<TableBody>
-					{table.getRowModel().rows.length > 0 ? (
-						table.getRowModel().rows.map((row) => (
-							<TableRow key={row.id}>
-								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id}>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
-									</TableCell>
+			{popupUserEditorId !== null && (
+				<Popup
+					openState={popupUserEditorId !== null}
+					onClose={onCloseEditorPopup}
+				>
+					<AdminUserEditor id={popupUserEditorId} />
+				</Popup>
+			)}
+			{popupUserInfoId !== null && (
+				<Popup
+					openState={popupUserInfoId !== null}
+					onClose={onCloseUserInfoPopup}
+				>
+					"User info(still in development)"
+				</Popup>
+			)}
+			<div>
+				<Table>
+					<TableHeader>
+						{table.getHeaderGroups().map((headerGroup) => (
+							<TableRow key={headerGroup.id}>
+								{headerGroup.headers.map((header) => (
+									<TableHead
+										key={header.column.id}
+										onClick={() => handleSort(header.column.id)}
+									>
+										{flexRender(
+											header.column.columnDef.header,
+											header.getContext(),
+										)}
+										{search.sortField === header.column.id &&
+											(search.sortOrder === "asc" ? (
+												<ChevronUp />
+											) : (
+												<ChevronDown />
+											))}
+									</TableHead>
 								))}
 							</TableRow>
-						))
-					) : (
-						<TableRow key={0}>
-							<TableCell colSpan={table.getAllColumns().length}>
-								No users found
-							</TableCell>
-						</TableRow>
-					)}
-				</TableBody>
-			</Table>
+						))}
+					</TableHeader>
+					<TableBody>
+						{table.getRowModel().rows.length > 0 ? (
+							table.getRowModel().rows.map((row) => (
+								<TableRow key={row.id}>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell key={cell.id}>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext(),
+											)}
+										</TableCell>
+									))}
+								</TableRow>
+							))
+						) : (
+							<TableRow key={0}>
+								<TableCell colSpan={table.getAllColumns().length}>
+									No users found
+								</TableCell>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+			</div>
 			<Pagination>
 				<PaginationContent>
 					<PaginationItem>

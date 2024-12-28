@@ -3,9 +3,14 @@ import { Select } from "@/components/ui/select";
 import { authClient } from "@/libs/auth-client";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { UserWithRole } from "better-auth/plugins/admin";
-import { Trash2 } from "lucide-react";
+import { PenBox, Trash2 } from "lucide-react";
+import UserCard from "../../userEditor/card";
 
-export function userColumns(currentUserId: string) {
+export function userColumns(
+	currentUserId: string,
+	handleOpenEditor: (id: string) => void,
+	handleOpenUserInfo: (id: string) => void,
+) {
 	async function handleDeleteUser(id: string) {
 		await authClient.admin.removeUser({
 			userId: id,
@@ -16,26 +21,40 @@ export function userColumns(currentUserId: string) {
 		await authClient.admin.setRole({ userId: id, role });
 	}
 
-	const userColumns: ColumnDef<UserWithRole>[] = [
+	type userWithPlugins = UserWithRole & {
+		username?: string;
+		isAnonymous?: boolean;
+	};
+
+	const userColumns: ColumnDef<userWithPlugins>[] = [
 		{
-			header: "User ID",
-			accessorKey: "id",
+			header: "User",
+			accessorKey: "name",
 			cell: ({ row }) => {
-				return row.original.id;
+				return (
+					<UserCard
+						image={row.original.image}
+						header={row.original.name}
+						subheader={row.original.email}
+						isAnonymous={row.original.isAnonymous}
+						id={row.original.id}
+						onClick={() => handleOpenUserInfo(row.original.id)}
+					/>
+				);
 			},
 		},
 		{
-			header: "Username",
+			header: "Username for login",
 			accessorKey: "username",
 			cell: ({ row }) => {
-				return row.original.name;
+				return row.original.username ?? "No username";
 			},
 		},
 		{
-			header: "Email",
-			accessorKey: "email",
+			header: "Created At",
+			accessorKey: "createdAt",
 			cell: ({ row }) => {
-				return row.original.email;
+				return row.original.createdAt.toDateString();
 			},
 		},
 		{
@@ -71,6 +90,12 @@ export function userColumns(currentUserId: string) {
 							}
 						>
 							<Trash2 />
+						</Button>
+						<Button
+							variant={"orange"}
+							onClick={() => handleOpenEditor(row.original.id)}
+						>
+							<PenBox />
 						</Button>
 					</div>
 				);

@@ -105,8 +105,9 @@ export function SessionTable() {
 			<Popup
 				openState={popupSessionFromSessionId !== null}
 				onClose={handleClosePopup}
-				Content={PopupContent}
-			/>
+			>
+				{PopupContent}
+			</Popup>
 			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Sessions</h2>
 				{isPending && (

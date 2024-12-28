@@ -246,11 +246,9 @@ export default function llTutorialEditor(props: {
 				{props.buttonText}
 			</button>
 			{isLoading && <div>Loading...</div>} {/* Loading display */}
-			<Popup
-				openState={isPopupOpen}
-				onClose={handleClosePopup}
-				Content={popupContent}
-			/>
+			<Popup openState={isPopupOpen} onClose={handleClosePopup}>
+				{popupContent}
+			</Popup>
 		</>
 	);
 }

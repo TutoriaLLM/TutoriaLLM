@@ -146,156 +146,153 @@ function SelectTutorialUI() {
 					openState={isTutorialSelectorOpen}
 					container={document.getElementById("root") as HTMLElement}
 					onClose={switchTutorialSelector}
-					Content={
-						<div className="flex flex-col gap-4 p-2 md:p-4 min-h-[70vh]">
-							<span className="flex flex-col gap-2">
-								<h3 className="font-bold text-3xl">{t("tutorial.title")}</h3>
-								<p className="text-sm text-gray-600">
-									{t("tutorial.description")}
-								</p>
-							</span>
-							<span className="flex flex-wrap gap-2">
-								{tags.map((tag) => (
-									<button
-										key={tag.name}
-										type="button"
-										onClick={() => toggleTagSelection(tag.name)}
-										className={`p-3 rounded-2xl text-sm transition-all ${
-											selectedTags.includes(tag.name)
-												? "bg-sky-500 text-white"
-												: "bg-gray-300 text-gray-800"
-										}`}
-									>
-										{tag.name}
-									</button>
-								))}
-							</span>
-							<ul
-								className={
-									"h-full w-full grid sm:grid-cols-2 md:grid-cols-3 gap-2 p-2 md:p-3 flex-grow"
-								}
-							>
-								{userLanguageTutorials.map((tutorial) => (
-									<li
-										key={tutorial.id}
-										className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
-									>
-										<span className="flex flex-col gap-2">
-											<h4 className="font-semibold text-xl text-gray-800">
-												{tutorial.metadata.title}
-											</h4>
-											<p className="text-sm text-gray-600">
-												{tutorial.metadata.description}
-											</p>
-											<span className="flex flex-wrap gap-1">
-												{tutorial.tags.map((tag) => (
-													<span
-														key={tag.name}
-														className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
-													>
-														{tag.name}
-													</span>
-												))}
-											</span>
-										</span>
-										<div className="flex justify-center items-center gap-3">
-											<button
-												type="button"
-												onClick={() => selectTutorial(tutorial)}
-												className="bg-sky-500 grow text-white flex justify-center items-center text-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all"
-											>
-												<p className="border-r pr-1.5 border-sky-200">
-													{t("tutorial.start")}
-												</p>
-												<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
-											</button>
-											<span className="text-sm text-gray-600 gap-2 shrink">
-												<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
-													<EyeIcon />
-													{tutorial.metadata.selectCount}
+				>
+					<div className="flex flex-col gap-4 p-2 md:p-4 min-h-[70vh]">
+						<span className="flex flex-col gap-2">
+							<h3 className="font-bold text-3xl">{t("tutorial.title")}</h3>
+							<p className="text-sm text-gray-600">
+								{t("tutorial.description")}
+							</p>
+						</span>
+						<span className="flex flex-wrap gap-2">
+							{tags.map((tag) => (
+								<button
+									key={tag.name}
+									type="button"
+									onClick={() => toggleTagSelection(tag.name)}
+									className={`p-3 rounded-2xl text-sm transition-all ${
+										selectedTags.includes(tag.name)
+											? "bg-sky-500 text-white"
+											: "bg-gray-300 text-gray-800"
+									}`}
+								>
+									{tag.name}
+								</button>
+							))}
+						</span>
+						<ul
+							className={
+								"h-full w-full grid sm:grid-cols-2 md:grid-cols-3 gap-2 p-2 md:p-3 flex-grow"
+							}
+						>
+							{userLanguageTutorials.map((tutorial) => (
+								<li
+									key={tutorial.id}
+									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
+								>
+									<span className="flex flex-col gap-2">
+										<h4 className="font-semibold text-xl text-gray-800">
+											{tutorial.metadata.title}
+										</h4>
+										<p className="text-sm text-gray-600">
+											{tutorial.metadata.description}
+										</p>
+										<span className="flex flex-wrap gap-1">
+											{tutorial.tags.map((tag) => (
+												<span
+													key={tag.name}
+													className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
+												>
+													{tag.name}
 												</span>
-												{langToStr(tutorial.language)}
-											</span>
-										</div>
-									</li>
-								))}
-								{Array.from({ length: userLanguageSkeletons }).map(
-									(_, index) => (
-										<li
-											key={`skeleton-user-${index}`}
-											className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
-										>
-											<BookDashed className="w-12 h-12 text-gray-200" />
-										</li>
-									),
-								)}
-							</ul>
-							<h4 className="font-semibold text-xl mt-3">
-								{t("tutorial.otherLanguage")}
-							</h4>
-							<ul
-								className={
-									"h-full w-full grid sm:grid-cols-2 md:grid-cols-3 gap-2 p-2 md:p-3 flex-grow"
-								}
-							>
-								{otherLanguageTutorials.map((tutorial) => (
-									<li
-										key={tutorial.id}
-										className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
-									>
-										<span className="flex flex-col gap-2">
-											<h4 className="font-semibold text-xl text-gray-800">
-												{tutorial.metadata.title}
-											</h4>
-											<p className="text-sm text-gray-600">
-												{tutorial.metadata.description}
-											</p>
-											<span className="flex flex-wrap gap-1">
-												{tutorial.tags.map((tag) => (
-													<span
-														key={tag.name}
-														className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
-													>
-														{tag.name}
-													</span>
-												))}
-											</span>
+											))}
 										</span>
-										<div className="flex justify-center items-center gap-3">
-											<button
-												type="button"
-												onClick={() => selectTutorial(tutorial)}
-												className="bg-sky-500 grow text-white flex justify-center items-center text-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all"
-											>
-												<p className="border-r pr-1.5 border-sky-200">
-													{t("tutorial.start")}
-												</p>
-												<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
-											</button>
-											<span className="text-sm text-gray-600 gap-2 shrink">
-												<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
-													<EyeIcon />
-													{tutorial.metadata.selectCount}
-												</span>
-												{langToStr(tutorial.language)}
-											</span>
-										</div>
-									</li>
-								))}
-								{Array.from({ length: otherLanguageSkeletons }).map(
-									(_, index) => (
-										<li
-											key={`skeleton-other-${index}`}
-											className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
+									</span>
+									<div className="flex justify-center items-center gap-3">
+										<button
+											type="button"
+											onClick={() => selectTutorial(tutorial)}
+											className="bg-sky-500 grow text-white flex justify-center items-center text-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all"
 										>
-											<BookDashed className="w-12 h-12 text-gray-200" />
-										</li>
-									),
-								)}
-							</ul>
-						</div>
-					}
-				/>
+											<p className="border-r pr-1.5 border-sky-200">
+												{t("tutorial.start")}
+											</p>
+											<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
+										</button>
+										<span className="text-sm text-gray-600 gap-2 shrink">
+											<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
+												<EyeIcon />
+												{tutorial.metadata.selectCount}
+											</span>
+											{langToStr(tutorial.language)}
+										</span>
+									</div>
+								</li>
+							))}
+							{Array.from({ length: userLanguageSkeletons }).map((_, index) => (
+								<li
+									key={`skeleton-user-${index}`}
+									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
+								>
+									<BookDashed className="w-12 h-12 text-gray-200" />
+								</li>
+							))}
+						</ul>
+						<h4 className="font-semibold text-xl mt-3">
+							{t("tutorial.otherLanguage")}
+						</h4>
+						<ul
+							className={
+								"h-full w-full grid sm:grid-cols-2 md:grid-cols-3 gap-2 p-2 md:p-3 flex-grow"
+							}
+						>
+							{otherLanguageTutorials.map((tutorial) => (
+								<li
+									key={tutorial.id}
+									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
+								>
+									<span className="flex flex-col gap-2">
+										<h4 className="font-semibold text-xl text-gray-800">
+											{tutorial.metadata.title}
+										</h4>
+										<p className="text-sm text-gray-600">
+											{tutorial.metadata.description}
+										</p>
+										<span className="flex flex-wrap gap-1">
+											{tutorial.tags.map((tag) => (
+												<span
+													key={tag.name}
+													className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
+												>
+													{tag.name}
+												</span>
+											))}
+										</span>
+									</span>
+									<div className="flex justify-center items-center gap-3">
+										<button
+											type="button"
+											onClick={() => selectTutorial(tutorial)}
+											className="bg-sky-500 grow text-white flex justify-center items-center text-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all"
+										>
+											<p className="border-r pr-1.5 border-sky-200">
+												{t("tutorial.start")}
+											</p>
+											<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
+										</button>
+										<span className="text-sm text-gray-600 gap-2 shrink">
+											<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
+												<EyeIcon />
+												{tutorial.metadata.selectCount}
+											</span>
+											{langToStr(tutorial.language)}
+										</span>
+									</div>
+								</li>
+							))}
+							{Array.from({ length: otherLanguageSkeletons }).map(
+								(_, index) => (
+									<li
+										key={`skeleton-other-${index}`}
+										className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
+									>
+										<BookDashed className="w-12 h-12 text-gray-200" />
+									</li>
+								),
+							)}
+						</ul>
+					</div>
+				</Popup>
 			) : null}
 			<div className="rounded-2xl bg-gradient-to-r from-sky-200 to-rose-200 p-3 shadow max-w-md flex justify-between items-center animate-fade-in">
 				<span>

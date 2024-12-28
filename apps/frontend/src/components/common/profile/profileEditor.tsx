@@ -31,11 +31,9 @@ export function ProfileEditor(props: { session: AuthSession }) {
 				Edit Profile
 			</Button>
 			{isEditorPopupOpen ? (
-				<Popup
-					openState={isEditorPopupOpen}
-					onClose={toggleEditorPopup}
-					Content={<PopupContent />}
-				/>
+				<Popup openState={isEditorPopupOpen} onClose={toggleEditorPopup}>
+					<PopupContent />
+				</Popup>
 			) : null}
 		</div>
 	);
