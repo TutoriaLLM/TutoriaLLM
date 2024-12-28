@@ -1,28 +1,35 @@
+import { UserTable } from "@/components/features/admin/tables/users/table";
 import { authClient } from "@/libs/auth-client";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { fallback, zodValidator } from "@tanstack/zod-adapter";
+import { useEffect, useState } from "react";
+import { z } from "zod";
+
+export const userQuerySchema = z.object({
+	page: fallback(z.number(), 1).default(1),
+	limit: fallback(z.number(), 10).default(10),
+	sortField: fallback(z.string(), "id").default("id"),
+	sortOrder: fallback(z.enum(["asc", "desc"]), "asc").default("asc"),
+	searchField: z.enum(["name", "email"]).optional(),
+	searchOperator: z.enum(["contains", "starts_with", "ends_with"]).optional(),
+	searchValue: z.string().optional(),
+	role: z.string().optional(),
+});
 
 export const Route = createFileRoute("/admin/users")({
 	component: Users, // This is the main
+	validateSearch: zodValidator(userQuerySchema),
+	shouldReload: true,
 });
 
-async function Users() {
-	const [error, setError] = useState<string | null>(null);
+function Users() {
+	const [currentUserId, setCurrentUserId] = useState<null | string>(null);
 	const [newUser, setNewUser] = useState({
 		username: "",
 		email: "",
 		password: "",
 		role: "user",
 	});
-
-	const data = await authClient.admin.listUsers({
-		query: {
-			limit: undefined,
-		},
-	});
-
-	const currentUserId = (await authClient.getSession()).data?.user.id;
-
 	async function handleNewUserChange(
 		event: React.ChangeEvent<HTMLInputElement>,
 	) {
@@ -39,12 +46,6 @@ async function Users() {
 		}));
 	}
 
-	async function handleDeleteUser(id: string) {
-		await authClient.admin.removeUser({
-			userId: id,
-		});
-	}
-
 	async function handleCreateUser() {
 		await authClient.admin.createUser({
 			name: newUser.username,
@@ -55,52 +56,15 @@ async function Users() {
 		setNewUser({ username: "", password: "", email: "", role: "user" });
 	}
 
-	if (error) {
-		alert(error);
-		setError(null); // Reset error and continue display
-	}
+	useEffect(() => {
+		authClient.getSession().then((session) => {
+			setCurrentUserId(session.data?.user.id ?? null);
+		});
+	}, []);
 
 	return (
 		<div className="overflow-x-auto bg-gray-300 rounded-2xl">
-			<table className="min-w-full text-left text-sm whitespace-nowrap">
-				<thead className="font-semibold border-b-2 border-gray-300">
-					<tr>
-						<th scope="col" className="px-6 py-4">
-							User Name
-						</th>
-						<th scope="col" className="px-6 py-4">
-							User ID
-						</th>
-						<th scope="col" className="px-6 py-4" />
-					</tr>
-				</thead>
-				<tbody className="gap-2">
-					{data.data?.users.map((user) => (
-						<tr
-							key={user.id}
-							className="border-y-2 border-gray-300 rounded-2xl bg-gray-200 sentry-block"
-						>
-							<th className="px-6 py-4">{user.name}</th>
-
-							<td className="px-6 py-4">{user.email}</td>
-							<td className="px-6 py-4 border-l-2 border-gray-300">
-								<span className="flex gap-2">
-									<button
-										type="button"
-										className={`p-1.5 rounded-full bg-red-500 px-2 font-semibold text-white hover:bg-red-600 ${
-											currentUserId === user.id ? "hidden" : "block"
-										}`}
-										onClick={() => handleDeleteUser(user.id)}
-										disabled={currentUserId === user.id}
-									>
-										Delete
-									</button>
-								</span>
-							</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
+			<UserTable userId={currentUserId ?? ""} />
 			<div className="p-2 border-b-2 border-gray-300 bg-gray-300">
 				<h2 className="py-2 font-semibold">Create New User</h2>
 				<form className="gap-2 flex">

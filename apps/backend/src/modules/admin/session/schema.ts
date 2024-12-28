@@ -101,6 +101,13 @@ export const AudioSchema = z.object({
 });
 export type SavedAudio = z.infer<typeof AudioSchema>;
 
+export const UserInfoSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+	image: z.string().nullable(),
+	email: z.string(),
+});
+
 export const sessionValueSchema = z
 	.object({
 		uuid: z.string(),
@@ -134,6 +141,7 @@ export const sessionValueSchema = z
 
 		// Interaction-related
 		clicks: z.array(ClickSchema).nullable(),
+		userInfo: z.union([z.string(), UserInfoSchema]).nullable(),
 	})
 	.merge(timestampSchema);
 
@@ -158,6 +166,10 @@ export const sessionIdSchema = z.object({
 	}),
 });
 
+export const userIdSchema = z.object({
+	id: z.string(),
+});
+
 export const SessionQuerySchema = z.object({
 	page: stringToNumber.optional(),
 	limit: stringToNumber.optional(),
@@ -170,6 +182,14 @@ export const SessionQuerySchema = z.object({
 	sortOrder: z.string().optional(),
 });
 
+export const findSessionFromUserIdParam = {
+	schema: userIdSchema.openapi("FindSessionFromUserIdParam"),
+	vErr: () =>
+		createValidationErrorResponseSchema(
+			findSessionFromUserIdParam.schema,
+		).openapi("FindSessionFromUserIdValidationErrorResponse"),
+};
+
 export const deleteSessionParam = {
 	schema: sessionIdSchema.openapi("DeleteSessionParam"),
 	vErr: () =>
@@ -181,7 +201,7 @@ export const deleteSessionParam = {
 export const listSessionsQuery = {
 	schema: SessionQuerySchema.openapi("ListSessionsQuery"),
 	vErr: () =>
-		createValidationErrorResponseSchema(SessionQuerySchema).openapi(
+		createValidationErrorResponseSchema(listSessionsQuery.schema).openapi(
 			"ListSessionsQueryValidationErrorResponse",
 		),
 };

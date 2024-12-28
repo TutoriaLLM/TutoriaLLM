@@ -14,6 +14,8 @@ import {
 	timestamp,
 	uuid,
 } from "drizzle-orm/pg-core";
+import { user } from "./auth";
+import { relations } from "drizzle-orm";
 // Definition of an app session
 export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
 
@@ -44,4 +46,12 @@ export const appSessions = pgTable("app_session", {
 	userAudio: text("user_audio"),
 	screenshot: text("screenshot"),
 	clicks: json("clicks").$type<Click[]>(),
+	userInfo: text("user_id").references(() => user.id),
 });
+
+export const appSessionsRelations = relations(appSessions, ({ one }) => ({
+	userInfo: one(user, {
+		fields: [appSessions.userInfo],
+		references: [user.id],
+	}),
+}));

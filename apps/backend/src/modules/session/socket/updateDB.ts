@@ -1,12 +1,15 @@
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
-import type { SessionValue } from "@/modules/session/schema";
+import type { SessionValueWithoutUserInfo } from "@/modules/session/schema";
 import { eq } from "drizzle-orm";
 import { createPatch } from "rfc6902";
 import type { Socket } from "socket.io";
+import {} from "typescript";
 
 // Functions excluding privacy sensitive information. Save but do not send.
-function removePrivacyInfo(data: SessionValue): SessionValue {
+function removePrivacyInfo(
+	data: SessionValueWithoutUserInfo,
+): SessionValueWithoutUserInfo {
 	const removedData = {
 		...data,
 		userAudio: "",
@@ -20,7 +23,7 @@ function removePrivacyInfo(data: SessionValue): SessionValue {
 // Note: No value is returned to the client who made the change.
 const updateAndBroadcastDiff = async (
 	sessionId: string,
-	newData: SessionValue,
+	newData: SessionValueWithoutUserInfo,
 	socket: Socket,
 ) => {
 	const existingDataJson = await db
@@ -28,7 +31,7 @@ const updateAndBroadcastDiff = async (
 		.from(appSessions)
 		.where(eq(appSessions.sessionId, sessionId));
 
-	const existingData: SessionValue = existingDataJson[0];
+	const existingData: SessionValueWithoutUserInfo = existingDataJson[0];
 
 	const dataWithoutPrivacy = removePrivacyInfo(newData);
 
@@ -50,14 +53,14 @@ const updateAndBroadcastDiff = async (
 // Broadcast new changes to all clients
 const updateAndBroadcastDiffToAll = async (
 	sessionId: string,
-	newData: SessionValue,
+	newData: SessionValueWithoutUserInfo,
 	socket: Socket,
 ) => {
 	const existingDataJson = await db
 		.select()
 		.from(appSessions)
 		.where(eq(appSessions.sessionId, sessionId));
-	const existingData: SessionValue = existingDataJson[0];
+	const existingData: SessionValueWithoutUserInfo = existingDataJson[0];
 
 	const dataWithoutPrivacy = removePrivacyInfo(newData);
 

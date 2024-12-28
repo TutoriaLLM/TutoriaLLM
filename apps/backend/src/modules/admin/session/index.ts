@@ -1,18 +1,53 @@
 import { createHonoApp } from "@/create-app";
 import { db } from "@/db";
-import { appSessions } from "@/db/schema";
+import { appSessions, user } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
 	downloadAllSessions,
+	findSessionFromUserId,
 	listSessions,
 } from "@/modules/admin/session/routes";
-import { asc, count, desc, eq } from "drizzle-orm";
+import { asc, count, desc, eq, inArray } from "drizzle-orm";
 
 const app = createHonoApp()
 	.openapi(downloadAllSessions, async (c) => {
-		const allSessions = await db.select().from(appSessions);
+		const allSessions = await db.query.appSessions.findMany({
+			with: {
+				userInfo: {
+					columns: {
+						id: true,
+						username: true,
+						email: true,
+						image: true,
+					},
+				},
+			},
+		});
 		return c.json(allSessions, 200);
+	})
+	.openapi(findSessionFromUserId, async (c) => {
+		const userId = c.req.valid("param").id;
+		const sessions = await db.query.appSessions.findMany({
+			where: inArray(
+				appSessions.userInfo,
+				db
+					.select({ userInfo: appSessions.userInfo })
+					.from(user)
+					.where(eq(user.id, userId)),
+			),
+			with: {
+				userInfo: {
+					columns: {
+						id: true,
+						username: true,
+						email: true,
+						image: true,
+					},
+				},
+			},
+		});
+		return c.json(sessions, 200);
 	})
 	.openapi(listSessions, async (c) => {
 		const { page, limit, sortField, sortOrder } = c.req.valid("query");
@@ -22,12 +57,21 @@ const app = createHonoApp()
 			const sortOrderType = sortOrder === "asc" ? asc : desc;
 			const sortFieldType = appSessions[sortField];
 			const [sessions, total] = await Promise.all([
-				db
-					.select()
-					.from(appSessions)
-					.orderBy(sortOrderType(sortFieldType))
-					.offset(start)
-					.limit(end - start),
+				db.query.appSessions.findMany({
+					orderBy: [sortOrderType(sortFieldType)],
+					limit: end - start,
+					offset: start,
+					with: {
+						userInfo: {
+							columns: {
+								id: true,
+								username: true,
+								email: true,
+								image: true,
+							},
+						},
+					},
+				}),
 				db.select({ count: count() }).from(appSessions),
 			]);
 

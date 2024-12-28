@@ -2,6 +2,7 @@ import { deleteSession, downloadAllSessions } from "@/api/admin/session.js";
 import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
 import Popup from "@/components/ui/Popup";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
 import { type Pagination, useListSessions } from "@/hooks/admin/session.js";
 import type { SessionValue } from "@/type";
 import { langToStr } from "@/utils/langToStr";
@@ -14,6 +15,7 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+
 import {
 	Bot,
 	ChevronDown,
@@ -418,7 +420,7 @@ function Sessions() {
 					<ChevronsRight />
 				</button>
 
-				<select
+				{/* <select
 					className="p-2 rounded-full bg-white text-gray-800 font-semibold"
 					value={pagination.limit}
 					onChange={(e) => {
@@ -434,7 +436,23 @@ function Sessions() {
 							{size}
 						</option>
 					))}
-				</select>
+				</select> */}
+				<Select
+					value={pagination.limit}
+					onChange={(e) => {
+						setPagination((prev) => ({
+							...prev,
+							limit: Number(e.target.value),
+							page: 1,
+						}));
+					}}
+				>
+					{[10, 20, 30, 40, 50].map((size) => (
+						<option key={size} value={size}>
+							{size}
+						</option>
+					))}
+				</Select>
 			</div>
 		</div>
 	);

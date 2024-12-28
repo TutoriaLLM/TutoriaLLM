@@ -2,9 +2,9 @@ import type { AppSession } from "@/db/schema"; // Type used when interacting wit
 
 export function initialData(
 	uuid: string,
-
 	sessionId: string,
 	language: string,
+	userId: string,
 ): AppSession {
 	const quickReplyByLang = [
 		"quickReply.WhatINeed",
@@ -49,5 +49,6 @@ export function initialData(
 		userAudio: "",
 		screenshot: "",
 		clicks: [],
+		userInfo: userId,
 	};
 }

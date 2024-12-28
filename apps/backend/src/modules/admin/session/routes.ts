@@ -3,6 +3,7 @@ import {
 	SessionValueListSchema,
 	SessionValueListSchemaWithSort,
 	deleteSessionParam,
+	findSessionFromUserIdParam,
 	listSessionsQuery,
 } from "@/modules/admin/session/schema";
 import { createRoute } from "@hono/zod-openapi";
@@ -17,6 +18,24 @@ export const downloadAllSessions = createRoute({
 			description: "Returns all sessions",
 		},
 		...errorResponses({}),
+	},
+});
+
+export const findSessionFromUserId = createRoute({
+	method: "get",
+	path: "/admin/session/find/{userId}",
+	summary: "Find sessions by userId",
+	request: {
+		params: findSessionFromUserIdParam.schema,
+	},
+	responses: {
+		200: {
+			content: jsonBody(SessionValueListSchema),
+			description: "Returns all sessions",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [findSessionFromUserIdParam.vErr()],
+		}),
 	},
 });
 

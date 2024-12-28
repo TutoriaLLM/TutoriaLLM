@@ -334,6 +334,9 @@ importers:
       '@tanstack/router-vite-plugin':
         specifier: ^1.87.13
         version: 1.87.13(vite@5.4.9(@types/node@20.17.10)(terser@5.37.0))
+      '@tanstack/zod-adapter':
+        specifier: ^1.92.6
+        version: 1.92.6(@tanstack/react-router@1.90.0(@tanstack/router-generator@1.87.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(zod@3.23.8)
       '@vitejs/plugin-react':
         specifier: ^4.3.2
         version: 4.3.2(vite@5.4.9(@types/node@20.17.10)(terser@5.37.0))
@@ -3983,6 +3986,13 @@ packages:
   '@tanstack/virtual-file-routes@1.87.6':
     resolution: {integrity: sha512-PTpeM8SHL7AJM0pJOacFvHribbUODS51qe9NsMqku4mogh6BWObY1EeVmeGnp9o3VngAEsf+rJMs2zqIVz3WFA==}
     engines: {node: '>=12'}
+
+  '@tanstack/zod-adapter@1.92.6':
+    resolution: {integrity: sha512-nMkXAGYqnLEQj2GtDPwqyVZBO/zkCXv3An4bDiMPFkwaAvv2zxL5aKG4OasFWeMDFBZchqGwufM9qtxS+at3KQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      '@tanstack/react-router': '>=1.43.2'
+      zod: ^3.23.8
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -11866,6 +11876,11 @@ snapshots:
   '@tanstack/virtual-core@3.10.8': {}
 
   '@tanstack/virtual-file-routes@1.87.6': {}
+
+  '@tanstack/zod-adapter@1.92.6(@tanstack/react-router@1.90.0(@tanstack/router-generator@1.87.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(zod@3.23.8)':
+    dependencies:
+      '@tanstack/react-router': 1.90.0(@tanstack/router-generator@1.87.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zod: 3.23.8
 
   '@tsconfig/node10@1.0.11':
     optional: true

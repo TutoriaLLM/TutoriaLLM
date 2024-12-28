@@ -15,6 +15,13 @@
       "when": 1735013014295,
       "tag": "0001_glossy_payback",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1735207550572,
+      "tag": "0002_vengeful_vanisher",
+      "breakpoints": true
     }
   ]
 }

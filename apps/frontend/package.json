@@ -34,6 +34,7 @@
     "@tanstack/react-table": "^8.20.5",
     "@tanstack/react-virtual": "^3.10.8",
     "@tanstack/router-vite-plugin": "^1.87.13",
+    "@tanstack/zod-adapter": "^1.92.6",
     "@vitejs/plugin-react": "^4.3.2",
     "@xyflow/react": "^12.3.2",
     "autoprefixer": "^10.4.20",

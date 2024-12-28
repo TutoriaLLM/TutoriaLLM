@@ -17,6 +17,15 @@ import { uuidv7 } from "uuidv7";
 
 const app = createHonoApp()
 	.openapi(newSession, async (c) => {
+		const session = await auth.api.getSession({
+			headers: c.req.raw.headers,
+		});
+		if (!session) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
 		let language = c.req.valid("query").language;
 
 		if (language === undefined || !language) {
@@ -43,7 +52,9 @@ const app = createHonoApp()
 		// If initial data is not specified, generate initial data and create session
 		await db
 			.insert(appSessions)
-			.values(initialData(uuid, sessionId, language.toString()))
+			.values(
+				initialData(uuid, sessionId, language.toString(), session.user.id),
+			)
 			.execute();
 		console.info("session created by api");
 		return c.json(
@@ -56,6 +67,15 @@ const app = createHonoApp()
 	.openapi(resumeSession, async (c) => {
 		const key = c.req.valid("param").key;
 
+		const session = await auth.api.getSession({
+			headers: c.req.raw.headers,
+		});
+		if (!session) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
 		// Check to see if a session for that key exists
 		const value = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
@@ -65,6 +85,12 @@ const app = createHonoApp()
 			return errorResponse(c, {
 				message: "Session not found",
 				type: "NOT_FOUND",
+			});
+		}
+		if (value.userInfo !== session.user.id) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
 			});
 		}
 		return c.json(
@@ -78,15 +104,39 @@ const app = createHonoApp()
 	})
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;
-		const sessionData = c.req.valid("json");
+		const { userInfo, ...sessionData } = c.req.valid("json");
+		if (!userInfo) {
+			return errorResponse(c, {
+				message: "User info is required",
+				type: "BAD_REQUEST",
+			});
+		}
 		// Migrated from Redis to Postgres: from 1.0.0
 		const existingSession = await db.query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
+			with: {
+				userInfo: {
+					columns: {
+						id: true,
+					},
+				},
+			},
 		});
 		if (!existingSession) {
 			return errorResponse(c, {
 				message: "Session not found",
 				type: "NOT_FOUND",
+			});
+		}
+		if (
+			existingSession.userInfo?.id !==
+			(typeof userInfo === "object" && "id" in userInfo
+				? userInfo.id
+				: userInfo)
+		) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
 			});
 		}
 		const result = await db

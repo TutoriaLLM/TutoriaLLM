@@ -101,6 +101,13 @@ export const AudioSchema = z.object({
 });
 export type SavedAudio = z.infer<typeof AudioSchema>;
 
+export const UserInfoSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+	image: z.string().nullable(),
+	email: z.string(),
+});
+
 export const sessionValueSchema = z
 	.object({
 		// Basic Information
@@ -134,10 +141,12 @@ export const sessionValueSchema = z
 
 		// Interaction-related
 		clicks: z.array(ClickSchema).nullable(),
+		userInfo: z.union([z.string(), UserInfoSchema]).nullable(),
 	})
 	.merge(timestampSchema);
 
 export type SessionValue = z.infer<typeof sessionValueSchema>;
+export type SessionValueWithoutUserInfo = Omit<SessionValue, "userInfo">;
 
 export const keySchema = z.object({
 	key: z.string().openapi({
