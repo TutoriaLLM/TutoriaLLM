@@ -1,5 +1,6 @@
 import { ExitButton } from "@/components/common/exitButton.js";
-import { Link, useLocation } from "@tanstack/react-router";
+import { authClient } from "@/libs/auth-client";
+import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import {
 	Activity,
 	Bot,
@@ -15,6 +16,7 @@ import { useTranslation } from "react-i18next";
 export default function SideBar() {
 	const { t } = useTranslation();
 	const location = useLocation().pathname;
+	const router = useRouter();
 
 	const [isOpen, setIsOpen] = useState(true);
 
@@ -48,13 +50,13 @@ export default function SideBar() {
 	};
 
 	const handleSignOut = async () => {
-		const res = await fetch(`${VITE_BACKEND_URL}/logout`, {
-			method: "POST",
-			credentials: "include",
-		});
-		if (res.status === 200) {
-			window.location.href = "/";
+		const result = await authClient.signOut();
+		if (result.error) {
+			console.error(result.error);
+			alert("Error signing out");
+			return;
 		}
+		router.history.push("/login");
 	};
 
 	return (
