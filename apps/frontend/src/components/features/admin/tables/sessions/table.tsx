@@ -1,0 +1,294 @@
+import { Select } from "@/components/ui/select";
+import { downloadAllSessions } from "@/api/admin/session.js";
+import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
+import Popup from "@/components/ui/Popup";
+import { Button } from "@/components/ui/button";
+import { useListSessions } from "@/hooks/admin/session.js";
+import type { SessionValue } from "@/type";
+import {} from "@/utils/time";
+import { getRouteApi } from "@tanstack/react-router";
+import {
+	flexRender,
+	getCoreRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
+
+import {
+	ChevronDown,
+	ChevronLeft,
+	ChevronRight,
+	ChevronUp,
+	ChevronsLeft,
+	ChevronsRight,
+	LoaderCircle,
+} from "lucide-react";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import {
+	Pagination,
+	PaginationContent,
+	PaginationItem,
+} from "@/components/ui/pagination";
+
+import { useState } from "react";
+import { sessionColumns } from "./column";
+export function SessionTable() {
+	const routeApi = getRouteApi("/admin/sessions");
+	const search = routeApi.useSearch();
+	const navigate = routeApi.useNavigate();
+
+	const [downloading, setDownloading] = useState(false);
+	const [popupSessionFromSessionId, setPopupSessionFromSessionId] = useState<
+		string | null
+	>(null);
+	const [autoUpdateMs, setAutoUpdateMs] = useState<number | false>(5000);
+	const { sessions, isPending } = useListSessions(search, autoUpdateMs);
+	const totalSessions = sessions?.total || 0;
+
+	const PopupContent = popupSessionFromSessionId ? (
+		<SessionValueView session={popupSessionFromSessionId} />
+	) : (
+		<div>Session not found</div>
+	);
+	const handleDownloadAllSession = () => {
+		setDownloading(true);
+		downloadAllSessions().then((value) => {
+			const blob = new Blob([JSON.stringify(value)], {
+				type: "application/json",
+			});
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = `download-${new Date().toLocaleString()}.json`;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+			setDownloading(false);
+		});
+	};
+
+	const handleClosePopup = () => {
+		setPopupSessionFromSessionId(null);
+	};
+
+	const handleSort = (field: keyof SessionValue) => {
+		const newSortOrder =
+			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
+
+		navigate({
+			search: {
+				...search,
+				sortField: field,
+				sortOrder: newSortOrder,
+			},
+		});
+	};
+
+	const table = useReactTable<SessionValue>({
+		columns: sessionColumns(setPopupSessionFromSessionId),
+		data: sessions?.sessions || [],
+		getCoreRowModel: getCoreRowModel(),
+		manualPagination: true,
+		initialState: {
+			sorting: [{ id: "updatedAt", desc: true }],
+		},
+	});
+
+	return (
+		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
+			<Popup
+				openState={popupSessionFromSessionId !== null}
+				onClose={handleClosePopup}
+				Content={PopupContent}
+			/>
+			<div className="flex justify-between p-4">
+				<h2 className="text-2xl font-semibold">Sessions</h2>
+				{isPending && (
+					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
+						<LoaderCircle />
+					</span>
+				)}{" "}
+				<div className="flex flex-col justify-center items-center gap-2">
+					<label className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							checked={typeof autoUpdateMs === "number"}
+							onChange={() => setAutoUpdateMs(autoUpdateMs ? false : 5000)}
+							className="form-checkbox h-4 w-4"
+						/>
+						<span>Auto Update</span>
+					</label>
+					<button
+						type="button"
+						className="p-1 text-xs rounded-full text-blue-500 font-semibold"
+						onClick={handleDownloadAllSession}
+						disabled={downloading}
+					>
+						{downloading ? "Downloading..." : "Download All Sessions"}
+					</button>
+				</div>
+			</div>
+			<div className="overflow--auto">
+				<Table>
+					<TableHeader>
+						{table.getHeaderGroups().map((headerGroup) => (
+							<TableRow key={headerGroup.id}>
+								{headerGroup.headers.map((header) => (
+									<TableHead
+										key={header.id}
+										onClick={() =>
+											handleSort(header.column.id as keyof SessionValue)
+										}
+									>
+										{flexRender(
+											header.column.columnDef.header,
+											header.getContext(),
+										)}
+										{search.sortField === header.column.id ? (
+											search.sortOrder === "desc" ? (
+												<ChevronDown />
+											) : (
+												<ChevronUp />
+											)
+										) : (
+											""
+										)}
+									</TableHead>
+								))}
+							</TableRow>
+						))}
+					</TableHeader>
+					<TableBody>
+						{table.getRowModel().rows.length > 0 ? (
+							table.getRowModel().rows.map((row) => (
+								<TableRow key={row.id}>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell key={cell.id}>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext(),
+											)}
+										</TableCell>
+									))}
+								</TableRow>
+							))
+						) : (
+							<TableRow key={0}>
+								<TableCell colSpan={table.getAllColumns().length}>
+									No session found
+								</TableCell>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+			</div>
+
+			<Pagination>
+				<PaginationContent>
+					<PaginationItem>
+						<Button
+							type="button"
+							className={
+								search.page === 1
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
+							onClick={() => {
+								navigate({
+									search: (prev) => ({ ...prev, page: 1 }),
+								});
+							}}
+							disabled={search.page === 1}
+						>
+							<ChevronsLeft />
+						</Button>
+					</PaginationItem>
+					<PaginationItem>
+						<Button
+							type="button"
+							className={
+								search.page === 1
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
+							onClick={() => {
+								navigate({
+									search: (prev) => ({ ...prev, page: search.page - 1 }),
+								});
+							}}
+							disabled={search.page === 1}
+						>
+							<ChevronLeft />
+						</Button>{" "}
+					</PaginationItem>
+					<PaginationItem>
+						<Select
+							value={search.limit}
+							onChange={(e) => {
+								navigate({
+									search: (prev) => ({
+										...prev,
+										limit: Number(e.target.value),
+										page: 1,
+									}),
+								});
+							}}
+						>
+							{[5, 10, 20, 30, 40, 50].map((size) => (
+								<option key={size} value={size}>
+									{size}
+								</option>
+							))}
+						</Select>
+					</PaginationItem>
+					<PaginationItem>
+						<Button
+							type="button"
+							className={
+								search.page * search.limit >= totalSessions
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
+							onClick={() => {
+								navigate({
+									search: (prev) => ({ ...prev, page: search.page + 1 }),
+								});
+							}}
+							disabled={search.page * search.limit >= totalSessions}
+						>
+							<ChevronRight />
+						</Button>{" "}
+					</PaginationItem>
+
+					<PaginationItem>
+						<Button
+							type="button"
+							className={
+								search.page * search.limit >= totalSessions
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
+							onClick={() => {
+								navigate({
+									search: (prev) => ({
+										...prev,
+										page: Math.ceil(totalSessions / search.limit),
+									}),
+								});
+							}}
+							disabled={search.page * search.limit >= totalSessions}
+						>
+							<ChevronsRight />
+						</Button>
+					</PaginationItem>
+				</PaginationContent>
+			</Pagination>
+		</div>
+	);
+}
