@@ -2,10 +2,9 @@ import { Plus } from "lucide-react";
 import { Button } from "../../ui/button";
 
 import Popup from "../../ui/Popup";
-import type { AuthSession } from "@/type";
 import { useState } from "react";
 import { CreateAccontFromAnonymous } from "./create/createFromAnonymous";
-export function CreateFromAnonymous(props: { session: AuthSession }) {
+export function CreateFromAnonymous() {
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 
 	function togglePopup() {

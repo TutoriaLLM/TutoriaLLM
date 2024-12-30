@@ -67,7 +67,7 @@ export function UserAccount(props: { session: AuthSession }) {
 					<DoorOpenIcon className="w-5 h-5" />
 					Delete Account
 				</Button>
-				<CreateFromAnonymous session={session} />
+				<CreateFromAnonymous />
 			</div>
 		);
 	};
