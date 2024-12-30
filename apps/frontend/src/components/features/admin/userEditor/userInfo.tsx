@@ -1,5 +1,9 @@
-// import { useListSessionsFromUserId } from "@/hooks/admin/session";
+import { SessionByUserTable } from "../tables/sessionsByUser/table";
 
-// export function AdminUserInfo(props: {id: string}) {
-//     const {sessions} = useListSessionsFromUserId(props.id);
-// }
+export function AdminUserInfo() {
+	return (
+		<div>
+			<SessionByUserTable />
+		</div>
+	);
+}

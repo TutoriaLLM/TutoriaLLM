@@ -5,12 +5,10 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { UserWithRole } from "better-auth/plugins/admin";
 import { PenBox, Trash2 } from "lucide-react";
 import UserCard from "../../userEditor/card";
+import { useRouter } from "@tanstack/react-router";
 
-export function userColumns(
-	currentUserId: string,
-	handleOpenEditor: (id: string) => void,
-	handleOpenUserInfo: (id: string) => void,
-) {
+export function userColumns(currentUserId: string) {
+	const router = useRouter();
 	async function handleDeleteUser(id: string) {
 		await authClient.admin.removeUser({
 			userId: id,
@@ -25,6 +23,16 @@ export function userColumns(
 		username?: string;
 		isAnonymous?: boolean;
 	};
+
+	function handleOpenUserInfo(id: string) {
+		console.info("Open User Info", id);
+		router.navigate({ to: `/admin/users/${id}` });
+	}
+
+	function handleOpenEditor(id: string) {
+		console.info("Open User Editor", id);
+		router.navigate({ to: `/admin/users/${id}/edit` });
+	}
 
 	const userColumns: ColumnDef<userWithPlugins>[] = [
 		{

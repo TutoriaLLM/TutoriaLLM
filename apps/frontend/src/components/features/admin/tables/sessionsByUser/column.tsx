@@ -1,22 +1,15 @@
-import { deleteSession } from "@/api/admin/session.js";
+import { deleteSession } from "@/api/admin/session";
+import { useMutation } from "@/hooks/useMutations";
 import {} from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {} from "@/hooks/admin/session.js";
 import type { SessionValue } from "@/type";
 import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
-import { useMutation } from "@/hooks/useMutations";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
-import UserCard from "../../userEditor/card";
 
-export function sessionColumns(
-	setPopupSessionFromSessionId: (sessionId: string) => void,
-) {
-	const handleStatsPopup = (sessionId: string) => {
-		setPopupSessionFromSessionId(sessionId);
-	};
-
+export function sessionByUserColumns() {
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
 		onSuccess: () => {
@@ -32,28 +25,8 @@ export function sessionColumns(
 	const handleDeleteSession = (key: string) => {
 		del({ sessionId: key });
 	};
+
 	const sessionColumns: ColumnDef<SessionValue>[] = [
-		{
-			header: "User",
-			accessorKey: "userInfo",
-			cell: ({ row }) => {
-				return (
-					<div>
-						{typeof row.original.userInfo !== "string" &&
-						row.original.userInfo ? (
-							<UserCard
-								image={row.original.userInfo.image}
-								header={row.original.userInfo.username}
-								subheader={row.original.userInfo.email}
-								id={row.original.userInfo.id}
-							/>
-						) : (
-							row.original.userInfo || "No user information"
-						)}
-					</div>
-				);
-			},
-		},
 		{
 			header: "Session sessionId",
 			accessorKey: "sessionId",
@@ -154,13 +127,6 @@ export function sessionColumns(
 					<a href={`/${row.original.sessionId}`} className={buttonVariants()}>
 						Open
 					</a>
-					<Button
-						type="button"
-						variant="orange"
-						onClick={() => handleStatsPopup(row.original.sessionId)}
-					>
-						Stats
-					</Button>
 
 					<Button
 						variant="red"

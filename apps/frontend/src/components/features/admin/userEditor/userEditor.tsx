@@ -13,7 +13,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export function AdminUserEditor(props: { id: string }) {
+//only for admin
+//!!! DO NOT MAKE IT PUBLIC
+const adminUpdateUserDetailSchema = z.object({
+	name: z.string(),
+	email: z.string(),
+	image: z.string().nullable(),
+	role: z.string().nullable(),
+	username: z.string().nullable(),
+});
+type AdminUpdateUserDetailType = z.infer<typeof adminUpdateUserDetailSchema>;
+
+const UserEditorForm = ({
+	userDetail,
+	id,
+}: { userDetail: AdminUpdateUserDetailType; id: string }) => {
 	const { mutate: put } = useMutation({
 		mutationFn: updateUserDetail,
 		onSuccess: () => {
@@ -23,21 +37,6 @@ export function AdminUserEditor(props: { id: string }) {
 			console.error("Failed to update user detail", e);
 		},
 	});
-
-	const { userDetail } = useUserDetail(props.id);
-	//only for admin
-	//!!! DO NOT MAKE IT PUBLIC
-	const adminUpdateUserDetailSchema = z.object({
-		name: z.string(),
-		email: z.string(),
-		image: z.string().nullable(),
-		role: z.string().nullable(),
-		username: z.string().nullable(),
-	});
-	type AdminUpdateUserDetailType = z.infer<typeof adminUpdateUserDetailSchema>;
-
-	const onSubmit = (id: string, user: AdminUpdateUserDetailType) =>
-		put({ id: id, user: user });
 
 	const form = useForm<AdminUpdateUserDetailType>({
 		resolver: zodResolver(adminUpdateUserDetailSchema),
@@ -51,79 +50,91 @@ export function AdminUserEditor(props: { id: string }) {
 	});
 
 	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit((user) => put({ id, user: user }))}>
+				<FormField
+					control={form.control}
+					name="name"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Name</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input {...field} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="image"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Image</FormLabel>
+							<FormControl>
+								<Input {...field} value={field.value ?? ""} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="role"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Role</FormLabel>
+							<FormControl>
+								<select
+									className="p-1.5 rounded-2xl bg-white"
+									name="role"
+									value={field.value ?? ""}
+								>
+									<option value="admin">Admin</option>
+									<option value="user">User</option>
+								</select>
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="username"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Username</FormLabel>
+							<FormControl>
+								<Input {...field} value={field.value ?? ""} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<button type="submit">Submit</button>
+			</form>
+		</Form>
+	);
+};
+
+export function AdminUserEditor(props: { id: string }) {
+	const { userDetail } = useUserDetail(props.id);
+
+	if (!userDetail) {
+		return <div>Loading...</div>;
+	}
+
+	return (
 		<div>
-			<Form {...form}>
-				<form onSubmit={form.handleSubmit((data) => onSubmit(props.id, data))}>
-					<FormField
-						control={form.control}
-						name="name"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Name</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Email</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="image"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Image</FormLabel>
-								<FormControl>
-									<Input {...field} value={field.value ?? ""} />
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="role"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Role</FormLabel>
-								<FormControl>
-									<select
-										className="p-1.5 rounded-2xl bg-white"
-										name="role"
-										value={field.value ?? ""}
-									>
-										<option value="admin">Admin</option>
-										<option value="user">User</option>
-									</select>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="username"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Username</FormLabel>
-								<FormControl>
-									<Input {...field} value={field.value ?? ""} />
-								</FormControl>
-							</FormItem>
-						)}
-					/>
-					<button type="submit">Submit</button>
-				</form>
-			</Form>
+			<UserEditorForm userDetail={userDetail} id={props.id} />
 		</div>
 	);
 }

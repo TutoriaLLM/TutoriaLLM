@@ -167,7 +167,12 @@ export const sessionIdSchema = z.object({
 });
 
 export const userIdSchema = z.object({
-	id: z.string(),
+	userId: z.string().openapi({
+		param: {
+			name: "userId",
+			in: "path",
+		},
+	}),
 });
 
 export const SessionQuerySchema = z.object({

@@ -26,11 +26,12 @@ export const findSessionFromUserId = createRoute({
 	path: "/admin/session/find/{userId}",
 	summary: "Find sessions by userId",
 	request: {
+		query: listSessionsQuery.schema,
 		params: findSessionFromUserIdParam.schema,
 	},
 	responses: {
 		200: {
-			content: jsonBody(SessionValueListSchema),
+			content: jsonBody(SessionValueListSchemaWithSort),
 			description: "Returns all sessions",
 		},
 		...errorResponses({

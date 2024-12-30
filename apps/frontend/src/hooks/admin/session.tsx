@@ -1,4 +1,4 @@
-import { listSessions } from "@/api/admin/session";
+import { listSessions, listSessionsFromUserId } from "@/api/admin/session";
 import type { SessionValue } from "@/type";
 import { useQuery } from "@tanstack/react-query";
 // get Session lists for admin, with pagination
@@ -32,18 +32,27 @@ export const useListSessions = (
 	return { sessions, isPending, isError };
 };
 
-// export const useListSessionsFromUserId = (
-// 	userId: string
-// ) => {
-// 	const {
-// 		data: userSessions,
-// 		isPending,
-// 		isError,
-// 	} = useQuery({
-// 		queryKey: ["sessions", userId],
-// 		queryFn: () => useListSessionsFromUserId({ userId }),
-// 		staleTime: 1000 * 5, // 5 seconds of cache
-// 		refetchOnReconnect: true,
-// 	});
-// 	return { userSessions, isPending, isError };
-// };
+export const useListSessionsFromUserId = (
+	pagination: Pagination,
+	userId: string,
+) => {
+	const {
+		data: userSessions,
+		isPending,
+		isError,
+	} = useQuery({
+		queryKey: ["sessions", pagination, userId],
+		queryFn: () =>
+			listSessionsFromUserId(
+				{
+					...pagination,
+					page: pagination.page.toString(),
+					limit: pagination.limit.toString(),
+				},
+				userId,
+			),
+		staleTime: 1000 * 5, // 5 seconds of cache
+		refetchOnReconnect: true,
+	});
+	return { userSessions, isPending, isError };
+};

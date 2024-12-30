@@ -1,12 +1,12 @@
+import { getRouteApi } from "@tanstack/react-router";
+import { sessionByUserColumns } from "./column";
+import { useListSessionsFromUserId } from "@/hooks/admin/session";
 import {
-	flexRender,
 	getCoreRowModel,
 	useReactTable,
+	flexRender,
 } from "@tanstack/react-table";
-import type { UserWithRole } from "better-auth/plugins/admin";
-import { userColumns } from "./column";
-import { authClient } from "@/libs/auth-client";
-import { useEffect, useState } from "react";
+import type { SessionValue } from "@/type";
 import {
 	Table,
 	TableBody,
@@ -16,72 +16,33 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import {
-	Pagination,
-	PaginationContent,
-	PaginationItem,
-} from "@/components/ui/pagination";
-
-import {
 	ChevronDown,
 	ChevronLeft,
 	ChevronRight,
 	ChevronUp,
+	ChevronsLeft,
+	ChevronsRight,
 } from "lucide-react";
-import type { z } from "zod";
-import type { userQuerySchema } from "@/routes/admin/users";
-import { getRouteApi } from "@tanstack/react-router";
+import {
+	Pagination,
+	PaginationContent,
+	PaginationItem,
+} from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
-
-export function UserTable(props: {
-	userId: string;
-}) {
-	const routeApi = getRouteApi("/admin/users");
+export function SessionByUserTable() {
+	const routeApi = getRouteApi("/admin/users_/$userId");
+	const { userId } = routeApi.useParams();
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
-	const [data, setData] = useState<UserWithRole[]>([]);
 
-	async function getUsers({
-		page,
-		limit,
-		sortField,
-		sortOrder,
-		searchField,
-		searchOperator,
-		searchValue,
-		role,
-	}: z.infer<typeof userQuerySchema>) {
-		const query: Record<string, any> = {
-			limit: limit,
-			offset: (page - 1) * limit,
-			sortBy: sortField,
-			sortDirection: sortOrder,
-		};
+	const { userSessions, isPending } = useListSessionsFromUserId(search, userId);
+	const totalSessions = userSessions?.total || 0;
 
-		if (searchField) query.searchField = searchField;
-		if (searchOperator) query.searchOperator = searchOperator;
-		if (searchValue) query.searchValue = searchValue;
-		if (role) {
-			query.filterField = "role";
-			query.filterValue = role;
-			query.filterOperator = "eq";
-		}
-
-		return await authClient.admin.listUsers({
-			fetchOptions: {},
-			query,
-		});
-	}
-
-	useEffect(() => {
-		getUsers(search).then((users) => {
-			setData(users.data?.users || []);
-		});
-	}, [search]);
-
-	function handleSort(field: string) {
+	const handleSort = (field: keyof SessionValue) => {
 		const newSortOrder =
 			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
+
 		navigate({
 			search: {
 				...search,
@@ -89,39 +50,45 @@ export function UserTable(props: {
 				sortOrder: newSortOrder,
 			},
 		});
-	}
+	};
 
-	const table = useReactTable<UserWithRole>({
-		columns: userColumns(props.userId),
-		data,
+	const table = useReactTable<SessionValue>({
+		columns: sessionByUserColumns(),
+		data: userSessions?.sessions || [],
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
 		initialState: {
-			sorting: [{ id: "id", desc: false }],
+			sorting: [{ id: "updatedAt", desc: true }],
 		},
 	});
+
 	return (
-		<div>
-			<div>
+		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
+			<div className="overflow--auto">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => (
 									<TableHead
-										key={header.column.id}
-										onClick={() => handleSort(header.column.id)}
+										key={header.id}
+										onClick={() =>
+											handleSort(header.column.id as keyof SessionValue)
+										}
 									>
 										{flexRender(
 											header.column.columnDef.header,
 											header.getContext(),
 										)}
-										{search.sortField === header.column.id &&
-											(search.sortOrder === "asc" ? (
-												<ChevronUp />
-											) : (
+										{search.sortField === header.column.id ? (
+											search.sortOrder === "desc" ? (
 												<ChevronDown />
-											))}
+											) : (
+												<ChevronUp />
+											)
+										) : (
+											""
+										)}
 									</TableHead>
 								))}
 							</TableRow>
@@ -144,33 +111,52 @@ export function UserTable(props: {
 						) : (
 							<TableRow key={0}>
 								<TableCell colSpan={table.getAllColumns().length}>
-									No users found
+									No session found
 								</TableCell>
 							</TableRow>
 						)}
 					</TableBody>
 				</Table>
 			</div>
+
 			<Pagination>
 				<PaginationContent>
 					<PaginationItem>
 						<Button
+							type="button"
+							className={
+								search.page === 1
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
 							onClick={() => {
 								navigate({
-									search: (prev) => ({ ...prev, page: prev.page - 1 }),
+									search: (prev) => ({ ...prev, page: 1 }),
 								});
 							}}
 							disabled={search.page === 1}
-							className={
-								search.page === 1
-									? " cursor-not-allowed bg-gray-400 hover:bg-gray-500"
-									: ""
-							}
 						>
-							<ChevronLeft />
+							<ChevronsLeft />
 						</Button>
 					</PaginationItem>
-
+					<PaginationItem>
+						<Button
+							type="button"
+							className={
+								search.page === 1
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
+							onClick={() => {
+								navigate({
+									search: (prev) => ({ ...prev, page: search.page - 1 }),
+								});
+							}}
+							disabled={search.page === 1}
+						>
+							<ChevronLeft />
+						</Button>{" "}
+					</PaginationItem>
 					<PaginationItem>
 						<Select
 							value={search.limit}
@@ -191,25 +177,44 @@ export function UserTable(props: {
 							))}
 						</Select>
 					</PaginationItem>
+					<PaginationItem>
+						<Button
+							type="button"
+							className={
+								search.page * search.limit >= totalSessions
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
+							onClick={() => {
+								navigate({
+									search: (prev) => ({ ...prev, page: search.page + 1 }),
+								});
+							}}
+							disabled={search.page * search.limit >= totalSessions}
+						>
+							<ChevronRight />
+						</Button>{" "}
+					</PaginationItem>
 
 					<PaginationItem>
 						<Button
+							type="button"
+							className={
+								search.page * search.limit >= totalSessions
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-sky-500"
+							}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({
 										...prev,
-										page: prev.page + 1,
+										page: Math.ceil(totalSessions / search.limit),
 									}),
 								});
 							}}
-							disabled={data.length < search.limit}
-							className={
-								data.length < search.limit
-									? " cursor-not-allowed bg-gray-400 hover:bg-gray-500"
-									: ""
-							}
+							disabled={search.page * search.limit >= totalSessions}
 						>
-							<ChevronRight />
+							<ChevronsRight />
 						</Button>
 					</PaginationItem>
 				</PaginationContent>
