@@ -30,11 +30,17 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
+import { useState } from "react";
+import Popup from "@/components/ui/Popup";
+import { SessionValueView } from "../../SessionValueView";
 export function SessionByUserTable() {
 	const routeApi = getRouteApi("/admin/users_/$userId");
 	const { userId } = routeApi.useParams();
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
+	const [popupSessionFromSessionId, setPopupSessionFromSessionId] = useState<
+		string | null
+	>(null);
 
 	const { userSessions, isPending } = useListSessionsFromUserId(search, userId);
 	const totalSessions = userSessions?.total || 0;
@@ -52,8 +58,18 @@ export function SessionByUserTable() {
 		});
 	};
 
+	const handleClosePopup = () => {
+		setPopupSessionFromSessionId(null);
+	};
+
+	const PopupContent = popupSessionFromSessionId ? (
+		<SessionValueView session={popupSessionFromSessionId} />
+	) : (
+		<div>Session not found</div>
+	);
+
 	const table = useReactTable<SessionValue>({
-		columns: sessionByUserColumns(),
+		columns: sessionByUserColumns(setPopupSessionFromSessionId),
 		data: userSessions?.sessions || [],
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
@@ -64,6 +80,12 @@ export function SessionByUserTable() {
 
 	return (
 		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
+			<Popup
+				openState={popupSessionFromSessionId !== null}
+				onClose={handleClosePopup}
+			>
+				{PopupContent}
+			</Popup>
 			<div className="overflow--auto">
 				<Table>
 					<TableHeader>

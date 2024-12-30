@@ -52,7 +52,14 @@ export function sessionColumns(
 								header={row.original.userInfo.username}
 								subheader={row.original.userInfo.email}
 								id={row.original.userInfo.id}
-								onClick={() => handleOpenUserInfo(row.original.userInfo.id)}
+								onClick={() =>
+									handleOpenUserInfo(
+										row.original.userInfo &&
+											typeof row.original.userInfo !== "string"
+											? row.original.userInfo.id
+											: row.original.userInfo || "",
+									)
+								}
 							/>
 						) : (
 							row.original.userInfo || "No user information"

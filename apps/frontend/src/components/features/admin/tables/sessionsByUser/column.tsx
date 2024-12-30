@@ -9,7 +9,9 @@ import { msToTime, timeAgo } from "@/utils/time";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 
-export function sessionByUserColumns() {
+export function sessionByUserColumns(
+	setPopupSessionFromSessionId: (sessionId: string) => void,
+) {
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
 		onSuccess: () => {
@@ -24,6 +26,9 @@ export function sessionByUserColumns() {
 
 	const handleDeleteSession = (key: string) => {
 		del({ sessionId: key });
+	};
+	const handleStatsPopup = (sessionId: string) => {
+		setPopupSessionFromSessionId(sessionId);
 	};
 
 	const sessionColumns: ColumnDef<SessionValue>[] = [
@@ -127,7 +132,13 @@ export function sessionByUserColumns() {
 					<a href={`/${row.original.sessionId}`} className={buttonVariants()}>
 						Open
 					</a>
-
+					<Button
+						type="button"
+						variant="orange"
+						onClick={() => handleStatsPopup(row.original.sessionId)}
+					>
+						Stats
+					</Button>
 					<Button
 						variant="red"
 						onClick={() => handleDeleteSession(row.original.sessionId)}
