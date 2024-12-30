@@ -9,10 +9,12 @@ import { useMutation } from "@/hooks/useMutations";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 import UserCard from "../../userEditor/card";
+import { useRouter } from "@tanstack/react-router";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
 ) {
+	const router = useRouter();
 	const handleStatsPopup = (sessionId: string) => {
 		setPopupSessionFromSessionId(sessionId);
 	};
@@ -29,6 +31,10 @@ export function sessionColumns(
 		},
 	});
 
+	function handleOpenUserInfo(id: string) {
+		console.info("Open User Info", id);
+		router.navigate({ to: `/admin/users/${id}` });
+	}
 	const handleDeleteSession = (key: string) => {
 		del({ sessionId: key });
 	};
@@ -46,6 +52,7 @@ export function sessionColumns(
 								header={row.original.userInfo.username}
 								subheader={row.original.userInfo.email}
 								id={row.original.userInfo.id}
+								onClick={() => handleOpenUserInfo(row.original.userInfo.id)}
 							/>
 						) : (
 							row.original.userInfo || "No user information"

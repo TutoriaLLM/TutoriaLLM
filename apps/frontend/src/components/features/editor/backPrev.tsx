@@ -2,9 +2,13 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 
-export function BackToPrevPage() {
+export function BackToPrevPage({ path }: { path?: string }) {
 	const router = useRouter();
 	const onBack = () => {
+		if (path) {
+			router.history.push(path);
+			return;
+		}
 		router.history.back();
 	};
 	return (
