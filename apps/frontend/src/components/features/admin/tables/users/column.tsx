@@ -48,7 +48,6 @@ export function userColumns(currentUserId: string) {
 				</p>
 			),
 		});
-		queryClient.invalidateQueries({ queryKey: ["users"] });
 		router.navigate({ to: "/admin/users" });
 	}
 
@@ -68,6 +67,7 @@ export function userColumns(currentUserId: string) {
 
 			return;
 		}
+
 		toast({
 			description: (
 				<p className="flex items-center justify-center gap-2">
