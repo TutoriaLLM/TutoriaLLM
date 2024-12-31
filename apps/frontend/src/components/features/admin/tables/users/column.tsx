@@ -3,20 +3,67 @@ import { Select } from "@/components/ui/select";
 import { authClient } from "@/libs/auth-client";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { UserWithRole } from "better-auth/plugins/admin";
-import { PenBox, Trash2 } from "lucide-react";
+import { CheckCircle, PenBox, Trash2, XCircleIcon } from "lucide-react";
 import UserCard from "../../userEditor/card";
 import { useRouter } from "@tanstack/react-router";
+import { useToast } from "@/hooks/toast";
 
 export function userColumns(currentUserId: string) {
 	const router = useRouter();
+	const { toast } = useToast();
+
 	async function handleDeleteUser(id: string) {
-		await authClient.admin.removeUser({
+		const result = await authClient.admin.removeUser({
 			userId: id,
+		});
+		if (!result.data?.success || result.error) {
+			console.error("Failed to delete user");
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<XCircleIcon className="text-red-500" />
+						Failed to delete user
+					</p>
+				),
+				variant: "destructive",
+			});
+
+			return;
+		}
+		toast({
+			description: (
+				<p className="flex items-center justify-center gap-2">
+					<CheckCircle className="text-green-500" />
+					User deleted
+				</p>
+			),
 		});
 	}
 
 	async function handleChangeRole(id: string, role: string) {
-		await authClient.admin.setRole({ userId: id, role });
+		const result = await authClient.admin.setRole({ userId: id, role });
+		if (result.error) {
+			console.error("Failed to update role");
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<XCircleIcon className="text-red-500" />
+						Failed to update role
+					</p>
+				),
+				variant: "destructive",
+			});
+
+			return;
+		}
+		toast({
+			description: (
+				<p className="flex items-center justify-center gap-2">
+					<CheckCircle className="text-green-500" />
+					Role updated
+				</p>
+			),
+		});
 	}
 
 	type userWithPlugins = UserWithRole & {

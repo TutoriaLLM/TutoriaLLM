@@ -5,14 +5,17 @@ import BoringAvatar from "boring-avatars";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
 import {
+	CheckCircle,
 	LucideVenetianMask,
 	MailIcon,
 	PenBox,
 	Trash2,
 	UserIcon,
+	XCircleIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/libs/auth-client";
+import { useToast } from "@/hooks/toast";
 export function AdminUserInfo({
 	currentUserId,
 }: { currentUserId: string | null }) {
@@ -20,9 +23,32 @@ export function AdminUserInfo({
 	const router = useRouter();
 	const { userId } = routeApi.useParams();
 	const { userDetail } = useUserDetail(userId);
+	const { toast } = useToast();
 	async function handleDeleteUser(id: string) {
-		await authClient.admin.removeUser({
+		const result = await authClient.admin.removeUser({
 			userId: id,
+		});
+		if (!result.data?.success || result.error) {
+			console.error("Failed to delete user");
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<XCircleIcon className="text-red-500" />
+						Failed to delete user
+					</p>
+				),
+				variant: "destructive",
+			});
+
+			return;
+		}
+		toast({
+			description: (
+				<p className="flex items-center justify-center gap-2">
+					<CheckCircle className="text-green-500" />
+					User deleted
+				</p>
+			),
 		});
 	}
 	function handleOpenEditor(id: string) {

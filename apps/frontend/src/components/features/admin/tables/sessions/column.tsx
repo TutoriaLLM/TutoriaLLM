@@ -7,9 +7,18 @@ import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
 import { useMutation } from "@/hooks/useMutations";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
+import {
+	Bot,
+	CheckCircle,
+	Clock,
+	MessageCircleMore,
+	Play,
+	Puzzle,
+	XCircle,
+} from "lucide-react";
 import UserCard from "../../userEditor/card";
 import { useRouter } from "@tanstack/react-router";
+import { useToast } from "@/hooks/toast";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -18,16 +27,31 @@ export function sessionColumns(
 	const handleStatsPopup = (sessionId: string) => {
 		setPopupSessionFromSessionId(sessionId);
 	};
+	const { toast } = useToast();
 
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
 		onSuccess: () => {
-			alert("Session deleted successfully");
-			//reload
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<CheckCircle className="text-green-500" />
+						Session deleted successfully
+					</p>
+				),
+			});
 		},
 		onError: (error) => {
-			alert("Failed to delete session");
 			console.error("Failed to delete session:", error);
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<XCircle className="text-red-500" />
+						Failed to delete session
+					</p>
+				),
+				variant: "destructive",
+			});
 		},
 	});
 
