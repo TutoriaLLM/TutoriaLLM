@@ -34,7 +34,7 @@ const UserCard = ({
 				<BoringAvatar
 					size="40px"
 					className="w-10 h-10 rounded-full flex-shrink-0"
-					name={typeof header === "string" ? header : id}
+					name={id}
 					variant="beam"
 				/>
 			)}
