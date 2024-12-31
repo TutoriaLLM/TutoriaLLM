@@ -16,9 +16,13 @@ export const Route = createFileRoute("/admin/users_/$userId_/edit")({
 
 function UserEditor() {
 	const userId = Route.useLoaderData();
+	const params = Route.useParams();
+
 	return (
-		<div>
-			<BackToPrevPage />
+		<div className="space-y-4">
+			<BackToPrevPage
+				breadCrumbs={["admin", "users", params.userId.toString(), "edit"]}
+			/>
 			<AdminUserEditor id={userId} />
 		</div>
 	);

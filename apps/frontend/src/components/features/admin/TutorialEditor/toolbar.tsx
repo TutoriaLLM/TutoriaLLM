@@ -18,26 +18,17 @@ import {
 	SaveAll,
 	Star,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Toolbar(props: {
 	id: number | null;
 	nodes: any[];
 	edges: any[];
 	setNodes: (nodes: any[]) => void;
-	// handleClosePopup: () => void;
-	isPopupOpen: boolean;
 }) {
-	const { nodes, edges, isPopupOpen, setNodes } = props;
+	const { nodes, edges, setNodes } = props;
 
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
-
-	useEffect(() => {
-		// When the popup is closed, the toolbar is also closed.
-		if (!isPopupOpen) {
-			setIsToolbarOpen(false);
-		}
-	}, [isPopupOpen]);
 
 	function handleToggleToolbar(open: boolean) {
 		setIsToolbarOpen(open); // Use `open` to update status correctly

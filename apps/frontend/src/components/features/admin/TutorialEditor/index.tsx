@@ -1,4 +1,3 @@
-import Popup from "@/components/ui/Popup.js";
 import {
 	Background,
 	Controls,
@@ -11,7 +10,6 @@ import {
 } from "@xyflow/react";
 import { useCallback, useEffect, useState } from "react";
 import "@xyflow/react/dist/style.css";
-import { getSpecificTutorial } from "@/api/admin/tutorials.js";
 import { ExampleCode } from "@/components/features/admin/TutorialEditor/nodes/exampleCode";
 import { Markdown } from "@/components/features/admin/TutorialEditor/nodes/markdown";
 import { MarkdownGen } from "@/components/features/admin/TutorialEditor/nodes/markdownGen";
@@ -20,6 +18,7 @@ import { MetadataGen } from "@/components/features/admin/TutorialEditor/nodes/me
 import Output from "@/components/features/admin/TutorialEditor/nodes/output";
 import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 import type { Tutorial } from "@/type.js";
+import { useSpecificTutorial } from "@/hooks/admin/tutorials";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -34,14 +33,12 @@ const nodeTypes = {
 
 export default function llTutorialEditor(props: {
 	id: number | null;
-	buttonText: string;
 	json?: TutorialType | null; // Add JSON as an argument
 }) {
-	const [isPopupOpen, setIsPopupOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(false); // Add loading status
 	const [tutorialData, setTutorialData] = useState<TutorialType | null>(
 		props.json || null,
 	); // Initialize json if available
+	const { tutorial } = useSpecificTutorial(props.id || 0);
 
 	const initialNodes = [
 		{
@@ -128,23 +125,14 @@ export default function llTutorialEditor(props: {
 		[setNodes],
 	);
 
-	// Responsible for acquiring tutorial data and reflecting it in the editor
-	const fetchTutorialData = useCallback(async () => {
-		if (props.id !== null) {
-			setIsLoading(true); // Loading starts at the start of data acquisition
-			try {
-				const response = await getSpecificTutorial({ id: props.id });
-				setTutorialData({
-					metadata: response.metadata,
-					content: response.content,
-					serializednodes: response.serializednodes,
-				});
-				setIsLoading(false); // Loading is terminated after data acquisition is complete
-				setIsPopupOpen(true);
-			} catch (error) {
-				console.error("Error fetching tutorial data:", error);
-				setIsLoading(false); // Terminates loading even in the event of an error
-			}
+	// // Responsible for acquiring tutorial data and reflecting it in the editor
+	useCallback(() => {
+		if (props.id !== null && tutorial) {
+			setTutorialData({
+				metadata: tutorial.metadata,
+				content: tutorial.content,
+				serializednodes: tutorial.serializednodes,
+			});
 		} else if (props.json) {
 			// If JSON data is available when creating a new file, use it.
 			// If JSON is not in the specified format, display alert and use initial data
@@ -163,11 +151,9 @@ export default function llTutorialEditor(props: {
 					content: "",
 					serializednodes: "",
 				});
-				setIsPopupOpen(true);
 				return;
 			}
 			setTutorialData(props.json);
-			setIsPopupOpen(true);
 		} else {
 			// Use default data for new creation
 			setTutorialData({
@@ -179,7 +165,6 @@ export default function llTutorialEditor(props: {
 				content: "",
 				serializednodes: "",
 			});
-			setIsPopupOpen(true);
 		}
 	}, [props.id, props.json]);
 
@@ -199,15 +184,7 @@ export default function llTutorialEditor(props: {
 		[setEdges],
 	);
 
-	const handleOpenPopup = () => {
-		fetchTutorialData(); // Retrieve data and open popup
-	};
-
-	const handleClosePopup = () => {
-		setIsPopupOpen(false);
-	};
-
-	const popupContent = (
+	return (
 		<div className="w-full h-[100vh] flex-grow max-w-full max-h-full">
 			<ReactFlow
 				nodes={nodes}
@@ -227,28 +204,11 @@ export default function llTutorialEditor(props: {
 						setNodes={setNodes}
 						edges={edges}
 						// handleClosePopup={handleClosePopup}
-						isPopupOpen={isPopupOpen}
 					/>
 				</Panel>
 				<Controls />
 				<Background gap={12} size={1} />
 			</ReactFlow>
 		</div>
-	);
-
-	return (
-		<>
-			<button
-				type="button"
-				className="rounded-2xl max-w-60 w-full bg-blue-500 p-2 text-white font-semibold"
-				onClick={handleOpenPopup}
-			>
-				{props.buttonText}
-			</button>
-			{isLoading && <div>Loading...</div>} {/* Loading display */}
-			<Popup openState={isPopupOpen} onClose={handleClosePopup}>
-				{popupContent}
-			</Popup>
-		</>
 	);
 }

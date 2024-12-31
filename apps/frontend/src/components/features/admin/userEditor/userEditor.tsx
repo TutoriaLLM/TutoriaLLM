@@ -1,27 +1,21 @@
 import { updateUserDetail } from "@/api/admin/users";
+import { Button } from "@/components/ui/button";
 import {
 	Form,
 	FormControl,
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useUserDetail } from "@/hooks/admin/users";
 import { useMutation } from "@/hooks/useMutations";
+import { adminUpdateUserDetailSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 
-//only for admin
-//!!! DO NOT MAKE IT PUBLIC
-const adminUpdateUserDetailSchema = z.object({
-	name: z.string(),
-	email: z.string(),
-	image: z.string().nullable(),
-	role: z.string().nullable(),
-	username: z.string().nullable(),
-});
 type AdminUpdateUserDetailType = z.infer<typeof adminUpdateUserDetailSchema>;
 
 const UserEditorForm = ({
@@ -51,15 +45,36 @@ const UserEditorForm = ({
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit((user) => put({ id, user: user }))}>
+			<form
+				onSubmit={form.handleSubmit((user) => put({ id, user: user }))}
+				className="space-y-3 p-3 max-w-md "
+			>
 				<FormField
 					control={form.control}
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<div className="flex gap-2 items-center">
+								<FormLabel>Display Name</FormLabel>
+								<FormMessage />
+							</div>
 							<FormControl>
 								<Input {...field} />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="username"
+					render={({ field }) => (
+						<FormItem>
+							<div className="flex gap-2 items-center">
+								<FormLabel>Name for login</FormLabel>
+								<FormMessage />
+							</div>
+							<FormControl>
+								<Input {...field} value={field.value ?? ""} />
 							</FormControl>
 						</FormItem>
 					)}
@@ -69,7 +84,10 @@ const UserEditorForm = ({
 					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Email</FormLabel>
+							<div className="flex gap-2 items-center">
+								<FormLabel>Email</FormLabel>
+								<FormMessage />
+							</div>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
@@ -81,7 +99,10 @@ const UserEditorForm = ({
 					name="image"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Image</FormLabel>
+							<div className="flex gap-2 items-center">
+								<FormLabel>Image</FormLabel>
+								<FormMessage />
+							</div>
 							<FormControl>
 								<Input {...field} value={field.value ?? ""} />
 							</FormControl>
@@ -93,7 +114,10 @@ const UserEditorForm = ({
 					name="role"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Role</FormLabel>
+							<div className="flex gap-2 items-center">
+								<FormLabel>Role</FormLabel>
+								<FormMessage />
+							</div>
 							<FormControl>
 								<select
 									className="p-1.5 rounded-2xl bg-white"
@@ -107,19 +131,10 @@ const UserEditorForm = ({
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="username"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Username</FormLabel>
-							<FormControl>
-								<Input {...field} value={field.value ?? ""} />
-							</FormControl>
-						</FormItem>
-					)}
-				/>
-				<button type="submit">Submit</button>
+
+				<Button type="submit" variant={"orange"}>
+					Submit
+				</Button>
 			</form>
 		</Form>
 	);

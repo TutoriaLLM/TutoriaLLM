@@ -1,8 +1,10 @@
 import { AdminUserInfo } from "@/components/features/admin/userEditor/userInfo";
 import { BackToPrevPage } from "@/components/features/editor/backPrev";
+import { authClient } from "@/libs/auth-client";
 import type { SessionValue } from "@/type";
 import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 
 const sessionByUserQuerySchema = z.object({
@@ -22,10 +24,22 @@ export const Route = createFileRoute("/admin/users_/$userId")({
 });
 
 function UserViewer() {
+	const [currentUserId, setCurrentUserId] = useState<null | string>(null);
+
+	const params = Route.useParams();
+
+	useEffect(() => {
+		authClient.getSession().then((session) => {
+			setCurrentUserId(session.data?.user.id ?? null);
+		});
+	}, []);
+
 	return (
-		<div>
-			<BackToPrevPage />
-			<AdminUserInfo />
+		<div className="space-y-4">
+			<BackToPrevPage
+				breadCrumbs={["admin", "users", params.userId.toString()]}
+			/>
+			<AdminUserInfo currentUserId={currentUserId} />
 		</div>
 	);
 }

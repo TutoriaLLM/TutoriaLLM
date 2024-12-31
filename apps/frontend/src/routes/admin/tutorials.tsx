@@ -1,10 +1,10 @@
 import { deleteTutorial } from "@/api/admin/tutorials.js";
-import TutorialEditor from "@/components/features/admin/TutorialEditor/index.js";
+import { Button } from "@/components/ui/button";
 import { useListTutorials } from "@/hooks/admin/tutorials.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/admin/tutorials")({
@@ -15,6 +15,8 @@ function Tutorials() {
 	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [error, setError] = useState<string | null>(null);
 	const [uploadedJson, setUploadedJson] = useState<Tutorial | null>(null); // State to manage uploaded JSON
+
+	const router = useRouter();
 
 	const { tutorials, isPending } = useListTutorials();
 
@@ -145,7 +147,16 @@ function Tutorials() {
 										</td>
 										<td className="px-6 py-4 border-l-2 flex gap-2 border-gray-300 items-center justify-center w-full">
 											<div className="min-w-16">
-												<TutorialEditor id={tutorial.id} buttonText="Edit" />
+												<Button
+													onClick={() =>
+														router.navigate({
+															to: "/admin/tutorials/editor",
+															search: { id: tutorial.id },
+														})
+													}
+												>
+													Edit
+												</Button>
 											</div>
 
 											<button
@@ -178,7 +189,15 @@ function Tutorials() {
 
 			<div className="p-2 border-b-2 border-gray-300 bg-gray-300 flex flex-col items-center gap-2 w-full">
 				<h2 className="font-semibold">Create New Tutorial</h2>
-				<TutorialEditor id={null} buttonText="New Tutorial" />
+				<Button
+					onClick={() =>
+						router.navigate({
+							to: "/admin/tutorials/editor",
+						})
+					}
+				>
+					Create New Tutorial
+				</Button>
 
 				<h2 className="font-semibold">Import Tutorial</h2>
 				<div className="flex gap-2">
@@ -187,14 +206,9 @@ function Tutorials() {
 						accept=".json"
 						onChange={handleFileUpload}
 						className="flex rounded-2xl border-2 border-gray-400 p-2"
+						disabled={true}
 					/>
-					{uploadedJson && (
-						<TutorialEditor
-							id={null}
-							buttonText="Import Tutorial"
-							json={uploadedJson}
-						/>
-					)}
+					tutorial feature is not implemented yet
 				</div>
 			</div>
 		</div>

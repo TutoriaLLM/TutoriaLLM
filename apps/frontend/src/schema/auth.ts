@@ -15,6 +15,16 @@ export const loginSchema = z.object({
 		.min(1, { message: "Password is required" }),
 });
 
+//only for admin
+//!!! DO NOT MAKE IT PUBLIC
+export const adminUpdateUserDetailSchema = z.object({
+	name: z.string().min(1, { message: "Name is required" }),
+	email: z.string().email().min(1, { message: "Email is required" }),
+	image: z.string().nullable(),
+	role: z.string().min(1, { message: "Role is required" }).nullable(),
+	username: z.string().min(1, { message: "Username is required" }).nullable(),
+});
+
 export const updateUserSchema = z.object({
 	name: z.string().min(1, { message: "Name is required" }),
 	username: z.string().min(1, { message: "Username is required" }),
