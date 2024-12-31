@@ -74,3 +74,20 @@ export const deleteSession = createRoute({
 		}),
 	},
 });
+
+export const deleteSessionByUserId = createRoute({
+	method: "delete",
+	path: "/admin/session/user/{userId}",
+	summary: "Delete all sessions by userId",
+	request: {
+		params: findSessionFromUserIdParam.schema,
+	},
+	responses: {
+		200: {
+			description: "Returns the session sessionId",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [findSessionFromUserIdParam.vErr()],
+		}),
+	},
+});

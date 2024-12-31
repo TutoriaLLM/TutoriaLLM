@@ -41,3 +41,12 @@ export const deleteSession = async (sessionId: SessionToDelete["param"]) => {
 	});
 	return handleResponse(response);
 };
+
+export const deleteSessionByUserId = async (userId: string) => {
+	const response = await adminClient.admin.session.user[":userId"].$delete({
+		param: {
+			userId,
+		},
+	});
+	return handleResponse(response);
+};

@@ -7,12 +7,22 @@ import { CheckCircle, PenBox, Trash2, XCircleIcon } from "lucide-react";
 import UserCard from "../../userEditor/card";
 import { useRouter } from "@tanstack/react-router";
 import { useToast } from "@/hooks/toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@/hooks/useMutations";
+import { deleteSessionByUserId } from "@/api/admin/session";
 
 export function userColumns(currentUserId: string) {
 	const router = useRouter();
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
+
+	const { mutate: del } = useMutation({
+		mutationFn: deleteSessionByUserId,
+	});
 
 	async function handleDeleteUser(id: string) {
+		//delete all sessions for user
+		del(id);
 		const result = await authClient.admin.removeUser({
 			userId: id,
 		});
@@ -38,6 +48,8 @@ export function userColumns(currentUserId: string) {
 				</p>
 			),
 		});
+		queryClient.invalidateQueries({ queryKey: ["users"] });
+		router.navigate({ to: "/admin/users" });
 	}
 
 	async function handleChangeRole(id: string, role: string) {

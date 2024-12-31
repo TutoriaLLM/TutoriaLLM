@@ -4,6 +4,7 @@ import { appSessions } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
+	deleteSessionByUserId,
 	downloadAllSessions,
 	findSessionFromUserId,
 	listSessions,
@@ -118,6 +119,22 @@ const app = createHonoApp()
 				.where(eq(appSessions.sessionId, sessionId))
 				.returning({ deletedId: appSessions.sessionId });
 			return c.json({ sessionId: sessionId }, 200);
+		} catch (err) {
+			console.error(err);
+			return errorResponse(c, {
+				message: "Failed to delete session",
+				type: "SERVER_ERROR",
+			});
+		}
+	})
+	.openapi(deleteSessionByUserId, async (c) => {
+		const userId = c.req.valid("param").userId;
+		try {
+			await db
+				.delete(appSessions)
+				.where(eq(appSessions.userInfo, userId))
+				.returning({ deletedId: appSessions.sessionId });
+			return c.json({ userId: userId }, 200);
 		} catch (err) {
 			console.error(err);
 			return errorResponse(c, {

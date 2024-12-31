@@ -16,6 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/libs/auth-client";
 import { useToast } from "@/hooks/toast";
+import { useMutation } from "@/hooks/useMutations";
+import { deleteSessionByUserId } from "@/api/admin/session";
 export function AdminUserInfo({
 	currentUserId,
 }: { currentUserId: string | null }) {
@@ -24,7 +26,14 @@ export function AdminUserInfo({
 	const { userId } = routeApi.useParams();
 	const { userDetail } = useUserDetail(userId);
 	const { toast } = useToast();
+
+	const { mutate: del } = useMutation({
+		mutationFn: deleteSessionByUserId,
+	});
+
 	async function handleDeleteUser(id: string) {
+		//delete all sessions for user
+		del(id);
 		const result = await authClient.admin.removeUser({
 			userId: id,
 		});
@@ -50,6 +59,7 @@ export function AdminUserInfo({
 				</p>
 			),
 		});
+		router.navigate({ to: "/admin/users" });
 	}
 	function handleOpenEditor(id: string) {
 		console.info("Open User Editor", id);
