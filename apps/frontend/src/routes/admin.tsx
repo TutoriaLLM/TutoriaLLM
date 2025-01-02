@@ -28,7 +28,7 @@ function AdminPage() {
 			<div className="w-full h-full max-w-[96rem]">
 				<div className="h-full flex w-full">
 					<SideBar />
-					<div className="w-full h-full max-h-svh overflow-auto p-2 pt-16 md:p-4">
+					<div className="w-full h-full max-h-svh overflow-auto">
 						<Outlet />
 					</div>
 					<Toaster />

@@ -39,7 +39,7 @@ function ConfigManager() {
 	});
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col gap-2 p-2 md:p-4">
 			<JSONField
 				obj={config ?? {}}
 				setObj={(newObj) => setConfig(newObj as AppConfig)}

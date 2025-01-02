@@ -143,7 +143,7 @@ function Training() {
 					{searchResult.map((result) => (
 						<div
 							key={result.id}
-							className="border border-gray-400 rounded-2xl p-2 mb-2"
+							className="border border-gray-400 rounded-2xl mb-2"
 						>
 							<div className="flex items-center gap-3">
 								<span className="rounded-full bg-gray-200 p-3">
@@ -206,8 +206,8 @@ function Training() {
 	};
 
 	return (
-		<div className="overflow-x-auto">
-			<div className="w-full h-full flex flex-col justify-center items-center gap-2 p-2">
+		<div className="overflow-x-auto p-2 md:p-4">
+			<div className="w-full h-full flex flex-col justify-center items-center gap-2">
 				{trainingData ? (
 					<div className="max-w-6xl bg-gray-300 rounded-2xl flex flex-col justify-between min-h-96 p-3 gap-3 w-full">
 						<h2 className="text-2xl font-bold text-center p-3 border-b border-gray-400">
