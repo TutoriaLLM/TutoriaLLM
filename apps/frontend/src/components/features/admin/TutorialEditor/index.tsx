@@ -144,7 +144,6 @@ export default function TutorialEditor(props: {
 			};
 			setNodes(flow.nodes || []);
 			setEdges(flow.edges || []);
-			console.log(tutorialData);
 		}
 	}, [tutorialData, setNodes, setEdges]);
 
@@ -175,6 +174,7 @@ export default function TutorialEditor(props: {
 				nodeOrigin={[0.5, 0.5]}
 				onConnect={onConnect}
 				panOnScroll={true}
+				noWheelClassName="no-wheel"
 				zoomOnPinch={true}
 			>
 				<Panel>

@@ -1,6 +1,7 @@
-import { getTagList } from "@/api/tutorials.js";
 import { LangPicker } from "@/components/common/Langpicker.js";
 import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+import { FancyMultiSelect } from "@/components/ui/tags";
+import { useListTags } from "@/hooks/tutorials";
 import {
 	Handle,
 	type NodeProps,
@@ -10,33 +11,45 @@ import {
 } from "@xyflow/react";
 import i18next from "i18next";
 import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { KEYS, WithContext as ReactTags } from "react-tag-input";
+import { useEffect, useRef, useState } from "react";
+import {} from "react-tag-input";
 
-type Tag = {
-	id: string;
-	className: string;
-	text?: string;
+type TagForInput = {
+	value: string;
+	label: string;
 };
 
 export function Metadata({ id, data }: NodeProps<metadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 
-	const [tags, setTags] = useState<Tag[]>(
-		data.tags.map((tag) => ({
-			id: tag,
-			className: "",
+	const { tags: existingTags } = useListTags();
 
-			text: tag,
-		})) || [],
-	);
-	const [suggestions, setSuggestions] = useState<Tag[]>([]);
+	const [inputValue, setInputValue] = useState<string>("");
+	const [selectedTagsString, setSelectedTagsString] = useState<string>("");
+	const [tags, setTags] = useState<TagForInput[]>([]);
+	const [open, setOpen] = useState(false);
+	//parse the loaded tags from data
+	const [selected, setSelected] = useState<TagForInput[]>([]);
+
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleChange = (field: string, value: string) => {
 		if (field === "tags") {
-			const tagsArray = value.split(",").map((tag) => tag.trim());
-			setTags(tagsArray.map((tag) => ({ id: "", className: "", text: tag })));
-			updateNodeData(id, { ...data, [field]: tagsArray });
+			// 前後のスペースを除去
+			const trimmedValue = value.trim();
+
+			if (trimmedValue === "") {
+				// 空文字列なら空配列をセット
+				updateNodeData(id, { ...data, [field]: [] });
+			} else {
+				// カンマ区切りで分割して、さらに空文字列を除去
+				const tagsArray = trimmedValue
+					.split(",")
+					.map((tag) => tag.trim())
+					.filter((tag) => tag !== "");
+
+				updateNodeData(id, { ...data, [field]: tagsArray });
+			}
 		} else {
 			updateNodeData(id, { ...data, [field]: value });
 		}
@@ -46,27 +59,38 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 		deleteElements({ nodes: [{ id: id }] });
 	};
 
-	const handleTagDelete = (index: number) => {
-		const newTags = tags.filter((_, i) => i !== index);
-		setTags(newTags);
-		updateNodeData(id, { ...data, tags: newTags.map((tag) => tag.text) });
-	};
-
-	const handleTagAddition = (tag: Tag) => {
-		if (!tags.some((existingTag) => existingTag.id === tag.id)) {
-			const newTags = [...tags, tag];
-			setTags(newTags);
-			updateNodeData(id, { ...data, tags: newTags.map((tag) => tag.text) });
+	//set current tags if they exist
+	useEffect(() => {
+		if (data.tags && data.tags.length > 0) {
+			setSelected(
+				data.tags.map((tag) => ({
+					label: tag,
+					value: tag,
+				})),
+			);
 		}
-	};
+	}, [data.tags]);
 
-	const handleTagDrag = (tag: Tag, currPos: number, newPos: number) => {
-		const newTags = tags.slice();
-		newTags.splice(currPos, 1);
-		newTags.splice(newPos, 0, tag);
-		setTags(newTags);
-		updateNodeData(id, { ...data, tags: newTags.map((tag) => tag.text) });
-	};
+	//set existing tags for suggestions
+	useEffect(() => {
+		if (existingTags) {
+			setTags(
+				existingTags.map((tag) => ({
+					label: tag.name,
+					value: tag.name,
+				})),
+			);
+		}
+	}, [existingTags]);
+
+	// UseEffect to update the tags when the input value changes
+	useEffect(() => {
+		if (selectedTagsString === "") {
+			handleChange("tags", "");
+		} else {
+			handleChange("tags", selectedTagsString);
+		}
+	}, [selectedTagsString]);
 
 	// Use useEffect to set the default language only once
 	useEffect(() => {
@@ -74,20 +98,6 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 			updateNodeData(id, { ...data, language: i18next.language });
 		}
 	}, [data.language, id, updateNodeData]);
-
-	// Fetching tags from the API
-	useEffect(() => {
-		getTagList().then((result) => {
-			const fetchedTags = result.map(
-				(tag: { id: number | null; name: string }) => ({
-					id: tag.id?.toString() || "", // Convert id to string
-					className: "",
-					text: tag.name, // Convert name to text
-				}),
-			);
-			setSuggestions(fetchedTags);
-		});
-	}, []);
 
 	return (
 		<div className="w-72 max-w-md bg-gray-200 rounded-2xl overflow-clip">
@@ -120,29 +130,20 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 							className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
 						/>
 					</label>
-					<div className="block mb-2">
+					<div className="block mb-2 no-wheel">
 						<span className="text-gray-700">Tags:</span>
-						<ReactTags
+						<FancyMultiSelect
+							inputRef={inputRef}
+							inputValue={inputValue}
+							setInputValue={setInputValue}
+							setSelectedTagsString={setSelectedTagsString}
+							selectedTagsString={selectedTagsString}
 							tags={tags}
-							suggestions={suggestions}
-							delimiters={[13, KEYS.COMMA]}
-							handleDelete={handleTagDelete}
-							handleAddition={handleTagAddition}
-							handleDrag={handleTagDrag}
-							classNames={{
-								tags: "flex flex-col flex-wrap items-center rounded-2xl p-2 bg-gray-100",
-								tagInput: "bg-white p-1 rounded-2xl w-full",
-								tagInputField: "w-full border-none focus:ring-0",
-								selected: "flex flex-wrap items-center mt-2",
-								tag: "bg-blue-100 text-blue-700 rounded-md p-1 m-1",
-								remove: "ml-2 cursor-pointer text-red-500",
-								suggestions:
-									"absolute bg-white border border-gray-300 rounded-md mt-1 shadow-lg z-10",
-								activeSuggestion: "bg-blue-100",
-								editTagInput: "border border-gray-300 rounded-md p-1",
-								editTagInputField: "w-full border-none focus:ring-0",
-								clearAll: "cursor-pointer text-red-500",
-							}}
+							setTags={setTags}
+							selected={selected}
+							setSelected={setSelected}
+							open={open}
+							setOpen={setOpen}
 						/>
 					</div>
 					<div className="block mb-2">
