@@ -1,6 +1,8 @@
 import {
 	Background,
 	Controls,
+	type Edge,
+	type Node,
 	Panel,
 	ReactFlow,
 	addEdge,
@@ -18,7 +20,8 @@ import { MetadataGen } from "@/components/features/admin/TutorialEditor/nodes/me
 import Output from "@/components/features/admin/TutorialEditor/nodes/output";
 import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 import type { Tutorial } from "@/type.js";
-import { useSpecificTutorial } from "@/hooks/admin/tutorials";
+import Popup from "@/components/ui/Popup";
+import { TutorialUploader } from "./upload";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -31,16 +34,24 @@ const nodeTypes = {
 	output: Output,
 };
 
-export default function llTutorialEditor(props: {
-	id: number | null;
-	json?: TutorialType | null; // Add JSON as an argument
+export default function TutorialEditor(props: {
+	tutorial: Tutorial | null;
 }) {
-	const [tutorialData, setTutorialData] = useState<TutorialType | null>(
-		props.json || null,
-	); // Initialize json if available
-	const { tutorial } = useSpecificTutorial(props.id || 0);
+	const [tutorialData, setTutorialData] = useState<TutorialType | null>(null);
+	//load tutorial data
+	useEffect(() => {
+		if (props.tutorial) {
+			// if tutorial is passed, set the tutorial data
+			setTutorialData({
+				metadata: props.tutorial.metadata,
+				content: props.tutorial.content,
+				serializednodes: props.tutorial.serializednodes,
+			});
+		}
+	}, [props.tutorial]);
+	const [isUploaderOpen, setIsUploaderOpen] = useState(false);
 
-	const initialNodes = [
+	const initialNodes: Node[] = [
 		{
 			id: "metadata",
 			type: "metadata",
@@ -80,7 +91,7 @@ export default function llTutorialEditor(props: {
 		},
 	];
 
-	const initialEdges = [
+	const initialEdges: Edge[] = [
 		{
 			id: "metadata-output-initial",
 			source: "metadata",
@@ -125,57 +136,15 @@ export default function llTutorialEditor(props: {
 		[setNodes],
 	);
 
-	// // Responsible for acquiring tutorial data and reflecting it in the editor
-	useCallback(() => {
-		if (props.id !== null && tutorial) {
-			setTutorialData({
-				metadata: tutorial.metadata,
-				content: tutorial.content,
-				serializednodes: tutorial.serializednodes,
-			});
-		} else if (props.json) {
-			// If JSON data is available when creating a new file, use it.
-			// If JSON is not in the specified format, display alert and use initial data
-			if (
-				!props.json.metadata ||
-				!props.json.content ||
-				!props.json.serializednodes
-			) {
-				alert("Invalid JSON format. Using default data.");
-				setTutorialData({
-					metadata: {
-						title: "",
-						description: "",
-						selectCount: 0,
-					},
-					content: "",
-					serializednodes: "",
-				});
-				return;
-			}
-			setTutorialData(props.json);
-		} else {
-			// Use default data for new creation
-			setTutorialData({
-				metadata: {
-					title: "",
-					description: "",
-					selectCount: 0,
-				},
-				content: "",
-				serializednodes: "",
-			});
-		}
-	}, [props.id, props.json]);
-
 	useEffect(() => {
 		if (tutorialData?.serializednodes) {
 			const flow = JSON.parse(tutorialData.serializednodes) as {
-				nodes: any[];
-				edges: any[];
+				nodes: Node[];
+				edges: Edge[];
 			};
 			setNodes(flow.nodes || []);
 			setEdges(flow.edges || []);
+			console.log(tutorialData);
 		}
 	}, [tutorialData, setNodes, setEdges]);
 
@@ -186,6 +155,17 @@ export default function llTutorialEditor(props: {
 
 	return (
 		<div className="w-full h-[100vh] flex-grow max-w-full max-h-full">
+			<Popup
+				onClose={() => setIsUploaderOpen(false)}
+				openState={isUploaderOpen}
+			>
+				<TutorialUploader
+					setTutorialData={setTutorialData}
+					onUpload={() => {
+						setIsUploaderOpen(false);
+					}}
+				/>
+			</Popup>
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}
@@ -199,11 +179,11 @@ export default function llTutorialEditor(props: {
 			>
 				<Panel>
 					<Toolbar
-						id={props.id}
+						id={props.tutorial?.id || null}
 						nodes={nodes}
 						setNodes={setNodes}
 						edges={edges}
-						// handleClosePopup={handleClosePopup}
+						setIsUploadOpen={setIsUploaderOpen}
 					/>
 				</Panel>
 				<Controls />

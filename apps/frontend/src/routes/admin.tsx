@@ -25,7 +25,7 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
 	return (
 		<div className="min-h-screen flex flex-col bg-gray-200 text-gray-800">
-			<div className="w-full h-full max-w-[96rem]">
+			<div className="w-full h-full">
 				<div className="h-full flex w-full">
 					<SideBar />
 					<div className="w-full h-full max-h-svh overflow-auto">

@@ -3,13 +3,18 @@ import {
 	getSpecificTutorial,
 	updateTutorial,
 } from "@/api/admin/tutorials";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/toast";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useMutation } from "@tanstack/react-query";
-import { useReactFlow } from "@xyflow/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
+import { type Edge, type Node, useReactFlow } from "@xyflow/react";
 import {
 	Bot,
 	Braces,
+	CheckCircle,
 	ChevronDown,
+	ChevronLeft,
 	ChevronRight,
 	DownloadIcon,
 	FileText,
@@ -17,17 +22,24 @@ import {
 	Puzzle,
 	SaveAll,
 	Star,
+	XCircle,
 } from "lucide-react";
 import { useState } from "react";
+import type { CustomNodeType } from "./nodes/nodetype";
 
 export default function Toolbar(props: {
 	id: number | null;
-	nodes: any[];
-	edges: any[];
-	setNodes: (nodes: any[]) => void;
+	nodes: Node[];
+	edges: Edge[];
+	setNodes: (nodes: Node[]) => void;
+	setIsUploadOpen: (open: boolean) => void;
 }) {
 	const { nodes, edges, setNodes } = props;
 
+	const { toast } = useToast();
+
+	const router = useRouter();
+	const queryClient = useQueryClient();
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 
 	function handleToggleToolbar(open: boolean) {
@@ -54,36 +66,60 @@ export default function Toolbar(props: {
 			position: { x, y },
 			origin: [0.5, 0.5],
 			data: data || undefined,
-		};
+		} satisfies Node;
 		setNodes([...nodes, node]);
 	}
 
 	const { mutate: post } = useMutation({
 		mutationFn: createTutorial,
 		onSuccess: () => {
-			alert("Tutorial created successfully");
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<CheckCircle className="text-green-500" />
+						Tutorial created successfully
+					</p>
+				),
+			});
 		},
 		onError: (error) => {
-			alert(`An error occurred: ${error}`);
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<XCircle className="text-red-500" />
+						Failed to create tutorial
+					</p>
+				),
+				variant: "destructive",
+			});
 		},
 	});
 	const { mutate: put } = useMutation({
 		mutationFn: updateTutorial,
 		onSuccess: () => {
-			alert("Tutorial updated successfully");
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<CheckCircle className="text-green-500" />
+						Tutorial updated successfully
+					</p>
+				),
+			});
 		},
 		onError: (error) => {
-			alert(`An error occurred: ${error}`);
+			toast({
+				description: (
+					<p className="flex items-center justify-center gap-2">
+						<XCircle className="text-red-500" />
+						Failed to update tutorial
+					</p>
+				),
+				variant: "destructive",
+			});
 		},
 	});
 
 	const handleSave = () => {
-		// const url =
-		// 	props.id === null
-		// 		? "/api/admin/tutorials/new"
-		// 		: `/api/admin/tutorials/${props.id}`;
-		// const method = props.id === null ? "POST" : "PUT";
-
 		// Get data from Output node
 		const outputNode = nodes.find((node) => node.type === "output");
 
@@ -101,40 +137,84 @@ export default function Toolbar(props: {
 				connectedNodeIds.includes(node.id),
 			);
 
-			// Initialize content and metadata
-			let content = "";
-			let metadata: {
-				title: string;
-				description: string;
-				selectCount: number;
-			} = {
-				title: "",
-				description: "",
-				selectCount: 0,
-			};
-			let tags = [];
-			let language = "";
+			// // Get data from connected nodes
+			// for (const node of connectedNodes as CustomNodeType[]) {
+			// 	if (node.type === "md" || node.type === "mdGen") {
+			// 		if ("source" in node.data) {
+			// 			content = node.data.source || ""; // Provide a default value
+			// 		}
+			// 	} else if (node.type === "metadata" || node.type === "metadataGen") {
+			// 		// Separate tags from metadata
+			// 		if (
+			// 			"title" in node.data &&
+			// 			"description" in node.data &&
+			// 			"selectCount" in node.data
+			// 		) {
+			// 			metadata = {
+			// 				title: node.data.title,
+			// 				description: node.data.description,
+			// 				selectCount: node.data.selectCount || 0,
+			// 			};
+			// 		}
+			// 		if ("tags" in node.data) {
+			// 			tags = node.data.tags.map((tag) => tag);
+			// 		}
+			// 		if ("language" in node.data) {
+			// 			language = node.data.language;
+			// 		}
+			// 	}
+			// }
 
-			// Get data from connected nodes
-			for (const node of connectedNodes) {
-				if (node.type === "md" || node.type === "mdGen") {
-					content = node.data.source || ""; // Provide a default value
-				} else if (node.type === "metadata" || node.type === "metadataGen") {
-					// Separate tags from metadata
-					metadata = {
-						title: node.data.title,
-						description: node.data.description,
-						selectCount: node.data.selectCount || 0,
-					};
-					language = node.data.language;
-					tags = node.data.tags;
-				}
+			function getConnectedNodeData(connectedNodes: CustomNodeType[]) {
+				const isMarkdownNode = (node: CustomNodeType) =>
+					node.type === "md" || node.type === "mdGen";
+
+				const isMetadataNode = (node: CustomNodeType) =>
+					node.type === "metadata" || node.type === "metadataGen";
+
+				const data = connectedNodes.map((node) => {
+					if (isMarkdownNode(node)) {
+						return {
+							content: "source" in node.data ? node.data.source : "",
+						};
+					}
+					if (isMetadataNode(node)) {
+						return {
+							metadata: {
+								title: "title" in node.data ? node.data.title : "",
+								description:
+									"description" in node.data ? node.data.description : "",
+								selectCount:
+									"selectCount" in node.data ? node.data.selectCount : 0,
+								language: "language" in node.data ? node.data.language : "",
+							},
+							tags: "tags" in node.data ? node.data.tags : [],
+						};
+					}
+				});
+				return {
+					content: data.find((d) => d && "content" in d)?.content || "",
+					metadata: data.find((d) => d && "metadata" in d)?.metadata || {
+						title: "",
+						description: "",
+						selectCount: 0,
+					},
+					language:
+						data.find((d) => d && "metadata" in d && d.metadata)?.metadata
+							?.language || "",
+					tags: data.find((d) => d && "tags" in d)?.tags || [],
+				};
 			}
+
+			const { metadata, tags, language, content } = getConnectedNodeData(
+				connectedNodes as CustomNodeType[],
+			);
 
 			// Serialize node
 			const serializednodes = JSON.stringify({ nodes, edges });
 
 			// Send data to API
+			console.log(tags);
 
 			if (props.id) {
 				put({
@@ -143,7 +223,12 @@ export default function Toolbar(props: {
 						id: props.id,
 						serializednodes: serializednodes,
 						metadata: metadata,
-						tags: tags.map((tag: any) => tag.name),
+						tags: tags.map((tag) => {
+							return {
+								name: tag,
+								id: null, // ID is auto-generated by the API
+							};
+						}),
 						language: language,
 						content: content,
 					},
@@ -152,7 +237,12 @@ export default function Toolbar(props: {
 				post({
 					serializednodes: serializednodes,
 					metadata: metadata,
-					tags: tags.map((tag: any) => tag.name),
+					tags: tags.map((tag) => {
+						return {
+							name: tag,
+							id: null, // ID is auto-generated by the API
+						};
+					}),
 					language: language,
 					content: content,
 				});
@@ -198,25 +288,37 @@ export default function Toolbar(props: {
 	}
 
 	return (
-		<div className="w-full flex gap-3 bg-gray-300 rounded-2xl p-1.5">
-			<div className="flex gap-2">
-				<button
-					type="button"
-					onClick={handleSave}
-					className="p-2 bg-green-500 hover:bg-green-400 text-white rounded-xl flex justify-between items-center gap-1"
-				>
-					Save <SaveAll />
-				</button>
-				{props.id !== null && (
-					<button
-						type="button"
-						onClick={handleDownload}
-						className="p-2 bg-red-500 hover:bg-red-400 text-white rounded-xl flex justify-between items-center gap-1"
-					>
-						Download <DownloadIcon />
-					</button>
-				)}
-			</div>
+		<div className="w-full flex flex-wrap gap-3 bg-gray-300 rounded-2xl p-1.5 mt-12 md:mt-0">
+			<Button
+				type="button"
+				variant={"red"}
+				onClick={() => {
+					queryClient.invalidateQueries({
+						queryKey: ["tutorials"],
+						refetchType: "all",
+					});
+					router.history.back();
+				}}
+			>
+				<ChevronLeft />
+				Back
+			</Button>
+			<Button
+				type="button"
+				onClick={handleSave}
+				className="bg-green-500 hover:bg-green-400"
+			>
+				Save <SaveAll />
+			</Button>
+			<Button type="button" onClick={() => props.setIsUploadOpen(true)}>
+				Upload
+			</Button>
+
+			{props.id !== null && (
+				<Button type="button" variant={"orange"} onClick={handleDownload}>
+					Download <DownloadIcon />
+				</Button>
+			)}
 			<span className="border-r border-gray-400" />
 			<DropdownMenu.Root
 				open={isToolbarOpen}

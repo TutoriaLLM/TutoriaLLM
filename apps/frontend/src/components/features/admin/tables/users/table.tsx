@@ -102,6 +102,9 @@ export function UserTable(props: {
 	});
 	return (
 		<div>
+			<div className="flex justify-between p-4">
+				<h2 className="text-2xl font-semibold">Users</h2>
+			</div>
 			<div>
 				<Table>
 					<TableHeader>

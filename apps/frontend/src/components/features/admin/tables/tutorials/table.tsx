@@ -1,27 +1,15 @@
-import { Select } from "@/components/ui/select";
-import { downloadAllSessions } from "@/api/admin/session.js";
-import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
-import Popup from "@/components/ui/Popup";
-import { Button } from "@/components/ui/button";
-import { useListSessions } from "@/hooks/admin/session.js";
-import type { SessionValue } from "@/type";
-import {} from "@/utils/time";
-import { getRouteApi } from "@tanstack/react-router";
+import type { Tutorial } from "@/type";
 import {
 	flexRender,
 	getCoreRowModel,
+	getPaginationRowModel,
+	getSortedRowModel,
+	type TableState,
 	useReactTable,
 } from "@tanstack/react-table";
-
-import {
-	ChevronDown,
-	ChevronLeft,
-	ChevronRight,
-	ChevronUp,
-	ChevronsLeft,
-	ChevronsRight,
-	LoaderCircle,
-} from "lucide-react";
+import { tutorialsColumns } from "./column";
+import { useListTutorials } from "@/hooks/admin/tutorials";
+import { getRouteApi } from "@tanstack/react-router";
 import {
 	Table,
 	TableBody,
@@ -31,53 +19,64 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import {
+	ChevronDown,
+	ChevronLeft,
+	ChevronRight,
+	ChevronUp,
+	ChevronsLeft,
+	ChevronsRight,
+} from "lucide-react";
+import {
 	Pagination,
 	PaginationContent,
 	PaginationItem,
 } from "@/components/ui/pagination";
-
-import { useState } from "react";
-import { sessionColumns } from "./column";
-export function SessionTable() {
-	const routeApi = getRouteApi("/admin/sessions");
+import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
+import { useMemo } from "react";
+export function TutorialsTable() {
+	const routeApi = getRouteApi("/admin/tutorials");
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
+	const { tutorials, isPending } = useListTutorials();
 
-	const [downloading, setDownloading] = useState(false);
-	const [popupSessionFromSessionId, setPopupSessionFromSessionId] = useState<
-		string | null
-	>(null);
-	const [autoUpdateMs, setAutoUpdateMs] = useState<number | false>(5000);
-	const { sessions, isPending } = useListSessions(search, autoUpdateMs);
-	const totalSessions = sessions?.total || 0;
+	const totalTutorials = tutorials?.length || 0;
 
-	const PopupContent = popupSessionFromSessionId ? (
-		<SessionValueView session={popupSessionFromSessionId} />
-	) : (
-		<div>Session not found</div>
+	//This route using internal pagination / sorting
+	//But using same search params as server-side route
+	//prevent infinite loop by using useMemo
+	//all states of sorting and pagination are stored in search params (not in local state)
+	const searchParams = useMemo(
+		() =>
+			({
+				pagination: {
+					pageIndex: search.page - 1,
+					pageSize: search.limit,
+				},
+				sorting: [
+					{
+						id: search.sortField,
+						desc: search.sortOrder === "desc",
+					},
+				],
+			}) satisfies Partial<TableState>,
+		[search.page, search.limit, search.sortField, search.sortOrder],
 	);
-	const handleDownloadAllSession = () => {
-		setDownloading(true);
-		downloadAllSessions().then((value) => {
-			const blob = new Blob([JSON.stringify(value)], {
-				type: "application/json",
-			});
-			const url = window.URL.createObjectURL(blob);
-			const a = document.createElement("a");
-			a.href = url;
-			a.download = `download-${new Date().toLocaleString()}.json`;
-			document.body.appendChild(a);
-			a.click();
-			a.remove();
-			setDownloading(false);
-		});
-	};
 
-	const handleClosePopup = () => {
-		setPopupSessionFromSessionId(null);
-	};
+	//content and serializednodes are not fetched from tutorial list api
+	type TutorialColumn = Omit<Tutorial, "content" | "serializednodes">;
 
-	const handleSort = (field: keyof SessionValue) => {
+	const table = useReactTable<TutorialColumn>({
+		columns: tutorialsColumns(),
+		data: tutorials || [],
+		getCoreRowModel: getCoreRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+
+		state: searchParams,
+	});
+
+	const handleSort = (field: keyof TutorialColumn) => {
 		const newSortOrder =
 			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
 
@@ -90,53 +89,12 @@ export function SessionTable() {
 		});
 	};
 
-	const table = useReactTable<SessionValue>({
-		columns: sessionColumns(setPopupSessionFromSessionId),
-		data: sessions?.sessions || [],
-		getCoreRowModel: getCoreRowModel(),
-		manualPagination: true,
-		initialState: {
-			sorting: [{ id: "updatedAt", desc: true }],
-		},
-	});
-
 	return (
 		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
-			<Popup
-				openState={popupSessionFromSessionId !== null}
-				onClose={handleClosePopup}
-			>
-				{PopupContent}
-			</Popup>
-
 			<div className="flex justify-between p-4">
-				<h2 className="text-2xl font-semibold">Sessions</h2>
-				{isPending && (
-					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
-						<LoaderCircle />
-					</span>
-				)}{" "}
-				<div className="flex flex-col justify-center items-center gap-2">
-					<label className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							checked={typeof autoUpdateMs === "number"}
-							onChange={() => setAutoUpdateMs(autoUpdateMs ? false : 5000)}
-							className="form-checkbox h-4 w-4"
-						/>
-						<span>Auto Update</span>
-					</label>
-					<button
-						type="button"
-						className="p-1 text-xs rounded-full text-blue-500 font-semibold"
-						onClick={handleDownloadAllSession}
-						disabled={downloading}
-					>
-						{downloading ? "Downloading..." : "Download All Sessions"}
-					</button>
-				</div>
+				<h2 className="text-2xl font-semibold">Tutorials</h2>
 			</div>
-			<div className="overflow--auto">
+			<div>
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -145,7 +103,7 @@ export function SessionTable() {
 									<TableHead
 										key={header.id}
 										onClick={() =>
-											handleSort(header.column.id as keyof SessionValue)
+											handleSort(header.column.id as keyof TutorialColumn)
 										}
 									>
 										{flexRender(
@@ -167,7 +125,7 @@ export function SessionTable() {
 						))}
 					</TableHeader>
 					<TableBody>
-						{table.getRowModel().rows.length > 0 ? (
+						{!isPending && table.getRowModel().rows.length > 0 ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow key={row.id}>
 									{row.getVisibleCells().map((cell) => (
@@ -183,7 +141,7 @@ export function SessionTable() {
 						) : (
 							<TableRow key={0}>
 								<TableCell colSpan={table.getAllColumns().length}>
-									No session found
+									{isPending ? "Loading..." : "No data"}
 								</TableCell>
 							</TableRow>
 						)}
@@ -253,7 +211,7 @@ export function SessionTable() {
 						<Button
 							type="button"
 							className={
-								search.page * search.limit >= totalSessions
+								search.page * search.limit >= totalTutorials
 									? "bg-gray-400 cursor-not-allowed"
 									: "bg-sky-500"
 							}
@@ -262,7 +220,7 @@ export function SessionTable() {
 									search: (prev) => ({ ...prev, page: search.page + 1 }),
 								});
 							}}
-							disabled={search.page * search.limit >= totalSessions}
+							disabled={search.page * search.limit >= totalTutorials}
 						>
 							<ChevronRight />
 						</Button>{" "}
@@ -272,7 +230,7 @@ export function SessionTable() {
 						<Button
 							type="button"
 							className={
-								search.page * search.limit >= totalSessions
+								search.page * search.limit >= totalTutorials
 									? "bg-gray-400 cursor-not-allowed"
 									: "bg-sky-500"
 							}
@@ -280,11 +238,11 @@ export function SessionTable() {
 								navigate({
 									search: (prev) => ({
 										...prev,
-										page: Math.ceil(totalSessions / search.limit),
+										page: Math.ceil(totalTutorials / search.limit),
 									}),
 								});
 							}}
-							disabled={search.page * search.limit >= totalSessions}
+							disabled={search.page * search.limit >= totalTutorials}
 						>
 							<ChevronsRight />
 						</Button>

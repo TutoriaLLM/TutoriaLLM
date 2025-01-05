@@ -35,7 +35,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 	const handleChange = (field: string, value: string) => {
 		if (field === "tags") {
 			const tagsArray = value.split(",").map((tag) => tag.trim());
-			setTags(tagsArray.map((tag) => ({ id: tag, className: "", text: tag })));
+			setTags(tagsArray.map((tag) => ({ id: "", className: "", text: tag })));
 			updateNodeData(id, { ...data, [field]: tagsArray });
 		} else {
 			updateNodeData(id, { ...data, [field]: value });
