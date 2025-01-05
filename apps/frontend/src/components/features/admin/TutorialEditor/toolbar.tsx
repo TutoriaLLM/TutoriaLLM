@@ -82,7 +82,7 @@ export default function Toolbar(props: {
 				),
 			});
 		},
-		onError: (error) => {
+		onError: () => {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
@@ -106,7 +106,7 @@ export default function Toolbar(props: {
 				),
 			});
 		},
-		onError: (error) => {
+		onError: () => {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">

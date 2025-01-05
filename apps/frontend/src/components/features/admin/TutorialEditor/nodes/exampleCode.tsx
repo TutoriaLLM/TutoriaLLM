@@ -57,10 +57,10 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 		}
 	};
 
-	function onComplete() {
-		fetchCodeData();
-		if (session) handleChangeSession("sessionValue", session);
-	}
+	// function onComplete() {
+	// 	fetchCodeData();
+	// 	if (session) handleChangeSession("sessionValue", session);
+	// }
 
 	return (
 		<div className="flex flex-col bg-gray-200 rounded-2xl overflow-clip cursor-auto">

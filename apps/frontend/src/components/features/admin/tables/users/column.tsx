@@ -7,14 +7,12 @@ import { CheckCircle, PenBox, Trash2, XCircleIcon } from "lucide-react";
 import UserCard from "../../userEditor/card";
 import { useRouter } from "@tanstack/react-router";
 import { useToast } from "@/hooks/toast";
-import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@/hooks/useMutations";
 import { deleteSessionByUserId } from "@/api/admin/session";
 
 export function userColumns(currentUserId: string) {
 	const router = useRouter();
 	const { toast } = useToast();
-	const queryClient = useQueryClient();
 
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSessionByUserId,

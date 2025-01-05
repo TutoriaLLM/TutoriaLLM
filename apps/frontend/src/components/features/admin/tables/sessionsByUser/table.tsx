@@ -42,7 +42,7 @@ export function SessionByUserTable() {
 		string | null
 	>(null);
 
-	const { userSessions, isPending } = useListSessionsFromUserId(search, userId);
+	const { userSessions } = useListSessionsFromUserId(search, userId);
 	const totalSessions = userSessions?.total || 0;
 
 	const handleSort = (field: keyof SessionValue) => {
