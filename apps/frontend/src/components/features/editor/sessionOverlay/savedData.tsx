@@ -1,7 +1,6 @@
 import { resumeSession } from "@/api/session.js";
 import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 import { Button } from "@/components/ui/button";
-import Popup from "@/components/ui/Popup.js";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { SessionValue } from "@/type";
 import { useRouter } from "@tanstack/react-router";
@@ -10,7 +9,15 @@ import { openDB } from "idb";
 import { Clock, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 // Function to open IndexedDB
 const dbPromise = openDB("app-data", 1, {
 	upgrade(db) {
@@ -19,7 +26,6 @@ const dbPromise = openDB("app-data", 1, {
 });
 
 export default function SavedData() {
-	const [isSavedDataOpen, setIsSavedDataOpen] = useState(false);
 	const [savedData, setSavedData] = useState<{
 		[key: string]: { sessionValue: SessionValue; base64image: string };
 	}>({});
@@ -28,10 +34,6 @@ export default function SavedData() {
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
 	const router = useRouter();
-
-	function switchIsSavedDataOpen() {
-		setIsSavedDataOpen(!isSavedDataOpen);
-	}
 
 	const { mutate } = useMutation({
 		mutationFn: ({
@@ -92,7 +94,7 @@ export default function SavedData() {
 		setSavedData(data);
 	}
 
-	async function createOrContinueSession(localSessionValue: SessionValue) {
+	function createOrContinueSession(localSessionValue: SessionValue) {
 		const sessionId = localSessionValue.sessionId;
 		localSessionValue.workspace;
 		mutate({ key: { key: sessionId }, sessionData: localSessionValue });
@@ -111,62 +113,67 @@ export default function SavedData() {
 		return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 	}
 
-	const popupContent = (
-		<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
-			<h2 className="w-full font-bold text-2xl">{t("session.savedSession")}</h2>
-			<div className="w-full h-full flex flex-col gap-3 flex-grow max-w-6xl">
-				{Object.entries(savedData).map(([key, value]) => {
-					return (
-						<div
-							key={key}
-							className="w-full h-full flex-grow max-w-6xl bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
-						>
-							<span className="flex border-b gap-1">
-								<Clock />
-								<h3>{dateToString(new Date(value.sessionValue.updatedAt))}</h3>
-							</span>
-							<img
-								src={value.base64image}
-								alt="block"
-								className="flex w-full h-full max-h-48 object-contain"
-							/>
-							<p className="text-xs font-base text-gray-500">{key}</p>
-							<p className="text-xs font-base text-gray-500">
-								{value.sessionValue.sessionId}
-							</p>
-
-							<button
-								type="button"
-								className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl"
-								onClick={() => createOrContinueSession(value.sessionValue)}
-							>
-								{t("session.continueSession")}
-							</button>
-							<button
-								type="button"
-								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
-								onClick={() => deleteSessionDataFromIndexedDB(key)}
-							>
-								{t("session.deleteSession")}
-							</button>
-						</div>
-					);
-				})}
-			</div>
-		</div>
-	);
-
 	return (
-		<div className="">
-			<Button className="" onClick={switchIsSavedDataOpen}>
-				{t("session.findSavedSession")}
-				<Search />
-			</Button>
-			{isSavedDataOpen ? (
-				<Popup openState={isSavedDataOpen} onClose={switchIsSavedDataOpen}>
-					{popupContent}
-				</Popup>
-			) : null}
-		</div>
+		<Dialog>
+			<DialogTrigger>
+				<Button>
+					{t("session.findSavedSession")}
+					<Search />
+				</Button>
+			</DialogTrigger>
+			<DialogContent className="max-w-6xl h-full">
+				<DialogHeader>
+					<DialogTitle> {t("session.savedSession")}</DialogTitle>
+					<VisuallyHidden>
+						<DialogDescription>
+							list of saved sessions that you can continue
+						</DialogDescription>
+					</VisuallyHidden>
+				</DialogHeader>
+				<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
+					<div className="w-full h-full flex-col gap-3 flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+						{Object.entries(savedData).map(([key, value]) => {
+							return (
+								<div
+									key={key}
+									className="w-full h-full flex-grow bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
+								>
+									<span className="flex border-b gap-1">
+										<Clock />
+										<h3>
+											{dateToString(new Date(value.sessionValue.updatedAt))}
+										</h3>
+									</span>
+									<img
+										src={value.base64image}
+										alt="block"
+										className="flex w-full h-full max-h-48 object-contain"
+									/>
+									<p className="text-xs font-base text-gray-500">{key}</p>
+									<p className="text-xs font-base text-gray-500">
+										{value.sessionValue.sessionId}
+									</p>
+
+									<button
+										type="button"
+										className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl"
+										onClick={() => createOrContinueSession(value.sessionValue)}
+									>
+										{t("session.continueSession")}
+									</button>
+									<button
+										type="button"
+										className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
+										onClick={() => deleteSessionDataFromIndexedDB(key)}
+									>
+										{t("session.deleteSession")}
+									</button>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			</DialogContent>
+		</Dialog>
 	);
 }

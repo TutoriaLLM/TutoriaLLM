@@ -8,6 +8,7 @@ import { ProfileEditor } from "./profileEditor";
 import { CreateFromAnonymous } from "./createFromAnon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
+import { cn } from "@/libs/utils";
 
 export function UserAccount(props: { session: AuthSession }) {
 	const { session } = props;
@@ -42,13 +43,13 @@ export function UserAccount(props: { session: AuthSession }) {
 	const UserActions = () => {
 		return (
 			<div className="flex items-center gap-3">
-				<Button variant={"red"} size={"sm"} onClick={handleLogout}>
+				<Button variant="red" size="sm" onClick={handleLogout}>
 					<DoorOpenIcon className="w-5 h-5" />
 					Logout
 				</Button>
 				<ProfileEditor session={session} />
 				{isAdmin && (
-					<Button variant={"orange"} size={"sm"} onClick={handleOpenAdmin}>
+					<Button variant="orange" size="sm" onClick={handleOpenAdmin}>
 						<DoorOpenIcon className="w-5 h-5" />
 						Admin
 					</Button>
@@ -58,12 +59,8 @@ export function UserAccount(props: { session: AuthSession }) {
 	};
 	const AnonymousUserActions = () => {
 		return (
-			<div className="flex items-center gap-3">
-				<Button
-					variant={"red"}
-					size={"sm"}
-					onClick={handleDeleteAnonymousAccount}
-				>
+			<div className="flex gap-3 flex-wrap sm:flex-nowrap justify-center items-center">
+				<Button variant="red" size="sm" onClick={handleDeleteAnonymousAccount}>
 					<DoorOpenIcon className="w-5 h-5" />
 					Delete Account
 				</Button>
@@ -71,31 +68,35 @@ export function UserAccount(props: { session: AuthSession }) {
 			</div>
 		);
 	};
+
 	return (
 		<div
-			className={`flex flex-col rounded-3xl shadow p-3 w-full bg-gray-100 gap-3
-		${isAdmin ? "border-2 border-orange-500 shadow-orange-300" : ""}`}
+			className={cn(
+				"flex flex-col rounded-3xl shadow p-3 w-full bg-gray-100 gap-3",
+				isAdmin && "border-2 border-orange-500 shadow-orange-300",
+			)}
 		>
-			<div className="flex gap-3 justify-left items-center">
+			<div className="flex gap-3 items-center">
 				{session.user.image ? (
-					<Avatar className="w-10 h-10 ">
+					<Avatar className="w-10 h-10 shrink-0">
 						<AvatarImage src={session.user.image} />
 						<AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
 					</Avatar>
 				) : (
 					<BoringAvatar
-						size="40px"
-						className="w-10 h-10 rounded-full"
+						className="w-10 h-10 rounded-full shrink-0"
 						name={session.user.id}
 						variant="beam"
 					/>
 				)}
-				<div className="flex flex-col gap-2">
+				<div className="space-y-2 overflow-hidden">
 					<p className="text-lg font-semibold">{session.user.name}</p>
-					<p className="text-gray-600 text-xs inline-flex gap-2">
-						<MailIcon className="w-4 h-4" />
-						{session.user.email}
-					</p>
+					<div className="flex gap-2">
+						<MailIcon className="w-4 h-4 shrink-0" />
+						<p className="text-gray-600 text-xs truncate">
+							{session.user.email}
+						</p>
+					</div>
 				</div>
 			</div>
 			{isAnonymous ? <AnonymousUserActions /> : <UserActions />}

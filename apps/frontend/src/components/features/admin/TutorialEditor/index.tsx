@@ -10,6 +10,13 @@ import {
 	useEdgesState,
 	useNodesState,
 } from "@xyflow/react";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { useCallback, useEffect, useState } from "react";
 import "@xyflow/react/dist/style.css";
 import { ExampleCode } from "@/components/features/admin/TutorialEditor/nodes/exampleCode";
@@ -20,7 +27,6 @@ import { MetadataGen } from "@/components/features/admin/TutorialEditor/nodes/me
 import Output from "@/components/features/admin/TutorialEditor/nodes/output";
 import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 import type { Tutorial } from "@/type.js";
-import Popup from "@/components/ui/Popup";
 import { TutorialUploader } from "./upload";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
@@ -154,17 +160,30 @@ export default function TutorialEditor(props: {
 
 	return (
 		<div className="w-full h-[100vh] flex-grow max-w-full max-h-full">
-			<Popup
-				onClose={() => setIsUploaderOpen(false)}
-				openState={isUploaderOpen}
-			>
-				<TutorialUploader
-					setTutorialData={setTutorialData}
-					onUpload={() => {
+			<Dialog
+				open={isUploaderOpen}
+				onOpenChange={(value) => {
+					if (!value) {
 						setIsUploaderOpen(false);
-					}}
-				/>
-			</Popup>
+					}
+				}}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Are you absolutely sure?</DialogTitle>
+						<DialogDescription>
+							This action cannot be undone. This will permanently delete your
+							account and remove your data from our servers.
+						</DialogDescription>
+					</DialogHeader>
+					<TutorialUploader
+						setTutorialData={setTutorialData}
+						onUpload={() => {
+							setIsUploaderOpen(false);
+						}}
+					/>{" "}
+				</DialogContent>
+			</Dialog>
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}

@@ -8,7 +8,7 @@ import DialogueView from "@/components/features/editor/dialogue/index.js";
 import { tourSteps } from "@/components/features/editor/editorTour";
 import Navbar from "@/components/features/editor/navbar.js";
 import { Onboarding } from "@/components/features/editor/onboarding.js";
-import SessionPopup from "@/components/features/editor/sessionOverlay/index.js";
+import CreateSessionCard from "@/components/features/editor/sessionOverlay/index.js";
 import {
 	Tabs,
 	TabsContent,
@@ -72,8 +72,7 @@ export const Route = createFileRoute("/$sessionId")({
 			message: "session.sessionNotFoundMsg",
 		});
 		return (
-			<SessionPopup
-				isPopupOpen={true}
+			<CreateSessionCard
 				message={message}
 				setMessage={setMessage}
 				session={session}

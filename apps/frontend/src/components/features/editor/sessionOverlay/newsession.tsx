@@ -25,9 +25,8 @@ export default function CreateNewSession({
 	});
 
 	return (
-		<div className="flex gap-2">
+		<div className="flex gap-2 flex-wrap sm:flex-nowrap justify-center items-center">
 			<Button
-				className=""
 				onClick={() => {
 					mutate({
 						language: language,

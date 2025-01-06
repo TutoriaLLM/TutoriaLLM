@@ -47,9 +47,3 @@ if (!rootElement.innerHTML) {
 	const root = ReactDOM.createRoot(rootElement);
 	root.render(<App />);
 }
-// Hide the loading screen after the React app is rendered
-const loadingElement = document.getElementById("loading");
-if (loadingElement && rootElement) {
-	loadingElement.style.display = "none";
-	rootElement.style.display = "block";
-}

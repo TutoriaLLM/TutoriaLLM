@@ -39,7 +39,6 @@ export function EditPassword() {
 				onSubmit={form.handleSubmit(onSubmitPassword)}
 				className="space-y-2 p-3 rounded-3xl bg-gray-100 shadow"
 			>
-				<h2 className="w-full font-bold text-2xl">Change password</h2>
 				<div className="space-y-2 max-w-">
 					<FormField
 						control={form.control}
@@ -87,7 +86,7 @@ export function EditPassword() {
 						)}
 					/>
 					<Button type="submit" className="max-w-sm">
-						Update
+						Update password
 					</Button>
 				</div>
 			</form>

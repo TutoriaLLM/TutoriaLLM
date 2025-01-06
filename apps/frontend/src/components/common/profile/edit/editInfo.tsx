@@ -41,7 +41,6 @@ export function Editinfo(props: { session: AuthSession }) {
 				onSubmit={form.handleSubmit(onSubmitUserInfo)}
 				className="space-y-3 p-3 rounded-3xl bg-gray-100 shadow"
 			>
-				<h2 className="w-full font-bold text-2xl">Update your information</h2>
 				<div className="flex gap-2 md:gap-4 items-start">
 					{session.user.image ? (
 						<Avatar className="w-20 h-20 ">
@@ -67,10 +66,10 @@ export function Editinfo(props: { session: AuthSession }) {
 										<FormLabel>Display Name</FormLabel>
 										<FormMessage />
 									</div>
-									<FormDescription>This is your display name.</FormDescription>
 									<FormControl>
-										<Input placeholder="shadcn" {...field} />
+										<Input {...field} />
 									</FormControl>
+									<FormDescription>This is your display name.</FormDescription>
 								</FormItem>
 							)}
 						/>
@@ -83,12 +82,12 @@ export function Editinfo(props: { session: AuthSession }) {
 										<FormLabel>User Name</FormLabel>
 										<FormMessage />
 									</div>{" "}
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
 									<FormDescription>
 										This is your user name for login.
 									</FormDescription>
-									<FormControl>
-										<Input placeholder="shadcn" {...field} />
-									</FormControl>
 								</FormItem>
 							)}
 						/>
@@ -98,7 +97,7 @@ export function Editinfo(props: { session: AuthSession }) {
 							type="submit"
 							className="max-w-sm"
 						>
-							Update
+							Update Info
 						</Button>
 					</div>
 				</div>

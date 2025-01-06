@@ -28,10 +28,18 @@ import {
 	PaginationContent,
 	PaginationItem,
 } from "@/components/ui/pagination";
+
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useState } from "react";
-import Popup from "@/components/ui/Popup";
 import { SessionValueView } from "../../SessionValueView";
 export function SessionByUserTable() {
 	const routeApi = getRouteApi("/admin/users_/$userId");
@@ -58,10 +66,6 @@ export function SessionByUserTable() {
 		});
 	};
 
-	const handleClosePopup = () => {
-		setPopupSessionFromSessionId(null);
-	};
-
 	const PopupContent = popupSessionFromSessionId ? (
 		<SessionValueView session={popupSessionFromSessionId} />
 	) : (
@@ -80,12 +84,26 @@ export function SessionByUserTable() {
 
 	return (
 		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
-			<Popup
-				openState={popupSessionFromSessionId !== null}
-				onClose={handleClosePopup}
+			<Dialog
+				open={!!popupSessionFromSessionId}
+				onOpenChange={(value) => {
+					if (!value) {
+						setPopupSessionFromSessionId(null);
+					}
+				}}
 			>
-				{PopupContent}
-			</Popup>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Are you absolutely sure?</DialogTitle>
+						<DialogDescription>
+							This action cannot be undone. This will permanently delete your
+							account and remove your data from our servers.
+						</DialogDescription>
+						{PopupContent}
+					</DialogHeader>
+				</DialogContent>
+			</Dialog>
+
 			<div className="overflow--auto">
 				<Table>
 					<TableHeader>

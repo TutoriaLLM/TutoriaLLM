@@ -1,7 +1,6 @@
 import { Select } from "@/components/ui/select";
 import { downloadAllSessions } from "@/api/admin/session.js";
 import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
-import Popup from "@/components/ui/Popup";
 import { Button } from "@/components/ui/button";
 import { useListSessions } from "@/hooks/admin/session.js";
 import type { SessionValue } from "@/type";
@@ -36,12 +35,24 @@ import {
 	PaginationItem,
 } from "@/components/ui/pagination";
 
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+
 import { useState } from "react";
 import { sessionColumns } from "./column";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useTranslation } from "react-i18next";
 export function SessionTable() {
 	const routeApi = getRouteApi("/admin/sessions");
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
+
+	const { t } = useTranslation();
 
 	const [downloading, setDownloading] = useState(false);
 	const [popupSessionFromSessionId, setPopupSessionFromSessionId] = useState<
@@ -73,10 +84,6 @@ export function SessionTable() {
 		});
 	};
 
-	const handleClosePopup = () => {
-		setPopupSessionFromSessionId(null);
-	};
-
 	const handleSort = (field: keyof SessionValue) => {
 		const newSortOrder =
 			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
@@ -102,12 +109,24 @@ export function SessionTable() {
 
 	return (
 		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
-			<Popup
-				openState={popupSessionFromSessionId !== null}
-				onClose={handleClosePopup}
+			<Dialog
+				open={!!popupSessionFromSessionId}
+				onOpenChange={(value) => {
+					if (!value) {
+						setPopupSessionFromSessionId(null);
+					}
+				}}
 			>
-				{PopupContent}
-			</Popup>
+				<DialogContent className="max-w-4xl h-full">
+					<DialogHeader>
+						<DialogTitle>{t("admin.sessionAnalytics")}</DialogTitle>
+						<VisuallyHidden>
+							<DialogDescription>Session stats dialog</DialogDescription>
+						</VisuallyHidden>
+					</DialogHeader>
+					{PopupContent}
+				</DialogContent>
+			</Dialog>
 
 			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Sessions</h2>

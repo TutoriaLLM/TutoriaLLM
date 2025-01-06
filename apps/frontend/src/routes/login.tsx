@@ -1,5 +1,4 @@
 import { authClient } from "@/libs/auth-client";
-import * as Dialog from "@radix-ui/react-dialog";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { LanguageToStart } from "@/state.js";
@@ -9,8 +8,8 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import Login from "@/components/common/login";
 import { LangPicker } from "@/components/common/Langpicker";
-import Overlay from "@/components/ui/Overlay";
 import { setLanguageState } from "@/utils/setdefaultLanguage";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const Route = createFileRoute("/login")({
 	validateSearch: z.object({
@@ -51,25 +50,24 @@ function AdminLogin() {
 
 	const redirect = search.redirect || "/";
 	return (
-		<Overlay
-			openState={true}
-			Content={
-				<div className="fixed flex flex-col justify-center items-center max-w-md w-full gap-3 bg-transparent p-2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[999] font-semibold">
-					<div className="w-full flex flex-col justify-center items-center p-2 gap-2">
-						<Dialog.Title className="text-3xl">{t("login.title")}</Dialog.Title>
-						<Dialog.Description className="text-md font-medium text-gray-600">
-							{t("login.welcome")}
-						</Dialog.Description>
-					</div>
-					<div className=" bg-white rounded-3xl shadow p-3 w-full">
-						<Login redirectTo={redirect} />
-					</div>
-					<LangPicker
-						language={languageToStart}
-						setLanguage={setLanguageToStart}
-					/>
+		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+			<div className="max-w-2xl w-full space-y-4 px-2">
+				<div className="space-y-2 w-full items-center">
+					<h2 className="text-3xl font-semibold">{t("login.title")}</h2>
+					<p className="text-md font-medium text-gray-600">
+						{t("login.welcome")}
+					</p>
 				</div>
-			}
-		/>
+				<Card>
+					<CardContent className="p-6">
+						<Login redirectTo={redirect} />
+					</CardContent>
+				</Card>
+				<LangPicker
+					language={languageToStart}
+					setLanguage={setLanguageToStart}
+				/>
+			</div>
+		</div>
 	);
 }

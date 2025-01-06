@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { CircleAlert } from "lucide-react";
 import { loginSchema, type LoginSchemaType } from "@/schema/auth";
+import { Button } from "../ui/button";
 export default function Login(props: { redirectTo: string }) {
 	const { t } = useTranslation();
 
@@ -97,20 +98,15 @@ export default function Login(props: { redirectTo: string }) {
 						{...register("password", { required: true })}
 					/>
 				</div>
-				<div className="w-full flex p-2 flex-wrap gap-3 items-center justify-center">
-					<button
-						type="submit"
-						className="bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center"
-					>
-						{t("login.login")}
-					</button>
-					<button
+				<div className="w-full flex p-2 flex-wrap gap-4 items-center justify-center">
+					<Button
 						type="button"
-						className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-2xl"
+						className="bg-gray-500 hover:bg-gray-600"
 						onClick={handleGuest}
 					>
 						Continue as guest
-					</button>
+					</Button>
+					<Button type="submit">{t("login.login")}</Button>
 				</div>
 			</form>
 		</div>

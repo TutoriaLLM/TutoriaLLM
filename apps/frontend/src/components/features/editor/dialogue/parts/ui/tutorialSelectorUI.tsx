@@ -1,5 +1,12 @@
 import { getTagList, getTutorialList } from "@/api/tutorials.js";
-import Popup from "@/components/ui/Popup.js";
+import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { currentSessionState } from "@/state.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
@@ -140,13 +147,24 @@ function SelectTutorialUI() {
 	}
 
 	return (
-		<div>
-			{isTutorialSelectorOpen ? (
-				<Popup
-					openState={isTutorialSelectorOpen}
-					container={document.getElementById("root") as HTMLElement}
-					onClose={switchTutorialSelector}
-				>
+		<div className="rounded-2xl bg-gradient-to-r from-sky-200 to-rose-200 p-3 shadow max-w-md flex justify-between items-center animate-fade-in">
+			<span>
+				<h3 className="font-semibold text-lg">{t("tutorial.title")}</h3>
+				<p className="text-sm text-gray-600">{t("tutorial.description")}</p>
+			</span>
+			<Dialog>
+				<DialogTrigger>
+					<Button
+						type="button"
+						className="p-2 px-3 rounded-xl font-bold shadow whitespace-nowrap bg-gray-200 hover:bg-gray-300 text-gray-700"
+						onClick={switchTutorialSelector}
+					>
+						{t("generic.open")}
+					</Button>
+				</DialogTrigger>
+				<DialogContent>
+					<DialogTitle>{t("tutorial.title")}</DialogTitle>
+					<DialogDescription>{t("tutorial.description")}</DialogDescription>
 					<div className="flex flex-col gap-4 p-2 md:p-4 min-h-[70vh]">
 						<span className="flex flex-col gap-2">
 							<h3 className="font-bold text-3xl">{t("tutorial.title")}</h3>
@@ -292,21 +310,8 @@ function SelectTutorialUI() {
 							)}
 						</ul>
 					</div>
-				</Popup>
-			) : null}
-			<div className="rounded-2xl bg-gradient-to-r from-sky-200 to-rose-200 p-3 shadow max-w-md flex justify-between items-center animate-fade-in">
-				<span>
-					<h3 className="font-semibold text-lg">{t("tutorial.title")}</h3>
-					<p className="text-sm text-gray-600">{t("tutorial.description")}</p>
-				</span>
-				<button
-					type="button"
-					className="p-2 px-3 rounded-xl font-bold shadow whitespace-nowrap bg-gray-200 hover:bg-gray-300"
-					onClick={switchTutorialSelector}
-				>
-					{t("generic.open")}
-				</button>
-			</div>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }

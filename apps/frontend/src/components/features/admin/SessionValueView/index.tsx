@@ -24,8 +24,7 @@ export function SessionValueView(props: { session: string }) {
 	}
 
 	return (
-		<div className="w-full flex flex-col gap-3 relative">
-			<h1 className="text-2xl font-bold">{t("admin.sessionAnalytics")}</h1>
+		<div className="w-full h-full overflow-y-auto flex flex-col gap-3 relative">
 			<p className="text-gray-600 text-base">
 				{t("admin.sessionCode")}: {session.sessionId}
 			</p>

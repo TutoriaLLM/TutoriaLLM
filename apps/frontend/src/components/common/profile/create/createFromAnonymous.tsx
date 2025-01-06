@@ -55,7 +55,7 @@ export function CreateAccontFromAnonymous() {
 						<FormItem>
 							<FormLabel>Display Name</FormLabel>
 							<FormControl>
-								<Input placeholder="shadcn" {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription>This is your display name.</FormDescription>
 							<FormMessage />
@@ -70,7 +70,7 @@ export function CreateAccontFromAnonymous() {
 						<FormItem>
 							<FormLabel>UserName</FormLabel>
 							<FormControl>
-								<Input placeholder="shadcn" {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription>
 								This is your user name for login.
@@ -86,10 +86,12 @@ export function CreateAccontFromAnonymous() {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Email</FormLabel>
+
 							<FormControl>
-								<Input placeholder="shadcn" {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription>Type your Email address.</FormDescription>
+
 							<FormMessage />
 						</FormItem>
 					)}
@@ -102,7 +104,7 @@ export function CreateAccontFromAnonymous() {
 						<FormItem>
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input placeholder="shadcn" {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription>Type your password.</FormDescription>
 							<FormMessage />
@@ -117,7 +119,7 @@ export function CreateAccontFromAnonymous() {
 						<FormItem>
 							<FormLabel>Confirm Password</FormLabel>
 							<FormControl>
-								<Input placeholder="shadcn" {...field} />
+								<Input {...field} />
 							</FormControl>
 							<FormDescription>Confirm your password.</FormDescription>
 							<FormMessage />
