@@ -75,7 +75,7 @@ export default function Output() {
 						</div>
 					))}
 				</div>
-				<div className="text-left">
+				<div className="text-left no-wheel">
 					<CustomHandle
 						id="markdown"
 						type="target"

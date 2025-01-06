@@ -197,7 +197,14 @@ function RouteComponent() {
 			socket.off("notifyIsReplyingforSender", onReceivedReplyingNotification);
 			socket.off("RequestScreenshot", onReceivedScreenshotRequest);
 		};
-	}, [sessionId]);
+	}, [
+		session,
+		setWorkspaceConnection,
+		setSocketInstance,
+		setCurrentSession,
+		setPrevSession,
+		setIsCodeRunning,
+	]);
 
 	// Ability to take screenshots
 	async function takeScreenshot() {
@@ -338,7 +345,6 @@ function RouteComponent() {
 							</TabsList>
 							<TabsContent value="workspaceTab">
 								<Editor
-									isConnecting={WorkspaceConnection}
 									menuOpen={isMenuOpen}
 									language={session.language ?? "en"}
 								/>
@@ -357,7 +363,6 @@ function RouteComponent() {
 								minSize={20}
 							>
 								<Editor
-									isConnecting={WorkspaceConnection}
 									menuOpen={isMenuOpen}
 									language={session.language ?? "en"}
 								/>

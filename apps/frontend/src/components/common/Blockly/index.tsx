@@ -23,7 +23,7 @@ import { forwardRef } from "react";
 
 const Editor = forwardRef<
 	HTMLDivElement,
-	{ menuOpen: boolean; language: string; isConnecting: boolean }
+	{ menuOpen: boolean; language: string }
 >((props, ref) => {
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
 	const prevSession = useAtomValue(prevSessionState);
