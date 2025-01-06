@@ -15,8 +15,11 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/hooks/toast";
 
 export function EditPassword() {
+	const { toast } = useToast();
+
 	const form = useForm<UpdatePasswordSchemaType>({
 		resolver: zodResolver(updatePasswordSchema),
 		defaultValues: {
@@ -27,11 +30,20 @@ export function EditPassword() {
 	});
 
 	const onSubmitPassword = async (data: UpdatePasswordSchemaType) => {
-		await authClient.changePassword({
+		const result = await authClient.changePassword({
 			currentPassword: data.oldPassword,
 			newPassword: data.newPassword,
 			revokeOtherSessions: false,
 		});
+		if (result.error) {
+			toast({
+				description: "Failed to update password",
+			});
+		} else {
+			toast({
+				description: "User password updated",
+			});
+		}
 	};
 	return (
 		<Form {...form}>

@@ -17,9 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
+import { useToast } from "@/hooks/toast";
+import { useRouter } from "@tanstack/react-router";
 
 export function Editinfo(props: { session: AuthSession }) {
 	const { session } = props;
+	const { toast } = useToast();
+	const router = useRouter();
 	const form = useForm<UpdateUserSchemaType>({
 		resolver: zodResolver(updateUserSchema),
 		defaultValues: {
@@ -30,10 +34,20 @@ export function Editinfo(props: { session: AuthSession }) {
 
 	const onSubmitUserInfo = async (data: UpdateUserSchemaType) => {
 		console.info(data);
-		await authClient.updateUser({
+		const result = await authClient.updateUser({
 			name: data.name,
 			username: data.username,
 		});
+		if (result.error) {
+			toast({
+				description: "Failed to update password",
+			});
+		} else {
+			toast({
+				description: "User info updated",
+			});
+		}
+		router.invalidate();
 	};
 	return (
 		<Form {...form}>

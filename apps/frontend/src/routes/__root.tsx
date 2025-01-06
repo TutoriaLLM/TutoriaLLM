@@ -1,6 +1,7 @@
 import FrontendTracer from "@/clientTelemetry.js";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import React from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 const TanStackRouterDevtoolsForDev =
 	import.meta.env.MODE === "production" || process.env.NODE_ENV === "production"
@@ -19,6 +20,7 @@ export const Route = createRootRoute({
 	component: () => (
 		<>
 			<Outlet />
+			<Toaster />
 			<FrontendTracer />
 			<TanStackRouterDevtoolsForDev />
 		</>

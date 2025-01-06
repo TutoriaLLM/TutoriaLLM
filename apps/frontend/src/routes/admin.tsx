@@ -1,5 +1,4 @@
 import SideBar from "@/components/features/admin/Sidebar";
-import { Toaster } from "@/components/ui/toaster";
 import { authClient } from "@/libs/auth-client";
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
 
@@ -31,7 +30,6 @@ function AdminPage() {
 					<div className="w-full h-full max-h-svh overflow-auto">
 						<Outlet />
 					</div>
-					<Toaster />
 				</div>
 			</div>
 		</div>
