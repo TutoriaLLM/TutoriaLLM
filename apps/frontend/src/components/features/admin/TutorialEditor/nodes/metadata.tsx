@@ -1,5 +1,6 @@
 import { LangPicker } from "@/components/common/Langpicker.js";
 import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+import { Button } from "@/components/ui/button";
 import { FancyMultiSelect } from "@/components/ui/tags";
 import { useListTags } from "@/hooks/tutorials";
 import {
@@ -107,9 +108,15 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 			</span>
 			<NodeToolbar>
-				<button type="button" className="text-red-500 " onClick={handleDelete}>
+				<Button
+					type="button"
+					className="text-destructive-foreground"
+					size="icon"
+					variant="destructive"
+					onClick={handleDelete}
+				>
 					<Trash2 className="drop-shadow" />
-				</button>
+				</Button>
 			</NodeToolbar>
 			<div className="p-2">
 				<div>Metadata</div>

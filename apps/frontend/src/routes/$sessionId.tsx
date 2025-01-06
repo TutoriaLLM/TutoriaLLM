@@ -39,6 +39,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { type Operation, applyPatch, createPatch } from "rfc6902";
 import { authClient } from "@/libs/auth-client";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/libs/utils";
 
 const sessionQueryOptions = (sessionId: string) =>
 	queryOptions({
@@ -316,15 +318,18 @@ function RouteComponent() {
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}
 				/>
 				<div className="flex-1 overflow-hidden relative">
-					<button
+					<Button
 						type="button"
+						variant="secondary"
+						size="icon"
 						onClick={handleToggle}
-						className={`absolute sm:hidden w-8 h-8 top-2 left-4 flex items-center justify-center transition-transform ${
-							isMenuOpen ? "rotate-180" : ""
-						}`}
+						className={cn(
+							"rounded-full absolute sm:hidden w-8 h-8 top-2 left-4 flex items-center justify-center transition-transform",
+							{ "rotate-180": isMenuOpen },
+						)}
 					>
 						<PanelRightClose />
-					</button>
+					</Button>
 					{isMobile ? (
 						<Tabs
 							defaultValue="workspaceTab"

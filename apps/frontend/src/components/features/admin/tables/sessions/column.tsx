@@ -194,14 +194,14 @@ export function sessionColumns(
 					</a>
 					<Button
 						type="button"
-						variant="orange"
+						variant="secondary"
 						onClick={() => handleStatsPopup(row.original.sessionId)}
 					>
 						Stats
 					</Button>
 
 					<Button
-						variant="red"
+						variant="destructive"
 						onClick={() => handleDeleteSession(row.original.sessionId)}
 					>
 						Delete

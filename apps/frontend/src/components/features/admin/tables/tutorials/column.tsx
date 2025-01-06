@@ -87,13 +87,13 @@ export function tutorialsColumns() {
 					<div className="flex gap-2">
 						<Button
 							onClick={() => handleEditTutorial(row.original.id)}
-							variant={"orange"}
+							variant="secondary"
 						>
 							Edit
 						</Button>
 						<Button
 							onClick={() => handleDeleteTutorial(row.original.id)}
-							variant={"red"}
+							variant="destructive"
 						>
 							Delete
 						</Button>

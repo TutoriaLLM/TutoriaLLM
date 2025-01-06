@@ -291,7 +291,7 @@ export default function Toolbar(props: {
 		<div className="w-full flex flex-wrap gap-3 bg-gray-300 rounded-2xl p-1.5 mt-12 md:mt-0">
 			<Button
 				type="button"
-				variant={"red"}
+				variant="destructive"
 				onClick={() => {
 					queryClient.invalidateQueries({
 						queryKey: ["tutorials"],
@@ -303,11 +303,7 @@ export default function Toolbar(props: {
 				<ChevronLeft />
 				Back
 			</Button>
-			<Button
-				type="button"
-				onClick={handleSave}
-				className="bg-green-500 hover:bg-green-400"
-			>
+			<Button type="button" onClick={handleSave}>
 				Save <SaveAll />
 			</Button>
 			<Button type="button" onClick={() => props.setIsUploadOpen(true)}>
@@ -315,7 +311,7 @@ export default function Toolbar(props: {
 			</Button>
 
 			{props.id !== null && (
-				<Button type="button" variant={"orange"} onClick={handleDownload}>
+				<Button type="button" onClick={handleDownload}>
 					Download <DownloadIcon />
 				</Button>
 			)}

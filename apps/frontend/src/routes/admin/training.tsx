@@ -7,6 +7,7 @@ import {
 	listGuides,
 	searchGuides,
 } from "@/api/admin/training";
+import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import type { InferResponseType } from "backend/hc";
@@ -186,15 +187,15 @@ function Training() {
 									</div>
 								</div>
 								<div className="flex items-center gap-3">
-									<button
+									<Button
 										type="button"
-										className="text-red-500"
+										variant="destructive"
 										onClick={() =>
 											deleteGuideMutate({ id: result.id.toString() })
 										}
 									>
 										Delete
-									</button>
+									</Button>
 								</div>
 							</div>
 						</div>
@@ -226,39 +227,33 @@ function Training() {
 							/>
 						</div>
 						<div className="flex items-center justify-center w-full gap-2 p-2">
-							<button
-								className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl"
+							<Button
+								variant="secondary"
+								size="icon"
 								type="button"
 								onClick={handleConfirm}
 							>
 								<CheckCircle2 />
-							</button>
-							<button
-								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
+							</Button>
+							<Button
+								variant="destructive"
+								size="icon"
 								type="button"
 								onClick={() => deleteData({ id: trainingData.id.toString() })}
 							>
 								<Trash2 />
-							</button>
-							<button
-								className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl"
-								type="button"
-								onClick={fetchTrainingData}
-							>
+							</Button>
+							<Button size="icon" type="button" onClick={fetchTrainingData}>
 								<Shuffle />
-							</button>
+							</Button>
 						</div>
 					</div>
 				) : (
 					<div className="max-w-6xl bg-gray-300 rounded-2xl flex flex-col justify-center items-center  min-h-96 p-3 gap-3 w-full">
 						<p className="text-lg font-bold">利用できるデータがありません。</p>
-						<button
-							className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl mt-3"
-							type="button"
-							onClick={fetchTrainingData}
-						>
+						<Button type="button" onClick={fetchTrainingData}>
 							Shuffle
-						</button>
+						</Button>
 					</div>
 				)}
 
@@ -278,13 +273,9 @@ function Training() {
 						value={searchText}
 						onChange={(e) => setSearchText(e.target.value)}
 					/>
-					<button
-						className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl ml-2"
-						type="button"
-						onClick={handleSearch}
-					>
+					<Button variant="secondary" type="button" onClick={handleSearch}>
 						Search
-					</button>
+					</Button>
 				</form>
 				<div className="mt-5">{renderSearchResults()}</div>
 			</div>

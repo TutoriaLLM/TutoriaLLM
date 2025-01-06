@@ -1,6 +1,7 @@
 import { updateConfig } from "@/api/admin/config";
 import { getConfig } from "@/api/config.js";
 import JSONField from "@/components/features/admin/jsonViewer.js";
+import { Button } from "@/components/ui/button";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { AppConfig } from "@/type.js";
 import { createFileRoute } from "@tanstack/react-router";
@@ -45,9 +46,8 @@ function ConfigManager() {
 				setObj={(newObj) => setConfig(newObj as AppConfig)}
 			/>
 			<div>
-				<button
+				<Button
 					type="button"
-					className="flex bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full"
 					onClick={() => {
 						if (!config) {
 							alert("No config to save");
@@ -60,7 +60,7 @@ function ConfigManager() {
 					}}
 				>
 					Save Configuration
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

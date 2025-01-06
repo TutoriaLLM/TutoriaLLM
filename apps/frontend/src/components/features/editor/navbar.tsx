@@ -1,5 +1,6 @@
 import { ExitButton } from "@/components/common/exitButton.js";
 import ExecSwitch from "@/components/features/editor/ExecSwitch";
+import { Button } from "@/components/ui/button";
 import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
 import { currentSessionState, socketIoInstance } from "@/state.js";
 import type { SessionValue } from "@/type.js";
@@ -85,14 +86,14 @@ export default function Navbar(props: {
 				</span>
 				{props.isConnected ? (
 					<span className="flex gap-1.5 justify-center items-center">
-						<button
+						<Button
 							type="button"
+							size="icon"
+							variant="ghost"
 							onClick={() => setIsOpen(true)} // Start Tour
-							className="bg-gray-300 group text-gray-500 flex justify-center items-center text-sm max-w-sm rounded-2xl p-1.5 md:p-2 hover:text-gray-200 gap-2 transition-all startTour"
 						>
 							<HelpCircle className="group-hover:text" />
-						</button>
-						<span className="border border-gray-300 h-4 md:h-8" />
+						</Button>
 						<ExecSwitch />
 					</span>
 				) : null}

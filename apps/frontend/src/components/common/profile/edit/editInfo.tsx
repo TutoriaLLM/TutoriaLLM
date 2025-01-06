@@ -105,12 +105,7 @@ export function Editinfo(props: { session: AuthSession }) {
 								</FormItem>
 							)}
 						/>
-						<Button
-							variant={"default"}
-							size={"default"}
-							type="submit"
-							className="max-w-sm"
-						>
+						<Button size={"default"} type="submit" className="max-w-sm">
 							Update Info
 						</Button>
 					</div>

@@ -41,6 +41,7 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useState } from "react";
 import { SessionValueView } from "../../SessionValueView";
+import { cn } from "@/libs/utils";
 export function SessionByUserTable() {
 	const routeApi = getRouteApi("/admin/users_/$userId");
 	const { userId } = routeApi.useParams();
@@ -164,11 +165,9 @@ export function SessionByUserTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page === 1
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page === 1 && "bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: 1 }),
@@ -182,11 +181,9 @@ export function SessionByUserTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page === 1
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page === 1 && "bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page - 1 }),
@@ -220,11 +217,10 @@ export function SessionByUserTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page * search.limit >= totalSessions
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page * search.limit >= totalSessions &&
+									"bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page + 1 }),
@@ -239,11 +235,10 @@ export function SessionByUserTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page * search.limit >= totalSessions
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page * search.limit >= totalSessions &&
+									"bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({

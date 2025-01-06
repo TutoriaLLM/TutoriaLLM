@@ -7,6 +7,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/libs/utils";
 import { currentSessionState } from "@/state.js";
 import type { Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
@@ -156,7 +157,7 @@ function SelectTutorialUI() {
 				<DialogTrigger>
 					<Button
 						type="button"
-						className="p-2 px-3 rounded-xl font-bold shadow whitespace-nowrap bg-gray-200 hover:bg-gray-300 text-gray-700"
+						variant="outline"
 						onClick={switchTutorialSelector}
 					>
 						{t("generic.open")}
@@ -174,18 +175,18 @@ function SelectTutorialUI() {
 						</span>
 						<span className="flex flex-wrap gap-2">
 							{tags.map((tag) => (
-								<button
+								<Button
 									key={tag.name}
 									type="button"
+									variant="outline"
 									onClick={() => toggleTagSelection(tag.name)}
-									className={`p-3 rounded-2xl text-sm transition-all ${
-										selectedTags.includes(tag.name)
-											? "bg-sky-500 text-white"
-											: "bg-gray-300 text-gray-800"
-									}`}
+									className={cn({
+										"border-primary text-primary bg-accent":
+											selectedTags.includes(tag.name),
+									})}
 								>
 									{tag.name}
-								</button>
+								</Button>
 							))}
 						</span>
 						<ul
@@ -217,16 +218,13 @@ function SelectTutorialUI() {
 										</span>
 									</span>
 									<div className="flex justify-center items-center gap-3">
-										<button
+										<Button
 											type="button"
 											onClick={() => selectTutorial(tutorial)}
-											className="bg-sky-500 grow text-white flex justify-center items-center text-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all"
 										>
-											<p className="border-r pr-1.5 border-sky-200">
-												{t("tutorial.start")}
-											</p>
+											<p>{t("tutorial.start")}</p>
 											<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
-										</button>
+										</Button>
 										<span className="text-sm text-gray-600 gap-2 shrink">
 											<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
 												<EyeIcon />
@@ -278,16 +276,13 @@ function SelectTutorialUI() {
 										</span>
 									</span>
 									<div className="flex justify-center items-center gap-3">
-										<button
+										<Button
 											type="button"
 											onClick={() => selectTutorial(tutorial)}
-											className="bg-sky-500 grow text-white flex justify-center items-center text-sm rounded-2xl p-2 mt-2 hover:text-gray-200 gap-2 transition-all"
 										>
-											<p className="border-r pr-1.5 border-sky-200">
-												{t("tutorial.start")}
-											</p>
+											<p>{t("tutorial.start")}</p>
 											<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
-										</button>
+										</Button>
 										<span className="text-sm text-gray-600 gap-2 shrink">
 											<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
 												<EyeIcon />

@@ -154,7 +154,7 @@ const UserEditorForm = ({
 					)}
 				/>
 
-				<Button type="submit" variant={"orange"}>
+				<Button type="submit" variant="secondary">
 					Submit
 				</Button>
 			</form>

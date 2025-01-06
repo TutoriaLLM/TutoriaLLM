@@ -1,4 +1,5 @@
 import { UserTable } from "@/components/features/admin/tables/users/table";
+import { Button } from "@/components/ui/button";
 import { authClient } from "@/libs/auth-client";
 import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
@@ -111,13 +112,9 @@ function Users() {
 								<option value="user">User</option>
 							</select>
 						</label>
-						<button
-							type="button"
-							onClick={handleCreateUser}
-							className="p-1.5 rounded-full bg-orange-500 px-2 font-semibold text-white hover:bg-orange-600"
-						>
+						<Button type="button" onClick={handleCreateUser}>
 							Create
-						</button>
+						</Button>
 					</form>
 				</div>
 			</div>

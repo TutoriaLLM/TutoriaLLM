@@ -43,13 +43,13 @@ export function UserAccount(props: { session: AuthSession }) {
 	const UserActions = () => {
 		return (
 			<div className="flex items-center gap-3">
-				<Button variant="red" size="sm" onClick={handleLogout}>
+				<Button variant="destructive" size="sm" onClick={handleLogout}>
 					<DoorOpenIcon className="w-5 h-5" />
 					Logout
 				</Button>
 				<ProfileEditor session={session} />
 				{isAdmin && (
-					<Button variant="orange" size="sm" onClick={handleOpenAdmin}>
+					<Button variant="secondary" size="sm" onClick={handleOpenAdmin}>
 						<DoorOpenIcon className="w-5 h-5" />
 						Admin
 					</Button>
@@ -60,7 +60,11 @@ export function UserAccount(props: { session: AuthSession }) {
 	const AnonymousUserActions = () => {
 		return (
 			<div className="flex gap-3 flex-wrap sm:flex-nowrap justify-center items-center">
-				<Button variant="red" size="sm" onClick={handleDeleteAnonymousAccount}>
+				<Button
+					variant="destructive"
+					size="sm"
+					onClick={handleDeleteAnonymousAccount}
+				>
 					<DoorOpenIcon className="w-5 h-5" />
 					Delete Account
 				</Button>

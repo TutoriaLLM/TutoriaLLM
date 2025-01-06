@@ -145,7 +145,7 @@ export function userColumns(currentUserId: string) {
 				return (
 					<div className="flex gap-2">
 						<Button
-							variant={"red"}
+							variant="destructive"
 							onClick={() => handleDeleteUser(row.original.id)}
 							disabled={row.original.id === currentUserId}
 							className={
@@ -157,7 +157,7 @@ export function userColumns(currentUserId: string) {
 							<Trash2 />
 						</Button>
 						<Button
-							variant={"orange"}
+							variant="secondary"
 							onClick={() => handleOpenEditor(row.original.id)}
 						>
 							<PenBox />

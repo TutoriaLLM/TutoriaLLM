@@ -126,12 +126,7 @@ export function CreateAccontFromAnonymous() {
 						</FormItem>
 					)}
 				/>
-				<Button
-					variant={"default"}
-					size={"default"}
-					type="submit"
-					className="max-w-sm"
-				>
+				<Button size="default" type="submit" className="max-w-sm">
 					Create Account
 				</Button>
 			</form>

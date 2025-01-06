@@ -32,6 +32,7 @@ import type { userQuerySchema } from "@/routes/admin/users";
 import { getRouteApi } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
+import { cn } from "@/libs/utils";
 
 export function UserTable(props: {
 	userId: string;
@@ -164,11 +165,9 @@ export function UserTable(props: {
 								});
 							}}
 							disabled={search.page === 1}
-							className={
-								search.page === 1
-									? " cursor-not-allowed bg-gray-400 hover:bg-gray-500"
-									: ""
-							}
+							className={cn(
+								search.page === 1 && "bg-gray-400 cursor-not-allowed",
+							)}
 						>
 							<ChevronLeft />
 						</Button>
@@ -206,11 +205,9 @@ export function UserTable(props: {
 								});
 							}}
 							disabled={data.length < search.limit}
-							className={
-								data.length < search.limit
-									? " cursor-not-allowed bg-gray-400 hover:bg-gray-500"
-									: ""
-							}
+							className={cn(
+								data.length < search.limit && "bg-gray-400 cursor-not-allowed",
+							)}
 						>
 							<ChevronRight />
 						</Button>

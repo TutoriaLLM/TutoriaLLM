@@ -15,6 +15,8 @@ import WaveSurfer from "wavesurfer.js";
 
 import { useConfig } from "@/hooks/config.js";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/libs/utils";
 
 export default function DialogueView() {
 	const { t } = useTranslation();
@@ -349,12 +351,13 @@ export default function DialogueView() {
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
 						{config?.AI_Settings.Chat_Audio && isHttps && (
-							<button
+							<Button
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
-								className={`w-10 h-12 md:w-12 md:h-16 shrink-0 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
-									isRecording ? "bg-red-500" : "bg-green-600 hover:bg-green-700"
-								}`}
+								className={cn(
+									"w-10 h-12 md:w-12 md:h-16 shrink-0 text-white rounded-2xl flex justify-center items-center relative transition-colors bg-secondary hover:bg-secondary",
+									{ "bg-destructive": isRecording },
+								)}
 							>
 								{isRecording ? (
 									<div className="flex items-center justify-center">
@@ -391,26 +394,28 @@ export default function DialogueView() {
 								) : (
 									<Mic />
 								)}
-							</button>
+							</Button>
 						)}
 						<div className="flex-1 flex min-w-24 border shadow-inner gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
 							{audioURL ? (
 								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-gray-200 animate-fade-in">
-									<button
+									<Button
 										type="button"
-										className="text-gray-400 hover:text-green-400 p-2"
+										variant="ghost"
+										className=" hover:text-secondary p-2"
 										onClick={togglePlayPause}
 									>
 										{isPlaying ? <Pause /> : <Play />}
-									</button>
+									</Button>
 									<div id="waveform" className="w-12 h-8" />
-									<button
+									<Button
 										type="button"
+										variant="ghost"
 										onClick={removeAudio}
-										className="text-gray-400 hover:text-rose-400 p-2"
+										className="hover:text-destructive p-2"
 									>
 										<Trash />
-									</button>
+									</Button>
 								</div>
 							) : (
 								<input
@@ -423,17 +428,13 @@ export default function DialogueView() {
 							)}
 						</div>
 
-						<button
+						<Button
 							type="submit"
-							className={`w-10 h-12 md:w-12 md:h-16 shrink-0 text-white rounded-2xl flex justify-center items-center transition-colors ${
-								(message === "" && !audioURL) || session?.isReplying
-									? "bg-gray-300 transition"
-									: "bg-sky-600 hover:bg-sky-700 transition"
-							}`}
+							className="w-10 h-12 md:w-12 md:h-16 shrink-0 text-background rounded-2xl flex justify-center items-center transition-colors disabled:opacity-50 bg-sky-600 hover:bg-sky-700"
 							disabled={(message === "" && !audioURL) || session?.isReplying}
 						>
 							<Send />
-						</button>
+						</Button>
 					</form>
 				</div>
 			</div>

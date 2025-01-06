@@ -97,8 +97,8 @@ export function AdminUserInfo({
 							)}
 							<div className="flex gap-2">
 								<Button
-									variant="red"
-									size="sm"
+									variant="destructive"
+									size="icon"
 									onClick={() => handleDeleteUser(userDetail?.id || "")}
 									disabled={userDetail?.id === currentUserId}
 									className={
@@ -110,8 +110,8 @@ export function AdminUserInfo({
 									<Trash2 />
 								</Button>
 								<Button
-									variant="orange"
-									size="sm"
+									variant="secondary"
+									size="icon"
 									onClick={() => handleOpenEditor(userDetail?.id || "")}
 								>
 									<PenBox />

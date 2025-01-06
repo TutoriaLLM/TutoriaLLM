@@ -15,8 +15,8 @@ export function ProfileEditor({ session }: { session: AuthSession }) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild={true}>
-				<Button variant={"default"} size={"sm"}>
-					<PenIcon className="w-5 h-5" />
+				<Button size="sm">
+					<PenIcon />
 					Edit Profile
 				</Button>
 			</DialogTrigger>

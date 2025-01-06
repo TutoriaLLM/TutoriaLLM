@@ -19,6 +19,7 @@ import type {
 import { Bot, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
+import { Button } from "@/components/ui/button";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
@@ -125,9 +126,15 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 			</span>
 			<NodeToolbar>
-				<button type="button" className="text-red-500 " onClick={handleDelete}>
+				<Button
+					type="button"
+					className="text-destructive-foreground "
+					size="icon"
+					variant="destructive"
+					onClick={handleDelete}
+				>
 					<Trash2 className="drop-shadow" />
-				</button>
+				</Button>
 			</NodeToolbar>
 
 			<CustomHandle

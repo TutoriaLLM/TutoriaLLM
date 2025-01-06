@@ -17,6 +17,7 @@ import type {
 } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { useMutation } from "@/hooks/useMutations.js";
 import { Bot, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
@@ -140,9 +141,15 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 				<span className="text-xs w-1 h-1 rounded-full bg-white" />
 			</span>
 			<NodeToolbar>
-				<button type="button" className="text-red-500 " onClick={handleDelete}>
+				<Button
+					type="button"
+					className="text-destructive-foreground"
+					size="icon"
+					variant="destructive"
+					onClick={handleDelete}
+				>
 					<Trash2 className="drop-shadow" />
-				</button>
+				</Button>
 			</NodeToolbar>
 
 			<CustomHandle
@@ -163,9 +170,8 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 			/>
 			<div className="flex justify-center flex-col items-center p-2">
 				<h3 className="text-lg font-bold mb-2">Metadata Generator</h3>
-				<button
+				<Button
 					type="button"
-					className="bg-sky-400 hover:sky-500 rounded-2xl p-2 flex gap-2 text-white"
 					onClick={() => {
 						mutate({ content });
 					}}
@@ -173,7 +179,7 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 				>
 					<Bot className="drop-shadow" />
 					{isPending ? "Generating..." : "Generate Metadata from AI"}
-				</button>
+				</Button>
 			</div>
 			{isCompared && (
 				<div className="w-full h-full p-4 bg-gray-100 border-t overflow-y-auto">

@@ -100,8 +100,7 @@ export function DebugInfo() {
 		<Dialog>
 			<div className="w-full">
 				<DialogTrigger asChild={true}>
-					<Button size="sm" variant="transparent" className="mx-auto">
-						{" "}
+					<Button size="sm" variant="ghost" className="mx-auto">
 						{t("session.about")}
 					</Button>
 				</DialogTrigger>
@@ -131,7 +130,7 @@ export function DebugInfo() {
 						)}
 						<Button
 							type="button"
-							variant="red"
+							variant="destructive"
 							onClick={() => handleDeleteStorageClick()}
 						>
 							{t("session.deleteStorage")}

@@ -15,7 +15,7 @@ export function CreateFromAnonymous() {
 		<div>
 			<Dialog>
 				<DialogTrigger asChild={true}>
-					<Button variant={"default"} size={"sm"}>
+					<Button size="sm">
 						<Plus className="w-5 h-5" />
 						Create Account
 					</Button>

@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 
 import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/libs/utils";
 // This switch toggles whether the code is executed or not. It should work independently of the parent component.
 export function ExecSwitch() {
 	const { t } = useTranslation();
@@ -134,9 +136,24 @@ export function ExecSwitch() {
 					</Switch.Root>
 
 					<div className="group relative">
-						<button
-							className={`text-xs sync bg-gray-300 relative rounded-2xl p-1.5 md:p-2 underline transition-colors duration-300 ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400 bg-gray-300" : reloadButtonStatus === "reloading" ? "cursor-wait bg-gray-300" : "cursor-pointer bg-green-500 text-green-200"}`}
+						<Button
+							// className={`sync relative rounded-2xl underline transition-colors duration-300 ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400 bg-gray-300" : reloadButtonStatus === "reloading" ? "cursor-wait bg-gray-300" : "cursor-pointer bg-green-500 text-green-200"}`}
+							className={cn(
+								"sync relative rounded-2xl underline transition-colors duration-300",
+								{
+									"cursor-not-allowed text-gray-400 bg-gray-300":
+										reloadButtonStatus === "disabled",
+								},
+								{
+									"cursor-wait bg-gray-300": reloadButtonStatus === "reloading",
+								},
+								{
+									"cursor-pointer bg-green-500 text-green-200":
+										reloadButtonStatus === "idle",
+								},
+							)}
 							type="button"
+							variant="ghost"
 							onClick={updateCode}
 							disabled={
 								reloadButtonStatus === "disabled" ||
@@ -151,7 +168,7 @@ export function ExecSwitch() {
 										: ""
 								}
 							/>
-						</button>
+						</Button>
 						<p className="group-hover:visible invisible absolute text-xs bg-gray-300 p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 							{t("navbar.reload")}
 						</p>

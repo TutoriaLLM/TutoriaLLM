@@ -154,20 +154,19 @@ export default function SavedData() {
 										{value.sessionValue.sessionId}
 									</p>
 
-									<button
+									<Button
 										type="button"
-										className="bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl"
 										onClick={() => createOrContinueSession(value.sessionValue)}
 									>
 										{t("session.continueSession")}
-									</button>
-									<button
+									</Button>
+									<Button
 										type="button"
-										className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-2xl"
+										variant="destructive"
 										onClick={() => deleteSessionDataFromIndexedDB(key)}
 									>
 										{t("session.deleteSession")}
-									</button>
+									</Button>
 								</div>
 							);
 						})}

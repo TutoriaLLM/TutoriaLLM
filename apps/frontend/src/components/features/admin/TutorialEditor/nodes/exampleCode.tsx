@@ -14,6 +14,8 @@ import { useAtom, useSetAtom } from "jotai";
 import { currentSessionState, prevSessionState } from "@/state";
 import Editor from "@/components/common/Blockly";
 import i18next from "i18next";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/libs/utils";
 
 export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
@@ -89,21 +91,28 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 				</span>
 
 				<NodeToolbar>
-					<button type="button" className="text-red-500" onClick={handleDelete}>
+					<Button
+						type="button"
+						className="text-destructive-foreground"
+						size="icon"
+						variant="destructive"
+						onClick={handleDelete}
+					>
 						<Trash2 className="drop-shadow" />
-					</button>
+					</Button>
 				</NodeToolbar>
 
 				<div className="flex flex-col gap-2 p-2">
-					<button
-						type="button"
+					<Button
 						onClick={handleToggle}
-						className={`w-8 h-8 top-2 left-4 flex items-center justify-center transition-transform ${
-							isToolboxOpen ? "rotate-180" : ""
-						}`}
+						size="icon"
+						className={cn(
+							"top-2 left-4 flex items-center justify-center transition-transform",
+							{ "rotate-180": isToolboxOpen },
+						)}
 					>
 						<PanelRightClose />
-					</button>
+					</Button>
 				</div>
 			</div>
 

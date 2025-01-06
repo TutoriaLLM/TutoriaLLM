@@ -34,6 +34,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useMemo } from "react";
+import { cn } from "@/libs/utils";
 export function TutorialsTable() {
 	const routeApi = getRouteApi("/admin/tutorials");
 	const search = routeApi.useSearch();
@@ -154,11 +155,9 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page === 1
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page === 1 && "bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: 1 }),
@@ -172,11 +171,9 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page === 1
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page === 1 && "bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page - 1 }),
@@ -210,11 +207,10 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page * search.limit >= totalTutorials
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page * search.limit >= totalTutorials &&
+									"bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page + 1 }),
@@ -229,11 +225,10 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page * search.limit >= totalTutorials
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
+							className={cn(
+								search.page * search.limit >= totalTutorials &&
+									"bg-gray-400 cursor-not-allowed",
+							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({
