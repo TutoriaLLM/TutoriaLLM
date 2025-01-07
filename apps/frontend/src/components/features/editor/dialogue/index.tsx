@@ -386,7 +386,7 @@ export default function DialogueView() {
 													cy="24"
 												/>
 											</svg>
-											<span className="absolute inset-0 flex items-center justify-center text-xs text-red-100">
+											<span className="absolute inset-0 flex items-center justify-center text-xs text-destructive-foreground">
 												{remainingTime}
 											</span>
 										</div>

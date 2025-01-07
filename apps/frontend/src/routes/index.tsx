@@ -69,7 +69,7 @@ function Home() {
 								? ""
 								: `, ${session.user.name}`}
 						</h2>
-						<p className="text-md font-medium text-gray-600">
+						<p className="text-md font-medium text-accent-foreground">
 							{t("session.welcome")}
 						</p>
 					</div>

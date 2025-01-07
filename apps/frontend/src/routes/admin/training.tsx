@@ -151,29 +151,29 @@ function Training() {
 									#{result.id} {result.question}
 								</h3>
 							</div>
-							<p className="text-gray-600">{result.answer}</p>
+							<p className="text-accent-foreground">{result.answer}</p>
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-3 flex-wrap">
-									<div className="flex items-center gap-2 text-gray-600">
+									<div className="flex items-center gap-2 text-accent-foreground">
 										<Ellipsis />
 										<span className="gap-0.5">
-											<p className="text-xs text-gray-500">Session</p>
+											<p className="text-xs text-accent-foreground">Session</p>
 											<a href={`/${result.metadata?.sessionId}`}>
 												{result.metadata?.sessionId}
 											</a>
 										</span>
 									</div>{" "}
-									<div className="flex items-center gap-2 text-gray-600">
+									<div className="flex items-center gap-2 text-accent-foreground">
 										<UserRound />
 										<span className="gap-0.5">
-											<p className="text-xs text-gray-500">Author</p>
+											<p className="text-xs text-accent-foreground">Author</p>
 											<p> {result.metadata?.author}</p>
 										</span>
 									</div>
-									<div className="flex items-center gap-2 text-gray-600">
+									<div className="flex items-center gap-2 text-accent-foreground">
 										<CalendarClock />
 										<span className="gap-0.5">
-											<p className="text-xs text-gray-500">Date</p>
+											<p className="text-xs text-accent-foreground">Date</p>
 											<p>
 												{" "}
 												{new Date(

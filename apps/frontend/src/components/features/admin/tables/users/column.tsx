@@ -29,7 +29,7 @@ export function userColumns(currentUserId: string) {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<XCircleIcon className="text-red-500" />
+						<XCircleIcon className="text-destructive" />
 						Failed to delete user
 					</p>
 				),
@@ -41,7 +41,7 @@ export function userColumns(currentUserId: string) {
 		toast({
 			description: (
 				<p className="flex items-center justify-center gap-2">
-					<CheckCircle className="text-green-500" />
+					<CheckCircle className="text-secondary" />
 					User deleted
 				</p>
 			),
@@ -56,7 +56,7 @@ export function userColumns(currentUserId: string) {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<XCircleIcon className="text-red-500" />
+						<XCircleIcon className="text-destructive" />
 						Failed to update role
 					</p>
 				),
@@ -69,7 +69,7 @@ export function userColumns(currentUserId: string) {
 		toast({
 			description: (
 				<p className="flex items-center justify-center gap-2">
-					<CheckCircle className="text-green-500" />
+					<CheckCircle className="text-secondary" />
 					Role updated
 				</p>
 			),

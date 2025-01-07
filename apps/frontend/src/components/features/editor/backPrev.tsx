@@ -23,7 +23,7 @@ export function BackToPrevPage({ breadCrumbs }: { breadCrumbs?: string[] }) {
 						return (
 							<div
 								key={index}
-								className="flex items-center text-sm text-gray-500"
+								className="flex items-center text-sm text-accent-foreground"
 							>
 								{/* 区切り文字 (例として"/"など) は必要に応じて変更してください */}
 								{index > 0 && <span className="mx-1">/</span>}

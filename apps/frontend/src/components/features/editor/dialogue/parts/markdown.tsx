@@ -175,7 +175,7 @@ function getMarkdownComponents(
 			return (
 				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 				<span
-					className="cursor-pointer text-blue-400 underline"
+					className="cursor-pointer text-primary underline"
 					onClick={() => handleCodeCopy(text)}
 				>
 					<code className={className} {...props}>

@@ -97,7 +97,7 @@ export function UserAccount(props: { session: AuthSession }) {
 					<p className="text-lg font-semibold">{session.user.name}</p>
 					<div className="flex gap-2">
 						<MailIcon className="w-4 h-4 shrink-0" />
-						<p className="text-gray-600 text-xs truncate">
+						<p className="text-accent-foreground text-xs truncate">
 							{session.user.email}
 						</p>
 					</div>

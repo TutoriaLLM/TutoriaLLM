@@ -69,7 +69,7 @@ export function sessionByUserColumns(
 						<p className="font-semibold text-sm">
 							{row.original.createdAt ? timeAgo(row.original.createdAt) : "N/A"}
 						</p>
-						<p className="font-medium text-xs text-gray-600">
+						<p className="font-medium text-xs text-accent-foreground">
 							{row.original.createdAt
 								? new Date(row.original.createdAt).toLocaleString()
 								: "N/A"}
@@ -86,7 +86,7 @@ export function sessionByUserColumns(
 					<p className="font-semibold text-sm">
 						{row.original.updatedAt ? timeAgo(row.original.updatedAt) : "N/A"}
 					</p>
-					<p className="font-medium text-xs text-gray-600">
+					<p className="font-medium text-xs text-accent-foreground">
 						{row.original.updatedAt
 							? new Date(row.original.updatedAt).toLocaleString()
 							: "N/A"}

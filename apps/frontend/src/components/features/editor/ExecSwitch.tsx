@@ -139,7 +139,6 @@ export function ExecSwitch() {
 
 					<div className="group relative">
 						<Button
-							// className={`sync relative rounded-2xl underline transition-colors duration-300 ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400 bg-gray-300" : reloadButtonStatus === "reloading" ? "cursor-wait bg-gray-300" : "cursor-pointer bg-green-500 text-green-200"}`}
 							className={cn(
 								"sync relative bg-muted rounded-2xl underline transition-colors duration-300",
 								{

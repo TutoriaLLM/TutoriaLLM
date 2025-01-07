@@ -20,18 +20,18 @@ export function SessionValueView(props: { session: string }) {
 	const { session } = useSession(sessionId, 5000);
 
 	if (!session) {
-		return <p className="text-gray-600">{t("admin.loading")}</p>;
+		return <p className="text-accent-foreground">{t("admin.loading")}</p>;
 	}
 
 	return (
 		<div className="w-full h-full overflow-y-auto flex flex-col gap-3 relative">
-			<p className="text-gray-600 text-base">
+			<p className="text-accent-foreground text-base">
 				{t("admin.sessionCode")}: {session.sessionId}
 			</p>
-			<p className="text-gray-600 text-base">
+			<p className="text-accent-foreground text-base">
 				{t("admin.sessionLanguage")}: {langToStr(session.language || "en")}
 			</p>
-			<p className="text-gray-600 text-base">
+			<p className="text-accent-foreground text-base">
 				{t("admin.sessionEasyMode")}: {session.easyMode ? t("on") : t("off")}
 			</p>
 			<Tabs defaultValue="summaryView" className="w-full h-full flex flex-col">

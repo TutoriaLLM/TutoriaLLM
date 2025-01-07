@@ -116,7 +116,7 @@ export function DebugInfo() {
 				</DialogHeader>
 				<div className="flex flex-col gap-4">
 					<p className="text-sm">{t("session.aboutText")}</p>
-					<h2 className="text-base font-bold text-gray-700">
+					<h2 className="text-base font-bold text-foreground">
 						{t("session.debuginfo")}
 					</h2>
 					<div className="flex flex-col gap-2 text-xs">
@@ -140,7 +140,7 @@ export function DebugInfo() {
 					<p className="italic font-bold">
 						&#9829;Developed by So Tokumaru with many contributors. <br />
 						<a
-							className="text-blue-400 hover:text-blue-300 transition-colors"
+							className="text-primary hover:text-primary transition-colors"
 							href="https://tutoriallm.com"
 						>
 							check tutoriallm.com for more info

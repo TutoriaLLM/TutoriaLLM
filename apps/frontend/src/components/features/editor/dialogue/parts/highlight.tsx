@@ -59,7 +59,7 @@ function HighlightedBlockName({
 	}, [text]);
 
 	return (
-		<span className="text-red-500 h-full w-full flex justify-between relative animate-fade-in">
+		<span className="text-destructive h-full w-full flex justify-between relative animate-fade-in">
 			{image && <img src={image} alt={text} className="max-h-32" />}
 			<Button
 				type="button"

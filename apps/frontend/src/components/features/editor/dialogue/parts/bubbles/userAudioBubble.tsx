@@ -16,7 +16,7 @@ function renderUserAudioBubble(content: string, t: TFunction, id: number) {
 			<div className="rounded-2xl rounded-br-none bg-accent text-accent-foreground border p-3 shadow max-w-sm">
 				{content === "" ? (
 					<p className="flex justify-center items-center gap-2 bg-gradient-to-r from-gray-500 from-30% via-gray-700 via-50% to-gray-500 to-70% bg-[size:280%] bg-center animate-loading-flow text-transparent bg-clip-text">
-						<Headphones className="text-gray-400" />
+						<Headphones className="text-accent" />
 						{t("textbubble.transcribing")}
 					</p>
 				) : (

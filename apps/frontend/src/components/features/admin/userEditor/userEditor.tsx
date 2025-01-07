@@ -34,7 +34,7 @@ const UserEditorForm = ({
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<CheckCircle className="text-green-500" />
+						<CheckCircle className="text-secondary" />
 						User detail updated
 					</p>
 				),
@@ -46,7 +46,7 @@ const UserEditorForm = ({
 				title: "Failed to update user",
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<XCircle className="text-red-500" />
+						<XCircle className="text-destructive" />
 						Failed to update user
 					</p>
 				),

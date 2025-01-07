@@ -105,14 +105,14 @@ export default function SideBar() {
 						label={t("sidebar.trainingForAI")}
 					/>
 
-					<span className="w-full border-t-2 border-gray-300 text-gray-500" />
+					<span className="w-full border-t-2 border-gray-300 text-accent-foreground" />
 					<SidebarItem
 						href="/admin/users"
 						icon={User}
 						label={t("sidebar.users")}
 					/>
 
-					<span className="w-full border-t-2 border-gray-300 text-gray-500" />
+					<span className="w-full border-t-2 border-gray-300 text-accent-foreground" />
 					<SidebarItem
 						href="/admin/settings"
 						icon={Cog}

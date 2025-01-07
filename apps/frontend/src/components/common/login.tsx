@@ -72,29 +72,39 @@ export default function Login(props: { redirectTo: string }) {
 				)}
 
 				<div className="w-full flex p-2 gap-3 items-center justify-between">
-					<Label.Root className="text-md text-gray-500" htmlFor="username">
+					<Label.Root
+						className="text-md text-accent-foreground"
+						htmlFor="username"
+					>
 						{t("login.username")}
 						{errors.username && (
-							<p className="text-red-500 text-sm">{errors.username.message}</p>
+							<p className="text-destructive text-sm">
+								{errors.username.message}
+							</p>
 						)}
 					</Label.Root>
 
 					<input
 						id="username"
-						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
+						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-foreground rounded-2xl"
 						{...register("username", { required: true })}
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-3 items-center justify-between">
-					<Label.Root className="text-md text-gray-500" htmlFor="password">
+					<Label.Root
+						className="text-md text-accent-foreground"
+						htmlFor="password"
+					>
 						{t("login.password")}
 						{errors.password && (
-							<p className="text-red-500 text-sm">{errors.password.message}</p>
+							<p className="text-destructive text-sm">
+								{errors.password.message}
+							</p>
 						)}
 					</Label.Root>
 					<input
 						type="password"
-						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-gray-800 rounded-2xl"
+						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-foreground rounded-2xl"
 						{...register("password", { required: true })}
 					/>
 				</div>

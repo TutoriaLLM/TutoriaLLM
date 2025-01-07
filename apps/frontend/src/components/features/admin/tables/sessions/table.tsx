@@ -131,7 +131,7 @@ export function SessionTable() {
 			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Sessions</h2>
 				{isPending && (
-					<span className="text-gray-600 absolute top-5 right-5 animate-spin ">
+					<span className="text-accent-foreground absolute top-5 right-5 animate-spin ">
 						<LoaderCircle />
 					</span>
 				)}{" "}
@@ -147,7 +147,7 @@ export function SessionTable() {
 					</label>
 					<button
 						type="button"
-						className="p-1 text-xs rounded-full text-blue-500 font-semibold"
+						className="p-1 text-xs rounded-full text-destructive font-semibold"
 						onClick={handleDownloadAllSession}
 						disabled={downloading}
 					>

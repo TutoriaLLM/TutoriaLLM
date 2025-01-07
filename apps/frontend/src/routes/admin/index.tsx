@@ -9,7 +9,7 @@ function Dashboard() {
 	return (
 		<div className="w-full h-full overflow-auto bg-background rounded-2xl text-foreground">
 			<div className="flex w-full h-full justify-between items-center p-3">
-				<span className="text-gray-800">
+				<span className="text-foreground">
 					<h2 className="text-3xl font-semibold"> Welcome to TutoriaLLM </h2>
 					Admin Dashboard
 				</span>
@@ -22,7 +22,7 @@ function Dashboard() {
 				>
 					<span className="w-full text-left">
 						<h2 className="text-3xl font-semibold">Tutorials </h2>
-						<p className="text-gray-600 ml-auto">
+						<p className="text-accent-foreground ml-auto">
 							Information for created tutorials
 						</p>
 					</span>
@@ -34,7 +34,10 @@ function Dashboard() {
 				>
 					<span className="w-full text-left">
 						<h2 className="text-3xl font-semibold"> Sessions </h2>
-						<p className="text-gray-600 ml-auto"> Information for sessions</p>
+						<p className="text-accent-foreground ml-auto">
+							{" "}
+							Information for sessions
+						</p>
 					</span>
 					<ArrowRight />
 				</Link>
@@ -45,7 +48,10 @@ function Dashboard() {
 				>
 					<span className="w-full text-left">
 						<h2 className="text-3xl font-semibold"> AI Training </h2>
-						<p className="text-gray-600 ml-auto"> Information for Trained AI</p>
+						<p className="text-accent-foreground ml-auto">
+							{" "}
+							Information for Trained AI
+						</p>
 					</span>
 					<ArrowRight />
 				</Link>

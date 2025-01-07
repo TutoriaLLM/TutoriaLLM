@@ -169,7 +169,7 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 			</div>
 			{/* Display messages being generated */}
 			{isPending ? (
-				<p className="w-full h-full p-2 text-center text-gray-500">
+				<p className="w-full h-full p-2 text-center text-accent-foreground">
 					Generating Markdown...
 				</p>
 			) : null}

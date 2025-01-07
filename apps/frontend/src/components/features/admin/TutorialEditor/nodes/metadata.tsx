@@ -154,7 +154,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 						/>
 					</div>
 					<div className="block mb-2">
-						<span className="text-gray-700">Language:</span>
+						<span className="text-foreground">Language:</span>
 						<LangPicker
 							language={data.language}
 							setLanguage={(lang) => handleChange("language", lang)}

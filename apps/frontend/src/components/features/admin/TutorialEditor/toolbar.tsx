@@ -76,7 +76,7 @@ export default function Toolbar(props: {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<CheckCircle className="text-green-500" />
+						<CheckCircle className="text-secondary" />
 						Tutorial created successfully
 					</p>
 				),
@@ -86,7 +86,7 @@ export default function Toolbar(props: {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<XCircle className="text-red-500" />
+						<XCircle className="text-destructive" />
 						Failed to create tutorial
 					</p>
 				),
@@ -100,7 +100,7 @@ export default function Toolbar(props: {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<CheckCircle className="text-green-500" />
+						<CheckCircle className="text-secondary" />
 						Tutorial updated successfully
 					</p>
 				),
@@ -110,7 +110,7 @@ export default function Toolbar(props: {
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
-						<XCircle className="text-red-500" />
+						<XCircle className="text-destructive" />
 						Failed to update tutorial
 					</p>
 				),
@@ -371,7 +371,7 @@ export default function Toolbar(props: {
 						</DropdownMenu.Portal>
 					</DropdownMenu.Sub>
 					<span className="border-b border-gray-300" />
-					<DropdownMenu.Label className="p-0.5 px-2  font-semibold italic text-gray-800">
+					<DropdownMenu.Label className="p-0.5 px-2  font-semibold italic text-foreground">
 						Advanced
 					</DropdownMenu.Label>
 					<DropdownMenu.Sub>

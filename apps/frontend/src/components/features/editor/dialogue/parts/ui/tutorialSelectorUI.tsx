@@ -169,7 +169,7 @@ function SelectTutorialUI() {
 					<div className="flex flex-col gap-4 p-2 md:p-4 min-h-[70vh]">
 						<span className="flex flex-col gap-2">
 							<h3 className="font-bold text-3xl">{t("tutorial.title")}</h3>
-							<p className="text-sm text-gray-600">
+							<p className="text-sm text-accent-foreground">
 								{t("tutorial.description")}
 							</p>
 						</span>
@@ -240,7 +240,7 @@ function SelectTutorialUI() {
 									key={`skeleton-user-${index}`}
 									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner w-full col-span-1 transition group"
 								>
-									<BookDashed className="w-12 h-12 text-gray-200" />
+									<BookDashed className="w-12 h-12 text-destructive" />
 								</li>
 							))}
 						</ul>
