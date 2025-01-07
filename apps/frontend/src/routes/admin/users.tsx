@@ -1,5 +1,6 @@
 import { UserTable } from "@/components/features/admin/tables/users/table";
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/select";
 import { authClient } from "@/libs/auth-client";
 import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
@@ -100,18 +101,15 @@ function Users() {
 								onChange={handleNewUserChange}
 							/>
 						</label>
-						<label>
-							Role:
-							<select
-								className="p-1.5 rounded-2xl bg-white"
-								name="role"
-								value={newUser.role}
-								onChange={handleSelectRole}
-							>
-								<option value="admin">Admin</option>
-								<option value="user">User</option>
-							</select>
-						</label>
+						Role:
+						<Select
+							name="role"
+							value={newUser.role}
+							onChange={handleSelectRole}
+						>
+							<option value="admin">Admin</option>
+							<option value="user">User</option>
+						</Select>
 						<Button type="button" onClick={handleCreateUser}>
 							Create
 						</Button>

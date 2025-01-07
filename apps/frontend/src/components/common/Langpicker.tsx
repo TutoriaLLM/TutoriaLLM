@@ -1,6 +1,7 @@
 import { langToStr } from "@/utils/langToStr";
 import i18next from "i18next";
 import { Globe } from "lucide-react";
+import { Select } from "../ui/select";
 
 // The user selects the language from a drop-down.
 export function LangPicker(props: {
@@ -12,8 +13,7 @@ export function LangPicker(props: {
 	return (
 		<div className="flex justify-center items-center gap-2 p-2 rounded-2xl w-full">
 			<Globe className="w-6 h-6" />
-			<select
-				className="p-2 rounded-xl bg-gray-200 hover:bg-gray-300"
+			<Select
 				value={props.language}
 				onChange={(e) => props.setLanguage(e.target.value)}
 			>
@@ -22,7 +22,7 @@ export function LangPicker(props: {
 						{langToStr(lang)}
 					</option>
 				))}
-			</select>
+			</Select>
 		</div>
 	);
 }

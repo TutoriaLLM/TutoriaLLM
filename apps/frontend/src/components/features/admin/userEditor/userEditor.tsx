@@ -9,6 +9,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
 import { useUserDetail } from "@/hooks/admin/users";
 import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
@@ -141,14 +142,10 @@ const UserEditorForm = ({
 								<FormMessage />
 							</div>
 							<FormControl>
-								<select
-									className="p-1.5 rounded-2xl bg-white"
-									name="role"
-									value={field.value ?? ""}
-								>
+								<Select name="role" value={field.value ?? ""}>
 									<option value="admin">Admin</option>
 									<option value="user">User</option>
-								</select>
+								</Select>
 							</FormControl>
 						</FormItem>
 					)}
