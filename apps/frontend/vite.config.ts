@@ -41,7 +41,7 @@ export default defineConfig(() => {
 				],
 				registerType: "autoUpdate",
 				workbox: {
-					maximumFileSizeToCacheInBytes: 4000000,
+					maximumFileSizeToCacheInBytes: 5000000,
 				},
 				manifest: {
 					name: "TutoriaLLM",
