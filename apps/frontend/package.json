@@ -50,8 +50,6 @@
     "cross-env": "^7.0.3",
     "dom-to-image-more": "^3.5.0",
     "dotenv": "catalog:",
-    "drizzle-kit": "catalog:",
-    "drizzle-orm": "catalog:",
     "extensions": "workspace:^",
     "fast-glob": "^3.3.2",
     "html2canvas": "^1.4.1",

@@ -14,8 +14,8 @@
     "uuidv7": "^1.0.2"
   },
   "devDependencies": {
-    "@types/node": "^20.16.12",
-    "typescript": "^5.6.3"
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
