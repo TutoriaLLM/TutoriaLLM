@@ -204,7 +204,7 @@ function Training() {
 	};
 
 	return (
-		<div className="overflow-x-auto p-2 md:p-4">
+		<div className="overflow-x-auto">
 			<div className="w-full h-full flex flex-col justify-center items-center gap-2">
 				{trainingData ? (
 					<div className="max-w-6xl bg-background rounded-2xl flex flex-col justify-between min-h-96 p-3 gap-3 w-full">

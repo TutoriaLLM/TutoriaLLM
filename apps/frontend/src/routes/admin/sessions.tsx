@@ -36,9 +36,5 @@ function Sessions() {
 		setError(null); // Reset error and continue display
 	}
 
-	return (
-		<div className="w-full h-full p-2 md:p-4">
-			<SessionTable />
-		</div>
-	);
+	return <SessionTable />;
 }

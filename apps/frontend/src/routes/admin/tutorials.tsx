@@ -1,4 +1,5 @@
 import { TutorialsTable } from "@/components/features/admin/tables/tutorials/table";
+import { AdminFooterWrapper } from "@/components/layout/adminFooter";
 import { Button } from "@/components/ui/button";
 import type { Tutorial } from "@/type.js";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
@@ -34,21 +35,20 @@ function Tutorials() {
 
 	return (
 		<div className="overflow-clip">
-			<div className="overflow-x-auto max-w-screen p-2 md:p-4">
+			<div className="overflow-x-auto max-w-screen space-y-2">
 				<TutorialsTable />
-			</div>
-
-			<div className="p-2 border-b-2 bg-card flex flex-col items-center gap-2 w-full">
-				<h2 className="font-semibold">Create New Tutorial</h2>
-				<Button
-					onClick={() =>
-						router.navigate({
-							to: "/admin/tutorials/new",
-						})
-					}
-				>
-					Create New Tutorial
-				</Button>
+				<AdminFooterWrapper>
+					<h2 className="font-semibold">Create New Tutorial</h2>
+					<Button
+						onClick={() =>
+							router.navigate({
+								to: "/admin/tutorials/new",
+							})
+						}
+					>
+						Create New Tutorial
+					</Button>
+				</AdminFooterWrapper>
 			</div>
 		</div>
 	);

@@ -41,6 +41,7 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useState } from "react";
 import { SessionValueView } from "../../SessionValueView";
+import { AdminBodyWrapper } from "@/components/layout/adminBody";
 export function SessionByUserTable() {
 	const routeApi = getRouteApi("/admin/users_/$userId");
 	const { userId } = routeApi.useParams();
@@ -83,7 +84,7 @@ export function SessionByUserTable() {
 	});
 
 	return (
-		<div className="w-full h-full overflow-auto bg-background border rounded-2xl">
+		<AdminBodyWrapper title={`Sessions for user ${userId}`}>
 			<Dialog
 				open={!!popupSessionFromSessionId}
 				onOpenChange={(value) => {
@@ -104,7 +105,7 @@ export function SessionByUserTable() {
 				</DialogContent>
 			</Dialog>
 
-			<div className="overflow--auto">
+			<div className="overflow-auto">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -239,6 +240,6 @@ export function SessionByUserTable() {
 					</PaginationItem>
 				</PaginationContent>
 			</Pagination>
-		</div>
+		</AdminBodyWrapper>
 	);
 }

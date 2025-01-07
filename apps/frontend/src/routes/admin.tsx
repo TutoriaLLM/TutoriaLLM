@@ -24,12 +24,10 @@ export const Route = createFileRoute("/admin")({
 function AdminPage() {
 	return (
 		<div className="min-h-screen flex flex-col bg-accent text-accent-foreground">
-			<div className="w-full h-full">
-				<div className="h-full flex w-full">
-					<SideBar />
-					<div className="w-full h-full max-h-svh overflow-auto">
-						<Outlet />
-					</div>
+			<div className="h-full flex w-full flex-col md:flex-row">
+				<SideBar />
+				<div className="w-full h-full p-2 md:p-4 max-h-svh md:overflow-auto">
+					<Outlet />
 				</div>
 			</div>
 		</div>

@@ -34,6 +34,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useMemo } from "react";
+import { AdminBodyWrapper } from "@/components/layout/adminBody";
 export function TutorialsTable() {
 	const routeApi = getRouteApi("/admin/tutorials");
 	const search = routeApi.useSearch();
@@ -90,10 +91,7 @@ export function TutorialsTable() {
 	};
 
 	return (
-		<div className="w-full h-full overflow-auto bg-background border rounded-2xl">
-			<div className="flex justify-between p-4">
-				<h2 className="text-2xl font-semibold">Tutorials</h2>
-			</div>
+		<AdminBodyWrapper title="Tutorials">
 			<div>
 				<Table>
 					<TableHeader>
@@ -229,6 +227,6 @@ export function TutorialsTable() {
 					</PaginationItem>
 				</PaginationContent>
 			</Pagination>
-		</div>
+		</AdminBodyWrapper>
 	);
 }

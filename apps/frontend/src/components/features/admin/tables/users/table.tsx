@@ -32,6 +32,7 @@ import type { userQuerySchema } from "@/routes/admin/users";
 import { getRouteApi } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
+import { AdminBodyWrapper } from "@/components/layout/adminBody";
 
 export function UserTable(props: {
 	userId: string;
@@ -101,59 +102,51 @@ export function UserTable(props: {
 		},
 	});
 	return (
-		<div>
-			<div className="flex justify-between p-4">
-				<h2 className="text-2xl font-semibold">Users</h2>
-			</div>
-			<div>
-				<Table>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => (
-									<TableHead
-										key={header.column.id}
-										onClick={() => handleSort(header.column.id)}
-									>
-										{flexRender(
-											header.column.columnDef.header,
-											header.getContext(),
-										)}
-										{search.sortField === header.column.id &&
-											(search.sortOrder === "asc" ? (
-												<ChevronUp />
-											) : (
-												<ChevronDown />
-											))}
-									</TableHead>
+		<AdminBodyWrapper title="Users">
+			<Table>
+				<TableHeader>
+					{table.getHeaderGroups().map((headerGroup) => (
+						<TableRow key={headerGroup.id}>
+							{headerGroup.headers.map((header) => (
+								<TableHead
+									key={header.column.id}
+									onClick={() => handleSort(header.column.id)}
+								>
+									{flexRender(
+										header.column.columnDef.header,
+										header.getContext(),
+									)}
+									{search.sortField === header.column.id &&
+										(search.sortOrder === "asc" ? (
+											<ChevronUp />
+										) : (
+											<ChevronDown />
+										))}
+								</TableHead>
+							))}
+						</TableRow>
+					))}
+				</TableHeader>
+				<TableBody>
+					{table.getRowModel().rows.length > 0 ? (
+						table.getRowModel().rows.map((row) => (
+							<TableRow key={row.id}>
+								{row.getVisibleCells().map((cell) => (
+									<TableCell key={cell.id}>
+										{flexRender(cell.column.columnDef.cell, cell.getContext())}
+									</TableCell>
 								))}
 							</TableRow>
-						))}
-					</TableHeader>
-					<TableBody>
-						{table.getRowModel().rows.length > 0 ? (
-							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id}>
-									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
-											{flexRender(
-												cell.column.columnDef.cell,
-												cell.getContext(),
-											)}
-										</TableCell>
-									))}
-								</TableRow>
-							))
-						) : (
-							<TableRow key={0}>
-								<TableCell colSpan={table.getAllColumns().length}>
-									No users found
-								</TableCell>
-							</TableRow>
-						)}
-					</TableBody>
-				</Table>
-			</div>
+						))
+					) : (
+						<TableRow key={0}>
+							<TableCell colSpan={table.getAllColumns().length}>
+								No users found
+							</TableCell>
+						</TableRow>
+					)}
+				</TableBody>
+			</Table>
 			<Pagination>
 				<PaginationContent>
 					<PaginationItem>
@@ -207,6 +200,6 @@ export function UserTable(props: {
 					</PaginationItem>
 				</PaginationContent>
 			</Pagination>
-		</div>
+		</AdminBodyWrapper>
 	);
 }

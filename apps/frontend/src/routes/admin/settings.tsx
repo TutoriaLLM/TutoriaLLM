@@ -1,6 +1,7 @@
 import { updateConfig } from "@/api/admin/config";
 import { getConfig } from "@/api/config.js";
 import JSONField from "@/components/features/admin/jsonViewer.js";
+import { AdminBodyWrapper } from "@/components/layout/adminBody";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { AppConfig } from "@/type.js";
@@ -40,29 +41,31 @@ function ConfigManager() {
 	});
 
 	return (
-		<div className="flex flex-col gap-2 p-2 md:p-4">
-			<JSONField
-				obj={config ?? {}}
-				setObj={(newObj) => setConfig(newObj as AppConfig)}
-			/>
-			<div>
-				<Button
-					type="button"
-					onClick={() => {
-						if (!config) {
-							alert("No config to save");
-							return;
-						}
+		<AdminBodyWrapper title="Settings">
+			<div className="p-2 md:p-4">
+				<JSONField
+					obj={config ?? {}}
+					setObj={(newObj) => setConfig(newObj as AppConfig)}
+				/>
+				<div>
+					<Button
+						type="button"
+						onClick={() => {
+							if (!config) {
+								alert("No config to save");
+								return;
+							}
 
-						mutate({
-							...config,
-						});
-					}}
-				>
-					Save Configuration
-				</Button>
+							mutate({
+								...config,
+							});
+						}}
+					>
+						Save Configuration
+					</Button>
+				</div>
 			</div>
-		</div>
+		</AdminBodyWrapper>
 	);
 }
 

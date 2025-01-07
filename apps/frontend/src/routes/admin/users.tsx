@@ -1,4 +1,5 @@
 import { UserTable } from "@/components/features/admin/tables/users/table";
+import { AdminFooterWrapper } from "@/components/layout/adminFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
@@ -66,48 +67,42 @@ function Users() {
 	}, []);
 
 	return (
-		<div className="w-full h-full p-2 md:p-4">
-			<div className="overflow-x-auto bg-background border rounded-2xl ">
-				<UserTable userId={currentUserId ?? ""} />
-				<div className="p-2 border-b-2 bg-card">
-					<h2 className="py-2 font-semibold">Create New User</h2>
-					<form className="gap-2 flex">
-						Username:
-						<Input
-							type="text"
-							name="username"
-							value={newUser.username}
-							onChange={handleNewUserChange}
-						/>
-						Email:
-						<Input
-							type="email"
-							name="email"
-							value={newUser.email}
-							onChange={handleNewUserChange}
-						/>
-						Password:
-						<Input
-							type="password"
-							name="password"
-							value={newUser.password}
-							onChange={handleNewUserChange}
-						/>
-						Role:
-						<Select
-							name="role"
-							value={newUser.role}
-							onChange={handleSelectRole}
-						>
-							<option value="admin">Admin</option>
-							<option value="user">User</option>
-						</Select>
-						<Button type="button" onClick={handleCreateUser}>
-							Create
-						</Button>
-					</form>
-				</div>
-			</div>
+		<div className="overflow-x-auto space-y-2">
+			<UserTable userId={currentUserId ?? ""} />
+			<AdminFooterWrapper>
+				<h2 className="py-2 font-semibold">Create New User</h2>
+				<form className="gap-2 flex">
+					Username:
+					<Input
+						type="text"
+						name="username"
+						value={newUser.username}
+						onChange={handleNewUserChange}
+					/>
+					Email:
+					<Input
+						type="email"
+						name="email"
+						value={newUser.email}
+						onChange={handleNewUserChange}
+					/>
+					Password:
+					<Input
+						type="password"
+						name="password"
+						value={newUser.password}
+						onChange={handleNewUserChange}
+					/>
+					Role:
+					<Select name="role" value={newUser.role} onChange={handleSelectRole}>
+						<option value="admin">Admin</option>
+						<option value="user">User</option>
+					</Select>
+					<Button type="button" onClick={handleCreateUser}>
+						Create
+					</Button>
+				</form>
+			</AdminFooterWrapper>
 		</div>
 	);
 }

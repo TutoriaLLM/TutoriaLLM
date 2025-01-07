@@ -77,7 +77,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 	};
 
 	return (
-		<div className="bg-background border p-2 md:p-3 space-y-4 rounded-2xl">
+		<div className="space-y-4">
 			{Object.keys(obj).map((key, index) => {
 				const value = obj[key];
 

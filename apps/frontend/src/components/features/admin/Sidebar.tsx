@@ -63,12 +63,12 @@ export default function SideBar() {
 	};
 
 	return (
-		<div className="flex flex-col">
-			<div className="z-[60]">
+		<div className="flex flex-col md:h-screen">
+			<div className="z-[60] w-full p-2">
 				<Button
 					onClick={toggleSidebar}
 					type="button"
-					className="md:hidden p-2 fixed top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-background hover:bg-accent shadow transition rounded-full text-foreground"
+					className="md:hidden p-2 top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-background hover:bg-accent shadow transition rounded-full text-foreground"
 				>
 					<Sidebar />
 					<span>{t("sidebar.toggle")}</span>
@@ -76,7 +76,7 @@ export default function SideBar() {
 			</div>
 			<div
 				className={cn(
-					"bg-background text-foreground border-r-2 border h-full w-full p-2 transition-transform transform md:translate-x-0 fixed md:static z-50",
+					"bg-background text-foreground md:rounded-tr-2xl border-r-2 border h-full w-full p-2 transition-transform transform md:translate-x-0 fixed md:static z-50",
 					{ "translate-x-0": isOpen, "-translate-x-full": !isOpen },
 				)}
 			>

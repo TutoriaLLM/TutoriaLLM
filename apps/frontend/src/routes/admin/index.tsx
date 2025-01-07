@@ -7,7 +7,7 @@ export const Route = createFileRoute("/admin/")({
 
 function Dashboard() {
 	return (
-		<div className="w-full h-full overflow-auto bg-background rounded-2xl text-foreground">
+		<div className="overflow-auto bg-background rounded-2xl text-foreground border">
 			<div className="flex w-full h-full justify-between items-center p-3">
 				<span className="text-foreground">
 					<h2 className="text-3xl font-semibold"> Welcome to TutoriaLLM </h2>

@@ -47,6 +47,7 @@ import { useState } from "react";
 import { sessionColumns } from "./column";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useTranslation } from "react-i18next";
+import { AdminBodyWrapper } from "@/components/layout/adminBody";
 export function SessionTable() {
 	const routeApi = getRouteApi("/admin/sessions");
 	const search = routeApi.useSearch();
@@ -108,7 +109,7 @@ export function SessionTable() {
 	});
 
 	return (
-		<div className="w-full h-full overflow-auto bg-background border rounded-2xl">
+		<AdminBodyWrapper title="Sessions">
 			<Dialog
 				open={!!popupSessionFromSessionId}
 				onOpenChange={(value) => {
@@ -128,14 +129,13 @@ export function SessionTable() {
 				</DialogContent>
 			</Dialog>
 
-			<div className="flex justify-between p-4">
-				<h2 className="text-2xl font-semibold">Sessions</h2>
+			<div className="">
 				{isPending && (
 					<span className="text-accent-foreground absolute top-5 right-5 animate-spin ">
 						<LoaderCircle />
 					</span>
 				)}{" "}
-				<div className="flex flex-col justify-center items-center gap-2">
+				<div className="space-y-2 px-4">
 					<label className="flex items-center gap-2">
 						<input
 							type="checkbox"
@@ -147,7 +147,7 @@ export function SessionTable() {
 					</label>
 					<button
 						type="button"
-						className="p-1 text-xs rounded-full text-destructive font-semibold"
+						className="p-1 text-xs rounded-full text-foreground font-semibold"
 						onClick={handleDownloadAllSession}
 						disabled={downloading}
 					>
@@ -290,6 +290,6 @@ export function SessionTable() {
 					</PaginationItem>
 				</PaginationContent>
 			</Pagination>
-		</div>
+		</AdminBodyWrapper>
 	);
 }

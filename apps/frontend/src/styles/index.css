@@ -19,27 +19,68 @@ html {
 	touch-action: none;
 }
 @layer base {
+	/* based on tailwindcss color palette */
 	:root {
-		--background: 220 14% 96%;
-		--foreground: 215 28% 17%;
+		/* gray-100 */
+		--background: 220 14.3% 95.9%;
+
+		/* gray-800 */
+		--foreground: 215 27.9% 16.9%;
+
+		/* white */
 		--card: 0 0% 100%;
-		--card-foreground: 215 28% 17%;
-		--popover: 0 0% 100%;
-		--popover-foreground: 215 28% 17%;
-		--primary: 201 90% 27.5%;
-		--primary-foreground: 220 14% 96%;
-		--secondary: 162.9 93.5% 24.3%;
-		--secondary-foreground: 220 14% 96%;
-		--muted: 220 14% 96%;
-		--muted-foreground: 220 9% 46%;
+
+		/* gray-800 */
+		--card-foreground: 215 27.9% 16.9%;
+
+		/* gray-100 */
+		--popover: 220 14.3% 95.9%;
+
+		/* gray-800 */
+		--popover-foreground: 215 27.9% 16.9%;
+
+		/* sky-600 */
+		--primary: 200.4 98% 39.4%;
+
+		/* gray-100 */
+		--primary-foreground: 220 14.3% 95.9%;
+
+		--secondary: 142.4 71.8% 29.2%;
+
+		/* gray-100 */
+		--secondary-foreground: 220 14.3% 95.9%;
+
+		/* gray-200 */
+		--muted: 220 13% 91%;
+
+		/* gray-600 */
+		--muted-foreground: 215 13.8% 34.1%;
+
+		/* gray-200 */
 		--accent: 220 13% 91%;
-		--accent-foreground: 215 28% 17%;
-		--destructive: 0 72% 51%;
-		--destructive-foreground: 220 14% 96%;
-		--warning: 38 92% 50%;
-		--warning-foreground: 48 96% 89%;
-		--border: 216 12% 84%;
+
+		/* gray-600 */
+		--accent-foreground: 215 13.8% 34.1%;
+
+		/* red-600 */
+		--destructive: 0 72.2% 50.6%;
+
+		/* orange-50 */
+		--destructive-foreground: 33.3 100% 96.5%;
+
+		/* amber-700 */
+		--warning: 26 90.5% 37.1%;
+
+		/* amber-50 */
+		--warning-foreground: 48 100% 96.1%;
+
+		/* gray-300 */
+		--border: 216 12.2% 83.9%;
+
+		/* gray-300 */
 		--input: 216 12% 84%;
+
+		/* using default value of shadcn */
 		--ring: 199 89% 48%;
 		--chart-1: 12 76% 61%;
 		--chart-2: 173 58% 39%;
