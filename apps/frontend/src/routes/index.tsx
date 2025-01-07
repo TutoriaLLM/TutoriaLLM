@@ -59,7 +59,7 @@ function Home() {
 
 	const session = Route.useLoaderData();
 	return (
-		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
 			<div className="max-w-2xl w-full space-y-4 px-2">
 				<div className="flex w-full justify-between items-center">
 					<div className="space-y-2 w-full">
@@ -73,21 +73,21 @@ function Home() {
 							{t("session.welcome")}
 						</p>
 					</div>
-					<div className="text-xs md:text-nowrap">
+					<div className="text-xs md:text-nowrap text-foreground">
 						{isServerOnline === null ? (
-							<span className="flex gap-2 justify-center items-center text-gray-500">
+							<span className="flex gap-2 justify-center items-center ">
 								{t("session.checkingServer")}
-								<LoaderCircle className=" text-gray-500 w-8 h-8 animate-spin" />
+								<LoaderCircle className=" text-primary w-8 h-8 animate-spin" />
 							</span>
 						) : isServerOnline ? (
-							<span className="flex gap-2 justify-center items-center text-gray-500">
+							<span className="flex gap-2 justify-center items-center ">
 								{t("session.available")}
-								<CheckCircle className=" text-green-500 w-8 h-8" />
+								<CheckCircle className=" text-secondary w-8 h-8" />
 							</span>
 						) : (
-							<span className="flex gap-2 justify-center items-center text-red-600">
+							<span className="flex gap-2 justify-center items-center ">
 								{t("session.serverOffline")}
-								<CircleAlertIcon className=" text-red-500 w-8 h-8 animate-pulse" />
+								<CircleAlertIcon className=" text-destructive w-8 h-8 animate-pulse" />
 							</span>
 						)}
 					</div>

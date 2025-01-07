@@ -119,11 +119,11 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	}, [generatedMarkdown, isGenerated]);
 
 	return (
-		<div className="markdown-node w-full h-full flex flex-col bg-white border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
-			<span className="w-full h-4 bg-gray-300 custom-drag-handle cursor-move justify-center items-center flex gap-2">
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
+		<div className="markdown-node w-full h-full flex flex-col bg-background border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
+			<span className="w-full h-4 bg-border custom-drag-handle cursor-move flex justify-center items-center gap-2">
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
 			</span>
 			<NodeToolbar>
 				<Button
@@ -155,9 +155,8 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 			/>
 			<div className="flex justify-center flex-col items-center p-2">
 				<h3 className="text-lg font-bold mb-2">Comparison</h3>
-				<button
+				<Button
 					type="button"
-					className="bg-sky-400 hoverLsky-500 rounded-2xl p-2 flex gap-2 text-white"
 					onClick={() => {
 						mutate({
 							content: markdown,
@@ -166,7 +165,7 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 				>
 					<Bot className="drop-shadow" />
 					Generate Markdown from AI
-				</button>
+				</Button>
 			</div>
 			{/* Display messages being generated */}
 			{isPending ? (
@@ -176,17 +175,17 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 			) : null}
 			{/* Displays comparison of input and output data */}
 			{isCompared && (
-				<div className="w-full h-full p-4 bg-gray-100 border-t ">
+				<div className="w-full h-full p-4 bg-background border-t ">
 					<div className="flex gap-4 max-w-xl">
-						<div className="w-[50%]">
+						<div className="w-[50%] no-wheel">
 							<h4 className="font-semibold">Original Markdown:</h4>
-							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
+							<pre className="whitespace-pre-wrap break-words bg-card h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
 								<Markdown>{markdown}</Markdown>
 							</pre>
 						</div>
-						<div className="w-[50%]">
+						<div className="w-[50%] no-wheel">
 							<h4 className="font-semibold">AI Generated Markdown:</h4>
-							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
+							<pre className="whitespace-pre-wrap break-words bg-card h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
 								<Markdown>{generatedMarkdown}</Markdown>
 							</pre>
 						</div>

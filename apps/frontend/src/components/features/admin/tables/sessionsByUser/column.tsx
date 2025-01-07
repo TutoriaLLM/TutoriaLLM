@@ -8,6 +8,7 @@ import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
+import { cn } from "@/libs/utils";
 
 export function sessionByUserColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -38,15 +39,14 @@ export function sessionByUserColumns(
 			cell: ({ row }) => {
 				return (
 					<div
-						className={`text-base font-semibold flex ${
-							row.original?.clients?.[0]
-								? "text-green-700 font-bold"
-								: "text-black"
-						}`}
+						className={cn("text-base font-semibold flex", {
+							"text-secondary font-bold": row.original?.clients?.[0],
+							"text-foreground": !row.original?.clients?.[0],
+						})}
 					>
 						{row.original.sessionId}
 						{row.original?.clients?.[0] ? (
-							<span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+							<span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
 						) : null}
 						<span className="text-xs">{row.original?.clients?.length}</span>
 					</div>
@@ -99,25 +99,25 @@ export function sessionByUserColumns(
 			accessorKey: "stats",
 			cell: ({ row }) => (
 				<>
-					<p className="font-medium text-xs text-gray-600 flex gap-1">
+					<p className="font-medium text-xs  flex gap-1">
 						<Bot className="w-4 h-4" />
 						{row.original.stats ? row.original.stats.totalInvokedLLM : 0}
 					</p>
-					<p className="font-medium text-xs text-gray-600 flex gap-1">
+					<p className="font-medium text-xs  flex gap-1">
 						<Puzzle className="w-4 h-4" />
 						{row.original.stats ? row.original.stats.currentNumOfBlocks : 0}
 					</p>
-					<p className="font-medium text-xs text-gray-600 flex gap-1 flex-nowrap">
+					<p className="font-medium text-xs  flex gap-1 flex-nowrap">
 						<Clock className="w-4 h-4" />
 						{row.original.stats
 							? msToTime(row.original.stats.totalConnectingTime)
 							: 0}
 					</p>
-					<p className="font-medium text-xs text-gray-600 flex gap-1">
+					<p className="font-medium text-xs  flex gap-1">
 						<MessageCircleMore className="w-4 h-4" />
 						{row.original.stats ? row.original.stats.totalUserMessages : 0}
 					</p>
-					<p className="font-medium text-xs text-gray-600 flex gap-1">
+					<p className="font-medium text-xs  flex gap-1">
 						<Play className="w-4 h-4" />
 						{row.original.stats ? row.original.stats.totalCodeExecutions : 0}
 					</p>

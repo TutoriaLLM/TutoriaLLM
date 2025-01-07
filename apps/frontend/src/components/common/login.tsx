@@ -65,8 +65,8 @@ export default function Login(props: { redirectTo: string }) {
 				className="flex flex-col justify-center items-center gap-3 sentry-block"
 			>
 				{loginWarning === "" ? null : (
-					<div className="p-1.5 py-2 bg-yellow-200 text-gray-600 font-normal border rounded-2xl w-full h-full flex justify-center items-center">
-						<CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
+					<div className="p-1.5 py-2 bg-warning-foreground font-normal border rounded-2xl w-full h-full flex justify-center items-center">
+						<CircleAlert className="w-10 h-10 text-warning mr-2 justify-center items-center" />
 						<p className="text-left w-full">{loginWarning}</p>
 					</div>
 				)}
@@ -99,7 +99,7 @@ export default function Login(props: { redirectTo: string }) {
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-4 items-center justify-center">
-					<Button type="button" variant="ghost" onClick={handleGuest}>
+					<Button type="button" variant="outline" onClick={handleGuest}>
 						Continue as guest
 					</Button>
 					<Button type="submit">{t("login.login")}</Button>

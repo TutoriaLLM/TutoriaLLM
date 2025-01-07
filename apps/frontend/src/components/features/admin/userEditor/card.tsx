@@ -19,7 +19,7 @@ const UserCard = ({
 }) => {
 	return (
 		<div
-			className={`max-w-xs min-w-48 shadow flex items-center gap-3 bg-gray-200 px-2 py-3 rounded-2xl overflow-clip ${
+			className={`max-w-xs min-w-48 shadow flex items-center gap-3 bg-card px-2 py-3 rounded-2xl overflow-clip ${
 				onClick ? "cursor-pointer hover:shadow-lg" : "cursor-default"
 			}`}
 			onClick={onClick}
@@ -40,13 +40,13 @@ const UserCard = ({
 			)}
 			<div>
 				{isAnonymous ? (
-					<p className="font-semibold text-orange-700">Anonymous</p>
+					<p className="font-semibold ">*Anonymous</p>
 				) : (
-					<p className="font-semibold text-gray-800">{header}</p>
+					<p className="font-semibold ">{header}</p>
 				)}
 				{subheader && (
 					<p
-						className="text-xs text-gray-500 break-words"
+						className="text-xs text-accent-foreground break-words"
 						style={{ wordBreak: "break-word" }}
 					>
 						{subheader}

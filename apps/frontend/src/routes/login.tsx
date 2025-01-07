@@ -50,11 +50,11 @@ function AdminLogin() {
 
 	const redirect = search.redirect || "/";
 	return (
-		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
 			<div className="max-w-2xl w-full space-y-4 px-2">
 				<div className="space-y-2 w-full items-center">
 					<h2 className="text-3xl font-semibold">{t("login.title")}</h2>
-					<p className="text-md font-medium text-gray-600">
+					<p className="text-md font-medium text-foreground">
 						{t("login.welcome")}
 					</p>
 				</div>

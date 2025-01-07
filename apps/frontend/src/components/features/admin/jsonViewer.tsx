@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { t } from "i18next";
 import type React from "react";
 import { Trans } from "react-i18next";
@@ -33,7 +35,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 	const renderInputField = (key: string, value: unknown, index?: number) => {
 		if (typeof value === "boolean") {
 			return (
-				<input
+				<Input
 					type="checkbox"
 					className="w-5 h-5 rounded-md p-1.5 px-2"
 					checked={value}
@@ -43,9 +45,9 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 		}
 		if (typeof value === "number") {
 			return (
-				<input
+				<Input
 					type="number"
-					className="w-20 rounded-md p-1.5 px-2"
+					className="w-20"
 					step={0.1}
 					value={value}
 					onChange={(e) => handleChange(e, key, index)}
@@ -54,9 +56,8 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 		}
 		if (typeof value === "string") {
 			return (
-				<input
+				<Input
 					type="text"
-					className="w-full rounded-md p-1.5 px-2"
 					value={value}
 					onChange={(e) => handleChange(e, key, index)}
 				/>
@@ -76,7 +77,7 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 	};
 
 	return (
-		<div className="bg-gray-300 p-2 md:p-3 flex flex-col gap-2 rounded-2xl">
+		<div className="bg-background border p-2 md:p-3 space-y-4 rounded-2xl">
 			{Object.keys(obj).map((key, index) => {
 				const value = obj[key];
 
@@ -91,28 +92,24 @@ const JSONField = ({ obj, setObj, path = [] }: JSONFieldProps) => {
 								{value.map((item, itemIndex) => (
 									<div key={itemIndex} className="flex items-center mb-2">
 										{renderInputField(key, item, itemIndex)}
-										<button
+										<Button
 											type="button"
 											onClick={() => removeItemFromArray(key, itemIndex)}
-											className="ml-2 bg-red-500 text-white px-2 py-1 rounded"
+											variant="destructive"
 										>
 											Remove
-										</button>
+										</Button>
 									</div>
 								))}
-								<button
-									type="button"
-									onClick={() => addItemToArray(key)}
-									className="mt-2 bg-blue-500 text-white px-2 py-1 rounded"
-								>
+								<Button type="button" onClick={() => addItemToArray(key)}>
 									Add Item
-								</button>
+								</Button>
 							</div>
 						);
 					}
 					return (
-						<div key={index}>
-							<h3 className="font-semibold text-lg border-l-4 border-gray-200 pl-2">
+						<div key={index} className="space-y-2">
+							<h3 className="font-semibold text-lg border-l-4  pl-2">
 								{localizedKey}
 							</h3>
 							<JSONField

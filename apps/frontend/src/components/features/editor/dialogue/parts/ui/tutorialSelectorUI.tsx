@@ -148,10 +148,10 @@ function SelectTutorialUI() {
 	}
 
 	return (
-		<div className="rounded-2xl bg-gradient-to-r from-sky-200 to-rose-200 p-3 shadow max-w-md flex justify-between items-center animate-fade-in">
+		<div className="rounded-2xl bg-gradient-to-r border from-sky-200 to-rose-200 p-3 shadow max-w-md flex justify-between items-center animate-fade-in">
 			<span>
 				<h3 className="font-semibold text-lg">{t("tutorial.title")}</h3>
-				<p className="text-sm text-gray-600">{t("tutorial.description")}</p>
+				<p className="text-sm text-foreground">{t("tutorial.description")}</p>
 			</span>
 			<Dialog>
 				<DialogTrigger>
@@ -197,20 +197,20 @@ function SelectTutorialUI() {
 							{userLanguageTutorials.map((tutorial) => (
 								<li
 									key={tutorial.id}
-									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
+									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-card border shadow-sm w-full col-span-1 transition group"
 								>
 									<span className="flex flex-col gap-2">
-										<h4 className="font-semibold text-xl text-gray-800">
+										<h4 className="font-semibold text-xl text-foreground">
 											{tutorial.metadata.title}
 										</h4>
-										<p className="text-sm text-gray-600">
+										<p className="text-sm text-accent-foreground">
 											{tutorial.metadata.description}
 										</p>
 										<span className="flex flex-wrap gap-1">
 											{tutorial.tags.map((tag) => (
 												<span
 													key={tag.name}
-													className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
+													className="bg-accent text-xs flex text-accent-foreground px-2 py-1 rounded-2xl flex-wrap"
 												>
 													{tag.name}
 												</span>
@@ -225,8 +225,8 @@ function SelectTutorialUI() {
 											<p>{t("tutorial.start")}</p>
 											<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
 										</Button>
-										<span className="text-sm text-gray-600 gap-2 shrink">
-											<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
+										<span className="text-sm text-foreground gap-2 shrink">
+											<span className="text-foreground font-semibold flex gap-2 justify-center items-center">
 												<EyeIcon />
 												{tutorial.metadata.selectCount}
 											</span>
@@ -238,7 +238,7 @@ function SelectTutorialUI() {
 							{Array.from({ length: userLanguageSkeletons }).map((_, index) => (
 								<li
 									key={`skeleton-user-${index}`}
-									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
+									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner w-full col-span-1 transition group"
 								>
 									<BookDashed className="w-12 h-12 text-gray-200" />
 								</li>
@@ -255,20 +255,20 @@ function SelectTutorialUI() {
 							{otherLanguageTutorials.map((tutorial) => (
 								<li
 									key={tutorial.id}
-									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-gray-200 shadow-sm w-full col-span-1 transition group"
+									className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-between gap-3 bg-card border shadow-sm w-full col-span-1 transition group"
 								>
 									<span className="flex flex-col gap-2">
-										<h4 className="font-semibold text-xl text-gray-800">
+										<h4 className="font-semibold text-xl text-foreground">
 											{tutorial.metadata.title}
 										</h4>
-										<p className="text-sm text-gray-600">
+										<p className="text-sm text-accent-foreground">
 											{tutorial.metadata.description}
 										</p>
 										<span className="flex flex-wrap gap-1">
 											{tutorial.tags.map((tag) => (
 												<span
 													key={tag.name}
-													className="bg-gray-300 text-xs flex text-gray-800 px-2 py-1 rounded-2xl flex-wrap"
+													className="bg-accent text-xs flex text-accent-foreground px-2 py-1 rounded-2xl flex-wrap"
 												>
 													{tag.name}
 												</span>
@@ -283,8 +283,8 @@ function SelectTutorialUI() {
 											<p>{t("tutorial.start")}</p>
 											<ArrowRight className="-translate-x-0.5 group-hover:translate-x-0 group-hover:animate-pulse transition" />
 										</Button>
-										<span className="text-sm text-gray-600 gap-2 shrink">
-											<span className="text-gray-800 font-semibold flex gap-2 justify-center items-center">
+										<span className="text-sm text-foreground gap-2 shrink">
+											<span className="text-foreground font-semibold flex gap-2 justify-center items-center">
 												<EyeIcon />
 												{tutorial.metadata.selectCount}
 											</span>
@@ -299,7 +299,7 @@ function SelectTutorialUI() {
 										key={`skeleton-other-${index}`}
 										className="p-3 h-80 animate-fade-in rounded-2xl flex flex-col justify-center items-center gap-3 shadow-inner shadow-gray-300 w-full col-span-1 transition group"
 									>
-										<BookDashed className="w-12 h-12 text-gray-200" />
+										<BookDashed className="w-12 h-12 text-muted" />
 									</li>
 								),
 							)}

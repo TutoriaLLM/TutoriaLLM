@@ -310,7 +310,7 @@ function RouteComponent() {
 			}}
 		>
 			<Onboarding currentSession={currentSession} />
-			<div className="max-h-svh h-svh w-svw overflow-hidden flex flex-col bg-gray-200 text-gray-800 app">
+			<div className="max-h-svh h-svh w-svw overflow-hidden flex flex-col bg-background text-foreground app">
 				<Navbar
 					sessionId={sessionId}
 					isConnected={WorkspaceConnection}
@@ -335,7 +335,7 @@ function RouteComponent() {
 							defaultValue="workspaceTab"
 							value={activeTab}
 							onValueChange={(value) => setActiveTab(value as Tab)}
-							className="w-full h-full flex flex-col"
+							className="w-full h-full flex flex-col bg-accent"
 						>
 							<TabsList>
 								<TabsTrigger value="workspaceTab">
@@ -371,11 +371,11 @@ function RouteComponent() {
 									language={session.language ?? "en"}
 								/>
 							</Panel>
-							<PanelResizeHandle className="h-full group w-3 transition bg-gray-400 hover:bg-gray-500 active:bg-sky-600 flex flex-col justify-center items-center gap-1">
+							<PanelResizeHandle className="h-full group w-3 transition bg-accent hover:bg-accent/80 active:bg-primary-foreground flex flex-col justify-center items-center gap-1">
 								<div className="py-2 px-1 z-50 flex flex-col gap-1">
-									<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
-									<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
-									<span className="rounded-full p-1  bg-gray-200 group-hover:bg-gray-100 group-active:bg-sky-300" />
+									<span className="rounded-full p-1  bg-accent-foreground group-hover:bg-accent-foreground/80 group-active:bg-primary" />
+									<span className="rounded-full p-1  bg-accent-foreground group-hover:bg-accent-foreground/80 group-active:bg-primary" />
+									<span className="rounded-full p-1  bg-accent-foreground group-hover:bg-accent-foreground/80 group-active:bg-primary" />
 								</div>
 							</PanelResizeHandle>
 							<Panel

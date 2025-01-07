@@ -1,5 +1,6 @@
 import { UserTable } from "@/components/features/admin/tables/users/table";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { authClient } from "@/libs/auth-client";
 import { createFileRoute } from "@tanstack/react-router";
@@ -66,41 +67,32 @@ function Users() {
 
 	return (
 		<div className="w-full h-full p-2 md:p-4">
-			<div className="overflow-x-auto bg-gray-300 rounded-2xl ">
+			<div className="overflow-x-auto bg-background border rounded-2xl ">
 				<UserTable userId={currentUserId ?? ""} />
-				<div className="p-2 border-b-2 border-gray-300 bg-gray-300">
+				<div className="p-2 border-b-2 bg-card">
 					<h2 className="py-2 font-semibold">Create New User</h2>
 					<form className="gap-2 flex">
-						<label>
-							Username:
-							<input
-								className="p-1.5 rounded-2xl bg-white"
-								type="text"
-								name="username"
-								value={newUser.username}
-								onChange={handleNewUserChange}
-							/>
-						</label>
-						<label>
-							Email:
-							<input
-								className="p-1.5 rounded-2xl bg-white"
-								type="email"
-								name="email"
-								value={newUser.email}
-								onChange={handleNewUserChange}
-							/>
-						</label>
-						<label>
-							Password:
-							<input
-								className="p-1.5 rounded-2xl bg-white"
-								type="password"
-								name="password"
-								value={newUser.password}
-								onChange={handleNewUserChange}
-							/>
-						</label>
+						Username:
+						<Input
+							type="text"
+							name="username"
+							value={newUser.username}
+							onChange={handleNewUserChange}
+						/>
+						Email:
+						<Input
+							type="email"
+							name="email"
+							value={newUser.email}
+							onChange={handleNewUserChange}
+						/>
+						Password:
+						<Input
+							type="password"
+							name="password"
+							value={newUser.password}
+							onChange={handleNewUserChange}
+						/>
 						Role:
 						<Select
 							name="role"

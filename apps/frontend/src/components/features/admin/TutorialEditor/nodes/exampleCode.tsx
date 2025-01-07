@@ -82,12 +82,12 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	}
 
 	return (
-		<div className="bg-gray-200 rounded-2xl overflow-clip cursor-auto">
+		<div className="bg-background rounded-2xl overflow-clip cursor-auto">
 			<div>
-				<span className="w-full h-4 bg-gray-300 custom-drag-handle cursor-move flex justify-center items-center gap-2">
-					<span className="text-xs w-1 h-1 rounded-full bg-white" />
-					<span className="text-xs w-1 h-1 rounded-full bg-white" />
-					<span className="text-xs w-1 h-1 rounded-full bg-white" />
+				<span className="w-full h-4 bg-border custom-drag-handle cursor-move flex justify-center items-center gap-2">
+					<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+					<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+					<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
 				</span>
 
 				<NodeToolbar>

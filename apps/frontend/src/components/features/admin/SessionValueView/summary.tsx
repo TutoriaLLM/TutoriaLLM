@@ -1,4 +1,5 @@
 import Heatmap from "@/components/features/admin/heatmap.js";
+import { Button } from "@/components/ui/button";
 import type { Clicks, SessionValue } from "@/type.js";
 import { SquareDashedMousePointer, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -57,19 +58,16 @@ export default function Summary(props: { session: SessionValue }) {
 	return (
 		<div
 			style={{ position: "relative", width: "100%", height: "100%" }}
-			className="w-full rounded-2xl bg-gray-200 p-2 flex flex-col gap-2"
+			className="w-full rounded-2xl bg-card p-2 flex flex-col gap-2"
 		>
 			<h2 className="text-lg">{t("admin.sessionSummary")}</h2>
 
 			{session.screenshot ? (
 				<div>
-					<button
+					<Button
 						type="button"
-						className={`flex gap-2 text-sm items-center transition-colors ${
-							showHeatmap
-								? "bg-red-500 hover:bg-red-600"
-								: "bg-orange-500 hover:bg-orange-600"
-						} text-white font-bold py-1 px-2 rounded-full`}
+						className="flex gap-2 text-sm items-center transition-colors text-white font-bold py-1 px-2 rounded-full"
+						variant={showHeatmap ? "destructive" : "default"}
 						onClick={() => setShowHeatmap(!showHeatmap)}
 					>
 						<span
@@ -80,7 +78,7 @@ export default function Summary(props: { session: SessionValue }) {
 							{showHeatmap ? <X /> : <SquareDashedMousePointer />}
 						</span>
 						{t("admin.showHeatmap")}
-					</button>
+					</Button>
 					<div ref={imageRef} style={{ position: "relative" }}>
 						<img
 							src={session.screenshot}

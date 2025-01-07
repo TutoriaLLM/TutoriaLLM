@@ -101,11 +101,11 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 	}, [data.language, id, updateNodeData]);
 
 	return (
-		<div className="w-72 max-w-md bg-gray-200 rounded-2xl overflow-clip">
-			<span className="w-full h-4 bg-gray-300 custom-drag-handle cursor-move justify-center items-center flex gap-2">
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
+		<div className="w-72 max-w-md bg-background rounded-2xl overflow-clip">
+			<span className="w-full h-4 bg-border custom-drag-handle cursor-move flex justify-center items-center gap-2">
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
 			</span>
 			<NodeToolbar>
 				<Button
@@ -122,7 +122,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 				<div>Metadata</div>
 				<div style={{ marginTop: 5 }}>
 					<label className="block mb-2">
-						<span className="text-gray-700">Title:</span>
+						<span className="text-foreground">Title:</span>
 						<input
 							onChange={(evt) => handleChange("title", evt.target.value)}
 							value={data.title || ""}
@@ -130,7 +130,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 						/>
 					</label>
 					<label className="block mb-2">
-						<span className="text-gray-700">Description:</span>
+						<span className="text-foreground">Description:</span>
 						<textarea
 							onChange={(evt) => handleChange("description", evt.target.value)}
 							value={data.description || ""}
@@ -138,7 +138,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 						/>
 					</label>
 					<div className="block mb-2 no-wheel">
-						<span className="text-gray-700">Tags:</span>
+						<span className="text-foreground">Tags:</span>
 						<FancyMultiSelect
 							inputRef={inputRef}
 							inputValue={inputValue}

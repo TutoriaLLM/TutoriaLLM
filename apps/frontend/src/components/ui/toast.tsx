@@ -29,9 +29,9 @@ const toastVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "bg-gray-300 text-foreground",
+				default: "bg-popover text-popover-foreground",
 				destructive:
-					"bg-red-300 text-red-900 group-[.destructive]:bg-red-500 group-[.destructive]:text-red-50",
+					"bg-destructive-foreground text-red-900 group-[.destructive]:bg-destructive-foreground group-[.destructive]:text-destructive",
 			},
 			size: {
 				default: "p-4",

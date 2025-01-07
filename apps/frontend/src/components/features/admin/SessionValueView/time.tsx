@@ -6,8 +6,8 @@ export default function Time(props: { session: SessionValue }) {
 	const { session } = props;
 	return (
 		<div className="flex gap-2 w-full">
-			<div className="bg-gray-200 rounded-2xl p-2 w-full">
-				<span className="font-semibold text-md text-gray-600 flex gap-1">
+			<div className="bg-card rounded-2xl p-2 w-full">
+				<span className="font-semibold text-md text-card-foreground flex gap-1">
 					<History />
 					<h3>Last Updated Time</h3>
 				</span>
@@ -15,8 +15,8 @@ export default function Time(props: { session: SessionValue }) {
 				<p>{timeAgo(session.updatedAt)}</p>
 				<p>{new Date(session.updatedAt).toLocaleString()}</p>
 			</div>
-			<div className="bg-gray-200 rounded-2xl p-2 w-full">
-				<span className="font-semibold text-md text-gray-600 flex gap-1">
+			<div className="bg-card rounded-2xl p-2 w-full">
+				<span className="font-semibold text-md text-card-foreground flex gap-1">
 					<Clock />
 
 					<h3>Created Time</h3>

@@ -38,7 +38,7 @@ function Tutorials() {
 				<TutorialsTable />
 			</div>
 
-			<div className="p-2 border-b-2 border-gray-300 bg-gray-300 flex flex-col items-center gap-2 w-full">
+			<div className="p-2 border-b-2 bg-card flex flex-col items-center gap-2 w-full">
 				<h2 className="font-semibold">Create New Tutorial</h2>
 				<Button
 					onClick={() =>

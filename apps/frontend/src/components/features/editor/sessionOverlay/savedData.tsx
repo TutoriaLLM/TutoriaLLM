@@ -136,7 +136,7 @@ export default function SavedData() {
 							return (
 								<div
 									key={key}
-									className="w-full h-full flex-grow bg-gray-200 p-2 rounded-2xl flex flex-col gap-2"
+									className="w-full h-full flex-grow bg-card p-2 rounded-2xl flex flex-col gap-2"
 								>
 									<span className="flex border-b gap-1">
 										<Clock />
@@ -149,8 +149,10 @@ export default function SavedData() {
 										alt="block"
 										className="flex w-full h-full max-h-48 object-contain"
 									/>
-									<p className="text-xs font-base text-gray-500">{key}</p>
-									<p className="text-xs font-base text-gray-500">
+									<p className="text-xs font-base text-card-foreground">
+										{key}
+									</p>
+									<p className="text-xs font-base text-card-foreground">
 										{value.sessionValue.sessionId}
 									</p>
 

@@ -15,7 +15,7 @@ export default function SelectedTutorial(props: { session: SessionValue }) {
 		}
 	}, [tutorialId]);
 	return (
-		<div className="bg-gray-100 rounded-2xl p-2 gap-2 w-full font-medium">
+		<div className="bg-card rounded-2xl p-2 gap-2 w-full font-medium">
 			<h2 className="text-lg font-semibold">Selected Tutorial</h2>
 			<div className="text-sm">
 				Tutorial ID: {tutorial?.id ? tutorial.id : "not selected"}

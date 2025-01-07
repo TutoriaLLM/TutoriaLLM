@@ -102,7 +102,7 @@ function HighlightedBlockId({
 	const isHighlighted = highlightedBlock?.blockId === text;
 
 	return (
-		<span className="text-red-500 h-full w-full text-wrap text-xs">
+		<span className="text-destructive h-full w-full text-wrap text-xs">
 			<Button
 				type="button"
 				className={cn(

@@ -41,12 +41,12 @@ export default function SessionPopup(props: {
 			</CardHeader>
 			<CardContent>
 				<div className="w-full flex flex-col gap-2">
-					<div className="flex flex-col gap-2 p-2 rounded-3xl bg-gray-100 shadow">
-						<div className="p-3 bg-yellow-200 text-gray-600 font-normal border rounded-3xl w-full h-full flex justify-center items-center">
-							<CircleAlert className="w-10 h-10 text-yellow-500 mr-2 justify-center items-center" />
+					<div className="flex flex-col gap-2 p-2 rounded-3xl bg-card shadow">
+						<div className="p-3 bg-warning-foreground text-foreground font-normal border rounded-3xl w-full h-full flex justify-center items-center">
+							<CircleAlert className="w-10 h-10 text-warning mr-2 justify-center items-center" />
 							<p className="text-left w-full">{messageText}</p>
 						</div>
-						<div className="flex flex-col text-gray-700 justify-center items-center gap-3 p-6">
+						<div className="flex flex-col text-foreground justify-center items-center gap-3 p-6">
 							<CreateNewSession
 								language={languageToStart}
 								setMessage={props.setMessage}

@@ -9,7 +9,7 @@ const Select = React.forwardRef<
 	<select
 		ref={ref}
 		className={cn(
-			"p-2 rounded-2xl bg-white text-gray-800 font-semibold",
+			"p-2 rounded-2xl bg-accent text-accent-foreground font-semibold",
 			className,
 		)}
 		{...props}

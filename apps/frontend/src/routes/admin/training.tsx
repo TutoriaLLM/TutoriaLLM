@@ -142,15 +142,12 @@ function Training() {
 			return (
 				<div className="max-w-6xl">
 					{searchResult.map((result) => (
-						<div
-							key={result.id}
-							className="border border-gray-400 rounded-2xl mb-2"
-						>
+						<div key={result.id} className="border rounded-2xl mb-2 p-2">
 							<div className="flex items-center gap-3">
-								<span className="rounded-full bg-gray-200 p-3">
+								<span className="rounded-full p-3">
 									<MessageCircleQuestion />
 								</span>
-								<h3 className="font-semibold text-lg py-2 px-1 rounded-full text-gray-800">
+								<h3 className="font-semibold text-lg py-2 px-1 rounded-full text-foreground">
 									#{result.id} {result.question}
 								</h3>
 							</div>
@@ -210,8 +207,8 @@ function Training() {
 		<div className="overflow-x-auto p-2 md:p-4">
 			<div className="w-full h-full flex flex-col justify-center items-center gap-2">
 				{trainingData ? (
-					<div className="max-w-6xl bg-gray-300 rounded-2xl flex flex-col justify-between min-h-96 p-3 gap-3 w-full">
-						<h2 className="text-2xl font-bold text-center p-3 border-b border-gray-400">
+					<div className="max-w-6xl bg-background rounded-2xl flex flex-col justify-between min-h-96 p-3 gap-3 w-full">
+						<h2 className="text-2xl font-bold text-center p-3 border-b">
 							Training data
 						</h2>
 						<div className="flex flex-col gap-2 p-2 grow rounded-2xl">
@@ -249,7 +246,7 @@ function Training() {
 						</div>
 					</div>
 				) : (
-					<div className="max-w-6xl bg-gray-300 rounded-2xl flex flex-col justify-center items-center  min-h-96 p-3 gap-3 w-full">
+					<div className="max-w-6xl bg-background rounded-2xl flex flex-col justify-center items-center  min-h-96 p-3 gap-3 w-full">
 						<p className="text-lg font-bold">利用できるデータがありません。</p>
 						<Button type="button" onClick={fetchTrainingData}>
 							Shuffle

@@ -40,7 +40,7 @@ export default function Navbar(props: {
 	const { setIsOpen } = useTour(); // Hooks to manage tour start/end
 
 	return (
-		<div className="navbar flex-col sm:flex-row justify-center shrink w-full p-2 md:p-4 bg-gray-200 border-b-2 border-gray-300 text-gray-800 z-50 flex gap-2">
+		<div className="navbar flex-col sm:flex-row justify-center shrink w-full p-2 md:p-4 bg-accent border-b-2  text-accent-foreground z-50 flex gap-2">
 			<div className="flex flex-row justify-between items-center gap-4">
 				{props.isConnected ? (
 					<ExitButton text={t("navbar.saveAndLeave")} onClick={handleExit} />
@@ -55,7 +55,7 @@ export default function Navbar(props: {
 					</span>
 				</div>
 			</div>
-			<hr className="border border-gray-300 h-full" />
+			<hr className="border h-full" />
 			<div
 				className={`flex flex-row gap-2 justify-between items-center${props.isConnected ? " w-full" : ""}`}
 			>
@@ -65,10 +65,10 @@ export default function Navbar(props: {
 							<Progress.Root
 								max={100}
 								value={props.tutorialProgress}
-								className="rounded-full bg-gray-300 w-32 h-3 overflow-hidden"
+								className="rounded-full bg-background w-32 h-3 overflow-hidden"
 							>
 								<Progress.Indicator
-									className="bg-green-400 rounded-full w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
+									className="bg-secondary rounded-full w-full h-full transition-transform duration-[660ms] ease-[cubic-bezier(0.65, 0, 0.35, 1)]"
 									style={{
 										transform: `translateX(-${100 - props.tutorialProgress}%)`,
 									}}
@@ -77,7 +77,7 @@ export default function Navbar(props: {
 							<p className="text-base">{props.tutorialProgress}%</p>
 						</div>
 					) : (
-						<p className="p-2 rounded-lg bg-red-300 w-full line-clamp-2">
+						<p className="p-2 rounded-lg bg-warning-foreground w-full line-clamp-2">
 							{props.isConnected
 								? t("navbar.noTutorial")
 								: t("navbar.reconnecting")}

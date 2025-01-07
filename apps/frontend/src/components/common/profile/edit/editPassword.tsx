@@ -49,7 +49,7 @@ export function EditPassword() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmitPassword)}
-				className="space-y-2 p-3 rounded-3xl bg-gray-100 shadow"
+				className="space-y-2 p-3 border rounded-2xl"
 			>
 				<div className="space-y-2 max-w-">
 					<FormField

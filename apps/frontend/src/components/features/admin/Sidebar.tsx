@@ -1,5 +1,7 @@
 import { ExitButton } from "@/components/common/exitButton.js";
+import { Button } from "@/components/ui/button";
 import { authClient } from "@/libs/auth-client";
+import { cn } from "@/libs/utils";
 import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import {
 	Activity,
@@ -36,9 +38,10 @@ export default function SideBar() {
 		return (
 			<Link
 				to={href}
-				className={`hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap ${
-					location === href ? "bg-gray-300" : ""
-				}`}
+				className={cn(
+					"hover:bg-accent flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap",
+					{ "bg-accent": location === href },
+				)}
 				onClick={() => {
 					setIsOpen(false);
 				}}
@@ -62,19 +65,20 @@ export default function SideBar() {
 	return (
 		<div className="flex flex-col">
 			<div className="z-[60]">
-				<button
+				<Button
 					onClick={toggleSidebar}
 					type="button"
-					className="md:hidden p-2 fixed top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-gray-100 hover:bg-gray-300 shadow transition rounded-full border-gray-300"
+					className="md:hidden p-2 fixed top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-background hover:bg-accent shadow transition rounded-full text-foreground"
 				>
 					<Sidebar />
 					<span>{t("sidebar.toggle")}</span>
-				</button>
+				</Button>
 			</div>
 			<div
-				className={`bg-gray-200 text-gray-800 border-r-2 border-gray-300 h-full w-full p-2 transition-transform transform ${
-					isOpen ? "translate-x-0" : "-translate-x-full"
-				} md:translate-x-0 fixed md:static z-50`}
+				className={cn(
+					"bg-background text-foreground border-r-2 border h-full w-full p-2 transition-transform transform md:translate-x-0 fixed md:static z-50",
+					{ "translate-x-0": isOpen, "-translate-x-full": !isOpen },
+				)}
 			>
 				<div className="flex flex-col gap-2 p-2 pt-16 md:p-2 font-semibold">
 					<ExitButton text={t("navbar.signout")} onClick={handleSignOut} />

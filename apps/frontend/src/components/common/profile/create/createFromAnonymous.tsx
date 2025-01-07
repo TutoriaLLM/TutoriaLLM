@@ -46,7 +46,7 @@ export function CreateAccontFromAnonymous() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="flex flex-col gap-2 p-3 rounded-3xl bg-gray-100 shadow"
+				className="flex flex-col gap-2 p-3 border rounded-2xl"
 			>
 				<FormField
 					control={form.control}

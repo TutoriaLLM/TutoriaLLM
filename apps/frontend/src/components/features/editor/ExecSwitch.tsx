@@ -110,7 +110,7 @@ export function ExecSwitch() {
 					<span className="flex flex-col">
 						<span
 							className={`${
-								isCodeRunning ? "text-green-600" : "text-red-400"
+								isCodeRunning ? "text-secondary" : "text-destructive"
 							} text-base leading-none font-semibold`}
 						>
 							{isCodeRunning ? <PlayIcon /> : <StopCircleIcon />}
@@ -118,7 +118,9 @@ export function ExecSwitch() {
 					</span>
 					<span
 						className={`${
-							isCodeRunning ? "text-green-600 animate-pulse" : "text-red-400"
+							isCodeRunning
+								? "text-secondary animate-pulse"
+								: "text-destructive"
 						} text-xs leading-none font-semibold hidden sm:block`}
 					>
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
@@ -127,10 +129,10 @@ export function ExecSwitch() {
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
 						onCheckedChange={ChangeSwitch}
-						className="w-14 h-8 md:w-16 md:h-10 rounded-2xl bg-gray-300 relative data-[state=checked]:bg-green-100 group"
+						className="w-14 h-8 md:w-16 md:h-10 rounded-2xl border bg-muted relative data-[state=checked]:bg-green-100 group"
 					>
-						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-green-500 bg-red-500 data-[disabled]:bg-amber-500" />
-						<p className="group-hover:flex hidden absolute text-xs bg-gray-300 p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-secondary bg-destructive data-[disabled]:bg-warning" />
+						<p className="group-hover:flex hidden absolute text-xs bg-muted p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 							{t("navbar.execSwitch")}
 						</p>
 					</Switch.Root>
@@ -139,16 +141,9 @@ export function ExecSwitch() {
 						<Button
 							// className={`sync relative rounded-2xl underline transition-colors duration-300 ${reloadButtonStatus === "disabled" ? "cursor-not-allowed text-gray-400 bg-gray-300" : reloadButtonStatus === "reloading" ? "cursor-wait bg-gray-300" : "cursor-pointer bg-green-500 text-green-200"}`}
 							className={cn(
-								"sync relative rounded-2xl underline transition-colors duration-300",
+								"sync relative bg-muted rounded-2xl underline transition-colors duration-300",
 								{
-									"cursor-not-allowed text-gray-400 bg-gray-300":
-										reloadButtonStatus === "disabled",
-								},
-								{
-									"cursor-wait bg-gray-300": reloadButtonStatus === "reloading",
-								},
-								{
-									"cursor-pointer bg-green-500 text-green-200":
+									"cursor-pointer bg-secondary text-secondary-foreground":
 										reloadButtonStatus === "idle",
 								},
 							)}
@@ -169,7 +164,7 @@ export function ExecSwitch() {
 								}
 							/>
 						</Button>
-						<p className="group-hover:visible invisible absolute text-xs bg-gray-300 p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+						<p className="group-hover:visible invisible absolute text-xs bg-background p-2 rounded-2xl text-foreground left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 							{t("navbar.reload")}
 						</p>
 					</div>

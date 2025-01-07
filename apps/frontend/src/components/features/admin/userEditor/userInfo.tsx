@@ -68,7 +68,7 @@ export function AdminUserInfo({
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between">
-				<div className="flex gap-2 bg-gray-300 rounded-2xl p-3 justify-center items-center font-bold">
+				<div className="flex gap-2 bg-background rounded-2xl p-3 justify-center items-center font-bold">
 					<div>
 						{userDetail?.image ? (
 							<Avatar className="w-40 h-40 ">
@@ -85,13 +85,13 @@ export function AdminUserInfo({
 						)}
 					</div>
 					<div className="space-y-2">
-						<div className="w-full flex gap-2 justify-between text-white">
+						<div className="w-full flex gap-2 justify-between text-background">
 							{userDetail?.role === "admin" ? (
-								<div className="border-orange-500 text-orange-600 border-2 rounded-full p-1 px-2.5">
+								<div className="border-warning text-warning border-2 rounded-full p-1 px-2.5">
 									Admin
 								</div>
 							) : (
-								<div className=" border-gray-500 text-gray-600 border-2 rounded-full p-1 px-2.5">
+								<div className=" border-primary text-primary border-2 rounded-full p-1 px-2.5">
 									User
 								</div>
 							)}
@@ -120,22 +120,22 @@ export function AdminUserInfo({
 						</div>
 						<h2 className="text-2xl">
 							{userDetail?.isAnonymous ? (
-								<p className="text-orange-700 inline-flex">
-									Anonymous <LucideVenetianMask className="w-5 h-5" />
+								<p className="inline-flex">
+									*Anonymous <LucideVenetianMask className="w-5 h-5" />
 								</p>
 							) : (
-								<p className="text-gray-800">{userDetail?.name || "No name"}</p>
+								<p className="">{userDetail?.name || "No name"}</p>
 							)}
 						</h2>
-						<div className="text-gray-500 flex gap-2">
+						<div className="text-accent-foreground flex gap-2">
 							<UserIcon />
 							{userDetail?.username || "No username"}
 						</div>
-						<div className="text-gray-500 flex gap-2">
+						<div className="text-accent-foreground flex gap-2">
 							<MailIcon />
 							{userDetail?.email || "No email"}
 						</div>
-						<div className="text-gray-500 gap-2 text-xs">
+						<div className="text-accent-foreground gap-2 text-xs">
 							<p>
 								{" "}
 								created at:{" "}

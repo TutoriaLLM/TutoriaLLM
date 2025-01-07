@@ -274,7 +274,7 @@ export default function DialogueView() {
 
 	const items = rowVirtualizer.getVirtualItems();
 	return (
-		<div className="dialogue grow w-full h-full flex flex-col bg-gray-100 font-medium">
+		<div className="dialogue grow w-full h-full flex flex-col bg-background font-medium">
 			<SwitchModeUI audio={config?.AI_Settings.Chat_Audio} />
 			<div
 				className="w-full h-full overflow-y-auto contain-strict"
@@ -319,13 +319,13 @@ export default function DialogueView() {
 				{/* Show animation while replying */}
 				{session?.isReplying && (
 					<div className="flex px-4 py-2 justify-start items-end gap-2 animate-loading-blink">
-						<div className="text-gray-600 flex flex-col items-center">
-							<span className="bg-gray-200 rounded-full p-2">
+						<div className="text-foreground flex flex-col items-center">
+							<span className="p-2">
 								<Bot />
 							</span>
 							<p className="text-xs">{t("textbubble.ai")}</p>
 						</div>
-						<div className="rounded-2xl rounded-bl-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
+						<div className="rounded-2xl rounded-bl-none bg-accent text-accent-foreground p-3 shadow max-w-sm border">
 							<p className="prose bg-gradient-to-r from-gray-500 from-30% via-gray-700 via-50% to-gray-500 to-70% bg-[size:280%] bg-center flex animate-loading-flow text-transparent bg-clip-text">
 								{t("textbubble.replying")}
 							</p>
@@ -334,7 +334,7 @@ export default function DialogueView() {
 				)}
 			</div>
 			<div className="w-full p-2">
-				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
+				<div className="items-center bg-card shadow gap-2 p-2 rounded-2xl w-full">
 					{session?.quickReplies && (
 						<div className="relative w-full py-2.5 overflow-clip">
 							{/* Provide context with HorizontalScrollProvider */}
@@ -344,8 +344,8 @@ export default function DialogueView() {
 									quickReplies={session?.quickReplies || null}
 								/>
 							</HorizontalScrollProvider>
-							<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-							<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+							<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-card to-transparent pointer-events-none" />
+							<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-card to-transparent pointer-events-none" />
 						</div>
 					)}
 
@@ -355,7 +355,7 @@ export default function DialogueView() {
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
 								className={cn(
-									"w-10 h-12 md:w-12 md:h-16 shrink-0 text-white rounded-2xl flex justify-center items-center relative transition-colors bg-secondary hover:bg-secondary",
+									"w-10 h-12 md:w-12 md:h-16 shrink-0 text-background rounded-2xl flex justify-center items-center relative transition-colors bg-secondary hover:bg-secondary",
 									{ "bg-destructive": isRecording },
 								)}
 							>
@@ -365,7 +365,7 @@ export default function DialogueView() {
 											<svg className="w-12 h-12">
 												<title>Recording Remaining Time</title>
 												<circle
-													className="text-gray-300"
+													className="text-accent"
 													strokeWidth="4"
 													stroke="currentColor"
 													fill="transparent"
@@ -374,7 +374,7 @@ export default function DialogueView() {
 													cy="24"
 												/>
 												<circle
-													className="text-rose-600"
+													className="text-destructive"
 													strokeWidth="4"
 													strokeDasharray="113"
 													strokeDashoffset={(113 * remainingTime) / 10}
@@ -396,9 +396,9 @@ export default function DialogueView() {
 								)}
 							</Button>
 						)}
-						<div className="flex-1 flex min-w-24 border shadow-inner gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
+						<div className="flex-1 flex min-w-24 border shadow-inner gap-2 p-1 rounded-2xl bg-background outline-none focus:ring-2 focus:ring-blue-500">
 							{audioURL ? (
-								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-gray-200 animate-fade-in">
+								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-accent animate-fade-in">
 									<Button
 										type="button"
 										variant="ghost"
@@ -430,7 +430,8 @@ export default function DialogueView() {
 
 						<Button
 							type="submit"
-							className="w-10 h-12 md:w-12 md:h-16 shrink-0 text-background rounded-2xl flex justify-center items-center transition-colors disabled:opacity-50 bg-sky-600 hover:bg-sky-700"
+							size="icon"
+							className="w-10 h-12 md:w-12 md:h-16 shrink-0 text-background rounded-2xl"
 							disabled={(message === "" && !audioURL) || session?.isReplying}
 						>
 							<Send />

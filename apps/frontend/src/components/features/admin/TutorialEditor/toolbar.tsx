@@ -288,7 +288,7 @@ export default function Toolbar(props: {
 	}
 
 	return (
-		<div className="w-full flex flex-wrap gap-3 bg-gray-300 rounded-2xl p-1.5 mt-12 md:mt-0">
+		<div className="w-full flex flex-wrap gap-3 bg-background rounded-2xl p-1.5 mt-12 md:mt-0">
 			<Button
 				type="button"
 				variant="destructive"
@@ -320,13 +320,13 @@ export default function Toolbar(props: {
 				open={isToolbarOpen}
 				onOpenChange={handleToggleToolbar}
 			>
-				<DropdownMenu.Trigger className="p-2 bg-blue-500 hover:bg-blue-400 transition-all text-white rounded-xl flex justify-between items-center gap-1">
+				<DropdownMenu.Trigger className="p-2 bg-primary hover:bg-primary/80 transition-all text-primary-foreground rounded-xl flex justify-between items-center gap-1">
 					Add Nodes
 					<ChevronDown />
 				</DropdownMenu.Trigger>
-				<DropdownMenu.Content className="rounded-xl flex flex-col bg-white shadow p-1 gap-2">
+				<DropdownMenu.Content className="rounded-xl flex flex-col bg-primary-foreground shadow p-1 gap-2">
 					<DropdownMenu.Sub>
-						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-gray-200 hover:bg-gray-300 transition-all p-2 flex justify-between items-center">
+						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-accent hover:bg-accent/80 transition-all p-2 flex justify-between items-center">
 							<Star />
 							Basic
 							<ChevronRight />
@@ -335,10 +335,10 @@ export default function Toolbar(props: {
 							<DropdownMenu.SubContent
 								sideOffset={2}
 								alignOffset={-5}
-								className="rounded-xl bg-white shadow-md flex flex-col gap-1.5 p-1 left-10 min-w-56 z-[999] "
+								className="rounded-xl bg-primary-foreground shadow-md flex flex-col gap-1.5 p-1 left-10 min-w-56 z-[999] "
 							>
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-pink-100 to-red-300 cursor-pointer shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-pink-100 to-red-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("md", {
 											source: "",
@@ -353,7 +353,7 @@ export default function Toolbar(props: {
 									/>
 								</DropdownMenu.Item>
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-sky-100 to-blue-300 cursor-pointer shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-sky-100 to-blue-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("metadata", {
 											source: "",
@@ -375,7 +375,7 @@ export default function Toolbar(props: {
 						Advanced
 					</DropdownMenu.Label>
 					<DropdownMenu.Sub>
-						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-gray-200 hover:bg-red-300 transition-all p-2 flex justify-between items-center">
+						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-accent  hover:bg-red-300 transition-all p-2 flex justify-between items-center">
 							<Braces />
 							Content
 							<ChevronRight />
@@ -387,7 +387,7 @@ export default function Toolbar(props: {
 								className="rounded-xl bg-white shadow-md  flex flex-col gap-1.5 p-1 left-10 min-w-56 z-[999] "
 							>
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-pink-100 to-red-300 cursor-pointer shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-pink-100 to-red-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("md", {
 											source: "",
@@ -404,7 +404,7 @@ export default function Toolbar(props: {
 								<span className="border-b border-gray-300" />
 
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-yellow-100 to-amber-300 cursor-pointer shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-yellow-100 to-amber-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("blockly", {
 											source: "",
@@ -419,7 +419,7 @@ export default function Toolbar(props: {
 									/>
 								</DropdownMenu.Item>
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-rose-200 to-red-300 cursor-pointer shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-rose-200 to-red-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("mdGen", {
 											source: "",
@@ -437,7 +437,7 @@ export default function Toolbar(props: {
 						</DropdownMenu.Portal>
 					</DropdownMenu.Sub>
 					<DropdownMenu.Sub>
-						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-gray-200 hover:bg-blue-300 transition-all p-2 flex justify-between items-center">
+						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-accent hover:bg-blue-300 transition-all p-2 flex justify-between items-center">
 							<FileText /> Metadata
 							<ChevronRight />
 						</DropdownMenu.SubTrigger>
@@ -449,7 +449,7 @@ export default function Toolbar(props: {
 							>
 								{" "}
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-sky-100 to-blue-300 shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-sky-100 to-blue-300 shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("metadata", {
 											source: "",
@@ -465,7 +465,7 @@ export default function Toolbar(props: {
 								</DropdownMenu.Item>
 								<span className="border-b border-gray-300" />
 								<DropdownMenu.Item
-									className="rounded-xl bg-gray-200 hover:bg-gradient-to-r from-red-100 to-blue-300 shadow p-1 px-2"
+									className="rounded-xl bg-accent hover:bg-gradient-to-r from-red-100 to-blue-300 shadow p-1 px-2"
 									onClick={() =>
 										creaeteNodeOnCenter("metadataGen", {
 											source: "",

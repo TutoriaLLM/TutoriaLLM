@@ -76,8 +76,8 @@ export function UserAccount(props: { session: AuthSession }) {
 	return (
 		<div
 			className={cn(
-				"flex flex-col rounded-3xl shadow p-3 w-full bg-gray-100 gap-3",
-				isAdmin && "border-2 border-orange-500 shadow-orange-300",
+				"flex flex-col rounded-3xl shadow border p-3 w-full bg-background gap-3",
+				isAdmin && "border-2 border-warning shadow-warning",
 			)}
 		>
 			<div className="flex gap-3 items-center">

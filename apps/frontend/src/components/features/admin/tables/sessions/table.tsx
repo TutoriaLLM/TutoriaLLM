@@ -108,7 +108,7 @@ export function SessionTable() {
 	});
 
 	return (
-		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
+		<div className="w-full h-full overflow-auto bg-background border rounded-2xl">
 			<Dialog
 				open={!!popupSessionFromSessionId}
 				onOpenChange={(value) => {
@@ -215,11 +215,6 @@ export function SessionTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page === 1
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: 1 }),
@@ -233,11 +228,6 @@ export function SessionTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page === 1
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page - 1 }),
@@ -271,11 +261,6 @@ export function SessionTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page * search.limit >= totalSessions
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page + 1 }),
@@ -290,11 +275,6 @@ export function SessionTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={
-								search.page * search.limit >= totalSessions
-									? "bg-gray-400 cursor-not-allowed"
-									: "bg-sky-500"
-							}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({

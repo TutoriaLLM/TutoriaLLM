@@ -53,7 +53,7 @@ export function Editinfo(props: { session: AuthSession }) {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmitUserInfo)}
-				className="space-y-3 p-3 rounded-3xl bg-gray-100 shadow"
+				className="space-y-3 p-3 border rounded-2xl"
 			>
 				<div className="flex gap-2 md:gap-4 items-start">
 					{session.user.image ? (

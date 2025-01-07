@@ -4,7 +4,7 @@ import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
 const buttonVariants = cva(
-	"font-semibold justify-center items-center flex transition gap-1 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 disabled:opacity-50",
+	"font-semibold justify-center items-center flex transition gap-1 [&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0 disabled:opacity-50",
 	{
 		variants: {
 			variant: {
@@ -18,7 +18,7 @@ const buttonVariants = cva(
 					"border border-input bg-background hover:bg-accent hover:text-accent-foreground",
 			},
 			size: {
-				icon: "h-16 w-16 rounded-full",
+				icon: "h-10 w-10 rounded-full",
 				sm: "py-1.5 px-2.5 text-sm rounded-xl",
 				default: "py-2 px-4 md:py-2.5 md:px-3 rounded-2xl",
 				lg: "p-2.5 md:p-3 md:px-4 rounded-2xl",

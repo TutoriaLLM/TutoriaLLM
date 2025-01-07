@@ -47,7 +47,7 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 	}, [session.workspace]);
 
 	return (
-		<div className="bg-gray-100 rounded-2xl p-2 gap-2 w-full h-[60vh]">
+		<div className="bg-background rounded-2xl p-2 gap-2 w-full h-[60vh]">
 			<h2 className="text-lg font-semibold">Workspace Preview</h2>
 			<div
 				id="blocklyPreviewDiv"

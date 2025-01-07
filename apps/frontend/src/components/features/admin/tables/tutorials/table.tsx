@@ -34,7 +34,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useMemo } from "react";
-import { cn } from "@/libs/utils";
 export function TutorialsTable() {
 	const routeApi = getRouteApi("/admin/tutorials");
 	const search = routeApi.useSearch();
@@ -91,7 +90,7 @@ export function TutorialsTable() {
 	};
 
 	return (
-		<div className="w-full h-full overflow-auto bg-gray-300 rounded-2xl">
+		<div className="w-full h-full overflow-auto bg-background border rounded-2xl">
 			<div className="flex justify-between p-4">
 				<h2 className="text-2xl font-semibold">Tutorials</h2>
 			</div>
@@ -155,9 +154,6 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={cn(
-								search.page === 1 && "bg-gray-400 cursor-not-allowed",
-							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: 1 }),
@@ -171,9 +167,6 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={cn(
-								search.page === 1 && "bg-gray-400 cursor-not-allowed",
-							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page - 1 }),
@@ -207,10 +200,6 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={cn(
-								search.page * search.limit >= totalTutorials &&
-									"bg-gray-400 cursor-not-allowed",
-							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({ ...prev, page: search.page + 1 }),
@@ -225,10 +214,6 @@ export function TutorialsTable() {
 					<PaginationItem>
 						<Button
 							type="button"
-							className={cn(
-								search.page * search.limit >= totalTutorials &&
-									"bg-gray-400 cursor-not-allowed",
-							)}
 							onClick={() => {
 								navigate({
 									search: (prev) => ({
