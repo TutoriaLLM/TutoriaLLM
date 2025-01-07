@@ -23,9 +23,9 @@ html {
 		--background: 220 14% 96%;
 		--foreground: 215 28% 17%;
 		--card: 0 0% 100%;
-		--card-foreground: 224 71.4% 4.1%;
+		--card-foreground: 215 28% 17%;
 		--popover: 0 0% 100%;
-		--popover-foreground: 224 71.4% 4.1%;
+		--popover-foreground: 215 28% 17%;
 		--primary: 201 90% 27.5%;
 		--primary-foreground: 220 14% 96%;
 		--secondary: 162.9 93.5% 24.3%;
@@ -36,6 +36,8 @@ html {
 		--accent-foreground: 215 28% 17%;
 		--destructive: 0 72% 51%;
 		--destructive-foreground: 220 14% 96%;
+		--warning: 38 92% 50%;
+		--warning-foreground: 48 96% 89%;
 		--border: 216 12% 84%;
 		--input: 216 12% 84%;
 		--ring: 199 89% 48%;
