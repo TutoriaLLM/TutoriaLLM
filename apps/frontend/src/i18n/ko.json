@@ -52,7 +52,6 @@
     "deleteSession": "삭제",
     "downloadAll": "모든 세션 다운로드",
     "downloading": "다운로드 중",
-    "edit": "편집하다",
     "email": "이메일",
     "example": "예제 코드",
     "generateContent": "기존 콘텐츠에서 새 콘텐츠 생성",
@@ -110,8 +109,7 @@
     "writeMetadata": "여기에 메타데이터를 작성하세요"
   },
   "dialogue": {
-    "Introduction": "안녕! \n질문에 해당하는 빠른 답변 버튼을 클릭하여 무엇을 해야 할지 선택하세요!",
-    "NewSessionWithData": "저장된 데이터로 새 세션 시작"
+    "Introduction": "안녕! \n질문에 해당하는 빠른 답변 버튼을 클릭하여 무엇을 해야 할지 선택하세요!"
   },
   "editor": {
     "dialogueTab": "채팅",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "달리기",
-    "Stopped": "중지됨",
-    "label": "코드 실행"
+    "Stopped": "중지됨"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "텍스트",
     "websocketNotConnected": "웹소켓이 연결되지 않았습니다"
   },
-  "logbuffer": {
-    "tooManyLogs": "메시지가 너무 많습니다. \n오래된 로그가 제거되었습니다."
-  },
+  "logbuffer": {},
   "login": {
     "login": "로그인",
     "loginFailed": "로그인 실패",
@@ -173,11 +168,8 @@
     "passwordDescription": "비밀번호를 입력하세요"
   },
   "navbar": {
-    "connected": "연결됨",
     "execSwitch": "코드 실행",
-    "home": "집",
     "joinCode": "가입 코드",
-    "leave": "떠나다",
     "noTutorial": "선택한 튜토리얼이 없습니다.",
     "reconnecting": "연결이 끊어졌습니다. \n다시 연결을 시도 중입니다.",
     "reload": "새로고침",
@@ -186,11 +178,7 @@
   },
   "off": "끄다",
   "on": "~에",
-  "quickReply": {
-    "BeginTutorial": "튜토리얼 시작",
-    "HowToUse": "이것을 사용하는 방법?",
-    "WhatINeed": "내가 무엇을 해야 합니까?"
-  },
+  "quickReply": {},
   "session": {
     "about": "이 앱 정보",
     "aboutText": "이 애플리케이션은 LLM(AI)을 사용하여 튜토리얼을 제공하는 자체 호스팅 소프트웨어입니다.  \n이 애플리케이션을 통해 사이트 관리자는 개인 식별이 불가능한 형태로 이루어진 사용자 사용 및 진술에 대한 데이터를 수집할 수 있으며, 수집된 데이터는 앱의 채팅 기능을 학습하고 AI의 동작을 개선하는 데 사용됩니다.  \n앱에서 제공하는 데이터 처리에 대한 자세한 내용은 웹사이트 관리자에게 문의하세요. \n해당 애플리케이션은 오픈소스로 공개되어 있으며, 소스코드가 수정되었을 수 있으므로, 홈페이지 관리자를 알 수 없는 경우에는 해당 애플리케이션을 사용하지 않는 것이 좋습니다.  \n생성된 세션에 관한 정보는 삭제될 수 있습니다.",
@@ -203,13 +191,8 @@
     "deleteSession": "이 세션 삭제",
     "findSavedSession": "저장된 데이터 사용",
     "hello": "안녕하세요",
-    "joinsession": "코드로 참여",
-    "noSavedSession": "저장된 세션을 찾을 수 없습니다.",
-    "or": "또는",
     "savedSession": "저장된 세션",
-    "serverDownMsg": "서버에 연결할 수 없습니다. \n인터넷을 확인하거나 시스템 관리자에게 문의하세요.",
     "serverOffline": "서버가 오프라인 상태입니다 - 앱을 사용할 수 없습니다",
-    "serverOnline": "온라인",
     "sessionNotFoundMsg": "세션을 찾을 수 없습니다. \n다른 코드를 입력하거나 새 세션을 만들어 시작하세요.",
     "typecodeMsg": "코드를 입력하거나 새 방을 만들어 시작하세요.",
     "welcome": "AI로 코딩 공부하기",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "일체 포함",
     "ask": "무엇이든 물어보세요...",
-    "block": "차단하다",
-    "blocksuggestions": "추천 블록",
-    "copiedToClipboard": "복사되었습니다!",
     "errorLog": "오류 로그",
     "findBlock": "블록 찾기",
-    "findBlockFromMenu": "메뉴에서 찾기",
     "log": "통나무",
     "replying": "응답 중...",
     "server": "섬기는 사람",
     "showingLatest": "최근 {{count}}개의 메시지 표시 중",
     "you": "너",
     "audioMode": "오디오 모드",
-    "transcribing": "스크립트 작성 중...",
-    "transcriptionFailed": "스크립트를 작성할 수 없습니다."
+    "transcribing": "스크립트 작성 중..."
   },
   "tour": {
     "blocklyWorkspace": "작업 공간은 코드를 작성하는 장소입니다.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Easy 모드를 {{status}}로 전환",
     "easyModeDescription": "AI의 대응은 더욱 쉬워질 것입니다.",
     "start": "튜토리얼 시작",
-    "startTour": "당신이 무엇을 할 수 있는지보세요.",
     "startTutorial": "튜토리얼이 선택되었습니다",
     "title": "튜토리얼 선택",
-    "tour": "투어 시작",
     "otherLanguage": "다른 언어로 튜토리얼",
-    "otherLanguageDescription": "이 튜토리얼은 제공하기 위해 번역되므로 정확하지 않을 수 있습니다.",
     "responseMode": "응답 모드",
     "responseModeChanged": "응답 모드가 {{mode}}로 변경되었습니다.",
-    "responseModeDescription": "기본 응답 모드를 오디오 또는 텍스트로 전환",
-    "yourLanguage": "귀하의 언어에 대한 튜토리얼"
+    "responseModeDescription": "기본 응답 모드를 오디오 또는 텍스트로 전환"
   },
   "vm": {
     "outOfMemory": "머신이 메모리 한도에 도달했습니다.",
@@ -291,8 +265,7 @@
     "open": "열려 있는",
     "save": "구하다",
     "text": "텍스트",
-    "upload": "업로드",
-    "websocketNotConnected": "웹소켓이 연결되지 않았습니다"
+    "upload": "업로드"
   },
   "toast": {
     "createdTutorial": "튜토리얼이 생성되었습니다.",
@@ -311,7 +284,6 @@
     "updatedRole": "역할이 업데이트되었습니다.",
     "updatedTutorial": "업데이트된 튜토리얼",
     "updatedUser": "사용자 세부정보가 업데이트되었습니다.",
-    "uploadedTutorial": "튜토리얼 업로드됨",
     "anErrorOccurred": "오류가 발생했습니다",
     "configUpdated": "구성이 업데이트되었습니다.",
     "copiedToClipboard": "복사되었습니다!",

@@ -52,7 +52,6 @@
     "deleteSession": "Eliminare",
     "downloadAll": "Scarica tutte le sessioni",
     "downloading": "Download in corso",
-    "edit": "Modificare",
     "email": "E-mail",
     "example": "Codice di esempio",
     "generateContent": "Genera nuovo contenuto da contenuto esistente",
@@ -110,8 +109,7 @@
     "writeMetadata": "Scrivi qui i tuoi metadati"
   },
   "dialogue": {
-    "Introduction": "CIAO! \nfai clic sul pulsante di risposta rapida per digitare le tue domande per scegliere cosa fare!",
-    "NewSessionWithData": "Avvio di una nuova sessione con i dati salvati"
+    "Introduction": "CIAO! \nfai clic sul pulsante di risposta rapida per digitare le tue domande per scegliere cosa fare!"
   },
   "editor": {
     "dialogueTab": "Chiacchierata",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Corsa",
-    "Stopped": "Fermato",
-    "label": "Esegui il codice"
+    "Stopped": "Fermato"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Testo",
     "websocketNotConnected": "WebSocket non è connesso"
   },
-  "logbuffer": {
-    "tooManyLogs": "Troppi messaggi. \nvecchi tronchi rimossi."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Login",
     "loginFailed": "Accesso non riuscito",
@@ -173,11 +168,8 @@
     "passwordDescription": "Digita la tua password"
   },
   "navbar": {
-    "connected": "collegato",
     "execSwitch": "Esegui codice",
-    "home": "Casa",
     "joinCode": "Iscriviti al codice",
-    "leave": "Partire",
     "noTutorial": "Nessun tutorial selezionato",
     "reconnecting": "disconnesso. \ntentando di riconnettersi.",
     "reload": "Ricaricare",
@@ -186,11 +178,7 @@
   },
   "off": "Spento",
   "on": "SU",
-  "quickReply": {
-    "BeginTutorial": "Inizia il tutorial",
-    "HowToUse": "Come usarlo?",
-    "WhatINeed": "Cosa devo fare?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Informazioni su questa app",
     "aboutText": "Questa applicazione è un software self-hosted che fornisce tutorial utilizzando LLM (AI).  \nL'applicazione consente all'amministratore del sito di raccogliere dati sull'utilizzo dell'utente e sulle dichiarazioni rese in forma non identificabile personalmente, e i dati raccolti vengono utilizzati per apprendere la funzione di chat nell'app e per migliorare il comportamento dell'IA.  \nPer ulteriori informazioni sul trattamento dei dati forniti dall'app, contattare l'amministratore del sito web. \nPoiché l'applicazione è pubblicata come open source e il codice sorgente potrebbe essere stato modificato, si consiglia di non utilizzare l'applicazione se l'amministratore del sito web è sconosciuto.  \nI dati sulle informazioni sulle sessioni create potrebbero essere cancellati.",
@@ -203,13 +191,8 @@
     "deleteSession": "Elimina questa sessione",
     "findSavedSession": "Utilizza i dati salvati",
     "hello": "Ciao",
-    "joinsession": "unisciti con il codice",
-    "noSavedSession": "Nessuna sessione salvata trovata",
-    "or": "O",
     "savedSession": "Sessione salvata",
-    "serverDownMsg": "Impossibile connettersi al server. \nControlla la tua connessione Internet o chiedi all'amministratore di sistema.",
     "serverOffline": "Il server è offline: l'app non è disponibile",
-    "serverOnline": "In linea",
     "sessionNotFoundMsg": "Sessione non trovata. \nDigita un altro codice o crea una nuova sessione per iniziare.",
     "typecodeMsg": "Digita il tuo codice o crea una nuova stanza per iniziare.",
     "welcome": "Studia la programmazione con l'intelligenza artificiale",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "AI",
     "ask": "Chiedi qualsiasi cosa...",
-    "block": "Bloccare",
-    "blocksuggestions": "Blocco suggerito",
-    "copiedToClipboard": "Copiato!",
     "errorLog": "Registro degli errori",
     "findBlock": "Trova blocco",
-    "findBlockFromMenu": "Trova dal menu",
     "log": "Tronco d'albero",
     "replying": "Rispondendo...",
     "server": "Server",
     "showingLatest": "Sono visualizzati gli ultimi {{count}} messaggi",
     "you": "Voi",
     "audioMode": "Modalità audio",
-    "transcribing": "trascrivendo...",
-    "transcriptionFailed": "La trascrizione non è disponibile"
+    "transcribing": "trascrivendo..."
   },
   "tour": {
     "blocklyWorkspace": "L'area di lavoro è il luogo in cui creare il tuo codice.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Imposta la modalità Facile su {{status}}",
     "easyModeDescription": "La risposta dell'IA sarà più semplice.",
     "start": "Avvia l'esercitazione",
-    "startTour": "Guarda cosa puoi fare.",
     "startTutorial": "Il tutorial è stato selezionato",
     "title": "Scegli Esercitazione",
-    "tour": "Inizia il giro",
     "otherLanguage": "Tutorial in un'altra lingua",
-    "otherLanguageDescription": "Poiché questi tutorial vengono tradotti per fornire, potrebbero essere imprecisi.",
     "responseMode": "Modalità di risposta",
     "responseModeChanged": "La modalità di risposta è cambiata in {{mode}}.",
-    "responseModeDescription": "Cambia la modalità di risposta preferita in audio o testo",
-    "yourLanguage": "Tutorial per la tua lingua"
+    "responseModeDescription": "Cambia la modalità di risposta preferita in audio o testo"
   },
   "vm": {
     "outOfMemory": "La macchina ha raggiunto il limite di memoria",
@@ -291,8 +265,7 @@
     "open": "Aprire",
     "save": "Salva",
     "text": "Testo",
-    "upload": "Caricamento",
-    "websocketNotConnected": "WebSocket non è connesso"
+    "upload": "Caricamento"
   },
   "toast": {
     "createdTutorial": "Tutorial creato",
@@ -311,7 +284,6 @@
     "updatedRole": "Ruolo aggiornato",
     "updatedTutorial": "Tutorial aggiornato",
     "updatedUser": "Dettagli utente aggiornati",
-    "uploadedTutorial": "Tutorial caricato",
     "anErrorOccurred": "Si è verificato un errore",
     "configUpdated": "Configurazione aggiornata",
     "copiedToClipboard": "Copiato!",

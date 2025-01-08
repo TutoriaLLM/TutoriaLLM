@@ -52,7 +52,6 @@
     "deleteSession": "Excluir",
     "downloadAll": "Baixe todas as sessões",
     "downloading": "Baixando",
-    "edit": "Editar",
     "email": "E-mail",
     "example": "Código de exemplo",
     "generateContent": "Gere novo conteúdo a partir de conteúdo existente",
@@ -110,8 +109,7 @@
     "writeMetadata": "Escreva seus metadados aqui"
   },
   "dialogue": {
-    "Introduction": "Oi! \nclique no botão de resposta rápida digite suas perguntas para escolher o que fazer!",
-    "NewSessionWithData": "Iniciando nova sessão com dados salvos"
+    "Introduction": "Oi! \nclique no botão de resposta rápida digite suas perguntas para escolher o que fazer!"
   },
   "editor": {
     "dialogueTab": "Bater papo",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Correndo",
-    "Stopped": "Parou",
-    "label": "Executar código"
+    "Stopped": "Parou"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Texto",
     "websocketNotConnected": "WebSocket não está conectado"
   },
-  "logbuffer": {
-    "tooManyLogs": "Muitas mensagens. \nregistros antigos removidos."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Conecte-se",
     "loginFailed": "falha no login",
@@ -173,11 +168,8 @@
     "passwordDescription": "Digite sua senha"
   },
   "navbar": {
-    "connected": "conectado",
     "execSwitch": "Executar código",
-    "home": "Lar",
     "joinCode": "Código de adesão",
-    "leave": "deixar",
     "noTutorial": "Nenhum tutorial foi selecionado",
     "reconnecting": "desconectado. \ntentando se reconectar.",
     "reload": "Recarregar",
@@ -186,11 +178,7 @@
   },
   "off": "Desligado",
   "on": "Sobre",
-  "quickReply": {
-    "BeginTutorial": "Começar o tutorial",
-    "HowToUse": "Como usar isso?",
-    "WhatINeed": "O que eu preciso fazer?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Sobre este aplicativo",
     "aboutText": "Este aplicativo é um software auto-hospedado que fornece tutoriais usando LLM (AI).  \nO aplicativo permite que o administrador do site colete dados sobre o uso do usuário e declarações feitas de forma não pessoalmente identificável, e os dados coletados são usados ​​para aprender a função de chat no aplicativo e para melhorar o comportamento da IA.  \nPara mais informações sobre o tratamento dos dados fornecidos pelo aplicativo, entre em contato com o administrador do site. \nComo o aplicativo é publicado como código aberto e o código-fonte pode ter sido modificado, é recomendável não utilizar o aplicativo se o administrador do site for desconhecido.  \nOs dados sobre informações sobre as sessões criadas podem ser excluídos.",
@@ -203,13 +191,8 @@
     "deleteSession": "Excluir esta sessão",
     "findSavedSession": "Usar dados salvos",
     "hello": "Olá",
-    "joinsession": "junte-se com código",
-    "noSavedSession": "Nenhuma sessão salva encontrada",
-    "or": "ou",
     "savedSession": "Sessão salva",
-    "serverDownMsg": "Não é possível conectar o servidor. \nVerifique sua internet ou pergunte ao administrador do sistema.",
     "serverOffline": "O servidor está off-line - o aplicativo não está disponível",
-    "serverOnline": "On-line",
     "sessionNotFoundMsg": "Sessão não encontrada. \nDigite outro código ou crie uma nova sessão para iniciar.",
     "typecodeMsg": "Digite seu código ou crie uma nova sala para começar.",
     "welcome": "Estude codificação com IA",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "IA",
     "ask": "Pergunte qualquer coisa...",
-    "block": "Bloquear",
-    "blocksuggestions": "Bloco sugerido",
-    "copiedToClipboard": "Copiado!",
     "errorLog": "Registro de erros",
     "findBlock": "Encontrar bloco",
-    "findBlockFromMenu": "Encontrar no menu",
     "log": "Registro",
     "replying": "Respondendo...",
     "server": "Servidor",
     "showingLatest": "Mostrando {{count}} mensagens mais recentes",
     "you": "Você",
     "audioMode": "Modo de áudio",
-    "transcribing": "transcrevendo...",
-    "transcriptionFailed": "A transcrição não está disponível"
+    "transcribing": "transcrevendo..."
   },
   "tour": {
     "blocklyWorkspace": "O espaço de trabalho é o local para fazer seu código.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Mude o modo Fácil para {{status}}",
     "easyModeDescription": "A resposta da IA ​​será mais fácil.",
     "start": "Iniciar tutorial",
-    "startTour": "Veja o que você pode fazer.",
     "startTutorial": "O tutorial selecionou",
     "title": "Escolha o tutorial",
-    "tour": "Iniciar passeio",
     "otherLanguage": "Tutorial por outro idioma",
-    "otherLanguageDescription": "Como esses tutoriais que estão sendo traduzidos podem ser imprecisos.",
     "responseMode": "Modo de resposta",
     "responseModeChanged": "O modo de resposta mudou para {{mode}}.",
-    "responseModeDescription": "Mude o modo de resposta preferido para áudio ou texto",
-    "yourLanguage": "Tutorial para o seu idioma"
+    "responseModeDescription": "Mude o modo de resposta preferido para áudio ou texto"
   },
   "vm": {
     "outOfMemory": "A máquina atingiu o limite de memória",
@@ -291,8 +265,7 @@
     "open": "Abrir",
     "save": "Salvar",
     "text": "Texto",
-    "upload": "Carregar",
-    "websocketNotConnected": "WebSocket não está conectado"
+    "upload": "Carregar"
   },
   "toast": {
     "createdTutorial": "Tutorial criado",
@@ -311,7 +284,6 @@
     "updatedRole": "Função atualizada",
     "updatedTutorial": "Tutorial atualizado",
     "updatedUser": "Detalhes do usuário atualizados",
-    "uploadedTutorial": "Tutorial enviado",
     "anErrorOccurred": "Ocorreu um erro",
     "configUpdated": "Configuração atualizada",
     "copiedToClipboard": "Copiado!",

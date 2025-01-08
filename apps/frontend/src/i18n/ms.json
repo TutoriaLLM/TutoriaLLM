@@ -5,8 +5,7 @@
   },
   "execSwitch": {
     "Running": "Berlari",
-    "Stopped": "Berhenti",
-    "label": "Jalankan kod"
+    "Stopped": "Berhenti"
   },
   "login": {
     "welcome": "Log masuk untuk meneruskan",
@@ -39,10 +38,7 @@
     "passwordDescription": "Taip kata laluan anda"
   },
   "navbar": {
-    "connected": "bersambung",
-    "leave": "pergi",
     "reconnecting": "terputus. \ncuba menyambung semula.",
-    "home": "Rumah",
     "signout": "Log keluar",
     "joinCode": "Sertai Kod",
     "noTutorial": "Tiada tutorial telah dipilih",
@@ -55,8 +51,6 @@
     "createSession": "Buat bilik baru",
     "creating": "mencipta...",
     "hello": "Hello",
-    "joinsession": "sertai dengan kod",
-    "or": "atau",
     "sessionNotFoundMsg": "Sesi tidak ditemui. \nTaip kod lain atau buat sesi baharu untuk bermula.",
     "typecodeMsg": "Taip kod anda atau buat ruang baharu untuk bermula.",
     "welcome": "Belajar pengekodan dengan AI",
@@ -67,11 +61,8 @@
     "debuginfo": "Maklumat Nyahpepijat",
     "deleteSession": "Padamkan sesi ini",
     "findSavedSession": "Gunakan data yang disimpan",
-    "noSavedSession": "Tiada sesi disimpan ditemui",
     "savedSession": "Sesi Disimpan",
-    "serverDownMsg": "Tidak dapat menyambung pelayan. \nSemak internet anda atau tanya pentadbir sistem.",
     "serverOffline": "Pelayan di luar talian - Apl tidak tersedia",
-    "serverOnline": "dalam talian",
     "deleteStorage": "Padamkan semua storan",
     "failedCreate": "Gagal membuat sesi",
     "installPWA": "Pasang PWA",
@@ -89,20 +80,15 @@
   "textbubble": {
     "ai": "AI",
     "ask": "Tanya apa sahaja...",
-    "block": "Sekat",
     "findBlock": "Cari blok",
-    "findBlockFromMenu": "Cari dari menu",
     "log": "Log",
     "replying": "Membalas...",
     "server": "Pelayan",
     "you": "awak",
-    "blocksuggestions": "Blok yang dicadangkan",
-    "copiedToClipboard": "disalin!",
     "errorLog": "Log Ralat",
     "showingLatest": "Menunjukkan {{count}} mesej terkini",
     "audioMode": "Mod audio",
-    "transcribing": "menyalin...",
-    "transcriptionFailed": "Transkripsi tidak tersedia"
+    "transcribing": "menyalin..."
   },
   "tutorial": {
     "description": "Pilih apa yang anda ingin pelajari",
@@ -112,14 +98,10 @@
     "easyMode": "Mod Mudah",
     "easyModeChanged": "Tukar mod Mudah kepada {{status}}",
     "easyModeDescription": "Respons AI akan menjadi lebih mudah.",
-    "startTour": "Lihat apa yang anda boleh lakukan.",
-    "tour": "Mulakan Lawatan",
     "otherLanguage": "Tutorial mengikut bahasa lain",
-    "otherLanguageDescription": "Memandangkan tutorial ini diterjemahkan untuk disediakan, mungkin tidak tepat.",
     "responseMode": "Mod Respons",
     "responseModeChanged": "Mod respons telah bertukar kepada {{mode}}.",
-    "responseModeDescription": "Tukar mod respons pilihan kepada audio atau teks",
-    "yourLanguage": "Tutorial untuk bahasa anda"
+    "responseModeDescription": "Tukar mod respons pilihan kepada audio atau teks"
   },
   "AppConfig": {
     "AI_Settings": "Tetapan AI",
@@ -174,7 +156,6 @@
     "deleteSession": "Padam",
     "downloadAll": "Muat turun semua sesi",
     "downloading": "Memuat turun",
-    "edit": "Sunting",
     "email": "E-mel",
     "example": "Contoh kod",
     "generateContent": "Hasilkan kandungan baharu daripada kandungan sedia ada",
@@ -232,8 +213,7 @@
     "writeMetadata": "Tulis metadata anda di sini"
   },
   "dialogue": {
-    "Introduction": "Hai! \nklik butang balas pantas jenis dalam soalan anda untuk memilih perkara yang perlu dilakukan!",
-    "NewSessionWithData": "Memulakan sesi baharu dengan data yang disimpan"
+    "Introduction": "Hai! \nklik butang balas pantas jenis dalam soalan anda untuk memilih perkara yang perlu dilakukan!"
   },
   "editor": {
     "dialogueTab": "Sembang",
@@ -252,16 +232,10 @@
     "text": "Teks",
     "websocketNotConnected": "Websocket tidak disambungkan"
   },
-  "logbuffer": {
-    "tooManyLogs": "Terlalu banyak mesej. \nlog lama dikeluarkan."
-  },
+  "logbuffer": {},
   "off": "Mati",
   "on": "hidup",
-  "quickReply": {
-    "BeginTutorial": "Mulakan tutorial",
-    "HowToUse": "Bagaimana untuk menggunakan ini?",
-    "WhatINeed": "Apa yang perlu saya lakukan?"
-  },
+  "quickReply": {},
   "tour": {
     "blocklyWorkspace": "Ruang kerja ialah tempat untuk membuat kod anda.",
     "dialogue": "Anda boleh bercakap dengan AI untuk sebarang bantuan, atau mengambil pengajaran daripada AI dengan tutorial.",
@@ -291,8 +265,7 @@
     "open": "Buka",
     "save": "Jimat",
     "text": "Teks",
-    "upload": "Muat naik",
-    "websocketNotConnected": "Websocket tidak disambungkan"
+    "upload": "Muat naik"
   },
   "toast": {
     "createdTutorial": "Tutorial dibuat",
@@ -311,7 +284,6 @@
     "updatedRole": "Peranan dikemas kini",
     "updatedTutorial": "Tutorial dikemas kini",
     "updatedUser": "Butiran pengguna dikemas kini",
-    "uploadedTutorial": "Tutorial dimuat naik",
     "anErrorOccurred": "Ralat telah berlaku",
     "configUpdated": "Konfigurasi dikemas kini",
     "copiedToClipboard": "disalin!",

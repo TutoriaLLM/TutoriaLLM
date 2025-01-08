@@ -52,7 +52,6 @@
     "deleteSession": "Usuwać",
     "downloadAll": "Pobierz wszystkie sesje",
     "downloading": "Ściąganie",
-    "edit": "Redagować",
     "email": "E-mail",
     "example": "Przykładowy kod",
     "generateContent": "Generuj nową treść na podstawie istniejącej treści",
@@ -110,8 +109,7 @@
     "writeMetadata": "Wpisz tutaj swoje metadane"
   },
   "dialogue": {
-    "Introduction": "Cześć! \nkliknij przycisk szybkiej odpowiedzi i wpisz swoje pytania, aby wybrać, co zrobić!",
-    "NewSessionWithData": "Rozpoczęcie nowej sesji z zapisanymi danymi"
+    "Introduction": "Cześć! \nkliknij przycisk szybkiej odpowiedzi i wpisz swoje pytania, aby wybrać, co zrobić!"
   },
   "editor": {
     "dialogueTab": "Pogawędzić",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Działanie",
-    "Stopped": "Zatrzymany",
-    "label": "Uruchom kod"
+    "Stopped": "Zatrzymany"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Tekst",
     "websocketNotConnected": "Gniazdo internetowe nie jest podłączone"
   },
-  "logbuffer": {
-    "tooManyLogs": "Za dużo wiadomości. \nusunięto stare logi."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Login",
     "loginFailed": "Logowanie nie powiodło się",
@@ -173,11 +168,8 @@
     "passwordDescription": "Wpisz swoje hasło"
   },
   "navbar": {
-    "connected": "połączony",
     "execSwitch": "Uruchom kod",
-    "home": "Dom",
     "joinCode": "Dołącz do kodu",
-    "leave": "Zostawić",
     "noTutorial": "Nie wybrano żadnego samouczka",
     "reconnecting": "bezładny. \npróbuję ponownie się połączyć.",
     "reload": "Przeładować",
@@ -186,11 +178,7 @@
   },
   "off": "Wyłączony",
   "on": "NA",
-  "quickReply": {
-    "BeginTutorial": "Rozpocznij samouczek",
-    "HowToUse": "Jak z tego skorzystać?",
-    "WhatINeed": "Co muszę zrobić?"
-  },
+  "quickReply": {},
   "session": {
     "about": "O tej aplikacji",
     "aboutText": "Ta aplikacja to oprogramowanie hostowane samodzielnie, które zapewnia samouczki przy użyciu LLM (AI).  \nAplikacja umożliwia administratorowi witryny zbieranie danych na temat sposobu korzystania przez użytkowników i składanych oświadczeń w formie nieosobowej, a zebrane dane służą do poznania funkcji czatu w aplikacji i ulepszenia zachowania sztucznej inteligencji.  \nW celu uzyskania dalszych informacji na temat postępowania z danymi udostępnianymi przez aplikację należy skontaktować się z administratorem serwisu. \nZe względu na to, że aplikacja jest opublikowana jako open source i kod źródłowy mógł zostać zmodyfikowany, zaleca się nie korzystać z aplikacji, jeśli administrator strony jest nieznany.  \nDane dotyczące informacji o utworzonych sesjach mogą zostać usunięte.",
@@ -203,13 +191,8 @@
     "deleteSession": "Usuń tę sesję",
     "findSavedSession": "Skorzystaj z zapisanych danych",
     "hello": "Cześć",
-    "joinsession": "dołącz za pomocą kodu",
-    "noSavedSession": "Nie znaleziono zapisanej sesji",
-    "or": "Lub",
     "savedSession": "Zapisana sesja",
-    "serverDownMsg": "Nie można połączyć się z serwerem. \nSprawdź swój Internet lub zapytaj administratora systemu.",
     "serverOffline": "Serwer jest offline — aplikacja jest niedostępna",
-    "serverOnline": "W Internecie",
     "sessionNotFoundMsg": "Nie znaleziono sesji. \nAby rozpocząć, wpisz inny kod lub utwórz nową sesję.",
     "typecodeMsg": "Wpisz swój kod lub utwórz nowy pokój, aby rozpocząć.",
     "welcome": "Ucz się kodowania za pomocą sztucznej inteligencji",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "sztuczna inteligencja",
     "ask": "Zapytaj o cokolwiek...",
-    "block": "Blok",
-    "blocksuggestions": "Sugerowany blok",
-    "copiedToClipboard": "Skopiowano!",
     "errorLog": "Dziennik błędów",
     "findBlock": "Znajdź blok",
-    "findBlockFromMenu": "Znajdź z menu",
     "log": "Dziennik",
     "replying": "Odpowiadanie...",
     "server": "Serwer",
     "showingLatest": "Wyświetlam najnowsze wiadomości ({{count}}).",
     "you": "Ty",
     "audioMode": "Tryb dźwięku",
-    "transcribing": "transkrypcja...",
-    "transcriptionFailed": "Transkrypcja jest niedostępna"
+    "transcribing": "transkrypcja..."
   },
   "tour": {
     "blocklyWorkspace": "Workspace to miejsce, w którym możesz stworzyć swój kod.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Zmień tryb łatwy na {{status}}",
     "easyModeDescription": "Odpowiedź AI będzie łatwiejsza.",
     "start": "Rozpocznij samouczek",
-    "startTour": "Zobacz, co możesz zrobić.",
     "startTutorial": "Wybrano samouczek",
     "title": "Wybierz samouczek",
-    "tour": "Rozpocznij wycieczkę",
     "otherLanguage": "Samouczek w innym języku",
-    "otherLanguageDescription": "Ponieważ te samouczki są tłumaczone, mogą być niedokładne.",
     "responseMode": "Tryb odpowiedzi",
     "responseModeChanged": "Tryb odpowiedzi został zmieniony na {{mode}}.",
-    "responseModeDescription": "Przełącz preferowany tryb odpowiedzi na dźwięk lub tekst",
-    "yourLanguage": "Samouczek dla Twojego języka"
+    "responseModeDescription": "Przełącz preferowany tryb odpowiedzi na dźwięk lub tekst"
   },
   "vm": {
     "outOfMemory": "Maszyna osiągnęła limit pamięci",
@@ -291,8 +265,7 @@
     "open": "Otwarte",
     "save": "Ratować",
     "text": "Tekst",
-    "upload": "Wgrywać",
-    "websocketNotConnected": "Gniazdo internetowe nie jest podłączone"
+    "upload": "Wgrywać"
   },
   "toast": {
     "createdTutorial": "Utworzono samouczek",
@@ -311,7 +284,6 @@
     "updatedRole": "Rola zaktualizowana",
     "updatedTutorial": "Zaktualizowany samouczek",
     "updatedUser": "Dane użytkownika zaktualizowane",
-    "uploadedTutorial": "Poradnik przesłany",
     "anErrorOccurred": "Wystąpił błąd",
     "configUpdated": "Konfiguracja zaktualizowana",
     "copiedToClipboard": "Skopiowano!",

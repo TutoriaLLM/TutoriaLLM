@@ -52,7 +52,6 @@
     "deleteSession": "Xóa bỏ",
     "downloadAll": "Tải xuống tất cả các phiên",
     "downloading": "Đang tải xuống",
-    "edit": "Biên tập",
     "email": "E-mail",
     "example": "Mã ví dụ",
     "generateContent": "Tạo nội dung mới từ nội dung hiện có",
@@ -110,8 +109,7 @@
     "writeMetadata": "Viết siêu dữ liệu của bạn ở đây"
   },
   "dialogue": {
-    "Introduction": "CHÀO! \nhãy nhấp vào nút trả lời nhanh trong loại câu hỏi của bạn để chọn việc cần làm!",
-    "NewSessionWithData": "Bắt đầu phiên mới với dữ liệu đã lưu"
+    "Introduction": "CHÀO! \nhãy nhấp vào nút trả lời nhanh trong loại câu hỏi của bạn để chọn việc cần làm!"
   },
   "editor": {
     "dialogueTab": "Trò chuyện",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Đang chạy",
-    "Stopped": "Đã dừng",
-    "label": "Chạy mã"
+    "Stopped": "Đã dừng"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Chữ",
     "websocketNotConnected": "Websocket chưa được kết nối"
   },
-  "logbuffer": {
-    "tooManyLogs": "Quá nhiều tin nhắn. \nnhật ký cũ bị loại bỏ."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Đăng nhập",
     "loginFailed": "Đăng nhập không thành công",
@@ -173,11 +168,8 @@
     "passwordDescription": "Nhập mật khẩu của bạn"
   },
   "navbar": {
-    "connected": "đã kết nối",
     "execSwitch": "Chạy mã",
-    "home": "Trang chủ",
     "joinCode": "Mã tham gia",
-    "leave": "rời khỏi",
     "noTutorial": "Chưa có hướng dẫn nào được chọn",
     "reconnecting": "bị ngắt kết nối. \nđang cố gắng kết nối lại.",
     "reload": "Tải lại",
@@ -186,11 +178,7 @@
   },
   "off": "Tắt",
   "on": "TRÊN",
-  "quickReply": {
-    "BeginTutorial": "Bắt đầu hướng dẫn",
-    "HowToUse": "Làm thế nào để sử dụng cái này?",
-    "WhatINeed": "Tôi cần phải làm gì?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Giới thiệu về ứng dụng này",
     "aboutText": "Ứng dụng này là phần mềm tự lưu trữ cung cấp các hướng dẫn sử dụng LLM (AI).  \nỨng dụng cho phép quản trị viên trang web thu thập dữ liệu về cách sử dụng của người dùng và các tuyên bố được đưa ra dưới dạng không thể nhận dạng cá nhân và dữ liệu được thu thập sẽ được sử dụng để tìm hiểu chức năng trò chuyện trong ứng dụng và cải thiện hành vi của AI.  \nĐể biết thêm thông tin về việc xử lý dữ liệu do ứng dụng cung cấp, vui lòng liên hệ với quản trị viên trang web. \nVì ứng dụng được xuất bản dưới dạng nguồn mở và mã nguồn có thể đã được sửa đổi, nên không nên sử dụng ứng dụng nếu không rõ quản trị viên trang web.  \nDữ liệu về thông tin về các phiên được tạo có thể bị xóa.",
@@ -203,13 +191,8 @@
     "deleteSession": "Xóa phiên này",
     "findSavedSession": "Sử dụng dữ liệu đã lưu",
     "hello": "Xin chào",
-    "joinsession": "tham gia bằng mã",
-    "noSavedSession": "Không tìm thấy phiên đã lưu",
-    "or": "hoặc",
     "savedSession": "Phiên đã lưu",
-    "serverDownMsg": "Không thể kết nối máy chủ. \nKiểm tra internet của bạn hoặc hỏi quản trị viên hệ thống.",
     "serverOffline": "Máy chủ đang ngoại tuyến - Ứng dụng không khả dụng",
-    "serverOnline": "Trực tuyến",
     "sessionNotFoundMsg": "Không tìm thấy phiên. \nNhập mã khác hoặc tạo phiên mới để bắt đầu.",
     "typecodeMsg": "Nhập mã của bạn hoặc tạo phòng mới để bắt đầu.",
     "welcome": "Nghiên cứu mã hóa với AI",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "trí tuệ nhân tạo",
     "ask": "Hỏi bất cứ điều gì...",
-    "block": "Khối",
-    "blocksuggestions": "Khối đề xuất",
-    "copiedToClipboard": "Đã sao chép!",
     "errorLog": "Nhật ký lỗi",
     "findBlock": "Tìm khối",
-    "findBlockFromMenu": "Tìm từ trình đơn",
     "log": "Nhật ký",
     "replying": "Đang trả lời...",
     "server": "Máy chủ",
     "showingLatest": "Hiển thị tin nhắn {{count}} mới nhất",
     "you": "Bạn",
     "audioMode": "Chế độ âm thanh",
-    "transcribing": "phiên âm...",
-    "transcriptionFailed": "Phiên âm không có sẵn"
+    "transcribing": "phiên âm..."
   },
   "tour": {
     "blocklyWorkspace": "Không gian làm việc là nơi để tạo mã của bạn.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Chuyển chế độ Dễ sang {{status}}",
     "easyModeDescription": "Phản ứng của AI sẽ dễ dàng hơn.",
     "start": "Bắt đầu hướng dẫn",
-    "startTour": "Hãy nhìn xem bạn có thể làm được gì.",
     "startTutorial": "Hướng dẫn đã chọn",
     "title": "Chọn hướng dẫn",
-    "tour": "Bắt đầu chuyến tham quan",
     "otherLanguage": "Hướng dẫn bằng ngôn ngữ khác",
-    "otherLanguageDescription": "Vì những hướng dẫn này được dịch để cung cấp nên có thể không chính xác.",
     "responseMode": "Chế độ phản hồi",
     "responseModeChanged": "Chế độ phản hồi đã thay đổi thành {{mode}}.",
-    "responseModeDescription": "Chuyển chế độ phản hồi ưa thích thành âm thanh hoặc văn bản",
-    "yourLanguage": "Hướng dẫn cho ngôn ngữ của bạn"
+    "responseModeDescription": "Chuyển chế độ phản hồi ưa thích thành âm thanh hoặc văn bản"
   },
   "vm": {
     "outOfMemory": "Máy đã đạt giới hạn bộ nhớ",
@@ -291,8 +265,7 @@
     "open": "Mở",
     "save": "Cứu",
     "text": "Chữ",
-    "upload": "Tải lên",
-    "websocketNotConnected": "Websocket chưa được kết nối"
+    "upload": "Tải lên"
   },
   "toast": {
     "createdTutorial": "Đã tạo hướng dẫn",
@@ -311,7 +284,6 @@
     "updatedRole": "Đã cập nhật vai trò",
     "updatedTutorial": "Hướng dẫn cập nhật",
     "updatedUser": "Đã cập nhật chi tiết người dùng",
-    "uploadedTutorial": "Hướng dẫn đã được tải lên",
     "anErrorOccurred": "Đã xảy ra lỗi",
     "configUpdated": "Đã cập nhật cấu hình",
     "copiedToClipboard": "Đã sao chép!",

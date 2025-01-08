@@ -52,7 +52,6 @@
     "deleteSession": "Verwijderen",
     "downloadAll": "Alle sessies downloaden",
     "downloading": "Downloaden",
-    "edit": "Bewerking",
     "email": "E-mail",
     "example": "Voorbeeldcode",
     "generateContent": "Genereer nieuwe inhoud uit bestaande inhoud",
@@ -110,8 +109,7 @@
     "writeMetadata": "Schrijf hier uw metadata"
   },
   "dialogue": {
-    "Introduction": "Hoi! \nklik op de snelle antwoordknop van het type in uw vragen om te kiezen wat u wilt doen!",
-    "NewSessionWithData": "Nieuwe sessie starten met opgeslagen gegevens"
+    "Introduction": "Hoi! \nklik op de snelle antwoordknop van het type in uw vragen om te kiezen wat u wilt doen!"
   },
   "editor": {
     "dialogueTab": "Chatten",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Rennen",
-    "Stopped": "Gestopt",
-    "label": "Voer code uit"
+    "Stopped": "Gestopt"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Tekst",
     "websocketNotConnected": "Websocket is niet verbonden"
   },
-  "logbuffer": {
-    "tooManyLogs": "Te veel berichten. \noude logs verwijderd."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Login",
     "loginFailed": "Inloggen mislukt",
@@ -173,11 +168,8 @@
     "passwordDescription": "Typ uw wachtwoord"
   },
   "navbar": {
-    "connected": "aangesloten",
     "execSwitch": "Code uitvoeren",
-    "home": "Thuis",
     "joinCode": "Sluit je aan bij Code",
-    "leave": "vertrekken",
     "noTutorial": "Er is geen tutorial geselecteerd",
     "reconnecting": "losgekoppeld. \nprobeert opnieuw verbinding te maken.",
     "reload": "Herladen",
@@ -186,11 +178,7 @@
   },
   "off": "Uit",
   "on": "Op",
-  "quickReply": {
-    "BeginTutorial": "Begin met de tutorial",
-    "HowToUse": "Hoe gebruik je dit?",
-    "WhatINeed": "Wat moet ik doen?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Over deze app",
     "aboutText": "Deze applicatie is zelfgehoste software die tutorials biedt met behulp van LLM (AI).  \nMet de applicatie kan de sitebeheerder gegevens verzamelen over gebruikersgebruik en verklaringen in een niet-persoonlijk identificeerbare vorm, en de verzamelde gegevens worden gebruikt om de chatfunctie in de app te leren en het gedrag van de AI te verbeteren.  \nVoor meer informatie over de omgang met de door de app verstrekte gegevens kunt u contact opnemen met de websitebeheerder. \nOmdat de applicatie als open source is gepubliceerd en de broncode mogelijk is gewijzigd, wordt aangeraden de applicatie niet te gebruiken als de websitebeheerder onbekend is.  \nGegevens over informatie over aangemaakte sessies kunnen worden verwijderd.",
@@ -203,13 +191,8 @@
     "deleteSession": "Verwijder deze sessie",
     "findSavedSession": "Gebruik opgeslagen gegevens",
     "hello": "Hallo",
-    "joinsession": "meedoen met code",
-    "noSavedSession": "Geen opgeslagen sessie gevonden",
-    "or": "of",
     "savedSession": "Opgeslagen sessie",
-    "serverDownMsg": "Kan geen verbinding maken met de server. \nControleer uw internet of vraag het aan de systeembeheerder.",
     "serverOffline": "Server is offline - App is niet beschikbaar",
-    "serverOnline": "Online",
     "sessionNotFoundMsg": "Sessie niet gevonden. \nTyp nog een code of maak een nieuwe sessie om te starten.",
     "typecodeMsg": "Typ uw code of maak een nieuwe ruimte om te beginnen.",
     "welcome": "Bestudeer coderen met AI",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "AI",
     "ask": "Vraag alles...",
-    "block": "Blok",
-    "blocksuggestions": "Voorgesteld blok",
-    "copiedToClipboard": "Gekopieerd!",
     "errorLog": "Foutenlogboek",
     "findBlock": "Zoek blok",
-    "findBlockFromMenu": "Zoek via menu",
     "log": "Logboek",
     "replying": "Beantwoorden...",
     "server": "Server",
     "showingLatest": "Toont de laatste {{count}} berichten",
     "you": "Jij",
     "audioMode": "Audiomodus",
-    "transcribing": "transcriberen...",
-    "transcriptionFailed": "Transcriptie is niet beschikbaar"
+    "transcribing": "transcriberen..."
   },
   "tour": {
     "blocklyWorkspace": "Werkruimte is de plaats waar u uw code kunt maken.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Zet de Easy-modus op {{status}}",
     "easyModeDescription": "De reactie van AI zal eenvoudiger zijn.",
     "start": "Start de zelfstudie",
-    "startTour": "Kijk wat je kunt doen.",
     "startTutorial": "Tutorial is geselecteerd",
     "title": "Kies zelfstudie",
-    "tour": "Rondleiding starten",
     "otherLanguage": "Tutorial in een andere taal",
-    "otherLanguageDescription": "Omdat deze tutorials worden vertaald, kunnen ze onnauwkeurig zijn.",
     "responseMode": "Reactiemodus",
     "responseModeChanged": "Reactiemodus is gewijzigd in {{mode}}.",
-    "responseModeDescription": "Schakel de gewenste reactiemodus om naar audio of tekst",
-    "yourLanguage": "Tutorial voor uw taal"
+    "responseModeDescription": "Schakel de gewenste reactiemodus om naar audio of tekst"
   },
   "vm": {
     "outOfMemory": "Machine heeft de geheugenlimiet bereikt",
@@ -291,8 +265,7 @@
     "open": "Open",
     "save": "Redden",
     "text": "Tekst",
-    "upload": "Uploaden",
-    "websocketNotConnected": "Websocket is niet verbonden"
+    "upload": "Uploaden"
   },
   "toast": {
     "createdTutorial": "Tutorial gemaakt",
@@ -311,7 +284,6 @@
     "updatedRole": "Rol bijgewerkt",
     "updatedTutorial": "Bijgewerkte handleiding",
     "updatedUser": "Gebruikersgegevens bijgewerkt",
-    "uploadedTutorial": "Handleiding geüpload",
     "anErrorOccurred": "Er is een fout opgetreden",
     "configUpdated": "Configuratie bijgewerkt",
     "copiedToClipboard": "Gekopieerd!",

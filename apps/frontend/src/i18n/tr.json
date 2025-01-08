@@ -52,7 +52,6 @@
     "deleteSession": "Silmek",
     "downloadAll": "Tüm oturumları indir",
     "downloading": "İndiriliyor",
-    "edit": "Düzenlemek",
     "email": "E-posta",
     "example": "Örnek kod",
     "generateContent": "Mevcut içerikten yeni içerik oluşturun",
@@ -110,8 +109,7 @@
     "writeMetadata": "Meta verilerinizi buraya yazın"
   },
   "dialogue": {
-    "Introduction": "MERHABA! \nNe yapacağınızı seçmek için sorularınızı yazın hızlı yanıt düğmesini tıklayın!",
-    "NewSessionWithData": "Kaydedilen verilerle yeni oturum başlatma"
+    "Introduction": "MERHABA! \nNe yapacağınızı seçmek için sorularınızı yazın hızlı yanıt düğmesini tıklayın!"
   },
   "editor": {
     "dialogueTab": "Sohbet",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Koşma",
-    "Stopped": "Durduruldu",
-    "label": "Kodu çalıştır"
+    "Stopped": "Durduruldu"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Metin",
     "websocketNotConnected": "Websocket bağlı değil"
   },
-  "logbuffer": {
-    "tooManyLogs": "Çok fazla mesaj var. \neski günlükler kaldırıldı."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Giriş yapmak",
     "loginFailed": "giriş başarısız oldu",
@@ -170,11 +165,8 @@
     "userNameDescription": "Bu, giriş yapmak için kullandığınız kullanıcı adınızdır."
   },
   "navbar": {
-    "connected": "bağlı",
     "execSwitch": "Kodu Çalıştır",
-    "home": "Ev",
     "joinCode": "Kodu Katıl",
-    "leave": "ayrılmak",
     "noTutorial": "Hiçbir eğitim seçilmedi",
     "reconnecting": "bağlantısı kesildi. \nyeniden bağlanmaya çalışıyorum.",
     "reload": "Yeniden yükle",
@@ -183,11 +175,7 @@
   },
   "off": "Kapalı",
   "on": "Açık",
-  "quickReply": {
-    "BeginTutorial": "Eğiticiye başlayın",
-    "HowToUse": "Bu nasıl kullanılır?",
-    "WhatINeed": "Ne yapmam gerekiyor?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Bu uygulama hakkında",
     "aboutText": "Bu uygulama, LLM (AI) kullanarak eğitimler sağlayan, kendi kendine barındırılan bir yazılımdır.  \nUygulama, site yöneticisinin, kullanıcı kullanımı ve kişisel olarak tanımlanamayan bir biçimde yapılan beyanlar hakkında veri toplamasına olanak tanır ve toplanan veriler, uygulamadaki sohbet işlevini öğrenmek ve yapay zekanın davranışını iyileştirmek için kullanılır.  \nUygulama tarafından sağlanan verilerin işlenmesi hakkında daha fazla bilgi için lütfen web sitesi yöneticisiyle iletişime geçin. \nUygulama açık kaynak olarak yayınlandığından ve kaynak kodu değiştirilmiş olabileceğinden, site yöneticisi bilinmiyorsa uygulamanın kullanılmaması tavsiye edilir.  \nOluşturulan oturumlarla ilgili bilgilere ilişkin veriler silinebilir.",
@@ -200,13 +188,8 @@
     "deleteSession": "Bu oturumu sil",
     "findSavedSession": "Kaydedilen verileri kullan",
     "hello": "Merhaba",
-    "joinsession": "kodla katıl",
-    "noSavedSession": "Kayıtlı oturum bulunamadı",
-    "or": "veya",
     "savedSession": "Kayıtlı Oturum",
-    "serverDownMsg": "Sunucuya bağlanılamıyor. \nİnternetinizi kontrol edin veya sistem yöneticinize sorun.",
     "serverOffline": "Sunucu çevrimdışı - Uygulama kullanılamıyor",
-    "serverOnline": "Çevrimiçi",
     "sessionNotFoundMsg": "Oturum bulunamadı. \nBaşka bir kod yazın veya başlamak için yeni bir oturum oluşturun.",
     "typecodeMsg": "Kodunuzu yazın veya başlamak için yeni bir oda oluşturun.",
     "welcome": "Yapay zeka ile kodlama eğitimi alın",
@@ -227,20 +210,15 @@
   "textbubble": {
     "ai": "yapay zeka",
     "ask": "Herhangi bir şey sor...",
-    "block": "Engellemek",
-    "blocksuggestions": "Önerilen blok",
-    "copiedToClipboard": "Kopyalandı!",
     "errorLog": "Hata Günlüğü",
     "findBlock": "Blok bul",
-    "findBlockFromMenu": "Menüden bul",
     "log": "Kayıt",
     "replying": "Yanıtlanıyor...",
     "server": "Sunucu",
     "showingLatest": "En son {{count}} mesaj gösteriliyor",
     "you": "Sen",
     "audioMode": "Ses modu",
-    "transcribing": "yazıya aktarılıyor...",
-    "transcriptionFailed": "Transkripsiyon kullanılamıyor"
+    "transcribing": "yazıya aktarılıyor..."
   },
   "tour": {
     "blocklyWorkspace": "Çalışma alanı kodunuzu oluşturabileceğiniz yerdir.",
@@ -262,16 +240,12 @@
     "easyModeChanged": "Kolay modu {{status}} konumuna getirin",
     "easyModeDescription": "Yapay zekanın tepkisi daha kolay olacak.",
     "start": "Eğiticiyi Başlat",
-    "startTour": "Ne yapabileceğine bir bak.",
     "startTutorial": "Öğretici seçildi",
     "title": "Eğiticiyi Seç",
-    "tour": "Turu Başlat",
     "otherLanguage": "Başka bir dile göre eğitim",
-    "otherLanguageDescription": "Bu eğitimlerin sağlanması için çevrilmesi nedeniyle hatalı olabilir.",
     "responseMode": "Yanıt Modu",
     "responseModeChanged": "Yanıt modu {{mode}} olarak değiştirildi.",
-    "responseModeDescription": "Tercih edilen yanıt modunu ses veya metin olarak değiştirin",
-    "yourLanguage": "Diliniz için öğretici"
+    "responseModeDescription": "Tercih edilen yanıt modunu ses veya metin olarak değiştirin"
   },
   "vm": {
     "outOfMemory": "Makine bellek sınırına ulaştı",
@@ -288,8 +262,7 @@
     "open": "Açık",
     "save": "Kaydetmek",
     "text": "Metin",
-    "upload": "Yüklemek",
-    "websocketNotConnected": "Websocket bağlı değil"
+    "upload": "Yüklemek"
   },
   "toast": {
     "createdTutorial": "Eğitici oluşturuldu",
@@ -307,7 +280,6 @@
     "updatedPassword": "Şifre güncellendi.",
     "updatedRole": "Rol güncellendi",
     "updatedTutorial": "Güncellenmiş eğitim",
-    "updatedUser": "Kullanıcı ayrıntısı güncellendi",
-    "uploadedTutorial": "Eğitici yüklendi"
+    "updatedUser": "Kullanıcı ayrıntısı güncellendi"
   }
 }

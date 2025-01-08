@@ -1,24 +1,19 @@
 {
   "session": {
     "creating": "creating...",
-    "joinsession": "join with code",
     "sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
     "hello": "Hello",
-    "or": "or",
     "createSession": "Create new room",
     "typecodeMsg": "Type your code, or create new room to start.",
     "about": "About this app",
     "welcome": "Study coding with AI",
     "debuginfo": "Debug Info",
-    "serverDownMsg": "Can not connect server. Check your internet or ask system administrator.",
     "aboutText": "This application is self-hosted software that provides tutorials using LLM (AI).  The application allows the site administrator to collect data on user usage and statements made in a non-personally identifiable form, and the data collected is used to learn the chat function in the app and to improve the AI's behaviour.  For further information on the handling of data provided by the app, please contact the website administrator. As the application is published as open source and the source code may have been modified, it is recommended not to use the application if the website administrator is unknown.  Data on information about sessions created may be deleted.",
     "findSavedSession": "Use saved data",
-    "noSavedSession": "No saved session found",
     "savedSession": "Saved Session",
     "continueSession": "Continue this session",
     "deleteSession": "Delete this session",
     "checkingServer": "Checking server status...",
-    "serverOnline": "Online",
     "available": "App Available",
     "serverOffline": "Server is offline - App is unavailable",
     "installPWA": "Install PWA",
@@ -27,11 +22,8 @@
     "savedSessionDescription": "List of sessions that you can continue"
   },
   "navbar": {
-    "leave": "leave",
     "saveAndLeave": "save and leave",
-    "connected": "connected",
     "reconnecting": "disconnected. attempting to reconnect.",
-    "home": "Home",
     "signout": "Sign out",
     "noTutorial": "No tutorial has selected",
     "joinCode": "Join Code",
@@ -39,7 +31,6 @@
     "execSwitch": "Run Code"
   },
   "execSwitch": {
-    "label": "Run code",
     "Running": "Running",
     "Stopped": "Stopped"
   },
@@ -91,32 +82,23 @@
     "server": "Server",
     "ai": "AI",
     "you": "You",
-    "block": "Block",
     "findBlock": "Find block",
-    "findBlockFromMenu": "Find from menu",
     "replying": "Replying...",
     "ask": "Ask anything...",
     "showingLatest": "Showing latest {{count}} messages",
     "errorLog": "Error Log",
-    "copiedToClipboard": "Copied!",
-    "blocksuggestions": "Suggested block",
     "audioMode": "Audio mode",
-    "transcribing": "transcribing...",
-    "transcriptionFailed": "Transcription is unavailable"
+    "transcribing": "transcribing..."
   },
   "tutorial": {
     "title": "Pick Tutorial",
     "description": "Choose what you want to learn",
     "start": "Start Tutorial",
     "startTutorial": "Tutorial has selected",
-    "tour": "Start Tour",
-    "startTour": "Look what you can do.",
     "easyMode": "Easy Mode",
     "easyModeDescription": "AI's response will be more easier.",
     "easyModeChanged": "Turn Easy mode to {{status}}",
-    "yourLanguage": "Tutorial for your language",
     "otherLanguage": "Tutorial by other language",
-    "otherLanguageDescription": "As these tutorials being translated to provide, might be inaccurate.",
     "responseMode": "Response Mode",
     "responseModeDescription": "Switch preferred response mode into audio or text",
     "responseModeChanged": "Response mode has changed to {{mode}}."
@@ -126,12 +108,9 @@
     "updatedScriptSuccess": "Updated script executed successfully.",
     "updatedScriptError": "Error executing updated script: {{error}}"
   },
-  "logbuffer": {
-    "tooManyLogs": "Too many messages. old logs removed."
-  },
+  "logbuffer": {},
   "general": {
     "connected": "Connected",
-    "websocketNotConnected": "Websocket is not connected",
     "open": "Open",
     "audio": "Audio",
     "text": "Text",
@@ -208,7 +187,6 @@
     "tutorialLanguage": "Language",
     "tutorialTags": "Tags",
     "tutorialSelectCount": "Select count",
-    "edit": "Edit",
     "tutorials": "Tutorials",
     "username": "Username",
     "role": "Role",
@@ -252,14 +230,9 @@
     "email": "Email",
     "password": "Password"
   },
-  "quickReply": {
-    "WhatINeed": "What I need to do?",
-    "HowToUse": "How to use this?",
-    "BeginTutorial": "Begin tutorial"
-  },
+  "quickReply": {},
   "dialogue": {
-    "Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!",
-    "NewSessionWithData": "Starting new sesssion with saved data"
+    "Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!"
   },
   "AppConfig": {
     "General_Settings": "General Settings",
@@ -302,7 +275,6 @@
     "failedToCreateTutorial": "Failed to create tutorial",
     "updatedTutorial": "Updated tutorial",
     "failedToUpdateTutorial": "Failed to update tutorial",
-    "uploadedTutorial": "Tutorial uploaded",
     "updatedUser": "User detail updated",
     "failedToUpdateUser": "Failed to update user",
     "failedToCreateAccount": "Failed to create account",

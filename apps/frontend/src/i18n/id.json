@@ -52,7 +52,6 @@
     "deleteSession": "Menghapus",
     "downloadAll": "Unduh semua sesi",
     "downloading": "Mengunduh",
-    "edit": "Sunting",
     "email": "E-mail",
     "example": "Kode contoh",
     "generateContent": "Hasilkan konten baru dari konten yang ada",
@@ -110,8 +109,7 @@
     "writeMetadata": "Tulis metadata Anda di sini"
   },
   "dialogue": {
-    "Introduction": "Hai! \nklik tombol balas cepat dan ketik pertanyaan Anda untuk memilih apa yang harus dilakukan!",
-    "NewSessionWithData": "Memulai sesi baru dengan data yang disimpan"
+    "Introduction": "Hai! \nklik tombol balas cepat dan ketik pertanyaan Anda untuk memilih apa yang harus dilakukan!"
   },
   "editor": {
     "dialogueTab": "Mengobrol",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Berlari",
-    "Stopped": "Berhenti",
-    "label": "Jalankan kode"
+    "Stopped": "Berhenti"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Teks",
     "websocketNotConnected": "Websocket tidak terhubung"
   },
-  "logbuffer": {
-    "tooManyLogs": "Terlalu banyak pesan. \nlog lama dihapus."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Login",
     "loginFailed": "Gagal masuk",
@@ -173,11 +168,8 @@
     "passwordDescription": "Ketik kata sandi Anda"
   },
   "navbar": {
-    "connected": "terhubung",
     "execSwitch": "Jalankan Kode",
-    "home": "Rumah",
     "joinCode": "Gabung Kode",
-    "leave": "meninggalkan",
     "noTutorial": "Tidak ada tutorial yang dipilih",
     "reconnecting": "terputus. \nmencoba menyambung kembali.",
     "reload": "Muat ulang",
@@ -186,11 +178,7 @@
   },
   "off": "Mati",
   "on": "Pada",
-  "quickReply": {
-    "BeginTutorial": "Mulailah tutorialnya",
-    "HowToUse": "Bagaimana cara menggunakan ini?",
-    "WhatINeed": "Apa yang perlu saya lakukan?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Tentang aplikasi ini",
     "aboutText": "Aplikasi ini merupakan perangkat lunak self-hosted yang menyediakan tutorial menggunakan LLM (AI).  \nAplikasi ini memungkinkan administrator situs untuk mengumpulkan data tentang penggunaan pengguna dan pernyataan yang dibuat dalam bentuk yang tidak dapat diidentifikasi secara pribadi, dan data yang dikumpulkan digunakan untuk mempelajari fungsi obrolan di aplikasi dan untuk meningkatkan perilaku AI.  \nUntuk informasi lebih lanjut mengenai penanganan data yang disediakan oleh aplikasi, silakan hubungi administrator situs web. \nKarena aplikasi diterbitkan sebagai sumber terbuka dan kode sumbernya mungkin telah dimodifikasi, disarankan untuk tidak menggunakan aplikasi tersebut jika administrator situs web tidak diketahui.  \nData informasi tentang sesi yang dibuat mungkin dihapus.",
@@ -203,13 +191,8 @@
     "deleteSession": "Hapus sesi ini",
     "findSavedSession": "Gunakan data yang disimpan",
     "hello": "Halo",
-    "joinsession": "bergabung dengan kode",
-    "noSavedSession": "Tidak ada sesi tersimpan yang ditemukan",
-    "or": "atau",
     "savedSession": "Sesi Tersimpan",
-    "serverDownMsg": "Tidak dapat menghubungkan server. \nPeriksa internet Anda atau tanyakan pada administrator sistem.",
     "serverOffline": "Server sedang offline - Aplikasi tidak tersedia",
-    "serverOnline": "On line",
     "sessionNotFoundMsg": "Sesi tidak ditemukan. \nKetikkan kode lain atau buat sesi baru untuk memulai.",
     "typecodeMsg": "Ketikkan kode Anda, atau buat ruang baru untuk memulai.",
     "welcome": "Belajar coding dengan AI",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "AI",
     "ask": "Tanyakan apa saja...",
-    "block": "Memblokir",
-    "blocksuggestions": "Blok yang disarankan",
-    "copiedToClipboard": "Disalin!",
     "errorLog": "Catatan Kesalahan",
     "findBlock": "Temukan blok",
-    "findBlockFromMenu": "Temukan dari menu",
     "log": "Catatan",
     "replying": "Membalas...",
     "server": "pelayan",
     "showingLatest": "Menampilkan pesan {{count}} terbaru",
     "you": "Anda",
     "audioMode": "Modus audio",
-    "transcribing": "menyalin...",
-    "transcriptionFailed": "Transkripsi tidak tersedia"
+    "transcribing": "menyalin..."
   },
   "tour": {
     "blocklyWorkspace": "Ruang kerja adalah tempat untuk membuat kode Anda.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Ubah mode Mudah ke {{status}}",
     "easyModeDescription": "Respons AI akan lebih mudah.",
     "start": "Mulai Tutorial",
-    "startTour": "Lihat apa yang bisa kamu lakukan.",
     "startTutorial": "Tutorial telah dipilih",
     "title": "Pilih Tutorial",
-    "tour": "Mulai Tur",
     "otherLanguage": "Tutorial dengan bahasa lain",
-    "otherLanguageDescription": "Karena tutorial ini diterjemahkan, mungkin tidak akurat.",
     "responseMode": "Modus Respons",
     "responseModeChanged": "Mode respons telah berubah menjadi {{mode}}.",
-    "responseModeDescription": "Alihkan mode respons pilihan ke audio atau teks",
-    "yourLanguage": "Tutorial untuk bahasa Anda"
+    "responseModeDescription": "Alihkan mode respons pilihan ke audio atau teks"
   },
   "vm": {
     "outOfMemory": "Mesin mencapai batas memori",
@@ -291,8 +265,7 @@
     "open": "Membuka",
     "save": "Menyimpan",
     "text": "Teks",
-    "upload": "Mengunggah",
-    "websocketNotConnected": "Websocket tidak terhubung"
+    "upload": "Mengunggah"
   },
   "toast": {
     "createdTutorial": "Tutorial dibuat",
@@ -311,7 +284,6 @@
     "updatedRole": "Peran diperbarui",
     "updatedTutorial": "Tutorial yang diperbarui",
     "updatedUser": "Detail pengguna diperbarui",
-    "uploadedTutorial": "Tutorial diunggah",
     "anErrorOccurred": "Terjadi Kesalahan",
     "configUpdated": "Konfigurasi diperbarui",
     "copiedToClipboard": "Disalin!",

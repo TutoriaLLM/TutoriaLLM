@@ -52,7 +52,6 @@
     "deleteSession": "Löschen",
     "downloadAll": "Laden Sie alle Sitzungen herunter",
     "downloading": "Herunterladen",
-    "edit": "Bearbeiten",
     "email": "E-Mail",
     "example": "Beispielcode",
     "generateContent": "Generieren Sie neue Inhalte aus vorhandenen Inhalten",
@@ -110,8 +109,7 @@
     "writeMetadata": "Schreiben Sie hier Ihre Metadaten"
   },
   "dialogue": {
-    "Introduction": "Hallo! \nKlicken Sie auf die Schaltfläche „Schnelle Antwort“ oder geben Sie Ihre Fragen ein, um auszuwählen, was Sie tun möchten!",
-    "NewSessionWithData": "Neue Sitzung mit gespeicherten Daten starten"
+    "Introduction": "Hallo! \nKlicken Sie auf die Schaltfläche „Schnelle Antwort“ oder geben Sie Ihre Fragen ein, um auszuwählen, was Sie tun möchten!"
   },
   "editor": {
     "dialogueTab": "Chatten",
@@ -123,8 +121,7 @@
   },
   "execSwitch": {
     "Running": "Läuft",
-    "Stopped": "Angehalten",
-    "label": "Code ausführen"
+    "Stopped": "Angehalten"
   },
   "extension": {
     "minecraft-core": {
@@ -139,9 +136,7 @@
     "text": "Text",
     "websocketNotConnected": "Websocket ist nicht verbunden"
   },
-  "logbuffer": {
-    "tooManyLogs": "Zu viele Nachrichten. \nalte Protokolle entfernt."
-  },
+  "logbuffer": {},
   "login": {
     "login": "Login",
     "loginFailed": "Fehler bei der Anmeldung",
@@ -173,11 +168,8 @@
     "passwordDescription": "Geben Sie Ihr Passwort ein"
   },
   "navbar": {
-    "connected": "verbunden",
     "execSwitch": "Code ausführen",
-    "home": "Heim",
     "joinCode": "Beitrittscode",
-    "leave": "verlassen",
     "noTutorial": "Es wurde kein Tutorial ausgewählt",
     "reconnecting": "getrennt. \nversucht, die Verbindung wiederherzustellen.",
     "reload": "Neu laden",
@@ -186,11 +178,7 @@
   },
   "off": "Aus",
   "on": "An",
-  "quickReply": {
-    "BeginTutorial": "Beginnen Sie mit dem Tutorial",
-    "HowToUse": "Wie benutzt man das?",
-    "WhatINeed": "Was muss ich tun?"
-  },
+  "quickReply": {},
   "session": {
     "about": "Über diese App",
     "aboutText": "Bei dieser Anwendung handelt es sich um eine selbst gehostete Software, die Tutorials mit LLM (KI) bereitstellt.  \nDie Anwendung ermöglicht es dem Site-Administrator, Daten über die Benutzernutzung und gemachte Aussagen in einer nicht personenbezogenen Form zu sammeln. Die gesammelten Daten werden zum Erlernen der Chat-Funktion in der App und zur Verbesserung des Verhaltens der KI verwendet.  \nFür weitere Informationen zum Umgang mit den von der App bereitgestellten Daten wenden Sie sich bitte an den Website-Administrator. \nDa die Anwendung als Open Source veröffentlicht wird und der Quellcode möglicherweise geändert wurde, wird empfohlen, die Anwendung nicht zu verwenden, wenn der Website-Administrator unbekannt ist.  \nDaten zu Informationen zu erstellten Sitzungen können gelöscht werden.",
@@ -203,13 +191,8 @@
     "deleteSession": "Diese Sitzung löschen",
     "findSavedSession": "Gespeicherte Daten nutzen",
     "hello": "Hallo",
-    "joinsession": "Mit Code beitreten",
-    "noSavedSession": "Keine gespeicherte Sitzung gefunden",
-    "or": "oder",
     "savedSession": "Gespeicherte Sitzung",
-    "serverDownMsg": "Es kann keine Verbindung zum Server hergestellt werden. \nÜberprüfen Sie Ihre Internetverbindung oder fragen Sie den Systemadministrator.",
     "serverOffline": "Server ist offline – App ist nicht verfügbar",
-    "serverOnline": "Online",
     "sessionNotFoundMsg": "Sitzung nicht gefunden. \nGeben Sie einen anderen Code ein oder erstellen Sie eine neue Sitzung, um zu starten.",
     "typecodeMsg": "Geben Sie Ihren Code ein oder erstellen Sie einen neuen Raum, um zu beginnen.",
     "welcome": "Studieren Sie Codierung mit KI",
@@ -230,20 +213,15 @@
   "textbubble": {
     "ai": "KI",
     "ask": "Fragen Sie alles...",
-    "block": "Block",
-    "blocksuggestions": "Vorgeschlagener Block",
-    "copiedToClipboard": "Kopiert!",
     "errorLog": "Fehlerprotokoll",
     "findBlock": "Block finden",
-    "findBlockFromMenu": "Im Menü suchen",
     "log": "Protokoll",
     "replying": "Antworten...",
     "server": "Server",
     "showingLatest": "Die neuesten {{count}} Nachrichten werden angezeigt",
     "you": "Du",
     "audioMode": "Audiomodus",
-    "transcribing": "transkribieren...",
-    "transcriptionFailed": "Die Transkription ist nicht verfügbar"
+    "transcribing": "transkribieren..."
   },
   "tour": {
     "blocklyWorkspace": "Im Arbeitsbereich können Sie Ihren Code erstellen.",
@@ -265,16 +243,12 @@
     "easyModeChanged": "Schalten Sie den Easy-Modus auf {{status}}",
     "easyModeDescription": "Die Reaktion der KI wird einfacher sein.",
     "start": "Starten Sie das Tutorial",
-    "startTour": "Schauen Sie, was Sie tun können.",
     "startTutorial": "Tutorial wurde ausgewählt",
     "title": "Wählen Sie „Tutorial“.",
-    "tour": "Tour starten",
     "otherLanguage": "Tutorial in einer anderen Sprache",
-    "otherLanguageDescription": "Da diese Tutorials übersetzt werden, kann es sein, dass sie ungenau sind.",
     "responseMode": "Reaktionsmodus",
     "responseModeChanged": "Der Antwortmodus wurde in {{mode}} geändert.",
-    "responseModeDescription": "Schalten Sie den bevorzugten Antwortmodus auf Audio oder Text um",
-    "yourLanguage": "Tutorial für Ihre Sprache"
+    "responseModeDescription": "Schalten Sie den bevorzugten Antwortmodus auf Audio oder Text um"
   },
   "vm": {
     "outOfMemory": "Die Maschine hat die Speichergrenze erreicht",
@@ -291,8 +265,7 @@
     "open": "Offen",
     "save": "Speichern",
     "text": "Text",
-    "upload": "Hochladen",
-    "websocketNotConnected": "Websocket ist nicht verbunden"
+    "upload": "Hochladen"
   },
   "toast": {
     "createdTutorial": "Tutorial erstellt",
@@ -311,7 +284,6 @@
     "updatedRole": "Rolle aktualisiert",
     "updatedTutorial": "Aktualisiertes Tutorial",
     "updatedUser": "Benutzerdetails aktualisiert",
-    "uploadedTutorial": "Anleitung hochgeladen",
     "anErrorOccurred": "Es ist ein Fehler aufgetreten",
     "configUpdated": "Konfiguration aktualisiert",
     "copiedToClipboard": "Kopiert!",

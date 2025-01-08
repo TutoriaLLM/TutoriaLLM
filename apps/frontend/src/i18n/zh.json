@@ -5,8 +5,7 @@
   },
   "execSwitch": {
     "Running": "跑步",
-    "Stopped": "已停止",
-    "label": "运行代码"
+    "Stopped": "已停止"
   },
   "login": {
     "welcome": "登录以继续",
@@ -39,10 +38,7 @@
     "passwordDescription": "输入您的密码"
   },
   "navbar": {
-    "connected": "连接的",
-    "leave": "离开",
     "reconnecting": "已断开连接。\n尝试重新连接。",
-    "home": "家",
     "signout": "登出",
     "joinCode": "加入代码",
     "noTutorial": "没有选择教程",
@@ -55,8 +51,6 @@
     "createSession": "创建新房间",
     "creating": "创造...",
     "hello": "你好",
-    "joinsession": "使用代码加入",
-    "or": "或者",
     "sessionNotFoundMsg": "未找到会话。\n输入另一个代码或创建一个新会话来启动。",
     "typecodeMsg": "输入您的代码，或创建新房间来开始。",
     "welcome": "使用人工智能学习编码",
@@ -67,11 +61,8 @@
     "debuginfo": "调试信息",
     "deleteSession": "删除此会话",
     "findSavedSession": "使用保存的数据",
-    "noSavedSession": "找不到已保存的会话",
     "savedSession": "已保存的会话",
-    "serverDownMsg": "无法连接服务器。\n检查您的互联网或询问系统管理员。",
     "serverOffline": "服务器离线 - 应用程序不可用",
-    "serverOnline": "在线的",
     "deleteStorage": "删除所有存储",
     "failedCreate": "创建会话失败",
     "installPWA": "安装渐进式Web应用",
@@ -89,20 +80,15 @@
   "textbubble": {
     "ai": "人工智能",
     "ask": "随便问...",
-    "block": "堵塞",
     "findBlock": "寻找区块",
-    "findBlockFromMenu": "从菜单中查找",
     "log": "日志",
     "replying": "正在回复...",
     "server": "服务器",
     "you": "你",
-    "blocksuggestions": "建议区块",
-    "copiedToClipboard": "复制了！",
     "errorLog": "错误日志",
     "showingLatest": "显示最新的 {{count}} 条消息",
     "audioMode": "音频模式",
-    "transcribing": "正在抄写...",
-    "transcriptionFailed": "转录不可用"
+    "transcribing": "正在抄写..."
   },
   "tutorial": {
     "description": "选择您想学习的内容",
@@ -112,14 +98,10 @@
     "easyMode": "简易模式",
     "easyModeChanged": "将简单模式设为 {{status}}",
     "easyModeDescription": "AI的反应会更容易。",
-    "startTour": "看看你能做什么。",
-    "tour": "开始游览",
     "otherLanguage": "其他语言的教程",
-    "otherLanguageDescription": "由于这些教程是经过翻译提供的，因此可能不准确。",
     "responseMode": "响应模式",
     "responseModeChanged": "响应模式已更改为{{mode}}。",
-    "responseModeDescription": "将首选响应模式切换为音频或文本",
-    "yourLanguage": "适合您的语言的教程"
+    "responseModeDescription": "将首选响应模式切换为音频或文本"
   },
   "AppConfig": {
     "AI_Settings": "人工智能设置",
@@ -174,7 +156,6 @@
     "deleteSession": "删除",
     "downloadAll": "下载所有会话",
     "downloading": "正在下载",
-    "edit": "编辑",
     "email": "电子邮件",
     "example": "示例代码",
     "generateContent": "从现有内容生成新内容",
@@ -232,8 +213,7 @@
     "writeMetadata": "在这里写下您的元数据"
   },
   "dialogue": {
-    "Introduction": "你好！\n单击问题类型的快速回复按钮来选择要做什么！",
-    "NewSessionWithData": "使用保存的数据开始新会话"
+    "Introduction": "你好！\n单击问题类型的快速回复按钮来选择要做什么！"
   },
   "editor": {
     "dialogueTab": "聊天",
@@ -252,16 +232,10 @@
     "text": "文本",
     "websocketNotConnected": "Websocket 未连接"
   },
-  "logbuffer": {
-    "tooManyLogs": "消息太多。\n旧日志已删除。"
-  },
+  "logbuffer": {},
   "off": "离开",
   "on": "在",
-  "quickReply": {
-    "BeginTutorial": "开始教程",
-    "HowToUse": "如何使用这个？",
-    "WhatINeed": "我需要做什么？"
-  },
+  "quickReply": {},
   "tour": {
     "blocklyWorkspace": "工作区是编写代码的地方。",
     "dialogue": "您可以与 AI 联系以获得任何帮助，或者通过教程向 AI 学习。",
@@ -291,8 +265,7 @@
     "open": "打开",
     "save": "节省",
     "text": "文本",
-    "upload": "上传",
-    "websocketNotConnected": "Websocket 未连接"
+    "upload": "上传"
   },
   "toast": {
     "createdTutorial": "教程已创建",
@@ -311,7 +284,6 @@
     "updatedRole": "角色更新",
     "updatedTutorial": "更新了教程",
     "updatedUser": "用户详细信息已更新",
-    "uploadedTutorial": "教程已上传",
     "anErrorOccurred": "发生错误",
     "configUpdated": "配置已更新",
     "copiedToClipboard": "复制了！",
