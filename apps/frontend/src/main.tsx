@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "@/i18n/client_i18nConfig";
+import "@/i18n/i18nConfig";
 import "@/styles/index.css";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // Set up a Router instance
