@@ -22,7 +22,8 @@
     "Sentry_DSN": "Penjaga DSN (Biarkan kosong untuk menonaktifkan)",
     "replaysOnErrorSampleRate": "Tingkat Sampel untuk Pemutaran Ulang saat Terjadi Kesalahan",
     "replaysSessionSampleRate": "Sample Rate untuk Pemutaran Ulang pada Sesi",
-    "tracesSampleRate": "Rasio Sampel untuk Jejak"
+    "tracesSampleRate": "Rasio Sampel untuk Jejak",
+    "Chat_Audio": "Modalitas audio obrolan"
   },
   "admin": {
     "loading": "Memuat",
@@ -34,7 +35,79 @@
     "sessionSummary": "Ringkasan sesi",
     "showHeatmap": "Tampilkan Peta Panas",
     "summary": "Ringkasan",
-    "workspace": "Ruang kerja"
+    "workspace": "Ruang kerja",
+    "actions": "Tindakan",
+    "addNode": "Tambahkan simpul",
+    "admin": "Admin",
+    "advanced": "Canggih",
+    "autoUpdate": "Pembaruan otomatis",
+    "basic": "Dasar",
+    "content": "Isi",
+    "createExample": "Buat kode contoh",
+    "createTutorial": "Buat tutorial baru",
+    "createUser": "Buat pengguna baru",
+    "createdTime": "Waktu yang diciptakan",
+    "currentNumOfBlocks": "Jumlah blok saat ini",
+    "dashboard": "Dasbor Admin",
+    "deleteSession": "Menghapus",
+    "downloadAll": "Unduh semua sesi",
+    "downloading": "Mengunduh",
+    "edit": "Sunting",
+    "email": "E-mail",
+    "example": "Kode contoh",
+    "generateContent": "Hasilkan konten baru dari konten yang ada",
+    "generateMarkdown": "Hasilkan penurunan harga",
+    "generateMetadata": "Hasilkan metadata dari konten",
+    "generatedMd": "Penurunan harga yang dihasilkan",
+    "generatedMdComparison": "Perbandingan",
+    "generatedMetaData": "Metadata yang dihasilkan",
+    "generatingMarkdown": "Menghasilkan...",
+    "lastUpdatedTime": "Waktu terakhir diperbarui",
+    "metadata": "Metadata",
+    "metadataGenerator": "Pembuat metadata",
+    "noDate": "Tidak ada tanggal",
+    "noEmail": "Tidak ada Email",
+    "noName": "Tidak ada nama",
+    "noUsername": "Tidak ada nama pengguna",
+    "notSelected": "tidak dipilih",
+    "originalMd": "Penurunan harga asli",
+    "originalMetaData": "Metadata asli",
+    "password": "Kata sandi",
+    "refineContent": "Sempurnakan konten",
+    "refineMetadata": "Sempurnakan metadata",
+    "role": "Peran",
+    "selectedTutorial": "Tutorial yang dipilih",
+    "sessionAnalyticsDialog": "Dialog analisis sesi",
+    "sessionId": "ID sesi",
+    "sessionNotFound": "Sesi tidak ditemukan",
+    "sessions": "Sesi",
+    "sessionsDescription": "Pantau sesi pengguna",
+    "sessionsForUser": "Sesi untuk pengguna {{user}}",
+    "settings": "Pengaturan",
+    "stats": "Statistik",
+    "title": "Admin",
+    "totalCodeExecutions": "Jumlah total eksekusi kode",
+    "totalConnectingTime": "Total waktu koneksi",
+    "totalInvokedLLM": "Total LLM yang dipanggil",
+    "totalUserMessages": "Jumlah total pesan pengguna",
+    "training": "pelatihan AI",
+    "trainingDescription": "Latih tutor AI",
+    "tutorialDescription": "Deskripsi tutorial",
+    "tutorialId": "ID tutorial",
+    "tutorialLanguage": "Bahasa",
+    "tutorialSelectCount": "Pilih hitungan",
+    "tutorialTags": "Tag",
+    "tutorialTitle": "Judul tutorial",
+    "tutorials": "Tutorial",
+    "tutorialsDescription": "Periksa tutorial yang dibuat",
+    "uploader": "Pengunggah",
+    "uploaderDescription": "Unggah tutorialnya",
+    "user": "Pengguna",
+    "username": "Nama belakang",
+    "welcome": "Selamat datang di TutorialLLM",
+    "workspacePreview": "Pratinjau ruang kerja",
+    "writeContent": "Tulis konten Anda di sini",
+    "writeMetadata": "Tulis metadata Anda di sini"
   },
   "dialogue": {
     "Introduction": "Hai! \nklik tombol balas cepat dan ketik pertanyaan Anda untuk memilih apa yang harus dilakukan!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Hubungkan Minecraft Anda dari **/connect {{host}}/vm/{{userCode}}/mc**. \nCoba lagi jika koneksi gagal. \nMatikan permintaan enkripsi."
+      "connectInfo": "Hubungkan Minecraft Anda dari **/connect {{host}}/vm/{{userCode}}/mc**. \nCoba lagi jika koneksi gagal. \nMatikan permintaan enkripsi.",
+      "noConnection": "Minecraft tidak terhubung."
     }
   },
   "generic": {
-    "connected": "Terhubung"
+    "connected": "Terhubung",
+    "audio": "Audio",
+    "open": "Membuka",
+    "text": "Teks",
+    "websocketNotConnected": "Websocket tidak terhubung"
   },
   "logbuffer": {
     "tooManyLogs": "Terlalu banyak pesan. \nlog lama dihapus."
@@ -70,7 +148,26 @@
     "password": "Kata sandi",
     "title": "Login",
     "username": "Nama belakang",
-    "welcome": "Masuk untuk melanjutkan"
+    "welcome": "Masuk untuk melanjutkan",
+    "confirmPassword": "Konfirmasikan kata sandi",
+    "continueAsGuest": "Lanjutkan sebagai Tamu",
+    "createAccount": "Buat akun",
+    "createAccountDescription": "Buat akun untuk menyimpan data Anda.",
+    "deleteAccount": "Hapus akun",
+    "displayName": "Nama tampilan",
+    "displayNameDescription": "Ini adalah nama tampilan Anda.",
+    "edit": "Sunting akun",
+    "editDescription": "Edit informasi Anda.",
+    "editTitle": "Sunting Akun",
+    "email": "E-mail",
+    "guest": "Pengguna tamu",
+    "image": "Gambar",
+    "newPassword": "Kata sandi baru",
+    "oldPassword": "Kata sandi lama",
+    "signout": "keluar",
+    "update": "Memperbarui",
+    "userName": "Nama belakang",
+    "userNameDescription": "Ini adalah nama pengguna Anda untuk login."
   },
   "navbar": {
     "connected": "terhubung",
@@ -112,7 +209,11 @@
     "serverOnline": "On line",
     "sessionNotFoundMsg": "Sesi tidak ditemukan. \nKetikkan kode lain atau buat sesi baru untuk memulai.",
     "typecodeMsg": "Ketikkan kode Anda, atau buat ruang baru untuk memulai.",
-    "welcome": "Belajar coding dengan AI"
+    "welcome": "Belajar coding dengan AI",
+    "deleteStorage": "Hapus semua penyimpanan",
+    "failedCreate": "Gagal membuat sesi",
+    "installPWA": "Instal PWA",
+    "savedSessionDescription": "Daftar sesi yang dapat Anda lanjutkan"
   },
   "sidebar": {
     "dashboard": "Dasbor",
@@ -136,7 +237,10 @@
     "replying": "Membalas...",
     "server": "pelayan",
     "showingLatest": "Menampilkan pesan {{count}} terbaru",
-    "you": "Anda"
+    "you": "Anda",
+    "audioMode": "Modus audio",
+    "transcribing": "menyalin...",
+    "transcriptionFailed": "Transkripsi tidak tersedia"
   },
   "tour": {
     "blocklyWorkspace": "Ruang kerja adalah tempat untuk membuat kode Anda.",
@@ -149,7 +253,8 @@
     "tabs": "Anda dapat berpindah tab untuk berpindah antara obrolan dan ruang kerja.",
     "tourAgain": "Anda dapat mengikuti tur ini lagi dengan mengklik tombol ini.",
     "tutorialSelector": "Anda dapat memilih tutorial apa pun yang ingin Anda buat.",
-    "welcome": "Selamat bergabung! \nTur ini memberikan gambaran singkat tentang cara menggunakan aplikasi ini."
+    "welcome": "Selamat bergabung! \nTur ini memberikan gambaran singkat tentang cara menggunakan aplikasi ini.",
+    "switchMode": "Anda dapat mengubah pengaturan dari sini"
   },
   "tutorial": {
     "description": "Pilih apa yang ingin Anda pelajari",
@@ -160,11 +265,49 @@
     "startTour": "Lihat apa yang bisa kamu lakukan.",
     "startTutorial": "Tutorial telah dipilih",
     "title": "Pilih Tutorial",
-    "tour": "Mulai Tur"
+    "tour": "Mulai Tur",
+    "otherLanguage": "Tutorial dengan bahasa lain",
+    "otherLanguageDescription": "Karena tutorial ini diterjemahkan, mungkin tidak akurat.",
+    "responseMode": "Modus Respons",
+    "responseModeChanged": "Mode respons telah berubah menjadi {{mode}}.",
+    "responseModeDescription": "Alihkan mode respons pilihan ke audio atau teks",
+    "yourLanguage": "Tutorial untuk bahasa Anda"
   },
   "vm": {
     "outOfMemory": "Mesin mencapai batas memori",
     "updatedScriptError": "Kesalahan saat menjalankan skrip yang diperbarui: {{error}}",
     "updatedScriptSuccess": "Skrip yang diperbarui berhasil dijalankan."
+  },
+  "general": {
+    "audio": "Audio",
+    "back": "Kembali",
+    "connected": "Terhubung",
+    "delete": "Menghapus",
+    "download": "Unduh",
+    "edit": "Sunting",
+    "open": "Membuka",
+    "save": "Menyimpan",
+    "text": "Teks",
+    "upload": "Mengunggah",
+    "websocketNotConnected": "Websocket tidak terhubung"
+  },
+  "toast": {
+    "createdTutorial": "Tutorial dibuat",
+    "deletedTutorial": "Tutorialnya dihapus",
+    "deletedUser": "Pengguna dihapus",
+    "failedToCreateTutorial": "Gagal membuat tutorial",
+    "failedToDeleteTutorial": "Gagal menghapus tutorial",
+    "failedToDeleteUser": "Gagal menghapus pengguna",
+    "failedToUpdateInfo": "Gagal memperbarui informasi pengguna.",
+    "failedToUpdatePassword": "Gagal memperbarui kata sandi.",
+    "failedToUpdateRole": "Gagal memperbarui peran",
+    "failedToUpdateTutorial": "Gagal memperbarui tutorial",
+    "failedToUpdateUser": "Gagal memperbarui pengguna",
+    "updatedInfo": "Informasi pengguna diperbarui.",
+    "updatedPassword": "Kata sandi diperbarui.",
+    "updatedRole": "Peran diperbarui",
+    "updatedTutorial": "Tutorial yang diperbarui",
+    "updatedUser": "Detail pengguna diperbarui",
+    "uploadedTutorial": "Tutorial diunggah"
   }
 }

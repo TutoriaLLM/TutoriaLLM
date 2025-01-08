@@ -16,9 +16,11 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/toast";
+import { useTranslation } from "react-i18next";
 
 export function EditPassword() {
 	const { toast } = useToast();
+	const { t } = useTranslation();
 
 	const form = useForm<UpdatePasswordSchemaType>({
 		resolver: zodResolver(updatePasswordSchema),
@@ -37,11 +39,11 @@ export function EditPassword() {
 		});
 		if (result.error) {
 			toast({
-				description: "Failed to update password",
+				description: t("toast.failedToUpdatePassword"),
 			});
 		} else {
 			toast({
-				description: "User password updated",
+				description: t("toast.updatedPassword"),
 			});
 		}
 	};
@@ -58,7 +60,7 @@ export function EditPassword() {
 						render={({ field }) => (
 							<FormItem>
 								<div className="flex gap-2 items-center">
-									<FormLabel>Old password</FormLabel>
+									<FormLabel>{t("login.oldPassword")}</FormLabel>
 									<FormMessage />
 								</div>
 								<FormControl>
@@ -73,7 +75,7 @@ export function EditPassword() {
 						render={({ field }) => (
 							<FormItem>
 								<div className="flex gap-2 items-center">
-									<FormLabel>New password</FormLabel>
+									<FormLabel>{t("login.newPassword")}</FormLabel>
 									<FormMessage />
 								</div>
 								<FormControl>
@@ -88,7 +90,7 @@ export function EditPassword() {
 						render={({ field }) => (
 							<FormItem>
 								<div className="flex gap-2 items-center">
-									<FormLabel>Confirm password</FormLabel>
+									<FormLabel>{t("login.confirmPassword")}</FormLabel>
 									<FormMessage />
 								</div>
 								<FormControl>
@@ -98,7 +100,7 @@ export function EditPassword() {
 						)}
 					/>
 					<Button type="submit" className="max-w-sm">
-						Update password
+						{t("login.update")}
 					</Button>
 				</div>
 			</form>

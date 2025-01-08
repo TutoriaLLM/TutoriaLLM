@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN(Devre dışı bırakmak için boş bırakın)",
     "replaysOnErrorSampleRate": "Hata Durumunda Tekrar Oynatmalar için Örnek Hızı",
     "replaysSessionSampleRate": "Oturumdaki Tekrarlar için Örnek Hızı",
-    "tracesSampleRate": "İzler için Örnek Hızı"
+    "tracesSampleRate": "İzler için Örnek Hızı",
+    "Chat_Audio": "Sohbet ses yöntemi"
   },
   "admin": {
     "loading": "Yükleniyor",
@@ -34,7 +35,79 @@
     "sessionSummary": "Oturum özeti",
     "showHeatmap": "Isı Haritasını Göster",
     "summary": "Özet",
-    "workspace": "Çalışma alanı"
+    "workspace": "Çalışma alanı",
+    "actions": "Eylemler",
+    "addNode": "Düğüm ekle",
+    "admin": "Yönetici",
+    "advanced": "Gelişmiş",
+    "autoUpdate": "Otomatik güncelleme",
+    "basic": "Temel",
+    "content": "İçerik",
+    "createExample": "Örnek kod oluştur",
+    "createTutorial": "Yeni eğitim oluştur",
+    "createUser": "Yeni kullanıcı oluştur",
+    "createdTime": "Oluşturulma zamanı",
+    "currentNumOfBlocks": "Mevcut blok sayısı",
+    "dashboard": "Yönetici kontrol paneli",
+    "deleteSession": "Silmek",
+    "downloadAll": "Tüm oturumları indir",
+    "downloading": "İndiriliyor",
+    "edit": "Düzenlemek",
+    "email": "E-posta",
+    "example": "Örnek kod",
+    "generateContent": "Mevcut içerikten yeni içerik oluşturun",
+    "generateMarkdown": "İndirim oluştur",
+    "generateMetadata": "İçerikten meta veriler oluşturun",
+    "generatedMd": "Fiyat indirimi oluşturuldu",
+    "generatedMdComparison": "Karşılaştırmak",
+    "generatedMetaData": "Oluşturulan meta veriler",
+    "generatingMarkdown": "Oluşturuluyor...",
+    "lastUpdatedTime": "Son güncelleme zamanı",
+    "metadata": "Meta veriler",
+    "metadataGenerator": "Meta veri oluşturucu",
+    "noDate": "Tarih yok",
+    "noEmail": "E-posta Yok",
+    "noName": "İsim yok",
+    "noUsername": "Kullanıcı adı yok",
+    "notSelected": "seçilmedi",
+    "originalMd": "Orijinal indirim",
+    "originalMetaData": "Orijinal meta veriler",
+    "password": "Şifre",
+    "refineContent": "İçeriği hassaslaştır",
+    "refineMetadata": "Meta verileri hassaslaştırın",
+    "role": "Rol",
+    "selectedTutorial": "Seçilen eğitim",
+    "sessionAnalyticsDialog": "Oturum analizi iletişim kutusu",
+    "sessionId": "Oturum kimliği",
+    "sessionNotFound": "Oturum bulunamadı",
+    "sessions": "Oturumlar",
+    "sessionsDescription": "Kullanıcı oturumunu izleyin",
+    "sessionsForUser": "{{user}} kullanıcısı için oturumlar",
+    "settings": "Ayarlar",
+    "stats": "İstatistikler",
+    "title": "Yönetici",
+    "totalCodeExecutions": "Toplam kod yürütme sayısı",
+    "totalConnectingTime": "Toplam bağlantı süresi",
+    "totalInvokedLLM": "Toplam çağrılan LLM",
+    "totalUserMessages": "Toplam kullanıcı mesajı sayısı",
+    "training": "Yapay zeka eğitimi",
+    "trainingDescription": "Yapay zeka eğitmenini eğitin",
+    "tutorialDescription": "Öğretici açıklaması",
+    "tutorialId": "Eğitim kimliği",
+    "tutorialLanguage": "Dil",
+    "tutorialSelectCount": "Sayımı seç",
+    "tutorialTags": "Etiketler",
+    "tutorialTitle": "Eğitim başlığı",
+    "tutorials": "Öğreticiler",
+    "tutorialsDescription": "Oluşturulan eğiticileri kontrol edin",
+    "uploader": "Yükleyici",
+    "uploaderDescription": "Eğiticiyi yükle",
+    "user": "Kullanıcı",
+    "username": "Kullanıcı adı",
+    "welcome": "TutoriaLLM'e hoş geldiniz",
+    "workspacePreview": "Çalışma alanı önizlemesi",
+    "writeContent": "İçeriğinizi buraya yazın",
+    "writeMetadata": "Meta verilerinizi buraya yazın"
   },
   "dialogue": {
     "Introduction": "MERHABA! \nNe yapacağınızı seçmek için sorularınızı yazın hızlı yanıt düğmesini tıklayın!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Minecraft'ınızı **/connect {{host}}/vm/{{userCode}}/mc** adresinden bağlayın. \nBağlantı başarısız olursa tekrar deneyin. \nŞifreleme isteğini kapatın."
+      "connectInfo": "Minecraft'ınızı **/connect {{host}}/vm/{{userCode}}/mc** adresinden bağlayın. \nBağlantı başarısız olursa tekrar deneyin. \nŞifreleme isteğini kapatın.",
+      "noConnection": "Minecraft bağlı değil."
     }
   },
   "generic": {
-    "connected": "Bağlı"
+    "connected": "Bağlı",
+    "audio": "Ses",
+    "open": "Açık",
+    "text": "Metin",
+    "websocketNotConnected": "Websocket bağlı değil"
   },
   "logbuffer": {
     "tooManyLogs": "Çok fazla mesaj var. \neski günlükler kaldırıldı."
@@ -70,7 +148,26 @@
     "password": "Şifre",
     "title": "Giriş yapmak",
     "username": "Kullanıcı adı",
-    "welcome": "Devam etmek için giriş yapın"
+    "welcome": "Devam etmek için giriş yapın",
+    "confirmPassword": "Şifreyi onayla",
+    "continueAsGuest": "Misafir olarak devam et",
+    "createAccount": "Hesap oluşturmak",
+    "createAccountDescription": "Verilerinizi kaydetmek için hesap oluşturun.",
+    "deleteAccount": "Hesabı sil",
+    "displayName": "Ekran adı",
+    "displayNameDescription": "Bu sizin görünen adınızdır.",
+    "edit": "Hesabı düzenle",
+    "editDescription": "Bilgilerinizi düzenleyin.",
+    "editTitle": "Hesabı Düzenle",
+    "email": "E-posta",
+    "guest": "Konuk kullanıcı",
+    "image": "Resim",
+    "newPassword": "Yeni Şifre",
+    "oldPassword": "Eski Şifre",
+    "signout": "oturumu Kapat",
+    "update": "Güncelleme",
+    "userName": "Kullanıcı adı",
+    "userNameDescription": "Bu, giriş yapmak için kullandığınız kullanıcı adınızdır."
   },
   "navbar": {
     "connected": "bağlı",
@@ -112,7 +209,11 @@
     "serverOnline": "Çevrimiçi",
     "sessionNotFoundMsg": "Oturum bulunamadı. \nBaşka bir kod yazın veya başlamak için yeni bir oturum oluşturun.",
     "typecodeMsg": "Kodunuzu yazın veya başlamak için yeni bir oda oluşturun.",
-    "welcome": "Yapay zeka ile kodlama eğitimi alın"
+    "welcome": "Yapay zeka ile kodlama eğitimi alın",
+    "deleteStorage": "Tüm depolama alanını sil",
+    "failedCreate": "Oturum oluşturulamadı",
+    "installPWA": "PWA'yı yükleyin",
+    "savedSessionDescription": "Devam edebileceğiniz oturumların listesi"
   },
   "sidebar": {
     "dashboard": "Kontrol Paneli",
@@ -136,7 +237,10 @@
     "replying": "Yanıtlanıyor...",
     "server": "Sunucu",
     "showingLatest": "En son {{count}} mesaj gösteriliyor",
-    "you": "Sen"
+    "you": "Sen",
+    "audioMode": "Ses modu",
+    "transcribing": "yazıya aktarılıyor...",
+    "transcriptionFailed": "Transkripsiyon kullanılamıyor"
   },
   "tour": {
     "blocklyWorkspace": "Çalışma alanı kodunuzu oluşturabileceğiniz yerdir.",
@@ -149,7 +253,8 @@
     "tabs": "Sohbet ve çalışma alanı arasında geçiş yapmak için sekmeleri değiştirebilirsiniz.",
     "tourAgain": "Bu butona tıklayarak bu tura tekrar katılabilirsiniz.",
     "tutorialSelector": "Yapmak istediğiniz herhangi bir öğreticiyi seçebilirsiniz.",
-    "welcome": "Gemiye hoş geldiniz! \nBu tur, bu uygulamanın nasıl kullanılacağına dair kısa bir genel bakış sağlar."
+    "welcome": "Gemiye hoş geldiniz! \nBu tur, bu uygulamanın nasıl kullanılacağına dair kısa bir genel bakış sağlar.",
+    "switchMode": "Ayarları buradan değiştirebilirsiniz"
   },
   "tutorial": {
     "description": "Ne öğrenmek istediğinizi seçin",
@@ -160,11 +265,49 @@
     "startTour": "Ne yapabileceğine bir bak.",
     "startTutorial": "Öğretici seçildi",
     "title": "Eğiticiyi Seç",
-    "tour": "Turu Başlat"
+    "tour": "Turu Başlat",
+    "otherLanguage": "Başka bir dile göre eğitim",
+    "otherLanguageDescription": "Bu eğitimlerin sağlanması için çevrilmesi nedeniyle hatalı olabilir.",
+    "responseMode": "Yanıt Modu",
+    "responseModeChanged": "Yanıt modu {{mode}} olarak değiştirildi.",
+    "responseModeDescription": "Tercih edilen yanıt modunu ses veya metin olarak değiştirin",
+    "yourLanguage": "Diliniz için öğretici"
   },
   "vm": {
     "outOfMemory": "Makine bellek sınırına ulaştı",
     "updatedScriptError": "Güncellenen komut dosyası yürütülürken hata oluştu: {{error}}",
     "updatedScriptSuccess": "Güncellenen komut dosyası başarıyla yürütüldü."
+  },
+  "general": {
+    "audio": "Ses",
+    "back": "Geri",
+    "connected": "Bağlı",
+    "delete": "Silmek",
+    "download": "İndirmek",
+    "edit": "Düzenlemek",
+    "open": "Açık",
+    "save": "Kaydetmek",
+    "text": "Metin",
+    "upload": "Yüklemek",
+    "websocketNotConnected": "Websocket bağlı değil"
+  },
+  "toast": {
+    "createdTutorial": "Eğitici oluşturuldu",
+    "deletedTutorial": "Eğitici silindi",
+    "deletedUser": "Kullanıcı silindi",
+    "failedToCreateTutorial": "Eğitici oluşturulamadı",
+    "failedToDeleteTutorial": "Eğitici silinemedi",
+    "failedToDeleteUser": "Kullanıcı silinemedi",
+    "failedToUpdateInfo": "Kullanıcı bilgileri güncellenemedi.",
+    "failedToUpdatePassword": "Şifre güncellenemedi.",
+    "failedToUpdateRole": "Rol güncellenemedi",
+    "failedToUpdateTutorial": "Eğitici güncellenemedi",
+    "failedToUpdateUser": "Kullanıcı güncellenemedi",
+    "updatedInfo": "Kullanıcı bilgileri güncellendi.",
+    "updatedPassword": "Şifre güncellendi.",
+    "updatedRole": "Rol güncellendi",
+    "updatedTutorial": "Güncellenmiş eğitim",
+    "updatedUser": "Kullanıcı ayrıntısı güncellendi",
+    "uploadedTutorial": "Eğitici yüklendi"
   }
 }

@@ -10,21 +10,23 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 export function CreateFromAnonymous() {
+	const { t } = useTranslation();
 	return (
 		<div>
 			<Dialog>
 				<DialogTrigger asChild={true}>
 					<Button size="sm">
 						<Plus className="w-5 h-5" />
-						Create Account
+						{t("login.createAccount")}
 					</Button>
 				</DialogTrigger>
 				<DialogContent>
 					<DialogHeader>
-						<DialogTitle>Create Account</DialogTitle>
+						<DialogTitle>{t("login.createAccount")}</DialogTitle>
 						<DialogDescription>
-							Create account to save your data.
+							{t("login.createAccountDescription")}
 						</DialogDescription>
 					</DialogHeader>
 

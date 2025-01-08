@@ -19,10 +19,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
 import { useToast } from "@/hooks/toast";
 import { useRouter } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 export function Editinfo(props: { session: AuthSession }) {
 	const { session } = props;
 	const { toast } = useToast();
+	const { t } = useTranslation();
 	const router = useRouter();
 	const form = useForm<UpdateUserSchemaType>({
 		resolver: zodResolver(updateUserSchema),
@@ -40,11 +42,11 @@ export function Editinfo(props: { session: AuthSession }) {
 		});
 		if (result.error) {
 			toast({
-				description: "Failed to update password",
+				description: t("toast.failedToUpdateInfo"),
 			});
 		} else {
 			toast({
-				description: "User info updated",
+				description: t("toast.updatedInfo"),
 			});
 		}
 		router.invalidate();
@@ -77,13 +79,15 @@ export function Editinfo(props: { session: AuthSession }) {
 							render={({ field }) => (
 								<FormItem>
 									<div className="flex gap-2 items-center">
-										<FormLabel>Display Name</FormLabel>
+										<FormLabel>{t("login.displayName")}</FormLabel>
 										<FormMessage />
 									</div>
 									<FormControl>
 										<Input {...field} />
 									</FormControl>
-									<FormDescription>This is your display name.</FormDescription>
+									<FormDescription>
+										{t("login.displayNameDescription")}
+									</FormDescription>
 								</FormItem>
 							)}
 						/>
@@ -93,20 +97,20 @@ export function Editinfo(props: { session: AuthSession }) {
 							render={({ field }) => (
 								<FormItem>
 									<div className="flex gap-2 items-center">
-										<FormLabel>User Name</FormLabel>
+										<FormLabel>{t("login.userName")}</FormLabel>
 										<FormMessage />
 									</div>{" "}
 									<FormControl>
 										<Input {...field} />
 									</FormControl>
 									<FormDescription>
-										This is your user name for login.
+										{t("login.userNameDescription")}
 									</FormDescription>
 								</FormItem>
 							)}
 						/>
 						<Button size={"default"} type="submit" className="max-w-sm">
-							Update Info
+							{t("login.update")}
 						</Button>
 					</div>
 				</div>

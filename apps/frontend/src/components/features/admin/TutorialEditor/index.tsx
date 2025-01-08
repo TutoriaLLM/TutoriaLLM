@@ -28,6 +28,7 @@ import Output from "@/components/features/admin/TutorialEditor/nodes/output";
 import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 import type { Tutorial } from "@/type.js";
 import { TutorialUploader } from "./upload";
+import { useTranslation } from "react-i18next";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -43,6 +44,7 @@ const nodeTypes = {
 export default function TutorialEditor(props: {
 	tutorial: Tutorial | null;
 }) {
+	const { t } = useTranslation();
 	const [tutorialData, setTutorialData] = useState<TutorialType | null>(null);
 	//load tutorial data
 	useEffect(() => {
@@ -170,10 +172,9 @@ export default function TutorialEditor(props: {
 			>
 				<DialogContent>
 					<DialogHeader>
-						<DialogTitle>Are you absolutely sure?</DialogTitle>
+						<DialogTitle>{t("admin.uploader")}</DialogTitle>
 						<DialogDescription>
-							This action cannot be undone. This will permanently delete your
-							account and remove your data from our servers.
+							{t("admin.uploaderDescription")}
 						</DialogDescription>
 					</DialogHeader>
 					<TutorialUploader

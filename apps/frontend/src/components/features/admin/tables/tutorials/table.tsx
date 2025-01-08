@@ -35,9 +35,11 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { useMemo } from "react";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
+import { useTranslation } from "react-i18next";
 export function TutorialsTable() {
 	const routeApi = getRouteApi("/admin/tutorials");
 	const search = routeApi.useSearch();
+	const { t } = useTranslation();
 	const navigate = routeApi.useNavigate();
 	const { tutorials, isPending } = useListTutorials();
 
@@ -91,7 +93,7 @@ export function TutorialsTable() {
 	};
 
 	return (
-		<AdminBodyWrapper title="Tutorials">
+		<AdminBodyWrapper title={t("admin.tutorials")}>
 			<div>
 				<Table>
 					<TableHeader>

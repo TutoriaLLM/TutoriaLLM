@@ -9,11 +9,13 @@ import { useRouter } from "@tanstack/react-router";
 import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import { deleteSessionByUserId } from "@/api/admin/session";
+import { useTranslation } from "react-i18next";
 
 export function userColumns(currentUserId: string) {
 	const router = useRouter();
 	const { toast } = useToast();
 
+	const { t } = useTranslation();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSessionByUserId,
 	});
@@ -25,12 +27,11 @@ export function userColumns(currentUserId: string) {
 			userId: id,
 		});
 		if (!result.data?.success || result.error) {
-			console.error("Failed to delete user");
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<XCircleIcon className="text-destructive" />
-						Failed to delete user
+						{t("toast.failedToDeleteUser")}
 					</p>
 				),
 				variant: "destructive",
@@ -42,7 +43,7 @@ export function userColumns(currentUserId: string) {
 			description: (
 				<p className="flex items-center justify-center gap-2">
 					<CheckCircle className="text-secondary" />
-					User deleted
+					{t("toast.deletedUser")}
 				</p>
 			),
 		});
@@ -57,7 +58,7 @@ export function userColumns(currentUserId: string) {
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<XCircleIcon className="text-destructive" />
-						Failed to update role
+						{t("toast.failedToUpdateRole")}
 					</p>
 				),
 				variant: "destructive",
@@ -70,7 +71,7 @@ export function userColumns(currentUserId: string) {
 			description: (
 				<p className="flex items-center justify-center gap-2">
 					<CheckCircle className="text-secondary" />
-					Role updated
+					{t("toast.updatedRole")}
 				</p>
 			),
 		});
@@ -93,7 +94,7 @@ export function userColumns(currentUserId: string) {
 
 	const userColumns: ColumnDef<userWithPlugins>[] = [
 		{
-			header: "User",
+			header: t("admin.user"),
 			accessorKey: "name",
 			cell: ({ row }) => {
 				return (
@@ -109,21 +110,21 @@ export function userColumns(currentUserId: string) {
 			},
 		},
 		{
-			header: "Username for login",
+			header: t("admin.username"),
 			accessorKey: "username",
 			cell: ({ row }) => {
 				return row.original.username ?? "No username";
 			},
 		},
 		{
-			header: "Created At",
+			header: t("admin.createdTime"),
 			accessorKey: "createdAt",
 			cell: ({ row }) => {
 				return row.original.createdAt.toDateString();
 			},
 		},
 		{
-			header: "Role",
+			header: t("admin.role"),
 			accessorKey: "role",
 			cell: ({ row }) => {
 				return (
@@ -132,14 +133,14 @@ export function userColumns(currentUserId: string) {
 						onChange={(e) => handleChangeRole(row.original.id, e.target.value)}
 						disabled={row.original.id === currentUserId}
 					>
-						<option value="user">User</option>
-						<option value="admin">Admin</option>
+						<option value="user">{t("admin.user")}</option>
+						<option value="admin">{t("admin.admin")}</option>
 					</Select>
 				);
 			},
 		},
 		{
-			header: "Actions",
+			header: t("admin.actions"),
 			accessorKey: "actions",
 			cell: ({ row }) => {
 				return (

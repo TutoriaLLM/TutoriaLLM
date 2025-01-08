@@ -1,5 +1,6 @@
 import { useToast } from "@/hooks/toast";
 import type { Tutorial } from "@/type";
+import { useTranslation } from "react-i18next";
 
 export function TutorialUploader({
 	setTutorialData,
@@ -9,6 +10,7 @@ export function TutorialUploader({
 	onUpload?: () => void;
 }) {
 	const { toast } = useToast();
+	const { t } = useTranslation();
 	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
@@ -27,7 +29,7 @@ export function TutorialUploader({
 						onUpload();
 					}
 					toast({
-						description: "Tutorial uploaded successfully",
+						description: t("toast.uploadedTutorial"),
 					});
 				} catch (error) {
 					alert("Falied to parse JSON. Please check the format and try again.");

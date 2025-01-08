@@ -9,10 +9,12 @@ import { msToTime, timeAgo } from "@/utils/time";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 import { cn } from "@/libs/utils";
+import { useTranslation } from "react-i18next";
 
 export function sessionByUserColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
 ) {
+	const { t } = useTranslation();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
 		onSuccess: () => {
@@ -34,7 +36,7 @@ export function sessionByUserColumns(
 
 	const sessionColumns: ColumnDef<SessionValue>[] = [
 		{
-			header: "Session sessionId",
+			header: t("admin.sessionId"),
 			accessorKey: "sessionId",
 			cell: ({ row }) => {
 				return (
@@ -54,14 +56,14 @@ export function sessionByUserColumns(
 			},
 		},
 		{
-			header: "Session Language",
+			header: t("admin.sessionLanguage"),
 			accessorKey: "language",
 			cell: ({ row }) => {
 				return <div>{langToStr(row.original.language || "unknown")}</div>;
 			},
 		},
 		{
-			header: "Created at",
+			header: t("admin.createdTime"),
 			accessorKey: "createdAt",
 			cell: ({ row }) => {
 				return (
@@ -79,7 +81,7 @@ export function sessionByUserColumns(
 			},
 		},
 		{
-			header: "Last Update",
+			header: t("admin.lastUpdatedTime"),
 			accessorKey: "updatedAt",
 			cell: ({ row }) => (
 				<>
@@ -95,7 +97,7 @@ export function sessionByUserColumns(
 			),
 		},
 		{
-			header: "Stats",
+			header: t("admin.stats"),
 			accessorKey: "stats",
 			cell: ({ row }) => (
 				<>
@@ -125,25 +127,25 @@ export function sessionByUserColumns(
 			),
 		},
 		{
-			header: "Actions",
+			header: t("admin.actions"),
 			accessorKey: "actions",
 			cell: ({ row }) => (
 				<span className="flex gap-2">
 					<a href={`/${row.original.sessionId}`} className={buttonVariants()}>
-						Open
+						{t("general.open")}
 					</a>
 					<Button
 						type="button"
 						variant="secondary"
 						onClick={() => handleStatsPopup(row.original.sessionId)}
 					>
-						Stats
+						{t("admin.stats")}
 					</Button>
 					<Button
 						variant="destructive"
 						onClick={() => handleDeleteSession(row.original.sessionId)}
 					>
-						Delete
+						{t("admin.deleteSession")}
 					</Button>
 				</span>
 			),

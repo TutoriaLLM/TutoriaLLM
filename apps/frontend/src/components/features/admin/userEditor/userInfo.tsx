@@ -18,12 +18,14 @@ import { authClient } from "@/libs/auth-client";
 import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import { deleteSessionByUserId } from "@/api/admin/session";
+import { useTranslation } from "react-i18next";
 export function AdminUserInfo({
 	currentUserId,
 }: { currentUserId: string | null }) {
 	const routeApi = getRouteApi("/admin/users_/$userId");
 	const router = useRouter();
 	const { userId } = routeApi.useParams();
+	const { t } = useTranslation();
 	const { userDetail } = useUserDetail(userId);
 	const { toast } = useToast();
 
@@ -38,12 +40,11 @@ export function AdminUserInfo({
 			userId: id,
 		});
 		if (!result.data?.success || result.error) {
-			console.error("Failed to delete user");
 			toast({
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<XCircleIcon className="text-destructive" />
-						Failed to delete user
+						{t("toast.failedToDeleteUser")}
 					</p>
 				),
 				variant: "destructive",
@@ -55,7 +56,7 @@ export function AdminUserInfo({
 			description: (
 				<p className="flex items-center justify-center gap-2">
 					<CheckCircle className="text-secondary" />
-					User deleted
+					{t("toast.deletedUser")}
 				</p>
 			),
 		});
@@ -88,11 +89,11 @@ export function AdminUserInfo({
 						<div className="w-full flex gap-2 justify-between text-background">
 							{userDetail?.role === "admin" ? (
 								<div className="border-warning text-warning border-2 rounded-full p-1 px-2.5">
-									Admin
+									{t("admin.admin")}
 								</div>
 							) : (
 								<div className=" border-primary text-primary border-2 rounded-full p-1 px-2.5">
-									User
+									{t("admin.user")}
 								</div>
 							)}
 							<div className="flex gap-2">
@@ -124,30 +125,29 @@ export function AdminUserInfo({
 									*Anonymous <LucideVenetianMask className="w-5 h-5" />
 								</p>
 							) : (
-								<p className="">{userDetail?.name || "No name"}</p>
+								<p className="">{userDetail?.name || t("admin.noName")}</p>
 							)}
 						</h2>
 						<div className="text-accent-foreground flex gap-2">
 							<UserIcon />
-							{userDetail?.username || "No username"}
+							{userDetail?.username || t("admin.noUsername")}
 						</div>
 						<div className="text-accent-foreground flex gap-2">
 							<MailIcon />
-							{userDetail?.email || "No email"}
+							{userDetail?.email || t("admin.noEmail")}
 						</div>
 						<div className="text-accent-foreground gap-2 text-xs">
 							<p>
-								{" "}
-								created at:{" "}
+								{t("admin.createdTime")}
 								{userDetail?.createdAt
 									? new Date(userDetail.createdAt).toLocaleDateString()
-									: "No date"}
+									: t("admin.noDate")}
 							</p>
 							<p>
-								update at:{" "}
+								{t("admin.lastUpdatedTime")}
 								{userDetail?.updatedAt
 									? new Date(userDetail.updatedAt).toLocaleDateString()
-									: "No date"}
+									: t("admin.noDate")}
 							</p>
 						</div>
 					</div>

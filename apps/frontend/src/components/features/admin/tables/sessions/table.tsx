@@ -66,7 +66,7 @@ export function SessionTable() {
 	const PopupContent = popupSessionFromSessionId ? (
 		<SessionValueView session={popupSessionFromSessionId} />
 	) : (
-		<div>Session not found</div>
+		<div>{t("admin.sessionNotFound")}</div>
 	);
 	const handleDownloadAllSession = () => {
 		setDownloading(true);
@@ -109,7 +109,7 @@ export function SessionTable() {
 	});
 
 	return (
-		<AdminBodyWrapper title="Sessions">
+		<AdminBodyWrapper title={t("admin.sessions")}>
 			<Dialog
 				open={!!popupSessionFromSessionId}
 				onOpenChange={(value) => {
@@ -122,7 +122,9 @@ export function SessionTable() {
 					<DialogHeader>
 						<DialogTitle>{t("admin.sessionAnalytics")}</DialogTitle>
 						<VisuallyHidden>
-							<DialogDescription>Session stats dialog</DialogDescription>
+							<DialogDescription>
+								{t("admin.sessionAnalyticsDialog")}
+							</DialogDescription>
 						</VisuallyHidden>
 					</DialogHeader>
 					{PopupContent}
@@ -143,7 +145,7 @@ export function SessionTable() {
 							onChange={() => setAutoUpdateMs(autoUpdateMs ? false : 5000)}
 							className="form-checkbox h-4 w-4"
 						/>
-						<span>Auto Update</span>
+						<span>t("admin.autoUpdate")</span>
 					</label>
 					<button
 						type="button"
@@ -151,7 +153,7 @@ export function SessionTable() {
 						onClick={handleDownloadAllSession}
 						disabled={downloading}
 					>
-						{downloading ? "Downloading..." : "Download All Sessions"}
+						{downloading ? t("admin.downloading") : t("admin.downloadAll")}
 					</button>
 				</div>
 			</div>
@@ -202,7 +204,7 @@ export function SessionTable() {
 						) : (
 							<TableRow key={0}>
 								<TableCell colSpan={table.getAllColumns().length}>
-									No session found
+									{t("admin.sessionNotFound")}
 								</TableCell>
 							</TableRow>
 						)}

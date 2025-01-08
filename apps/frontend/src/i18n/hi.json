@@ -22,7 +22,8 @@
     "Sentry_DSN": "संतरी डीएसएन (अक्षम करने के लिए खाली छोड़ें)",
     "replaysOnErrorSampleRate": "त्रुटि पर रीप्ले के लिए नमूना दर",
     "replaysSessionSampleRate": "सत्र पर रीप्ले के लिए नमूना दर",
-    "tracesSampleRate": "निशानों के लिए नमूना दर"
+    "tracesSampleRate": "निशानों के लिए नमूना दर",
+    "Chat_Audio": "चैट ऑडियो मोडैलिटी"
   },
   "admin": {
     "loading": "लोड हो रहा है",
@@ -34,7 +35,79 @@
     "sessionSummary": "सत्र सारांश",
     "showHeatmap": "हीटमैप दिखाएँ",
     "summary": "सारांश",
-    "workspace": "कार्यस्थान"
+    "workspace": "कार्यस्थान",
+    "actions": "कार्रवाई",
+    "addNode": "नोड जोड़ें",
+    "admin": "व्यवस्थापक",
+    "advanced": "विकसित",
+    "autoUpdate": "ऑटो अपडेट",
+    "basic": "बुनियादी",
+    "content": "सामग्री",
+    "createExample": "उदाहरण कोड बनाएं",
+    "createTutorial": "नया ट्यूटोरियल बनाएं",
+    "createUser": "नया उपयोगकर्ता बनाएं",
+    "createdTime": "समय बनाया",
+    "currentNumOfBlocks": "ब्लॉकों की वर्तमान संख्या",
+    "dashboard": "व्यवस्थापक डैशबोर्ड",
+    "deleteSession": "मिटाना",
+    "downloadAll": "सभी सत्र डाउनलोड करें",
+    "downloading": "डाउनलोड",
+    "edit": "संपादन करना",
+    "email": "ईमेल",
+    "example": "उदाहरण कोड",
+    "generateContent": "मौजूदा सामग्री से नई सामग्री उत्पन्न करें",
+    "generateMarkdown": "मार्कडाउन उत्पन्न करें",
+    "generateMetadata": "सामग्री से मेटाडेटा उत्पन्न करें",
+    "generatedMd": "जनरेट किया गया मार्कडाउन",
+    "generatedMdComparison": "तुलना",
+    "generatedMetaData": "जेनरेट किया गया मेटाडेटा",
+    "generatingMarkdown": "उत्पन्न हो रहा है...",
+    "lastUpdatedTime": "अंतिम अद्यतन समय",
+    "metadata": "मेटाडाटा",
+    "metadataGenerator": "मेटाडेटा जनरेटर",
+    "noDate": "कोई तारीख़ नहीं",
+    "noEmail": "कोई ईमेल नहीं",
+    "noName": "कोई नाम नहीं",
+    "noUsername": "कोई उपयोगकर्ता नाम नहीं",
+    "notSelected": "चयनित नहीं",
+    "originalMd": "मूल मार्कडाउन",
+    "originalMetaData": "मूल मेटाडेटा",
+    "password": "पासवर्ड",
+    "refineContent": "सामग्री को परिष्कृत करें",
+    "refineMetadata": "मेटाडेटा परिष्कृत करें",
+    "role": "भूमिका",
+    "selectedTutorial": "चयनित ट्यूटोरियल",
+    "sessionAnalyticsDialog": "सत्र विश्लेषण संवाद",
+    "sessionId": "सत्र आईडी",
+    "sessionNotFound": "सत्र नहीं मिला",
+    "sessions": "सत्र",
+    "sessionsDescription": "उपयोगकर्ता सत्र की निगरानी करें",
+    "sessionsForUser": "उपयोगकर्ता {{उपयोगकर्ता}} के लिए सत्र",
+    "settings": "सेटिंग्स",
+    "stats": "आँकड़े",
+    "title": "व्यवस्थापक",
+    "totalCodeExecutions": "कोड निष्पादन की कुल संख्या",
+    "totalConnectingTime": "कुल कनेक्टिंग समय",
+    "totalInvokedLLM": "कुल लागू एलएलएम",
+    "totalUserMessages": "उपयोगकर्ता संदेश की कुल संख्या",
+    "training": "एआई प्रशिक्षण",
+    "trainingDescription": "एआई ट्यूटर को प्रशिक्षित करें",
+    "tutorialDescription": "ट्यूटोरियल विवरण",
+    "tutorialId": "ट्यूटोरियल आईडी",
+    "tutorialLanguage": "भाषा",
+    "tutorialSelectCount": "गिनती चुनें",
+    "tutorialTags": "टैग",
+    "tutorialTitle": "ट्यूटोरियल शीर्षक",
+    "tutorials": "ट्यूटोरियल",
+    "tutorialsDescription": "बनाए गए ट्यूटोरियल जांचें",
+    "uploader": "अपलोडर",
+    "uploaderDescription": "ट्यूटोरियल अपलोड करें",
+    "user": "उपयोगकर्ता",
+    "username": "उपयोगकर्ता नाम",
+    "welcome": "TutoriaLLM में आपका स्वागत है",
+    "workspacePreview": "कार्यक्षेत्र पूर्वावलोकन",
+    "writeContent": "अपनी सामग्री यहां लिखें",
+    "writeMetadata": "अपना मेटाडेटा यहां लिखें"
   },
   "dialogue": {
     "Introduction": "नमस्ते! \nक्या करना है यह चुनने के लिए अपने प्रश्नों में टाइप के त्वरित उत्तर बटन पर क्लिक करें!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "अपने Minecraft को **/कनेक्ट {{host}}/vm/{{userCode}}/mc** से कनेक्ट करें। \nयदि कनेक्शन विफल हो तो पुनः प्रयास करें. \nएन्क्रिप्शन अनुरोध बंद करें."
+      "connectInfo": "अपने Minecraft को **/कनेक्ट {{host}}/vm/{{userCode}}/mc** से कनेक्ट करें। \nयदि कनेक्शन विफल हो तो पुनः प्रयास करें. \nएन्क्रिप्शन अनुरोध बंद करें.",
+      "noConnection": "Minecraft कनेक्ट नहीं है."
     }
   },
   "generic": {
-    "connected": "जुड़े हुए"
+    "connected": "जुड़े हुए",
+    "audio": "ऑडियो",
+    "open": "खुला",
+    "text": "मूलपाठ",
+    "websocketNotConnected": "वेबसॉकेट कनेक्ट नहीं है"
   },
   "logbuffer": {
     "tooManyLogs": "बहुत सारे संदेश. \nपुराने लॉग हटा दिए गए."
@@ -70,7 +148,26 @@
     "password": "पासवर्ड",
     "title": "लॉग इन करें",
     "username": "उपयोगकर्ता नाम",
-    "welcome": "जारी रखने के लिए लॉगिन करें"
+    "welcome": "जारी रखने के लिए लॉगिन करें",
+    "confirmPassword": "पासवर्ड की पुष्टि कीजिये",
+    "continueAsGuest": "अतिथि के रूप में जारी रखें",
+    "createAccount": "खाता बनाएं",
+    "createAccountDescription": "अपना डेटा सहेजने के लिए खाता बनाएं.",
+    "deleteAccount": "खाता हटा दो",
+    "displayName": "प्रदर्शित होने वाला नाम",
+    "displayNameDescription": "यह आपका प्रदर्शन नाम है.",
+    "edit": "खाता संपादित करें",
+    "editDescription": "अपनी जानकारी संपादित करें.",
+    "editTitle": "खाता संपादित करें",
+    "email": "ईमेल",
+    "guest": "अतिथि उपयोक्ता",
+    "image": "छवि",
+    "newPassword": "नया पासवर्ड",
+    "oldPassword": "पुराना पासवर्ड",
+    "signout": "साइन आउट",
+    "update": "अद्यतन",
+    "userName": "उपयोगकर्ता नाम",
+    "userNameDescription": "लॉगिन के लिए यह आपका उपयोगकर्ता नाम है."
   },
   "navbar": {
     "connected": "जुड़े हुए",
@@ -112,7 +209,11 @@
     "serverOnline": "ऑनलाइन",
     "sessionNotFoundMsg": "सत्र नहीं मिला. \nप्रारंभ करने के लिए कोई अन्य कोड टाइप करें या एक नया सत्र बनाएं।",
     "typecodeMsg": "अपना कोड टाइप करें, या शुरू करने के लिए नया कमरा बनाएं।",
-    "welcome": "एआई के साथ कोडिंग का अध्ययन करें"
+    "welcome": "एआई के साथ कोडिंग का अध्ययन करें",
+    "deleteStorage": "सभी संग्रहण हटाएँ",
+    "failedCreate": "सत्र बनाने में विफल",
+    "installPWA": "पीडब्लूए स्थापित करें",
+    "savedSessionDescription": "उन सत्रों की सूची जिन्हें आप जारी रख सकते हैं"
   },
   "sidebar": {
     "dashboard": "डैशबोर्ड",
@@ -136,7 +237,10 @@
     "replying": "उत्तर दे रहा हूँ...",
     "server": "सर्वर",
     "showingLatest": "नवीनतम {{गिनती}} संदेश दिखाए जा रहे हैं",
-    "you": "आप"
+    "you": "आप",
+    "audioMode": "ऑडियो मोड",
+    "transcribing": "प्रतिलेखन...",
+    "transcriptionFailed": "प्रतिलेखन अनुपलब्ध है"
   },
   "tour": {
     "blocklyWorkspace": "कार्यक्षेत्र आपका कोड बनाने का स्थान है।",
@@ -149,7 +253,8 @@
     "tabs": "आप चैट और कार्यक्षेत्र के बीच जाने के लिए टैब स्विच कर सकते हैं।",
     "tourAgain": "आप इस बटन पर क्लिक करके दोबारा इस यात्रा पर जा सकते हैं।",
     "tutorialSelector": "आप कोई भी ट्यूटोरियल चुन सकते हैं जिसे आप बनाना चाहते हैं।",
-    "welcome": "बोर्ड पर आपका स्वागत है! \nयह दौरा इस एप्लिकेशन का उपयोग करने के तरीके का एक संक्षिप्त अवलोकन प्रदान करता है।"
+    "welcome": "बोर्ड पर आपका स्वागत है! \nयह दौरा इस एप्लिकेशन का उपयोग करने के तरीके का एक संक्षिप्त अवलोकन प्रदान करता है।",
+    "switchMode": "आप यहां से सेटिंग बदल सकते हैं"
   },
   "tutorial": {
     "description": "चुनें कि आप क्या सीखना चाहते हैं",
@@ -160,11 +265,49 @@
     "startTour": "देखो तुम क्या कर सकते हो.",
     "startTutorial": "ट्यूटोरियल का चयन कर लिया गया है",
     "title": "ट्यूटोरियल चुनें",
-    "tour": "दौरा शुरू करो"
+    "tour": "दौरा शुरू करो",
+    "otherLanguage": "अन्य भाषा द्वारा ट्यूटोरियल",
+    "otherLanguageDescription": "चूंकि ये ट्यूटोरियल उपलब्ध कराने के लिए अनुवादित किए जा रहे हैं, इसलिए ये ग़लत हो सकते हैं।",
+    "responseMode": "प्रतिक्रिया मोड",
+    "responseModeChanged": "प्रतिक्रिया मोड {{मोड}} में बदल गया है।",
+    "responseModeDescription": "पसंदीदा प्रतिक्रिया मोड को ऑडियो या टेक्स्ट में बदलें",
+    "yourLanguage": "आपकी भाषा के लिए ट्यूटोरियल"
   },
   "vm": {
     "outOfMemory": "मशीन मेमोरी सीमा तक पहुंच गई",
     "updatedScriptError": "अद्यतन स्क्रिप्ट निष्पादित करने में त्रुटि: {{त्रुटि}}",
     "updatedScriptSuccess": "अद्यतन स्क्रिप्ट सफलतापूर्वक निष्पादित हुई."
+  },
+  "general": {
+    "audio": "ऑडियो",
+    "back": "पीछे",
+    "connected": "जुड़े हुए",
+    "delete": "मिटाना",
+    "download": "डाउनलोड करना",
+    "edit": "संपादन करना",
+    "open": "खुला",
+    "save": "बचाना",
+    "text": "मूलपाठ",
+    "upload": "अपलोड करें",
+    "websocketNotConnected": "वेबसॉकेट कनेक्ट नहीं है"
+  },
+  "toast": {
+    "createdTutorial": "ट्यूटोरियल बनाया गया",
+    "deletedTutorial": "ट्यूटोरियल हटा दिया गया",
+    "deletedUser": "उपयोगकर्ता हटा दिया गया",
+    "failedToCreateTutorial": "ट्यूटोरियल बनाने में विफल",
+    "failedToDeleteTutorial": "ट्यूटोरियल हटाने में विफल",
+    "failedToDeleteUser": "उपयोगकर्ता को हटाने में विफल",
+    "failedToUpdateInfo": "उपयोगकर्ता जानकारी अद्यतन करने में विफल.",
+    "failedToUpdatePassword": "पासवर्ड अपडेट करने में विफल.",
+    "failedToUpdateRole": "भूमिका अद्यतन करने में विफल",
+    "failedToUpdateTutorial": "ट्यूटोरियल अपडेट करने में विफल",
+    "failedToUpdateUser": "उपयोगकर्ता को अपडेट करने में विफल",
+    "updatedInfo": "उपयोगकर्ता की जानकारी अपडेट की गई.",
+    "updatedPassword": "पासवर्ड अपडेट किया गया.",
+    "updatedRole": "भूमिका अद्यतन की गई",
+    "updatedTutorial": "अद्यतन ट्यूटोरियल",
+    "updatedUser": "उपयोगकर्ता विवरण अपडेट किया गया",
+    "uploadedTutorial": "ट्यूटोरियल अपलोड किया गया"
   }
 }

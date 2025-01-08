@@ -14,7 +14,26 @@
     "loginFailed": "登录失败",
     "password": "密码",
     "title": "登录",
-    "username": "用户名"
+    "username": "用户名",
+    "confirmPassword": "确认密码",
+    "continueAsGuest": "继续以访客身份",
+    "createAccount": "创建账户",
+    "createAccountDescription": "创建帐户以保存您的数据。",
+    "deleteAccount": "删除帐户",
+    "displayName": "显示名称",
+    "displayNameDescription": "这是您的显示名称。",
+    "edit": "编辑帐户",
+    "editDescription": "编辑您的信息。",
+    "editTitle": "编辑帐户",
+    "email": "电子邮件",
+    "guest": "访客用户",
+    "image": "图像",
+    "newPassword": "新密码",
+    "oldPassword": "旧密码",
+    "signout": "登出",
+    "update": "更新",
+    "userName": "用户名",
+    "userNameDescription": "这是您用于登录的用户名。"
   },
   "navbar": {
     "connected": "连接的",
@@ -49,7 +68,11 @@
     "savedSession": "已保存的会话",
     "serverDownMsg": "无法连接服务器。\n检查您的互联网或询问系统管理员。",
     "serverOffline": "服务器离线 - 应用程序不可用",
-    "serverOnline": "在线的"
+    "serverOnline": "在线的",
+    "deleteStorage": "删除所有存储",
+    "failedCreate": "创建会话失败",
+    "installPWA": "安装渐进式Web应用",
+    "savedSessionDescription": "您可以继续的会话列表"
   },
   "sidebar": {
     "dashboard": "仪表板",
@@ -73,7 +96,10 @@
     "blocksuggestions": "建议区块",
     "copiedToClipboard": "复制了！",
     "errorLog": "错误日志",
-    "showingLatest": "显示最新的 {{count}} 条消息"
+    "showingLatest": "显示最新的 {{count}} 条消息",
+    "audioMode": "音频模式",
+    "transcribing": "正在抄写...",
+    "transcriptionFailed": "转录不可用"
   },
   "tutorial": {
     "description": "选择您想学习的内容",
@@ -84,7 +110,13 @@
     "easyModeChanged": "将简单模式设为 {{status}}",
     "easyModeDescription": "AI的反应会更容易。",
     "startTour": "看看你能做什么。",
-    "tour": "开始游览"
+    "tour": "开始游览",
+    "otherLanguage": "其他语言的教程",
+    "otherLanguageDescription": "由于这些教程是经过翻译提供的，因此可能不准确。",
+    "responseMode": "响应模式",
+    "responseModeChanged": "响应模式已更改为{{mode}}。",
+    "responseModeDescription": "将首选响应模式切换为音频或文本",
+    "yourLanguage": "适合您的语言的教程"
   },
   "AppConfig": {
     "AI_Settings": "人工智能设置",
@@ -109,7 +141,8 @@
     "Sentry_DSN": "Sentry DSN（留空禁用）",
     "replaysOnErrorSampleRate": "错误重放的采样率",
     "replaysSessionSampleRate": "会话重播的采样率",
-    "tracesSampleRate": "迹线采样率"
+    "tracesSampleRate": "迹线采样率",
+    "Chat_Audio": "聊天音频模式"
   },
   "admin": {
     "loading": "加载中",
@@ -121,7 +154,79 @@
     "sessionSummary": "会议总结",
     "showHeatmap": "显示热图",
     "summary": "概括",
-    "workspace": "工作空间"
+    "workspace": "工作空间",
+    "actions": "行动",
+    "addNode": "添加节点",
+    "admin": "行政",
+    "advanced": "先进的",
+    "autoUpdate": "自动更新",
+    "basic": "基本的",
+    "content": "内容",
+    "createExample": "创建示例代码",
+    "createTutorial": "创建新教程",
+    "createUser": "创建新用户",
+    "createdTime": "创建时间",
+    "currentNumOfBlocks": "当前区块数量",
+    "dashboard": "管理仪表板",
+    "deleteSession": "删除",
+    "downloadAll": "下载所有会话",
+    "downloading": "正在下载",
+    "edit": "编辑",
+    "email": "电子邮件",
+    "example": "示例代码",
+    "generateContent": "从现有内容生成新内容",
+    "generateMarkdown": "生成降价",
+    "generateMetadata": "从内容生成元数据",
+    "generatedMd": "生成的降价",
+    "generatedMdComparison": "比较",
+    "generatedMetaData": "生成的元数据",
+    "generatingMarkdown": "生成...",
+    "lastUpdatedTime": "最后更新时间",
+    "metadata": "元数据",
+    "metadataGenerator": "元数据生成器",
+    "noDate": "无日期",
+    "noEmail": "没有电子邮件",
+    "noName": "无名",
+    "noUsername": "没有用户名",
+    "notSelected": "未选择",
+    "originalMd": "原始降价",
+    "originalMetaData": "原始元数据",
+    "password": "密码",
+    "refineContent": "细化内容",
+    "refineMetadata": "细化元数据",
+    "role": "角色",
+    "selectedTutorial": "精选教程",
+    "sessionAnalyticsDialog": "会话分析对话框",
+    "sessionId": "会话ID",
+    "sessionNotFound": "未找到会话",
+    "sessions": "会议",
+    "sessionsDescription": "监控用户会话",
+    "sessionsForUser": "用户 {{user}} 的会话",
+    "settings": "设置",
+    "stats": "统计数据",
+    "title": "行政",
+    "totalCodeExecutions": "代码执行总数",
+    "totalConnectingTime": "总转机时间",
+    "totalInvokedLLM": "总调用法学硕士",
+    "totalUserMessages": "用户留言总数",
+    "training": "人工智能培训",
+    "trainingDescription": "培训AI导师",
+    "tutorialDescription": "教程说明",
+    "tutorialId": "教程编号",
+    "tutorialLanguage": "语言",
+    "tutorialSelectCount": "选择计数",
+    "tutorialTags": "标签",
+    "tutorialTitle": "教程标题",
+    "tutorials": "教程",
+    "tutorialsDescription": "检查创建的教程",
+    "uploader": "上传者",
+    "uploaderDescription": "上传教程",
+    "user": "用户",
+    "username": "用户名",
+    "welcome": "欢迎来到TutoriaLLM",
+    "workspacePreview": "工作区预览",
+    "writeContent": "在这里写下您的内容",
+    "writeMetadata": "在这里写下您的元数据"
   },
   "dialogue": {
     "Introduction": "你好！\n单击问题类型的快速回复按钮来选择要做什么！",
@@ -133,11 +238,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "从 **/connect {{host}}/vm/{{userCode}}/mc** 连接您的 Minecraft。\n如果连接失败请重试。\n关闭加密请求。"
+      "connectInfo": "从 **/connect {{host}}/vm/{{userCode}}/mc** 连接您的 Minecraft。\n如果连接失败请重试。\n关闭加密请求。",
+      "noConnection": "我的世界未连接。"
     }
   },
   "generic": {
-    "connected": "已连接"
+    "connected": "已连接",
+    "audio": "声音的",
+    "open": "打开",
+    "text": "文本",
+    "websocketNotConnected": "Websocket 未连接"
   },
   "logbuffer": {
     "tooManyLogs": "消息太多。\n旧日志已删除。"
@@ -160,11 +270,44 @@
     "tabs": "您可以切换选项卡以在聊天和工作区之间移动。",
     "tourAgain": "您可以通过单击此按钮再次进行此游览。",
     "tutorialSelector": "您可以选择任何您想要制作的教程。",
-    "welcome": "欢迎登机！\n本教程简要概述了如何使用此应用程序。"
+    "welcome": "欢迎登机！\n本教程简要概述了如何使用此应用程序。",
+    "switchMode": "您可以从这里更改设置"
   },
   "vm": {
     "outOfMemory": "机器达到内存限制",
     "updatedScriptError": "执行更新的脚本时出错：{{error}}",
     "updatedScriptSuccess": "更新的脚本执行成功。"
+  },
+  "general": {
+    "audio": "声音的",
+    "back": "后退",
+    "connected": "已连接",
+    "delete": "删除",
+    "download": "下载",
+    "edit": "编辑",
+    "open": "打开",
+    "save": "节省",
+    "text": "文本",
+    "upload": "上传",
+    "websocketNotConnected": "Websocket 未连接"
+  },
+  "toast": {
+    "createdTutorial": "教程已创建",
+    "deletedTutorial": "教程已删除",
+    "deletedUser": "用户已删除",
+    "failedToCreateTutorial": "创建教程失败",
+    "failedToDeleteTutorial": "删除教程失败",
+    "failedToDeleteUser": "删除用户失败",
+    "failedToUpdateInfo": "更新用户信息失败。",
+    "failedToUpdatePassword": "更新密码失败。",
+    "failedToUpdateRole": "更新角色失败",
+    "failedToUpdateTutorial": "更新教程失败",
+    "failedToUpdateUser": "更新用户失败",
+    "updatedInfo": "用户信息已更新。",
+    "updatedPassword": "密码已更新。",
+    "updatedRole": "角色更新",
+    "updatedTutorial": "更新了教程",
+    "updatedUser": "用户详细信息已更新",
+    "uploadedTutorial": "教程已上传"
   }
 }

@@ -17,6 +17,7 @@ import { adminUpdateUserDetailSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle, XCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import type { z } from "zod";
 
 type AdminUpdateUserDetailType = z.infer<typeof adminUpdateUserDetailSchema>;
@@ -27,6 +28,7 @@ const UserEditorForm = ({
 }: { userDetail: AdminUpdateUserDetailType; id: string }) => {
 	const { toast } = useToast();
 
+	const { t } = useTranslation();
 	const { mutate: put } = useMutation({
 		mutationFn: updateUserDetail,
 		onSuccess: () => {
@@ -35,7 +37,7 @@ const UserEditorForm = ({
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<CheckCircle className="text-secondary" />
-						User detail updated
+						{t("toast.updatedUser")}
 					</p>
 				),
 			});
@@ -43,11 +45,10 @@ const UserEditorForm = ({
 		onError: (e) => {
 			console.error("Failed to update user detail", e);
 			toast({
-				title: "Failed to update user",
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<XCircle className="text-destructive" />
-						Failed to update user
+						{t("toast.failedToUpdateUser")}
 					</p>
 				),
 				variant: "destructive",
@@ -78,7 +79,7 @@ const UserEditorForm = ({
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex gap-2 items-center">
-								<FormLabel>Display Name</FormLabel>
+								<FormLabel>{t("login.displayName")}</FormLabel>
 								<FormMessage />
 							</div>
 							<FormControl>
@@ -93,7 +94,7 @@ const UserEditorForm = ({
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex gap-2 items-center">
-								<FormLabel>Name for login</FormLabel>
+								<FormLabel>{t("login.userName")}</FormLabel>
 								<FormMessage />
 							</div>
 							<FormControl>
@@ -108,7 +109,7 @@ const UserEditorForm = ({
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex gap-2 items-center">
-								<FormLabel>Email</FormLabel>
+								<FormLabel>{t("login.email")}</FormLabel>
 								<FormMessage />
 							</div>
 							<FormControl>
@@ -123,7 +124,7 @@ const UserEditorForm = ({
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex gap-2 items-center">
-								<FormLabel>Image</FormLabel>
+								<FormLabel>{t("login.image")}</FormLabel>
 								<FormMessage />
 							</div>
 							<FormControl>
@@ -138,13 +139,13 @@ const UserEditorForm = ({
 					render={({ field }) => (
 						<FormItem>
 							<div className="flex gap-2 items-center">
-								<FormLabel>Role</FormLabel>
+								<FormLabel>{t("admin.role")}</FormLabel>
 								<FormMessage />
 							</div>
 							<FormControl>
 								<Select name="role" value={field.value ?? ""}>
-									<option value="admin">Admin</option>
-									<option value="user">User</option>
+									<option value="admin">{t("admin.admin")}</option>
+									<option value="user">{t("admin.user")}</option>
 								</Select>
 							</FormControl>
 						</FormItem>
@@ -152,7 +153,7 @@ const UserEditorForm = ({
 				/>
 
 				<Button type="submit" variant="secondary">
-					Submit
+					{t("general.save")}
 				</Button>
 			</form>
 		</Form>

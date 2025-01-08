@@ -110,7 +110,7 @@ export default function Login(props: { redirectTo: string }) {
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-4 items-center justify-center">
 					<Button type="button" variant="outline" onClick={handleGuest}>
-						Continue as guest
+						{t("login.continueAsGuest")}
 					</Button>
 					<Button type="submit">{t("login.login")}</Button>
 				</div>

@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN (leeg laten om uit te schakelen)",
     "replaysOnErrorSampleRate": "Samplefrequentie voor herhalingen bij fouten",
     "replaysSessionSampleRate": "Samplefrequentie voor herhalingen tijdens een sessie",
-    "tracesSampleRate": "Bemonsteringsfrequentie voor sporen"
+    "tracesSampleRate": "Bemonsteringsfrequentie voor sporen",
+    "Chat_Audio": "Chat-audiomodaliteit"
   },
   "admin": {
     "loading": "Laden",
@@ -34,7 +35,79 @@
     "sessionSummary": "Samenvatting van de sessie",
     "showHeatmap": "Toon hittekaart",
     "summary": "Samenvatting",
-    "workspace": "Werkruimte"
+    "workspace": "Werkruimte",
+    "actions": "Acties",
+    "addNode": "Knooppunt toevoegen",
+    "admin": "Beheerder",
+    "advanced": "Geavanceerd",
+    "autoUpdate": "Automatische update",
+    "basic": "Basis",
+    "content": "Inhoud",
+    "createExample": "Maak voorbeeldcode",
+    "createTutorial": "Nieuwe tutorial maken",
+    "createUser": "Nieuwe gebruiker aanmaken",
+    "createdTime": "Tijd gemaakt",
+    "currentNumOfBlocks": "Huidig ​​aantal blokken",
+    "dashboard": "Beheerdashboard",
+    "deleteSession": "Verwijderen",
+    "downloadAll": "Alle sessies downloaden",
+    "downloading": "Downloaden",
+    "edit": "Bewerking",
+    "email": "E-mail",
+    "example": "Voorbeeldcode",
+    "generateContent": "Genereer nieuwe inhoud uit bestaande inhoud",
+    "generateMarkdown": "Genereer een afwaardering",
+    "generateMetadata": "Genereer metadata van inhoud",
+    "generatedMd": "Gegenereerde afwaardering",
+    "generatedMdComparison": "Vergelijking",
+    "generatedMetaData": "Gegenereerde metagegevens",
+    "generatingMarkdown": "Genereren...",
+    "lastUpdatedTime": "Laatst bijgewerkte tijd",
+    "metadata": "Metagegevens",
+    "metadataGenerator": "Metagegevensgenerator",
+    "noDate": "Geen datum",
+    "noEmail": "Geen e-mail",
+    "noName": "Geen naam",
+    "noUsername": "Geen gebruikersnaam",
+    "notSelected": "niet geselecteerd",
+    "originalMd": "Originele afwaardering",
+    "originalMetaData": "Originele metagegevens",
+    "password": "Wachtwoord",
+    "refineContent": "Verfijn de inhoud",
+    "refineMetadata": "Verfijn metagegevens",
+    "role": "Rol",
+    "selectedTutorial": "Geselecteerde tutorial",
+    "sessionAnalyticsDialog": "Dialoogvenster Sessieanalyse",
+    "sessionId": "Sessie-ID",
+    "sessionNotFound": "Sessie niet gevonden",
+    "sessions": "Sessies",
+    "sessionsDescription": "Monitor gebruikerssessie",
+    "sessionsForUser": "Sessies voor gebruiker {{user}}",
+    "settings": "Instellingen",
+    "stats": "Statistieken",
+    "title": "Beheerder",
+    "totalCodeExecutions": "Totaal aantal code-uitvoeringen",
+    "totalConnectingTime": "Totale verbindingstijd",
+    "totalInvokedLLM": "Total heeft LLM ingeroepen",
+    "totalUserMessages": "Totaal aantal gebruikersberichten",
+    "training": "AI-training",
+    "trainingDescription": "Train AI-docent",
+    "tutorialDescription": "Beschrijving van de handleiding",
+    "tutorialId": "Tutorial-id",
+    "tutorialLanguage": "Taal",
+    "tutorialSelectCount": "Selecteer aantal",
+    "tutorialTags": "Labels",
+    "tutorialTitle": "Titel van de tutorial",
+    "tutorials": "Handleidingen",
+    "tutorialsDescription": "Controleer gemaakte tutorials",
+    "uploader": "Uploader",
+    "uploaderDescription": "Zelfstudie uploaden",
+    "user": "Gebruiker",
+    "username": "Gebruikersnaam",
+    "welcome": "Welkom bij TutoriaLLM",
+    "workspacePreview": "Voorbeeld van de werkruimte",
+    "writeContent": "Schrijf hier uw inhoud",
+    "writeMetadata": "Schrijf hier uw metadata"
   },
   "dialogue": {
     "Introduction": "Hoi! \nklik op de snelle antwoordknop van het type in uw vragen om te kiezen wat u wilt doen!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Verbind uw Minecraft vanaf **/connect {{host}}/vm/{{userCode}}/mc**. \nProbeer het opnieuw als de verbinding mislukt is. \nSchakel versleutelingsverzoek uit."
+      "connectInfo": "Verbind uw Minecraft vanaf **/connect {{host}}/vm/{{userCode}}/mc**. \nProbeer het opnieuw als de verbinding mislukt is. \nSchakel versleutelingsverzoek uit.",
+      "noConnection": "Minecraft is niet verbonden."
     }
   },
   "generic": {
-    "connected": "Aangesloten"
+    "connected": "Aangesloten",
+    "audio": "Audio",
+    "open": "Open",
+    "text": "Tekst",
+    "websocketNotConnected": "Websocket is niet verbonden"
   },
   "logbuffer": {
     "tooManyLogs": "Te veel berichten. \noude logs verwijderd."
@@ -70,7 +148,26 @@
     "password": "Wachtwoord",
     "title": "Login",
     "username": "Gebruikersnaam",
-    "welcome": "Log in om door te gaan"
+    "welcome": "Log in om door te gaan",
+    "confirmPassword": "Bevestig wachtwoord",
+    "continueAsGuest": "Ga verder als gast",
+    "createAccount": "Account aanmaken",
+    "createAccountDescription": "Maak een account aan om uw gegevens op te slaan.",
+    "deleteAccount": "Account verwijderen",
+    "displayName": "Weergavenaam",
+    "displayNameDescription": "Dit is uw weergavenaam.",
+    "edit": "Account bewerken",
+    "editDescription": "Bewerk uw gegevens.",
+    "editTitle": "Account bewerken",
+    "email": "E-mail",
+    "guest": "Gastgebruiker",
+    "image": "Afbeelding",
+    "newPassword": "Nieuw wachtwoord",
+    "oldPassword": "Oud wachtwoord",
+    "signout": "uitloggen",
+    "update": "Update",
+    "userName": "Gebruikersnaam",
+    "userNameDescription": "Dit is uw gebruikersnaam om in te loggen."
   },
   "navbar": {
     "connected": "aangesloten",
@@ -112,7 +209,11 @@
     "serverOnline": "Online",
     "sessionNotFoundMsg": "Sessie niet gevonden. \nTyp nog een code of maak een nieuwe sessie om te starten.",
     "typecodeMsg": "Typ uw code of maak een nieuwe ruimte om te beginnen.",
-    "welcome": "Bestudeer coderen met AI"
+    "welcome": "Bestudeer coderen met AI",
+    "deleteStorage": "Verwijder alle opslag",
+    "failedCreate": "Kan sessie niet maken",
+    "installPWA": "Installeer PWA",
+    "savedSessionDescription": "Lijst met sessies die u kunt voortzetten"
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -136,7 +237,10 @@
     "replying": "Beantwoorden...",
     "server": "Server",
     "showingLatest": "Toont de laatste {{count}} berichten",
-    "you": "Jij"
+    "you": "Jij",
+    "audioMode": "Audiomodus",
+    "transcribing": "transcriberen...",
+    "transcriptionFailed": "Transcriptie is niet beschikbaar"
   },
   "tour": {
     "blocklyWorkspace": "Werkruimte is de plaats waar u uw code kunt maken.",
@@ -149,7 +253,8 @@
     "tabs": "U kunt tussen de tabbladen schakelen om tussen chat en werkruimte te schakelen.",
     "tourAgain": "U kunt deze tour opnieuw volgen door op deze knop te klikken.",
     "tutorialSelector": "U kunt elke tutorial selecteren die u wilt maken.",
-    "welcome": "Welkom aan boord! \nDeze rondleiding biedt een kort overzicht van het gebruik van deze applicatie."
+    "welcome": "Welkom aan boord! \nDeze rondleiding biedt een kort overzicht van het gebruik van deze applicatie.",
+    "switchMode": "Vanaf hier kunt u de instellingen wijzigen"
   },
   "tutorial": {
     "description": "Kies wat je wilt leren",
@@ -160,11 +265,49 @@
     "startTour": "Kijk wat je kunt doen.",
     "startTutorial": "Tutorial is geselecteerd",
     "title": "Kies zelfstudie",
-    "tour": "Rondleiding starten"
+    "tour": "Rondleiding starten",
+    "otherLanguage": "Tutorial in een andere taal",
+    "otherLanguageDescription": "Omdat deze tutorials worden vertaald, kunnen ze onnauwkeurig zijn.",
+    "responseMode": "Reactiemodus",
+    "responseModeChanged": "Reactiemodus is gewijzigd in {{mode}}.",
+    "responseModeDescription": "Schakel de gewenste reactiemodus om naar audio of tekst",
+    "yourLanguage": "Tutorial voor uw taal"
   },
   "vm": {
     "outOfMemory": "Machine heeft de geheugenlimiet bereikt",
     "updatedScriptError": "Fout bij het uitvoeren van bijgewerkt script: {{error}}",
     "updatedScriptSuccess": "Bijgewerkt script succesvol uitgevoerd."
+  },
+  "general": {
+    "audio": "Audio",
+    "back": "Rug",
+    "connected": "Aangesloten",
+    "delete": "Verwijderen",
+    "download": "Downloaden",
+    "edit": "Bewerking",
+    "open": "Open",
+    "save": "Redden",
+    "text": "Tekst",
+    "upload": "Uploaden",
+    "websocketNotConnected": "Websocket is niet verbonden"
+  },
+  "toast": {
+    "createdTutorial": "Tutorial gemaakt",
+    "deletedTutorial": "Tutorial verwijderd",
+    "deletedUser": "Gebruiker verwijderd",
+    "failedToCreateTutorial": "Kan zelfstudie niet maken",
+    "failedToDeleteTutorial": "Kan de tutorial niet verwijderen",
+    "failedToDeleteUser": "Kan gebruiker niet verwijderen",
+    "failedToUpdateInfo": "Kan gebruikersinformatie niet bijwerken.",
+    "failedToUpdatePassword": "Kan wachtwoord niet updaten.",
+    "failedToUpdateRole": "Kan de rol niet updaten",
+    "failedToUpdateTutorial": "Kan de tutorial niet updaten",
+    "failedToUpdateUser": "Kan gebruiker niet updaten",
+    "updatedInfo": "Gebruikersinformatie bijgewerkt.",
+    "updatedPassword": "Wachtwoord bijgewerkt.",
+    "updatedRole": "Rol bijgewerkt",
+    "updatedTutorial": "Bijgewerkte handleiding",
+    "updatedUser": "Gebruikersgegevens bijgewerkt",
+    "uploadedTutorial": "Handleiding geüpload"
   }
 }

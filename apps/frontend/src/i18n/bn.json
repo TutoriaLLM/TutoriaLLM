@@ -22,7 +22,8 @@
     "Sentry_DSN": "সেন্ট্রি ডিএসএন (অক্ষম করতে খালি ছেড়ে দিন)",
     "replaysOnErrorSampleRate": "ত্রুটির উপর পুনরায় খেলার জন্য নমুনা হার",
     "replaysSessionSampleRate": "সেশনে রিপ্লের জন্য নমুনা হার",
-    "tracesSampleRate": "ট্রেস জন্য নমুনা হার"
+    "tracesSampleRate": "ট্রেস জন্য নমুনা হার",
+    "Chat_Audio": "চ্যাট অডিও মোডালিটি"
   },
   "admin": {
     "loading": "লোড হচ্ছে",
@@ -34,7 +35,79 @@
     "sessionSummary": "সেশনের সারাংশ",
     "showHeatmap": "হিটম্যাপ দেখান",
     "summary": "সারাংশ",
-    "workspace": "কর্মক্ষেত্র"
+    "workspace": "কর্মক্ষেত্র",
+    "workspacePreview": "ওয়ার্কস্পেস পূর্বরূপ",
+    "actions": "কর্ম",
+    "addNode": "নোড যোগ করুন",
+    "admin": "অ্যাডমিন",
+    "advanced": "উন্নত",
+    "autoUpdate": "স্বয়ংক্রিয় আপডেট",
+    "basic": "মৌলিক",
+    "content": "বিষয়বস্তু",
+    "createExample": "উদাহরণ কোড তৈরি করুন",
+    "createTutorial": "নতুন টিউটোরিয়াল তৈরি করুন",
+    "createUser": "নতুন ব্যবহারকারী তৈরি করুন",
+    "createdTime": "সময় তৈরি করেছে",
+    "currentNumOfBlocks": "ব্লকের বর্তমান সংখ্যা",
+    "dashboard": "অ্যাডমিন ড্যাশবোর্ড",
+    "deleteSession": "মুছে দিন",
+    "downloadAll": "সব সেশন ডাউনলোড করুন",
+    "downloading": "ডাউনলোড হচ্ছে",
+    "edit": "সম্পাদনা করুন",
+    "email": "ইমেইল",
+    "example": "উদাহরণ কোড",
+    "generateContent": "বিদ্যমান বিষয়বস্তু থেকে নতুন সামগ্রী তৈরি করুন",
+    "generateMarkdown": "মার্কডাউন তৈরি করুন",
+    "generateMetadata": "বিষয়বস্তু থেকে মেটাডেটা তৈরি করুন",
+    "generatedMd": "উৎপন্ন মার্কডাউন",
+    "generatedMdComparison": "তুলনা",
+    "generatedMetaData": "জেনারেটেড মেটাডেটা",
+    "generatingMarkdown": "তৈরি হচ্ছে...",
+    "lastUpdatedTime": "শেষ আপডেট সময়",
+    "metadata": "মেটাডেটা",
+    "metadataGenerator": "মেটাডেটা জেনারেটর",
+    "noDate": "তারিখ নেই",
+    "noEmail": "কোনো ইমেল নেই",
+    "noName": "নাম নেই",
+    "noUsername": "ব্যবহারকারীর নাম নেই",
+    "notSelected": "নির্বাচিত না",
+    "originalMd": "আসল মার্কডাউন",
+    "originalMetaData": "আসল মেটাডেটা",
+    "password": "পাসওয়ার্ড",
+    "refineContent": "বিষয়বস্তু পরিমার্জন",
+    "refineMetadata": "মেটাডেটা পরিমার্জন করুন",
+    "role": "ভূমিকা",
+    "selectedTutorial": "নির্বাচিত টিউটোরিয়াল",
+    "sessionAnalyticsDialog": "সেশন বিশ্লেষণ ডায়ালগ",
+    "sessionId": "সেশন আইডি",
+    "sessionNotFound": "সেশন পাওয়া যায়নি",
+    "sessions": "সেশন",
+    "sessionsDescription": "ব্যবহারকারীদের সেশন মনিটর করুন",
+    "sessionsForUser": "ব্যবহারকারী {{user}} এর জন্য সেশন",
+    "settings": "সেটিংস",
+    "stats": "পরিসংখ্যান",
+    "title": "অ্যাডমিন",
+    "totalCodeExecutions": "কোড এক্সিকিউশনের মোট সংখ্যা",
+    "totalConnectingTime": "মোট সংযোগ সময়",
+    "totalInvokedLLM": "মোট আহ্বান করা এলএলএম",
+    "totalUserMessages": "ব্যবহারকারীর বার্তার মোট সংখ্যা",
+    "training": "এআই প্রশিক্ষণ",
+    "trainingDescription": "এআই টিউটরকে প্রশিক্ষণ দিন",
+    "tutorialDescription": "টিউটোরিয়াল বর্ণনা",
+    "tutorialId": "টিউটোরিয়াল আইডি",
+    "tutorialLanguage": "ভাষা",
+    "tutorialSelectCount": "গণনা নির্বাচন করুন",
+    "tutorialTags": "ট্যাগ",
+    "tutorialTitle": "টিউটোরিয়াল শিরোনাম",
+    "tutorials": "টিউটোরিয়াল",
+    "tutorialsDescription": "তৈরি টিউটোরিয়াল চেক করুন",
+    "uploader": "আপলোডার",
+    "uploaderDescription": "টিউটোরিয়াল আপলোড করুন",
+    "user": "ব্যবহারকারী",
+    "username": "ব্যবহারকারীর নাম",
+    "welcome": "TutoriaLLM-এ স্বাগতম",
+    "writeContent": "এখানে আপনার বিষয়বস্তু লিখুন",
+    "writeMetadata": "এখানে আপনার মেটাডেটা লিখুন"
   },
   "dialogue": {
     "Introduction": "হাই! \nকি করতে হবে তা চয়ন করতে আপনার প্রশ্নের টাইপের দ্রুত উত্তর বোতামে ক্লিক করুন!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "**/connect {{host}}/vm/{{userCode}}/mc** থেকে আপনার Minecraft কানেক্ট করুন। \nসংযোগ ব্যর্থ হলে আবার চেষ্টা করুন. \nএনক্রিপশন অনুরোধ বন্ধ করুন।"
+      "connectInfo": "**/connect {{host}}/vm/{{userCode}}/mc** থেকে আপনার Minecraft কানেক্ট করুন। \nসংযোগ ব্যর্থ হলে আবার চেষ্টা করুন. \nএনক্রিপশন অনুরোধ বন্ধ করুন।",
+      "noConnection": "Minecraft সংযুক্ত করা হয় না."
     }
   },
   "generic": {
-    "connected": "সংযুক্ত"
+    "connected": "সংযুক্ত",
+    "audio": "অডিও",
+    "open": "খোলা",
+    "text": "পাঠ্য",
+    "websocketNotConnected": "ওয়েবসকেট সংযুক্ত নয়"
   },
   "logbuffer": {
     "tooManyLogs": "অনেক বার্তা। \nপুরানো লগ মুছে ফেলা হয়েছে।"
@@ -70,7 +148,26 @@
     "password": "পাসওয়ার্ড",
     "title": "লগইন করুন",
     "username": "ব্যবহারকারীর নাম",
-    "welcome": "চালিয়ে যেতে লগইন করুন"
+    "welcome": "চালিয়ে যেতে লগইন করুন",
+    "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+    "continueAsGuest": "অতিথি হিসাবে চালিয়ে যান",
+    "createAccount": "অ্যাকাউন্ট তৈরি করুন",
+    "createAccountDescription": "আপনার ডেটা সংরক্ষণ করতে অ্যাকাউন্ট তৈরি করুন।",
+    "deleteAccount": "অ্যাকাউন্ট মুছুন",
+    "displayName": "প্রদর্শনের নাম",
+    "displayNameDescription": "এটি আপনার প্রদর্শন নাম.",
+    "edit": "অ্যাকাউন্ট সম্পাদনা করুন",
+    "editDescription": "আপনার তথ্য সম্পাদনা করুন.",
+    "editTitle": "অ্যাকাউন্ট সম্পাদনা করুন",
+    "email": "ইমেইল",
+    "guest": "অতিথি ব্যবহারকারী",
+    "image": "ছবি",
+    "newPassword": "নতুন পাসওয়ার্ড",
+    "oldPassword": "পুরানো পাসওয়ার্ড",
+    "signout": "সাইন আউট",
+    "update": "আপডেট",
+    "userName": "ব্যবহারকারীর নাম",
+    "userNameDescription": "লগইন করার জন্য এটি আপনার ব্যবহারকারীর নাম।"
   },
   "navbar": {
     "connected": "সংযুক্ত",
@@ -112,7 +209,11 @@
     "serverOnline": "অনলাইন",
     "sessionNotFoundMsg": "সেশন পাওয়া যায়নি. \nঅন্য কোড টাইপ করুন বা শুরু করতে একটি নতুন সেশন তৈরি করুন।",
     "typecodeMsg": "আপনার কোড টাইপ করুন, বা শুরু করতে নতুন রুম তৈরি করুন।",
-    "welcome": "AI এর সাথে কোডিং অধ্যয়ন করুন"
+    "welcome": "AI এর সাথে কোডিং অধ্যয়ন করুন",
+    "deleteStorage": "সমস্ত স্টোরেজ মুছুন",
+    "failedCreate": "সেশন তৈরি করতে ব্যর্থ হয়েছে৷",
+    "installPWA": "PWA ইনস্টল করুন",
+    "savedSessionDescription": "সেশনের তালিকা যা আপনি চালিয়ে যেতে পারেন"
   },
   "sidebar": {
     "dashboard": "ড্যাশবোর্ড",
@@ -136,7 +237,10 @@
     "replying": "উত্তর দেওয়া হচ্ছে...",
     "server": "সার্ভার",
     "showingLatest": "সর্বশেষ {{count}}টি বার্তা দেখানো হচ্ছে৷",
-    "you": "আপনি"
+    "you": "আপনি",
+    "audioMode": "অডিও মোড",
+    "transcribing": "প্রতিলিপি করা হচ্ছে...",
+    "transcriptionFailed": "প্রতিলিপি অনুপলব্ধ"
   },
   "tour": {
     "blocklyWorkspace": "ওয়ার্কস্পেস হল আপনার কোড তৈরি করার জায়গা।",
@@ -149,7 +253,8 @@
     "tabs": "আপনি চ্যাট এবং ওয়ার্কস্পেসের মধ্যে সরানোর জন্য ট্যাবগুলি স্যুইচ করতে পারেন।",
     "tourAgain": "আপনি এই বোতামটি ক্লিক করে এই সফরটি আবার নিতে পারেন।",
     "tutorialSelector": "আপনি যে কোন টিউটোরিয়াল বানাতে চান তা নির্বাচন করতে পারেন।",
-    "welcome": "বোর্ডে স্বাগতম! \nএই সফর কিভাবে এই অ্যাপ্লিকেশন ব্যবহার করতে একটি সংক্ষিপ্ত ওভারভিউ প্রদান করে."
+    "welcome": "বোর্ডে স্বাগতম! \nএই সফর কিভাবে এই অ্যাপ্লিকেশন ব্যবহার করতে একটি সংক্ষিপ্ত ওভারভিউ প্রদান করে.",
+    "switchMode": "আপনি এখান থেকে সেটিংস পরিবর্তন করতে পারেন"
   },
   "tutorial": {
     "description": "আপনি কি শিখতে চান তা বেছে নিন",
@@ -160,11 +265,49 @@
     "startTour": "আপনি কি করতে পারেন দেখুন.",
     "startTutorial": "টিউটোরিয়াল নির্বাচন করা হয়েছে",
     "title": "টিউটোরিয়াল বাছাই করুন",
-    "tour": "ট্যুর শুরু করুন"
+    "tour": "ট্যুর শুরু করুন",
+    "otherLanguage": "অন্য ভাষা দ্বারা টিউটোরিয়াল",
+    "otherLanguageDescription": "এই টিউটোরিয়াল প্রদান করার জন্য অনুবাদ করা হচ্ছে, ভুল হতে পারে.",
+    "responseMode": "প্রতিক্রিয়া মোড",
+    "responseModeChanged": "প্রতিক্রিয়া মোড {{mode}} এ পরিবর্তিত হয়েছে৷",
+    "responseModeDescription": "পছন্দের প্রতিক্রিয়া মোডকে অডিও বা পাঠ্যে পরিবর্তন করুন",
+    "yourLanguage": "আপনার ভাষার জন্য টিউটোরিয়াল"
   },
   "vm": {
     "outOfMemory": "মেশিন মেমরি সীমা পৌঁছেছে",
     "updatedScriptError": "আপডেট করা স্ক্রিপ্ট চালানোর সময় ত্রুটি: {{error}}",
     "updatedScriptSuccess": "আপডেট করা স্ক্রিপ্ট সফলভাবে চালানো হয়েছে।"
+  },
+  "general": {
+    "audio": "অডিও",
+    "back": "ফিরে",
+    "connected": "সংযুক্ত",
+    "delete": "মুছে দিন",
+    "download": "ডাউনলোড করুন",
+    "edit": "সম্পাদনা করুন",
+    "open": "খোলা",
+    "save": "সংরক্ষণ করুন",
+    "text": "পাঠ্য",
+    "upload": "আপলোড করুন",
+    "websocketNotConnected": "ওয়েবসকেট সংযুক্ত নয়"
+  },
+  "toast": {
+    "createdTutorial": "টিউটোরিয়াল তৈরি করা হয়েছে",
+    "deletedTutorial": "টিউটোরিয়াল মুছে ফেলা হয়েছে",
+    "deletedUser": "ব্যবহারকারী মুছে ফেলা হয়েছে",
+    "failedToCreateTutorial": "টিউটোরিয়াল তৈরি করতে ব্যর্থ হয়েছে৷",
+    "failedToDeleteTutorial": "টিউটোরিয়াল মুছে ফেলতে ব্যর্থ হয়েছে৷",
+    "failedToDeleteUser": "ব্যবহারকারী মুছে ফেলতে ব্যর্থ হয়েছে",
+    "failedToUpdateInfo": "ব্যবহারকারীর তথ্য আপডেট করতে ব্যর্থ।",
+    "failedToUpdatePassword": "পাসওয়ার্ড আপডেট করতে ব্যর্থ হয়েছে.",
+    "failedToUpdateRole": "ভূমিকা আপডেট করতে ব্যর্থ হয়েছে৷",
+    "failedToUpdateTutorial": "টিউটোরিয়াল আপডেট করতে ব্যর্থ হয়েছে৷",
+    "failedToUpdateUser": "ব্যবহারকারী আপডেট করতে ব্যর্থ হয়েছে",
+    "updatedInfo": "ব্যবহারকারীর তথ্য আপডেট করা হয়েছে।",
+    "updatedPassword": "পাসওয়ার্ড আপডেট করা হয়েছে।",
+    "updatedRole": "ভূমিকা আপডেট করা হয়েছে",
+    "updatedTutorial": "আপডেট করা টিউটোরিয়াল",
+    "updatedUser": "ব্যবহারকারীর বিস্তারিত আপডেট করা হয়েছে",
+    "uploadedTutorial": "টিউটোরিয়াল আপলোড করা হয়েছে"
   }
 }

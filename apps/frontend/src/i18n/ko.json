@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN(비활성화하려면 비워두세요)",
     "replaysOnErrorSampleRate": "오류 시 재생의 샘플링 속도",
     "replaysSessionSampleRate": "세션 재생의 샘플 속도",
-    "tracesSampleRate": "트레이스의 샘플링 속도"
+    "tracesSampleRate": "트레이스의 샘플링 속도",
+    "Chat_Audio": "채팅 오디오 형식"
   },
   "admin": {
     "loading": "로드 중",
@@ -34,7 +35,79 @@
     "sessionSummary": "세션 요약",
     "showHeatmap": "히트맵 표시",
     "summary": "요약",
-    "workspace": "작업공간"
+    "workspace": "작업공간",
+    "actions": "행위",
+    "addNode": "노드 추가",
+    "admin": "관리자",
+    "advanced": "고급의",
+    "autoUpdate": "자동 업데이트",
+    "basic": "기초적인",
+    "content": "콘텐츠",
+    "createExample": "예제 코드 생성",
+    "createTutorial": "새 튜토리얼 만들기",
+    "createUser": "새 사용자 만들기",
+    "createdTime": "생성시간",
+    "currentNumOfBlocks": "현재 블록 수",
+    "dashboard": "관리 대시보드",
+    "deleteSession": "삭제",
+    "downloadAll": "모든 세션 다운로드",
+    "downloading": "다운로드 중",
+    "edit": "편집하다",
+    "email": "이메일",
+    "example": "예제 코드",
+    "generateContent": "기존 콘텐츠에서 새 콘텐츠 생성",
+    "generateMarkdown": "인하 생성",
+    "generateMetadata": "콘텐츠에서 메타데이터 생성",
+    "generatedMd": "생성된 가격 인하",
+    "generatedMdComparison": "비교",
+    "generatedMetaData": "생성된 메타데이터",
+    "generatingMarkdown": "생성 중...",
+    "lastUpdatedTime": "마지막 업데이트 시간",
+    "metadata": "메타데이터",
+    "metadataGenerator": "메타데이터 생성기",
+    "noDate": "날짜 없음",
+    "noEmail": "이메일 없음",
+    "noName": "이름 없음",
+    "noUsername": "사용자 이름 없음",
+    "notSelected": "선택되지 않음",
+    "originalMd": "원본 인하",
+    "originalMetaData": "원본 메타데이터",
+    "password": "비밀번호",
+    "refineContent": "콘텐츠 다듬기",
+    "refineMetadata": "메타데이터 개선",
+    "role": "역할",
+    "selectedTutorial": "선택된 튜토리얼",
+    "sessionAnalyticsDialog": "세션 분석 대화상자",
+    "sessionId": "세션 ID",
+    "sessionNotFound": "세션을 찾을 수 없습니다",
+    "sessions": "세션",
+    "sessionsDescription": "사용자 세션 모니터링",
+    "sessionsForUser": "사용자 {{user}}의 세션",
+    "settings": "설정",
+    "stats": "통계",
+    "title": "관리자",
+    "totalCodeExecutions": "총 코드 실행 횟수",
+    "totalConnectingTime": "총 연결 시간",
+    "totalInvokedLLM": "총 호출된 LLM",
+    "totalUserMessages": "총 사용자 메시지 수",
+    "training": "AI 훈련",
+    "trainingDescription": "AI 교사 양성",
+    "tutorialDescription": "튜토리얼 설명",
+    "tutorialId": "튜토리얼 ID",
+    "tutorialLanguage": "언어",
+    "tutorialSelectCount": "개수 선택",
+    "tutorialTags": "태그",
+    "tutorialTitle": "튜토리얼 제목",
+    "tutorials": "튜토리얼",
+    "tutorialsDescription": "생성된 튜토리얼 확인",
+    "uploader": "업로더",
+    "uploaderDescription": "튜토리얼 업로드",
+    "user": "사용자",
+    "username": "사용자 이름",
+    "welcome": "TutoriaLLM에 오신 것을 환영합니다.",
+    "workspacePreview": "작업공간 미리보기",
+    "writeContent": "여기에 콘텐츠를 작성하세요.",
+    "writeMetadata": "여기에 메타데이터를 작성하세요"
   },
   "dialogue": {
     "Introduction": "안녕! \n질문에 해당하는 빠른 답변 버튼을 클릭하여 무엇을 해야 할지 선택하세요!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "**/connect {{host}}/vm/{{userCode}}/mc**에서 Minecraft를 연결하세요. \n연결이 실패하면 다시 시도하세요. \n암호화 요청을 끄십시오."
+      "connectInfo": "**/connect {{host}}/vm/{{userCode}}/mc**에서 Minecraft를 연결하세요. \n연결이 실패하면 다시 시도하세요. \n암호화 요청을 끄십시오.",
+      "noConnection": "마인크래프트가 연결되지 않았습니다."
     }
   },
   "generic": {
-    "connected": "연결됨"
+    "connected": "연결됨",
+    "audio": "오디오",
+    "open": "열려 있는",
+    "text": "텍스트",
+    "websocketNotConnected": "웹소켓이 연결되지 않았습니다"
   },
   "logbuffer": {
     "tooManyLogs": "메시지가 너무 많습니다. \n오래된 로그가 제거되었습니다."
@@ -70,7 +148,26 @@
     "password": "비밀번호",
     "title": "로그인",
     "username": "사용자 이름",
-    "welcome": "계속하려면 로그인하세요"
+    "welcome": "계속하려면 로그인하세요",
+    "confirmPassword": "비밀번호 확인",
+    "continueAsGuest": "게스트로 계속",
+    "createAccount": "계정 만들기",
+    "createAccountDescription": "데이터를 저장하려면 계정을 만드세요.",
+    "deleteAccount": "계정 삭제",
+    "displayName": "표시 이름",
+    "displayNameDescription": "이것이 귀하의 표시 이름입니다.",
+    "edit": "계정 수정",
+    "editDescription": "정보를 편집하세요.",
+    "editTitle": "계정 편집",
+    "email": "이메일",
+    "guest": "게스트 사용자",
+    "image": "영상",
+    "newPassword": "새 비밀번호",
+    "oldPassword": "이전 비밀번호",
+    "signout": "로그아웃",
+    "update": "업데이트",
+    "userName": "사용자 이름",
+    "userNameDescription": "로그인을 위한 사용자 이름입니다."
   },
   "navbar": {
     "connected": "연결됨",
@@ -112,7 +209,11 @@
     "serverOnline": "온라인",
     "sessionNotFoundMsg": "세션을 찾을 수 없습니다. \n다른 코드를 입력하거나 새 세션을 만들어 시작하세요.",
     "typecodeMsg": "코드를 입력하거나 새 방을 만들어 시작하세요.",
-    "welcome": "AI로 코딩 공부하기"
+    "welcome": "AI로 코딩 공부하기",
+    "deleteStorage": "모든 저장공간 삭제",
+    "failedCreate": "세션을 생성하지 못했습니다.",
+    "installPWA": "PWA 설치",
+    "savedSessionDescription": "계속할 수 있는 세션 목록"
   },
   "sidebar": {
     "dashboard": "계기반",
@@ -136,7 +237,10 @@
     "replying": "응답 중...",
     "server": "섬기는 사람",
     "showingLatest": "최근 {{count}}개의 메시지 표시 중",
-    "you": "너"
+    "you": "너",
+    "audioMode": "오디오 모드",
+    "transcribing": "스크립트 작성 중...",
+    "transcriptionFailed": "스크립트를 작성할 수 없습니다."
   },
   "tour": {
     "blocklyWorkspace": "작업 공간은 코드를 작성하는 장소입니다.",
@@ -149,7 +253,8 @@
     "tabs": "탭을 전환하여 채팅과 작업 공간 사이를 이동할 수 있습니다.",
     "tourAgain": "이 버튼을 클릭하면 이 둘러보기를 다시 시작할 수 있습니다.",
     "tutorialSelector": "만들고 싶은 튜토리얼을 선택할 수 있습니다.",
-    "welcome": "탑승을 환영합니다! \n이 둘러보기에서는 이 애플리케이션을 사용하는 방법에 대한 간략한 개요를 제공합니다."
+    "welcome": "탑승을 환영합니다! \n이 둘러보기에서는 이 애플리케이션을 사용하는 방법에 대한 간략한 개요를 제공합니다.",
+    "switchMode": "여기에서 설정을 변경할 수 있습니다"
   },
   "tutorial": {
     "description": "배우고 싶은 것을 선택하세요",
@@ -160,11 +265,49 @@
     "startTour": "당신이 무엇을 할 수 있는지보세요.",
     "startTutorial": "튜토리얼이 선택되었습니다",
     "title": "튜토리얼 선택",
-    "tour": "투어 시작"
+    "tour": "투어 시작",
+    "otherLanguage": "다른 언어로 튜토리얼",
+    "otherLanguageDescription": "이 튜토리얼은 제공하기 위해 번역되므로 정확하지 않을 수 있습니다.",
+    "responseMode": "응답 모드",
+    "responseModeChanged": "응답 모드가 {{mode}}로 변경되었습니다.",
+    "responseModeDescription": "기본 응답 모드를 오디오 또는 텍스트로 전환",
+    "yourLanguage": "귀하의 언어에 대한 튜토리얼"
   },
   "vm": {
     "outOfMemory": "머신이 메모리 한도에 도달했습니다.",
     "updatedScriptError": "업데이트된 스크립트 실행 중 오류 발생: {{error}}",
     "updatedScriptSuccess": "업데이트된 스크립트가 성공적으로 실행되었습니다."
+  },
+  "general": {
+    "audio": "오디오",
+    "back": "뒤쪽에",
+    "connected": "연결됨",
+    "delete": "삭제",
+    "download": "다운로드",
+    "edit": "편집하다",
+    "open": "열려 있는",
+    "save": "구하다",
+    "text": "텍스트",
+    "upload": "업로드",
+    "websocketNotConnected": "웹소켓이 연결되지 않았습니다"
+  },
+  "toast": {
+    "createdTutorial": "튜토리얼이 생성되었습니다.",
+    "deletedTutorial": "튜토리얼이 삭제되었습니다.",
+    "deletedUser": "사용자가 삭제되었습니다.",
+    "failedToCreateTutorial": "튜토리얼을 생성하지 못했습니다.",
+    "failedToDeleteTutorial": "튜토리얼을 삭제하지 못했습니다.",
+    "failedToDeleteUser": "사용자를 삭제하지 못했습니다.",
+    "failedToUpdateInfo": "사용자 정보를 업데이트하지 못했습니다.",
+    "failedToUpdatePassword": "비밀번호를 업데이트하지 못했습니다.",
+    "failedToUpdateRole": "역할을 업데이트하지 못했습니다.",
+    "failedToUpdateTutorial": "튜토리얼을 업데이트하지 못했습니다.",
+    "failedToUpdateUser": "사용자를 업데이트하지 못했습니다.",
+    "updatedInfo": "사용자 정보가 업데이트되었습니다.",
+    "updatedPassword": "비밀번호가 업데이트되었습니다.",
+    "updatedRole": "역할이 업데이트되었습니다.",
+    "updatedTutorial": "업데이트된 튜토리얼",
+    "updatedUser": "사용자 세부정보가 업데이트되었습니다.",
+    "uploadedTutorial": "튜토리얼 업로드됨"
   }
 }

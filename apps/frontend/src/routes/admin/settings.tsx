@@ -7,12 +7,14 @@ import { useMutation } from "@/hooks/useMutations.js";
 import type { AppConfig } from "@/type.js";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/admin/settings")({
 	component: ConfigManager, // This is the main
 });
 
 function ConfigManager() {
+	const { t } = useTranslation();
 	const [config, setConfig] = useState<AppConfig | undefined>(undefined);
 
 	useEffect(() => {
@@ -41,7 +43,7 @@ function ConfigManager() {
 	});
 
 	return (
-		<AdminBodyWrapper title="Settings">
+		<AdminBodyWrapper title={t("admin.settings")}>
 			<div className="p-2 md:p-4">
 				<JSONField
 					obj={config ?? {}}
@@ -61,7 +63,7 @@ function ConfigManager() {
 							});
 						}}
 					>
-						Save Configuration
+						{t("general.save")}
 					</Button>
 				</div>
 			</div>

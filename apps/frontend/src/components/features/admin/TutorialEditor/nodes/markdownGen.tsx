@@ -20,9 +20,11 @@ import { Bot, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
+	const { t } = useTranslation();
 	const [isGenerated, setIsGenerated] = useState(false); // AI generation flags
 	const [markdown, setMarkdown] = useState(data.source || ""); // Get initial values from data.source
 	const [generatedMarkdown, setGeneratedMarkdown] = useState(
@@ -154,7 +156,9 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 				}
 			/>
 			<div className="flex justify-center flex-col items-center p-2">
-				<h3 className="text-lg font-bold mb-2">Comparison</h3>
+				<h3 className="text-lg font-bold mb-2">
+					{t("admin.generatedMdComparison")}
+				</h3>
 				<Button
 					type="button"
 					onClick={() => {
@@ -164,13 +168,13 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 					}}
 				>
 					<Bot className="drop-shadow" />
-					Generate Markdown from AI
+					{t("admin.generateMarkdown")}
 				</Button>
 			</div>
 			{/* Display messages being generated */}
 			{isPending ? (
 				<p className="w-full h-full p-2 text-center text-accent-foreground">
-					Generating Markdown...
+					{t("admin.generatingMarkdown")}
 				</p>
 			) : null}
 			{/* Displays comparison of input and output data */}
@@ -178,13 +182,13 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 				<div className="w-full h-full p-4 bg-background border-t ">
 					<div className="flex gap-4 max-w-xl">
 						<div className="w-[50%] no-wheel">
-							<h4 className="font-semibold">Original Markdown:</h4>
+							<h4 className="font-semibold">{t("admin.originalMd")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-card h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
 								<Markdown>{markdown}</Markdown>
 							</pre>
 						</div>
 						<div className="w-[50%] no-wheel">
-							<h4 className="font-semibold">AI Generated Markdown:</h4>
+							<h4 className="font-semibold">{t("admin.generatedMd")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-card h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
 								<Markdown>{generatedMarkdown}</Markdown>
 							</pre>

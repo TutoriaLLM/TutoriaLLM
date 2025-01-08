@@ -9,10 +9,12 @@ import { CreateFromAnonymous } from "./createFromAnon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
 import { cn } from "@/libs/utils";
+import { useTranslation } from "react-i18next";
 
 export function UserAccount(props: { session: AuthSession }) {
 	const { session } = props;
 	const router = useRouter();
+	const { t } = useTranslation();
 	async function handleLogout() {
 		const result = await authClient.signOut();
 		if (!result.data?.success || result.error) {
@@ -45,13 +47,13 @@ export function UserAccount(props: { session: AuthSession }) {
 			<div className="flex items-center gap-3">
 				<Button variant="destructive" size="sm" onClick={handleLogout}>
 					<DoorOpenIcon className="w-5 h-5" />
-					Logout
+					{t("login.signout")}
 				</Button>
 				<ProfileEditor session={session} />
 				{isAdmin && (
 					<Button variant="secondary" size="sm" onClick={handleOpenAdmin}>
 						<DoorOpenIcon className="w-5 h-5" />
-						Admin
+						{t("admin.title")}
 					</Button>
 				)}
 			</div>
@@ -66,7 +68,7 @@ export function UserAccount(props: { session: AuthSession }) {
 					onClick={handleDeleteAnonymousAccount}
 				>
 					<DoorOpenIcon className="w-5 h-5" />
-					Delete Account
+					{t("login.deleteAccount")}
 				</Button>
 				<CreateFromAnonymous />
 			</div>

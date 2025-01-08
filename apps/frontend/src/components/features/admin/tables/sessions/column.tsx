@@ -20,11 +20,13 @@ import UserCard from "../../userEditor/card";
 import { useRouter } from "@tanstack/react-router";
 import { useToast } from "@/hooks/toast";
 import { cn } from "@/libs/utils";
+import { useTranslation } from "react-i18next";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
 ) {
 	const router = useRouter();
+	const { t } = useTranslation();
 	const handleStatsPopup = (sessionId: string) => {
 		setPopupSessionFromSessionId(sessionId);
 	};
@@ -65,7 +67,7 @@ export function sessionColumns(
 	};
 	const sessionColumns: ColumnDef<SessionValue>[] = [
 		{
-			header: "User",
+			header: t("admin.user"),
 			accessorKey: "userInfo",
 			cell: ({ row }) => {
 				return (
@@ -94,7 +96,7 @@ export function sessionColumns(
 			},
 		},
 		{
-			header: "Session sessionId",
+			header: t("admin.sessionId"),
 			accessorKey: "sessionId",
 			cell: ({ row }) => {
 				return (
@@ -114,14 +116,14 @@ export function sessionColumns(
 			},
 		},
 		{
-			header: "Session Language",
+			header: t("admin.sessionLanguage"),
 			accessorKey: "language",
 			cell: ({ row }) => {
 				return <div>{langToStr(row.original.language || "unknown")}</div>;
 			},
 		},
 		{
-			header: "Created at",
+			header: t("admin.createdTime"),
 			accessorKey: "createdAt",
 			cell: ({ row }) => {
 				return (
@@ -139,7 +141,7 @@ export function sessionColumns(
 			},
 		},
 		{
-			header: "Last Update",
+			header: t("admin.lastUpdatedTime"),
 			accessorKey: "updatedAt",
 			cell: ({ row }) => (
 				<>
@@ -155,7 +157,7 @@ export function sessionColumns(
 			),
 		},
 		{
-			header: "Stats",
+			header: t("admin.stats"),
 			accessorKey: "stats",
 			cell: ({ row }) => (
 				<>
@@ -185,26 +187,26 @@ export function sessionColumns(
 			),
 		},
 		{
-			header: "Actions",
+			header: t("admin.actions"),
 			accessorKey: "actions",
 			cell: ({ row }) => (
 				<span className="flex gap-2">
 					<a href={`/${row.original.sessionId}`} className={buttonVariants()}>
-						Open
+						{t("general.open")}
 					</a>
 					<Button
 						type="button"
 						variant="secondary"
 						onClick={() => handleStatsPopup(row.original.sessionId)}
 					>
-						Stats
+						{t("admin.stats")}
 					</Button>
 
 					<Button
 						variant="destructive"
 						onClick={() => handleDeleteSession(row.original.sessionId)}
 					>
-						Delete
+						{t("admin.deleteSession")}
 					</Button>
 				</span>
 			),

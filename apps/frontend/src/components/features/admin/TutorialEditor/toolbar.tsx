@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import type { CustomNodeType } from "./nodes/nodetype";
+import { useTranslation } from "react-i18next";
 
 export default function Toolbar(props: {
 	id: number | null;
@@ -34,6 +35,7 @@ export default function Toolbar(props: {
 	setNodes: (nodes: Node[]) => void;
 	setIsUploadOpen: (open: boolean) => void;
 }) {
+	const { t } = useTranslation();
 	const { nodes, edges, setNodes } = props;
 
 	const { toast } = useToast();
@@ -77,7 +79,7 @@ export default function Toolbar(props: {
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<CheckCircle className="text-secondary" />
-						Tutorial created successfully
+						{t("toast.createdTutorial")}
 					</p>
 				),
 			});
@@ -87,7 +89,7 @@ export default function Toolbar(props: {
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<XCircle className="text-destructive" />
-						Failed to create tutorial
+						{t("toast.failedToCreateTutorial")}
 					</p>
 				),
 				variant: "destructive",
@@ -101,7 +103,7 @@ export default function Toolbar(props: {
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<CheckCircle className="text-secondary" />
-						Tutorial updated successfully
+						{t("toast.updatedTutorial")}
 					</p>
 				),
 			});
@@ -111,7 +113,7 @@ export default function Toolbar(props: {
 				description: (
 					<p className="flex items-center justify-center gap-2">
 						<XCircle className="text-destructive" />
-						Failed to update tutorial
+						{t("toast.failedToUpdateTutorial")}
 					</p>
 				),
 				variant: "destructive",
@@ -301,18 +303,18 @@ export default function Toolbar(props: {
 				}}
 			>
 				<ChevronLeft />
-				Back
+				{t("general.back")}
 			</Button>
 			<Button type="button" onClick={handleSave}>
-				Save <SaveAll />
+				{t("general.save")} <SaveAll />
 			</Button>
 			<Button type="button" onClick={() => props.setIsUploadOpen(true)}>
-				Upload
+				{t("general.upload")}
 			</Button>
 
 			{props.id !== null && (
 				<Button type="button" onClick={handleDownload}>
-					Download <DownloadIcon />
+					{t("general.download")} <DownloadIcon />
 				</Button>
 			)}
 			<span className="border-r border-gray-400" />
@@ -321,14 +323,14 @@ export default function Toolbar(props: {
 				onOpenChange={handleToggleToolbar}
 			>
 				<DropdownMenu.Trigger className="p-2 bg-primary hover:bg-primary/80 transition-all text-primary-foreground rounded-xl flex justify-between items-center gap-1">
-					Add Nodes
+					{t("admin.addNode")}
 					<ChevronDown />
 				</DropdownMenu.Trigger>
 				<DropdownMenu.Content className="rounded-xl flex flex-col bg-primary-foreground shadow p-1 gap-2">
 					<DropdownMenu.Sub>
 						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-accent hover:bg-accent/80 transition-all p-2 flex justify-between items-center">
 							<Star />
-							Basic
+							{t("admin.basic")}
 							<ChevronRight />
 						</DropdownMenu.SubTrigger>
 						<DropdownMenu.Portal>
@@ -347,8 +349,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Content"
-										description="Write your content here"
+										title={t("admin.content")}
+										description={t("admin.writeContent")}
 										icon={<Notebook />}
 									/>
 								</DropdownMenu.Item>
@@ -362,8 +364,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Metadata"
-										description="Write your metadata here"
+										title={t("admin.metadata")}
+										description={t("admin.writeMetadata")}
 										icon={<FileText />}
 									/>
 								</DropdownMenu.Item>
@@ -372,12 +374,12 @@ export default function Toolbar(props: {
 					</DropdownMenu.Sub>
 					<span className="border-b border-gray-300" />
 					<DropdownMenu.Label className="p-0.5 px-2  font-semibold italic text-foreground">
-						Advanced
+						{t("admin.advanced")}
 					</DropdownMenu.Label>
 					<DropdownMenu.Sub>
 						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-accent  hover:bg-red-300 transition-all p-2 flex justify-between items-center">
 							<Braces />
-							Content
+							{t("admin.content")}
 							<ChevronRight />
 						</DropdownMenu.SubTrigger>
 						<DropdownMenu.Portal>
@@ -396,8 +398,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Content"
-										description="Write your content here"
+										title={t("admin.content")}
+										description={t("admin.writeContent")}
 										icon={<Notebook />}
 									/>
 								</DropdownMenu.Item>
@@ -413,8 +415,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Import Session"
-										description="Import existing session into content"
+										title={t("admin.example")}
+										description={t("admin.createExample")}
 										icon={<Puzzle />}
 									/>
 								</DropdownMenu.Item>
@@ -428,8 +430,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Refine Content"
-										description="Generate new content from content"
+										title={t("admin.refineContent")}
+										description={t("admin.generateContent")}
 										icon={<Bot />}
 									/>
 								</DropdownMenu.Item>
@@ -438,7 +440,7 @@ export default function Toolbar(props: {
 					</DropdownMenu.Sub>
 					<DropdownMenu.Sub>
 						<DropdownMenu.SubTrigger className="rounded-xl cursor-default bg-accent hover:bg-blue-300 transition-all p-2 flex justify-between items-center">
-							<FileText /> Metadata
+							<FileText /> {t("admin.metadata")}
 							<ChevronRight />
 						</DropdownMenu.SubTrigger>
 						<DropdownMenu.Portal>
@@ -458,8 +460,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Metadata"
-										description="Write your metadata here"
+										title={t("admin.metadata")}
+										description={t("admin.writeMetadata")}
 										icon={<FileText />}
 									/>
 								</DropdownMenu.Item>
@@ -474,8 +476,8 @@ export default function Toolbar(props: {
 									}
 								>
 									<MenuText
-										title="Generate Metadata"
-										description="Generate metadata from content"
+										title={t("admin.refineMetadata")}
+										description={t("admin.generateMetadata")}
 										icon={<Bot />}
 									/>
 								</DropdownMenu.Item>

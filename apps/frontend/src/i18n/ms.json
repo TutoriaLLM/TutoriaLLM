@@ -14,7 +14,26 @@
     "loginFailed": "Daftar masuk gagal",
     "password": "Kata laluan",
     "title": "Log masuk",
-    "username": "Nama pengguna"
+    "username": "Nama pengguna",
+    "confirmPassword": "Sahkan kata laluan",
+    "continueAsGuest": "Teruskan sebagai Tetamu",
+    "createAccount": "Buat akaun",
+    "createAccountDescription": "Buat akaun untuk menyimpan data anda.",
+    "deleteAccount": "Padam akaun",
+    "displayName": "Nama paparan",
+    "displayNameDescription": "Ini ialah nama paparan anda.",
+    "edit": "Edit akaun",
+    "editDescription": "Edit maklumat anda.",
+    "editTitle": "Edit Akaun",
+    "email": "E-mel",
+    "guest": "Pengguna tetamu",
+    "image": "Imej",
+    "newPassword": "Kata laluan baharu",
+    "oldPassword": "Kata laluan lama",
+    "signout": "log keluar",
+    "update": "Kemas kini",
+    "userName": "Nama pengguna",
+    "userNameDescription": "Ini adalah nama pengguna anda untuk log masuk."
   },
   "navbar": {
     "connected": "bersambung",
@@ -49,7 +68,11 @@
     "savedSession": "Sesi Disimpan",
     "serverDownMsg": "Tidak dapat menyambung pelayan. \nSemak internet anda atau tanya pentadbir sistem.",
     "serverOffline": "Pelayan di luar talian - Apl tidak tersedia",
-    "serverOnline": "dalam talian"
+    "serverOnline": "dalam talian",
+    "deleteStorage": "Padamkan semua storan",
+    "failedCreate": "Gagal membuat sesi",
+    "installPWA": "Pasang PWA",
+    "savedSessionDescription": "Senarai sesi yang boleh anda teruskan"
   },
   "sidebar": {
     "dashboard": "Papan pemuka",
@@ -73,7 +96,10 @@
     "blocksuggestions": "Blok yang dicadangkan",
     "copiedToClipboard": "disalin!",
     "errorLog": "Log Ralat",
-    "showingLatest": "Menunjukkan {{count}} mesej terkini"
+    "showingLatest": "Menunjukkan {{count}} mesej terkini",
+    "audioMode": "Mod audio",
+    "transcribing": "menyalin...",
+    "transcriptionFailed": "Transkripsi tidak tersedia"
   },
   "tutorial": {
     "description": "Pilih apa yang anda ingin pelajari",
@@ -84,7 +110,13 @@
     "easyModeChanged": "Tukar mod Mudah kepada {{status}}",
     "easyModeDescription": "Respons AI akan menjadi lebih mudah.",
     "startTour": "Lihat apa yang anda boleh lakukan.",
-    "tour": "Mulakan Lawatan"
+    "tour": "Mulakan Lawatan",
+    "otherLanguage": "Tutorial mengikut bahasa lain",
+    "otherLanguageDescription": "Memandangkan tutorial ini diterjemahkan untuk disediakan, mungkin tidak tepat.",
+    "responseMode": "Mod Respons",
+    "responseModeChanged": "Mod respons telah bertukar kepada {{mode}}.",
+    "responseModeDescription": "Tukar mod respons pilihan kepada audio atau teks",
+    "yourLanguage": "Tutorial untuk bahasa anda"
   },
   "AppConfig": {
     "AI_Settings": "Tetapan AI",
@@ -109,7 +141,8 @@
     "Sentry_DSN": "Sentry DSN(Biarkan kosong untuk melumpuhkan)",
     "replaysOnErrorSampleRate": "Kadar Sampel untuk Tayangan Semula pada Ralat",
     "replaysSessionSampleRate": "Kadar Sampel untuk Tayangan Semula pada Sesi",
-    "tracesSampleRate": "Kadar Sampel untuk Jejak"
+    "tracesSampleRate": "Kadar Sampel untuk Jejak",
+    "Chat_Audio": "Modaliti audio sembang"
   },
   "admin": {
     "loading": "Memuatkan",
@@ -121,7 +154,79 @@
     "sessionSummary": "Ringkasan sesi",
     "showHeatmap": "Tunjukkan Peta Haba",
     "summary": "Ringkasan",
-    "workspace": "Ruang kerja"
+    "workspace": "Ruang kerja",
+    "actions": "Tindakan",
+    "addNode": "Tambah nod",
+    "admin": "Admin",
+    "advanced": "Maju",
+    "autoUpdate": "Kemas kini automatik",
+    "basic": "asas",
+    "content": "kandungan",
+    "createExample": "Buat contoh kod",
+    "createTutorial": "Buat tutorial baharu",
+    "createUser": "Buat pengguna baharu",
+    "createdTime": "Masa yang dicipta",
+    "currentNumOfBlocks": "Bilangan blok semasa",
+    "dashboard": "Papan pemuka pentadbir",
+    "deleteSession": "Padam",
+    "downloadAll": "Muat turun semua sesi",
+    "downloading": "Memuat turun",
+    "edit": "Sunting",
+    "email": "E-mel",
+    "example": "Contoh kod",
+    "generateContent": "Hasilkan kandungan baharu daripada kandungan sedia ada",
+    "generateMarkdown": "Hasilkan penurunan harga",
+    "generateMetadata": "Hasilkan metadata daripada kandungan",
+    "generatedMd": "Penurunan harga yang dihasilkan",
+    "generatedMdComparison": "Perbandingan",
+    "generatedMetaData": "Metadata yang dihasilkan",
+    "generatingMarkdown": "Menjana...",
+    "lastUpdatedTime": "Masa dikemas kini terakhir",
+    "metadata": "Metadata",
+    "metadataGenerator": "Penjana metadata",
+    "noDate": "Tiada tarikh",
+    "noEmail": "Tiada E-mel",
+    "noName": "Tiada nama",
+    "noUsername": "Tiada nama pengguna",
+    "notSelected": "tidak terpilih",
+    "originalMd": "Penurunan harga asal",
+    "originalMetaData": "Metadata asal",
+    "password": "Kata laluan",
+    "refineContent": "Perhalusi kandungan",
+    "refineMetadata": "Perhalusi metadata",
+    "role": "Peranan",
+    "selectedTutorial": "Tutorial yang dipilih",
+    "sessionAnalyticsDialog": "Dialog analisis sesi",
+    "sessionId": "id sesi",
+    "sessionNotFound": "Sesi tidak ditemui",
+    "sessions": "Sesi",
+    "sessionsDescription": "Pantau sesi pengguna",
+    "sessionsForUser": "Sesi untuk pengguna {{user}}",
+    "settings": "tetapan",
+    "stats": "Statistik",
+    "title": "Admin",
+    "totalCodeExecutions": "Jumlah bilangan pelaksanaan kod",
+    "totalConnectingTime": "Jumlah masa penyambungan",
+    "totalInvokedLLM": "Jumlah LLM yang digunakan",
+    "totalUserMessages": "Jumlah bilangan mesej pengguna",
+    "training": "Latihan AI",
+    "trainingDescription": "Latih tutor AI",
+    "tutorialDescription": "Penerangan tutorial",
+    "tutorialId": "id tutorial",
+    "tutorialLanguage": "Bahasa",
+    "tutorialSelectCount": "Pilih kiraan",
+    "tutorialTags": "Tag",
+    "tutorialTitle": "Tajuk tutorial",
+    "tutorials": "Tutorial",
+    "tutorialsDescription": "Semak tutorial yang dibuat",
+    "uploader": "Pemuat naik",
+    "uploaderDescription": "Muat naik tutorial",
+    "user": "pengguna",
+    "username": "Nama pengguna",
+    "welcome": "Selamat datang ke TutoriaLLM",
+    "workspacePreview": "Pratonton ruang kerja",
+    "writeContent": "Tulis kandungan anda di sini",
+    "writeMetadata": "Tulis metadata anda di sini"
   },
   "dialogue": {
     "Introduction": "Hai! \nklik butang balas pantas jenis dalam soalan anda untuk memilih perkara yang perlu dilakukan!",
@@ -133,11 +238,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Sambungkan Minecraft anda daripada **/connect {{host}}/vm/{{userCode}}/mc**. \nCuba lagi jika sambungan gagal. \nMatikan permintaan penyulitan."
+      "connectInfo": "Sambungkan Minecraft anda daripada **/connect {{host}}/vm/{{userCode}}/mc**. \nCuba lagi jika sambungan gagal. \nMatikan permintaan penyulitan.",
+      "noConnection": "Minecraft tidak disambungkan."
     }
   },
   "generic": {
-    "connected": "Bersambung"
+    "connected": "Bersambung",
+    "audio": "Audio",
+    "open": "Buka",
+    "text": "Teks",
+    "websocketNotConnected": "Websocket tidak disambungkan"
   },
   "logbuffer": {
     "tooManyLogs": "Terlalu banyak mesej. \nlog lama dikeluarkan."
@@ -160,11 +270,44 @@
     "tabs": "Anda boleh menukar tab untuk beralih antara sembang dan ruang kerja.",
     "tourAgain": "Anda boleh mengikuti lawatan ini sekali lagi dengan klik butang ini.",
     "tutorialSelector": "Anda boleh memilih mana-mana tutorial yang anda ingin buat.",
-    "welcome": "Selamat datang di atas kapal! \nLawatan ini memberikan gambaran ringkas tentang cara menggunakan aplikasi ini."
+    "welcome": "Selamat datang di atas kapal! \nLawatan ini memberikan gambaran ringkas tentang cara menggunakan aplikasi ini.",
+    "switchMode": "Anda boleh menukar tetapan dari sini"
   },
   "vm": {
     "outOfMemory": "Mesin mencapai had ingatan",
     "updatedScriptError": "Ralat semasa melaksanakan skrip yang dikemas kini: {{error}}",
     "updatedScriptSuccess": "Skrip dikemas kini berjaya dilaksanakan."
+  },
+  "general": {
+    "audio": "Audio",
+    "back": "belakang",
+    "connected": "Bersambung",
+    "delete": "Padam",
+    "download": "Muat turun",
+    "edit": "Sunting",
+    "open": "Buka",
+    "save": "Jimat",
+    "text": "Teks",
+    "upload": "Muat naik",
+    "websocketNotConnected": "Websocket tidak disambungkan"
+  },
+  "toast": {
+    "createdTutorial": "Tutorial dibuat",
+    "deletedTutorial": "Tutorial dipadamkan",
+    "deletedUser": "Pengguna dipadamkan",
+    "failedToCreateTutorial": "Gagal membuat tutorial",
+    "failedToDeleteTutorial": "Gagal memadamkan tutorial",
+    "failedToDeleteUser": "Gagal memadamkan pengguna",
+    "failedToUpdateInfo": "Gagal mengemas kini maklumat pengguna.",
+    "failedToUpdatePassword": "Gagal mengemas kini kata laluan.",
+    "failedToUpdateRole": "Gagal mengemas kini peranan",
+    "failedToUpdateTutorial": "Gagal mengemas kini tutorial",
+    "failedToUpdateUser": "Gagal mengemas kini pengguna",
+    "updatedInfo": "Maklumat pengguna dikemas kini.",
+    "updatedPassword": "Kata laluan dikemas kini.",
+    "updatedRole": "Peranan dikemas kini",
+    "updatedTutorial": "Tutorial dikemas kini",
+    "updatedUser": "Butiran pengguna dikemas kini",
+    "uploadedTutorial": "Tutorial dimuat naik"
   }
 }

@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN (เว้นว่างไว้เพื่อปิดใช้งาน)",
     "replaysOnErrorSampleRate": "อัตราตัวอย่างสำหรับการเล่นซ้ำเมื่อมีข้อผิดพลาด",
     "replaysSessionSampleRate": "อัตราตัวอย่างสำหรับการเล่นซ้ำในเซสชัน",
-    "tracesSampleRate": "อัตราตัวอย่างสำหรับการติดตาม"
+    "tracesSampleRate": "อัตราตัวอย่างสำหรับการติดตาม",
+    "Chat_Audio": "รูปแบบเสียงแชท"
   },
   "admin": {
     "loading": "กำลังโหลด",
@@ -34,7 +35,79 @@
     "sessionSummary": "สรุปเซสชัน",
     "showHeatmap": "แสดงแผนที่ความร้อน",
     "summary": "สรุป",
-    "workspace": "พื้นที่ทำงาน"
+    "workspace": "พื้นที่ทำงาน",
+    "actions": "การดำเนินการ",
+    "addNode": "เพิ่มโหนด",
+    "admin": "ผู้ดูแลระบบ",
+    "advanced": "ขั้นสูง",
+    "autoUpdate": "อัปเดตอัตโนมัติ",
+    "basic": "ขั้นพื้นฐาน",
+    "content": "เนื้อหา",
+    "createExample": "สร้างโค้ดตัวอย่าง",
+    "createTutorial": "สร้างบทช่วยสอนใหม่",
+    "createUser": "สร้างผู้ใช้ใหม่",
+    "createdTime": "เวลาที่สร้าง",
+    "currentNumOfBlocks": "จำนวนบล็อกปัจจุบัน",
+    "dashboard": "แดชบอร์ดผู้ดูแลระบบ",
+    "deleteSession": "ลบ",
+    "downloadAll": "ดาวน์โหลดเซสชันทั้งหมด",
+    "downloading": "กำลังดาวน์โหลด",
+    "edit": "แก้ไข",
+    "email": "อีเมล",
+    "example": "รหัสตัวอย่าง",
+    "generateContent": "สร้างเนื้อหาใหม่จากเนื้อหาที่มีอยู่",
+    "generateMarkdown": "สร้างมาร์กดาวน์",
+    "generateMetadata": "สร้างข้อมูลเมตาจากเนื้อหา",
+    "generatedMd": "มาร์กดาวน์ที่สร้างขึ้น",
+    "generatedMdComparison": "การเปรียบเทียบ",
+    "generatedMetaData": "ข้อมูลเมตาที่สร้างขึ้น",
+    "generatingMarkdown": "กำลังสร้าง...",
+    "lastUpdatedTime": "เวลาที่อัปเดตล่าสุด",
+    "metadata": "ข้อมูลเมตา",
+    "metadataGenerator": "เครื่องกำเนิดข้อมูลเมตา",
+    "noDate": "ไม่มีเดท",
+    "noEmail": "ไม่มีอีเมล",
+    "noName": "ไม่มีชื่อ",
+    "noUsername": "ไม่มีชื่อผู้ใช้",
+    "notSelected": "ไม่ได้เลือก",
+    "originalMd": "มาร์กดาวน์เดิม",
+    "originalMetaData": "ข้อมูลเมตาต้นฉบับ",
+    "password": "รหัสผ่าน",
+    "refineContent": "ปรับแต่งเนื้อหา",
+    "refineMetadata": "ปรับแต่งข้อมูลเมตา",
+    "role": "บทบาท",
+    "selectedTutorial": "บทช่วยสอนที่เลือก",
+    "sessionAnalyticsDialog": "กล่องโต้ตอบการวิเคราะห์เซสชัน",
+    "sessionId": "รหัสเซสชัน",
+    "sessionNotFound": "ไม่พบเซสชัน",
+    "sessions": "เซสชัน",
+    "sessionsDescription": "ตรวจสอบเซสชันผู้ใช้",
+    "sessionsForUser": "เซสชันสำหรับผู้ใช้ {{user}}",
+    "settings": "การตั้งค่า",
+    "stats": "สถิติ",
+    "title": "ผู้ดูแลระบบ",
+    "totalCodeExecutions": "จำนวนการเรียกใช้โค้ดทั้งหมด",
+    "totalConnectingTime": "เวลาเชื่อมต่อทั้งหมด",
+    "totalInvokedLLM": "LLM ที่เรียกใช้ทั้งหมด",
+    "totalUserMessages": "จำนวนข้อความผู้ใช้ทั้งหมด",
+    "training": "การฝึกอบรมเอไอ",
+    "trainingDescription": "ฝึกอบรมครูสอนพิเศษ AI",
+    "tutorialDescription": "คำอธิบายบทช่วยสอน",
+    "tutorialId": "รหัสบทช่วยสอน",
+    "tutorialLanguage": "ภาษา",
+    "tutorialSelectCount": "เลือกนับ",
+    "tutorialTags": "แท็ก",
+    "tutorialTitle": "ชื่อบทช่วยสอน",
+    "tutorials": "บทช่วยสอน",
+    "tutorialsDescription": "ตรวจสอบบทช่วยสอนที่สร้างขึ้น",
+    "uploader": "ผู้อัปโหลด",
+    "uploaderDescription": "อัปโหลดบทช่วยสอน",
+    "user": "ผู้ใช้",
+    "username": "ชื่อผู้ใช้",
+    "welcome": "ยินดีต้อนรับสู่ TutoriaLLM",
+    "workspacePreview": "การแสดงตัวอย่างพื้นที่ทำงาน",
+    "writeContent": "เขียนเนื้อหาของคุณที่นี่",
+    "writeMetadata": "เขียนข้อมูลเมตาของคุณที่นี่"
   },
   "dialogue": {
     "Introduction": "สวัสดี! \nคลิกปุ่มตอบกลับด่วนตามประเภทคำถามของคุณเพื่อเลือกว่าจะทำอย่างไร!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "เชื่อมต่อ Minecraft ของคุณจาก **/เชื่อมต่อ {{host}}/vm/{{userCode}}/mc** \nลองอีกครั้งหากการเชื่อมต่อล้มเหลว \nปิดคำขอเข้ารหัส"
+      "connectInfo": "เชื่อมต่อ Minecraft ของคุณจาก **/เชื่อมต่อ {{host}}/vm/{{userCode}}/mc** \nลองอีกครั้งหากการเชื่อมต่อล้มเหลว \nปิดคำขอเข้ารหัส",
+      "noConnection": "Minecraft ไม่ได้เชื่อมต่อ"
     }
   },
   "generic": {
-    "connected": "เชื่อมต่อแล้ว"
+    "connected": "เชื่อมต่อแล้ว",
+    "audio": "เสียง",
+    "open": "เปิด",
+    "text": "ข้อความ",
+    "websocketNotConnected": "ไม่ได้เชื่อมต่อ Websocket"
   },
   "logbuffer": {
     "tooManyLogs": "มีข้อความมากเกินไป \nบันทึกเก่าถูกลบออก"
@@ -70,7 +148,26 @@
     "password": "รหัสผ่าน",
     "title": "เข้าสู่ระบบ",
     "username": "ชื่อผู้ใช้",
-    "welcome": "เข้าสู่ระบบเพื่อดำเนินการต่อ"
+    "welcome": "เข้าสู่ระบบเพื่อดำเนินการต่อ",
+    "confirmPassword": "ยืนยันรหัสผ่าน",
+    "continueAsGuest": "ดำเนินการต่อในฐานะแขก",
+    "createAccount": "สร้างบัญชี",
+    "createAccountDescription": "สร้างบัญชีเพื่อบันทึกข้อมูลของคุณ",
+    "deleteAccount": "ลบบัญชี",
+    "displayName": "ชื่อที่แสดง",
+    "displayNameDescription": "นี่คือชื่อที่แสดงของคุณ",
+    "edit": "แก้ไขบัญชี",
+    "editDescription": "แก้ไขข้อมูลของคุณ",
+    "editTitle": "แก้ไขบัญชี",
+    "email": "อีเมล",
+    "guest": "ผู้ใช้ทั่วไป",
+    "image": "ภาพ",
+    "newPassword": "รหัสผ่านใหม่",
+    "oldPassword": "รหัสผ่านเก่า",
+    "signout": "ออกจากระบบ",
+    "update": "อัปเดต",
+    "userName": "ชื่อผู้ใช้",
+    "userNameDescription": "นี่คือชื่อผู้ใช้ของคุณสำหรับการเข้าสู่ระบบ"
   },
   "navbar": {
     "connected": "เชื่อมต่อแล้ว",
@@ -112,7 +209,11 @@
     "serverOnline": "ออนไลน์",
     "sessionNotFoundMsg": "ไม่พบเซสชัน \nพิมพ์รหัสอื่นหรือสร้างเซสชันใหม่เพื่อเริ่มต้น",
     "typecodeMsg": "พิมพ์รหัสของคุณหรือสร้างห้องใหม่เพื่อเริ่มต้น",
-    "welcome": "เรียนการเขียนโค้ดด้วย AI"
+    "welcome": "เรียนการเขียนโค้ดด้วย AI",
+    "deleteStorage": "ลบที่เก็บข้อมูลทั้งหมด",
+    "failedCreate": "ไม่สามารถสร้างเซสชันได้",
+    "installPWA": "ติดตั้ง กปภ",
+    "savedSessionDescription": "รายการเซสชันที่คุณสามารถดำเนินการต่อได้"
   },
   "sidebar": {
     "dashboard": "แดชบอร์ด",
@@ -136,7 +237,10 @@
     "replying": "กำลังตอบกลับ...",
     "server": "เซิร์ฟเวอร์",
     "showingLatest": "กำลังแสดงข้อความล่าสุด {{count}} ข้อความ",
-    "you": "คุณ"
+    "you": "คุณ",
+    "audioMode": "โหมดเสียง",
+    "transcribing": "กำลังถอดเสียง...",
+    "transcriptionFailed": "ไม่สามารถถอดเสียงเป็นคำได้"
   },
   "tour": {
     "blocklyWorkspace": "Workspace คือที่สำหรับสร้างโค้ดของคุณ",
@@ -149,7 +253,8 @@
     "tabs": "คุณสามารถสลับแท็บเพื่อย้ายไปมาระหว่างแชทและพื้นที่ทำงานได้",
     "tourAgain": "คุณสามารถทัวร์ชมนี้อีกครั้งโดยคลิกปุ่มนี้",
     "tutorialSelector": "คุณสามารถเลือกบทช่วยสอนที่คุณต้องการทำ",
-    "welcome": "ยินดีต้อนรับขึ้นเครื่อง! \nบทแนะนำนี้จะให้ภาพรวมโดยย่อเกี่ยวกับวิธีใช้แอปพลิเคชันนี้"
+    "welcome": "ยินดีต้อนรับขึ้นเครื่อง! \nบทแนะนำนี้จะให้ภาพรวมโดยย่อเกี่ยวกับวิธีใช้แอปพลิเคชันนี้",
+    "switchMode": "คุณสามารถเปลี่ยนการตั้งค่าได้จากที่นี่"
   },
   "tutorial": {
     "description": "เลือกสิ่งที่คุณต้องการเรียนรู้",
@@ -160,11 +265,49 @@
     "startTour": "ดูสิ่งที่คุณสามารถทำได้",
     "startTutorial": "บทช่วยสอนได้เลือกแล้ว",
     "title": "เลือกบทช่วยสอน",
-    "tour": "เริ่มทัวร์"
+    "tour": "เริ่มทัวร์",
+    "otherLanguage": "การสอนด้วยภาษาอื่น",
+    "otherLanguageDescription": "เนื่องจากบทช่วยสอนเหล่านี้ได้รับการแปลเพื่อนำเสนอ อาจไม่ถูกต้อง",
+    "responseMode": "โหมดตอบสนอง",
+    "responseModeChanged": "โหมดการตอบสนองเปลี่ยนเป็น {{mode}}",
+    "responseModeDescription": "สลับโหมดตอบกลับที่ต้องการเป็นเสียงหรือข้อความ",
+    "yourLanguage": "บทช่วยสอนสำหรับภาษาของคุณ"
   },
   "vm": {
     "outOfMemory": "เครื่องถึงขีดจำกัดหน่วยความจำแล้ว",
     "updatedScriptError": "เกิดข้อผิดพลาดในการรันสคริปต์ที่อัปเดต: {{error}}",
     "updatedScriptSuccess": "อัปเดตสคริปต์ดำเนินการสำเร็จแล้ว"
+  },
+  "general": {
+    "audio": "เสียง",
+    "back": "กลับ",
+    "connected": "เชื่อมต่อแล้ว",
+    "delete": "ลบ",
+    "download": "ดาวน์โหลด",
+    "edit": "แก้ไข",
+    "open": "เปิด",
+    "save": "บันทึก",
+    "text": "ข้อความ",
+    "upload": "อัปโหลด",
+    "websocketNotConnected": "ไม่ได้เชื่อมต่อ Websocket"
+  },
+  "toast": {
+    "createdTutorial": "สร้างบทแนะนำแล้ว",
+    "deletedTutorial": "ลบบทแนะนำแล้ว",
+    "deletedUser": "ลบผู้ใช้แล้ว",
+    "failedToCreateTutorial": "ไม่สามารถสร้างบทช่วยสอน",
+    "failedToDeleteTutorial": "ลบบทช่วยสอนไม่สำเร็จ",
+    "failedToDeleteUser": "ลบผู้ใช้ไม่สำเร็จ",
+    "failedToUpdateInfo": "ไม่สามารถอัปเดตข้อมูลผู้ใช้",
+    "failedToUpdatePassword": "ไม่สามารถอัปเดตรหัสผ่าน",
+    "failedToUpdateRole": "อัปเดตบทบาทไม่สำเร็จ",
+    "failedToUpdateTutorial": "อัปเดตบทแนะนำไม่สำเร็จ",
+    "failedToUpdateUser": "ไม่สามารถอัปเดตผู้ใช้",
+    "updatedInfo": "อัปเดตข้อมูลผู้ใช้แล้ว",
+    "updatedPassword": "อัปเดตรหัสผ่านแล้ว",
+    "updatedRole": "อัปเดตบทบาทแล้ว",
+    "updatedTutorial": "บทช่วยสอนที่อัปเดต",
+    "updatedUser": "อัปเดตรายละเอียดผู้ใช้แล้ว",
+    "uploadedTutorial": "อัปโหลดบทแนะนำแล้ว"
   }
 }

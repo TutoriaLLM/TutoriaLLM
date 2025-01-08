@@ -13,6 +13,7 @@ import {
 import i18next from "i18next";
 import { Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {} from "react-tag-input";
 
 type TagForInput = {
@@ -23,6 +24,7 @@ type TagForInput = {
 export function Metadata({ id, data }: NodeProps<metadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 
+	const { t } = useTranslation();
 	const { tags: existingTags } = useListTags();
 
 	const [inputValue, setInputValue] = useState<string>("");
@@ -119,7 +121,7 @@ export function Metadata({ id, data }: NodeProps<metadataNode>) {
 				</Button>
 			</NodeToolbar>
 			<div className="p-2">
-				<div>Metadata</div>
+				<div>{t("admin.metadata")}</div>
 				<div style={{ marginTop: 5 }}>
 					<label className="block mb-2">
 						<span className="text-foreground">Title:</span>

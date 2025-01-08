@@ -42,8 +42,10 @@ import { Select } from "@/components/ui/select";
 import { useState } from "react";
 import { SessionValueView } from "../../SessionValueView";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
+import { useTranslation } from "react-i18next";
 export function SessionByUserTable() {
 	const routeApi = getRouteApi("/admin/users_/$userId");
+	const { t } = useTranslation();
 	const { userId } = routeApi.useParams();
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
@@ -70,7 +72,7 @@ export function SessionByUserTable() {
 	const PopupContent = popupSessionFromSessionId ? (
 		<SessionValueView session={popupSessionFromSessionId} />
 	) : (
-		<div>Session not found</div>
+		<div>{t("admin.notSelected")}</div>
 	);
 
 	const table = useReactTable<SessionValue>({
@@ -84,7 +86,7 @@ export function SessionByUserTable() {
 	});
 
 	return (
-		<AdminBodyWrapper title={`Sessions for user ${userId}`}>
+		<AdminBodyWrapper title={t("admin.sessionsForUser", { user: userId })}>
 			<Dialog
 				open={!!popupSessionFromSessionId}
 				onOpenChange={(value) => {
@@ -95,10 +97,9 @@ export function SessionByUserTable() {
 			>
 				<DialogContent>
 					<DialogHeader>
-						<DialogTitle>Are you absolutely sure?</DialogTitle>
+						<DialogTitle>{t("admin.sessionAnalytics")} </DialogTitle>
 						<DialogDescription>
-							This action cannot be undone. This will permanently delete your
-							account and remove your data from our servers.
+							{t("admin.sessionAnalyticsDialog")}
 						</DialogDescription>
 						{PopupContent}
 					</DialogHeader>
@@ -152,7 +153,7 @@ export function SessionByUserTable() {
 						) : (
 							<TableRow key={0}>
 								<TableCell colSpan={table.getAllColumns().length}>
-									No session found
+									{t("admin.sessionNotFound")}
 								</TableCell>
 							</TableRow>
 						)}

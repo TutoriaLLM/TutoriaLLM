@@ -5,6 +5,7 @@ import type { Tutorial } from "@/type.js";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 export const tutorialsQuerySchema = z.object({
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/admin/tutorials")({
 });
 
 function Tutorials() {
+	const { t } = useTranslation();
 	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [error, setError] = useState<string | null>(null);
 
@@ -38,7 +40,7 @@ function Tutorials() {
 			<div className="overflow-x-auto max-w-screen space-y-2">
 				<TutorialsTable />
 				<AdminFooterWrapper>
-					<h2 className="font-semibold">Create New Tutorial</h2>
+					<h2 className="font-semibold">{t("admin.createTutorial")}</h2>
 					<Button
 						onClick={() =>
 							router.navigate({
@@ -46,7 +48,7 @@ function Tutorials() {
 							})
 						}
 					>
-						Create New Tutorial
+						{t("admin.createTutorial")}
 					</Button>
 				</AdminFooterWrapper>
 			</div>

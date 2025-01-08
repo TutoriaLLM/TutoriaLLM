@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN (برای غیرفعال کردن، خالی بگذارید)",
     "replaysOnErrorSampleRate": "نرخ نمونه برای تکرار در خطا",
     "replaysSessionSampleRate": "نرخ نمونه برای تکرار در جلسه",
-    "tracesSampleRate": "نرخ نمونه برای ردیابی"
+    "tracesSampleRate": "نرخ نمونه برای ردیابی",
+    "Chat_Audio": "حالت صوتی چت"
   },
   "admin": {
     "loading": "در حال بارگذاری",
@@ -34,7 +35,79 @@
     "sessionSummary": "خلاصه جلسه",
     "showHeatmap": "نمایش نقشه حرارتی",
     "summary": "خلاصه",
-    "workspace": "فضای کار"
+    "workspace": "فضای کار",
+    "actions": "اقدامات",
+    "addNode": "اضافه کردن گره",
+    "admin": "مدیر",
+    "advanced": "پیشرفته",
+    "autoUpdate": "به روز رسانی خودکار",
+    "basic": "اساسی",
+    "content": "محتوا",
+    "createExample": "کد نمونه ایجاد کنید",
+    "createTutorial": "آموزش جدید ایجاد کنید",
+    "createUser": "کاربر جدید ایجاد کنید",
+    "createdTime": "زمان ایجاد کرد",
+    "currentNumOfBlocks": "تعداد بلوک های فعلی",
+    "dashboard": "داشبورد مدیریت",
+    "deleteSession": "حذف کنید",
+    "downloadAll": "دانلود تمامی جلسات",
+    "downloading": "در حال دانلود",
+    "edit": "ویرایش کنید",
+    "email": "ایمیل",
+    "example": "کد نمونه",
+    "generateContent": "از محتوای موجود محتوای جدید تولید کنید",
+    "generateMarkdown": "علامت گذاری ایجاد کنید",
+    "generateMetadata": "ایجاد ابرداده از محتوا",
+    "generatedMd": "علامت گذاری ایجاد شد",
+    "generatedMdComparison": "مقایسه",
+    "generatedMetaData": "ابرداده تولید شده",
+    "generatingMarkdown": "در حال تولید...",
+    "lastUpdatedTime": "آخرین زمان به روز رسانی",
+    "metadata": "فراداده",
+    "metadataGenerator": "مولد متادیتا",
+    "noDate": "بدون تاریخ",
+    "noEmail": "بدون ایمیل",
+    "noName": "بدون نام",
+    "noUsername": "بدون نام کاربری",
+    "notSelected": "انتخاب نشده است",
+    "originalMd": "علامت گذاری اصلی",
+    "originalMetaData": "ابرداده اصلی",
+    "password": "رمز عبور",
+    "refineContent": "محتوا را اصلاح کنید",
+    "refineMetadata": "پالایش ابرداده",
+    "role": "نقش",
+    "selectedTutorial": "آموزش انتخاب شده",
+    "sessionAnalyticsDialog": "گفتگوی تجزیه و تحلیل جلسه",
+    "sessionId": "شناسه جلسه",
+    "sessionNotFound": "جلسه پیدا نشد",
+    "sessions": "جلسات",
+    "sessionsDescription": "نظارت بر جلسه کاربران",
+    "sessionsForUser": "جلسات برای کاربر {{user}}",
+    "settings": "تنظیمات",
+    "stats": "آمار",
+    "title": "مدیر",
+    "totalCodeExecutions": "تعداد کل اجرای کد",
+    "totalConnectingTime": "کل زمان اتصال",
+    "totalInvokedLLM": "مجموع فراخوانی LLM",
+    "totalUserMessages": "تعداد کل پیام کاربر",
+    "training": "آموزش هوش مصنوعی",
+    "trainingDescription": "مربی هوش مصنوعی را آموزش دهید",
+    "tutorialDescription": "توضیحات آموزشی",
+    "tutorialId": "شناسه آموزش",
+    "tutorialLanguage": "زبان",
+    "tutorialSelectCount": "تعداد را انتخاب کنید",
+    "tutorialTags": "برچسب ها",
+    "tutorialTitle": "عنوان آموزش",
+    "tutorials": "آموزش ها",
+    "tutorialsDescription": "آموزش های ایجاد شده را بررسی کنید",
+    "uploader": "آپلود کننده",
+    "uploaderDescription": "آپلود آموزش",
+    "user": "کاربر",
+    "username": "نام کاربری",
+    "welcome": "به TutoriaLLM خوش آمدید",
+    "workspacePreview": "پیش نمایش فضای کاری",
+    "writeContent": "مطالب خود را اینجا بنویسید",
+    "writeMetadata": "ابرداده خود را اینجا بنویسید"
   },
   "dialogue": {
     "Introduction": "سلام! \nروی دکمه پاسخ سریع از نوع سوالات خود کلیک کنید تا انتخاب کنید چه کاری انجام دهید!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Minecraft خود را از **/connect {{host}}/vm/{{userCode}}/mc** وصل کنید. \nاگر اتصال ناموفق بود دوباره امتحان کنید. \nدرخواست رمزگذاری را خاموش کنید."
+      "connectInfo": "Minecraft خود را از **/connect {{host}}/vm/{{userCode}}/mc** وصل کنید. \nاگر اتصال ناموفق بود دوباره امتحان کنید. \nدرخواست رمزگذاری را خاموش کنید.",
+      "noConnection": "Minecraft متصل نیست."
     }
   },
   "generic": {
-    "connected": "متصل شد"
+    "connected": "متصل شد",
+    "audio": "صوتی",
+    "open": "باز کنید",
+    "text": "متن",
+    "websocketNotConnected": "وب سوکت متصل نیست"
   },
   "logbuffer": {
     "tooManyLogs": "پیام ها خیلی زیاد است. \nلاگ های قدیمی حذف شدند"
@@ -70,7 +148,26 @@
     "password": "رمز عبور",
     "title": "وارد شوید",
     "username": "نام کاربری",
-    "welcome": "برای ادامه وارد شوید"
+    "welcome": "برای ادامه وارد شوید",
+    "confirmPassword": "رمز عبور را تایید کنید",
+    "continueAsGuest": "به عنوان مهمان ادامه دهید",
+    "createAccount": "ایجاد حساب کاربری",
+    "createAccountDescription": "برای ذخیره اطلاعات خود حساب کاربری ایجاد کنید.",
+    "deleteAccount": "حذف اکانت",
+    "displayName": "نام نمایشی",
+    "displayNameDescription": "این نام نمایشی شماست.",
+    "edit": "ویرایش حساب",
+    "editDescription": "اطلاعات خود را ویرایش کنید",
+    "editTitle": "ویرایش حساب",
+    "email": "ایمیل",
+    "guest": "کاربر مهمان",
+    "image": "تصویر",
+    "newPassword": "رمز عبور جدید",
+    "oldPassword": "رمز قدیمی",
+    "signout": "از سیستم خارج شوید",
+    "update": "به روز رسانی",
+    "userName": "نام کاربری",
+    "userNameDescription": "این نام کاربری شما برای ورود است."
   },
   "navbar": {
     "connected": "متصل است",
@@ -112,7 +209,11 @@
     "serverOnline": "آنلاین",
     "sessionNotFoundMsg": "جلسه پیدا نشد \nکد دیگری را تایپ کنید یا یک جلسه جدید برای شروع ایجاد کنید.",
     "typecodeMsg": "کد خود را تایپ کنید یا اتاق جدیدی برای شروع ایجاد کنید.",
-    "welcome": "آموزش کدنویسی با هوش مصنوعی"
+    "welcome": "آموزش کدنویسی با هوش مصنوعی",
+    "deleteStorage": "تمام فضای ذخیره سازی را حذف کنید",
+    "failedCreate": "جلسه ایجاد نشد",
+    "installPWA": "PWA را نصب کنید",
+    "savedSessionDescription": "لیست جلساتی که می توانید ادامه دهید"
   },
   "sidebar": {
     "dashboard": "داشبورد",
@@ -136,7 +237,10 @@
     "replying": "در حال پاسخ دادن...",
     "server": "سرور",
     "showingLatest": "نمایش آخرین {{count}} پیام",
-    "you": "شما"
+    "you": "شما",
+    "audioMode": "حالت صوتی",
+    "transcribing": "رونویسی...",
+    "transcriptionFailed": "رونویسی در دسترس نیست"
   },
   "tour": {
     "blocklyWorkspace": "Workspace مکانی برای ساخت کد شماست.",
@@ -149,7 +253,8 @@
     "tabs": "می‌توانید برگه‌ها را تغییر دهید تا بین چت و فضای کاری جابه‌جا شوید.",
     "tourAgain": "با کلیک بر روی این دکمه می توانید دوباره از این تور استفاده کنید.",
     "tutorialSelector": "شما می توانید هر آموزشی را که می خواهید بسازید انتخاب کنید.",
-    "welcome": "به کشتی خوش آمدید! \nاین تور یک مرور مختصر از نحوه استفاده از این برنامه ارائه می دهد."
+    "welcome": "به کشتی خوش آمدید! \nاین تور یک مرور مختصر از نحوه استفاده از این برنامه ارائه می دهد.",
+    "switchMode": "از اینجا می توانید تنظیمات را تغییر دهید"
   },
   "tutorial": {
     "description": "آنچه را که می خواهید یاد بگیرید انتخاب کنید",
@@ -160,11 +265,49 @@
     "startTour": "ببین چیکار میتونی بکنی",
     "startTutorial": "آموزش انتخاب شده است",
     "title": "انتخاب آموزش",
-    "tour": "شروع تور"
+    "tour": "شروع تور",
+    "otherLanguage": "آموزش به زبان دیگر",
+    "otherLanguageDescription": "از آنجایی که این آموزش ها برای ارائه ترجمه می شوند، ممکن است نادرست باشند.",
+    "responseMode": "حالت پاسخگویی",
+    "responseModeChanged": "حالت پاسخ به {{حالت}} تغییر کرده است.",
+    "responseModeDescription": "حالت پاسخ ترجیحی را به صدا یا متن تغییر دهید",
+    "yourLanguage": "آموزش زبان شما"
   },
   "vm": {
     "outOfMemory": "دستگاه به محدودیت حافظه رسیده است",
     "updatedScriptError": "خطا در اجرای اسکریپت به روز شده: {{خطا}}",
     "updatedScriptSuccess": "اسکریپت به روز شده با موفقیت اجرا شد."
+  },
+  "general": {
+    "audio": "صوتی",
+    "back": "برگشت",
+    "connected": "متصل شد",
+    "delete": "حذف کنید",
+    "download": "دانلود کنید",
+    "edit": "ویرایش کنید",
+    "open": "باز کنید",
+    "save": "ذخیره کنید",
+    "text": "متن",
+    "upload": "آپلود کنید",
+    "websocketNotConnected": "وب سوکت متصل نیست"
+  },
+  "toast": {
+    "createdTutorial": "آموزش ایجاد شد",
+    "deletedTutorial": "آموزش حذف شد",
+    "deletedUser": "کاربر حذف شد",
+    "failedToCreateTutorial": "ایجاد آموزش ناموفق بود",
+    "failedToDeleteTutorial": "آموزش حذف نشد",
+    "failedToDeleteUser": "کاربر حذف نشد",
+    "failedToUpdateInfo": "اطلاعات کاربر به روز نشد.",
+    "failedToUpdatePassword": "رمز عبور به روز نشد.",
+    "failedToUpdateRole": "نقش به‌روزرسانی نشد",
+    "failedToUpdateTutorial": "آموزش به روز رسانی نشد",
+    "failedToUpdateUser": "کاربر به روز نشد",
+    "updatedInfo": "اطلاعات کاربر به روز شد",
+    "updatedPassword": "رمز به روز شد",
+    "updatedRole": "نقش به روز شد",
+    "updatedTutorial": "آموزش به روز شده",
+    "updatedUser": "جزئیات کاربر به روز شد",
+    "uploadedTutorial": "آموزش آپلود شد"
   }
 }

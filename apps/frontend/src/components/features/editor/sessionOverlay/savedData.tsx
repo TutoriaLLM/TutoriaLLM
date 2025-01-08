@@ -126,7 +126,7 @@ export default function SavedData() {
 					<DialogTitle> {t("session.savedSession")}</DialogTitle>
 					<VisuallyHidden>
 						<DialogDescription>
-							list of saved sessions that you can continue
+							{t("session.savedSessionDescription")}
 						</DialogDescription>
 					</VisuallyHidden>
 				</DialogHeader>

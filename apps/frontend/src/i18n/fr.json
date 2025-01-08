@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN (Laisser vide pour désactiver)",
     "replaysOnErrorSampleRate": "Taux d'échantillonnage pour les rediffusions en cas d'erreur",
     "replaysSessionSampleRate": "Taux d'échantillonnage pour les rediffusions en session",
-    "tracesSampleRate": "Taux d'échantillonnage pour les traces"
+    "tracesSampleRate": "Taux d'échantillonnage pour les traces",
+    "Chat_Audio": "Modalité audio de discussion"
   },
   "admin": {
     "loading": "Chargement",
@@ -34,7 +35,79 @@
     "sessionSummary": "Résumé de la séance",
     "showHeatmap": "Afficher la carte thermique",
     "summary": "Résumé",
-    "workspace": "Espace de travail"
+    "workspace": "Espace de travail",
+    "actions": "Actes",
+    "addNode": "Ajouter un nœud",
+    "admin": "Administrateur",
+    "advanced": "Avancé",
+    "autoUpdate": "Mise à jour automatique",
+    "basic": "Basique",
+    "content": "Contenu",
+    "createExample": "Créer un exemple de code",
+    "createTutorial": "Créer un nouveau tutoriel",
+    "createUser": "Créer un nouvel utilisateur",
+    "createdTime": "Temps de création",
+    "currentNumOfBlocks": "Nombre actuel de blocs",
+    "dashboard": "Tableau de bord d'administration",
+    "deleteSession": "Supprimer",
+    "downloadAll": "Téléchargez toutes les séances",
+    "downloading": "Téléchargement",
+    "edit": "Modifier",
+    "email": "E-mail",
+    "example": "Exemple de code",
+    "generateContent": "Générer du nouveau contenu à partir du contenu existant",
+    "generateMarkdown": "Générer une démarque",
+    "generateMetadata": "Générer des métadonnées à partir du contenu",
+    "generatedMd": "démarque générée",
+    "generatedMdComparison": "Comparaison",
+    "generatedMetaData": "Métadonnées générées",
+    "generatingMarkdown": "Générateur...",
+    "lastUpdatedTime": "Heure de la dernière mise à jour",
+    "metadata": "Métadonnées",
+    "metadataGenerator": "Générateur de métadonnées",
+    "noDate": "Pas de date",
+    "noEmail": "Aucun e-mail",
+    "noName": "Pas de nom",
+    "noUsername": "Aucun nom d'utilisateur",
+    "notSelected": "non sélectionné",
+    "originalMd": "Démarquage original",
+    "originalMetaData": "Métadonnées originales",
+    "password": "Mot de passe",
+    "refineContent": "Affiner le contenu",
+    "refineMetadata": "Affiner les métadonnées",
+    "role": "Rôle",
+    "selectedTutorial": "Tutoriel sélectionné",
+    "sessionAnalyticsDialog": "Boîte de dialogue d'analyse de session",
+    "sessionId": "Identifiant de la session",
+    "sessionNotFound": "Séance introuvable",
+    "sessions": "Séances",
+    "sessionsDescription": "Surveiller la session des utilisateurs",
+    "sessionsForUser": "Sessions pour l'utilisateur {{user}}",
+    "settings": "Paramètres",
+    "stats": "Statistiques",
+    "title": "Administrateur",
+    "totalCodeExecutions": "Nombre total d'exécutions de code",
+    "totalConnectingTime": "Temps total de connexion",
+    "totalInvokedLLM": "Total LLM invoqué",
+    "totalUserMessages": "Nombre total de messages utilisateur",
+    "training": "Formation en IA",
+    "trainingDescription": "Former un tuteur en IA",
+    "tutorialDescription": "Descriptif du tutoriel",
+    "tutorialId": "Identifiant du didacticiel",
+    "tutorialLanguage": "Langue",
+    "tutorialSelectCount": "Sélectionnez le nombre",
+    "tutorialTags": "Balises",
+    "tutorialTitle": "Titre du didacticiel",
+    "tutorials": "Tutoriels",
+    "tutorialsDescription": "Vérifier les tutoriels créés",
+    "uploader": "Téléchargeur",
+    "uploaderDescription": "Télécharger le didacticiel",
+    "user": "Utilisateur",
+    "username": "Nom d'utilisateur",
+    "welcome": "Bienvenue sur TutoriaLLM",
+    "workspacePreview": "Aperçu de l'espace de travail",
+    "writeContent": "Écrivez votre contenu ici",
+    "writeMetadata": "Écrivez vos métadonnées ici"
   },
   "dialogue": {
     "Introduction": "Salut! \ncliquez sur le bouton de réponse rapide ou saisissez vos questions pour choisir quoi faire !",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Connectez votre Minecraft depuis **/connect {{host}}/vm/{{userCode}}/mc**. \nRéessayez si la connexion échoue. \nDésactivez la demande de chiffrement."
+      "connectInfo": "Connectez votre Minecraft depuis **/connect {{host}}/vm/{{userCode}}/mc**. \nRéessayez si la connexion échoue. \nDésactivez la demande de chiffrement.",
+      "noConnection": "Minecraft n'est pas connecté."
     }
   },
   "generic": {
-    "connected": "Connecté"
+    "connected": "Connecté",
+    "audio": "Audio",
+    "open": "Ouvrir",
+    "text": "Texte",
+    "websocketNotConnected": "Websocket n'est pas connecté"
   },
   "logbuffer": {
     "tooManyLogs": "Trop de messages. \nanciens journaux supprimés."
@@ -70,7 +148,26 @@
     "password": "Mot de passe",
     "title": "Se connecter",
     "username": "Nom d'utilisateur",
-    "welcome": "Connectez-vous pour continuer"
+    "welcome": "Connectez-vous pour continuer",
+    "confirmPassword": "Confirmez le mot de passe",
+    "continueAsGuest": "Continuer en tant qu'invité",
+    "createAccount": "Créer un compte",
+    "createAccountDescription": "Créez un compte pour sauvegarder vos données.",
+    "deleteAccount": "Supprimer le compte",
+    "displayName": "Nom d'affichage",
+    "displayNameDescription": "Il s'agit de votre nom d'affichage.",
+    "edit": "Modifier le compte",
+    "editDescription": "Modifiez vos informations.",
+    "editTitle": "Modifier le compte",
+    "email": "E-mail",
+    "guest": "Utilisateur invité",
+    "image": "Image",
+    "newPassword": "Nouveau mot de passe",
+    "oldPassword": "Ancien mot de passe",
+    "signout": "se déconnecter",
+    "update": "Mise à jour",
+    "userName": "Nom d'utilisateur",
+    "userNameDescription": "Il s'agit de votre nom d'utilisateur pour vous connecter."
   },
   "navbar": {
     "connected": "connecté",
@@ -112,7 +209,11 @@
     "serverOnline": "En ligne",
     "sessionNotFoundMsg": "Séance introuvable. \nTapez un autre code ou créez une nouvelle session pour démarrer.",
     "typecodeMsg": "Tapez votre code ou créez une nouvelle salle pour commencer.",
-    "welcome": "Étudier le codage avec l'IA"
+    "welcome": "Étudier le codage avec l'IA",
+    "deleteStorage": "Supprimer tout le stockage",
+    "failedCreate": "Échec de la création de la session",
+    "installPWA": "Installer la PWA",
+    "savedSessionDescription": "Liste des séances que vous pouvez continuer"
   },
   "sidebar": {
     "dashboard": "Tableau de bord",
@@ -136,7 +237,10 @@
     "replying": "Répondre...",
     "server": "Serveur",
     "showingLatest": "Affichage des {{count}} derniers messages",
-    "you": "Toi"
+    "you": "Toi",
+    "audioMode": "Mode audio",
+    "transcribing": "transcrire...",
+    "transcriptionFailed": "La transcription n'est pas disponible"
   },
   "tour": {
     "blocklyWorkspace": "L'espace de travail est l'endroit où créer votre code.",
@@ -149,7 +253,8 @@
     "tabs": "Vous pouvez changer d'onglet pour passer du chat à l'espace de travail.",
     "tourAgain": "Vous pouvez refaire cette visite en cliquant sur ce bouton.",
     "tutorialSelector": "Vous pouvez sélectionner n'importe quel didacticiel que vous souhaitez créer.",
-    "welcome": "Bienvenue à bord ! \nCette visite guidée fournit un bref aperçu de la façon d'utiliser cette application."
+    "welcome": "Bienvenue à bord ! \nCette visite guidée fournit un bref aperçu de la façon d'utiliser cette application.",
+    "switchMode": "Vous pouvez modifier les paramètres à partir d'ici"
   },
   "tutorial": {
     "description": "Choisissez ce que vous voulez apprendre",
@@ -160,11 +265,49 @@
     "startTour": "Regardez ce que vous pouvez faire.",
     "startTutorial": "Le tutoriel a sélectionné",
     "title": "Choisir un didacticiel",
-    "tour": "Démarrer la visite"
+    "tour": "Démarrer la visite",
+    "otherLanguage": "Tutoriel dans une autre langue",
+    "otherLanguageDescription": "Comme ces didacticiels sont traduits, ils peuvent être inexacts.",
+    "responseMode": "Mode de réponse",
+    "responseModeChanged": "Le mode de réponse est passé à {{mode}}.",
+    "responseModeDescription": "Basculez le mode de réponse préféré en audio ou texte",
+    "yourLanguage": "Tutoriel pour votre langue"
   },
   "vm": {
     "outOfMemory": "La machine a atteint la limite de mémoire",
     "updatedScriptError": "Erreur lors de l'exécution du script mis à jour : {{error}}",
     "updatedScriptSuccess": "Script mis à jour exécuté avec succès."
+  },
+  "general": {
+    "audio": "Audio",
+    "back": "Dos",
+    "connected": "Connecté",
+    "delete": "Supprimer",
+    "download": "Télécharger",
+    "edit": "Modifier",
+    "open": "Ouvrir",
+    "save": "Sauvegarder",
+    "text": "Texte",
+    "upload": "Télécharger",
+    "websocketNotConnected": "Websocket n'est pas connecté"
+  },
+  "toast": {
+    "createdTutorial": "Tutoriel créé",
+    "deletedTutorial": "Tutoriel supprimé",
+    "deletedUser": "Utilisateur supprimé",
+    "failedToCreateTutorial": "Échec de la création du didacticiel",
+    "failedToDeleteTutorial": "Échec de la suppression du didacticiel",
+    "failedToDeleteUser": "Échec de la suppression de l'utilisateur",
+    "failedToUpdateInfo": "Échec de la mise à jour des informations utilisateur.",
+    "failedToUpdatePassword": "Échec de la mise à jour du mot de passe.",
+    "failedToUpdateRole": "Échec de la mise à jour du rôle",
+    "failedToUpdateTutorial": "Échec de la mise à jour du didacticiel",
+    "failedToUpdateUser": "Échec de la mise à jour de l'utilisateur",
+    "updatedInfo": "Informations utilisateur mises à jour.",
+    "updatedPassword": "Mot de passe mis à jour.",
+    "updatedRole": "Rôle mis à jour",
+    "updatedTutorial": "Tutoriel mis à jour",
+    "updatedUser": "Détails de l'utilisateur mis à jour",
+    "uploadedTutorial": "Tutoriel téléchargé"
   }
 }

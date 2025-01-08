@@ -5,23 +5,23 @@ import { useMutation } from "@/hooks/useMutations";
 import type { Tutorial } from "@/type";
 import { useRouter } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
+import { useTranslation } from "react-i18next";
 
 export function tutorialsColumns() {
 	const { toast } = useToast();
 	const router = useRouter();
+	const { t } = useTranslation();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteTutorial,
 		onSuccess: () => {
-			console.info("Tutorial deleted successfully");
 			toast({
-				description: "Tutorial deleted successfully",
+				description: t("toast.deletedTutorial"),
 				variant: "default",
 			});
 		},
 		onError: (error) => {
-			console.error("Failed to delete tutorial:", error);
 			toast({
-				description: `An error occurred: ${error}`,
+				description: t("toast.failedToDeleteTutorial"),
 				variant: "destructive",
 			});
 		},
@@ -39,49 +39,49 @@ export function tutorialsColumns() {
 	type TutorialColumn = Omit<Tutorial, "content" | "serializednodes">;
 	const tutorialColumns: ColumnDef<TutorialColumn>[] = [
 		{
-			header: "ID",
+			header: t("admin.tutorialId"),
 			accessorKey: "id",
 			cell: ({ row }) => {
 				return row.original.id;
 			},
 		},
 		{
-			header: "Title",
+			header: t("admin.tutorialTitle"),
 			accessorKey: "metadata.title",
 			cell: ({ row }) => {
 				return row.original.metadata.title;
 			},
 		},
 		{
-			header: "Description",
+			header: t("admin.tutorialDescription"),
 			accessorKey: "metadata.description",
 			cell: ({ row }) => {
 				return row.original.metadata.description;
 			},
 		},
 		{
-			header: "Language",
+			header: t("admin.tutorialLanguage"),
 			accessorKey: "language",
 			cell: ({ row }) => {
 				return row.original.language;
 			},
 		},
 		{
-			header: "Tags",
+			header: t("admin.tutorialTags"),
 			accessorKey: "metadata.tags",
 			cell: ({ row }) => {
 				return row.original.tags.join(", ");
 			},
 		},
 		{
-			header: "Select Count",
+			header: t("admin.tutorialSelectCount"),
 			accessorKey: "metadata.selectCount",
 			cell: ({ row }) => {
 				return row.original.metadata.selectCount;
 			},
 		},
 		{
-			header: "Actions",
+			header: t("admin.actions"),
 			cell: ({ row }) => {
 				return (
 					<div className="flex gap-2">
@@ -89,13 +89,13 @@ export function tutorialsColumns() {
 							onClick={() => handleEditTutorial(row.original.id)}
 							variant="secondary"
 						>
-							Edit
+							{t("general.edit")}
 						</Button>
 						<Button
 							onClick={() => handleDeleteTutorial(row.original.id)}
 							variant="destructive"
 						>
-							Delete
+							{t("general.delete")}
 						</Button>
 					</div>
 				);

@@ -18,12 +18,14 @@ import type {
 import { useMutation } from "@/hooks/useMutations.js";
 import { Bot, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 	const [isGenerated, setIsGenerated] = useState(false);
 	const [content, setContent] = useState(data.source || "");
 
+	const { t } = useTranslation();
 	const initialMetadata = {
 		title: data?.metaData?.title || "",
 		description: data?.metaData?.description || "",
@@ -169,7 +171,9 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 				}
 			/>
 			<div className="flex justify-center flex-col items-center p-2">
-				<h3 className="text-lg font-bold mb-2">Metadata Generator</h3>
+				<h3 className="text-lg font-bold mb-2">
+					{t("admin.metadataGenerator")}
+				</h3>
 				<Button
 					type="button"
 					onClick={() => {
@@ -178,20 +182,20 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 					disabled={isPending}
 				>
 					<Bot className="drop-shadow" />
-					{isPending ? "Generating..." : "Generate Metadata from AI"}
+					{isPending ? "Generating..." : t("admin.generateMetadata")}
 				</Button>
 			</div>
 			{isCompared && (
 				<div className="w-full h-full p-4 bg-gray-100 border-t overflow-y-auto">
 					<div className="flex gap-4 max-w-xl">
 						<div className="w-[50%]">
-							<h4 className="font-semibold">Original Content:</h4>
+							<h4 className="font-semibold">{t("admin.originalMetaData")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
 								{content}
 							</pre>
 						</div>
 						<div className="w-[50%]">
-							<h4 className="font-semibold">AI Generated Metadata:</h4>
+							<h4 className="font-semibold">{t("admin.generatedMetaData")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
 								{JSON.stringify(generatedMetadata)}
 							</pre>

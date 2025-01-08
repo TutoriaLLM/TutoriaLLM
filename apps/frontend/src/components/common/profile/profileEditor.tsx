@@ -11,19 +11,21 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 export function ProfileEditor({ session }: { session: AuthSession }) {
+	const { t } = useTranslation();
 	return (
 		<Dialog>
 			<DialogTrigger asChild={true}>
 				<Button size="sm">
 					<PenIcon />
-					Edit Profile
+					{t("login.edit")}
 				</Button>
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Update Your Information</DialogTitle>
-					<DialogDescription>Update your name and password.</DialogDescription>
+					<DialogTitle>{t("login.editTitle")}</DialogTitle>
+					<DialogDescription>{t("login.editDescription")}</DialogDescription>
 					<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
 						<Editinfo session={session} />
 

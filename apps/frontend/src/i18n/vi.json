@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN(Để trống để tắt)",
     "replaysOnErrorSampleRate": "Tỷ lệ mẫu cho các câu trả lời có lỗi",
     "replaysSessionSampleRate": "Tỷ lệ mẫu cho số lần phát lại trong phiên",
-    "tracesSampleRate": "Tỷ lệ mẫu cho dấu vết"
+    "tracesSampleRate": "Tỷ lệ mẫu cho dấu vết",
+    "Chat_Audio": "Phương thức âm thanh trò chuyện"
   },
   "admin": {
     "loading": "Đang tải",
@@ -34,7 +35,79 @@
     "sessionSummary": "Tóm tắt phiên",
     "showHeatmap": "Hiển thị bản đồ nhiệt",
     "summary": "Bản tóm tắt",
-    "workspace": "Không gian làm việc"
+    "workspace": "Không gian làm việc",
+    "actions": "hành động",
+    "addNode": "Thêm nút",
+    "admin": "Quản trị viên",
+    "advanced": "Trình độ cao",
+    "autoUpdate": "Tự động cập nhật",
+    "basic": "Nền tảng",
+    "content": "Nội dung",
+    "createExample": "Tạo mã ví dụ",
+    "createTutorial": "Tạo hướng dẫn mới",
+    "createUser": "Tạo người dùng mới",
+    "createdTime": "thời gian tạo ra",
+    "currentNumOfBlocks": "Số khối hiện tại",
+    "dashboard": "Trang tổng quan dành cho quản trị viên",
+    "deleteSession": "Xóa bỏ",
+    "downloadAll": "Tải xuống tất cả các phiên",
+    "downloading": "Đang tải xuống",
+    "edit": "Biên tập",
+    "email": "E-mail",
+    "example": "Mã ví dụ",
+    "generateContent": "Tạo nội dung mới từ nội dung hiện có",
+    "generateMarkdown": "Tạo đánh dấu",
+    "generateMetadata": "Tạo siêu dữ liệu từ nội dung",
+    "generatedMd": "Đánh dấu được tạo",
+    "generatedMdComparison": "So sánh",
+    "generatedMetaData": "Siêu dữ liệu đã tạo",
+    "generatingMarkdown": "Đang tạo...",
+    "lastUpdatedTime": "Thời gian cập nhật lần cuối",
+    "metadata": "Siêu dữ liệu",
+    "metadataGenerator": "Trình tạo siêu dữ liệu",
+    "noDate": "Không có ngày",
+    "noEmail": "Không có email",
+    "noName": "Không có tên",
+    "noUsername": "Không có tên người dùng",
+    "notSelected": "không được chọn",
+    "originalMd": "Giảm giá ban đầu",
+    "originalMetaData": "Siêu dữ liệu gốc",
+    "password": "Mật khẩu",
+    "refineContent": "Tinh chỉnh nội dung",
+    "refineMetadata": "Tinh chỉnh siêu dữ liệu",
+    "role": "Vai trò",
+    "selectedTutorial": "Hướng dẫn đã chọn",
+    "sessionAnalyticsDialog": "Hộp thoại phân tích phiên",
+    "sessionId": "Id phiên",
+    "sessionNotFound": "Không tìm thấy phiên",
+    "sessions": "Phiên",
+    "sessionsDescription": "Giám sát phiên người dùng",
+    "sessionsForUser": "Phiên dành cho người dùng {{user}}",
+    "settings": "Cài đặt",
+    "stats": "Thống kê",
+    "title": "Quản trị viên",
+    "totalCodeExecutions": "Tổng số lần thực thi mã",
+    "totalConnectingTime": "Tổng thời gian kết nối",
+    "totalInvokedLLM": "Tổng số LLM được gọi",
+    "totalUserMessages": "Tổng số tin nhắn của người dùng",
+    "training": "đào tạo AI",
+    "trainingDescription": "Đào tạo gia sư AI",
+    "tutorialDescription": "Mô tả hướng dẫn",
+    "tutorialId": "Mã hướng dẫn",
+    "tutorialLanguage": "Ngôn ngữ",
+    "tutorialSelectCount": "Chọn số lượng",
+    "tutorialTags": "Thẻ",
+    "tutorialTitle": "Tiêu đề hướng dẫn",
+    "tutorials": "Hướng dẫn",
+    "tutorialsDescription": "Kiểm tra hướng dẫn đã tạo",
+    "uploader": "Người tải lên",
+    "uploaderDescription": "Tải lên hướng dẫn",
+    "user": "người dùng",
+    "username": "Tên người dùng",
+    "welcome": "Chào mừng đến với TutoriaLLM",
+    "workspacePreview": "Xem trước không gian làm việc",
+    "writeContent": "Viết nội dung của bạn ở đây",
+    "writeMetadata": "Viết siêu dữ liệu của bạn ở đây"
   },
   "dialogue": {
     "Introduction": "CHÀO! \nhãy nhấp vào nút trả lời nhanh trong loại câu hỏi của bạn để chọn việc cần làm!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Kết nối Minecraft của bạn từ **/connect {{host}}/vm/{{userCode}}/mc**. \nHãy thử lại nếu kết nối không thành công. \nTắt yêu cầu mã hóa."
+      "connectInfo": "Kết nối Minecraft của bạn từ **/connect {{host}}/vm/{{userCode}}/mc**. \nHãy thử lại nếu kết nối không thành công. \nTắt yêu cầu mã hóa.",
+      "noConnection": "Minecraft không được kết nối."
     }
   },
   "generic": {
-    "connected": "Đã kết nối"
+    "connected": "Đã kết nối",
+    "audio": "Âm thanh",
+    "open": "Mở",
+    "text": "Chữ",
+    "websocketNotConnected": "Websocket chưa được kết nối"
   },
   "logbuffer": {
     "tooManyLogs": "Quá nhiều tin nhắn. \nnhật ký cũ bị loại bỏ."
@@ -70,7 +148,26 @@
     "password": "Mật khẩu",
     "title": "Đăng nhập",
     "username": "Tên người dùng",
-    "welcome": "Đăng nhập để tiếp tục"
+    "welcome": "Đăng nhập để tiếp tục",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "continueAsGuest": "Tiếp tục với tư cách là khách",
+    "createAccount": "Tạo tài khoản",
+    "createAccountDescription": "Tạo tài khoản để lưu dữ liệu của bạn.",
+    "deleteAccount": "Xóa tài khoản",
+    "displayName": "Tên hiển thị",
+    "displayNameDescription": "Đây là tên hiển thị của bạn.",
+    "edit": "Chỉnh sửa tài khoản",
+    "editDescription": "Chỉnh sửa thông tin của bạn.",
+    "editTitle": "Chỉnh sửa tài khoản",
+    "email": "E-mail",
+    "guest": "Người dùng khách",
+    "image": "Hình ảnh",
+    "newPassword": "Mật khẩu mới",
+    "oldPassword": "Mật khẩu cũ",
+    "signout": "đăng xuất",
+    "update": "Cập nhật",
+    "userName": "Tên người dùng",
+    "userNameDescription": "Đây là tên người dùng của bạn để đăng nhập."
   },
   "navbar": {
     "connected": "đã kết nối",
@@ -112,7 +209,11 @@
     "serverOnline": "Trực tuyến",
     "sessionNotFoundMsg": "Không tìm thấy phiên. \nNhập mã khác hoặc tạo phiên mới để bắt đầu.",
     "typecodeMsg": "Nhập mã của bạn hoặc tạo phòng mới để bắt đầu.",
-    "welcome": "Nghiên cứu mã hóa với AI"
+    "welcome": "Nghiên cứu mã hóa với AI",
+    "deleteStorage": "Xóa tất cả bộ nhớ",
+    "failedCreate": "Không tạo được phiên",
+    "installPWA": "Cài đặt PWA",
+    "savedSessionDescription": "Danh sách các phiên mà bạn có thể tiếp tục"
   },
   "sidebar": {
     "dashboard": "Trang tổng quan",
@@ -136,7 +237,10 @@
     "replying": "Đang trả lời...",
     "server": "Máy chủ",
     "showingLatest": "Hiển thị tin nhắn {{count}} mới nhất",
-    "you": "Bạn"
+    "you": "Bạn",
+    "audioMode": "Chế độ âm thanh",
+    "transcribing": "phiên âm...",
+    "transcriptionFailed": "Phiên âm không có sẵn"
   },
   "tour": {
     "blocklyWorkspace": "Không gian làm việc là nơi để tạo mã của bạn.",
@@ -149,7 +253,8 @@
     "tabs": "Bạn có thể chuyển đổi các tab để di chuyển giữa trò chuyện và không gian làm việc.",
     "tourAgain": "Bạn có thể thực hiện lại chuyến tham quan này bằng cách nhấp vào nút này.",
     "tutorialSelector": "Bạn có thể chọn bất kỳ hướng dẫn nào bạn muốn thực hiện.",
-    "welcome": "Chào mừng lên tàu! \nChuyến tham quan này cung cấp tổng quan ngắn gọn về cách sử dụng ứng dụng này."
+    "welcome": "Chào mừng lên tàu! \nChuyến tham quan này cung cấp tổng quan ngắn gọn về cách sử dụng ứng dụng này.",
+    "switchMode": "Bạn có thể thay đổi cài đặt từ đây"
   },
   "tutorial": {
     "description": "Chọn những gì bạn muốn học",
@@ -160,11 +265,49 @@
     "startTour": "Hãy nhìn xem bạn có thể làm được gì.",
     "startTutorial": "Hướng dẫn đã chọn",
     "title": "Chọn hướng dẫn",
-    "tour": "Bắt đầu chuyến tham quan"
+    "tour": "Bắt đầu chuyến tham quan",
+    "otherLanguage": "Hướng dẫn bằng ngôn ngữ khác",
+    "otherLanguageDescription": "Vì những hướng dẫn này được dịch để cung cấp nên có thể không chính xác.",
+    "responseMode": "Chế độ phản hồi",
+    "responseModeChanged": "Chế độ phản hồi đã thay đổi thành {{mode}}.",
+    "responseModeDescription": "Chuyển chế độ phản hồi ưa thích thành âm thanh hoặc văn bản",
+    "yourLanguage": "Hướng dẫn cho ngôn ngữ của bạn"
   },
   "vm": {
     "outOfMemory": "Máy đã đạt giới hạn bộ nhớ",
     "updatedScriptError": "Lỗi khi thực thi tập lệnh đã cập nhật: {{error}}",
     "updatedScriptSuccess": "Tập lệnh cập nhật được thực thi thành công."
+  },
+  "general": {
+    "audio": "Âm thanh",
+    "back": "Mặt sau",
+    "connected": "Đã kết nối",
+    "delete": "Xóa bỏ",
+    "download": "Tải xuống",
+    "edit": "Biên tập",
+    "open": "Mở",
+    "save": "Cứu",
+    "text": "Chữ",
+    "upload": "Tải lên",
+    "websocketNotConnected": "Websocket chưa được kết nối"
+  },
+  "toast": {
+    "createdTutorial": "Đã tạo hướng dẫn",
+    "deletedTutorial": "Đã xóa hướng dẫn",
+    "deletedUser": "Người dùng đã xóa",
+    "failedToCreateTutorial": "Không tạo được hướng dẫn",
+    "failedToDeleteTutorial": "Không thể xóa hướng dẫn",
+    "failedToDeleteUser": "Không thể xóa người dùng",
+    "failedToUpdateInfo": "Không cập nhật được thông tin người dùng.",
+    "failedToUpdatePassword": "Không cập nhật được mật khẩu.",
+    "failedToUpdateRole": "Không cập nhật được vai trò",
+    "failedToUpdateTutorial": "Không cập nhật được hướng dẫn",
+    "failedToUpdateUser": "Không thể cập nhật người dùng",
+    "updatedInfo": "Thông tin người dùng được cập nhật.",
+    "updatedPassword": "Đã cập nhật mật khẩu.",
+    "updatedRole": "Đã cập nhật vai trò",
+    "updatedTutorial": "Hướng dẫn cập nhật",
+    "updatedUser": "Đã cập nhật chi tiết người dùng",
+    "uploadedTutorial": "Hướng dẫn đã được tải lên"
   }
 }

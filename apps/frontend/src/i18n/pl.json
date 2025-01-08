@@ -22,7 +22,8 @@
     "Sentry_DSN": "Sentry DSN (pozostaw puste, aby wyłączyć)",
     "replaysOnErrorSampleRate": "Częstotliwość próbkowania dla powtórek w przypadku błędu",
     "replaysSessionSampleRate": "Częstotliwość próbkowania dla powtórek w sesji",
-    "tracesSampleRate": "Częstotliwość próbkowania śladów"
+    "tracesSampleRate": "Częstotliwość próbkowania śladów",
+    "Chat_Audio": "Tryb audio czatu"
   },
   "admin": {
     "loading": "Załadunek",
@@ -34,7 +35,79 @@
     "sessionSummary": "Podsumowanie sesji",
     "showHeatmap": "Pokaż mapę cieplną",
     "summary": "Streszczenie",
-    "workspace": "Obszar roboczy"
+    "workspace": "Obszar roboczy",
+    "actions": "Działania",
+    "addNode": "Dodaj węzeł",
+    "admin": "Administrator",
+    "advanced": "Zaawansowany",
+    "autoUpdate": "Automatyczna aktualizacja",
+    "basic": "Podstawowy",
+    "content": "Treść",
+    "createExample": "Utwórz przykładowy kod",
+    "createTutorial": "Utwórz nowy samouczek",
+    "createUser": "Utwórz nowego użytkownika",
+    "createdTime": "Stworzony czas",
+    "currentNumOfBlocks": "Aktualna liczba bloków",
+    "dashboard": "Pulpit administratora",
+    "deleteSession": "Usuwać",
+    "downloadAll": "Pobierz wszystkie sesje",
+    "downloading": "Ściąganie",
+    "edit": "Redagować",
+    "email": "E-mail",
+    "example": "Przykładowy kod",
+    "generateContent": "Generuj nową treść na podstawie istniejącej treści",
+    "generateMarkdown": "Wygeneruj przecenę",
+    "generateMetadata": "Generuj metadane z treści",
+    "generatedMd": "Wygenerowano przecenę",
+    "generatedMdComparison": "Porównanie",
+    "generatedMetaData": "Wygenerowane metadane",
+    "generatingMarkdown": "Generowanie...",
+    "lastUpdatedTime": "Czas ostatniej aktualizacji",
+    "metadata": "Metadane",
+    "metadataGenerator": "Generator metadanych",
+    "noDate": "Brak daty",
+    "noEmail": "Brak e-maila",
+    "noName": "Bez imienia",
+    "noUsername": "Brak nazwy użytkownika",
+    "notSelected": "nie wybrano",
+    "originalMd": "Oryginalna przecena",
+    "originalMetaData": "Oryginalne metadane",
+    "password": "Hasło",
+    "refineContent": "Doprecyzuj treść",
+    "refineMetadata": "Doprecyzuj metadane",
+    "role": "Rola",
+    "selectedTutorial": "Wybrany tutorial",
+    "sessionAnalyticsDialog": "Okno dialogowe analizy sesji",
+    "sessionId": "Identyfikator sesji",
+    "sessionNotFound": "Nie znaleziono sesji",
+    "sessions": "Sesje",
+    "sessionsDescription": "Monitoruj sesję użytkowników",
+    "sessionsForUser": "Sesje dla użytkownika {{user}}",
+    "settings": "Ustawienia",
+    "stats": "Statystyki",
+    "title": "Administrator",
+    "totalCodeExecutions": "Całkowita liczba wykonań kodu",
+    "totalConnectingTime": "Całkowity czas połączenia",
+    "totalInvokedLLM": "Łącznie wywołane LLM",
+    "totalUserMessages": "Całkowita liczba wiadomości użytkownika",
+    "training": "Szkolenie AI",
+    "trainingDescription": "Trenuj nauczyciela AI",
+    "tutorialDescription": "Opis tutoriala",
+    "tutorialId": "Identyfikator samouczka",
+    "tutorialLanguage": "Język",
+    "tutorialSelectCount": "Wybierz liczbę",
+    "tutorialTags": "Tagi",
+    "tutorialTitle": "Tytuł samouczka",
+    "tutorials": "Poradniki",
+    "tutorialsDescription": "Sprawdź utworzone tutoriale",
+    "uploader": "Przesyłający",
+    "uploaderDescription": "Prześlij samouczek",
+    "user": "Użytkownik",
+    "username": "Nazwa użytkownika",
+    "welcome": "Witamy w TutoriaLLM",
+    "workspacePreview": "Podgląd obszaru roboczego",
+    "writeContent": "Wpisz tutaj swoją treść",
+    "writeMetadata": "Wpisz tutaj swoje metadane"
   },
   "dialogue": {
     "Introduction": "Cześć! \nkliknij przycisk szybkiej odpowiedzi i wpisz swoje pytania, aby wybrać, co zrobić!",
@@ -55,11 +128,16 @@
   },
   "extension": {
     "minecraft-core": {
-      "connectInfo": "Połącz swój Minecraft z **/connect {{host}}/vm/{{userCode}}/mc**. \nSpróbuj ponownie, jeśli połączenie nie powiodło się. \nWyłącz żądanie szyfrowania."
+      "connectInfo": "Połącz swój Minecraft z **/connect {{host}}/vm/{{userCode}}/mc**. \nSpróbuj ponownie, jeśli połączenie nie powiodło się. \nWyłącz żądanie szyfrowania.",
+      "noConnection": "Minecraft nie jest podłączony."
     }
   },
   "generic": {
-    "connected": "Połączony"
+    "connected": "Połączony",
+    "audio": "Audio",
+    "open": "Otwarte",
+    "text": "Tekst",
+    "websocketNotConnected": "Gniazdo internetowe nie jest podłączone"
   },
   "logbuffer": {
     "tooManyLogs": "Za dużo wiadomości. \nusunięto stare logi."
@@ -70,7 +148,26 @@
     "password": "Hasło",
     "title": "Login",
     "username": "Nazwa użytkownika",
-    "welcome": "Zaloguj się, aby kontynuować"
+    "welcome": "Zaloguj się, aby kontynuować",
+    "confirmPassword": "Potwierdź hasło",
+    "continueAsGuest": "Kontynuuj jako gość",
+    "createAccount": "Utwórz konto",
+    "createAccountDescription": "Utwórz konto, aby zapisać swoje dane.",
+    "deleteAccount": "Usuń konto",
+    "displayName": "Nazwa wyświetlana",
+    "displayNameDescription": "To jest Twoja nazwa wyświetlana.",
+    "edit": "Edytuj konto",
+    "editDescription": "Edytuj swoje dane.",
+    "editTitle": "Edytuj konto",
+    "email": "E-mail",
+    "guest": "Użytkownik-gość",
+    "image": "Obraz",
+    "newPassword": "Nowe hasło",
+    "oldPassword": "Stare hasło",
+    "signout": "wyloguj się",
+    "update": "Aktualizacja",
+    "userName": "Nazwa użytkownika",
+    "userNameDescription": "To jest Twoja nazwa użytkownika do logowania."
   },
   "navbar": {
     "connected": "połączony",
@@ -112,7 +209,11 @@
     "serverOnline": "W Internecie",
     "sessionNotFoundMsg": "Nie znaleziono sesji. \nAby rozpocząć, wpisz inny kod lub utwórz nową sesję.",
     "typecodeMsg": "Wpisz swój kod lub utwórz nowy pokój, aby rozpocząć.",
-    "welcome": "Ucz się kodowania za pomocą sztucznej inteligencji"
+    "welcome": "Ucz się kodowania za pomocą sztucznej inteligencji",
+    "deleteStorage": "Usuń całą pamięć",
+    "failedCreate": "Nie udało się utworzyć sesji",
+    "installPWA": "Zainstaluj PWA",
+    "savedSessionDescription": "Lista sesji, które możesz kontynuować"
   },
   "sidebar": {
     "dashboard": "Panel",
@@ -136,7 +237,10 @@
     "replying": "Odpowiadanie...",
     "server": "Serwer",
     "showingLatest": "Wyświetlam najnowsze wiadomości ({{count}}).",
-    "you": "Ty"
+    "you": "Ty",
+    "audioMode": "Tryb dźwięku",
+    "transcribing": "transkrypcja...",
+    "transcriptionFailed": "Transkrypcja jest niedostępna"
   },
   "tour": {
     "blocklyWorkspace": "Workspace to miejsce, w którym możesz stworzyć swój kod.",
@@ -149,7 +253,8 @@
     "tabs": "Możesz przełączać karty, aby poruszać się między czatem a obszarem roboczym.",
     "tourAgain": "Możesz ponownie skorzystać z tej wycieczki, klikając ten przycisk.",
     "tutorialSelector": "Możesz wybrać dowolny samouczek, który chcesz przygotować.",
-    "welcome": "Witamy na pokładzie! \nTa wycieczka zawiera krótki przegląd sposobu korzystania z tej aplikacji."
+    "welcome": "Witamy na pokładzie! \nTa wycieczka zawiera krótki przegląd sposobu korzystania z tej aplikacji.",
+    "switchMode": "Tutaj możesz zmienić ustawienia"
   },
   "tutorial": {
     "description": "Wybierz, czego chcesz się uczyć",
@@ -160,11 +265,49 @@
     "startTour": "Zobacz, co możesz zrobić.",
     "startTutorial": "Wybrano samouczek",
     "title": "Wybierz samouczek",
-    "tour": "Rozpocznij wycieczkę"
+    "tour": "Rozpocznij wycieczkę",
+    "otherLanguage": "Samouczek w innym języku",
+    "otherLanguageDescription": "Ponieważ te samouczki są tłumaczone, mogą być niedokładne.",
+    "responseMode": "Tryb odpowiedzi",
+    "responseModeChanged": "Tryb odpowiedzi został zmieniony na {{mode}}.",
+    "responseModeDescription": "Przełącz preferowany tryb odpowiedzi na dźwięk lub tekst",
+    "yourLanguage": "Samouczek dla Twojego języka"
   },
   "vm": {
     "outOfMemory": "Maszyna osiągnęła limit pamięci",
     "updatedScriptError": "Błąd podczas wykonywania zaktualizowanego skryptu: {{error}}",
     "updatedScriptSuccess": "Zaktualizowany skrypt został pomyślnie wykonany."
+  },
+  "general": {
+    "audio": "Audio",
+    "back": "Z powrotem",
+    "connected": "Połączony",
+    "delete": "Usuwać",
+    "download": "Pobierać",
+    "edit": "Redagować",
+    "open": "Otwarte",
+    "save": "Ratować",
+    "text": "Tekst",
+    "upload": "Wgrywać",
+    "websocketNotConnected": "Gniazdo internetowe nie jest podłączone"
+  },
+  "toast": {
+    "createdTutorial": "Utworzono samouczek",
+    "deletedTutorial": "Poradnik został usunięty",
+    "deletedUser": "Użytkownik usunięty",
+    "failedToCreateTutorial": "Nie udało się utworzyć samouczka",
+    "failedToDeleteTutorial": "Nie udało się usunąć samouczka",
+    "failedToDeleteUser": "Nie udało się usunąć użytkownika",
+    "failedToUpdateInfo": "Nie udało się zaktualizować informacji o użytkowniku.",
+    "failedToUpdatePassword": "Nie udało się zaktualizować hasła.",
+    "failedToUpdateRole": "Nie udało się zaktualizować roli",
+    "failedToUpdateTutorial": "Nie udało się zaktualizować samouczka",
+    "failedToUpdateUser": "Nie udało się zaktualizować użytkownika",
+    "updatedInfo": "Informacje o użytkowniku zaktualizowane.",
+    "updatedPassword": "Hasło zaktualizowane.",
+    "updatedRole": "Rola zaktualizowana",
+    "updatedTutorial": "Zaktualizowany samouczek",
+    "updatedUser": "Dane użytkownika zaktualizowane",
+    "uploadedTutorial": "Poradnik przesłany"
   }
 }

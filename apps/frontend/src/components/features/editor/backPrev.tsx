@@ -1,9 +1,11 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Link, useRouter } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function BackToPrevPage({ breadCrumbs }: { breadCrumbs?: string[] }) {
 	const router = useRouter();
+	const { t } = useTranslation();
 
 	const onBack = () => {
 		router.history.back();
@@ -13,7 +15,7 @@ export function BackToPrevPage({ breadCrumbs }: { breadCrumbs?: string[] }) {
 		<div className="flex items-center gap-3">
 			<Button onClick={onBack}>
 				<ChevronLeft />
-				Back
+				{t("general.back")}
 			</Button>
 
 			{breadCrumbs && breadCrumbs.length > 0 && (

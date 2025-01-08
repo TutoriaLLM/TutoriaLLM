@@ -7,6 +7,7 @@ import { authClient } from "@/libs/auth-client";
 import { createFileRoute } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 export const userQuerySchema = z.object({
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/admin/users")({
 });
 
 function Users() {
+	const { t } = useTranslation();
 	const [currentUserId, setCurrentUserId] = useState<null | string>(null);
 	const [newUser, setNewUser] = useState({
 		username: "",
@@ -70,36 +72,36 @@ function Users() {
 		<div className="overflow-x-auto space-y-2">
 			<UserTable userId={currentUserId ?? ""} />
 			<AdminFooterWrapper>
-				<h2 className="py-2 font-semibold">Create New User</h2>
+				<h2 className="py-2 font-semibold">{t("admin.createUser")}</h2>
 				<form className="gap-2 flex">
-					Username:
+					{t("admin.username")}
 					<Input
 						type="text"
 						name="username"
 						value={newUser.username}
 						onChange={handleNewUserChange}
 					/>
-					Email:
+					{t("admin.email")}
 					<Input
 						type="email"
 						name="email"
 						value={newUser.email}
 						onChange={handleNewUserChange}
 					/>
-					Password:
+					{t("admin.password")}
 					<Input
 						type="password"
 						name="password"
 						value={newUser.password}
 						onChange={handleNewUserChange}
 					/>
-					Role:
+					{t("admin.role")}
 					<Select name="role" value={newUser.role} onChange={handleSelectRole}>
-						<option value="admin">Admin</option>
-						<option value="user">User</option>
+						<option value="admin">{t("admin.admin")}</option>
+						<option value="user">{t("admin.user")}</option>
 					</Select>
 					<Button type="button" onClick={handleCreateUser}>
-						Create
+						{t("admin.createUser")}
 					</Button>
 				</form>
 			</AdminFooterWrapper>
