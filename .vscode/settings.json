@@ -1,7 +1,9 @@
 {
   "i18n-ally.localesPaths": ["apps/frontend/src/i18n"],
   "i18n-ally.keystyle": "nested",
-
+  "i18n-ally.pathMatcher": "{locale}.json",
+  "i18n-ally.extract.autoDetect": true,
+  "i18n-ally.enabledFrameworks": ["react-i18next", "i18next", "react"],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
   "[javascript]": {
@@ -20,7 +22,7 @@
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "files.eol": "\n",
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
