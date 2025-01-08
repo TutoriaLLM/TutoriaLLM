@@ -167,7 +167,10 @@
     "signout": "wyloguj się",
     "update": "Aktualizacja",
     "userName": "Nazwa użytkownika",
-    "userNameDescription": "To jest Twoja nazwa użytkownika do logowania."
+    "userNameDescription": "To jest Twoja nazwa użytkownika do logowania.",
+    "confirmPasswordDescription": "Wpisz, aby potwierdzić hasło",
+    "emailDescription": "Twój adres e-mail",
+    "passwordDescription": "Wpisz swoje hasło"
   },
   "navbar": {
     "connected": "połączony",
@@ -308,6 +311,19 @@
     "updatedRole": "Rola zaktualizowana",
     "updatedTutorial": "Zaktualizowany samouczek",
     "updatedUser": "Dane użytkownika zaktualizowane",
-    "uploadedTutorial": "Poradnik przesłany"
+    "uploadedTutorial": "Poradnik przesłany",
+    "anErrorOccurred": "Wystąpił błąd",
+    "configUpdated": "Konfiguracja zaktualizowana",
+    "copiedToClipboard": "Skopiowano!",
+    "failedToCreateAccount": "Nie udało się utworzyć konta",
+    "failedToDeleteSession": "Nie udało się usunąć sesji",
+    "failedToDownloadTutorial": "Nie udało się pobrać samouczka",
+    "failedToSaveTutorial": "Nie udało się zapisać samouczka",
+    "failedToSignOut": "Nie udało się wylogować",
+    "failedToUpdateConfig": "Nie udało się zaktualizować konfiguracji",
+    "failedToUploadTutorial": "Nie udało się przesłać samouczka",
+    "noConfigToSave": "Brak wartości konfiguracyjnej do zapisania",
+    "outputNodeCannotBeDeleted": "Nie można usunąć węzła wyjściowego",
+    "sessionDeleted": "Sesja usunięta"
   }
 }

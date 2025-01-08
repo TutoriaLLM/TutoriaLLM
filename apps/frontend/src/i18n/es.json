@@ -167,7 +167,10 @@
     "signout": "desconectar",
     "update": "Actualizar",
     "userName": "Nombre de usuario",
-    "userNameDescription": "Este es su nombre de usuario para iniciar sesión."
+    "userNameDescription": "Este es su nombre de usuario para iniciar sesión.",
+    "confirmPasswordDescription": "Escribe para confirmar tu contraseña",
+    "emailDescription": "Su dirección de correo electrónico",
+    "passwordDescription": "Escribe tu contraseña"
   },
   "navbar": {
     "connected": "conectado",
@@ -308,6 +311,19 @@
     "updatedRole": "Rol actualizado",
     "updatedTutorial": "Tutorial actualizado",
     "updatedUser": "Detalles de usuario actualizados",
-    "uploadedTutorial": "Tutorial subido"
+    "uploadedTutorial": "Tutorial subido",
+    "anErrorOccurred": "Se produjo un error",
+    "configUpdated": "Configuración actualizada",
+    "copiedToClipboard": "¡Copiado!",
+    "failedToCreateAccount": "No se pudo crear la cuenta",
+    "failedToDeleteSession": "No se pudo eliminar la sesión",
+    "failedToDownloadTutorial": "No se pudo descargar el tutorial",
+    "failedToSaveTutorial": "No se pudo guardar el tutorial",
+    "failedToSignOut": "No se pudo cerrar sesión",
+    "failedToUpdateConfig": "No se pudo actualizar la configuración",
+    "failedToUploadTutorial": "No se pudo cargar el tutorial",
+    "noConfigToSave": "No hay valor de configuración para guardar",
+    "outputNodeCannotBeDeleted": "El nodo de salida no se puede eliminar",
+    "sessionDeleted": "Sesión eliminada"
   }
 }

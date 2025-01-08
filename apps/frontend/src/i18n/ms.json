@@ -33,7 +33,10 @@
     "signout": "log keluar",
     "update": "Kemas kini",
     "userName": "Nama pengguna",
-    "userNameDescription": "Ini adalah nama pengguna anda untuk log masuk."
+    "userNameDescription": "Ini adalah nama pengguna anda untuk log masuk.",
+    "confirmPasswordDescription": "Taip masuk untuk mengesahkan kata laluan anda",
+    "emailDescription": "Alamat e-mel anda",
+    "passwordDescription": "Taip kata laluan anda"
   },
   "navbar": {
     "connected": "bersambung",
@@ -308,6 +311,19 @@
     "updatedRole": "Peranan dikemas kini",
     "updatedTutorial": "Tutorial dikemas kini",
     "updatedUser": "Butiran pengguna dikemas kini",
-    "uploadedTutorial": "Tutorial dimuat naik"
+    "uploadedTutorial": "Tutorial dimuat naik",
+    "anErrorOccurred": "Ralat telah berlaku",
+    "configUpdated": "Konfigurasi dikemas kini",
+    "copiedToClipboard": "disalin!",
+    "failedToCreateAccount": "Gagal membuat akaun",
+    "failedToDeleteSession": "Gagal memadamkan sesi",
+    "failedToDownloadTutorial": "Gagal memuat turun tutorial",
+    "failedToSaveTutorial": "Gagal menyimpan tutorial",
+    "failedToSignOut": "Gagal log keluar",
+    "failedToUpdateConfig": "Gagal mengemas kini konfigurasi",
+    "failedToUploadTutorial": "Gagal memuat naik tutorial",
+    "noConfigToSave": "Tiada nilai konfigurasi untuk disimpan",
+    "outputNodeCannotBeDeleted": "Nod output tidak boleh dipadamkan",
+    "sessionDeleted": "Sesi dipadamkan"
   }
 }

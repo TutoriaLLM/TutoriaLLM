@@ -3,6 +3,7 @@ import { getConfig } from "@/api/config.js";
 import JSONField from "@/components/features/admin/jsonViewer.js";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { AppConfig } from "@/type.js";
 import { createFileRoute } from "@tanstack/react-router";
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/admin/settings")({
 
 function ConfigManager() {
 	const { t } = useTranslation();
+	const { toast } = useToast();
 	const [config, setConfig] = useState<AppConfig | undefined>(undefined);
 
 	useEffect(() => {
@@ -33,10 +35,14 @@ function ConfigManager() {
 	const { mutate } = useMutation({
 		mutationFn: updateConfig,
 		onSuccess: () => {
-			alert("Config updated successfully");
+			toast({
+				description: t("toast.configUpdated"),
+			});
 		},
 		onError: (error) => {
-			alert("Failed to update config");
+			toast({
+				description: t("toast.failedToUpdateConfig"),
+			});
 
 			console.error("Failed to update config:", error);
 		},
@@ -54,7 +60,10 @@ function ConfigManager() {
 						type="button"
 						onClick={() => {
 							if (!config) {
-								alert("No config to save");
+								toast({
+									description: t("toast.noConfigToSave"),
+								});
+
 								return;
 							}
 

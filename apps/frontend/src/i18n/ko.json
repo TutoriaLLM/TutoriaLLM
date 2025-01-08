@@ -167,7 +167,10 @@
     "signout": "로그아웃",
     "update": "업데이트",
     "userName": "사용자 이름",
-    "userNameDescription": "로그인을 위한 사용자 이름입니다."
+    "userNameDescription": "로그인을 위한 사용자 이름입니다.",
+    "confirmPasswordDescription": "비밀번호를 확인하려면 입력하세요.",
+    "emailDescription": "귀하의 이메일 주소",
+    "passwordDescription": "비밀번호를 입력하세요"
   },
   "navbar": {
     "connected": "연결됨",
@@ -308,6 +311,19 @@
     "updatedRole": "역할이 업데이트되었습니다.",
     "updatedTutorial": "업데이트된 튜토리얼",
     "updatedUser": "사용자 세부정보가 업데이트되었습니다.",
-    "uploadedTutorial": "튜토리얼 업로드됨"
+    "uploadedTutorial": "튜토리얼 업로드됨",
+    "anErrorOccurred": "오류가 발생했습니다",
+    "configUpdated": "구성이 업데이트되었습니다.",
+    "copiedToClipboard": "복사되었습니다!",
+    "failedToCreateAccount": "계정을 생성하지 못했습니다.",
+    "failedToDeleteSession": "세션을 삭제하지 못했습니다.",
+    "failedToDownloadTutorial": "튜토리얼을 다운로드하지 못했습니다.",
+    "failedToSaveTutorial": "튜토리얼을 저장하지 못했습니다.",
+    "failedToSignOut": "로그아웃하지 못했습니다.",
+    "failedToUpdateConfig": "구성을 업데이트하지 못했습니다.",
+    "failedToUploadTutorial": "튜토리얼을 업로드하지 못했습니다.",
+    "noConfigToSave": "저장할 구성 값이 없습니다.",
+    "outputNodeCannotBeDeleted": "출력 노드를 삭제할 수 없습니다.",
+    "sessionDeleted": "세션이 삭제되었습니다."
   }
 }

@@ -250,13 +250,17 @@ export default function Toolbar(props: {
 				});
 			}
 		} else {
-			alert("Output node not found.");
+			toast({
+				description: t("toast.failedToSaveTutorial"),
+			});
 		}
 	};
 
 	const handleDownload = () => {
 		if (props.id === null) {
-			alert("IDがありません。ダウンロードはできません。");
+			toast({
+				description: t("toast.failedToDownloadTutorial"),
+			});
 			return;
 		}
 

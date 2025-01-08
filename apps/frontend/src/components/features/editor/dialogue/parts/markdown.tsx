@@ -3,6 +3,7 @@ import {
 	HighlightedBlockId,
 	HighlightedBlockName,
 } from "@/components/features/editor/dialogue/parts/highlight";
+import { toast, useToast } from "@/hooks/toast";
 import {
 	blockNameFromMenuState,
 	currentTabState,
@@ -29,6 +30,7 @@ function highlightText(
 		highlightedBlockState,
 	);
 	const setActiveTab = useSetAtom(currentTabState);
+	const { toast } = useToast();
 
 	const handleBlockNameClick = useCallback(
 		(blockName: string) => {
@@ -146,7 +148,9 @@ function getMarkdownComponents(
 	})();
 	const handleCodeCopy = (code: string) => {
 		navigator.clipboard.writeText(code).then(() => {
-			alert(t("textbubble.copiedToClipboard"));
+			toast({
+				description: t("toast.copiedToClipboard"),
+			});
 		});
 	};
 

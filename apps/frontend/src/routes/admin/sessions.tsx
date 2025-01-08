@@ -1,16 +1,11 @@
-import {} from "@/api/admin/session.js";
 import { SessionTable } from "@/components/features/admin/tables/sessions/table";
-import {} from "@/components/ui/button";
-import {} from "@/hooks/admin/session.js";
+import { useToast } from "@/hooks/toast";
 import type { SessionValue } from "@/type";
-import {} from "@/utils/time";
-import {} from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import {} from "@tanstack/react-table";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 
-import {} from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
 export const sesisonQuerySchema = z.object({
@@ -30,9 +25,14 @@ export const Route = createFileRoute("/admin/sessions")({
 });
 function Sessions() {
 	const [error, setError] = useState<string | null>(null);
+	const { toast } = useToast();
+	const { t } = useTranslation();
 
 	if (error) {
-		alert(error);
+		toast({
+			description: t("toast.anErrorOccurred") + error,
+		});
+
 		setError(null); // Reset error and continue display
 	}
 

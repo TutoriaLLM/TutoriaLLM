@@ -167,7 +167,10 @@
     "signout": "ออกจากระบบ",
     "update": "อัปเดต",
     "userName": "ชื่อผู้ใช้",
-    "userNameDescription": "นี่คือชื่อผู้ใช้ของคุณสำหรับการเข้าสู่ระบบ"
+    "userNameDescription": "นี่คือชื่อผู้ใช้ของคุณสำหรับการเข้าสู่ระบบ",
+    "confirmPasswordDescription": "พิมพ์เพื่อยืนยันรหัสผ่านของคุณ",
+    "emailDescription": "ที่อยู่อีเมลของคุณ",
+    "passwordDescription": "พิมพ์รหัสผ่านของคุณ"
   },
   "navbar": {
     "connected": "เชื่อมต่อแล้ว",
@@ -308,6 +311,19 @@
     "updatedRole": "อัปเดตบทบาทแล้ว",
     "updatedTutorial": "บทช่วยสอนที่อัปเดต",
     "updatedUser": "อัปเดตรายละเอียดผู้ใช้แล้ว",
-    "uploadedTutorial": "อัปโหลดบทแนะนำแล้ว"
+    "uploadedTutorial": "อัปโหลดบทแนะนำแล้ว",
+    "anErrorOccurred": "เกิดข้อผิดพลาด",
+    "configUpdated": "อัปเดตการกำหนดค่าแล้ว",
+    "copiedToClipboard": "คัดลอก!",
+    "failedToCreateAccount": "ไม่สามารถสร้างบัญชีได้",
+    "failedToDeleteSession": "ไม่สามารถลบเซสชัน",
+    "failedToDownloadTutorial": "ดาวน์โหลดบทช่วยสอนไม่สำเร็จ",
+    "failedToSaveTutorial": "ไม่สามารถบันทึกบทช่วยสอน",
+    "failedToSignOut": "ล้มเหลวในการออกจากระบบ",
+    "failedToUpdateConfig": "อัปเดตการกำหนดค่าไม่สำเร็จ",
+    "failedToUploadTutorial": "ไม่สามารถอัปโหลดบทช่วยสอน",
+    "noConfigToSave": "ไม่มีค่าการกำหนดค่าที่จะบันทึก",
+    "outputNodeCannotBeDeleted": "ไม่สามารถลบโหนดเอาต์พุตได้",
+    "sessionDeleted": "ลบเซสชันแล้ว"
   }
 }

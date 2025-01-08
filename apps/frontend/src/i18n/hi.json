@@ -167,7 +167,10 @@
     "signout": "साइन आउट",
     "update": "अद्यतन",
     "userName": "उपयोगकर्ता नाम",
-    "userNameDescription": "लॉगिन के लिए यह आपका उपयोगकर्ता नाम है."
+    "userNameDescription": "लॉगिन के लिए यह आपका उपयोगकर्ता नाम है.",
+    "confirmPasswordDescription": "अपने पासवर्ड की पुष्टि करने के लिए टाइप करें",
+    "emailDescription": "आपका ईमेल पता",
+    "passwordDescription": "अपना पासवर्ड टाइप करें"
   },
   "navbar": {
     "connected": "जुड़े हुए",
@@ -308,6 +311,19 @@
     "updatedRole": "भूमिका अद्यतन की गई",
     "updatedTutorial": "अद्यतन ट्यूटोरियल",
     "updatedUser": "उपयोगकर्ता विवरण अपडेट किया गया",
-    "uploadedTutorial": "ट्यूटोरियल अपलोड किया गया"
+    "uploadedTutorial": "ट्यूटोरियल अपलोड किया गया",
+    "anErrorOccurred": "एक त्रुटि पाई गई",
+    "configUpdated": "कॉन्फ़िग अद्यतन किया गया",
+    "copiedToClipboard": "नकल की गई!",
+    "failedToCreateAccount": "खाता बनाने में विफल",
+    "failedToDeleteSession": "सत्र हटाने में विफल",
+    "failedToDownloadTutorial": "ट्यूटोरियल डाउनलोड करने में विफल",
+    "failedToSaveTutorial": "ट्यूटोरियल सहेजने में विफल",
+    "failedToSignOut": "साइन आउट करने में विफल",
+    "failedToUpdateConfig": "कॉन्फ़िगरेशन अद्यतन करने में विफल",
+    "failedToUploadTutorial": "ट्यूटोरियल अपलोड करने में विफल",
+    "noConfigToSave": "सहेजने के लिए कोई कॉन्फ़िगरेशन मान नहीं",
+    "outputNodeCannotBeDeleted": "आउटपुट नोड को हटाया नहीं जा सकता",
+    "sessionDeleted": "सत्र हटा दिया गया"
   }
 }

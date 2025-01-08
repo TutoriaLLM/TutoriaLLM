@@ -167,7 +167,10 @@
     "signout": "выход",
     "update": "Обновлять",
     "userName": "Имя пользователя",
-    "userNameDescription": "Это ваше имя пользователя для входа в систему."
+    "userNameDescription": "Это ваше имя пользователя для входа в систему.",
+    "confirmPasswordDescription": "Введите, чтобы подтвердить свой пароль",
+    "emailDescription": "Ваш электронный адрес",
+    "passwordDescription": "Введите свой пароль"
   },
   "navbar": {
     "connected": "подключен",
@@ -308,6 +311,19 @@
     "updatedRole": "Роль обновлена",
     "updatedTutorial": "Обновленное руководство",
     "updatedUser": "Сведения о пользователе обновлены.",
-    "uploadedTutorial": "Учебное пособие загружено."
+    "uploadedTutorial": "Учебное пособие загружено.",
+    "anErrorOccurred": "Произошла ошибка",
+    "configUpdated": "Конфигурация обновлена",
+    "copiedToClipboard": "Скопировано!",
+    "failedToCreateAccount": "Не удалось создать учетную запись",
+    "failedToDeleteSession": "Не удалось удалить сеанс",
+    "failedToDownloadTutorial": "Не удалось загрузить учебник.",
+    "failedToSaveTutorial": "Не удалось сохранить учебник.",
+    "failedToSignOut": "Не удалось выйти",
+    "failedToUpdateConfig": "Не удалось обновить конфигурацию",
+    "failedToUploadTutorial": "Не удалось загрузить учебник.",
+    "noConfigToSave": "Нет значения конфигурации для сохранения",
+    "outputNodeCannotBeDeleted": "Выходной узел не может быть удален",
+    "sessionDeleted": "Сессия удалена"
   }
 }

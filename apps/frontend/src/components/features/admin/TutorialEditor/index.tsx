@@ -29,6 +29,7 @@ import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 import type { Tutorial } from "@/type.js";
 import { TutorialUploader } from "./upload";
 import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/toast";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -45,6 +46,7 @@ export default function TutorialEditor(props: {
 	tutorial: Tutorial | null;
 }) {
 	const { t } = useTranslation();
+	const { toast } = useToast();
 	const [tutorialData, setTutorialData] = useState<TutorialType | null>(null);
 	//load tutorial data
 	useEffect(() => {
@@ -131,7 +133,9 @@ export default function TutorialEditor(props: {
 					(change: { type: string; id: string }) => {
 						// Prevent deletion of the "output" node
 						if (change.type === "remove" && change.id === "output") {
-							alert("The 'output' node cannot be deleted.");
+							toast({
+								description: t("toast.outputNodeCannotBeDeleted"),
+							});
 							return false;
 						}
 						return true;

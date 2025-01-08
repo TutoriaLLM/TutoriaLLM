@@ -167,7 +167,10 @@
     "signout": "సైన్ అవుట్",
     "update": "నవీకరించు",
     "userName": "వినియోగదారు పేరు",
-    "userNameDescription": "ఇది లాగిన్ కోసం మీ వినియోగదారు పేరు."
+    "userNameDescription": "ఇది లాగిన్ కోసం మీ వినియోగదారు పేరు.",
+    "confirmPasswordDescription": "మీ పాస్‌వర్డ్‌ని నిర్ధారించడానికి టైప్ చేయండి",
+    "emailDescription": "మీ ఇమెయిల్ చిరునామా",
+    "passwordDescription": "మీ పాస్‌వర్డ్‌ని టైప్ చేయండి"
   },
   "navbar": {
     "connected": "కనెక్ట్ చేయబడింది",
@@ -308,6 +311,19 @@
     "updatedRole": "పాత్ర నవీకరించబడింది",
     "updatedTutorial": "ట్యుటోరియల్ నవీకరించబడింది",
     "updatedUser": "వినియోగదారు వివరాలు నవీకరించబడ్డాయి",
-    "uploadedTutorial": "ట్యుటోరియల్ అప్‌లోడ్ చేయబడింది"
+    "uploadedTutorial": "ట్యుటోరియల్ అప్‌లోడ్ చేయబడింది",
+    "anErrorOccurred": "ఒక లోపం సంభవించింది",
+    "configUpdated": "కాన్ఫిగర్ నవీకరించబడింది",
+    "copiedToClipboard": "కాపీ చేయబడింది!",
+    "failedToCreateAccount": "ఖాతాను సృష్టించడం విఫలమైంది",
+    "failedToDeleteSession": "సెషన్‌ను తొలగించడంలో విఫలమైంది",
+    "failedToDownloadTutorial": "ట్యుటోరియల్‌ని డౌన్‌లోడ్ చేయడంలో విఫలమైంది",
+    "failedToSaveTutorial": "ట్యుటోరియల్‌ని సేవ్ చేయడంలో విఫలమైంది",
+    "failedToSignOut": "సైన్ అవుట్ చేయడంలో విఫలమైంది",
+    "failedToUpdateConfig": "కాన్ఫిగరేషన్‌ను నవీకరించడంలో విఫలమైంది",
+    "failedToUploadTutorial": "ట్యుటోరియల్‌ని అప్‌లోడ్ చేయడంలో విఫలమైంది",
+    "noConfigToSave": "సేవ్ చేయడానికి కాన్ఫిగర్ విలువ లేదు",
+    "outputNodeCannotBeDeleted": "అవుట్‌పుట్ నోడ్ తొలగించబడదు",
+    "sessionDeleted": "సెషన్ తొలగించబడింది"
   }
 }

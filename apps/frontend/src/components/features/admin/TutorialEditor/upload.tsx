@@ -19,9 +19,9 @@ export function TutorialUploader({
 				try {
 					const json = JSON.parse(e.target?.result as string);
 					if (!(json.metadata && json.content && json.serializednodes)) {
-						alert(
-							"Invalid JSON format. Please check the format and try again.",
-						);
+						toast({
+							description: t("toast.failedToUploadTutorial"),
+						});
 						return;
 					}
 					setTutorialData(json);
@@ -29,10 +29,12 @@ export function TutorialUploader({
 						onUpload();
 					}
 					toast({
-						description: t("toast.uploadedTutorial"),
+						description: t("toast.failedToUploadTutorial"),
 					});
 				} catch (error) {
-					alert("Falied to parse JSON. Please check the format and try again.");
+					toast({
+						description: t("toast.failedToUploadTutorial"),
+					});
 				}
 			};
 			reader.readAsText(file);

@@ -167,7 +167,10 @@
     "signout": "از سیستم خارج شوید",
     "update": "به روز رسانی",
     "userName": "نام کاربری",
-    "userNameDescription": "این نام کاربری شما برای ورود است."
+    "userNameDescription": "این نام کاربری شما برای ورود است.",
+    "confirmPasswordDescription": "برای تایید رمز عبور خود را وارد کنید",
+    "emailDescription": "آدرس ایمیل شما",
+    "passwordDescription": "رمز عبور خود را تایپ کنید"
   },
   "navbar": {
     "connected": "متصل است",
@@ -308,6 +311,19 @@
     "updatedRole": "نقش به روز شد",
     "updatedTutorial": "آموزش به روز شده",
     "updatedUser": "جزئیات کاربر به روز شد",
-    "uploadedTutorial": "آموزش آپلود شد"
+    "uploadedTutorial": "آموزش آپلود شد",
+    "anErrorOccurred": "خطایی رخ داد",
+    "configUpdated": "پیکربندی به روز شد",
+    "copiedToClipboard": "کپی شده!",
+    "failedToCreateAccount": "ایجاد حساب ناموفق بود",
+    "failedToDeleteSession": "جلسه حذف نشد",
+    "failedToDownloadTutorial": "دانلود فایل آموزشی انجام نشد",
+    "failedToSaveTutorial": "فایل آموزشی ذخیره نشد",
+    "failedToSignOut": "خروج از سیستم انجام نشد",
+    "failedToUpdateConfig": "پیکربندی به‌روزرسانی نشد",
+    "failedToUploadTutorial": "آپلود آموزش ناموفق بود",
+    "noConfigToSave": "هیچ مقدار پیکربندی برای ذخیره وجود ندارد",
+    "outputNodeCannotBeDeleted": "گره خروجی را نمی توان حذف کرد",
+    "sessionDeleted": "جلسه حذف شد"
   }
 }

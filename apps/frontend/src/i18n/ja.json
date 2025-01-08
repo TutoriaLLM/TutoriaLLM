@@ -33,7 +33,10 @@
     "signout": "サインアウト",
     "update": "アップデート",
     "userName": "ユーザー名",
-    "userNameDescription": "これはログイン用のユーザー名です。"
+    "userNameDescription": "これはログイン用のユーザー名です。",
+    "confirmPasswordDescription": "パスワードを確認のために入力してください",
+    "emailDescription": "あなたのメールアドレス",
+    "passwordDescription": "パスワードを入力してください"
   },
   "navbar": {
     "connected": "接続されています",
@@ -308,6 +311,19 @@
     "updatedRole": "役割が更新されました",
     "updatedTutorial": "チュートリアルを更新しました",
     "updatedUser": "ユーザーの詳細が更新されました",
-    "uploadedTutorial": "チュートリアルがアップロードされました"
+    "uploadedTutorial": "チュートリアルがアップロードされました",
+    "anErrorOccurred": "エラーが発生しました",
+    "configUpdated": "構成が更新されました",
+    "copiedToClipboard": "コピーしました！",
+    "failedToCreateAccount": "アカウントの作成に失敗しました",
+    "failedToDeleteSession": "セッションの削除に失敗しました",
+    "failedToDownloadTutorial": "チュートリアルのダウンロードに失敗しました",
+    "failedToSaveTutorial": "チュートリアルの保存に失敗しました",
+    "failedToSignOut": "サインアウトに失敗しました",
+    "failedToUpdateConfig": "構成の更新に失敗しました",
+    "failedToUploadTutorial": "チュートリアルのアップロードに失敗しました",
+    "noConfigToSave": "保存する構成値がありません",
+    "outputNodeCannotBeDeleted": "出力ノードは削除できません",
+    "sessionDeleted": "セッションが削除されました"
   }
 }

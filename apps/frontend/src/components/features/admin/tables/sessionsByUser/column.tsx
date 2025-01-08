@@ -10,19 +10,25 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 import { cn } from "@/libs/utils";
 import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/toast";
 
 export function sessionByUserColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
 ) {
 	const { t } = useTranslation();
+	const { toast } = useToast();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
 		onSuccess: () => {
-			alert("Session deleted successfully");
+			toast({
+				description: t("toast.sessionDeleted"),
+			});
 			//reload
 		},
 		onError: (error) => {
-			alert("Failed to delete session");
+			toast({
+				description: t("toast.failedToDeleteSession"),
+			});
 			console.error("Failed to delete session:", error);
 		},
 	});

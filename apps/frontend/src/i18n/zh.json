@@ -33,7 +33,10 @@
     "signout": "登出",
     "update": "更新",
     "userName": "用户名",
-    "userNameDescription": "这是您用于登录的用户名。"
+    "userNameDescription": "这是您用于登录的用户名。",
+    "confirmPasswordDescription": "输入以确认您的密码",
+    "emailDescription": "您的电子邮件地址",
+    "passwordDescription": "输入您的密码"
   },
   "navbar": {
     "connected": "连接的",
@@ -308,6 +311,19 @@
     "updatedRole": "角色更新",
     "updatedTutorial": "更新了教程",
     "updatedUser": "用户详细信息已更新",
-    "uploadedTutorial": "教程已上传"
+    "uploadedTutorial": "教程已上传",
+    "anErrorOccurred": "发生错误",
+    "configUpdated": "配置已更新",
+    "copiedToClipboard": "复制了！",
+    "failedToCreateAccount": "创建帐户失败",
+    "failedToDeleteSession": "删除会话失败",
+    "failedToDownloadTutorial": "教程下载失败",
+    "failedToSaveTutorial": "保存教程失败",
+    "failedToSignOut": "退出失败",
+    "failedToUpdateConfig": "更新配置失败",
+    "failedToUploadTutorial": "教程上传失败",
+    "noConfigToSave": "没有要保存的配置值",
+    "outputNodeCannotBeDeleted": "输出节点无法删除",
+    "sessionDeleted": "会话已删除"
   }
 }

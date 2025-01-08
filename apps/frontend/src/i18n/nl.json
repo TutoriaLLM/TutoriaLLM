@@ -167,7 +167,10 @@
     "signout": "uitloggen",
     "update": "Update",
     "userName": "Gebruikersnaam",
-    "userNameDescription": "Dit is uw gebruikersnaam om in te loggen."
+    "userNameDescription": "Dit is uw gebruikersnaam om in te loggen.",
+    "confirmPasswordDescription": "Typ om uw wachtwoord te bevestigen",
+    "emailDescription": "Uw e-mailadres",
+    "passwordDescription": "Typ uw wachtwoord"
   },
   "navbar": {
     "connected": "aangesloten",
@@ -308,6 +311,19 @@
     "updatedRole": "Rol bijgewerkt",
     "updatedTutorial": "Bijgewerkte handleiding",
     "updatedUser": "Gebruikersgegevens bijgewerkt",
-    "uploadedTutorial": "Handleiding geüpload"
+    "uploadedTutorial": "Handleiding geüpload",
+    "anErrorOccurred": "Er is een fout opgetreden",
+    "configUpdated": "Configuratie bijgewerkt",
+    "copiedToClipboard": "Gekopieerd!",
+    "failedToCreateAccount": "Kan account niet aanmaken",
+    "failedToDeleteSession": "Kan sessie niet verwijderen",
+    "failedToDownloadTutorial": "Kan de tutorial niet downloaden",
+    "failedToSaveTutorial": "Kan de tutorial niet opslaan",
+    "failedToSignOut": "Afmelden is mislukt",
+    "failedToUpdateConfig": "Kan configuratie niet updaten",
+    "failedToUploadTutorial": "Kan de tutorial niet uploaden",
+    "noConfigToSave": "Geen configuratiewaarde om op te slaan",
+    "outputNodeCannotBeDeleted": "Uitvoerknooppunt kan niet worden verwijderd",
+    "sessionDeleted": "Sessie verwijderd"
   }
 }

@@ -9,14 +9,18 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/toast";
 import { authClient } from "@/libs/auth-client";
 import { createUserSchema, type CreateUserSchemaType } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export function CreateAccontFromAnonymous() {
 	const router = useRouter();
+	const { toast } = useToast();
+	const { t } = useTranslation();
 	const form = useForm<CreateUserSchemaType>({
 		resolver: zodResolver(createUserSchema),
 		defaultValues: {
@@ -37,7 +41,9 @@ export function CreateAccontFromAnonymous() {
 		});
 		if (result.error) {
 			console.error(result.error);
-			alert("Error creating account");
+			toast({
+				description: t("toast.failedToCreateAccount"),
+			});
 		}
 		router.history.push("/");
 	};
@@ -53,11 +59,13 @@ export function CreateAccontFromAnonymous() {
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Display Name</FormLabel>
+							<FormLabel>{t("login.displayName")}</FormLabel>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>This is your display name.</FormDescription>
+							<FormDescription>
+								{t("login.displayNameDescription")}
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -68,12 +76,12 @@ export function CreateAccontFromAnonymous() {
 					name="username"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>UserName</FormLabel>
+							<FormLabel>{t("login.username")}</FormLabel>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
 							<FormDescription>
-								This is your user name for login.
+								{t("login.userNameDescription")}
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -85,12 +93,12 @@ export function CreateAccontFromAnonymous() {
 					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Email</FormLabel>
+							<FormLabel>{t("login.email")}</FormLabel>
 
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>Type your Email address.</FormDescription>
+							<FormDescription>{t("login.emailDescription")}</FormDescription>
 
 							<FormMessage />
 						</FormItem>
@@ -102,11 +110,13 @@ export function CreateAccontFromAnonymous() {
 					name="password"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Password</FormLabel>
+							<FormLabel>{t("login.password")}</FormLabel>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>Type your password.</FormDescription>
+							<FormDescription>
+								{t("login.passwordDescription")}
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -117,17 +127,19 @@ export function CreateAccontFromAnonymous() {
 					name="confirmpassword"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Confirm Password</FormLabel>
+							<FormLabel>{t("login.confirmPassword")}</FormLabel>
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>Confirm your password.</FormDescription>
+							<FormDescription>
+								{t("login.confirmPasswordDescription")}
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<Button size="default" type="submit" className="max-w-sm">
-					Create Account
+					{t("login.createAccount")}
 				</Button>
 			</form>
 		</Form>

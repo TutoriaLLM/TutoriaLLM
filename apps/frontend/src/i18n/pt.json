@@ -167,7 +167,10 @@
     "signout": "sair",
     "update": "Atualizar",
     "userName": "Nome de usuário",
-    "userNameDescription": "Este é o seu nome de usuário para login."
+    "userNameDescription": "Este é o seu nome de usuário para login.",
+    "confirmPasswordDescription": "Digite para confirmar sua senha",
+    "emailDescription": "Seu endereço de email",
+    "passwordDescription": "Digite sua senha"
   },
   "navbar": {
     "connected": "conectado",
@@ -308,6 +311,19 @@
     "updatedRole": "Função atualizada",
     "updatedTutorial": "Tutorial atualizado",
     "updatedUser": "Detalhes do usuário atualizados",
-    "uploadedTutorial": "Tutorial enviado"
+    "uploadedTutorial": "Tutorial enviado",
+    "anErrorOccurred": "Ocorreu um erro",
+    "configUpdated": "Configuração atualizada",
+    "copiedToClipboard": "Copiado!",
+    "failedToCreateAccount": "Falha ao criar conta",
+    "failedToDeleteSession": "Falha ao excluir sessão",
+    "failedToDownloadTutorial": "Falha ao baixar o tutorial",
+    "failedToSaveTutorial": "Falha ao salvar o tutorial",
+    "failedToSignOut": "Falha ao sair",
+    "failedToUpdateConfig": "Falha ao atualizar a configuração",
+    "failedToUploadTutorial": "Falha ao carregar o tutorial",
+    "noConfigToSave": "Nenhum valor de configuração para salvar",
+    "outputNodeCannotBeDeleted": "O nó de saída não pode ser excluído",
+    "sessionDeleted": "Sessão excluída"
   }
 }

@@ -1,5 +1,6 @@
 import { ExitButton } from "@/components/common/exitButton.js";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/toast";
 import { authClient } from "@/libs/auth-client";
 import { cn } from "@/libs/utils";
 import { Link, useLocation, useRouter } from "@tanstack/react-router";
@@ -17,6 +18,7 @@ import { useTranslation } from "react-i18next";
 
 export default function SideBar() {
 	const { t } = useTranslation();
+	const { toast } = useToast();
 	const location = useLocation().pathname;
 	const router = useRouter();
 
@@ -56,7 +58,9 @@ export default function SideBar() {
 		const result = await authClient.signOut();
 		if (result.error) {
 			console.error(result.error);
-			alert("Error signing out");
+			toast({
+				description: t("toast.failedToSignOut"),
+			});
 			return;
 		}
 		router.history.push("/login");

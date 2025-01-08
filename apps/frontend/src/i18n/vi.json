@@ -167,7 +167,10 @@
     "signout": "đăng xuất",
     "update": "Cập nhật",
     "userName": "Tên người dùng",
-    "userNameDescription": "Đây là tên người dùng của bạn để đăng nhập."
+    "userNameDescription": "Đây là tên người dùng của bạn để đăng nhập.",
+    "confirmPasswordDescription": "Nhập để xác nhận mật khẩu của bạn",
+    "emailDescription": "Địa chỉ email của bạn",
+    "passwordDescription": "Nhập mật khẩu của bạn"
   },
   "navbar": {
     "connected": "đã kết nối",
@@ -308,6 +311,19 @@
     "updatedRole": "Đã cập nhật vai trò",
     "updatedTutorial": "Hướng dẫn cập nhật",
     "updatedUser": "Đã cập nhật chi tiết người dùng",
-    "uploadedTutorial": "Hướng dẫn đã được tải lên"
+    "uploadedTutorial": "Hướng dẫn đã được tải lên",
+    "anErrorOccurred": "Đã xảy ra lỗi",
+    "configUpdated": "Đã cập nhật cấu hình",
+    "copiedToClipboard": "Đã sao chép!",
+    "failedToCreateAccount": "Không tạo được tài khoản",
+    "failedToDeleteSession": "Không thể xóa phiên",
+    "failedToDownloadTutorial": "Không tải được hướng dẫn xuống",
+    "failedToSaveTutorial": "Không lưu được hướng dẫn",
+    "failedToSignOut": "Không đăng xuất được",
+    "failedToUpdateConfig": "Không cập nhật được cấu hình",
+    "failedToUploadTutorial": "Không thể tải lên hướng dẫn",
+    "noConfigToSave": "Không có giá trị cấu hình để lưu",
+    "outputNodeCannotBeDeleted": "Nút đầu ra không thể bị xóa",
+    "sessionDeleted": "Đã xóa phiên"
   }
 }

@@ -72,7 +72,10 @@
     "confirmPassword": "Confirm password",
     "email": "Email",
     "image": "Image",
-    "guest": "Guest user"
+    "guest": "Guest user",
+    "emailDescription": "Your Email address",
+    "passwordDescription": "Type your password",
+    "confirmPasswordDescription": "Type in to confirm your password"
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -301,7 +304,20 @@
     "failedToUpdateTutorial": "Failed to update tutorial",
     "uploadedTutorial": "Tutorial uploaded",
     "updatedUser": "User detail updated",
-    "failedToUpdateUser": "Failed to update user"
+    "failedToUpdateUser": "Failed to update user",
+    "failedToCreateAccount": "Failed to create account",
+    "failedToSignOut": "Failed to sign out",
+    "sessionDeleted": "Session deleted",
+    "failedToDeleteSession": "Failed to delete session",
+    "outputNodeCannotBeDeleted": "Output node cannot be deleted",
+    "failedToSaveTutorial": "Failed to save tutorial",
+    "failedToDownloadTutorial": "Failed to download tutorial",
+    "failedToUploadTutorial": "Failed to upload tutorial",
+    "copiedToClipboard": "Copied!",
+    "anErrorOccurred": "An Error occurred",
+    "configUpdated": "Config updated",
+    "failedToUpdateConfig": "Failed to update config",
+    "noConfigToSave": "No config value to save"
   },
   "generic": {
     "audio": "Audio",

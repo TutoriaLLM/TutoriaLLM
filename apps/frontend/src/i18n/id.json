@@ -167,7 +167,10 @@
     "signout": "keluar",
     "update": "Memperbarui",
     "userName": "Nama belakang",
-    "userNameDescription": "Ini adalah nama pengguna Anda untuk login."
+    "userNameDescription": "Ini adalah nama pengguna Anda untuk login.",
+    "confirmPasswordDescription": "Ketik untuk mengonfirmasi kata sandi Anda",
+    "emailDescription": "Alamat email Anda",
+    "passwordDescription": "Ketik kata sandi Anda"
   },
   "navbar": {
     "connected": "terhubung",
@@ -308,6 +311,19 @@
     "updatedRole": "Peran diperbarui",
     "updatedTutorial": "Tutorial yang diperbarui",
     "updatedUser": "Detail pengguna diperbarui",
-    "uploadedTutorial": "Tutorial diunggah"
+    "uploadedTutorial": "Tutorial diunggah",
+    "anErrorOccurred": "Terjadi Kesalahan",
+    "configUpdated": "Konfigurasi diperbarui",
+    "copiedToClipboard": "Disalin!",
+    "failedToCreateAccount": "Gagal membuat akun",
+    "failedToDeleteSession": "Gagal menghapus sesi",
+    "failedToDownloadTutorial": "Gagal mengunduh tutorial",
+    "failedToSaveTutorial": "Gagal menyimpan tutorial",
+    "failedToSignOut": "Gagal keluar",
+    "failedToUpdateConfig": "Gagal memperbarui konfigurasi",
+    "failedToUploadTutorial": "Gagal mengunggah tutorial",
+    "noConfigToSave": "Tidak ada nilai konfigurasi untuk disimpan",
+    "outputNodeCannotBeDeleted": "Node keluaran tidak dapat dihapus",
+    "sessionDeleted": "Sesi dihapus"
   }
 }

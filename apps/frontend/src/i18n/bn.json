@@ -167,7 +167,10 @@
     "signout": "সাইন আউট",
     "update": "আপডেট",
     "userName": "ব্যবহারকারীর নাম",
-    "userNameDescription": "লগইন করার জন্য এটি আপনার ব্যবহারকারীর নাম।"
+    "userNameDescription": "লগইন করার জন্য এটি আপনার ব্যবহারকারীর নাম।",
+    "confirmPasswordDescription": "আপনার পাসওয়ার্ড নিশ্চিত করতে টাইপ করুন",
+    "emailDescription": "আপনার ইমেইল ঠিকানা",
+    "passwordDescription": "আপনার পাসওয়ার্ড টাইপ করুন"
   },
   "navbar": {
     "connected": "সংযুক্ত",
@@ -308,6 +311,19 @@
     "updatedRole": "ভূমিকা আপডেট করা হয়েছে",
     "updatedTutorial": "আপডেট করা টিউটোরিয়াল",
     "updatedUser": "ব্যবহারকারীর বিস্তারিত আপডেট করা হয়েছে",
-    "uploadedTutorial": "টিউটোরিয়াল আপলোড করা হয়েছে"
+    "uploadedTutorial": "টিউটোরিয়াল আপলোড করা হয়েছে",
+    "anErrorOccurred": "একটি ত্রুটি ঘটেছে",
+    "configUpdated": "কনফিগ আপডেট করা হয়েছে",
+    "copiedToClipboard": "কপি করা !",
+    "failedToCreateAccount": "অ্যাকাউন্ট তৈরি করতে ব্যর্থ হয়েছে৷",
+    "failedToDeleteSession": "অধিবেশন মুছে ফেলতে ব্যর্থ হয়েছে",
+    "failedToDownloadTutorial": "টিউটোরিয়াল ডাউনলোড করতে ব্যর্থ হয়েছে",
+    "failedToSaveTutorial": "টিউটোরিয়াল সংরক্ষণ করতে ব্যর্থ হয়েছে",
+    "failedToSignOut": "সাইন আউট করতে ব্যর্থ হয়েছে৷",
+    "failedToUpdateConfig": "কনফিগারেশন আপডেট করতে ব্যর্থ হয়েছে",
+    "failedToUploadTutorial": "টিউটোরিয়াল আপলোড করতে ব্যর্থ হয়েছে৷",
+    "noConfigToSave": "সংরক্ষণ করার জন্য কোন কনফিগার মান নেই",
+    "outputNodeCannotBeDeleted": "আউটপুট নোড মুছে ফেলা যাবে না",
+    "sessionDeleted": "অধিবেশন মুছে ফেলা হয়েছে"
   }
 }

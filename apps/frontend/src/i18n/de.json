@@ -167,7 +167,10 @@
     "signout": "Abmelden",
     "update": "Aktualisieren",
     "userName": "Benutzername",
-    "userNameDescription": "Dies ist Ihr Benutzername für die Anmeldung."
+    "userNameDescription": "Dies ist Ihr Benutzername für die Anmeldung.",
+    "confirmPasswordDescription": "Geben Sie zur Bestätigung Ihr Passwort ein",
+    "emailDescription": "Ihre E-Mail-Adresse",
+    "passwordDescription": "Geben Sie Ihr Passwort ein"
   },
   "navbar": {
     "connected": "verbunden",
@@ -308,6 +311,19 @@
     "updatedRole": "Rolle aktualisiert",
     "updatedTutorial": "Aktualisiertes Tutorial",
     "updatedUser": "Benutzerdetails aktualisiert",
-    "uploadedTutorial": "Anleitung hochgeladen"
+    "uploadedTutorial": "Anleitung hochgeladen",
+    "anErrorOccurred": "Es ist ein Fehler aufgetreten",
+    "configUpdated": "Konfiguration aktualisiert",
+    "copiedToClipboard": "Kopiert!",
+    "failedToCreateAccount": "Konto konnte nicht erstellt werden",
+    "failedToDeleteSession": "Die Sitzung konnte nicht gelöscht werden",
+    "failedToDownloadTutorial": "Das Tutorial konnte nicht heruntergeladen werden",
+    "failedToSaveTutorial": "Das Tutorial konnte nicht gespeichert werden",
+    "failedToSignOut": "Abmelden fehlgeschlagen",
+    "failedToUpdateConfig": "Konfiguration konnte nicht aktualisiert werden",
+    "failedToUploadTutorial": "Das Tutorial konnte nicht hochgeladen werden",
+    "noConfigToSave": "Kein Konfigurationswert zum Speichern",
+    "outputNodeCannotBeDeleted": "Der Ausgabeknoten kann nicht gelöscht werden",
+    "sessionDeleted": "Sitzung gelöscht"
   }
 }

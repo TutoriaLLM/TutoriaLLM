@@ -1,6 +1,7 @@
 import { TutorialsTable } from "@/components/features/admin/tables/tutorials/table";
 import { AdminFooterWrapper } from "@/components/layout/adminFooter";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/toast";
 import type { Tutorial } from "@/type.js";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
@@ -25,13 +26,17 @@ export const Route = createFileRoute("/admin/tutorials")({
 
 function Tutorials() {
 	const { t } = useTranslation();
+	const { toast } = useToast();
 	// const [tutorials, setTutorials] = useState<Tutorial[]>([]);
 	const [error, setError] = useState<string | null>(null);
 
 	const router = useRouter();
 
 	if (error) {
-		alert(error);
+		toast({
+			description: t("toast.anErrorOccurred") + error,
+		});
+
 		setError(null); // Reset error and continue display
 	}
 

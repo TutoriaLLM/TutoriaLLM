@@ -167,7 +167,10 @@
     "signout": "வெளியேறு",
     "update": "புதுப்பிக்கவும்",
     "userName": "பயனர் பெயர்",
-    "userNameDescription": "இது உள்நுழைவுக்கான உங்கள் பயனர் பெயர்."
+    "userNameDescription": "இது உள்நுழைவுக்கான உங்கள் பயனர் பெயர்.",
+    "confirmPasswordDescription": "உங்கள் கடவுச்சொல்லை உறுதிப்படுத்த தட்டச்சு செய்யவும்",
+    "emailDescription": "உங்கள் மின்னஞ்சல் முகவரி",
+    "passwordDescription": "உங்கள் கடவுச்சொல்லை உள்ளிடவும்"
   },
   "navbar": {
     "connected": "இணைக்கப்பட்டுள்ளது",
@@ -308,6 +311,19 @@
     "updatedRole": "பங்கு புதுப்பிக்கப்பட்டது",
     "updatedTutorial": "மேம்படுத்தப்பட்ட பயிற்சி",
     "updatedUser": "பயனர் விவரம் புதுப்பிக்கப்பட்டது",
-    "uploadedTutorial": "டுடோரியல் பதிவேற்றப்பட்டது"
+    "uploadedTutorial": "டுடோரியல் பதிவேற்றப்பட்டது",
+    "anErrorOccurred": "ஒரு பிழை ஏற்பட்டது",
+    "configUpdated": "கட்டமைப்பு புதுப்பிக்கப்பட்டது",
+    "copiedToClipboard": "நகலெடுக்கப்பட்டது!",
+    "failedToCreateAccount": "கணக்கை உருவாக்க முடியவில்லை",
+    "failedToDeleteSession": "அமர்வை நீக்க முடியவில்லை",
+    "failedToDownloadTutorial": "டுடோரியலைப் பதிவிறக்க முடியவில்லை",
+    "failedToSaveTutorial": "டுடோரியலைச் சேமிப்பதில் தோல்வி",
+    "failedToSignOut": "வெளியேற முடியவில்லை",
+    "failedToUpdateConfig": "கட்டமைப்பைப் புதுப்பிக்க முடியவில்லை",
+    "failedToUploadTutorial": "டுடோரியலைப் பதிவேற்ற முடியவில்லை",
+    "noConfigToSave": "சேமிக்க கட்டமைப்பு மதிப்பு இல்லை",
+    "outputNodeCannotBeDeleted": "வெளியீட்டு முனையை நீக்க முடியாது",
+    "sessionDeleted": "அமர்வு நீக்கப்பட்டது"
   }
 }
