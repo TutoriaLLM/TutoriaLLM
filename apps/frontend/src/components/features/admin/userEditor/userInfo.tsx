@@ -5,13 +5,11 @@ import BoringAvatar from "boring-avatars";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
 import {
-	CheckCircle,
 	LucideVenetianMask,
 	MailIcon,
 	PenBox,
 	Trash2,
 	UserIcon,
-	XCircleIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/libs/auth-client";
@@ -19,6 +17,10 @@ import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import { deleteSessionByUserId } from "@/api/admin/session";
 import { useTranslation } from "react-i18next";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 export function AdminUserInfo({
 	currentUserId,
 }: { currentUserId: string | null }) {
@@ -42,10 +44,7 @@ export function AdminUserInfo({
 		if (!result.data?.success || result.error) {
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<XCircleIcon className="text-destructive" />
-						{t("toast.failedToDeleteUser")}
-					</p>
+					<ErrorToastContent>{t("toast.failedToDeleteUser")}</ErrorToastContent>
 				),
 				variant: "destructive",
 			});
@@ -54,10 +53,7 @@ export function AdminUserInfo({
 		}
 		toast({
 			description: (
-				<p className="flex items-center justify-center gap-2">
-					<CheckCircle className="text-secondary" />
-					{t("toast.deletedUser")}
-				</p>
+				<SuccessToastContent> {t("toast.deletedUser")}</SuccessToastContent>
 			),
 		});
 		router.navigate({ to: "/admin/users" });

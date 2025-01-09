@@ -1,4 +1,5 @@
 import { ExitButton } from "@/components/common/exitButton.js";
+import { ErrorToastContent } from "@/components/common/toastContent";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/toast";
 import { authClient } from "@/libs/auth-client";
@@ -59,7 +60,10 @@ export default function SideBar() {
 		if (result.error) {
 			console.error(result.error);
 			toast({
-				description: t("toast.failedToSignOut"),
+				description: (
+					<ErrorToastContent>{t("toast.failedToSignOut")}</ErrorToastContent>
+				),
+				variant: "destructive",
 			});
 			return;
 		}

@@ -1,3 +1,4 @@
+import { ErrorToastContent } from "@/components/common/toastContent";
 import { SessionTable } from "@/components/features/admin/tables/sessions/table";
 import { useToast } from "@/hooks/toast";
 import type { SessionValue } from "@/type";
@@ -30,7 +31,11 @@ function Sessions() {
 
 	if (error) {
 		toast({
-			description: t("toast.anErrorOccurred") + error,
+			description: (
+				<ErrorToastContent>
+					{t("toast.anErrorOccurred") + error}
+				</ErrorToastContent>
+			),
 		});
 
 		setError(null); // Reset error and continue display

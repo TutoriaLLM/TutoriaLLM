@@ -1,3 +1,7 @@
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 import { useToast } from "@/hooks/toast";
 import type { Tutorial } from "@/type";
 import { useTranslation } from "react-i18next";
@@ -20,7 +24,12 @@ export function TutorialUploader({
 					const json = JSON.parse(e.target?.result as string);
 					if (!(json.metadata && json.content && json.serializednodes)) {
 						toast({
-							description: t("toast.failedToUploadTutorial"),
+							description: (
+								<ErrorToastContent>
+									{t("toast.failedToUploadTutorial")}
+								</ErrorToastContent>
+							),
+							variant: "destructive",
 						});
 						return;
 					}
@@ -29,11 +38,21 @@ export function TutorialUploader({
 						onUpload();
 					}
 					toast({
-						description: t("toast.failedToUploadTutorial"),
+						description: (
+							<SuccessToastContent>
+								{t("toast.failedToUploadTutorial")}
+							</SuccessToastContent>
+						),
+						variant: "destructive",
 					});
 				} catch (error) {
 					toast({
-						description: t("toast.failedToUploadTutorial"),
+						description: (
+							<ErrorToastContent>
+								{t("toast.failedToUploadTutorial")}
+							</ErrorToastContent>
+						),
+						variant: "destructive",
 					});
 				}
 			};

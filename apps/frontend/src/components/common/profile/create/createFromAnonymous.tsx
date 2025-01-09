@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { ErrorToastContent } from "../../toastContent";
 
 export function CreateAccontFromAnonymous() {
 	const router = useRouter();
@@ -42,7 +43,12 @@ export function CreateAccontFromAnonymous() {
 		if (result.error) {
 			console.error(result.error);
 			toast({
-				description: t("toast.failedToCreateAccount"),
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToCreateAccount")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
 			});
 		}
 		router.history.push("/");

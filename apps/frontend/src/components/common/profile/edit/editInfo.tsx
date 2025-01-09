@@ -20,6 +20,7 @@ import { getInitials } from "@/utils/initial";
 import { useToast } from "@/hooks/toast";
 import { useRouter } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
+import { ErrorToastContent, SuccessToastContent } from "../../toastContent";
 
 export function Editinfo(props: { session: AuthSession }) {
 	const { session } = props;
@@ -42,11 +43,18 @@ export function Editinfo(props: { session: AuthSession }) {
 		});
 		if (result.error) {
 			toast({
-				description: t("toast.failedToUpdateInfo"),
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToCreateAccount")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
 			});
 		} else {
 			toast({
-				description: t("toast.updatedInfo"),
+				description: (
+					<SuccessToastContent>{t("toast.updatedInfo")}</SuccessToastContent>
+				),
 			});
 		}
 		router.invalidate();

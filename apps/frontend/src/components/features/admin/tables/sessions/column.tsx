@@ -7,20 +7,16 @@ import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
 import { useMutation } from "@/hooks/useMutations";
 import type { ColumnDef } from "@tanstack/react-table";
-import {
-	Bot,
-	CheckCircle,
-	Clock,
-	MessageCircleMore,
-	Play,
-	Puzzle,
-	XCircle,
-} from "lucide-react";
+import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 import UserCard from "../../userEditor/card";
 import { useRouter } from "@tanstack/react-router";
 import { useToast } from "@/hooks/toast";
 import { cn } from "@/libs/utils";
 import { useTranslation } from "react-i18next";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -37,10 +33,7 @@ export function sessionColumns(
 		onSuccess: () => {
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<CheckCircle className="text-destructive" />
-						Session deleted successfully
-					</p>
+					<SuccessToastContent>{t("toast.sessionDeleted")}</SuccessToastContent>
 				),
 			});
 		},
@@ -48,10 +41,9 @@ export function sessionColumns(
 			console.error("Failed to delete session:", error);
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<XCircle className="text-destructive" />
-						Failed to delete session
-					</p>
+					<ErrorToastContent>
+						{t("toast.failedToDeleteSession")}
+					</ErrorToastContent>
 				),
 				variant: "destructive",
 			});

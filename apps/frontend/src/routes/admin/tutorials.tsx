@@ -1,3 +1,4 @@
+import { ErrorToastContent } from "@/components/common/toastContent";
 import { TutorialsTable } from "@/components/features/admin/tables/tutorials/table";
 import { AdminFooterWrapper } from "@/components/layout/adminFooter";
 import { Button } from "@/components/ui/button";
@@ -34,7 +35,12 @@ function Tutorials() {
 
 	if (error) {
 		toast({
-			description: t("toast.anErrorOccurred") + error,
+			description: (
+				<ErrorToastContent>
+					{t("toast.anErrorOccurred") + error}
+				</ErrorToastContent>
+			),
+			variant: "destructive",
 		});
 
 		setError(null); // Reset error and continue display

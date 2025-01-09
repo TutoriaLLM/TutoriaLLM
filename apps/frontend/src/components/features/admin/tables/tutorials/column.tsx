@@ -1,4 +1,8 @@
 import { deleteTutorial } from "@/api/admin/tutorials";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
@@ -15,13 +19,20 @@ export function tutorialsColumns() {
 		mutationFn: deleteTutorial,
 		onSuccess: () => {
 			toast({
-				description: t("toast.deletedTutorial"),
-				variant: "default",
+				description: (
+					<SuccessToastContent>
+						{t("toast.deletedTutorial")}
+					</SuccessToastContent>
+				),
 			});
 		},
 		onError: (error) => {
 			toast({
-				description: t("toast.failedToDeleteTutorial"),
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToDeleteTutorial")}
+					</ErrorToastContent>
+				),
 				variant: "destructive",
 			});
 		},

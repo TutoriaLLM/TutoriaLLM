@@ -1,5 +1,9 @@
 import { updateConfig } from "@/api/admin/config";
 import { getConfig } from "@/api/config.js";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 import JSONField from "@/components/features/admin/jsonViewer.js";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
 import { Button } from "@/components/ui/button";
@@ -36,12 +40,19 @@ function ConfigManager() {
 		mutationFn: updateConfig,
 		onSuccess: () => {
 			toast({
-				description: t("toast.configUpdated"),
+				description: (
+					<SuccessToastContent> {t("toast.configUpdated")}</SuccessToastContent>
+				),
 			});
 		},
 		onError: (error) => {
 			toast({
-				description: t("toast.failedToUpdateConfig"),
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToUpdateConfig")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
 			});
 
 			console.error("Failed to update config:", error);
@@ -61,7 +72,12 @@ function ConfigManager() {
 						onClick={() => {
 							if (!config) {
 								toast({
-									description: t("toast.noConfigToSave"),
+									description: (
+										<ErrorToastContent>
+											{t("toast.noConfigToSave")}
+										</ErrorToastContent>
+									),
+									variant: "destructive",
 								});
 
 								return;

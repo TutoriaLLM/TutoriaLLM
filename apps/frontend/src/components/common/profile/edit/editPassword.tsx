@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/toast";
 import { useTranslation } from "react-i18next";
+import { ErrorToastContent, SuccessToastContent } from "../../toastContent";
 
 export function EditPassword() {
 	const { toast } = useToast();
@@ -39,11 +40,20 @@ export function EditPassword() {
 		});
 		if (result.error) {
 			toast({
-				description: t("toast.failedToUpdatePassword"),
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToUpdatePassword")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
 			});
 		} else {
 			toast({
-				description: t("toast.updatedPassword"),
+				description: (
+					<SuccessToastContent>
+						{t("toast.updatedPassword")}
+					</SuccessToastContent>
+				),
 			});
 		}
 	};

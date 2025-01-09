@@ -27,6 +27,10 @@ import {
 import { useState } from "react";
 import type { CustomNodeType } from "./nodes/nodetype";
 import { useTranslation } from "react-i18next";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 
 export default function Toolbar(props: {
 	id: number | null;
@@ -77,20 +81,18 @@ export default function Toolbar(props: {
 		onSuccess: () => {
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<CheckCircle className="text-secondary" />
+					<SuccessToastContent>
 						{t("toast.createdTutorial")}
-					</p>
+					</SuccessToastContent>
 				),
 			});
 		},
 		onError: () => {
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<XCircle className="text-destructive" />
+					<ErrorToastContent>
 						{t("toast.failedToCreateTutorial")}
-					</p>
+					</ErrorToastContent>
 				),
 				variant: "destructive",
 			});

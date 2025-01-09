@@ -1,4 +1,8 @@
 import { updateUserDetail } from "@/api/admin/users";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -15,7 +19,7 @@ import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import { adminUpdateUserDetailSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle, XCircle } from "lucide-react";
+import {} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import type { z } from "zod";
@@ -35,10 +39,7 @@ const UserEditorForm = ({
 			console.info("Updated user detail");
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<CheckCircle className="text-secondary" />
-						{t("toast.updatedUser")}
-					</p>
+					<SuccessToastContent> {t("toast.updatedUser")}</SuccessToastContent>
 				),
 			});
 		},
@@ -46,10 +47,10 @@ const UserEditorForm = ({
 			console.error("Failed to update user detail", e);
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<XCircle className="text-destructive" />
+					<ErrorToastContent>
+						{" "}
 						{t("toast.failedToUpdateUser")}
-					</p>
+					</ErrorToastContent>
 				),
 				variant: "destructive",
 			});

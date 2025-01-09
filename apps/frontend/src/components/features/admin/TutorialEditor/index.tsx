@@ -30,6 +30,7 @@ import type { Tutorial } from "@/type.js";
 import { TutorialUploader } from "./upload";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/toast";
+import { ErrorToastContent } from "@/components/common/toastContent";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -134,7 +135,12 @@ export default function TutorialEditor(props: {
 						// Prevent deletion of the "output" node
 						if (change.type === "remove" && change.id === "output") {
 							toast({
-								description: t("toast.outputNodeCannotBeDeleted"),
+								description: (
+									<ErrorToastContent>
+										{t("toast.outputNodeCannotBeDeleted")}
+									</ErrorToastContent>
+								),
+								variant: "destructive",
 							});
 							return false;
 						}

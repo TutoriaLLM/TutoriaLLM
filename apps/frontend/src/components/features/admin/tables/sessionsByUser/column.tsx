@@ -11,6 +11,10 @@ import { Bot, Clock, MessageCircleMore, Play, Puzzle } from "lucide-react";
 import { cn } from "@/libs/utils";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/toast";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 
 export function sessionByUserColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -21,13 +25,20 @@ export function sessionByUserColumns(
 		mutationFn: deleteSession,
 		onSuccess: () => {
 			toast({
-				description: t("toast.sessionDeleted"),
+				description: (
+					<SuccessToastContent>{t("toast.sessionDeleted")}</SuccessToastContent>
+				),
 			});
 			//reload
 		},
 		onError: (error) => {
 			toast({
-				description: t("toast.failedToDeleteSession"),
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToDeleteSession")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
 			});
 			console.error("Failed to delete session:", error);
 		},

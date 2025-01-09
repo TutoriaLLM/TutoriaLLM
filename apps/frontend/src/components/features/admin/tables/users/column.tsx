@@ -10,6 +10,10 @@ import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import { deleteSessionByUserId } from "@/api/admin/session";
 import { useTranslation } from "react-i18next";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 
 export function userColumns(currentUserId: string) {
 	const router = useRouter();
@@ -29,10 +33,7 @@ export function userColumns(currentUserId: string) {
 		if (!result.data?.success || result.error) {
 			toast({
 				description: (
-					<p className="flex items-center justify-center gap-2">
-						<XCircleIcon className="text-destructive" />
-						{t("toast.failedToDeleteUser")}
-					</p>
+					<ErrorToastContent>{t("toast.failedToDeleteUser")}</ErrorToastContent>
 				),
 				variant: "destructive",
 			});
@@ -41,10 +42,7 @@ export function userColumns(currentUserId: string) {
 		}
 		toast({
 			description: (
-				<p className="flex items-center justify-center gap-2">
-					<CheckCircle className="text-secondary" />
-					{t("toast.deletedUser")}
-				</p>
+				<SuccessToastContent>{t("toast.deletedUser")}</SuccessToastContent>
 			),
 		});
 		router.navigate({ to: "/admin/users" });
