@@ -163,16 +163,10 @@ function SelectTutorialUI() {
 						{t("generic.open")}
 					</Button>
 				</DialogTrigger>
-				<DialogContent>
+				<DialogContent className="max-w-6xl h-full">
 					<DialogTitle>{t("tutorial.title")}</DialogTitle>
 					<DialogDescription>{t("tutorial.description")}</DialogDescription>
 					<div className="flex flex-col gap-4 p-2 md:p-4 min-h-[70vh]">
-						<span className="flex flex-col gap-2">
-							<h3 className="font-bold text-3xl">{t("tutorial.title")}</h3>
-							<p className="text-sm text-accent-foreground">
-								{t("tutorial.description")}
-							</p>
-						</span>
 						<span className="flex flex-wrap gap-2">
 							{tags.map((tag) => (
 								<Button
