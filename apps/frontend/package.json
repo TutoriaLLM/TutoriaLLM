@@ -85,7 +85,8 @@
     "vite-plugin-svgr": "^4.2.0",
     "vite-tsconfig-paths": "^5.0.1",
     "wavesurfer.js": "^7.8.7",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.1",

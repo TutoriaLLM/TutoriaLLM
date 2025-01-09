@@ -118,7 +118,7 @@ export function CreateAccontFromAnonymous() {
 						<FormItem>
 							<FormLabel>{t("login.password")}</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Input {...field} type="password" />
 							</FormControl>
 							<FormDescription>
 								{t("login.passwordDescription")}
@@ -135,7 +135,7 @@ export function CreateAccontFromAnonymous() {
 						<FormItem>
 							<FormLabel>{t("login.confirmPassword")}</FormLabel>
 							<FormControl>
-								<Input {...field} />
+								<Input {...field} type="password" />
 							</FormControl>
 							<FormDescription>
 								{t("login.confirmPasswordDescription")}

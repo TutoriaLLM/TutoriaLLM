@@ -483,6 +483,9 @@ importers:
       zod:
         specifier: 'catalog:'
         version: 3.24.1
+      zod-i18n-map:
+        specifier: ^2.27.0
+        version: 2.27.0(i18next@23.16.0)(zod@3.24.1)
     devDependencies:
       '@playwright/test':
         specifier: ^1.49.1
@@ -7978,6 +7981,12 @@ packages:
 
   zlibjs@0.3.1:
     resolution: {integrity: sha512-+J9RrgTKOmlxFSDHo0pI1xM6BLVUv+o0ZT9ANtCxGkjIVCCUdx9alUF8Gm+dGLKbkkkidWIHFDZHDMpfITt4+w==}
+
+  zod-i18n-map@2.27.0:
+    resolution: {integrity: sha512-ORu9XpiVh3WDiEUs5Cr9siGgnpeODoBsTIgSD8sQCH9B//f9KowlzqHUEdPYb3vFonaSH8yPvPCOFM4niwp3Sg==}
+    peerDependencies:
+      i18next: '>=21.3.0'
+      zod: '>=3.17.0'
 
   zod-to-json-schema@3.24.1:
     resolution: {integrity: sha512-3h08nf3Vw3Wl3PK+q3ow/lIil81IT2Oa7YpQyUUDsEWbXveMesdfK1xBd2RhCkynwZndAxixji/7SYJJowr62w==}
@@ -16737,6 +16746,11 @@ snapshots:
   yoctocolors-cjs@2.1.2: {}
 
   zlibjs@0.3.1: {}
+
+  zod-i18n-map@2.27.0(i18next@23.16.0)(zod@3.24.1):
+    dependencies:
+      i18next: 23.16.0
+      zod: 3.24.1
 
   zod-to-json-schema@3.24.1(zod@3.24.1):
     dependencies:
