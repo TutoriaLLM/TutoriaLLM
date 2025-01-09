@@ -7,6 +7,7 @@ import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
 	getSession,
+	getUserSessions,
 	newSession,
 	putSession,
 	resumeSession,
@@ -176,6 +177,22 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
+		return c.json(data, 200);
+	})
+	.openapi(getUserSessions, async (c) => {
+		const session = await auth.api.getSession({
+			headers: c.req.raw.headers,
+		});
+		if (!session) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
+		// Migrated from Redis to Postgres: from 1.0.0
+		const data = await db.query.appSessions.findMany({
+			where: eq(appSessions.userInfo, session.user.id),
+		});
 		return c.json(data, 200);
 	});
 

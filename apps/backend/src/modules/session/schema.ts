@@ -144,6 +144,7 @@ export const sessionValueSchema = z
 		userInfo: z.union([z.string(), UserInfoSchema]).nullable(),
 	})
 	.merge(timestampSchema);
+export const listSessionValueSchema = z.array(sessionValueSchema);
 
 export type SessionValue = z.infer<typeof sessionValueSchema>;
 export type SessionValueWithoutUserInfo = Omit<SessionValue, "userInfo">;

@@ -1,4 +1,4 @@
-import { getSession } from "@/api/session";
+import { getSession, getUserSessions } from "@/api/session";
 import { useQuery } from "@tanstack/react-query";
 
 // export const getAndSetSession = async (
@@ -14,6 +14,20 @@ import { useQuery } from "@tanstack/react-query";
 // 		return null;
 // 	}
 // };
+
+export const useUserSession = () => {
+	const {
+		data: sessions,
+		isPending,
+		isError,
+	} = useQuery({
+		queryKey: ["userSessions"],
+		queryFn: () => getUserSessions(),
+		staleTime: 1000 * 5, // 5 seconds of cache
+		refetchOnReconnect: true,
+	});
+	return { sessions, isPending, isError };
+};
 
 export const useSession = (
 	sessionId: string,

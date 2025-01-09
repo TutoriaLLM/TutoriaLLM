@@ -5,6 +5,7 @@ import {
 	sessionParam,
 	sessionValueSchema,
 	sessionIdSchema,
+	listSessionValueSchema,
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
@@ -62,6 +63,19 @@ const getSession = createRoute({
 	},
 });
 
+const getUserSessions = createRoute({
+	method: "get",
+	path: "/session",
+	responses: {
+		200: {
+			content: jsonBody(listSessionValueSchema),
+			description:
+				"Returns the user's sessions based on the user's token(auth)",
+		},
+		...errorResponses({}),
+	},
+});
+
 const putSession = createRoute({
 	method: "put",
 	path: "/session/{key}",
@@ -102,4 +116,11 @@ const deleteSession = createRoute({
 	},
 });
 
-export { newSession, resumeSession, getSession, putSession, deleteSession };
+export {
+	newSession,
+	resumeSession,
+	getSession,
+	getUserSessions,
+	putSession,
+	deleteSession,
+};

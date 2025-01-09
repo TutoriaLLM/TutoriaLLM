@@ -31,6 +31,12 @@ export const getSession = async (key: SessionIdToGet["param"]) => {
 	return handleResponse(response);
 };
 
+//get user's session based on the user's token(auth)
+export const getUserSessions = async () => {
+	const response = await client.session.$get();
+	return handleResponse(response);
+};
+
 const SessionToPut = client.session[":key"].$put;
 type SessionToPut = InferRequestType<typeof SessionToPut>;
 export const updateSession = async (

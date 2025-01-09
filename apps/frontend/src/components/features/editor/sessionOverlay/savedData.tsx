@@ -1,14 +1,12 @@
-import { resumeSession } from "@/api/session.js";
+import { useEffect, useRef, useState } from "react";
+import { deleteSession, resumeSession } from "@/api/session";
 import getImageFromSerializedWorkspace from "@/components/features/editor/generateImageURL";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@/hooks/useMutations.js";
+import { useMutation } from "@/hooks/useMutations";
 import type { SessionValue } from "@/type";
 import { useRouter } from "@tanstack/react-router";
 import type * as Blockly from "blockly";
-import { openDB } from "idb";
 import { Clock, Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
 	Dialog,
 	DialogContent,
@@ -18,100 +16,123 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-// Function to open IndexedDB
-const dbPromise = openDB("app-data", 1, {
-	upgrade(db) {
-		db.createObjectStore("sessions", { keyPath: "key" });
-	},
-});
+import { useTranslation } from "react-i18next";
+import { useUserSession } from "@/hooks/session";
+import { useToast } from "@/hooks/toast";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 
 export default function SavedData() {
-	const [savedData, setSavedData] = useState<{
-		[key: string]: { sessionValue: SessionValue; base64image: string };
-	}>({});
 	const { t } = useTranslation();
+	const { toast } = useToast();
+	const { sessions } = useUserSession();
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
 	const router = useRouter();
 
-	const { mutate } = useMutation({
+	const [thumbnailMap, setThumbnailMap] = useState<Record<string, string>>({});
+
+	const { mutate: resume } = useMutation({
 		mutationFn: ({
 			key,
 			sessionData,
-		}: { key: { key: string }; sessionData: SessionValue }) => {
+		}: { key: string; sessionData: SessionValue }) => {
 			sessionData.updatedAt = new Date(sessionData.updatedAt).toISOString();
 			sessionData.createdAt = new Date(sessionData.createdAt).toISOString();
-			return resumeSession(key);
+			return resumeSession({ key });
 		},
 		onSuccess: (value) => {
 			router.navigate({ to: `/${value.sessionId}` });
 		},
-		onError: (error, key) => {
+		onError: (error, data) => {
 			console.error("Failed to create a new session:", error);
-			//remove the session from the indexedDB and update the UI
-			deleteSessionDataFromIndexedDB(key.key.key);
+			// 失敗したら削除を実行
+			del({ key: data.key });
 		},
 	});
 
-	// Function to retrieve session data from IndexedDB
-	async function getSessionDataFromIndexedDB() {
-		const db = await dbPromise;
-		const allSessions = await db.getAll("sessions");
-		const data: {
-			[key: string]: { sessionValue: SessionValue; base64image: string };
-		} = {};
-		for (const session of allSessions) {
-			const sessionValue = session.sessionValue as SessionValue;
-			try {
-				const imageURL = await getImageFromSerializedWorkspace(
-					sessionValue.workspace ?? [],
-					sessionValue.language ?? "en",
-					hiddenWorkspaceRef,
-					hiddenDivRef,
-				);
-				data[session.key] = {
-					sessionValue: session.sessionValue,
-					base64image: imageURL,
-				};
-			} catch (error) {
-				console.error(
-					`Failed to generate image for session ${session.key}:`,
-					error,
-				);
-			}
+	const { mutate: del } = useMutation({
+		mutationFn: deleteSession,
+		onSuccess: () => {
+			toast({
+				description: (
+					<SuccessToastContent>{t("toast.sessionDeleted")}</SuccessToastContent>
+				),
+			});
+		},
+		onError: (error) => {
+			toast({
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToDeleteSession")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
+			});
+			console.error("Failed to delete session:", error);
+		},
+	});
+
+	// サムネイルを生成する関数
+	async function getImageFromWorkspace(
+		workspace: SessionValue["workspace"],
+		language: string,
+	) {
+		try {
+			const imageURL = await getImageFromSerializedWorkspace(
+				workspace ?? [],
+				language ?? "en",
+				hiddenWorkspaceRef,
+				hiddenDivRef,
+			);
+			return imageURL;
+		} catch (error) {
+			console.error("Failed to generate image for session", error);
+			return "";
 		}
-		return data;
 	}
 
-	// Function to delete session data from IndexedDB
-	async function deleteSessionDataFromIndexedDB(key: string) {
-		// key refers to sessionId
-		const db = await dbPromise;
-		await db.delete("sessions", key);
-		// Retrieve data again after deletion
-		const data = await getSessionDataFromIndexedDB();
-		setSavedData(data);
+	// セッションを再開する
+	function createOrContinueSession(value: SessionValue) {
+		const sessionId = value.sessionId;
+		resume({ key: sessionId, sessionData: value });
 	}
-
-	function createOrContinueSession(localSessionValue: SessionValue) {
-		const sessionId = localSessionValue.sessionId;
-		localSessionValue.workspace;
-		mutate({ key: { key: sessionId }, sessionData: localSessionValue });
-	}
-
-	useEffect(() => {
-		async function fetchData() {
-			const data = await getSessionDataFromIndexedDB();
-			setSavedData(data);
-		}
-
-		fetchData();
-	}, []); // Fetch data on initial mount
 
 	function dateToString(date: Date) {
 		return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 	}
+
+	// 2. sessions が変わるたびにサムネイルを取得して、thumbnailMap に格納する
+	useEffect(() => {
+		if (!sessions) return;
+
+		const loadThumbnails = async () => {
+			const newThumbnailMap: Record<string, string> = {};
+
+			for (const [key, value] of Object.entries(sessions)) {
+				// すでにサムネイルが存在していない場合のみ取得
+				if (!thumbnailMap[value.sessionId]) {
+					const imageURL = await getImageFromWorkspace(
+						value.workspace,
+						"ja", // 言語を必要に応じて指定
+					);
+					newThumbnailMap[value.sessionId] = imageURL;
+				}
+			}
+
+			// setThumbnailMap は、オブジェクトをマージする形で更新
+			setThumbnailMap((prev) => ({
+				...prev,
+				...newThumbnailMap,
+			}));
+		};
+
+		loadThumbnails();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [sessions]);
 
 	return (
 		<Dialog>
@@ -123,7 +144,7 @@ export default function SavedData() {
 			</DialogTrigger>
 			<DialogContent className="max-w-6xl h-full">
 				<DialogHeader>
-					<DialogTitle> {t("session.savedSession")}</DialogTitle>
+					<DialogTitle>{t("session.savedSession")}</DialogTitle>
 					<VisuallyHidden>
 						<DialogDescription>
 							{t("session.savedSessionDescription")}
@@ -132,7 +153,8 @@ export default function SavedData() {
 				</DialogHeader>
 				<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
 					<div className="w-full h-full flex-col gap-3 flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-						{Object.entries(savedData).map(([key, value]) => {
+						{Object.entries(sessions ?? []).map(([key, value]) => {
+							const thumbnail = thumbnailMap[value.sessionId];
 							return (
 								<div
 									key={key}
@@ -140,32 +162,34 @@ export default function SavedData() {
 								>
 									<span className="flex border-b gap-1">
 										<Clock />
-										<h3>
-											{dateToString(new Date(value.sessionValue.updatedAt))}
-										</h3>
+										<h3>{dateToString(new Date(value.updatedAt))}</h3>
 									</span>
-									<img
-										src={value.base64image}
-										alt="block"
-										className="flex w-full h-full max-h-48 object-contain"
-									/>
+									{thumbnail ? (
+										<img
+											src={thumbnail}
+											alt="block"
+											className="flex w-full h-full max-h-48 object-contain"
+										/>
+									) : (
+										<div className="flex w-full h-48 items-center justify-center">
+											<span>Loading...</span>
+										</div>
+									)}
+
 									<p className="text-xs font-base text-card-foreground">
-										{key}
-									</p>
-									<p className="text-xs font-base text-card-foreground">
-										{value.sessionValue.sessionId}
+										{value.sessionId}
 									</p>
 
 									<Button
 										type="button"
-										onClick={() => createOrContinueSession(value.sessionValue)}
+										onClick={() => createOrContinueSession(value)}
 									>
 										{t("session.continueSession")}
 									</Button>
 									<Button
 										type="button"
 										variant="destructive"
-										onClick={() => deleteSessionDataFromIndexedDB(key)}
+										onClick={() => del({ key })}
 									>
 										{t("session.deleteSession")}
 									</Button>

@@ -4,7 +4,7 @@ import { blocklyLocale } from "@/i18n/blocklyLocale.js";
 import { workspaceToPngBase64 } from "@/libs/workspaceToPng.js";
 import * as Blockly from "blockly";
 
-async function getImageFromSerializedWorkspace(
+function getImageFromSerializedWorkspace(
 	serializedWorkspace: {
 		[key: string]: any;
 	},
