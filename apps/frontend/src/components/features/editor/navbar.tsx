@@ -45,15 +45,6 @@ export default function Navbar(props: {
 				{props.isConnected ? (
 					<ExitButton text={t("navbar.saveAndLeave")} onClick={handleExit} />
 				) : null}
-
-				<div className="flex justify-center items-center gap-2">
-					<span className="text-xs joinCode">
-						<p>{t("navbar.joinCode")}</p>
-						<p className="font-semibold text-base md:text-xl tracking-widest">
-							{props.sessionId}
-						</p>
-					</span>
-				</div>
 			</div>
 			<hr className="border h-full" />
 			<div
