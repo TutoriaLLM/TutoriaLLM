@@ -1,4 +1,3 @@
-import type { SessionValue } from "@/type";
 import { openDB } from "idb";
 
 // Function to open IndexedDB (manage images and session data in the same DB)
@@ -27,43 +26,4 @@ async function getImageFromIndexedDB(key: string): Promise<string | null> {
 	return await db.get("images", key);
 }
 
-// Function to store session data in IndexedDB
-async function saveSessionDataToIndexedDB(
-	sessionId: string,
-	sessionValue: SessionValue,
-) {
-	const db = await dbPromise;
-	await db.put("sessions", {
-		key: sessionId,
-		sessionValue,
-	});
-}
-
-// Function to retrieve session data from IndexedDB
-async function getSessionDataFromIndexedDB() {
-	const db = await dbPromise;
-	const allSessions = await db.getAll("sessions");
-	const data: {
-		[key: string]: { sessionValue: SessionValue };
-	} = {};
-	for (const session of allSessions) {
-		data[session.key] = {
-			sessionValue: session.sessionValue,
-		};
-	}
-	return data;
-}
-
-// Function to delete session data from IndexedDB
-async function deleteSessionDataFromIndexedDB(key: string) {
-	const db = await dbPromise;
-	await db.delete("sessions", key);
-}
-
-export {
-	saveImageToIndexedDB,
-	getImageFromIndexedDB,
-	saveSessionDataToIndexedDB,
-	getSessionDataFromIndexedDB,
-	deleteSessionDataFromIndexedDB,
-};
+export { saveImageToIndexedDB, getImageFromIndexedDB };

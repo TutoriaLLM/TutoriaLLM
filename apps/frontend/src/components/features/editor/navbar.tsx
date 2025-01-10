@@ -1,7 +1,6 @@
 import { ExitButton } from "@/components/common/exitButton.js";
 import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { Button } from "@/components/ui/button";
-import { saveSessionDataToIndexedDB } from "@/indexedDB.js";
 import { currentSessionState, socketIoInstance } from "@/state.js";
 import type { SessionValue } from "@/type.js";
 import * as Progress from "@radix-ui/react-progress";
@@ -38,9 +37,6 @@ export default function Navbar({
 			screenshot: "",
 			clicks: [],
 		} as SessionValue;
-		if (sessionValue) {
-			saveSessionDataToIndexedDB(sessionValue.sessionId, sessionValueToSave);
-		}
 		socket?.disconnect();
 		router.navigate({ to: "/" });
 	}
