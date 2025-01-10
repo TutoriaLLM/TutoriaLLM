@@ -6,6 +6,7 @@ import {
 	sessionValueSchema,
 	sessionIdSchema,
 	listSessionValueSchema,
+	updateSessionNameRequest,
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
@@ -99,6 +100,29 @@ const putSession = createRoute({
 	},
 });
 
+const putSessionName = createRoute({
+	method: "put",
+	path: "/session/{key}/rename",
+	request: {
+		params: sessionParam.schema,
+		body: {
+			content: jsonBody(updateSessionNameRequest.schema),
+		},
+	},
+	responses: {
+		200: {
+			content: jsonBody(sessionIdSchema),
+			description: "Session name updated",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [
+				sessionParam.vErr(),
+				updateSessionNameRequest.vErr(),
+			],
+		}),
+	},
+});
+
 const deleteSession = createRoute({
 	method: "delete",
 	path: "/session/{key}",
@@ -122,5 +146,6 @@ export {
 	getSession,
 	getUserSessions,
 	putSession,
+	putSessionName,
 	deleteSession,
 };

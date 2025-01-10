@@ -21,7 +21,8 @@ export const responseModeEnum = pgEnum("response_mode", ["text", "audio"]);
 
 export const appSessions = pgTable("app_session", {
 	uuid: uuid("uuid").primaryKey(),
-	sessionId: text("session_id").notNull(), // use nanoid
+	sessionId: text("session_id").notNull(), // use nanoid for slug
+	name: text("name"),
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 		mode: "string",

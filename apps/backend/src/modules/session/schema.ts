@@ -114,6 +114,8 @@ export const sessionValueSchema = z
 		uuid: z.string(),
 		sessionId: z.string(),
 
+		name: z.string().nullable(),
+
 		// Dialogue related
 		dialogue: z.array(DialogueOpenApiSchema).nullable(),
 
@@ -166,6 +168,10 @@ export const sessionIdSchema = z.object({
 	sessionId: z.string(),
 });
 
+export const sessionNameSchema = z.object({
+	sessionName: z.string(),
+});
+
 export const newSessionQuery = {
 	schema: languageQuerySchema.partial().openapi("NewSessionQuery"),
 	vErr: () =>
@@ -179,6 +185,14 @@ export const putSessionRequest = {
 		createValidationErrorResponseSchema(putSessionRequest.schema).openapi(
 			"PutSessionRequestValidationErrorResponse",
 		),
+};
+
+export const updateSessionNameRequest = {
+	schema: sessionNameSchema.openapi("UpdateSessionNameRequest"),
+	vErr: () =>
+		createValidationErrorResponseSchema(
+			updateSessionNameRequest.schema,
+		).openapi("UpdateSessionNameRequestValidationErrorResponse"),
 };
 
 // Use the same schema for put, get, and delete

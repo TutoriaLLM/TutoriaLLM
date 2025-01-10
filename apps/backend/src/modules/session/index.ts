@@ -10,6 +10,7 @@ import {
 	getUserSessions,
 	newSession,
 	putSession,
+	putSessionName,
 	resumeSession,
 } from "@/modules/session/routes";
 import { eq } from "drizzle-orm";
@@ -143,6 +144,26 @@ const app = createHonoApp()
 		const result = await db
 			.update(appSessions)
 			.set(sessionData)
+			.where(eq(appSessions.sessionId, key))
+			.returning({ id: appSessions.sessionId });
+		return c.json({ sessionId: result[0].id }, 200);
+	})
+	.openapi(putSessionName, async (c) => {
+		const key = c.req.valid("param").key;
+		const { sessionName } = c.req.valid("json");
+		// Migrated from Redis to Postgres: from 1.0.0
+		const existingSession = await db.query.appSessions.findFirst({
+			where: eq(appSessions.sessionId, key),
+		});
+		if (!existingSession) {
+			return errorResponse(c, {
+				message: "Session not found",
+				type: "NOT_FOUND",
+			});
+		}
+		const result = await db
+			.update(appSessions)
+			.set({ name: sessionName })
 			.where(eq(appSessions.sessionId, key))
 			.returning({ id: appSessions.sessionId });
 		return c.json({ sessionId: result[0].id }, 200);

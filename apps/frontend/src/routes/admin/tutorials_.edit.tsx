@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import TutorialEditor from "@/components/features/admin/TutorialEditor";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { queryClient } from "@/main";
 import { getSpecificTutorial } from "@/api/admin/tutorials";
 
 const editTargetSchema = z.object({
@@ -20,7 +19,7 @@ export const Route = createFileRoute("/admin/tutorials_/edit")({
 	beforeLoad: ({ search }) => ({
 		search: search,
 	}),
-	loader: async ({ context: { search } }) => {
+	loader: async ({ context: { search, queryClient } }) => {
 		async function getTutorialData() {
 			if (!search.id) {
 				return null;

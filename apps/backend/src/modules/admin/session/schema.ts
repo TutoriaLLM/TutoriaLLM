@@ -114,6 +114,8 @@ export const sessionValueSchema = z
 		// Basic Information
 		sessionId: z.string(),
 
+		name: z.string().nullable(),
+
 		// Dialogue related
 		dialogue: z.array(DialogueOpenApiSchema).nullable(),
 

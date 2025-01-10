@@ -14,6 +14,7 @@ export function initialData(
 	return {
 		uuid: uuid,
 		sessionId: sessionId,
+		name: null,
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
 		dialogue: [

@@ -18,7 +18,6 @@ import {
 import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
-import { queryClient } from "@/main.js";
 import type { Message } from "@/routes";
 import {
 	LanguageToStart,
@@ -30,7 +29,7 @@ import {
 	socketIoInstance,
 } from "@/state.js";
 import type { Clicks, SessionValue, Tab } from "@/type.js";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import i18next from "i18next";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
@@ -46,10 +45,11 @@ const sessionQueryOptions = (sessionId: string) =>
 	queryOptions({
 		queryKey: ["session", sessionId],
 		queryFn: () => getSession({ key: sessionId }),
+		staleTime: 0,
 	});
 export const Route = createFileRoute("/$sessionId")({
 	component: RouteComponent,
-	beforeLoad: async ({ location }) => ({
+	beforeLoad: async ({ location, params, context: { queryClient } }) => ({
 		getSession: async () => {
 			const session = await authClient.getSession();
 			if (!session.data) {
@@ -62,10 +62,18 @@ export const Route = createFileRoute("/$sessionId")({
 			}
 			return session.data;
 		},
+		getAppSession: async () => {
+			const data = await queryClient.ensureQueryData(
+				sessionQueryOptions(params.sessionId),
+			);
+			return data;
+		},
 	}),
-	loader: async ({ params, context: { getSession } }) => {
-		queryClient.ensureQueryData(sessionQueryOptions(params.sessionId));
-		return await getSession();
+	shouldReload: true,
+	loader: async ({ context: { getSession, getAppSession } }) => {
+		const session = await getSession();
+		const appSession = await getAppSession();
+		return { authSession: session, appSession: appSession };
 	},
 	errorComponent: () => {
 		const session = Route.useLoaderData();
@@ -77,7 +85,7 @@ export const Route = createFileRoute("/$sessionId")({
 			<CreateSessionCard
 				message={message}
 				setMessage={setMessage}
-				session={session}
+				session={session.authSession}
 			/>
 		);
 	},
@@ -85,7 +93,7 @@ export const Route = createFileRoute("/$sessionId")({
 
 function RouteComponent() {
 	const { sessionId } = Route.useParams();
-	const { data: session } = useSuspenseQuery(sessionQueryOptions(sessionId));
+	const { appSession: session } = Route.useLoaderData();
 	const isMobile = useIsMobile();
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
 	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
@@ -312,7 +320,8 @@ function RouteComponent() {
 			<Onboarding currentSession={currentSession} />
 			<div className="max-h-svh h-svh w-svw overflow-hidden flex flex-col bg-background text-foreground app">
 				<Navbar
-					sessionId={sessionId}
+					sessionId={session?.sessionId ?? sessionId ?? ""}
+					sessionName={session?.name ?? null}
 					isConnected={WorkspaceConnection}
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}

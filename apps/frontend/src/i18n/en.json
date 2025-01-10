@@ -27,7 +27,9 @@
     "signout": "Sign out",
     "noTutorial": "No tutorial has selected",
     "reload": "Reload",
-    "execSwitch": "Run Code"
+    "execSwitch": "Run Code",
+    "addSessionName": "Name this project",
+    "addSessionNameDescription": "Name your project before save"
   },
   "execSwitch": {
     "Running": "Running",
@@ -291,7 +293,9 @@
     "anErrorOccurred": "An Error occurred",
     "configUpdated": "Config updated",
     "failedToUpdateConfig": "Failed to update config",
-    "noConfigToSave": "No config value to save"
+    "noConfigToSave": "No config value to save",
+    "updatedProjectName": "Project name updated",
+    "failedToUpdateProjectName": "Failed to update project name"
   },
   "generic": {
     "audio": "Audio",
