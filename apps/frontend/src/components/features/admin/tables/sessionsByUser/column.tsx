@@ -53,6 +53,17 @@ export function sessionByUserColumns(
 
 	const sessionColumns: ColumnDef<SessionValue>[] = [
 		{
+			header: t("admin.projectName"),
+			accessorKey: "name",
+			cell: ({ row }) => {
+				return (
+					<div className="font-bold">
+						{row.original.name || t("session.untitled")}
+					</div>
+				);
+			},
+		},
+		{
 			header: t("admin.sessionId"),
 			accessorKey: "sessionId",
 			cell: ({ row }) => {

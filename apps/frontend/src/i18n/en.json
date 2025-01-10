@@ -19,7 +19,8 @@
     "installPWA": "Install PWA",
     "deleteStorage": "Delete all storage",
     "failedCreate": "Failed to create session",
-    "savedSessionDescription": "List of sessions that you can continue"
+    "savedSessionDescription": "List of sessions that you can continue",
+    "untitled": "Untitled session"
   },
   "navbar": {
     "saveAndLeave": "save and leave",
@@ -228,7 +229,8 @@
     "createTutorial": "Create new tutorial",
     "createUser": "Create new user",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "projectName": "Project name"
   },
   "quickReply": {
     "WhatINeed": "What I need to do?",
