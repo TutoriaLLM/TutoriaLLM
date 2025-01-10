@@ -4,7 +4,7 @@ import getImageFromSerializedWorkspace from "@/components/features/editor/genera
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@/hooks/useMutations";
 import type { SessionValue } from "@/type";
-import { useRouter } from "@tanstack/react-router";
+import { useRouteContext, useRouter } from "@tanstack/react-router";
 import type * as Blockly from "blockly";
 import { Clock, Search } from "lucide-react";
 import {
@@ -27,11 +27,14 @@ import {
 export default function SavedData() {
 	const { t } = useTranslation();
 	const { toast } = useToast();
-	const { sessions } = useUserSession();
+	const { sessions, isPending } = useUserSession();
 	const hiddenWorkspaceRef = useRef<Blockly.WorkspaceSvg | null>(null);
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
 	const router = useRouter();
+	const { queryClient } = useRouteContext({
+		from: "__root__",
+	});
 
 	const [thumbnailMap, setThumbnailMap] = useState<Record<string, string>>({});
 
@@ -61,6 +64,10 @@ export default function SavedData() {
 				description: (
 					<SuccessToastContent>{t("toast.sessionDeleted")}</SuccessToastContent>
 				),
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["userSessions"],
+				refetchType: "all",
 			});
 		},
 		onError: (error) => {
@@ -151,52 +158,63 @@ export default function SavedData() {
 						</DialogDescription>
 					</VisuallyHidden>
 				</DialogHeader>
-				<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
-					<div className="w-full h-full flex-col gap-3 flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-						{Object.entries(sessions ?? []).map(([key, value]) => {
-							const thumbnail = thumbnailMap[value.sessionId];
-							return (
-								<div
-									key={key}
-									className="w-full h-full flex-grow bg-card p-2 rounded-2xl flex flex-col gap-2"
-								>
-									<span className="flex border-b gap-1">
-										<Clock />
-										<h3>{dateToString(new Date(value.updatedAt))}</h3>
-									</span>
-									{thumbnail ? (
-										<img
-											src={thumbnail}
-											alt="block"
-											className="flex w-full h-full max-h-48 object-contain"
-										/>
-									) : (
-										<div className="flex w-full h-48 items-center justify-center">
-											<span>Loading...</span>
-										</div>
-									)}
+				<div className="w-full h-full justify-center items-center gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+					{Object.entries(sessions ?? []).map(([key, value]) => {
+						const thumbnail = thumbnailMap[value.sessionId];
+						return (
+							<div
+								key={key}
+								className="w-full h-full bg-card p-2 rounded-2xl space-y-2"
+							>
+								{value.name ? (
+									<h2 className="text-lg font-semibold">{value.name}</h2>
+								) : (
+									<h2 className="text-lg font-semibold">
+										{t("session.untitled")}
+									</h2>
+								)}
+								<span className="flex gap-1">
+									<Clock />
+									<p>{dateToString(new Date(value.updatedAt))}</p>
+								</span>
+								{thumbnail ? (
+									<img
+										src={thumbnail}
+										alt="block"
+										className="flex w-full h-full max-h-48 object-contain border rounded-2xl"
+									/>
+								) : (
+									<div className="flex w-full h-48 items-center justify-center">
+										<span>Loading...</span>
+									</div>
+								)}
 
-									<p className="text-xs font-base text-card-foreground">
-										{value.sessionId}
-									</p>
+								<p className="text-xs font-base text-card-foreground">
+									{value.sessionId}
+								</p>
 
+								<div className="flex justify-between gap-2">
 									<Button
 										type="button"
+										className="w-full"
 										onClick={() => createOrContinueSession(value)}
+										disabled={isPending}
 									>
 										{t("session.continueSession")}
 									</Button>
 									<Button
 										type="button"
+										className="w-full"
 										variant="destructive"
-										onClick={() => del({ key })}
+										onClick={() => del({ key: value.sessionId })}
+										disabled={isPending}
 									>
 										{t("session.deleteSession")}
 									</Button>
 								</div>
-							);
-						})}
-					</div>
+							</div>
+						);
+					})}
 				</div>
 			</DialogContent>
 		</Dialog>
