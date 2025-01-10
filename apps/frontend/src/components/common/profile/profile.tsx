@@ -15,10 +15,10 @@ export function UserAccount(props: { session: AuthSession }) {
 	const { session } = props;
 	const router = useRouter();
 	const { t } = useTranslation();
-	async function handleLogout() {
+	async function handleSignout() {
 		const result = await authClient.signOut();
 		if (!result.data?.success || result.error) {
-			console.error("Failed to logout");
+			console.error("Failed to signout");
 			return;
 		}
 		router.history.push("/login");
@@ -45,7 +45,7 @@ export function UserAccount(props: { session: AuthSession }) {
 	const UserActions = () => {
 		return (
 			<div className="flex items-center gap-3">
-				<Button variant="destructive" size="sm" onClick={handleLogout}>
+				<Button variant="destructive" size="sm" onClick={handleSignout}>
 					<DoorOpenIcon className="w-5 h-5" />
 					{t("login.signout")}
 				</Button>
