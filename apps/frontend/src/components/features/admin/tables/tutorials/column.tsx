@@ -81,7 +81,8 @@ export function tutorialsColumns() {
 			header: t("admin.tutorialTags"),
 			accessorKey: "metadata.tags",
 			cell: ({ row }) => {
-				return row.original.tags.join(", ");
+				console.log(row.original.tags);
+				return row.original.tags.map((tag) => tag.name).join(", ");
 			},
 		},
 		{
