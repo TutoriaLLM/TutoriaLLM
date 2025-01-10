@@ -28,6 +28,7 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 		const initialData = {
 			uuid: "",
 			sessionId: "",
+			name: "",
 			createdAt: new Date().toISOString(),
 			updatedAt: new Date().toISOString(),
 			dialogue: null,
