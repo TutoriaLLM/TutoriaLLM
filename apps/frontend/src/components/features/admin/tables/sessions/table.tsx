@@ -145,7 +145,7 @@ export function SessionTable() {
 							onChange={() => setAutoUpdateMs(autoUpdateMs ? false : 5000)}
 							className="form-checkbox h-4 w-4"
 						/>
-						<span>t("admin.autoUpdate")</span>
+						<span>{t("admin.autoUpdate")}</span>
 					</label>
 					<button
 						type="button"
