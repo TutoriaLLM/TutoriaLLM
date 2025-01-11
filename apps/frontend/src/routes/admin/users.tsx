@@ -1,10 +1,8 @@
 import { UserTable } from "@/components/features/admin/tables/users/table";
 import { AdminFooterWrapper } from "@/components/layout/adminFooter";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
 import { authClient } from "@/libs/auth-client";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -29,39 +27,8 @@ export const Route = createFileRoute("/admin/users")({
 
 function Users() {
 	const { t } = useTranslation();
+	const router = useRouter();
 	const [currentUserId, setCurrentUserId] = useState<null | string>(null);
-	const [newUser, setNewUser] = useState({
-		username: "",
-		email: "",
-		password: "",
-		role: "user",
-	});
-	async function handleNewUserChange(
-		event: React.ChangeEvent<HTMLInputElement>,
-	) {
-		setNewUser((prev) => ({
-			...prev,
-			[event.target.name]: event.target.value,
-		}));
-	}
-
-	async function handleSelectRole(event: React.ChangeEvent<HTMLSelectElement>) {
-		setNewUser((prev) => ({
-			...prev,
-			role: event.target.value,
-		}));
-	}
-
-	async function handleCreateUser() {
-		await authClient.admin.createUser({
-			name: newUser.username,
-			email: newUser.email,
-			password: newUser.password,
-			role: newUser.role,
-		});
-		setNewUser({ username: "", password: "", email: "", role: "user" });
-	}
-
 	useEffect(() => {
 		authClient.getSession().then((session) => {
 			setCurrentUserId(session.data?.user.id ?? null);
@@ -72,38 +39,16 @@ function Users() {
 		<div className="overflow-x-auto space-y-2">
 			<UserTable userId={currentUserId ?? ""} />
 			<AdminFooterWrapper>
-				<h2 className="py-2 font-semibold">{t("admin.createUser")}</h2>
-				<form className="gap-2 flex">
-					{t("admin.username")}
-					<Input
-						type="text"
-						name="username"
-						value={newUser.username}
-						onChange={handleNewUserChange}
-					/>
-					{t("admin.email")}
-					<Input
-						type="email"
-						name="email"
-						value={newUser.email}
-						onChange={handleNewUserChange}
-					/>
-					{t("admin.password")}
-					<Input
-						type="password"
-						name="password"
-						value={newUser.password}
-						onChange={handleNewUserChange}
-					/>
-					{t("admin.role")}
-					<Select name="role" value={newUser.role} onChange={handleSelectRole}>
-						<option value="admin">{t("admin.admin")}</option>
-						<option value="user">{t("admin.user")}</option>
-					</Select>
-					<Button type="button" onClick={handleCreateUser}>
-						{t("admin.createUser")}
-					</Button>
-				</form>
+				<h2 className="font-semibold">{t("admin.createUser")}</h2>
+				<Button
+					onClick={() =>
+						router.navigate({
+							to: "/admin/users/new",
+						})
+					}
+				>
+					{t("admin.createUser")}
+				</Button>
 			</AdminFooterWrapper>
 		</div>
 	);

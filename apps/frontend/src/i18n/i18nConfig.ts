@@ -7,7 +7,7 @@ import translation_ja from "@/i18n/ja.json";
 
 //zod i18n map
 import { z } from "zod";
-import { zodI18nMap } from "zod-i18n-map";
+import { makeZodI18nMap } from "zod-i18n-map";
 
 //zod translations
 import jaZodMessages from "zod-i18n-map/locales/ja/zod.json";
@@ -16,10 +16,16 @@ const resources = {
 	ja: {
 		translation: translation_ja,
 		zod: jaZodMessages,
+		custom: {
+			password_mismatch: "パスワードが一致しません",
+		},
 	},
 	en: {
 		translation: translation_en,
 		zod: enZodMessages,
+		custom: {
+			password_mismatch: "Passwords do not match",
+		},
 	},
 };
 
@@ -32,5 +38,5 @@ i18n
 			escapeValue: false, // react already safes from xss
 		},
 	});
-z.setErrorMap(zodI18nMap);
+z.setErrorMap(makeZodI18nMap({ ns: ["zod", "custom"] }));
 export default i18n;

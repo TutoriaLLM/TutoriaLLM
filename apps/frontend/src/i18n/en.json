@@ -230,7 +230,9 @@
     "createUser": "Create new user",
     "email": "Email",
     "password": "Password",
-    "projectName": "Project name"
+    "projectName": "Project name",
+    "displayNameDescription": "This is user's display name",
+    "emailDescription": "User's email for authentication"
   },
   "quickReply": {
     "WhatINeed": "What I need to do?",
@@ -297,7 +299,8 @@
     "failedToUpdateConfig": "Failed to update config",
     "noConfigToSave": "No config value to save",
     "updatedProjectName": "Project name updated",
-    "failedToUpdateProjectName": "Failed to update project name"
+    "failedToUpdateProjectName": "Failed to update project name",
+    "createdUser": "New user created"
   },
   "generic": {
     "audio": "Audio",

@@ -15,6 +15,21 @@ export const adminUpdateUserDetailSchema = z.object({
 	username: z.string().min(1).nullable(),
 });
 
+export const adminCreateUserDetailSchema = z
+	.object({
+		name: z.string().min(1),
+		email: z.string().email().min(1),
+		password: z.string().min(8),
+		confirmPassword: z.string().min(8),
+		role: z.enum(["user", "admin"]).default("user"),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		path: ["confirmPassword"],
+		params: {
+			i18n: "password_mismatch",
+		},
+	});
+
 export const updateUserSchema = z.object({
 	name: z.string().min(1),
 	username: z.string().min(1),
@@ -28,15 +43,25 @@ export const updatePasswordSchema = z
 	})
 	.refine((data) => data.newPassword === data.confirmPassword, {
 		path: ["confirmPassword"],
+		params: {
+			i18n: "password_mismatch",
+		},
 	});
 
-export const createUserSchema = z.object({
-	email: z.string().email().min(1),
-	username: z.string().min(1),
-	name: z.string().min(1),
-	password: z.string({}).min(8),
-	confirmpassword: z.string().min(8),
-});
+export const createUserSchema = z
+	.object({
+		email: z.string().email().min(1),
+		username: z.string().min(1),
+		name: z.string().min(1),
+		password: z.string({}).min(8),
+		confirmPassword: z.string().min(8),
+	})
+	.refine((data) => data.password === data.confirmPassword, {
+		path: ["confirmPassword"],
+		params: {
+			i18n: "password_mismatch",
+		},
+	});
 
 export type LoginSchemaType = z.infer<typeof loginSchema>;
 export type UpdateUserSchemaType = z.infer<typeof updateUserSchema>;

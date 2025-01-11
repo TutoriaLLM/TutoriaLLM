@@ -21,6 +21,7 @@ import { Route as AdminTutorialsImport } from './routes/admin/tutorials'
 import { Route as AdminTrainingImport } from './routes/admin/training'
 import { Route as AdminSettingsImport } from './routes/admin/settings'
 import { Route as AdminSessionsImport } from './routes/admin/sessions'
+import { Route as AdminUsersNewImport } from './routes/admin/users_/new'
 import { Route as AdminUsersUserIdImport } from './routes/admin/users_/$userId'
 import { Route as AdminTutorialsNewImport } from './routes/admin/tutorials_/new'
 import { Route as AdminUsersUserIdEditImport } from './routes/admin/users_/$userId_.edit'
@@ -85,6 +86,12 @@ const AdminSettingsRoute = AdminSettingsImport.update({
 const AdminSessionsRoute = AdminSessionsImport.update({
   id: '/sessions',
   path: '/sessions',
+  getParentRoute: () => AdminRoute,
+} as any)
+
+const AdminUsersNewRoute = AdminUsersNewImport.update({
+  id: '/users_/new',
+  path: '/users/new',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -200,6 +207,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersUserIdImport
       parentRoute: typeof AdminImport
     }
+    '/admin/users_/new': {
+      id: '/admin/users_/new'
+      path: '/users/new'
+      fullPath: '/admin/users/new'
+      preLoaderRoute: typeof AdminUsersNewImport
+      parentRoute: typeof AdminImport
+    }
     '/admin/tutorials_/$id_/edit': {
       id: '/admin/tutorials_/$id_/edit'
       path: '/tutorials/$id/edit'
@@ -228,6 +242,7 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminTutorialsNewRoute: typeof AdminTutorialsNewRoute
   AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
+  AdminUsersNewRoute: typeof AdminUsersNewRoute
   AdminTutorialsIdEditRoute: typeof AdminTutorialsIdEditRoute
   AdminUsersUserIdEditRoute: typeof AdminUsersUserIdEditRoute
 }
@@ -241,6 +256,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminTutorialsNewRoute: AdminTutorialsNewRoute,
   AdminUsersUserIdRoute: AdminUsersUserIdRoute,
+  AdminUsersNewRoute: AdminUsersNewRoute,
   AdminTutorialsIdEditRoute: AdminTutorialsIdEditRoute,
   AdminUsersUserIdEditRoute: AdminUsersUserIdEditRoute,
 }
@@ -260,6 +276,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/admin/tutorials/new': typeof AdminTutorialsNewRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/tutorials/$id/edit': typeof AdminTutorialsIdEditRoute
   '/admin/users/$userId/edit': typeof AdminUsersUserIdEditRoute
 }
@@ -276,6 +293,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/admin/tutorials/new': typeof AdminTutorialsNewRoute
   '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/admin/users/new': typeof AdminUsersNewRoute
   '/admin/tutorials/$id/edit': typeof AdminTutorialsIdEditRoute
   '/admin/users/$userId/edit': typeof AdminUsersUserIdEditRoute
 }
@@ -294,6 +312,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/admin/tutorials_/new': typeof AdminTutorialsNewRoute
   '/admin/users_/$userId': typeof AdminUsersUserIdRoute
+  '/admin/users_/new': typeof AdminUsersNewRoute
   '/admin/tutorials_/$id_/edit': typeof AdminTutorialsIdEditRoute
   '/admin/users_/$userId_/edit': typeof AdminUsersUserIdEditRoute
 }
@@ -313,6 +332,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/tutorials/new'
     | '/admin/users/$userId'
+    | '/admin/users/new'
     | '/admin/tutorials/$id/edit'
     | '/admin/users/$userId/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -328,6 +348,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/tutorials/new'
     | '/admin/users/$userId'
+    | '/admin/users/new'
     | '/admin/tutorials/$id/edit'
     | '/admin/users/$userId/edit'
   id:
@@ -344,6 +365,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/tutorials_/new'
     | '/admin/users_/$userId'
+    | '/admin/users_/new'
     | '/admin/tutorials_/$id_/edit'
     | '/admin/users_/$userId_/edit'
   fileRoutesById: FileRoutesById
@@ -396,6 +418,7 @@ export const routeTree = rootRoute
         "/admin/",
         "/admin/tutorials_/new",
         "/admin/users_/$userId",
+        "/admin/users_/new",
         "/admin/tutorials_/$id_/edit",
         "/admin/users_/$userId_/edit"
       ]
@@ -433,6 +456,10 @@ export const routeTree = rootRoute
     },
     "/admin/users_/$userId": {
       "filePath": "admin/users_/$userId.tsx",
+      "parent": "/admin"
+    },
+    "/admin/users_/new": {
+      "filePath": "admin/users_/new.tsx",
       "parent": "/admin"
     },
     "/admin/tutorials_/$id_/edit": {

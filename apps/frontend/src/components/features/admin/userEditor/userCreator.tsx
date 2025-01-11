@@ -1,4 +1,15 @@
-import { Button } from "@/components/ui/button";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
+import { useToast } from "@/hooks/toast";
+import { authClient } from "@/libs/auth-client";
+import { adminCreateUserDetailSchema } from "@/schema/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import type { z } from "zod";
+import { Input } from "@/components/ui/input";
 import {
 	Form,
 	FormControl,
@@ -8,37 +19,32 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/toast";
-import { authClient } from "@/libs/auth-client";
-import { createUserSchema, type CreateUserSchemaType } from "@/schema/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { ErrorToastContent } from "../../toastContent";
+import { Button } from "@/components/ui/button";
+type AdminCreateUserDetailType = z.infer<typeof adminCreateUserDetailSchema>;
 
-export function CreateAccontFromAnonymous() {
-	const router = useRouter();
+const UserCreatorForm = () => {
 	const { toast } = useToast();
+
 	const { t } = useTranslation();
-	const form = useForm<CreateUserSchemaType>({
-		resolver: zodResolver(createUserSchema),
+
+	const form = useForm<AdminCreateUserDetailType>({
+		resolver: zodResolver(adminCreateUserDetailSchema),
 		defaultValues: {
-			email: "",
-			username: "",
 			name: "",
+			email: "",
 			password: "",
 			confirmPassword: "",
+			role: "user",
 		},
 	});
 
-	const onSubmit = async (data: CreateUserSchemaType) => {
-		const result = await authClient.signUp.email({
+	async function onSubmit(data: AdminCreateUserDetailType) {
+		console.log("onSubmit", data);
+		const result = await authClient.admin.createUser({
+			name: data.name,
 			email: data.email,
-			name: data.username,
 			password: data.password,
-			username: data.username,
+			role: data.role,
 		});
 		if (result.error) {
 			console.error(result.error);
@@ -50,9 +56,14 @@ export function CreateAccontFromAnonymous() {
 				),
 				variant: "destructive",
 			});
+		} else {
+			toast({
+				description: (
+					<SuccessToastContent>{t("toast.createdUser")}</SuccessToastContent>
+				),
+			});
 		}
-		router.history.push("/");
-	};
+	}
 
 	return (
 		<Form {...form}>
@@ -70,24 +81,7 @@ export function CreateAccontFromAnonymous() {
 								<Input {...field} />
 							</FormControl>
 							<FormDescription>
-								{t("login.displayNameDescription")}
-							</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name="username"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>{t("login.username")}</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
-							<FormDescription>
-								{t("login.userNameDescription")}
+								{t("admin.displayNameDescription")}
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -104,7 +98,7 @@ export function CreateAccontFromAnonymous() {
 							<FormControl>
 								<Input {...field} />
 							</FormControl>
-							<FormDescription>{t("login.emailDescription")}</FormDescription>
+							<FormDescription>{t("admin.emailDescription")}</FormDescription>
 
 							<FormMessage />
 						</FormItem>
@@ -149,5 +143,13 @@ export function CreateAccontFromAnonymous() {
 				</Button>
 			</form>
 		</Form>
+	);
+};
+
+export function AdminUserCreator() {
+	return (
+		<div>
+			<UserCreatorForm />
+		</div>
 	);
 }

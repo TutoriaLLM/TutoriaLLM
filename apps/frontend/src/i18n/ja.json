@@ -225,7 +225,9 @@
     "workspacePreview": "ワークスペースのプレビュー",
     "writeContent": "ここにコンテンツを書いてください",
     "writeMetadata": "ここにメタデータを書き込みます",
-    "projectName": "プロジェクト名"
+    "projectName": "プロジェクト名",
+    "displayNameDescription": "ユーザーの表示名",
+    "emailDescription": "ユーザーの認証用メールアドレス"
   },
   "quickReply": {
     "HowToUse": "どうやって使うの？",
@@ -304,6 +306,7 @@
     "outputNodeCannotBeDeleted": "出力ノードは削除できません",
     "sessionDeleted": "セッションが削除されました",
     "updatedProjectName": "プロジェクト名を更新しました",
-    "failedToUpdateProjectName": "プロジェクト名の更新に失敗しました"
+    "failedToUpdateProjectName": "プロジェクト名の更新に失敗しました",
+    "createdUser": "新規ユーザーを作成しました"
   }
 }
