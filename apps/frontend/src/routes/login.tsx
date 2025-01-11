@@ -1,14 +1,9 @@
 import { authClient } from "@/libs/auth-client";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
-import { LanguageToStart } from "@/state.js";
-import i18n from "i18next";
-import { useAtom } from "jotai";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 import Login from "@/components/common/login";
 import { LangPicker } from "@/components/common/Langpicker";
-import { setLanguageState } from "@/utils/setdefaultLanguage";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const Route = createFileRoute("/login")({
@@ -35,18 +30,7 @@ export const Route = createFileRoute("/login")({
 });
 function AdminLogin() {
 	const search = Route.useSearch();
-	const { t } = useTranslation();
-	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
-
-	useEffect(() => {
-		if (languageToStart === "") {
-			setLanguageState(setLanguageToStart);
-		}
-	}, [languageToStart, setLanguageToStart]);
-
-	useEffect(() => {
-		i18n.changeLanguage(languageToStart);
-	}, [languageToStart]);
+	const { t, i18n } = useTranslation();
 
 	const redirect = search.redirect || "/";
 	return (
@@ -64,8 +48,8 @@ function AdminLogin() {
 					</CardContent>
 				</Card>
 				<LangPicker
-					language={languageToStart}
-					setLanguage={setLanguageToStart}
+					language={i18n.language}
+					setLanguage={i18n.changeLanguage}
 				/>
 			</div>
 		</div>

@@ -1,14 +1,9 @@
-import { useEffect } from "react";
-
 import CreateNewSession from "@/components/features/editor/sessionOverlay/newsession";
 import { CircleAlert } from "lucide-react";
 
 import i18n from "i18next";
 import { useTranslation } from "react-i18next";
 import type { Message } from "@/routes/index.js";
-import { LanguageToStart } from "@/state.js";
-import { setLanguageState } from "@/utils/setdefaultLanguage.js";
-import { useAtom } from "jotai";
 import type { AuthSession } from "@/type";
 import { UserAccount } from "@/components/common/profile/profile";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -20,19 +15,10 @@ export default function SessionPopup(props: {
 	session: AuthSession;
 }) {
 	const { t } = useTranslation();
-	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
 
 	const messageText = t(props.message.message);
 
-	useEffect(() => {
-		if (languageToStart === "") {
-			setLanguageState(setLanguageToStart);
-		}
-	}, [languageToStart, setLanguageToStart]);
-
-	useEffect(() => {
-		i18n.changeLanguage(languageToStart);
-	}, [languageToStart]);
+	const language = i18n.language;
 
 	return (
 		<Card>
@@ -48,7 +34,7 @@ export default function SessionPopup(props: {
 						</div>
 						<div className="flex flex-col text-foreground justify-center items-center gap-3 p-6">
 							<CreateNewSession
-								language={languageToStart}
+								language={language}
 								setMessage={props.setMessage}
 							/>
 						</div>

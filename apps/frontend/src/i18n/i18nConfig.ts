@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 //manual translations
 import translation_en from "@/i18n/en.json";
@@ -31,7 +32,14 @@ const resources = {
 
 i18n
 	.use(initReactI18next) // passes i18n down to react-i18next
+	.use(LanguageDetector)
 	.init({
+		lng: undefined,
+		detection: {
+			order: ["cookie"],
+			lookupCookie: "i18next",
+			caches: ["cookie"],
+		},
 		resources,
 		fallbackLng: Object.keys(resources),
 		interpolation: {

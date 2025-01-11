@@ -20,7 +20,6 @@ import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
 import type { Message } from "@/routes";
 import {
-	LanguageToStart,
 	currentSessionState,
 	currentTabState,
 	prevSessionState,
@@ -29,7 +28,7 @@ import type { Clicks, SessionValue, Tab } from "@/type.js";
 import { queryOptions } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import i18next from "i18next";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -98,7 +97,6 @@ function RouteComponent() {
 	const [prevSession, setPrevSession] = useAtom(prevSessionState);
 	const recordedClicksRef = useRef<Clicks>([]);
 	const currentSessionRef = useRef<SessionValue | null>(null);
-	const languageToStart = useAtomValue(LanguageToStart);
 
 	const [isWorkspaceConnected, setIsWorkspaceConnected] = useState(false);
 	const [socketInstance, setSocketInstance] = useState<Socket | null>(null);
@@ -111,10 +109,6 @@ function RouteComponent() {
 	}
 	const { t } = useTranslation();
 	const { config } = useConfig();
-
-	useEffect(() => {
-		i18next.changeLanguage(languageToStart);
-	}, [languageToStart]);
 
 	useEffect(() => {
 		const socket = getSocket(session.sessionId);

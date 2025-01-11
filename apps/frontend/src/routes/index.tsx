@@ -12,8 +12,6 @@ import { getStatus } from "@/api/health";
 import { CheckCircle, CircleAlertIcon, LoaderCircle } from "lucide-react";
 import { LangPicker } from "@/components/common/Langpicker";
 import { DebugInfo } from "@/components/features/editor/sessionOverlay/debuginfo";
-import { useAtom } from "jotai";
-import { LanguageToStart } from "@/state";
 export const Route = createFileRoute("/")({
 	beforeLoad: async ({ location }) => ({
 		getSession: async () => {
@@ -45,9 +43,8 @@ function Home() {
 		type: "info",
 		message: "session.typecodeMsg",
 	});
-	const [languageToStart, setLanguageToStart] = useAtom(LanguageToStart);
 
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 
 	const { data: isServerOnline } = useQuery({
 		queryKey: ["serverStatus"],
@@ -99,8 +96,8 @@ function Home() {
 					session={session}
 				/>
 				<LangPicker
-					language={languageToStart}
-					setLanguage={setLanguageToStart}
+					language={i18n.language}
+					setLanguage={i18n.changeLanguage}
 				/>
 				<DebugInfo />
 			</div>

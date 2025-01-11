@@ -1,8 +1,6 @@
 import { atom } from "jotai";
 
 // state management
-// State of the language to start, obtained from i18n. SessionState is used after the session has started.
-export const LanguageToStart = atom("");
 // Current session/state of one previous session used for comparison
 export const currentSessionState = atom<SessionValue | null>(null);
 export const prevSessionState = atom<SessionValue | null>(null);
