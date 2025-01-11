@@ -24,7 +24,6 @@ import {
 	currentSessionState,
 	currentTabState,
 	prevSessionState,
-	socketIoInstance,
 } from "@/state.js";
 import type { Clicks, SessionValue, Tab } from "@/type.js";
 import { queryOptions } from "@tanstack/react-query";
@@ -38,6 +37,7 @@ import { type Operation, applyPatch, createPatch } from "rfc6902";
 import { authClient } from "@/libs/auth-client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
+import type { Socket } from "socket.io-client";
 
 const sessionQueryOptions = (sessionId: string) =>
 	queryOptions({
@@ -101,7 +101,7 @@ function RouteComponent() {
 	const languageToStart = useAtomValue(LanguageToStart);
 
 	const [isWorkspaceConnected, setIsWorkspaceConnected] = useState(false);
-	const [socketInstance, setSocketInstance] = useAtom(socketIoInstance);
+	const [socketInstance, setSocketInstance] = useState<Socket | null>(null);
 	const [isCodeRunning, setIsCodeRunning] = useState(false);
 	const isInternalUpdateRef = useRef(true); // Manage flags with useRef
 
@@ -320,6 +320,7 @@ function RouteComponent() {
 					sessionId={session?.sessionId ?? sessionId ?? ""}
 					sessionName={session?.name ?? null}
 					isCodeRunning={isCodeRunning}
+					socket={socketInstance}
 					isConnected={isWorkspaceConnected}
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}

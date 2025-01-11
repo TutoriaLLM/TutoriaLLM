@@ -1,6 +1,6 @@
 import * as Switch from "@radix-ui/react-switch";
 
-import { currentSessionState, socketIoInstance } from "@/state.js";
+import { currentSessionState } from "@/state.js";
 import sleep from "@/utils/sleep.js";
 import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
@@ -9,13 +9,14 @@ import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
+import type { Socket } from "socket.io-client";
 // This switch toggles whether the code is executed or not. It should work independently of the parent component.
 export function ExecSwitch({
+	socket,
 	isCodeRunning,
 	isConnected,
-}: { isCodeRunning: boolean; isConnected: boolean }) {
+}: { socket: Socket | null; isCodeRunning: boolean; isConnected: boolean }) {
 	const { t } = useTranslation();
-	const socketInstance = useAtomValue(socketIoInstance);
 	const currentSession = useAtomValue(currentSessionState);
 
 	// Manage switch deactivation
@@ -30,7 +31,7 @@ export function ExecSwitch({
 		useState<reloadButtonStatusType>("disabled");
 
 	function ChangeSwitch() {
-		if (!(isConnected && socketInstance && currentSession)) {
+		if (!(isConnected && socket && currentSession)) {
 			return;
 		}
 
@@ -41,12 +42,12 @@ export function ExecSwitch({
 		// Write the process when the switch is changed.
 		if (isCodeRunning) {
 			// When the switch is on
-			socketInstance.emit("stopVM");
+			socket.emit("stopVM");
 			setReloadButtonStatus("disabled");
 		}
 		if (!isCodeRunning) {
 			// When the switch is off
-			socketInstance.emit("openVM");
+			socket.emit("openVM");
 			setRunningWorkspaceContent(JSON.stringify(currentSession.workspace));
 		}
 		setIsSwitchDisabled(true);
@@ -58,7 +59,7 @@ export function ExecSwitch({
 			return;
 		}
 
-		if (isCodeRunning && socketInstance && currentSession) {
+		if (isCodeRunning && socket && currentSession) {
 			setReloadButtonStatus("reloading");
 
 			// Maintain reloading state for 1 second
@@ -68,7 +69,7 @@ export function ExecSwitch({
 					setReloadButtonStatus("disabled");
 				}, 5000);
 
-				socketInstance.emit("updateVM", (response: string) => {
+				socket.emit("updateVM", (response: string) => {
 					clearTimeout(timeout); // Clear Timeout
 
 					if (response === "ok") {

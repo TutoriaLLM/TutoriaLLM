@@ -17,6 +17,3 @@ export const highlightedBlockState = atom<HighlightedBlock>(null);
 export const blockNameFromMenuState = atom<string | null>(null);
 
 import type { HighlightedBlock, SessionValue, Tab } from "@/type";
-// WS Instance
-import type { Socket } from "socket.io-client";
-export const socketIoInstance = atom<Socket | null>(null);
