@@ -296,7 +296,7 @@ export default function Toolbar(props: {
 	}
 
 	return (
-		<div className="w-full flex flex-wrap gap-3 bg-background rounded-2xl p-1.5 mt-12 md:mt-0">
+		<div className="w-full flex flex-wrap gap-3 bg-background rounded-2xl p-1.5">
 			<Button
 				type="button"
 				variant="destructive"

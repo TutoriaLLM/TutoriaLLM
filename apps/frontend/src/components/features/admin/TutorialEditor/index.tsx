@@ -169,9 +169,8 @@ export default function TutorialEditor(props: {
 		(params: any) => setEdges((eds) => addEdge(params, eds)),
 		[setEdges],
 	);
-
 	return (
-		<div className="w-full h-[100vh] flex-grow max-w-full max-h-full">
+		<div className="w-full h-[calc(100svh-2rem)] rounded-2xl border overflow-clip flex-grow max-w-full max-h-full">
 			<Dialog
 				open={isUploaderOpen}
 				onOpenChange={(value) => {
