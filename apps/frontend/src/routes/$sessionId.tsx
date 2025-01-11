@@ -23,7 +23,6 @@ import {
 	LanguageToStart,
 	currentSessionState,
 	currentTabState,
-	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	prevSessionState,
 	socketIoInstance,
@@ -32,7 +31,7 @@ import type { Clicks, SessionValue, Tab } from "@/type.js";
 import { queryOptions } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
 import i18next from "i18next";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -105,7 +104,7 @@ function RouteComponent() {
 	const [WorkspaceConnection, setWorkspaceConnection] =
 		useAtom(isWorkspaceConnected);
 	const [socketInstance, setSocketInstance] = useAtom(socketIoInstance);
-	const setIsCodeRunning = useSetAtom(isWorkspaceCodeRunning);
+	const [isCodeRunning, setIsCodeRunning] = useState(false);
 	const isInternalUpdateRef = useRef(true); // Manage flags with useRef
 
 	const [isMenuOpen, setIsMenuOpen] = useState(true);
@@ -322,6 +321,7 @@ function RouteComponent() {
 				<Navbar
 					sessionId={session?.sessionId ?? sessionId ?? ""}
 					sessionName={session?.name ?? null}
+					isCodeRunning={isCodeRunning}
 					isConnected={WorkspaceConnection}
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}

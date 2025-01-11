@@ -22,6 +22,3 @@ import type { HighlightedBlock, SessionValue, Tab } from "@/type";
 // WS Instance
 import type { Socket } from "socket.io-client";
 export const socketIoInstance = atom<Socket | null>(null);
-
-// Whether the code in the workspace is running
-export const isWorkspaceCodeRunning = atom(false);

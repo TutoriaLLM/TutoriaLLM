@@ -2,7 +2,6 @@ import * as Switch from "@radix-ui/react-switch";
 
 import {
 	currentSessionState,
-	isWorkspaceCodeRunning,
 	isWorkspaceConnected,
 	socketIoInstance,
 } from "@/state.js";
@@ -15,9 +14,8 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
 // This switch toggles whether the code is executed or not. It should work independently of the parent component.
-export function ExecSwitch() {
+export function ExecSwitch({ isCodeRunning }: { isCodeRunning: boolean }) {
 	const { t } = useTranslation();
-	const isCodeRunning = useAtomValue(isWorkspaceCodeRunning);
 	const isConnected = useAtomValue(isWorkspaceConnected);
 	const socketInstance = useAtomValue(socketIoInstance);
 	const currentSession = useAtomValue(currentSessionState);

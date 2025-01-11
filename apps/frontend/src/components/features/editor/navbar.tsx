@@ -14,12 +14,14 @@ import { RenameSession } from "./renameSession";
 export default function Navbar({
 	sessionId,
 	sessionName,
+	isCodeRunning,
 	isConnected,
 	isTutorial,
 	tutorialProgress,
 }: {
 	sessionId: string;
 	sessionName: string | null;
+	isCodeRunning: boolean;
 	isConnected: boolean;
 	isTutorial: boolean;
 	tutorialProgress: number | null | undefined;
@@ -91,7 +93,7 @@ export default function Navbar({
 						>
 							<HelpCircle className="group-hover:text" />
 						</Button>
-						<ExecSwitch />
+						<ExecSwitch isCodeRunning={isCodeRunning} />
 					</span>
 				) : null}
 			</div>
