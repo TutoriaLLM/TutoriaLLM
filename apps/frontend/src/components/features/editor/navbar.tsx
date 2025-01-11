@@ -86,7 +86,7 @@ export default function Navbar({
 						<Button
 							type="button"
 							size="icon"
-							variant="ghost"
+							variant="outline"
 							onClick={() => setIsOpen(true)} // Start Tour
 						>
 							<HelpCircle className="group-hover:text" />
