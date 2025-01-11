@@ -1,11 +1,9 @@
 import { ExitButton } from "@/components/common/exitButton.js";
 import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { Button } from "@/components/ui/button";
-import { currentSessionState } from "@/state.js";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
 import { useRouter } from "@tanstack/react-router";
-import { useAtomValue } from "jotai";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { RenameSession } from "./renameSession";
@@ -14,6 +12,7 @@ import type { Socket } from "socket.io-client";
 export default function Navbar({
 	sessionId,
 	sessionName,
+	currentWorkspace,
 	isCodeRunning,
 	socket,
 	isConnected,
@@ -22,6 +21,7 @@ export default function Navbar({
 }: {
 	sessionId: string;
 	sessionName: string | null;
+	currentWorkspace: { [x: string]: any } | null;
 	isCodeRunning: boolean;
 	socket: Socket | null;
 	isConnected: boolean;
@@ -29,7 +29,6 @@ export default function Navbar({
 	tutorialProgress: number | null | undefined;
 }) {
 	const { t } = useTranslation();
-	const sessionValue = useAtomValue(currentSessionState);
 	const router = useRouter();
 
 	function handleExit() {
@@ -88,6 +87,7 @@ export default function Navbar({
 							<HelpCircle className="group-hover:text" />
 						</Button>
 						<ExecSwitch
+							workspace={currentWorkspace}
 							socket={socket}
 							isCodeRunning={isCodeRunning}
 							isConnected={isConnected}

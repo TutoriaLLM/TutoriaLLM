@@ -1,5 +1,4 @@
 import type { workspaceNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
-import type { SessionValue } from "@/type.js";
 import {
 	Handle,
 	type NodeProps,
@@ -10,8 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import "blockly/javascript";
 import { PanelRightClose, Trash2 } from "lucide-react";
-import { useAtom, useSetAtom } from "jotai";
-import { currentSessionState, prevSessionState } from "@/state";
+import {} from "jotai";
 import Editor from "@/components/common/Blockly";
 import i18next from "i18next";
 import { Button } from "@/components/ui/button";
@@ -21,56 +19,22 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 
 	const [isToolboxOpen, setIsToolboxOpen] = useState(true);
-	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
-	const setPrevSession = useSetAtom(prevSessionState);
+	const [currentWorkapce, setCurrentWorkapce] = useState<{
+		[x: string]: any;
+	} | null>(null);
 
 	useEffect(() => {
-		const initialData = {
-			uuid: "",
-			sessionId: "",
-			name: "",
-			createdAt: new Date().toISOString(),
-			updatedAt: new Date().toISOString(),
-			dialogue: null,
-			quickReplies: null,
-			isReplying: false,
-			easyMode: false,
-			responseMode: "text",
-			workspace: {},
-			isVMRunning: false,
-			clients: [],
-			language: "en",
-			llmContext: "",
-			tutorial: {
-				isTutorial: false,
-				tutorialId: null,
-				progress: 10,
-			},
-			stats: {
-				totalConnectingTime: 0,
-				currentNumOfBlocks: 0,
-				totalInvokedLLM: 0,
-				totalUserMessages: 0,
-				totalCodeExecutions: 0,
-			},
-			audios: [],
-			userAudio: "",
-			screenshot: "",
-			clicks: [],
-			userInfo: "",
-		} satisfies SessionValue;
-
-		setCurrentSession(initialData);
-		setPrevSession(initialData);
-	}, [setCurrentSession, setPrevSession]);
-
-	useEffect(() => {
-		if (currentSession) {
-			handleChangeSession("sessionValue", currentSession);
+		if (currentWorkapce) {
+			handleChangeSession("sessionValue", currentWorkapce);
 		}
-	}, [currentSession]);
+	}, [currentWorkapce]);
 
-	const handleChangeSession = (field: string, value: SessionValue) => {
+	const handleChangeSession = (
+		field: string,
+		value: {
+			[x: string]: any;
+		},
+	) => {
 		updateNodeData(id, { ...data, [field]: value });
 	};
 
@@ -118,7 +82,13 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 			</div>
 
 			<div id="workspaceArea" className="no-wheel w-[700px] h-[500px]">
-				<Editor menuOpen={isToolboxOpen} language={i18next.language ?? "en"} />
+				<Editor
+					menuOpen={isToolboxOpen}
+					language={i18next.language ?? "en"}
+					currentWorkspace={currentWorkapce}
+					setWorkspace={setCurrentWorkapce}
+					prevWorkspace={null}
+				/>
 			</div>
 
 			<Handle

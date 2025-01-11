@@ -5,11 +5,16 @@ import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
 } from "@/hooks/horizontalScroll.js";
-import { currentSessionState } from "@/state.js";
 import { updateStats } from "@/utils/statsUpdater.js";
-import { useAtom } from "jotai";
 import { Bot, Mic, Pause, Play, Send, Trash } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	type Dispatch,
+	type SetStateAction,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import WaveSurfer from "wavesurfer.js";
 
@@ -17,10 +22,16 @@ import { useConfig } from "@/hooks/config.js";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
+import type { SessionValue } from "@/type";
 
-export default function DialogueView() {
+export default function DialogueView({
+	session,
+	setSession,
+}: {
+	session: SessionValue | null;
+	setSession: Dispatch<SetStateAction<SessionValue | null>>;
+}) {
 	const { t } = useTranslation();
-	const [session, setSession] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
 	const [audioURL, setAudioURL] = useState("");
 	const [isRecording, setIsRecording] = useState(false);
@@ -83,7 +94,7 @@ export default function DialogueView() {
 							userAudio: audioURL, // Set base64 encoded MP3 data
 						};
 					}
-					return prev;
+					return session;
 				});
 				setMessage(""); // Clear field after message is sent
 				setAudioURL(""); // Clear audio URL
@@ -275,7 +286,11 @@ export default function DialogueView() {
 	const items = rowVirtualizer.getVirtualItems();
 	return (
 		<div className="dialogue grow w-full h-full flex flex-col bg-background font-medium">
-			<SwitchModeUI audio={config?.AI_Settings.Chat_Audio} />
+			<SwitchModeUI
+				audio={config?.AI_Settings.Chat_Audio}
+				sessionState={session}
+				setSessionState={setSession}
+			/>
 			<div
 				className="w-full h-full overflow-y-auto contain-strict"
 				ref={parentRef}
@@ -298,6 +313,8 @@ export default function DialogueView() {
 							if (!item) return null;
 							return (
 								<TextBubble
+									currentSession={session}
+									setCurrentSession={setSession}
 									className="w-full"
 									ref={(el) => {
 										if (el) {

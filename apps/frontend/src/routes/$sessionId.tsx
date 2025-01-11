@@ -19,11 +19,7 @@ import { useConfig } from "@/hooks/config.js";
 import { useIsMobile } from "@/hooks/useMobile.js";
 import { getSocket } from "@/libs/socket.js";
 import type { Message } from "@/routes";
-import {
-	currentSessionState,
-	currentTabState,
-	prevSessionState,
-} from "@/state.js";
+import { currentTabState } from "@/state.js";
 import type { Clicks, SessionValue, Tab } from "@/type.js";
 import { queryOptions } from "@tanstack/react-query";
 import html2canvas from "html2canvas";
@@ -93,8 +89,10 @@ function RouteComponent() {
 	const { appSession: session } = Route.useLoaderData();
 	const isMobile = useIsMobile();
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
-	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
-	const [prevSession, setPrevSession] = useAtom(prevSessionState);
+	const [currentSession, setCurrentSession] = useState<SessionValue | null>(
+		null,
+	);
+	const [prevSession, setPrevSession] = useState<SessionValue | null>(null);
 	const recordedClicksRef = useRef<Clicks>([]);
 	const currentSessionRef = useRef<SessionValue | null>(null);
 
@@ -313,6 +311,7 @@ function RouteComponent() {
 				<Navbar
 					sessionId={session?.sessionId ?? sessionId ?? ""}
 					sessionName={session?.name ?? null}
+					currentWorkspace={currentSession?.workspace ?? null}
 					isCodeRunning={isCodeRunning}
 					socket={socketInstance}
 					isConnected={isWorkspaceConnected}
@@ -351,12 +350,28 @@ function RouteComponent() {
 							</TabsList>
 							<TabsContent value="workspaceTab">
 								<Editor
+									currentWorkspace={currentSession?.workspace ?? null}
+									setWorkspace={(workspace) => {
+										setCurrentSession((prev) => {
+											if (prev) {
+												return {
+													...prev,
+													workspace: workspace,
+												};
+											}
+											return prev;
+										});
+									}}
+									prevWorkspace={prevSession?.workspace ?? null}
 									menuOpen={isMenuOpen}
 									language={session.language ?? "en"}
 								/>
 							</TabsContent>
 							<TabsContent value="dialogueTab">
-								<DialogueView />
+								<DialogueView
+									session={currentSession}
+									setSession={setCurrentSession}
+								/>
 							</TabsContent>
 						</Tabs>
 					) : (
@@ -369,6 +384,19 @@ function RouteComponent() {
 								minSize={20}
 							>
 								<Editor
+									currentWorkspace={currentSession?.workspace ?? null}
+									setWorkspace={(workspace) => {
+										setCurrentSession((prev) => {
+											if (prev) {
+												return {
+													...prev,
+													workspace: workspace,
+												};
+											}
+											return prev;
+										});
+									}}
+									prevWorkspace={prevSession?.workspace ?? null}
 									menuOpen={isMenuOpen}
 									language={session.language ?? "en"}
 								/>
@@ -387,7 +415,10 @@ function RouteComponent() {
 								maxSize={80}
 								minSize={20}
 							>
-								<DialogueView />
+								<DialogueView
+									session={currentSession}
+									setSession={setCurrentSession}
+								/>
 							</Panel>
 						</PanelGroup>
 					)}

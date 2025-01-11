@@ -8,13 +8,10 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/libs/utils";
-import { currentSessionState } from "@/state.js";
-import type { Tutorial } from "@/type.js";
+import type { SessionValue, Tutorial } from "@/type.js";
 import { langToStr } from "@/utils/langToStr.js";
-
-import { useSetAtom } from "jotai";
 import { ArrowRight, BookDashed, EyeIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // Define TutorialType
@@ -24,7 +21,11 @@ type TagType = {
 	name: string;
 };
 
-function SelectTutorialUI() {
+function SelectTutorialUI({
+	setSessionState,
+}: {
+	setSessionState: Dispatch<SetStateAction<SessionValue | null>>;
+}) {
 	const { t, i18n } = useTranslation();
 	const userLanguage = i18n.language;
 	// Fetch available tutorials
@@ -73,8 +74,6 @@ function SelectTutorialUI() {
 
 		return () => window.removeEventListener("resize", updateColumns);
 	}, []);
-
-	const setSessionState = useSetAtom(currentSessionState);
 
 	// Select a tutorial and update session state
 	function selectTutorial(tutorial: TutorialType) {

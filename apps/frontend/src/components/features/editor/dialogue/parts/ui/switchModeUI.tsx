@@ -1,13 +1,20 @@
 import { cn } from "@/libs/utils";
-import { currentSessionState } from "@/state.js";
+import type { SessionValue } from "@/type";
 import * as Switch from "@radix-ui/react-switch";
-import { useAtom } from "jotai";
 import { Headphones, Text } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 
-function SwitchModeUI(props: { audio: boolean | undefined }) {
+function SwitchModeUI({
+	sessionState,
+	setSessionState,
+	audio,
+}: {
+	sessionState: SessionValue | null;
+	setSessionState: Dispatch<SetStateAction<SessionValue | null>>;
+	audio: boolean | undefined;
+}) {
 	const { t } = useTranslation();
-	const [SessionState, setSessionState] = useAtom(currentSessionState);
 
 	function toggleIsEasyMode() {
 		setSessionState((prev) => {
@@ -73,12 +80,12 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 					<Switch.Root
 						className="w-14 h-8 md:w-16 md:h-10 rounded-2xl border bg-muted relative data-[state=checked]:bg-green-100 group"
 						onCheckedChange={toggleIsEasyMode} // Set function to execute when switch state is changed
-						checked={SessionState?.easyMode || false} // Set switch status
+						checked={sessionState?.easyMode || false} // Set switch status
 					>
 						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-secondary bg-destructive data-[disabled]:bg-warning" />
 					</Switch.Root>
 				</div>
-				{props.audio && (
+				{audio && (
 					<>
 						<span className="w-full h-0.5 bg-border" />
 						<div className="flex justify-between items-center w-full">
@@ -94,7 +101,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 							<Switch.Root
 								className="w-16 h-8 md:w-20 md:h-10 shrink-0 relative rounded-2xl bg-muted flex items-center"
 								onCheckedChange={toggleResponseMode}
-								checked={SessionState?.responseMode === "audio"}
+								checked={sessionState?.responseMode === "audio"}
 							>
 								{/* Icon on the left */}
 								<div
@@ -102,7 +109,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 										"absolute z-20 left-2 transition-opacity duration-200 text-muted-foreground opacity-50",
 										{
 											"opacity-100 text-secondary":
-												SessionState?.responseMode === "text",
+												sessionState?.responseMode === "text",
 										},
 									)}
 								>
@@ -115,7 +122,7 @@ function SwitchModeUI(props: { audio: boolean | undefined }) {
 										"absolute z-20 right-2 transition-opacity duration-200 text-muted-foreground opacity-50",
 										{
 											"opacity-100 text-secondary":
-												SessionState?.responseMode === "audio",
+												sessionState?.responseMode === "audio",
 										},
 									)}
 								>

@@ -1,8 +1,6 @@
 import * as Switch from "@radix-ui/react-switch";
 
-import { currentSessionState } from "@/state.js";
 import sleep from "@/utils/sleep.js";
-import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 
 import { PlayIcon, RefreshCcw, StopCircleIcon } from "lucide-react";
@@ -15,9 +13,14 @@ export function ExecSwitch({
 	socket,
 	isCodeRunning,
 	isConnected,
-}: { socket: Socket | null; isCodeRunning: boolean; isConnected: boolean }) {
+	workspace,
+}: {
+	socket: Socket | null;
+	isCodeRunning: boolean;
+	isConnected: boolean;
+	workspace: { [x: string]: any } | null;
+}) {
 	const { t } = useTranslation();
-	const currentSession = useAtomValue(currentSessionState);
 
 	// Manage switch deactivation
 	const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
@@ -31,7 +34,7 @@ export function ExecSwitch({
 		useState<reloadButtonStatusType>("disabled");
 
 	function ChangeSwitch() {
-		if (!(isConnected && socket && currentSession)) {
+		if (!(isConnected && socket && workspace)) {
 			return;
 		}
 
@@ -48,7 +51,7 @@ export function ExecSwitch({
 		if (!isCodeRunning) {
 			// When the switch is off
 			socket.emit("openVM");
-			setRunningWorkspaceContent(JSON.stringify(currentSession.workspace));
+			setRunningWorkspaceContent(JSON.stringify(workspace));
 		}
 		setIsSwitchDisabled(true);
 	}
@@ -59,7 +62,7 @@ export function ExecSwitch({
 			return;
 		}
 
-		if (isCodeRunning && socket && currentSession) {
+		if (isCodeRunning && socket && workspace) {
 			setReloadButtonStatus("reloading");
 
 			// Maintain reloading state for 1 second
@@ -85,20 +88,20 @@ export function ExecSwitch({
 	}
 	// Determine whether to enable the reload button when changing workspace
 	useEffect(() => {
-		const newWorkspaceContent = JSON.stringify(currentSession?.workspace);
+		const newWorkspaceContent = JSON.stringify(workspace);
 		if (runningWorkspaceContent !== newWorkspaceContent && isCodeRunning) {
 			setReloadButtonStatus("idle");
 		}
 		// Update workspace content
 		setRunningWorkspaceContent(newWorkspaceContent);
-	}, [currentSession?.workspace, runningWorkspaceContent]);
+	}, [workspace, runningWorkspaceContent]);
 
 	// Wait until the switch state is changed externally
 	useEffect(() => {
 		sleep(1000).then(() => {
 			setIsSwitchDisabled(false);
 		});
-	}, [isCodeRunning, currentSession?.workspace]);
+	}, [isCodeRunning, workspace]);
 
 	return (
 		<form className="flex justify-center items-center execSwitch">

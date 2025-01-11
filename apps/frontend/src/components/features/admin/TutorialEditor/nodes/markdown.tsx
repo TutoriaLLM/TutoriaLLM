@@ -67,12 +67,12 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 			const blocklyNode = nodesData.find((node) => node.type === "blockly");
 			if (blocklyNode?.data) {
 				const blocklyData = blocklyNode.data as workspaceNode["data"];
-				const sessionValue = blocklyData.sessionValue;
-				if (sessionValue) {
+				const workspace = blocklyData.workspace;
+				if (workspace) {
 					handleSourceChange(
 						"source",
 						`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(
-							sessionValue.workspace,
+							workspace,
 						)}`,
 					);
 				} else {

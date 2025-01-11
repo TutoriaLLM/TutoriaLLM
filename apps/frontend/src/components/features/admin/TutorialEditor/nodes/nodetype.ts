@@ -1,4 +1,3 @@
-import type { SessionValue } from "@/type";
 import type { BuiltInNode, Node } from "@xyflow/react";
 
 export type markdownNode = Node<{
@@ -34,7 +33,9 @@ export type mdToMetadataNode = Node<{
 }>;
 
 export type workspaceNode = Node<{
-	sessionValue: SessionValue;
+	workspace: {
+		[x: string]: any;
+	};
 }>;
 
 export type CustomNodeType =
