@@ -2,7 +2,6 @@ import { ExitButton } from "@/components/common/exitButton.js";
 import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { Button } from "@/components/ui/button";
 import { currentSessionState, socketIoInstance } from "@/state.js";
-import type { SessionValue } from "@/type.js";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
 import { useRouter } from "@tanstack/react-router";
@@ -33,12 +32,6 @@ export default function Navbar({
 	const socket = useAtomValue(socketIoInstance);
 
 	function handleExit() {
-		const sessionValueToSave = {
-			...sessionValue,
-			clients: [],
-			screenshot: "",
-			clicks: [],
-		} as SessionValue;
 		socket?.disconnect();
 		router.navigate({ to: "/" });
 	}
