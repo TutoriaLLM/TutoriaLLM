@@ -23,7 +23,6 @@ import {
 	LanguageToStart,
 	currentSessionState,
 	currentTabState,
-	isWorkspaceConnected,
 	prevSessionState,
 	socketIoInstance,
 } from "@/state.js";
@@ -101,8 +100,7 @@ function RouteComponent() {
 	const currentSessionRef = useRef<SessionValue | null>(null);
 	const languageToStart = useAtomValue(LanguageToStart);
 
-	const [WorkspaceConnection, setWorkspaceConnection] =
-		useAtom(isWorkspaceConnected);
+	const [isWorkspaceConnected, setIsWorkspaceConnected] = useState(false);
 	const [socketInstance, setSocketInstance] = useAtom(socketIoInstance);
 	const [isCodeRunning, setIsCodeRunning] = useState(false);
 	const isInternalUpdateRef = useRef(true); // Manage flags with useRef
@@ -124,12 +122,12 @@ function RouteComponent() {
 		console.warn("session UUID", session.sessionId);
 
 		function onConnect() {
-			setWorkspaceConnection(true);
+			setIsWorkspaceConnected(true);
 			setSocketInstance(socket); // Save Socket instance
 		}
 
 		function onDisconnect() {
-			setWorkspaceConnection(false);
+			setIsWorkspaceConnected(false);
 			setSocketInstance(null); // Clear Socket instance
 		}
 
@@ -207,7 +205,7 @@ function RouteComponent() {
 		};
 	}, [
 		session,
-		setWorkspaceConnection,
+		setIsWorkspaceConnected,
 		setSocketInstance,
 		setCurrentSession,
 		setPrevSession,
@@ -322,7 +320,7 @@ function RouteComponent() {
 					sessionId={session?.sessionId ?? sessionId ?? ""}
 					sessionName={session?.name ?? null}
 					isCodeRunning={isCodeRunning}
-					isConnected={WorkspaceConnection}
+					isConnected={isWorkspaceConnected}
 					isTutorial={currentSession?.tutorial?.isTutorial ?? false}
 					tutorialProgress={currentSession?.tutorial?.progress ?? 0}
 				/>

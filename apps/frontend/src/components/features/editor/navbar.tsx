@@ -93,7 +93,10 @@ export default function Navbar({
 						>
 							<HelpCircle className="group-hover:text" />
 						</Button>
-						<ExecSwitch isCodeRunning={isCodeRunning} />
+						<ExecSwitch
+							isCodeRunning={isCodeRunning}
+							isConnected={isConnected}
+						/>
 					</span>
 				) : null}
 			</div>
