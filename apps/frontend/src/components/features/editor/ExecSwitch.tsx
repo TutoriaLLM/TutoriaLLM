@@ -121,7 +121,7 @@ export function ExecSwitch() {
 							isCodeRunning
 								? "text-secondary animate-pulse"
 								: "text-destructive"
-						} text-xs leading-none font-semibold hidden sm:block`}
+						} text-xs leading-none font-semibold hidden sm:block text-nowrap`}
 					>
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
 					</span>
@@ -129,7 +129,7 @@ export function ExecSwitch() {
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
 						onCheckedChange={ChangeSwitch}
-						className="w-14 h-8 md:w-16 md:h-10 rounded-2xl border bg-muted relative data-[state=checked]:bg-green-100 group"
+						className="w-14 h-8 md:w-16 md:h-10 flex-shrink-0 rounded-2xl border bg-muted relative data-[state=checked]:bg-green-100 group"
 					>
 						<Switch.Thumb className="shadow block w-6 h-6 md:w-8 md:h-8 rounded-xl transition-transform duration-100 translate-x-1 will-change-transform data-[state=checked]:translate-x-7 data-[state=checked]:bg-secondary bg-destructive data-[disabled]:bg-warning" />
 						<p className="group-hover:flex hidden absolute text-xs bg-muted p-2 rounded-2xl text-black left-1/2 -translate-x-1/2 top-12 z-10 w-fit text-nowrap  opacity-0 group-hover:opacity-100 transition-opacity duration-300">

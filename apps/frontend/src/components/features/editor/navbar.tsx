@@ -44,7 +44,7 @@ export default function Navbar({
 	const { setIsOpen } = useTour(); // Hooks to manage tour start/end
 
 	return (
-		<div className="navbar flex-col sm:flex-row justify-center shrink w-full p-2 md:p-4 bg-accent border-b-2  text-accent-foreground z-50 flex gap-2">
+		<div className="navbar flex-col md:flex-row justify-center shrink w-full p-2 md:p-4 bg-accent border-b-2  text-accent-foreground z-50 flex gap-2">
 			<div className="flex flex-row justify-between items-center gap-4">
 				{isConnected ? (
 					<ExitButton text={t("navbar.saveAndLeave")} onClick={handleExit} />
