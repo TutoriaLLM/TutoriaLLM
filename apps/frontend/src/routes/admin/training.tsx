@@ -8,7 +8,7 @@ import {
 	searchGuides,
 } from "@/api/admin/training";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@/hooks/useMutations";
 import { createFileRoute } from "@tanstack/react-router";
 import type { InferResponseType } from "backend/hc";
 import {
