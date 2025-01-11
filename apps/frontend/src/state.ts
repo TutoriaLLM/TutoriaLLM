@@ -1,12 +1,8 @@
 import { atom } from "jotai";
 
 // state management
-// session sessionId
-export const userSessionId = atom("");
 // State of the language to start, obtained from i18n. SessionState is used after the session has started.
 export const LanguageToStart = atom("");
-// Display pop-up to create and join a session
-export const isPopupOpen = atom(false);
 // Whether the workspace is connected
 export const isWorkspaceConnected = atom(false);
 // Current session/state of one previous session used for comparison
