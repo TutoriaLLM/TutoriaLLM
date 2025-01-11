@@ -43,7 +43,10 @@ export function tutorialsColumns() {
 	};
 
 	const handleEditTutorial = (id: number) => {
-		router.navigate({ to: "/admin/tutorials/edit", search: { id } });
+		router.navigate({
+			to: "/admin/tutorials/$id/edit",
+			params: { id: id.toString() },
+		});
 	};
 
 	//content and serializednodes are not fetched from tutorial list api

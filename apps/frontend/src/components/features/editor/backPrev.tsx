@@ -3,7 +3,14 @@ import { Link, useRouter } from "@tanstack/react-router";
 import { ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export function BackToPrevPage({ breadCrumbs }: { breadCrumbs?: string[] }) {
+export function BackToPrevPage({
+	breadCrumbs,
+}: {
+	breadCrumbs?: {
+		slug: string;
+		label: string;
+	}[];
+}) {
 	const router = useRouter();
 	const { t } = useTranslation();
 
@@ -32,15 +39,18 @@ export function BackToPrevPage({ breadCrumbs }: { breadCrumbs?: string[] }) {
 
 								{/* 最後の要素であればテキスト表示のみ、それ以外はクリック可能ボタン */}
 								{isLast ? (
-									<span>{crumb}</span>
+									<span>{crumb.label}</span>
 								) : (
 									<Link
 										className={buttonVariants({
 											variant: "ghost",
 										})}
-										href={`/${breadCrumbs?.slice(0, index + 1).join("/")}`}
+										href={`/${breadCrumbs
+											?.slice(0, index + 1)
+											.map((crumb) => crumb.slug)
+											.join("/")}`}
 									>
-										{crumb}
+										{crumb.label}
 									</Link>
 								)}
 							</div>

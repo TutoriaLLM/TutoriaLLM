@@ -1,6 +1,5 @@
 import { getRouteApi, useRouter } from "@tanstack/react-router";
 import { SessionByUserTable } from "../tables/sessionsByUser/table";
-import { useUserDetail } from "@/hooks/admin/users";
 import BoringAvatar from "boring-avatars";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
@@ -26,9 +25,8 @@ export function AdminUserInfo({
 }: { currentUserId: string | null }) {
 	const routeApi = getRouteApi("/admin/users_/$userId");
 	const router = useRouter();
-	const { userId } = routeApi.useParams();
 	const { t } = useTranslation();
-	const { userDetail } = useUserDetail(userId);
+	const userDetail = routeApi.useLoaderData();
 	const { toast } = useToast();
 
 	const { mutate: del } = useMutation({

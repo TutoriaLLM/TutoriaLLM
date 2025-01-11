@@ -11,7 +11,7 @@ export default function SelectedTutorial(props: { session: SessionValue }) {
 	const [tutorial, setTutorial] = useState<null | Tutorial>(null);
 	useEffect(() => {
 		if (tutorialId) {
-			getSpecificTutorial({ id: tutorialId }).then((response) => {
+			getSpecificTutorial({ id: tutorialId.toString() }).then((response) => {
 				setTutorial(response);
 			});
 		}

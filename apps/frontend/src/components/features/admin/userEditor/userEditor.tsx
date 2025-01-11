@@ -14,12 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { useUserDetail } from "@/hooks/admin/users";
 import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import { adminUpdateUserDetailSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import type { z } from "zod";
@@ -161,16 +159,15 @@ const UserEditorForm = ({
 	);
 };
 
-export function AdminUserEditor(props: { id: string }) {
-	const { userDetail } = useUserDetail(props.id);
-
-	if (!userDetail) {
-		return <div>Loading...</div>;
-	}
+export function AdminUserEditor(props: {
+	detail: AdminUpdateUserDetailType;
+	id: string;
+}) {
+	const { detail, id } = props;
 
 	return (
 		<div>
-			<UserEditorForm userDetail={userDetail} id={props.id} />
+			<UserEditorForm userDetail={detail} id={id} />
 		</div>
 	);
 }
