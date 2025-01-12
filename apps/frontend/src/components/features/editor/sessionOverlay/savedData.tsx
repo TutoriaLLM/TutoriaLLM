@@ -158,13 +158,13 @@ export default function SavedData() {
 						</DialogDescription>
 					</VisuallyHidden>
 				</DialogHeader>
-				<div className="w-full h-full justify-center items-center gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
+				<div className="w-full h-full justify-center items-start align-top gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
 					{Object.entries(sessions ?? []).map(([key, value]) => {
 						const thumbnail = thumbnailMap[value.sessionId];
 						return (
 							<div
 								key={key}
-								className="w-full h-full bg-card p-2 rounded-2xl space-y-2"
+								className="w-full bg-card p-2 rounded-2xl space-y-2"
 							>
 								{value.name ? (
 									<h2 className="text-lg font-semibold">{value.name}</h2>
