@@ -78,7 +78,7 @@ function SwitchModeUI({
 						</p>
 					</span>
 					<Switch.Root
-						className="w-14 h-8 md:w-16 md:h-10 rounded-2xl border bg-muted relative data-[state=checked]:bg-green-100 group"
+						className="w-14 h-8 md:w-16 md:h-10 flex-shrink-0 rounded-2xl border bg-muted relative data-[state=checked]:bg-green-100 group"
 						onCheckedChange={toggleIsEasyMode} // Set function to execute when switch state is changed
 						checked={sessionState?.easyMode || false} // Set switch status
 					>
