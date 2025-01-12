@@ -57,8 +57,8 @@ function Home() {
 	const session = Route.useLoaderData();
 	return (
 		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
-			<div className="max-w-2xl w-full space-y-4 px-2">
-				<div className="flex w-full justify-between items-center">
+			<div className="max-w-2xl w-full my-auto space-y-4 px-2">
+				<div className="flex w-full flex-wrap md:flex-nowrap justify-between items-center">
 					<div className="space-y-2 w-full">
 						<h2 className="text-3xl font-semibold">
 							{t("session.hello")}
@@ -70,7 +70,7 @@ function Home() {
 							{t("session.welcome")}
 						</p>
 					</div>
-					<div className="text-xs md:text-nowrap text-foreground">
+					<div className="text-xs md:text-nowrap text-foreground justify-center items-center py-0.5">
 						{isServerOnline === null ? (
 							<span className="flex gap-2 justify-center items-center ">
 								{t("session.checkingServer")}

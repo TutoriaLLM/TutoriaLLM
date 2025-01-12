@@ -44,7 +44,7 @@ export function UserAccount(props: { session: AuthSession }) {
 
 	const UserActions = () => {
 		return (
-			<div className="flex items-center gap-3">
+			<div className="flex flex-wrap items-center gap-3">
 				<Button variant="destructive" size="sm" onClick={handleSignout}>
 					<DoorOpenIcon className="w-5 h-5" />
 					{t("login.signout")}
