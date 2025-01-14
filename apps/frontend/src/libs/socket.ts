@@ -6,6 +6,7 @@ export function getSocket(sessionId: string) {
 		query: {
 			sessionId: sessionId,
 		},
+		autoConnect: false,
 	});
 	return socket;
 }

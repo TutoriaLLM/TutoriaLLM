@@ -99,7 +99,7 @@ function HighlightedBlockId({
 	const highlightedBlock = useAtomValue(highlightedBlockState);
 
 	// Calculate isHighlighted directly without useState and useEffect
-	const isHighlighted = highlightedBlock?.blockId === text;
+	const isHighlighted = highlightedBlock === text;
 
 	return (
 		<span className="text-destructive h-full w-full text-wrap text-xs">

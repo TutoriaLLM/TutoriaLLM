@@ -5,9 +5,9 @@ import { atom } from "jotai";
 export const currentTabState = atom<Tab>("workspaceTab");
 
 // State of the block to highlight
-export const highlightedBlockState = atom<HighlightedBlock>(null);
+export const highlightedBlockState = atom<string | null>(null);
 
 // State of the block to be retrieved from the menu
 export const blockNameFromMenuState = atom<string | null>(null);
 
-import type { HighlightedBlock, Tab } from "@/type";
+import type { Tab } from "@/type";

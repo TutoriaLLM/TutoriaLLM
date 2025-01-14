@@ -20,12 +20,5 @@ export type Clicks = SessionValue["clicks"];
 export type AIAudios = SessionValue["audios"];
 export type Stats = SessionValue["stats"];
 
-// Blocks to highlight
-import type Blockly from "blockly";
-export type HighlightedBlock = {
-	blockId: string;
-	workspace: Blockly.WorkspaceSvg | null;
-} | null;
-
 // Type for defining tab types
 export type Tab = "workspaceTab" | "dialogueTab";

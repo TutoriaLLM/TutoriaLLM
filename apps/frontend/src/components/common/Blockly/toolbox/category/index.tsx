@@ -65,6 +65,6 @@ export function translateCategories(language: string) {
 export const toolboxCategories = {
 	kind: "categoryToolbox",
 	contents: categoryContents,
-} satisfies Blockly.utils.toolbox.ToolboxItemInfo;
+} satisfies Blockly.utils.toolbox.ToolboxDefinition;
 
 export default toolboxCategories;

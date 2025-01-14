@@ -52,10 +52,10 @@ function highlightText(
 
 	const handleHighlightClick = useCallback(
 		(blockId: string) => {
-			if (highlightedBlock?.blockId === blockId) {
+			if (highlightedBlock === blockId) {
 				setHighlightedBlock(null);
 			} else {
-				setHighlightedBlock({ blockId, workspace: null });
+				setHighlightedBlock(blockId);
 				setBlockNameFromMenu(null);
 				setActiveTab("workspaceTab");
 			}

@@ -6,12 +6,11 @@ import {
 	Position,
 	useReactFlow,
 } from "@xyflow/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "blockly/javascript";
 import { PanelRightClose, Trash2 } from "lucide-react";
 import {} from "jotai";
-import Editor from "@/components/common/Blockly";
-import i18next from "i18next";
+import { BlocklyEditor } from "@/components/common/Blockly";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
 
@@ -19,15 +18,6 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 
 	const [isToolboxOpen, setIsToolboxOpen] = useState(true);
-	const [currentWorkapce, setCurrentWorkapce] = useState<{
-		[x: string]: any;
-	} | null>(null);
-
-	useEffect(() => {
-		if (currentWorkapce) {
-			handleChangeSession("sessionValue", currentWorkapce);
-		}
-	}, [currentWorkapce]);
 
 	const handleChangeSession = (
 		field: string,
@@ -82,12 +72,8 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 			</div>
 
 			<div id="workspaceArea" className="no-wheel w-[700px] h-[500px]">
-				<Editor
-					menuOpen={isToolboxOpen}
-					language={i18next.language ?? "en"}
-					currentWorkspace={currentWorkapce}
-					setWorkspace={setCurrentWorkapce}
-					prevWorkspace={null}
+				<BlocklyEditor
+					onJsonChange={(json) => handleChangeSession("workspace", json)}
 				/>
 			</div>
 
