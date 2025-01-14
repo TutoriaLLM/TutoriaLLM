@@ -73,6 +73,7 @@
     "react-markdown": "9.0.1",
     "react-remark": "2.1.0",
     "react-resizable-panels": "2.1.4",
+    "react-scan": "^0.0.54",
     "react-tag-input": "6.10.3",
     "rehype-raw": "7.0.0",
     "rfc6902": "catalog:",

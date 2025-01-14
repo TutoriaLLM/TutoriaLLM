@@ -1,3 +1,5 @@
+import { scan } from "react-scan";
+
 import { routeTree } from "@/routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
@@ -25,6 +27,13 @@ declare module "@tanstack/react-router" {
 	}
 }
 const isDev = import.meta.env.MODE === "development";
+if (isDev) {
+	if (typeof window !== "undefined") {
+		scan({
+			enabled: true,
+		});
+	}
+}
 // Disable console.log except when in debug mode
 if (!isDev) {
 	console.log = () => {};
