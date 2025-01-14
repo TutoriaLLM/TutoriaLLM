@@ -22,7 +22,6 @@
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
   "files.eol": "\n",
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
