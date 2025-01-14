@@ -6,18 +6,21 @@ import {
 	Position,
 	useReactFlow,
 } from "@xyflow/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "blockly/javascript";
 import { PanelRightClose, Trash2 } from "lucide-react";
 import {} from "jotai";
 import { BlocklyEditor } from "@/components/common/Blockly";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
+import i18next from "i18next";
 
 export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 
 	const [isToolboxOpen, setIsToolboxOpen] = useState(true);
+
+	const [session, setSession] = useState<object | null>(data.workspace);
 
 	const handleChangeSession = (
 		field: string,
@@ -27,6 +30,10 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 	) => {
 		updateNodeData(id, { ...data, [field]: value });
 	};
+
+	useEffect(() => {
+		if (session) handleChangeSession("workspace", session);
+	}, [session]);
 
 	const handleDelete = () => {
 		deleteElements({ nodes: [{ id: id }] });
@@ -73,7 +80,10 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 
 			<div id="workspaceArea" className="no-wheel w-[700px] h-[500px]">
 				<BlocklyEditor
-					onJsonChange={(json) => handleChangeSession("workspace", json)}
+					workspaceJson={session || undefined}
+					setWorkspaceJson={(workspace) => setSession(workspace)}
+					isMenuOpen={isToolboxOpen}
+					language={i18next.language}
 				/>
 			</div>
 
