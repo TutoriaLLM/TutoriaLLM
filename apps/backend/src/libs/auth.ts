@@ -22,8 +22,9 @@ export const auth = betterAuth({
 	},
 	trustedOrigins: [process.env.CORS_ORIGIN ?? "http://localhost:3000"],
 	advanced: {
-		crossSubDomainCookies: {
-			enabled: true,
+		defaultCookieAttributes: {
+			secure: true,
+			samesite: "none",
 		},
 	},
 	basePath: "/auth",
