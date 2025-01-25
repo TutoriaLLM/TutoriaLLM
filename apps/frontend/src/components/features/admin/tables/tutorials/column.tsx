@@ -26,7 +26,7 @@ export function tutorialsColumns() {
 				),
 			});
 		},
-		onError: (error) => {
+		onError: () => {
 			toast({
 				description: (
 					<ErrorToastContent>

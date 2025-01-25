@@ -3,7 +3,7 @@ import {
 	HighlightedBlockId,
 	HighlightedBlockName,
 } from "@/components/features/editor/dialogue/parts/highlight";
-import { toast, useToast } from "@/hooks/toast";
+import { toast } from "@/hooks/toast";
 import {
 	blockNameFromMenuState,
 	currentTabState,
@@ -30,7 +30,6 @@ function highlightText(
 		highlightedBlockState,
 	);
 	const setActiveTab = useSetAtom(currentTabState);
-	const { toast } = useToast();
 
 	const handleBlockNameClick = useCallback(
 		(blockName: string) => {

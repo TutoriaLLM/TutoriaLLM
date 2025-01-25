@@ -119,7 +119,7 @@ export default function SavedData() {
 		const loadThumbnails = async () => {
 			const newThumbnailMap: Record<string, string> = {};
 
-			for (const [key, value] of Object.entries(sessions)) {
+			for (const [_key, value] of Object.entries(sessions)) {
 				// すでにサムネイルが存在していない場合のみ取得
 				if (!thumbnailMap[value.sessionId]) {
 					const imageURL = await getImageFromWorkspace(
