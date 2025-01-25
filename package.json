@@ -22,5 +22,10 @@
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "2.1.8"
+  },
+  "dependencies": {
+    "@testing-library/react": "^16.2.0",
+    "@vitejs/plugin-react": "4.3.2",
+    "jsdom": "^26.0.0"
   }
 }
