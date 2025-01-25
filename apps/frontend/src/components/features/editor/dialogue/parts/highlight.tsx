@@ -7,6 +7,8 @@ import { blockNameFromMenuState, highlightedBlockState } from "@/state.js";
 import { useAtomValue } from "jotai";
 import { Puzzle, ScanSearch, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/libs/utils";
 
 function HighlightedBlockName({
 	text,
@@ -57,25 +59,30 @@ function HighlightedBlockName({
 	}, [text]);
 
 	return (
-		<span className="text-red-500 h-full w-full flex justify-between relative animate-fade-in">
+		<span className="text-destructive h-full w-full flex justify-between relative animate-fade-in">
 			{image && <img src={image} alt={text} className="max-h-32" />}
-			<button
+			<Button
 				type="button"
-				className={`flex absolute bottom-2 backdrop-blur-lg right-2 gap-2 items-center transition-all ${
-					isHighlighted
-						? "bg-red-500/80 hover:bg-red-600/80"
-						: "bg-orange-500/80 shadow-md shadow-red-500/80 hover:bg-orange-600/80"
-				} text-white font-bold py-1 px-2 rounded-xl`}
+				className={cn(
+					"flex absolute bottom-2 backdrop-blur-lg right-2 gap-2 items-center transition-all text-white font-bold py-1 px-2 rounded-xl",
+					{ "bg-destructive hover:bg-destructive/80": isHighlighted },
+					{
+						"bg-primary shadow-md shadow-primary/60 hover:bg-primary/80":
+							!isHighlighted,
+					},
+				)}
 				onClick={() => handleBlockNameClick(text)}
 			>
 				<span
-					className={`transition-transform p-1 px-2 duration-300 ease-in-out transform ${
-						isHighlighted ? "rotate-90" : "rotate-0"
-					}`}
+					className={cn(
+						"transition-transform p-1 px-2 duration-300 ease-in-out transform",
+						{ "rotate-90": isHighlighted },
+						{ "rotate-0": !isHighlighted },
+					)}
 				>
 					{isHighlighted ? <X /> : <Puzzle />}
 				</span>
-			</button>
+			</Button>
 		</span>
 	);
 }
@@ -92,17 +99,20 @@ function HighlightedBlockId({
 	const highlightedBlock = useAtomValue(highlightedBlockState);
 
 	// Calculate isHighlighted directly without useState and useEffect
-	const isHighlighted = highlightedBlock?.blockId === text;
+	const isHighlighted = highlightedBlock === text;
 
 	return (
-		<span className="text-red-500 h-full w-full text-wrap text-xs">
-			<button
+		<span className="text-destructive h-full w-full text-wrap text-xs">
+			<Button
 				type="button"
-				className={`inline-flex items-center transition-all ${
-					isHighlighted
-						? "bg-red-500 hover:bg-red-600"
-						: "bg-orange-500 shadow-md shadow-red-500 hover:bg-orange-600"
-				} text-white font-bold rounded-xl`}
+				className={cn(
+					"inline-flex items-center transition-all text-white font-bold py-1 px-2 rounded-xl",
+					{ "bg-destructive hover:bg-destructive/80": isHighlighted },
+					{
+						"bg-primary shadow-md shadow-primary/60 hover:bg-primary/80":
+							!isHighlighted,
+					},
+				)}
 				onClick={() => handleBlockIdClick(text)}
 				style={{ whiteSpace: "normal", wordWrap: "break-word" }}
 			>
@@ -114,7 +124,7 @@ function HighlightedBlockId({
 					{isHighlighted ? <X /> : <ScanSearch />}
 				</span>
 				{t("textbubble.findBlock")}
-			</button>
+			</Button>
 		</span>
 	);
 }

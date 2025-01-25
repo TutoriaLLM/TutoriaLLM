@@ -12,6 +12,7 @@ appConfig.json
 vite.config.ts.timestamp-*
 
 node_modules
+artifacts
 dist
 dist-ssr
 app_data

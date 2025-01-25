@@ -1,0 +1,1 @@
+ALTER TABLE "app_session" ADD COLUMN "name" text;

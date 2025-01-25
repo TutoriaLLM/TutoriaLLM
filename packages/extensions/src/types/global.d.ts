@@ -3,7 +3,7 @@ import type { UpgradeWebSocket } from "hono/ws";
 
 declare global {
 	const app: Hono;
-	const joinCode: string;
+	const joinSessionId: string;
 	const session: any;
 	const serverRootPath: string;
 	const upgradeWebSocket: UpgradeWebSocket;

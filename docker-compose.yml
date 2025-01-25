@@ -36,8 +36,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: frontend
-      args:
-        VITE_BACKEND_URL: http://localhost:3001
+    environment:
+      - VITE_BACKEND_URL=http://localhost:3001
     ports:
       - "3000:3000"
 

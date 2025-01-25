@@ -1,7 +1,8 @@
-import Popup from "@/components/ui/Popup.js";
 import {
 	Background,
 	Controls,
+	type Edge,
+	type Node,
 	Panel,
 	ReactFlow,
 	addEdge,
@@ -9,9 +10,15 @@ import {
 	useEdgesState,
 	useNodesState,
 } from "@xyflow/react";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { useCallback, useEffect, useState } from "react";
 import "@xyflow/react/dist/style.css";
-import { getSpecificTutorial } from "@/api/admin/tutorials.js";
 import { ExampleCode } from "@/components/features/admin/TutorialEditor/nodes/exampleCode";
 import { Markdown } from "@/components/features/admin/TutorialEditor/nodes/markdown";
 import { MarkdownGen } from "@/components/features/admin/TutorialEditor/nodes/markdownGen";
@@ -20,6 +27,10 @@ import { MetadataGen } from "@/components/features/admin/TutorialEditor/nodes/me
 import Output from "@/components/features/admin/TutorialEditor/nodes/output";
 import Toolbar from "@/components/features/admin/TutorialEditor/toolbar";
 import type { Tutorial } from "@/type.js";
+import { TutorialUploader } from "./upload";
+import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/toast";
+import { ErrorToastContent } from "@/components/common/toastContent";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
 
@@ -32,18 +43,26 @@ const nodeTypes = {
 	output: Output,
 };
 
-export default function llTutorialEditor(props: {
-	id: number | null;
-	buttonText: string;
-	json?: TutorialType | null; // Add JSON as an argument
+export default function TutorialEditor(props: {
+	tutorial: Tutorial | null;
 }) {
-	const [isPopupOpen, setIsPopupOpen] = useState(false);
-	const [isLoading, setIsLoading] = useState(false); // Add loading status
-	const [tutorialData, setTutorialData] = useState<TutorialType | null>(
-		props.json || null,
-	); // Initialize json if available
+	const { t } = useTranslation();
+	const { toast } = useToast();
+	const [tutorialData, setTutorialData] = useState<TutorialType | null>(null);
+	//load tutorial data
+	useEffect(() => {
+		if (props.tutorial) {
+			// if tutorial is passed, set the tutorial data
+			setTutorialData({
+				metadata: props.tutorial.metadata,
+				content: props.tutorial.content,
+				serializednodes: props.tutorial.serializednodes,
+			});
+		}
+	}, [props.tutorial]);
+	const [isUploaderOpen, setIsUploaderOpen] = useState(false);
 
-	const initialNodes = [
+	const initialNodes: Node[] = [
 		{
 			id: "metadata",
 			type: "metadata",
@@ -83,7 +102,7 @@ export default function llTutorialEditor(props: {
 		},
 	];
 
-	const initialEdges = [
+	const initialEdges: Edge[] = [
 		{
 			id: "metadata-output-initial",
 			source: "metadata",
@@ -115,7 +134,14 @@ export default function llTutorialEditor(props: {
 					(change: { type: string; id: string }) => {
 						// Prevent deletion of the "output" node
 						if (change.type === "remove" && change.id === "output") {
-							alert("The 'output' node cannot be deleted.");
+							toast({
+								description: (
+									<ErrorToastContent>
+										{t("toast.outputNodeCannotBeDeleted")}
+									</ErrorToastContent>
+								),
+								variant: "destructive",
+							});
 							return false;
 						}
 						return true;
@@ -128,66 +154,11 @@ export default function llTutorialEditor(props: {
 		[setNodes],
 	);
 
-	// Responsible for acquiring tutorial data and reflecting it in the editor
-	const fetchTutorialData = useCallback(async () => {
-		if (props.id !== null) {
-			setIsLoading(true); // Loading starts at the start of data acquisition
-			try {
-				const response = await getSpecificTutorial({ id: props.id });
-				setTutorialData({
-					metadata: response.metadata,
-					content: response.content,
-					serializednodes: response.serializednodes,
-				});
-				setIsLoading(false); // Loading is terminated after data acquisition is complete
-				setIsPopupOpen(true);
-			} catch (error) {
-				console.error("Error fetching tutorial data:", error);
-				setIsLoading(false); // Terminates loading even in the event of an error
-			}
-		} else if (props.json) {
-			// If JSON data is available when creating a new file, use it.
-			// If JSON is not in the specified format, display alert and use initial data
-			if (
-				!props.json.metadata ||
-				!props.json.content ||
-				!props.json.serializednodes
-			) {
-				alert("Invalid JSON format. Using default data.");
-				setTutorialData({
-					metadata: {
-						title: "",
-						description: "",
-						selectCount: 0,
-					},
-					content: "",
-					serializednodes: "",
-				});
-				setIsPopupOpen(true);
-				return;
-			}
-			setTutorialData(props.json);
-			setIsPopupOpen(true);
-		} else {
-			// Use default data for new creation
-			setTutorialData({
-				metadata: {
-					title: "",
-					description: "",
-					selectCount: 0,
-				},
-				content: "",
-				serializednodes: "",
-			});
-			setIsPopupOpen(true);
-		}
-	}, [props.id, props.json]);
-
 	useEffect(() => {
 		if (tutorialData?.serializednodes) {
 			const flow = JSON.parse(tutorialData.serializednodes) as {
-				nodes: any[];
-				edges: any[];
+				nodes: Node[];
+				edges: Edge[];
 			};
 			setNodes(flow.nodes || []);
 			setEdges(flow.edges || []);
@@ -198,17 +169,31 @@ export default function llTutorialEditor(props: {
 		(params: any) => setEdges((eds) => addEdge(params, eds)),
 		[setEdges],
 	);
-
-	const handleOpenPopup = () => {
-		fetchTutorialData(); // Retrieve data and open popup
-	};
-
-	const handleClosePopup = () => {
-		setIsPopupOpen(false);
-	};
-
-	const popupContent = (
-		<div className="w-full h-[100vh] flex-grow max-w-full max-h-full">
+	return (
+		<div className="w-full h-[calc(100svh-2rem)] rounded-2xl border overflow-clip flex-grow max-w-full max-h-full">
+			<Dialog
+				open={isUploaderOpen}
+				onOpenChange={(value) => {
+					if (!value) {
+						setIsUploaderOpen(false);
+					}
+				}}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>{t("admin.uploader")}</DialogTitle>
+						<DialogDescription>
+							{t("admin.uploaderDescription")}
+						</DialogDescription>
+					</DialogHeader>
+					<TutorialUploader
+						setTutorialData={setTutorialData}
+						onUpload={() => {
+							setIsUploaderOpen(false);
+						}}
+					/>{" "}
+				</DialogContent>
+			</Dialog>
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}
@@ -218,39 +203,21 @@ export default function llTutorialEditor(props: {
 				nodeOrigin={[0.5, 0.5]}
 				onConnect={onConnect}
 				panOnScroll={true}
+				noWheelClassName="no-wheel"
 				zoomOnPinch={true}
 			>
 				<Panel>
 					<Toolbar
-						id={props.id}
+						id={props.tutorial?.id || null}
 						nodes={nodes}
 						setNodes={setNodes}
 						edges={edges}
-						// handleClosePopup={handleClosePopup}
-						isPopupOpen={isPopupOpen}
+						setIsUploadOpen={setIsUploaderOpen}
 					/>
 				</Panel>
 				<Controls />
 				<Background gap={12} size={1} />
 			</ReactFlow>
 		</div>
-	);
-
-	return (
-		<>
-			<button
-				type="button"
-				className="rounded-2xl max-w-60 w-full bg-blue-500 p-2 text-white font-semibold"
-				onClick={handleOpenPopup}
-			>
-				{props.buttonText}
-			</button>
-			{isLoading && <div>Loading...</div>} {/* Loading display */}
-			<Popup
-				openState={isPopupOpen}
-				onClose={handleClosePopup}
-				Content={popupContent}
-			/>
-		</>
 	);
 }

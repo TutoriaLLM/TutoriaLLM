@@ -1,0 +1,2 @@
+ALTER TABLE "app_session" ADD COLUMN "user_id" text;--> statement-breakpoint
+ALTER TABLE "app_session" ADD CONSTRAINT "app_session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;

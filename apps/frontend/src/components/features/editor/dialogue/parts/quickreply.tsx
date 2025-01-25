@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import type React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -17,14 +18,16 @@ const QuickReply: React.FC<QuickReplyProps> = ({ onReply, quickReplies }) => {
 	return (
 		<div className="flex w-full gap-2 mx-4">
 			{quickReplies?.map((reply) => (
-				<button
+				<Button
 					type="button"
+					variant="outline"
+					size="sm"
 					key={reply}
-					className="bg-gray-200 text-nowrap text-sm md:text-md text-gray-700 hover:bg-sky-200 transition-all p-1.5 md:p-2 font-medium rounded-full"
+					className="text-nowrap text-xs md:text-md"
 					onClick={() => handleReply(reply)}
 				>
 					{t(reply)}
-				</button>
+				</Button>
 			))}
 		</div>
 	);

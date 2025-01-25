@@ -25,12 +25,13 @@ import {
 
 import "@mdxeditor/editor/style.css";
 import type {
-	MyNode,
+	CustomNodeType,
 	markdownNode,
 	workspaceNode,
 } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
@@ -49,7 +50,7 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	});
 
 	// Obtain node data for Blockly handles to which they are connected
-	const nodesData = useNodesData<MyNode>(
+	const nodesData = useNodesData<CustomNodeType>(
 		connections.map((connection) => connection.source),
 	);
 
@@ -66,12 +67,12 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 			const blocklyNode = nodesData.find((node) => node.type === "blockly");
 			if (blocklyNode?.data) {
 				const blocklyData = blocklyNode.data as workspaceNode["data"];
-				const sessionValue = blocklyData.sessionValue;
-				if (sessionValue) {
+				const workspace = blocklyData.workspace;
+				if (workspace) {
 					handleSourceChange(
 						"source",
 						`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(
-							sessionValue.workspace,
+							workspace,
 						)}`,
 					);
 				} else {
@@ -89,16 +90,22 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	}, [data.editorContent, nodesData]);
 
 	return (
-		<div className="markdown-node w-full h-full flex flex-col bg-white border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
-			<span className="w-full h-4 bg-gray-300 custom-drag-handle cursor-move justify-center items-center flex gap-2">
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
+		<div className="markdown-node w-full h-full flex flex-col bg-background border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
+			<span className="w-full h-4 bg-border custom-drag-handle cursor-move flex justify-center items-center gap-2">
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
 			</span>
 			<NodeToolbar>
-				<button type="button" className="text-red-500 " onClick={handleDelete}>
+				<Button
+					type="button"
+					className="text-destructive-foreground"
+					size="icon"
+					variant="destructive"
+					onClick={handleDelete}
+				>
 					<Trash2 className="drop-shadow" />
-				</button>
+				</Button>{" "}
 			</NodeToolbar>
 
 			<Handle

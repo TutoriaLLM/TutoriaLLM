@@ -1,5 +1,6 @@
 import { createSession } from "@/api/session";
 import SavedData from "@/components/features/editor/sessionOverlay/savedData";
+import { Button } from "@/components/ui/button";
 import { useMutation } from "@/hooks/useMutations";
 import type { Message } from "@/routes";
 import { useRouter } from "@tanstack/react-router";
@@ -14,8 +15,8 @@ export default function CreateNewSession({
 	const router = useRouter();
 	const { mutate, isPending } = useMutation({
 		mutationFn: createSession,
-		onSuccess: ({ sessionCode }) => {
-			router.navigate({ to: `/${sessionCode}` });
+		onSuccess: ({ sessionId }) => {
+			router.navigate({ to: `/${sessionId}` });
 		},
 		onError: (error) => {
 			console.error("Failed to create a new session:", error);
@@ -24,12 +25,8 @@ export default function CreateNewSession({
 	});
 
 	return (
-		<div className="flex gap-2">
-			<button
-				type="button"
-				className={`bg-sky-500 justify-between hover:bg-sky-700 text-white font-bold py-2 px-4 rounded-2xl flex transition-all items-center ${
-					isPending ? "opacity-50 cursor-not-allowed" : ""
-				}`}
+		<div className="flex gap-2 flex-wrap sm:flex-nowrap justify-center items-center">
+			<Button
 				onClick={() => {
 					mutate({
 						language: language,
@@ -39,7 +36,8 @@ export default function CreateNewSession({
 			>
 				{isPending ? t("session.creating") : t("session.createSession")}{" "}
 				<Plus />
-			</button>
+			</Button>
+
 			<SavedData />
 		</div>
 	);

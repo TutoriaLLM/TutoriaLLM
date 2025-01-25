@@ -1,5 +1,6 @@
 import { db } from "@/db";
-import { type TrainingData, trainingData } from "@/db/schema";
+import type { TrainingData } from "@/db/schema";
+import { trainingData } from "@/db/schema/training";
 import { getConfig } from "@/modules/config";
 import { asc, eq } from "drizzle-orm";
 

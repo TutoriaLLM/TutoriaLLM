@@ -1,131 +1,175 @@
-import * as Blockly from "blockly/core";
 import { useEffect, useRef } from "react";
-
-import registerBlocks from "@/components/common/Blockly/blocks";
-import Theme from "@/components/common/Blockly/theme";
-import {
-	toolboxCategories,
-	translateCategories,
-} from "@/components/common/Blockly/toolbox";
+import * as Blockly from "blockly/core";
+import Theme from "./theme";
+import { useState, useCallback } from "react";
+import type { Workspace, WorkspaceSvg } from "blockly";
+import { toolboxCategories, translateCategories } from "./toolbox";
 import "@/styles/blockly.css";
-import { BlockHighlight } from "@/components/common/Blockly/blockHighlight";
-import {
-	blockNameFromMenuState,
-	currentSessionState,
-	highlightedBlockState,
-	prevSessionState,
-} from "@/state.js";
-import { useAtom, useAtomValue } from "jotai";
+import registerBlocks from "./blocks";
+import { BlockHighlight } from "./blockHighlight";
+import { blocklyLocale } from "@/i18n/blocklyLocale";
 
-import { blocklyLocale } from "@/i18n/blocklyLocale.js";
-import { updateStats } from "@/utils/statsUpdater.js";
-import { forwardRef } from "react";
+export const defaultBlocklyOptions: Blockly.BlocklyOptions = {
+	toolbox: toolboxCategories,
+	sounds: false,
+	theme: Theme,
+	renderer: "zelos",
+	media: "/",
+	zoom: {
+		controls: true,
+		wheel: true,
+		startScale: 1.0,
+		maxScale: 3,
+		minScale: 0.3,
+		scaleSpeed: 1.2,
+	},
+	trashcan: false,
+	move: {
+		scrollbars: true,
+		drag: true,
+		wheel: true,
+	},
+	grid: {
+		spacing: 20,
+		length: 3,
+		colour: "#ccc",
+		snap: true,
+	},
+};
 
-const Editor = forwardRef<
-	HTMLDivElement,
-	{ menuOpen: boolean; language: string; isConnecting: boolean }
->((props, ref) => {
-	const [currentSession, setCurrentSession] = useAtom(currentSessionState);
-	const prevSession = useAtomValue(prevSessionState);
-	const [blockNameFromMenu, setBlockNameFromMenu] = useAtom(
-		blockNameFromMenuState,
-	);
-	const [highlightedBlock, setHighlightedBlock] = useAtom(
-		highlightedBlockState,
-	);
+const relevantChangeTypes = new Set<string>([
+	// ブロック関連
+	Blockly.Events.BLOCK_CHANGE,
+	Blockly.Events.BLOCK_MOVE,
+	Blockly.Events.BLOCK_DELETE,
+	// コメント関連
+	Blockly.Events.COMMENT_CREATE,
+	Blockly.Events.COMMENT_CHANGE,
+	Blockly.Events.COMMENT_MOVE,
+	Blockly.Events.COMMENT_DELETE,
+	// 変数関連
+	Blockly.Events.VAR_CREATE,
+	Blockly.Events.VAR_DELETE,
+	Blockly.Events.VAR_RENAME,
+]);
 
+function isRelevantChange(event: Blockly.Events.Abstract): boolean {
+	if (event.type === Blockly.Events.MOVE) {
+		const moveEvent = event as Blockly.Events.BlockMove;
+		if (Array.isArray(moveEvent.reason)) {
+			if (moveEvent.reason.includes("disconnect")) {
+				return false;
+			}
+		}
+	}
+	return relevantChangeTypes.has(event.type);
+}
+
+export const BlocklyEditor = ({
+	language,
+	workspaceConfiguration = defaultBlocklyOptions,
+	toolboxConfiguration = toolboxCategories,
+	isMenuOpen = true,
+	blockNameToHighlight,
+	blockIdToHighlight,
+	onWorkspaceChange,
+	workspaceJson,
+	setWorkspaceJson,
+}: {
+	language?: string;
+	workspaceConfiguration?: Blockly.BlocklyOptions;
+	toolboxConfiguration?: Blockly.utils.toolbox.ToolboxDefinition;
+	isMenuOpen: boolean;
+	blockNameToHighlight?: string | null;
+	blockIdToHighlight?: string | null;
+	onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void;
+	workspaceJson?: object;
+	setWorkspaceJson?: (json: object | null) => void;
+}) => {
+	const blocklyDiv = useRef<HTMLDivElement | null>(null);
 	const blockHighlightRef = useRef<BlockHighlight | null>(null);
 
-	useEffect(() => {
-		const language = props.language;
+	const { workspace } = useBlocklyWorkspace({
+		workspaceJson,
+		setWorkspaceJson,
+		ref: blocklyDiv,
+		workspaceConfiguration,
+		toolboxConfiguration,
+		onWorkspaceChange,
+	});
 
+	registerBlocks(language ?? "en");
+	translateCategories(language ?? "en");
+
+	useEffect(() => {
 		if (language && blocklyLocale[language]) {
 			Blockly.setLocale(blocklyLocale[language]);
 		} else {
 			Blockly.setLocale(blocklyLocale.en);
 		}
+		//Confirm that ResizeObserver is available and blocklyDiv.current exists
+		if (typeof ResizeObserver !== "undefined" && blocklyDiv.current) {
+			const observer = new ResizeObserver(() => {
+				workspace?.resize();
+				if (workspace) Blockly.svgResize(workspace);
+			});
 
-		async function getWorkspace() {
-			const workspaceArea = document.getElementById("workspaceArea");
-			if (workspaceArea) {
-				const resizeObserver = new ResizeObserver(() => {
-					onResize();
-				});
-				resizeObserver.observe(workspaceArea);
+			observer.observe(blocklyDiv.current);
+
+			// Disconnect the observer when the component is unmounted
+			return () => {
+				observer.disconnect();
+			};
+		}
+	}, [workspace]);
+
+	useEffect(() => {
+		console.log("blockNameToHighlight", blockNameToHighlight);
+		if (blockNameToHighlight && workspace) {
+			// Function to highlight a category and its parent categories
+			function highlightCategory(category: Blockly.ToolboxCategory) {
+				const div = category.getDiv();
+				const labelDOM = div?.getElementsByClassName(
+					"blocklyTreeRow",
+				)[0] as HTMLElement;
+				if (labelDOM) {
+					labelDOM.style.backgroundColor = "#ef4444";
+					labelDOM.classList.add("highlight"); // highlight is defined in the CSS file
+				}
+			}
+			// Function to highlight everything up to the top level hierarchy
+			function highlightParentCategory(category: Blockly.ToolboxCategory) {
+				let parent = category.getParent();
+				while (parent) {
+					const parentCategory = parent as Blockly.CollapsibleToolboxCategory;
+					parent = parentCategory.getParent();
+					highlightCategory(parentCategory);
+					highlightParentCategory(parentCategory);
+				}
 			}
 
-			function onResize() {
-				const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-				Blockly.svgResize(workspace);
+			function containsBlockType(
+				contents: Blockly.utils.toolbox.FlyoutItemInfoArray,
+				blockType: string,
+			): boolean {
+				for (const content of contents) {
+					// Checks if content is a block and has a type property
+					if (
+						content.kind === "block" &&
+						"type" in content &&
+						content.type === blockType
+					) {
+						return true;
+					}
+				}
+				return false;
 			}
-		}
 
-		getWorkspace();
-		registerBlocks(language as string);
-		translateCategories(language as string);
+			// Highlight the menu item in the toolbox item to be highlighted, if any
+			const toolboxItem = (
+				workspace.getToolbox() as Blockly.Toolbox
+			).getToolboxItems();
 
-		const workspace = Blockly.inject("blocklyDiv", {
-			toolbox: toolboxCategories,
-			sounds: false,
-			theme: Theme,
-			renderer: "zelos",
-			media: "/",
-			zoom: {
-				controls: true,
-				wheel: true,
-				startScale: 1.0,
-				maxScale: 3,
-				minScale: 0.3,
-				scaleSpeed: 1.2,
-			},
-			trashcan: false,
-			move: {
-				scrollbars: true,
-				drag: true,
-				wheel: true,
-			},
-			grid: {
-				spacing: 20,
-				length: 3,
-				colour: "#ccc",
-				snap: true,
-			},
-		});
-
-		if (currentSession?.workspace) {
-			Blockly.serialization.workspaces.load(
-				currentSession.workspace,
-				workspace,
-			);
-		}
-		workspace.addChangeListener(Blockly.Events.disableOrphans);
-
-		const toolbox = workspace.getToolbox() as Blockly.Toolbox;
-
-		// Highlight the menu item in the toolbox item to be highlighted, if any
-		const toolboxItem = toolbox.getToolboxItems();
-		// Function to highlight a category and its parent categories
-		function highlightCategory(category: Blockly.ToolboxCategory) {
-			const div = category.getDiv();
-			const labelDOM = div?.getElementsByClassName(
-				"blocklyTreeRow",
-			)[0] as HTMLElement;
-			if (labelDOM) {
-				labelDOM.style.backgroundColor = "#ef4444";
-				labelDOM.classList.add("highlight"); // highlight is defined in the CSS file
-			}
-		}
-		// Function to highlight everything up to the top level hierarchy
-		function highlightParentCategory(category: Blockly.ToolboxCategory) {
-			let parent = category.getParent();
-			while (parent) {
-				const parentCategory = parent as Blockly.CollapsibleToolboxCategory;
-				parent = parentCategory.getParent();
-				highlightCategory(parentCategory);
-				highlightParentCategory(parentCategory);
-			}
-		}
-		function highlightBlockInToolbox() {
 			for (const item of toolboxItem) {
 				if (item.isSelectable()) {
 					const category = item as
@@ -135,8 +179,8 @@ const Editor = forwardRef<
 					const contents = category.getContents();
 					if (
 						typeof contents !== "string" &&
-						blockNameFromMenu &&
-						containsBlockType(contents, blockNameFromMenu)
+						blockNameToHighlight &&
+						containsBlockType(contents, blockNameToHighlight)
 					) {
 						// If the category name matches, change the color of that category
 						highlightCategory(category);
@@ -151,8 +195,8 @@ const Editor = forwardRef<
 						const contents = item.getContents();
 						if (
 							typeof contents !== "string" &&
-							blockNameFromMenu &&
-							containsBlockType(contents, blockNameFromMenu)
+							blockNameToHighlight &&
+							containsBlockType(contents, blockNameToHighlight)
 						) {
 							// If the category name matches, change the color of that category
 							highlightCategory(item);
@@ -163,8 +207,8 @@ const Editor = forwardRef<
 					const contents = category.getContents();
 					if (
 						typeof contents !== "string" &&
-						blockNameFromMenu &&
-						containsBlockType(contents, blockNameFromMenu)
+						blockNameToHighlight &&
+						containsBlockType(contents, blockNameToHighlight)
 					) {
 						// If the category name matches, change the color of that category
 						highlightCategory(category);
@@ -172,168 +216,182 @@ const Editor = forwardRef<
 				}
 			}
 		}
+	}, [blockNameToHighlight, workspace]);
 
-		function containsBlockType(
-			contents: Blockly.utils.toolbox.FlyoutItemInfoArray,
-			blockType: string,
-		): boolean {
-			for (const content of contents) {
-				// Checks if content is a block and has a type property
-				if (
-					content.kind === "block" &&
-					"type" in content &&
-					content.type === blockType
-				) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		highlightBlockInToolbox();
-
-		const saveWorkspace = (event: Blockly.Events.Abstract) => {
-			try {
-				if (
-					event.type === Blockly.Events.CHANGE ||
-					event.type === Blockly.Events.DELETE ||
-					event.type === Blockly.Events.FINISHED_LOADING ||
-					event.type === Blockly.Events.MOVE
-				) {
-					if (event.type === Blockly.Events.MOVE) {
-						const moveEvent = event as Blockly.Events.BlockMove;
-						if (Array.isArray(moveEvent.reason)) {
-							if (moveEvent.reason.includes("disconnect")) {
-								return;
-							}
-						}
-					}
-
-					const newWorkspace = Blockly.serialization.workspaces.save(workspace);
-					setCurrentSession((prev) => {
-						if (
-							prev &&
-							JSON.stringify(prev.workspace) !== JSON.stringify(newWorkspace)
-						) {
-							return {
-								...prev,
-								workspace: newWorkspace,
-								stats: updateStats(
-									{
-										currentNumOfBlocks: workspace.getAllBlocks().length,
-									},
-									prev,
-								).stats,
-							};
-						}
-						return prev;
-					});
-				}
-				if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
-					// If you have a category open and there is a block you need to find in the toolbox from State, find that block and highlight it in the workspace in the toolbox
-					if (
-						blockNameFromMenu &&
-						toolbox.getSelectedItem() !== null &&
-						toolbox.getSelectedItem() !== undefined
-					) {
-						try {
-							const flyout = toolbox.getFlyout();
-							const workspace = flyout?.getWorkspace();
-							const block = workspace?.getBlocksByType(blockNameFromMenu);
-
-							if (block && block.length > 0 && workspace) {
-								// Highlight.
-								setHighlightedBlock({
-									workspace: workspace,
-									blockId: block[0].id,
-								});
-							}
-							// If the block does not exist, highlight from an empty id
-							if (block && block.length === 0 && workspace) {
-								setHighlightedBlock({
-									workspace: workspace,
-									blockId: "",
-								});
-							}
-						} catch {
-							return null;
-						}
-					}
-					// If the category is closed, de-highlight it
-					if (toolbox.getFlyout()?.isVisible() === false) {
-						setHighlightedBlock(null);
-					}
-				}
-				// Unhighlight if the block specified in the menu has been moved
-				if (event.type === Blockly.Events.MOVE) {
-					const moveEvent = event as Blockly.Events.BlockMove;
-					const toolbox = workspace.getToolbox() as Blockly.Toolbox;
-					const toolWorkspace = toolbox.getFlyout()?.getWorkspace();
-					if (!toolWorkspace || !blockNameFromMenu) {
-						return;
-					}
-					const block = toolWorkspace.getBlocksByType(blockNameFromMenu);
-					if (moveEvent?.blockId === block[0]?.id) {
-						setBlockNameFromMenu(null);
-					}
-				}
-			} catch (error) {
-				console.error("Error in saveWorkspace:", error);
-			}
-		};
-
-		workspace.addChangeListener(saveWorkspace);
-
-		return () => {
-			workspace.dispose();
-		};
-	}, [blockNameFromMenu]);
-
-	// Hide/Show toolbox
-	useEffect(() => {
-		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-		if (workspace) {
-			workspace.getToolbox()?.setVisible(props.menuOpen);
-			workspace.getToolbox()?.getFlyout()?.setVisible(props.menuOpen);
-		}
-	}, [props.menuOpen]);
-
-	useEffect(() => {
-		const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-
-		if (currentSession && prevSession) {
-			try {
-				Blockly.serialization.workspaces.load(
-					currentSession.workspace || {},
-					workspace,
-				);
-				// Unhighlight
-				setHighlightedBlock(null);
-			} catch (error) {
-				console.error("Failed to load the workspace:", error);
-			}
-		}
-	}, [currentSession, prevSession]);
-
-	// Update highlighted blocks; cannot highlight more than one.
+	//highlight specified block by id
 	useEffect(() => {
 		if (blockHighlightRef.current) {
 			blockHighlightRef.current.dispose();
 		}
 
-		if (highlightedBlock) {
-			const currentWorkspace =
-				Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-			blockHighlightRef.current = new BlockHighlight(
-				highlightedBlock.workspace || currentWorkspace,
-			);
-			blockHighlightRef.current.init(10, highlightedBlock.blockId);
+		if (blockIdToHighlight && workspace) {
+			blockHighlightRef.current = new BlockHighlight(workspace);
+			blockHighlightRef.current.init(10, blockIdToHighlight);
 		} else {
 			blockHighlightRef.current = null;
 		}
-	}, [highlightedBlock]);
+	}, [blockIdToHighlight, workspace]);
 
-	return <div ref={ref} id="blocklyDiv" className="w-full h-full relative" />;
-});
+	// Hide/Show toolbox
+	useEffect(() => {
+		if (workspace) {
+			workspace.getToolbox()?.setVisible(isMenuOpen);
+			workspace.getToolbox()?.getFlyout()?.setVisible(isMenuOpen);
+		}
+	}, [isMenuOpen, workspace]);
 
-export default Editor;
+	return <div className="w-full h-full relative" ref={blocklyDiv} />;
+};
+
+function loadFromJson(
+	json: object,
+	workspace: Workspace,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	onImportError?: (error: any) => void,
+) {
+	try {
+		Blockly.serialization.workspaces.load(json, workspace);
+		return true;
+	} catch (e) {
+		if (onImportError) {
+			onImportError(e);
+		}
+		return false;
+	}
+}
+
+//上流のstateを受け取るってことだよね？
+const useBlocklyWorkspace = ({
+	ref,
+	workspaceJson,
+	setWorkspaceJson,
+	toolboxConfiguration,
+	workspaceConfiguration,
+	onWorkspaceChange,
+	onImportError,
+}: {
+	ref: React.MutableRefObject<HTMLDivElement | null>;
+	workspaceJson?: object;
+	setWorkspaceJson?: (json: object | null) => void;
+	workspaceConfiguration: Blockly.BlocklyOptions;
+	toolboxConfiguration?: Blockly.utils.toolbox.ToolboxDefinition;
+	onWorkspaceChange?: (_workspace: Blockly.WorkspaceSvg) => void;
+	onImportError?: (error: any) => void;
+}): {
+	workspace: Blockly.WorkspaceSvg | null;
+	json: object | null;
+} => {
+	const [workspace, setWorkspace] = useState<WorkspaceSvg | null>(null);
+
+	const [didHandleNewWorkspace, setDidHandleNewWorkspace] = useState(false);
+
+	const workspaceConfigurationRef = useRef(workspaceConfiguration);
+
+	useEffect(() => {
+		workspaceConfigurationRef.current = workspaceConfiguration;
+	}, [workspaceConfiguration]);
+
+	const toolboxConfigurationRef = useRef(toolboxConfiguration);
+
+	useEffect(() => {
+		toolboxConfigurationRef.current = toolboxConfiguration;
+
+		if (toolboxConfiguration && workspace && !workspaceConfiguration.readOnly) {
+			workspace.updateToolbox(toolboxConfiguration);
+		}
+	});
+
+	const handleWorkspaceChanged = useCallback(
+		(newWorksapce: Blockly.WorkspaceSvg) => {
+			if (onWorkspaceChange) {
+				onWorkspaceChange(newWorksapce);
+			}
+		},
+		[onWorkspaceChange],
+	);
+
+	useEffect(() => {
+		if (!ref.current) {
+			return;
+		}
+		const newWorkspace = Blockly.inject(
+			ref.current,
+			workspaceConfigurationRef.current,
+		);
+
+		setWorkspace(newWorkspace);
+		setDidHandleNewWorkspace(false);
+
+		return () => {
+			newWorkspace.dispose();
+		};
+	}, [ref]);
+
+	// Send workspace change event when its changed
+	useEffect(() => {
+		if (workspace && !didHandleNewWorkspace) {
+			handleWorkspaceChanged(workspace);
+		}
+	}, [handleWorkspaceChanged, didHandleNewWorkspace, workspace]);
+
+	// call handleWorkspaceChanged when its changed
+
+	useEffect(() => {
+		if (workspace === null) {
+			return undefined;
+		}
+
+		const listener = (event: Blockly.Events.Abstract) => {
+			Blockly.Events.disableOrphans(event);
+
+			if (isRelevantChange(event)) {
+				handleWorkspaceChanged(workspace);
+			}
+		};
+
+		workspace.addChangeListener(listener);
+
+		return () => {
+			workspace.removeChangeListener(listener);
+		};
+	}, [workspace, handleWorkspaceChanged]);
+
+	useEffect(() => {
+		if (workspace === null) {
+			return undefined;
+		}
+
+		const callback = (event: Blockly.Events.Abstract) => {
+			if (isRelevantChange(event) && setWorkspaceJson) {
+				const newJson = Blockly.serialization.workspaces.save(workspace);
+				setWorkspaceJson(newJson);
+			}
+		};
+
+		workspace.addChangeListener(callback);
+
+		return () => {
+			workspace.removeChangeListener(callback);
+		};
+	}, [workspace, setWorkspaceJson]);
+
+	useEffect(() => {
+		if (workspaceJson && workspace) {
+			const currentWorkspaceJson =
+				Blockly.serialization.workspaces.save(workspace);
+			if (
+				JSON.stringify(currentWorkspaceJson) !== JSON.stringify(workspaceJson)
+			) {
+				const success = loadFromJson(workspaceJson, workspace, onImportError);
+				if (!success && setWorkspaceJson) {
+					setWorkspaceJson(null);
+				}
+			}
+		}
+	}, [workspaceJson, workspace, onImportError, setWorkspaceJson]);
+
+	return {
+		workspace,
+		json: workspaceJson ?? null,
+	};
+};

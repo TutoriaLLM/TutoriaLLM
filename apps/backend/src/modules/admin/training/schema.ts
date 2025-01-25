@@ -14,10 +14,10 @@ export const dataIdSchema = z.object({
 export const dataMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	sessionId: z.string().optional(),
 });
 export const dataSchema = z.object({
-	id: z.number(),
+	id: stringToNumber,
 	question: z.string(),
 	answer: z.string(),
 	metadata: dataMetadataSchema,
@@ -50,18 +50,18 @@ export const guideSearchSchema = z.object({
 export const guideMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	sessionId: z.string().optional(),
 });
 
 export const dataToGuideSchema = z.object({
 	// Same schema as data
-	id: z.number(),
+	id: stringToNumber,
 	question: z.string(),
 	answer: z.string(),
 	metadata: guideMetadataSchema,
 });
 export const guideSchema = z.object({
-	id: z.number(),
+	id: stringToNumber,
 	metadata: guideMetadataSchema,
 	question: z.string(),
 	answer: z.string(),

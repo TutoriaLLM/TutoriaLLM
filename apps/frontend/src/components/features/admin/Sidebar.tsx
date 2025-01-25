@@ -1,5 +1,10 @@
 import { ExitButton } from "@/components/common/exitButton.js";
-import { Link, useLocation } from "@tanstack/react-router";
+import { ErrorToastContent } from "@/components/common/toastContent";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/toast";
+import { authClient } from "@/libs/auth-client";
+import { cn } from "@/libs/utils";
+import { Link, useLocation, useRouter } from "@tanstack/react-router";
 import {
 	Activity,
 	Bot,
@@ -14,7 +19,9 @@ import { useTranslation } from "react-i18next";
 
 export default function SideBar() {
 	const { t } = useTranslation();
+	const { toast } = useToast();
 	const location = useLocation().pathname;
+	const router = useRouter();
 
 	const [isOpen, setIsOpen] = useState(true);
 
@@ -34,9 +41,10 @@ export default function SideBar() {
 		return (
 			<Link
 				to={href}
-				className={`hover:bg-gray-300 border flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap ${
-					location === href ? "bg-gray-300" : ""
-				}`}
+				className={cn(
+					"hover:bg-accent flex gap-2 p-3 text-left py-3 rounded-2xl transition whitespace-nowrap",
+					{ "bg-accent": location === href },
+				)}
 				onClick={() => {
 					setIsOpen(false);
 				}}
@@ -48,31 +56,37 @@ export default function SideBar() {
 	};
 
 	const handleSignOut = async () => {
-		const res = await fetch(`${VITE_BACKEND_URL}/logout`, {
-			method: "POST",
-			credentials: "include",
-		});
-		if (res.status === 200) {
-			window.location.href = "/";
+		const result = await authClient.signOut();
+		if (result.error) {
+			console.error(result.error);
+			toast({
+				description: (
+					<ErrorToastContent>{t("toast.failedToSignOut")}</ErrorToastContent>
+				),
+				variant: "destructive",
+			});
+			return;
 		}
+		router.history.push("/login");
 	};
 
 	return (
-		<div className="flex flex-col">
-			<div className="z-[60]">
-				<button
+		<div className="flex flex-col md:h-screen">
+			<div className="z-[60] w-full p-2">
+				<Button
 					onClick={toggleSidebar}
 					type="button"
-					className="md:hidden p-2 fixed top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-gray-100 hover:bg-gray-300 shadow transition rounded-full border-gray-300"
+					className="md:hidden p-2 top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-background hover:bg-accent shadow transition rounded-full text-foreground"
 				>
 					<Sidebar />
 					<span>{t("sidebar.toggle")}</span>
-				</button>
+				</Button>
 			</div>
 			<div
-				className={`bg-gray-200 text-gray-800 border-r-2 border-gray-300 h-full w-full p-2 transition-transform transform ${
-					isOpen ? "translate-x-0" : "-translate-x-full"
-				} md:translate-x-0 fixed md:static z-50`}
+				className={cn(
+					"bg-background text-foreground md:rounded-tr-2xl border-r-2 border h-full w-full p-2 transition-transform transform md:translate-x-0 fixed md:static z-50",
+					{ "translate-x-0": isOpen, "-translate-x-full": !isOpen },
+				)}
 			>
 				<div className="flex flex-col gap-2 p-2 pt-16 md:p-2 font-semibold">
 					<ExitButton text={t("navbar.signout")} onClick={handleSignOut} />
@@ -99,14 +113,14 @@ export default function SideBar() {
 						label={t("sidebar.trainingForAI")}
 					/>
 
-					<span className="w-full border-t-2 border-gray-300 text-gray-500" />
+					<span className="w-full border-t-2 border-gray-300 text-accent-foreground" />
 					<SidebarItem
 						href="/admin/users"
 						icon={User}
 						label={t("sidebar.users")}
 					/>
 
-					<span className="w-full border-t-2 border-gray-300 text-gray-500" />
+					<span className="w-full border-t-2 border-gray-300 text-accent-foreground" />
 					<SidebarItem
 						href="/admin/settings"
 						icon={Cog}

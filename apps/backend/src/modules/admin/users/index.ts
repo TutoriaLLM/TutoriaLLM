@@ -1,136 +1,60 @@
 import { createHonoApp } from "@/create-app";
 import { db } from "@/db";
-import { authSessions, users } from "@/db/schema";
-import { errorResponse } from "@/libs/errors";
-import {
-	createUser,
-	deleteUser,
-	getUser,
-	getUserList,
-	updateUser,
-} from "@/modules/admin/users/routes";
-import { saltAndHashPassword } from "@/utils/password";
-// Connect to existing DB
+import { user } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { updateUserDetail, userDetailFromId } from "./routes";
+import { errorResponse } from "@/libs/errors";
 
+//NOTE: most of APIs were defined in Better-auth, these are manual APIs for admin to update user's information
 const app = createHonoApp()
-	.openapi(getUserList, async (c) => {
-		const getUsers = await db
-			.select({
-				id: users.id,
-				username: users.username,
-			})
-			.from(users);
-		return c.json(getUsers, 200);
-	})
-
-	.openapi(createUser, async (c) => {
-		const { username, password } = c.req.valid("json");
-		const hashedPassword = await saltAndHashPassword(password);
-		const insert = await db
-			.insert(users)
-			.values({
-				username: username,
-				password: hashedPassword,
-			})
-			.returning({
-				username: users.username,
-				id: users.id,
-			});
-		if (insert === undefined) {
-			return errorResponse(c, {
-				message: "Failed to create user",
-				type: "SERVER_ERROR",
-			});
-		}
-		const createdUser = insert[0];
-		return c.json(createdUser, 200);
-	})
-
-	.openapi(getUser, async (c) => {
-		const id = c.req.valid("param").id;
-		const user = await db.query.users.findFirst({
-			where: eq(users.id, id),
+	.openapi(userDetailFromId, async (c) => {
+		const userId = c.req.valid("param").id;
+		const userDetail = await db.query.user.findFirst({
+			where: eq(user.id, userId),
+			columns: {
+				id: true,
+				name: true,
+				email: true,
+				image: true,
+				createdAt: true,
+				updatedAt: true,
+				role: true,
+				username: true,
+				isAnonymous: true,
+			},
 		});
-		if (!user) {
+		if (!userDetail) {
 			return errorResponse(c, {
 				message: "User not found",
 				type: "NOT_FOUND",
 			});
 		}
-		const { password, ...userWithoutPassword } = user;
-		return c.json(userWithoutPassword, 200);
+		return c.json(userDetail, 200);
 	})
-
-	.openapi(updateUser, async (c) => {
-		const id = c.req.valid("param").id;
-		const { password, username } = c.req.valid("json");
-		await db.delete(authSessions).where(eq(authSessions.userId, id));
-		if (password) {
-			const hashedPassword = await saltAndHashPassword(password);
-			const result = await db
-				.update(users)
-				.set({
-					username: username,
-					password: hashedPassword,
-				})
-				.where(eq(users.id, id))
-				.returning({
-					id: users.id,
-				});
-			if (result === undefined) {
-				return errorResponse(c, {
-					message: "User not found",
-					type: "NOT_FOUND",
-				});
-			}
-			return c.json(result[0], 200);
-		}
-		const result = await db
-			.update(users)
+	//API for directly push the updated user's information to the database (not defined in Better-auth yet)
+	.openapi(updateUserDetail, async (c) => {
+		const userId = c.req.valid("param").id;
+		const { name, email, image, role, username } = c.req.valid("json");
+		const updatedUser = await db
+			.update(user)
 			.set({
-				username: username,
+				name,
+				email,
+				image,
+				role,
+				username,
 			})
-			.where(eq(users.id, id))
+			.where(eq(user.id, userId))
 			.returning({
-				id: users.id,
+				id: user.id,
 			});
-		if (result === undefined) {
+		if (!updatedUser) {
 			return errorResponse(c, {
 				message: "User not found",
 				type: "NOT_FOUND",
 			});
 		}
-		return c.json(result[0], 200);
-	})
-
-	.openapi(deleteUser, async (c) => {
-		const id = c.req.valid("param").id;
-		try {
-			const deleteSessions = await db
-				.delete(authSessions)
-				.where(eq(authSessions.userId, id))
-				.returning({
-					id: authSessions.id,
-				});
-
-			const result = await db.delete(users).where(eq(users.id, id)).returning({
-				id: users.id,
-			});
-
-			if (result.length > 0) {
-				return c.json(result[0], 200);
-			}
-			return errorResponse(c, {
-				message: "User not found",
-				type: "NOT_FOUND",
-			});
-		} catch (err) {
-			return errorResponse(c, {
-				message: (err as Error).message,
-				type: "SERVER_ERROR",
-			});
-		}
+		return c.json(updatedUser[0], 200);
 	});
 
 export default app;

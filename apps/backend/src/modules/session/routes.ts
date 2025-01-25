@@ -1,11 +1,12 @@
 import { errorResponses, jsonBody } from "@/libs/openapi";
 import {
 	newSessionQuery,
-	newSessionRequest,
 	putSessionRequest,
-	sessionCodeSchema,
 	sessionParam,
 	sessionValueSchema,
+	sessionIdSchema,
+	listSessionValueSchema,
+	updateSessionNameRequest,
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
@@ -18,7 +19,7 @@ const newSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: jsonBody(sessionCodeSchema),
+			content: jsonBody(sessionIdSchema),
 			description: "Returns the session id",
 		},
 		...errorResponses({
@@ -33,21 +34,15 @@ const resumeSession = createRoute({
 	summary: "Resume a session, from the provided session data",
 	request: {
 		params: sessionParam.schema,
-		body: {
-			content: jsonBody(newSessionRequest.schema),
-		},
 	},
 	responses: {
 		200: {
-			content: jsonBody(sessionCodeSchema),
+			content: jsonBody(sessionIdSchema),
 			description:
 				"Returns the session id. If the session provided, it will return the session id to continue the session from existing session, or create a new session based on the provided data.",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
-				newSessionRequest.vErr(),
-				newSessionQuery.vErr(),
-			],
+			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
 		}),
 	},
 });
@@ -69,6 +64,19 @@ const getSession = createRoute({
 	},
 });
 
+const getUserSessions = createRoute({
+	method: "get",
+	path: "/session",
+	responses: {
+		200: {
+			content: jsonBody(listSessionValueSchema),
+			description:
+				"Returns the user's sessions based on the user's token(auth)",
+		},
+		...errorResponses({}),
+	},
+});
+
 const putSession = createRoute({
 	method: "put",
 	path: "/session/{key}",
@@ -80,19 +88,36 @@ const putSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: {
-				"text/plain": {
-					schema: {
-						type: "string",
-					},
-				},
-			},
+			content: jsonBody(sessionIdSchema),
 			description: "Session updated",
 		},
 		...errorResponses({
 			validationErrorResnponseSchemas: [
 				sessionParam.vErr(),
 				putSessionRequest.vErr(),
+			],
+		}),
+	},
+});
+
+const putSessionName = createRoute({
+	method: "put",
+	path: "/session/{key}/rename",
+	request: {
+		params: sessionParam.schema,
+		body: {
+			content: jsonBody(updateSessionNameRequest.schema),
+		},
+	},
+	responses: {
+		200: {
+			content: jsonBody(sessionIdSchema),
+			description: "Session name updated",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [
+				sessionParam.vErr(),
+				updateSessionNameRequest.vErr(),
 			],
 		}),
 	},
@@ -106,13 +131,7 @@ const deleteSession = createRoute({
 	},
 	responses: {
 		200: {
-			content: {
-				"text/plain": {
-					schema: {
-						type: "string",
-					},
-				},
-			},
+			content: jsonBody(sessionIdSchema),
 			description: "Session deleted",
 		},
 		...errorResponses({
@@ -121,4 +140,12 @@ const deleteSession = createRoute({
 	},
 });
 
-export { newSession, resumeSession, getSession, putSession, deleteSession };
+export {
+	newSession,
+	resumeSession,
+	getSession,
+	getUserSessions,
+	putSession,
+	putSessionName,
+	deleteSession,
+};

@@ -1,16 +1,26 @@
 import { updateConfig } from "@/api/admin/config";
 import { getConfig } from "@/api/config.js";
+import {
+	ErrorToastContent,
+	SuccessToastContent,
+} from "@/components/common/toastContent";
 import JSONField from "@/components/features/admin/jsonViewer.js";
+import { AdminBodyWrapper } from "@/components/layout/adminBody";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations.js";
 import type { AppConfig } from "@/type.js";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/admin/settings")({
 	component: ConfigManager, // This is the main
 });
 
 function ConfigManager() {
+	const { t } = useTranslation();
+	const { toast } = useToast();
 	const [config, setConfig] = useState<AppConfig | undefined>(undefined);
 
 	useEffect(() => {
@@ -29,40 +39,60 @@ function ConfigManager() {
 	const { mutate } = useMutation({
 		mutationFn: updateConfig,
 		onSuccess: () => {
-			alert("Config updated successfully");
+			toast({
+				description: (
+					<SuccessToastContent> {t("toast.configUpdated")}</SuccessToastContent>
+				),
+			});
 		},
 		onError: (error) => {
-			alert("Failed to update config");
+			toast({
+				description: (
+					<ErrorToastContent>
+						{t("toast.failedToUpdateConfig")}
+					</ErrorToastContent>
+				),
+				variant: "destructive",
+			});
 
 			console.error("Failed to update config:", error);
 		},
 	});
 
 	return (
-		<div className="flex flex-col gap-2">
-			<JSONField
-				obj={config ?? {}}
-				setObj={(newObj) => setConfig(newObj as AppConfig)}
-			/>
-			<div>
-				<button
-					type="button"
-					className="flex bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full"
-					onClick={() => {
-						if (!config) {
-							alert("No config to save");
-							return;
-						}
+		<AdminBodyWrapper title={t("admin.settings")}>
+			<div className="p-2 md:p-4">
+				<JSONField
+					obj={config ?? {}}
+					setObj={(newObj) => setConfig(newObj as AppConfig)}
+				/>
+				<div>
+					<Button
+						type="button"
+						onClick={() => {
+							if (!config) {
+								toast({
+									description: (
+										<ErrorToastContent>
+											{t("toast.noConfigToSave")}
+										</ErrorToastContent>
+									),
+									variant: "destructive",
+								});
 
-						mutate({
-							...config,
-						});
-					}}
-				>
-					Save Configuration
-				</button>
+								return;
+							}
+
+							mutate({
+								...config,
+							});
+						}}
+					>
+						{t("general.save")}
+					</Button>
+				</div>
 			</div>
-		</div>
+		</AdminBodyWrapper>
 	);
 }
 

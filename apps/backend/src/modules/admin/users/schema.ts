@@ -1,52 +1,42 @@
 import { createValidationErrorResponseSchema } from "@/libs/errors/schemas";
-import { stringToNumber } from "@/utils/zStringtoNumber";
 import { z } from "@hono/zod-openapi";
 
-const userSchema = z.object({
-	id: z.number(),
-	username: z.string(),
-	password: z.string(),
+export const userIdSchema = z.object({
+	id: z.string(),
 });
 
-export const userSchemaWithoutName = userSchema.pick({ id: true });
-
-export const getUserSchema = userSchema.pick({ id: true, username: true });
-
-export const getUserListSchema = z.array(getUserSchema);
-
-const newUserSchema = userSchema.pick({ username: true, password: true });
-
-const putUserSchema = userSchema.partial();
-
-const idSchema = z.object({
-	id: stringToNumber.openapi({
-		param: {
-			name: "id",
-			in: "path",
-		},
-	}),
+export const userDetailSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	email: z.string(),
+	image: z.string().nullable(),
+	createdAt: z.string().date(),
+	updatedAt: z.string().date(),
+	role: z.string().nullable(),
+	username: z.string().nullable(),
+	isAnonymous: z.boolean().nullable(),
 });
 
-export const newUserRequest = {
-	schema: newUserSchema.openapi("NewUserRequest"),
+export const updateUserDetailSchema = z.object({
+	name: z.string(),
+	email: z.string(),
+	image: z.string().nullable(),
+	role: z.string().nullable(),
+	username: z.string().nullable(),
+});
+
+export const userDetailParam = {
+	schema: userIdSchema.openapi("userIdSchema"),
 	vErr: () =>
-		createValidationErrorResponseSchema(newUserRequest.schema).openapi(
-			"NewUserRequestValidationErrorResponse",
+		createValidationErrorResponseSchema(userDetailParam.schema).openapi(
+			"FindUserIdFromStrValidationErrorResponse",
 		),
 };
 
-export const putUserRequest = {
-	schema: putUserSchema.openapi("PutUserRequest"),
+export const updateUserDetailRequest = {
+	schema: updateUserDetailSchema.openapi("userDetailSchema"),
 	vErr: () =>
-		createValidationErrorResponseSchema(putUserRequest.schema).openapi(
-			"PutUserRequestValidationErrorResponse",
-		),
-};
-
-export const userIdParam = {
-	schema: idSchema.openapi("PutUserParam"),
-	vErr: () =>
-		createValidationErrorResponseSchema(userIdParam.schema).openapi(
-			"PutUserParamValidationErrorResponse",
+		createValidationErrorResponseSchema(updateUserDetailRequest.schema).openapi(
+			"UpdateUserDetailValidationErrorResponse",
 		),
 };

@@ -8,14 +8,27 @@ import { renderUserBubble } from "@/components/features/editor/dialogue/parts/bu
 import getMarkdownComponents from "@/components/features/editor/dialogue/parts/markdown";
 import { SelectTutorialUI } from "@/components/features/editor/dialogue/parts/ui/tutorialSelectorUI";
 import { useConfig } from "@/hooks/config.js";
-import { currentSessionState } from "@/state.js";
 import type { SessionValue } from "@/type.js";
-import { useAtomValue } from "jotai";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, {
+	type Dispatch,
+	type SetStateAction,
+	useEffect,
+	useMemo,
+	useRef,
+} from "react";
 import { useTranslation } from "react-i18next";
 
 const TextBubble = React.forwardRef(function TextBubble(
-	props: {
+	{
+		currentSession,
+		setCurrentSession,
+		item,
+		easyMode,
+		className,
+		"data-index": index,
+	}: {
+		currentSession: SessionValue;
+		setCurrentSession: Dispatch<SetStateAction<SessionValue | null>>;
 		item: NonNullable<SessionValue["dialogue"]>[number];
 		easyMode: boolean;
 		className?: string;
@@ -37,56 +50,57 @@ const TextBubble = React.forwardRef(function TextBubble(
 				}
 			}
 		}
-	}, [ref, props.item]);
+	}, [ref, item]);
 
 	// Load configuration
 	const { config } = useConfig();
-	const currenSession = useAtomValue(currentSessionState);
 	const { t } = useTranslation();
 
 	// Get markdown component
 	const markdownComponents = useMemo(() => {
-		return getMarkdownComponents(t, currenSession?.workspace);
+		return getMarkdownComponents(t, currentSession?.workspace);
 	}, [t]);
 
 	// Rendering the contents of the bubble
 	const renderBubbleContent = () => {
-		const content = props.item.content as string;
+		const content = item.content as string;
 
-		switch (props.item.contentType) {
+		switch (item.contentType) {
 			case "user":
-				return renderUserBubble(content, markdownComponents, t, props.item.id);
+				return renderUserBubble(content, markdownComponents, t, item.id);
 			case "user_audio":
-				return renderUserAudioBubble(content, t, props.item.id);
+				return renderUserAudioBubble(content, t, item.id);
 			case "ai":
 				return renderAIBubble(
 					content,
 					markdownComponents,
 					t,
-					props.item.id,
-					props.easyMode,
+					item.id,
+					easyMode,
 				);
 			case "ai_audio":
 				return renderAIaudioBubble(
 					content,
 					t,
-					props.item.id,
-					currenSession?.audios ?? [],
+					item.id,
+					currentSession?.audios ?? [],
 				);
 			case "ui":
-				return props.item.ui === "selectTutorial" ? <SelectTutorialUI /> : null;
+				return item.ui === "selectTutorial" ? (
+					<SelectTutorialUI setSessionState={setCurrentSession} />
+				) : null;
 			case "log":
-				return renderLogBubble(content, markdownComponents, t, props.item.id);
+				return renderLogBubble(content, markdownComponents, t, item.id);
 			case "error":
-				return renderErrorBubble(content, markdownComponents, t, props.item.id);
+				return renderErrorBubble(content, markdownComponents, t, item.id);
 			case "group_log":
-				return Array.isArray(props.item.content)
+				return Array.isArray(item.content)
 					? renderGroupLogBubble(
-							props.item.content,
+							item.content,
 							markdownComponents,
 							t,
 							config,
-							props.item.id,
+							item.id,
 						)
 					: null;
 			default:
@@ -96,9 +110,9 @@ const TextBubble = React.forwardRef(function TextBubble(
 
 	return (
 		<div
-			className={`${props.className} px-4 py-2`}
+			className={`${className} px-4 py-2`}
 			ref={bubbleRef}
-			data-index={props["data-index"]}
+			data-index={index}
 		>
 			{renderBubbleContent()}
 		</div>

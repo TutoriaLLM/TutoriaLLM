@@ -82,7 +82,7 @@ export type TutorialMetadata = z.infer<typeof TutorialMetadataSchema>;
 export const TrainingMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	sessionId: z.string().optional(),
 });
 export type TrainingMetadata = z.infer<typeof TrainingMetadataSchema>;
 
@@ -101,11 +101,20 @@ export const AudioSchema = z.object({
 });
 export type SavedAudio = z.infer<typeof AudioSchema>;
 
+export const UserInfoSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+	image: z.string().nullable(),
+	email: z.string(),
+});
+
 export const sessionValueSchema = z
 	.object({
-		// Basic Information
-		sessioncode: z.string(),
 		uuid: z.string(),
+		// Basic Information
+		sessionId: z.string(),
+
+		name: z.string().nullable(),
 
 		// Dialogue related
 		dialogue: z.array(DialogueOpenApiSchema).nullable(),
@@ -134,6 +143,7 @@ export const sessionValueSchema = z
 
 		// Interaction-related
 		clicks: z.array(ClickSchema).nullable(),
+		userInfo: z.union([z.string(), UserInfoSchema]).nullable(),
 	})
 	.merge(timestampSchema);
 
@@ -149,10 +159,19 @@ export const SessionValueListSchemaWithSort = z.object({
 export type SessionValue = z.infer<typeof sessionValueSchema>;
 export type SessionValueList = z.infer<typeof SessionValueListSchema>;
 
-export const sessionCodeSchema = z.object({
-	sessionCode: z.string().openapi({
+export const sessionIdSchema = z.object({
+	sessionId: z.string().openapi({
 		param: {
-			name: "sessionCode",
+			name: "sessionId",
+			in: "path",
+		},
+	}),
+});
+
+export const userIdSchema = z.object({
+	userId: z.string().openapi({
+		param: {
+			name: "userId",
 			in: "path",
 		},
 	}),
@@ -170,8 +189,16 @@ export const SessionQuerySchema = z.object({
 	sortOrder: z.string().optional(),
 });
 
+export const findSessionFromUserIdParam = {
+	schema: userIdSchema.openapi("FindSessionFromUserIdParam"),
+	vErr: () =>
+		createValidationErrorResponseSchema(
+			findSessionFromUserIdParam.schema,
+		).openapi("FindSessionFromUserIdValidationErrorResponse"),
+};
+
 export const deleteSessionParam = {
-	schema: sessionCodeSchema.openapi("DeleteSessionParam"),
+	schema: sessionIdSchema.openapi("DeleteSessionParam"),
 	vErr: () =>
 		createValidationErrorResponseSchema(deleteSessionParam.schema).openapi(
 			"DeleteSessionParamValidationErrorResponse",
@@ -181,7 +208,7 @@ export const deleteSessionParam = {
 export const listSessionsQuery = {
 	schema: SessionQuerySchema.openapi("ListSessionsQuery"),
 	vErr: () =>
-		createValidationErrorResponseSchema(SessionQuerySchema).openapi(
+		createValidationErrorResponseSchema(listSessionsQuery.schema).openapi(
 			"ListSessionsQueryValidationErrorResponse",
 		),
 };

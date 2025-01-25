@@ -23,7 +23,7 @@ async function audioToText(mp3Path: string) {
 }
 
 export async function updateAudioDialogue(
-	code: string,
+	sessionId: string,
 	target_id: number,
 	Socket: Socket,
 	mp3Path: string,
@@ -32,7 +32,7 @@ export async function updateAudioDialogue(
 
 	// Migrated from Redis to Postgres: from 1.0.0
 	const data = await db.query.appSessions.findFirst({
-		where: eq(appSessions.sessioncode, code),
+		where: eq(appSessions.sessionId, sessionId),
 	});
 	const newData = data
 		? {
@@ -61,5 +61,5 @@ export async function updateAudioDialogue(
 		return;
 	}
 
-	await updateAndBroadcastDiffToAll(code, newData, Socket);
+	await updateAndBroadcastDiffToAll(sessionId, newData, Socket);
 }

@@ -3,6 +3,7 @@ import {
 	HighlightedBlockId,
 	HighlightedBlockName,
 } from "@/components/features/editor/dialogue/parts/highlight";
+import { toast } from "@/hooks/toast";
 import {
 	blockNameFromMenuState,
 	currentTabState,
@@ -50,10 +51,10 @@ function highlightText(
 
 	const handleHighlightClick = useCallback(
 		(blockId: string) => {
-			if (highlightedBlock?.blockId === blockId) {
+			if (highlightedBlock === blockId) {
 				setHighlightedBlock(null);
 			} else {
-				setHighlightedBlock({ blockId, workspace: null });
+				setHighlightedBlock(blockId);
 				setBlockNameFromMenu(null);
 				setActiveTab("workspaceTab");
 			}
@@ -146,7 +147,9 @@ function getMarkdownComponents(
 	})();
 	const handleCodeCopy = (code: string) => {
 		navigator.clipboard.writeText(code).then(() => {
-			alert(t("textbubble.copiedToClipboard"));
+			toast({
+				description: t("toast.copiedToClipboard"),
+			});
 		});
 	};
 
@@ -175,7 +178,7 @@ function getMarkdownComponents(
 			return (
 				// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 				<span
-					className="cursor-pointer text-blue-400 underline"
+					className="cursor-pointer text-primary underline"
 					onClick={() => handleCodeCopy(text)}
 				>
 					<code className={className} {...props}>

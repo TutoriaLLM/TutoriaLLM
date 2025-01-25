@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { tags, tutorials } from "@/db/schema";
 import {
 	getSpecificTutorial,
 	getTags,
@@ -7,6 +6,7 @@ import {
 } from "@/modules/tutorials/routes";
 import { eq } from "drizzle-orm";
 import { createHonoApp } from "@/create-app";
+import { tags, tutorials } from "@/db/schema/tutorial";
 
 const app = createHonoApp()
 	.openapi(getTutorials, async (c) => {

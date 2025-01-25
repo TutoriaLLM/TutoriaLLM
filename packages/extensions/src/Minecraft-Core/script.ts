@@ -190,7 +190,7 @@ const translatedMessage = {
 	message: "extension.minecraft-core.connectInfo",
 	placeholder: {
 		host: serverRootPath,
-		userCode: joinCode,
+		userCode: joinSessionId,
 	},
 };
 console.info(JSON.stringify(translatedMessage));

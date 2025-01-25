@@ -3,6 +3,7 @@ import {
 	SessionValueListSchema,
 	SessionValueListSchemaWithSort,
 	deleteSessionParam,
+	findSessionFromUserIdParam,
 	listSessionsQuery,
 } from "@/modules/admin/session/schema";
 import { createRoute } from "@hono/zod-openapi";
@@ -17,6 +18,25 @@ export const downloadAllSessions = createRoute({
 			description: "Returns all sessions",
 		},
 		...errorResponses({}),
+	},
+});
+
+export const findSessionFromUserId = createRoute({
+	method: "get",
+	path: "/admin/session/find/{userId}",
+	summary: "Find sessions by userId",
+	request: {
+		query: listSessionsQuery.schema,
+		params: findSessionFromUserIdParam.schema,
+	},
+	responses: {
+		200: {
+			content: jsonBody(SessionValueListSchemaWithSort),
+			description: "Returns all sessions",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [findSessionFromUserIdParam.vErr()],
+		}),
 	},
 });
 
@@ -40,17 +60,34 @@ export const listSessions = createRoute({
 
 export const deleteSession = createRoute({
 	method: "delete",
-	path: "/admin/session/{sessionCode}",
+	path: "/admin/session/{sessionId}",
 	summary: "Delete a session",
 	request: {
 		params: deleteSessionParam.schema,
 	},
 	responses: {
 		200: {
-			description: "Returns the session code",
+			description: "Returns the session sessionId",
 		},
 		...errorResponses({
 			validationErrorResnponseSchemas: [deleteSessionParam.vErr()],
+		}),
+	},
+});
+
+export const deleteSessionByUserId = createRoute({
+	method: "delete",
+	path: "/admin/session/user/{userId}",
+	summary: "Delete all sessions by userId",
+	request: {
+		params: findSessionFromUserIdParam.schema,
+	},
+	responses: {
+		200: {
+			description: "Returns the session sessionId",
+		},
+		...errorResponses({
+			validationErrorResnponseSchemas: [findSessionFromUserIdParam.vErr()],
 		}),
 	},
 });

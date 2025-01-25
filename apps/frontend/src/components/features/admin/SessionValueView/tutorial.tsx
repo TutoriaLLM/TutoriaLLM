@@ -1,28 +1,33 @@
 import { getSpecificTutorial } from "@/api/admin/tutorials";
 import type { SessionValue, Tutorial } from "@/type";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 //for admin
 export default function SelectedTutorial(props: { session: SessionValue }) {
 	const { session } = props;
+	const { t } = useTranslation();
 	const tutorialId = session.tutorial.tutorialId;
 	const [tutorial, setTutorial] = useState<null | Tutorial>(null);
 	useEffect(() => {
 		if (tutorialId) {
-			getSpecificTutorial({ id: tutorialId }).then((response) => {
+			getSpecificTutorial({ id: tutorialId.toString() }).then((response) => {
 				setTutorial(response);
 			});
 		}
 	}, [tutorialId]);
 	return (
-		<div className="bg-gray-100 rounded-2xl p-2 gap-2 w-full font-medium">
-			<h2 className="text-lg font-semibold">Selected Tutorial</h2>
+		<div className="bg-card rounded-2xl p-2 gap-2 w-full font-medium">
+			<h2 className="text-lg font-semibold">{t("admin.selectedTutorial")}</h2>
 			<div className="text-sm">
-				Tutorial ID: {tutorial?.id ? tutorial.id : "not selected"}
+				{t("admin.tutorialId")}{" "}
+				{tutorial?.id ? tutorial.id : t("admin.notSelected")}
 			</div>
 			<div className="text-sm">
-				Tutorial Name:{" "}
-				{tutorial?.metadata.title ? tutorial.metadata.title : "not selected"}
+				{t("admin.tutorialTitle")}
+				{tutorial?.metadata.title
+					? tutorial.metadata.title
+					: t("admin.notSelected")}
 			</div>
 		</div>
 	);

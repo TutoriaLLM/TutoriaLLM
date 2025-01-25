@@ -4,9 +4,11 @@ import { translateCategories } from "@/components/common/Blockly/toolbox/index.j
 import type { SessionValue } from "@/type.js";
 import * as Blockly from "blockly";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function WorkspacePreview(props: { session: SessionValue }) {
 	const { session } = props;
+	const { t } = useTranslation();
 	const blocklyDivRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -47,8 +49,8 @@ export default function WorkspacePreview(props: { session: SessionValue }) {
 	}, [session.workspace]);
 
 	return (
-		<div className="bg-gray-100 rounded-2xl p-2 gap-2 w-full h-[60vh]">
-			<h2 className="text-lg font-semibold">Workspace Preview</h2>
+		<div className="bg-background rounded-2xl p-2 gap-2 w-full h-[60vh]">
+			<h2 className="text-lg font-semibold">{t("admin.workspacePreview")}</h2>
 			<div
 				id="blocklyPreviewDiv"
 				ref={blocklyDivRef}

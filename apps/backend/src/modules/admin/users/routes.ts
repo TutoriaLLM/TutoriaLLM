@@ -1,102 +1,49 @@
-import { errorResponses, jsonBody } from "@/libs/openapi";
-import {
-	getUserListSchema,
-	getUserSchema,
-	newUserRequest,
-	putUserRequest,
-	userIdParam,
-} from "@/modules/admin/users/schema";
-import { idSchema } from "@/modules/tutorials/schema";
 import { createRoute } from "@hono/zod-openapi";
+import {
+	updateUserDetailRequest,
+	userDetailParam,
+	userDetailSchema,
+	userIdSchema,
+} from "./schema";
+import { errorResponses, jsonBody } from "@/libs/openapi";
 
-export const getUserList = createRoute({
+//get user's detailed information from id
+export const userDetailFromId = createRoute({
 	method: "get",
-	path: "/admin/users",
-	summary: "Get list of users",
-	responses: {
-		200: {
-			content: jsonBody(getUserListSchema),
-			description: "Returns the list of users",
-		},
-	},
-});
-
-export const createUser = createRoute({
-	method: "post",
-	path: "/admin/users",
-	summary: "Create a new user, from username and password",
-	request: {
-		body: {
-			content: jsonBody(newUserRequest.schema),
-		},
-	},
-	responses: {
-		200: {
-			content: jsonBody(getUserSchema),
-			description: "Returns the user data",
-		},
-		...errorResponses({
-			validationErrorResnponseSchemas: [newUserRequest.vErr()],
-		}),
-	},
-});
-
-export const getUser = createRoute({
-	method: "get",
+	summary: "Get user's detailed information from id",
 	path: "/admin/users/{id}",
-	summary: "Get username and id by id",
 	request: {
-		params: userIdParam.schema,
+		params: userDetailParam.schema,
 	},
 	responses: {
 		200: {
-			content: jsonBody(getUserSchema),
-			description: "Returns the user data",
+			content: jsonBody(userDetailSchema),
+			description: "Returns the user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [userIdParam.vErr()],
+			validationErrorResnponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });
 
-export const updateUser = createRoute({
+//update user's detailed information manually instead of Better-auth
+export const updateUserDetail = createRoute({
 	method: "put",
+	summary: "Update user's detailed information",
 	path: "/admin/users/{id}",
-	summary: "Update user data",
 	request: {
-		params: userIdParam.schema,
+		params: userDetailParam.schema,
 		body: {
-			content: jsonBody(putUserRequest.schema),
+			content: jsonBody(updateUserDetailRequest.schema),
 		},
 	},
 	responses: {
 		200: {
-			content: jsonBody(idSchema),
-			description: "Returns the user data",
+			content: jsonBody(userIdSchema),
+			description: "Returns the updated user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
-				userIdParam.vErr(),
-				newUserRequest.vErr(),
-			],
-		}),
-	},
-});
-
-export const deleteUser = createRoute({
-	method: "delete",
-	path: "/admin/users/{id}",
-	summary: "Delete user",
-	request: {
-		params: userIdParam.schema,
-	},
-	responses: {
-		200: {
-			content: jsonBody(idSchema),
-			description: "Returns the user data",
-		},
-		...errorResponses({
-			validationErrorResnponseSchemas: [userIdParam.vErr()],
+			validationErrorResnponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });
