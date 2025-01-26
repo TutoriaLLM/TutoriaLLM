@@ -284,6 +284,13 @@ export default function DialogueView({
 		}
 	}, [session?.dialogue]);
 
+	//limit time of recording
+	useEffect(() => {
+		if (remainingTime <= 0) {
+			stopRecording();
+		}
+	}, [remainingTime]);
+
 	const items = rowVirtualizer.getVirtualItems();
 	return (
 		<div className="dialogue grow w-full h-full flex flex-col bg-background font-medium">
@@ -368,7 +375,7 @@ export default function DialogueView({
 					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
-						{config?.AI_Settings.Chat_Audio && isHttps && (
+						{config?.AI_Settings.Chat_Audio && (
 							<Button
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
@@ -380,30 +387,6 @@ export default function DialogueView({
 								{isRecording ? (
 									<div className="flex items-center justify-center">
 										<div className="relative">
-											<svg className="w-12 h-12">
-												<title>Recording Remaining Time</title>
-												<circle
-													className="text-accent"
-													strokeWidth="4"
-													stroke="currentColor"
-													fill="transparent"
-													r="18"
-													cx="24"
-													cy="24"
-												/>
-												<circle
-													className="text-destructive"
-													strokeWidth="4"
-													strokeDasharray="113"
-													strokeDashoffset={(113 * remainingTime) / 10}
-													strokeLinecap="round"
-													stroke="currentColor"
-													fill="transparent"
-													r="18"
-													cx="24"
-													cy="24"
-												/>
-											</svg>
 											<span className="absolute inset-0 flex items-center justify-center text-xs text-destructive-foreground">
 												{remainingTime}
 											</span>
@@ -414,18 +397,29 @@ export default function DialogueView({
 								)}
 							</Button>
 						)}
-						<div className="flex-1 flex min-w-24 border shadow-inner gap-2 p-1 rounded-2xl bg-background outline-none focus:ring-2 focus:ring-blue-500">
+						<div
+							className="flex flex-1 min-w-0 border shadow-inner gap-2 p-1 rounded-2xl 
+             bg-background outline-none focus:ring-2 focus:ring-blue-500 overflow-hidden"
+						>
 							{audioURL ? (
-								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-accent animate-fade-in">
+								<div
+									className="flex w-full min-w-0 max-w-48 gap-2 p-1 justify-center items-center 
+                       rounded-full bg-accent animate-fade-in"
+								>
 									<Button
 										type="button"
 										variant="ghost"
-										className=" hover:text-secondary p-2"
+										className="hover:text-secondary p-2"
 										onClick={togglePlayPause}
 									>
 										{isPlaying ? <Pause /> : <Play />}
 									</Button>
-									<div id="waveform" className="w-12 h-8" />
+									<div
+										id="waveform"
+										className="flex-1 min-w-0 h-8 overflow-hidden"
+									>
+										{/* Waveformライブラリの描画用要素 */}
+									</div>
 									<Button
 										type="button"
 										variant="ghost"
@@ -439,7 +433,8 @@ export default function DialogueView({
 								<input
 									type="text"
 									placeholder={t("textbubble.ask")}
-									className="p-2 md:p-3 flex-1 bg-transparent outline-none text-sm md:text-base"
+									className="p-2 md:p-3 flex-1 bg-transparent 
+                       outline-none text-sm md:text-base"
 									value={message}
 									onChange={(e) => setMessage(e.target.value)}
 								/>
