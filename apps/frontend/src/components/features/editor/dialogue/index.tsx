@@ -375,7 +375,7 @@ export default function DialogueView({
 					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
-						{config?.AI_Settings.Chat_Audio && (
+						{config?.AI_Settings.Chat_Audio && isHttps && (
 							<Button
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
