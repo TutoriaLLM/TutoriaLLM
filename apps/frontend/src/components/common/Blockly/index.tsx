@@ -124,7 +124,6 @@ export const BlocklyEditor = ({
 	}, [workspace]);
 
 	useEffect(() => {
-		console.log("blockNameToHighlight", blockNameToHighlight);
 		if (blockNameToHighlight && workspace) {
 			// Function to highlight a category and its parent categories
 			function highlightCategory(category: Blockly.ToolboxCategory) {
@@ -295,7 +294,6 @@ const useBlocklyWorkspace = ({
 
 	useEffect(() => {
 		toolboxConfigurationRef.current = toolboxConfiguration;
-
 		if (toolboxConfiguration && workspace && !workspaceConfiguration.readOnly) {
 			workspace.updateToolbox(toolboxConfiguration);
 		}
