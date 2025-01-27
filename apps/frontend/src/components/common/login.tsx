@@ -13,6 +13,7 @@ export default function Login(props: { redirectTo: string }) {
 	const { t } = useTranslation();
 
 	const [loginWarning, setLoginWarning] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false); // 追加
 
 	const router = useRouter();
 
@@ -29,6 +30,7 @@ export default function Login(props: { redirectTo: string }) {
 	});
 
 	const handleLogin = async (data: LoginSchemaType) => {
+		setIsSubmitting(true); // ボタンを非活性化
 		function signIn() {
 			if (z.string().email().safeParse(data.username).success) {
 				return authClient.signIn.email({
@@ -47,15 +49,18 @@ export default function Login(props: { redirectTo: string }) {
 		} else {
 			setLoginWarning(t("login.loginFailed"));
 		}
+		setIsSubmitting(false); // ボタンを再活性化
 	};
 
 	const handleGuest = async () => {
+		setIsSubmitting(true); // ボタンを非活性化
 		const user = await authClient.signIn.anonymous();
 		if (user.data) {
 			router.navigate({ to: props.redirectTo });
 		} else {
 			setLoginWarning(t("login.loginFailed"));
 		}
+		setIsSubmitting(false); // ボタンを再活性化
 	};
 
 	return (
@@ -109,10 +114,17 @@ export default function Login(props: { redirectTo: string }) {
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-4 items-center justify-center">
-					<Button type="button" variant="outline" onClick={handleGuest}>
+					<Button
+						type="button"
+						variant="outline"
+						onClick={handleGuest}
+						disabled={isSubmitting}
+					>
 						{t("login.continueAsGuest")}
 					</Button>
-					<Button type="submit">{t("login.login")}</Button>
+					<Button type="submit" disabled={isSubmitting}>
+						{t("login.login")}
+					</Button>
 				</div>
 			</form>
 		</div>
