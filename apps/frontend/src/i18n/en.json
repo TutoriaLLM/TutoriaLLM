@@ -20,7 +20,8 @@
     "deleteStorage": "Delete all storage",
     "failedCreate": "Failed to create session",
     "savedSessionDescription": "List of sessions that you can continue",
-    "untitled": "Untitled session"
+    "untitled": "Untitled session",
+    "listSessionNotFound": "No session found"
   },
   "navbar": {
     "saveAndLeave": "save and leave",

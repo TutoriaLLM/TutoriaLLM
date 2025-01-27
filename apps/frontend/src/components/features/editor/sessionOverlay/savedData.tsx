@@ -6,7 +6,7 @@ import { useMutation } from "@/hooks/useMutations";
 import type { SessionValue } from "@/type";
 import { useRouteContext, useRouter } from "@tanstack/react-router";
 import type * as Blockly from "blockly";
-import { Clock, Search } from "lucide-react";
+import { Clock, PlayIcon, Search, Trash2 } from "lucide-react";
 import {
 	Dialog,
 	DialogContent,
@@ -23,6 +23,12 @@ import {
 	ErrorToastContent,
 	SuccessToastContent,
 } from "@/components/common/toastContent";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+} from "@/components/ui/card";
 
 export default function SavedData() {
 	const { t } = useTranslation();
@@ -159,62 +165,72 @@ export default function SavedData() {
 					</VisuallyHidden>
 				</DialogHeader>
 				<div className="w-full h-full justify-center items-start align-top gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
-					{Object.entries(sessions ?? []).map(([key, value]) => {
-						const thumbnail = thumbnailMap[value.sessionId];
-						return (
-							<div
-								key={key}
-								className="w-full bg-card p-2 rounded-2xl space-y-2"
-							>
-								{value.name ? (
-									<h2 className="text-lg font-semibold">{value.name}</h2>
-								) : (
-									<h2 className="text-lg font-semibold">
-										{t("session.untitled")}
-									</h2>
-								)}
-								<span className="flex gap-1">
-									<Clock />
-									<p>{dateToString(new Date(value.updatedAt))}</p>
-								</span>
-								{thumbnail ? (
-									<img
-										src={thumbnail}
-										alt="block"
-										className="flex w-full h-full max-h-48 object-contain border rounded-2xl"
-									/>
-								) : (
-									<div className="flex w-full h-48 items-center justify-center">
-										<span>Loading...</span>
-									</div>
-								)}
+					{Object.entries(sessions ?? []).length === 0 ? (
+						<div className="text-lg w-full text-center">
+							{t("session.listSessionNotFound")}
+						</div>
+					) : (
+						Object.entries(sessions ?? []).map(([key, value]) => {
+							const thumbnail = thumbnailMap[value.sessionId];
+							return (
+								<Card
+									key={key}
+									className="w-full bg-card p-2 rounded-2xl space-y-2"
+								>
+									<CardHeader>
+										{value.name ? (
+											<h2 className="text-lg font-semibold">{value.name}</h2>
+										) : (
+											<h2 className="text-lg font-semibold">
+												{t("session.untitled")}
+											</h2>
+										)}
+										<CardDescription>
+											<span className="flex gap-1">
+												<Clock />
+												<p>{dateToString(new Date(value.updatedAt))}</p>
+											</span>
+										</CardDescription>
+									</CardHeader>
+									<CardContent className="space-y-2">
+										{thumbnail ? (
+											<img
+												src={thumbnail}
+												alt="block"
+												className="flex w-full h-full max-h-48 bg-gray-100 object-contain border rounded-2xl"
+											/>
+										) : (
+											<div className="flex w-full h-48 items-center justify-center">
+												<span>Loading...</span>
+											</div>
+										)}
 
-								<p className="text-xs font-base text-card-foreground">
-									{value.sessionId}
-								</p>
-
-								<div className="flex justify-between gap-2">
-									<Button
-										type="button"
-										className="w-full"
-										onClick={() => createOrContinueSession(value)}
-										disabled={isPending}
-									>
-										{t("session.continueSession")}
-									</Button>
-									<Button
-										type="button"
-										className="w-full"
-										variant="destructive"
-										onClick={() => del({ key: value.sessionId })}
-										disabled={isPending}
-									>
-										{t("session.deleteSession")}
-									</Button>
-								</div>
-							</div>
-						);
-					})}
+										<div className="flex justify-between gap-2">
+											<Button
+												type="button"
+												className="w-full"
+												onClick={() => createOrContinueSession(value)}
+												disabled={isPending}
+											>
+												<PlayIcon />
+												{t("session.continueSession")}
+											</Button>
+											<Button
+												type="button"
+												className="w-full"
+												variant="destructive"
+												onClick={() => del({ key: value.sessionId })}
+												disabled={isPending}
+											>
+												<Trash2 />
+												{t("session.deleteSession")}
+											</Button>
+										</div>
+									</CardContent>
+								</Card>
+							);
+						})
+					)}
 				</div>
 			</DialogContent>
 		</Dialog>

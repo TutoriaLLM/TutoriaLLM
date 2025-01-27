@@ -68,7 +68,8 @@
     "deleteStorage": "全ての保存内容を削除する",
     "failedCreate": "セッションの作成に失敗しました",
     "savedSessionDescription": "継続できるセッションのリスト",
-    "untitled": "名前のないセッション"
+    "untitled": "名前のないセッション",
+    "listSessionNotFound": "セッションが見つかりませんでした。"
   },
   "sidebar": {
     "dashboard": "ダッシュボード",
