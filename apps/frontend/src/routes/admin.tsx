@@ -23,7 +23,7 @@ export const Route = createFileRoute("/admin")({
 });
 function AdminPage() {
 	return (
-		<div className="min-h-screen flex flex-col bg-accent text-accent-foreground">
+		<div className="min-h-svh flex flex-col bg-accent text-accent-foreground">
 			<div className="h-full flex w-full flex-col md:flex-row">
 				<SideBar />
 				<div className="w-full h-full p-2 md:p-4 max-h-svh md:overflow-auto">

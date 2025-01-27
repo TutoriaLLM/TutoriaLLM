@@ -71,7 +71,7 @@ export default function SideBar() {
 	};
 
 	return (
-		<div className="flex flex-col md:h-screen">
+		<div className="flex flex-col md:h-svh">
 			<div className="z-[60] w-full p-2">
 				<Button
 					onClick={toggleSidebar}

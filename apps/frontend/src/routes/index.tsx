@@ -56,7 +56,7 @@ function Home() {
 
 	const session = Route.useLoaderData();
 	return (
-		<div className="min-h-screen overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
+		<div className="min-h-svh overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
 			<div className="max-w-2xl w-full my-auto space-y-4 px-2">
 				<div className="flex w-full flex-wrap md:flex-nowrap justify-between items-center">
 					<div className="space-y-2 w-full">
