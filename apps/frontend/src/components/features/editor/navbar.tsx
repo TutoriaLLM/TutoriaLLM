@@ -3,7 +3,7 @@ import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { Button } from "@/components/ui/button";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
-import { useRouter } from "@tanstack/react-router";
+import { useRouteContext, useRouter } from "@tanstack/react-router";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { RenameSession } from "./renameSession";
@@ -30,9 +30,16 @@ export default function Navbar({
 }) {
 	const { t } = useTranslation();
 	const router = useRouter();
+	const { queryClient } = useRouteContext({
+		from: "__root__",
+	});
 
 	function handleExit() {
 		socket?.disconnect();
+		queryClient.invalidateQueries({
+			queryKey: ["userSessions"],
+			refetchType: "all",
+		});
 		router.navigate({ to: "/" });
 	}
 	// Save data to local storage when possible
