@@ -193,9 +193,28 @@ app.notFound((c) => {
  */
 app.onError((err, c) => {
 	// c.get("sentry").captureException(err);
+	//exclude error message from better-auth
+	if (c.req.url?.includes("/auth")) {
+		//return error straight from better-auth
+		const statusCode =
+			"status" in err
+				? AppErrorStatusCode[err.status as keyof typeof AppErrorStatusCode]
+				: 500;
+		console.info("error", err);
+		const error = err as any;
+		return c.json(
+			{
+				code: error.cause?.code || undefined,
+				message: error.cause?.message || err.message || "Internal server error",
+				status: statusCode,
+				statusText: error.status || "UNAUTHORIZED",
+			},
+			statusCode,
+		);
+	}
 	return errorResponse(c, {
 		type: "SERVER_ERROR",
-		message: "Unexpected error",
+		message: "Internal server error",
 		err,
 	});
 });

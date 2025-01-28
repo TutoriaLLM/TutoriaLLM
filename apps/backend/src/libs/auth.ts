@@ -24,9 +24,6 @@ export const auth = betterAuth({
 	trustedOrigins: [process.env.CORS_ORIGIN ?? "http://localhost:3000"],
 	basePath: "/auth",
 	onAPIError: {
-		onError: (error) => {
-			console.error(error);
-			throw error;
-		},
+		throw: true,
 	},
 });
