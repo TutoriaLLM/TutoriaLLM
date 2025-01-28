@@ -75,9 +75,6 @@ importers:
       '@hono/node-ws':
         specifier: 1.0.5
         version: 1.0.5(@hono/node-server@1.13.7(hono@4.6.16))
-      '@hono/swagger-ui':
-        specifier: 0.5.0
-        version: 0.5.0(hono@4.6.16)
       '@hono/zod-openapi':
         specifier: 0.18.3
         version: 0.18.3(hono@4.6.16)(zod@3.24.1)
@@ -132,6 +129,9 @@ importers:
       '@opentelemetry/semantic-conventions':
         specifier: 1.27.0
         version: 1.27.0
+      '@scalar/hono-api-reference':
+        specifier: ^0.5.169
+        version: 0.5.169(hono@4.6.16)
       '@sentry/node':
         specifier: 8.47.0
         version: 8.47.0
@@ -141,6 +141,9 @@ importers:
       argon2:
         specifier: 0.41.1
         version: 0.41.1
+      atlassian-openapi:
+        specifier: ^1.0.20
+        version: 1.0.20
       better-auth:
         specifier: 'catalog:'
         version: 1.1.10
@@ -204,6 +207,9 @@ importers:
       openai:
         specifier: 4.77.0
         version: 4.77.0(zod@3.24.1)
+      openapi-merge:
+        specifier: ^1.3.3
+        version: 1.3.3
       pg:
         specifier: 8.13.1
         version: 8.13.1
@@ -2099,11 +2105,6 @@ packages:
     peerDependencies:
       '@hono/node-server': ^1.11.1
 
-  '@hono/swagger-ui@0.5.0':
-    resolution: {integrity: sha512-MWYYSv9kC8IwFBLZdwgZZMT9zUq2C/4/ekuyEYOkHEgUMqu+FG3eebtBZ4ofMh60xYRxRR2BgQGoNIILys/PFg==}
-    peerDependencies:
-      hono: '*'
-
   '@hono/zod-openapi@0.18.3':
     resolution: {integrity: sha512-bNlRDODnp7P9Fs13ZPajEOt13G0XwXKfKRHMEFCphQsFiD1Y+twzHaglpNAhNcflzR1DQwHY92ZS06b4LTPbIQ==}
     engines: {node: '>=16.0.0'}
@@ -3992,6 +3993,20 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
+  '@scalar/hono-api-reference@0.5.169':
+    resolution: {integrity: sha512-K6mGd1mxKXh5/jqxo0yHIOFi4N5jjQj8PL2TAJMhcUZ39qwSZ7/V7SGMBBpGtWNsGofac0bZ7q/7yoTsY3/RYg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      hono: ^4.0.0
+
+  '@scalar/openapi-types@0.1.6':
+    resolution: {integrity: sha512-V+KnESyVJqorJzEN0QFlu3tAImCHjnvPov6QcQvjfY7s0+CjrI3rRO3oVIRlXURTQrQGrnhxvK0SkXGAZ+dxvw==}
+    engines: {node: '>=18'}
+
+  '@scalar/types@0.0.28':
+    resolution: {integrity: sha512-NRGWtxWE/YfpAiNKh/XCV5o9CaYlg8etwelux1q7VRAbZqbpti5c14a5/t2mCiFSrfoyh4ghAHuYC9n3uwnuXQ==}
+    engines: {node: '>=18'}
+
   '@sentry-internal/browser-utils@8.34.0':
     resolution: {integrity: sha512-4AcYOzPzD1tL5eSRQ/GpKv5enquZf4dMVUez99/Bh3va8qiJrNP55AcM7UzZ7WZLTqKygIYruJTU5Zu2SpEAPQ==}
     engines: {node: '>=14.18'}
@@ -4429,6 +4444,9 @@ packages:
   '@ungap/structured-clone@1.2.1':
     resolution: {integrity: sha512-fEzPV3hSkSMltkw152tJKNARhOupqbH96MZWyRjNaYZOMIzbrTeQDG+MTc6Mr2pgzFQzFxAfmhGDNP5QK++2ZA==}
 
+  '@unhead/schema@1.11.18':
+    resolution: {integrity: sha512-a3TA/OJCRdfbFhcA3Hq24k1ZU1o9szicESrw8DZcGyQFacHnh84mVgnyqSkMnwgCmfN4kvjSiTBlLEHS6+wATw==}
+
   '@vitejs/plugin-react@4.3.2':
     resolution: {integrity: sha512-hieu+o05v4glEBucTcKMK3dlES0OeJlD9YVOAPraVMOInBCwzumaIFiUjr4bHK7NPgnAHgiskUoceKercrN8vg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -4601,6 +4619,9 @@ packages:
   at-least-node@1.0.0:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
     engines: {node: '>= 4.0.0'}
+
+  atlassian-openapi@1.0.20:
+    resolution: {integrity: sha512-MgTMxa0MTCwUb4zIsh9EA2AcTXhGuDDibt7gUQ/VuudzMTJfKwzxU+uV2/F5ZjYkvAuFUQzIp10bgOIxRPRhTw==}
 
   autoprefixer@10.4.20:
     resolution: {integrity: sha512-XY25y5xSv/wEoqzDyXXME4AFfkZI0P23z6Fs3YgymDnKJkCGOnkL0iTxCa85UTqaSgfcqyf3UA6+c7wUvx/16g==}
@@ -5605,6 +5626,9 @@ packages:
     resolution: {integrity: sha512-iE6xOPwDYlfnZFwk6BfIMMIH4WZm3pPhz6rc1uJM/OPew0pjG5K6p8WTLaMBY1/szF/T0TaEjprMpwn16BA0NQ==}
     engines: {node: '>=16.9.0'}
 
+  hookable@5.5.3:
+    resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
+
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
     engines: {node: '>=18'}
@@ -6392,6 +6416,9 @@ packages:
     peerDependenciesMeta:
       zod:
         optional: true
+
+  openapi-merge@1.3.3:
+    resolution: {integrity: sha512-zC6DE+ekFJwWMwssb+LOkZbYqlA/LCaFT4RdhSpDpxF4vaMoPNDuztWFkEAImhLMg4GKvoQH6gUvAKzaXDRC2A==}
 
   openapi3-ts@4.4.0:
     resolution: {integrity: sha512-9asTNB9IkKEzWMcHmVZE7Ts3kC9G7AFHfs8i7caD8HbI76gEjdkId4z/AkP83xdZsH7PLAnnbl47qZkXuxpArw==}
@@ -7363,6 +7390,9 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
+  ts-is-present@1.2.2:
+    resolution: {integrity: sha512-cA5MPLWGWYXvnlJb4TamUUx858HVHBsxxdy8l7jxODOLDyGYnQOllob2A2jyDghGa5iJHs2gzFNHvwGJ0ZfR8g==}
+
   tsconfck@3.1.4:
     resolution: {integrity: sha512-kdqWFGVJqe+KGYvlSO9NIaWn9jT1Ny4oKVzAJsKii5eoE9snzTJzL4+MMVOMn+fikWGFmKEylcXL710V/kIPJQ==}
     engines: {node: ^18 || >=20}
@@ -7539,6 +7569,9 @@ packages:
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
+
+  urijs@1.19.11:
+    resolution: {integrity: sha512-HXgFDgDommxn5/bIv0cnQZsPhHDA90NPHD6+c/v21U5+Sx5hoP8+dP9IZXBU1gIfvdRfhG8cel9QNPeionfcCQ==}
 
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
@@ -7902,6 +7935,9 @@ packages:
   yoctocolors-cjs@2.1.2:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
+
+  zhead@2.2.4:
+    resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
 
   zlibjs@0.3.1:
     resolution: {integrity: sha512-+J9RrgTKOmlxFSDHo0pI1xM6BLVUv+o0ZT9ANtCxGkjIVCCUdx9alUF8Gm+dGLKbkkkidWIHFDZHDMpfITt4+w==}
@@ -9440,10 +9476,6 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-
-  '@hono/swagger-ui@0.5.0(hono@4.6.16)':
-    dependencies:
-      hono: 4.6.16
 
   '@hono/zod-openapi@0.18.3(hono@4.6.16)(zod@3.24.1)':
     dependencies:
@@ -11793,6 +11825,18 @@ snapshots:
     dependencies:
       react: 18.3.1
 
+  '@scalar/hono-api-reference@0.5.169(hono@4.6.16)':
+    dependencies:
+      '@scalar/types': 0.0.28
+      hono: 4.6.16
+
+  '@scalar/openapi-types@0.1.6': {}
+
+  '@scalar/types@0.0.28':
+    dependencies:
+      '@scalar/openapi-types': 0.1.6
+      '@unhead/schema': 1.11.18
+
   '@sentry-internal/browser-utils@8.34.0':
     dependencies:
       '@sentry/core': 8.34.0
@@ -12332,6 +12376,11 @@ snapshots:
 
   '@ungap/structured-clone@1.2.1': {}
 
+  '@unhead/schema@1.11.18':
+    dependencies:
+      hookable: 5.5.3
+      zhead: 2.2.4
+
   '@vitejs/plugin-react@4.3.2(vite@5.4.9(@types/node@20.16.12)(terser@5.37.0))':
     dependencies:
       '@babel/core': 7.26.0
@@ -12537,6 +12586,11 @@ snapshots:
   asynckit@0.4.0: {}
 
   at-least-node@1.0.0: {}
+
+  atlassian-openapi@1.0.20:
+    dependencies:
+      jsonpointer: 5.0.1
+      urijs: 1.19.11
 
   autoprefixer@10.4.20(postcss@8.4.47):
     dependencies:
@@ -12952,6 +13006,10 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
+  debug@4.4.0:
+    dependencies:
+      ms: 2.1.3
+
   debug@4.4.0(supports-color@5.5.0):
     dependencies:
       ms: 2.1.3
@@ -13205,7 +13263,7 @@ snapshots:
 
   esbuild-register@3.6.0(esbuild@0.19.12):
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       esbuild: 0.19.12
     transitivePeerDependencies:
       - supports-color
@@ -13440,7 +13498,7 @@ snapshots:
 
   follow-redirects@1.15.9(debug@4.4.0):
     optionalDependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
 
   for-each@0.3.3:
     dependencies:
@@ -13711,6 +13769,8 @@ snapshots:
 
   hono@4.6.16: {}
 
+  hookable@5.5.3: {}
+
   html-encoding-sniffer@4.0.0:
     dependencies:
       whatwg-encoding: 3.1.1
@@ -13731,14 +13791,14 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.3
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
   http-proxy-middleware@3.0.3:
     dependencies:
       '@types/http-proxy': 1.17.15
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       http-proxy: 1.18.1(debug@4.4.0)
       is-glob: 4.0.3
       is-plain-object: 5.0.0
@@ -13757,7 +13817,7 @@ snapshots:
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.3
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -14757,6 +14817,12 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  openapi-merge@1.3.3:
+    dependencies:
+      atlassian-openapi: 1.0.20
+      lodash: 4.17.21
+      ts-is-present: 1.2.2
+
   openapi3-ts@4.4.0:
     dependencies:
       yaml: 2.7.0
@@ -15293,7 +15359,7 @@ snapshots:
 
   require-in-the-middle@7.4.0:
     dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.0
       module-details-from-path: 1.0.3
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -15836,6 +15902,8 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
+  ts-is-present@1.2.2: {}
+
   tsconfck@3.1.4(typescript@5.6.3):
     optionalDependencies:
       typescript: 5.6.3
@@ -16038,6 +16106,8 @@ snapshots:
       browserslist: 4.24.4
       escalade: 3.2.0
       picocolors: 1.1.1
+
+  urijs@1.19.11: {}
 
   url-parse@1.5.10:
     dependencies:
@@ -16487,6 +16557,8 @@ snapshots:
       lib0: 0.2.99
 
   yoctocolors-cjs@2.1.2: {}
+
+  zhead@2.2.4: {}
 
   zlibjs@0.3.1: {}
 

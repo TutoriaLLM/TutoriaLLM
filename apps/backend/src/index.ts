@@ -9,12 +9,15 @@ import sessionRoutes from "@/modules/session";
 import tutorialRoutes from "@/modules/tutorials";
 import vmProxyRoutes, { vmProxy } from "@/modules/vmProxy";
 import { serve } from "@hono/node-server";
-import { swaggerUI } from "@hono/swagger-ui";
 import { cors } from "hono/cors";
 import { showRoutes } from "hono/dev";
 import { initSocketServer } from "./modules/session/socket";
 import { createHonoApp } from "./create-app";
 import { auth } from "./libs/auth";
+import { isErrorResult, merge } from "openapi-merge";
+import type { Swagger } from "atlassian-openapi";
+import { apiReference } from "@scalar/hono-api-reference";
+import { AppErrorStatusCode } from "./libs/errors/config";
 
 const app = createHonoApp();
 
@@ -92,9 +95,7 @@ export const server = serve({
 	createServer: createServer,
 });
 
-app.on(["POST", "GET"], "/auth/*", (c) => {
-	return auth.handler(c.req.raw);
-});
+app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 
 // Process executed after server startup
 export const route = app
@@ -105,11 +106,63 @@ export const route = app
 	.doc("/doc", {
 		openapi: "3.0.0",
 		info: {
-			version: "1.0.0",
+			version: "2.0.0",
 			title: "TutoriaLLM API",
 		},
+		servers: [
+			{
+				url: `http://localhost:${port}`,
+			},
+		],
 	})
-	.get("/ui", swaggerUI({ url: "/doc" }));
+	.get("/doc/with-auth", async (c) => {
+		const nonAuthRef = await fetch(`http://localhost:${port}/doc`).then(
+			(res) => res.body,
+		);
+		let result = "";
+
+		if (nonAuthRef) {
+			const reader = nonAuthRef.getReader();
+			const decoder = new TextDecoder();
+
+			let done = false;
+			while (!done) {
+				const { value, done: isDone } = await reader.read();
+				if (value) {
+					result += decoder.decode(value, { stream: true });
+				}
+				done = isDone;
+			}
+		}
+
+		const authRef =
+			(await auth.api.generateOpenAPISchema()) as Swagger.SwaggerV3;
+
+		const mergeResult = merge([
+			{
+				oas: JSON.parse(result),
+			},
+			{
+				oas: authRef,
+				pathModification: {
+					prepend: "/auth",
+				},
+			},
+		]);
+
+		if (isErrorResult(mergeResult)) return c.body(JSON.stringify(c.error));
+
+		return c.body(JSON.stringify(mergeResult.output), 200);
+	})
+	.get(
+		"/ui",
+		apiReference({
+			pageTitle: "TutoriaLLM API Reference",
+			spec: {
+				url: "/doc/with-auth",
+			},
+		}),
+	);
 
 // The OpenAPI documentation will be available at /doc
 app.route("/", adminRoutes);

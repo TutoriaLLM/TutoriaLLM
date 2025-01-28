@@ -1,11 +1,12 @@
 import { db } from "@/db";
 import { betterAuth } from "better-auth";
-import { admin, anonymous, username } from "better-auth/plugins";
+import { admin, anonymous, username, openAPI } from "better-auth/plugins";
 
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
 	plugins: [
+		openAPI(),
 		admin(),
 		username(),
 		anonymous({
