@@ -6,7 +6,9 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 export const auth = betterAuth({
 	plugins: [
-		openAPI(),
+		openAPI({
+			disableDefaultReference: true,
+		}),
 		admin(),
 		username(),
 		anonymous({
@@ -22,6 +24,7 @@ export const auth = betterAuth({
 		enabled: true,
 	},
 	trustedOrigins: [process.env.CORS_ORIGIN ?? "http://localhost:3000"],
+
 	basePath: "/auth",
 	onAPIError: {
 		throw: true,
