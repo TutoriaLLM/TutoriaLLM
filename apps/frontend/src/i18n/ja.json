@@ -35,7 +35,9 @@
     "userNameDescription": "これはログイン用のユーザー名です",
     "confirmPasswordDescription": "パスワードを確認のために入力してください",
     "emailDescription": "あなたのメールアドレス",
-    "passwordDescription": "パスワードを入力してください"
+    "passwordDescription": "パスワードを入力してください",
+    "internalServerError": "サーバーエラーが発生しました。",
+    "unknownError": "エラーが発生しました。"
   },
   "navbar": {
     "saveAndLeave": "保存してやめる",
@@ -309,5 +311,38 @@
     "updatedProjectName": "プロジェクト名を更新しました",
     "failedToUpdateProjectName": "プロジェクト名の更新に失敗しました",
     "createdUser": "新規ユーザーを作成しました"
+  },
+  "auth": {
+    "accountNotFound": "アカウントが見つかりません",
+    "credentialAccountNotFound": "資格情報アカウントが見つかりません",
+    "emailCannotBeUpdated": "メールを更新できません",
+    "emailNotVerified": "メールは確認されていません",
+    "failedToCreateSession": "認証セッションの作成に失敗しました",
+    "failedToCreateUser": "ユーザー作成に失敗しました",
+    "failedToGetSession": "認証セッションを取得できませんでした",
+    "failedToGetUserInfo": "ユーザー情報を取得できませんでした",
+    "failedToUnlinkLastAccount": "最後のアカウントを解除することはできません",
+    "failedToUpdateUser": "ユーザーの更新に失敗しました",
+    "idTokenNotSupported": "id_tokenは利用できません",
+    "invalidEmail": "無効なメール",
+    "invalidEmailOrPassword": "無効な電子メールまたはパスワード",
+    "invalidPassword": "無効なパスワード",
+    "invalidToken": "無効なトークン",
+    "passwordTooLong": "パスワードが長すぎます",
+    "passwordTooShort": "パスワードが短すぎます",
+    "providerNotFound": "プロバイダーが見つかりません",
+    "sessionExpired": "セッションの有効期限が切れました。\n再度認証を行ってください。",
+    "socialAccountAlreadyLinked": "ソーシャルアカウントはすでにリンクされています",
+    "unknownError": "不明なエラーが発生しました",
+    "userAlreadyExists": "ユーザーはすでに存在します",
+    "userEmailNotFound": "ユーザーメールが見つかりません",
+    "userNotFound": "ユーザーが見つかりません",
+    "anonymousUsersCannotSignInAgainAnonymously": "ゲストユーザーは、再びサインインすることはできません",
+    "couldNotCreateSession": "セッションを作成できませんでした",
+    "invalidUsernameOrPassword": "無効なユーザー名またはパスワード",
+    "onlyAdminsCanAccessThisEndpoint": "管理者のみがこのエンドポイントにアクセスできます",
+    "unexpectedError": "予期しないエラー",
+    "usernameIsAlreadyTaken": "そのユーザー名はすでに使われています。\n別のユーザー名を試してください。",
+    "youCannotBanYourself": "自分自身をbanすることはできません"
   }
 }

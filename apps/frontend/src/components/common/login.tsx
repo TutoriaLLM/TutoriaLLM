@@ -1,5 +1,4 @@
 import { authClient } from "@/libs/auth-client";
-import * as Label from "@radix-ui/react-label";
 import { useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,16 @@ import { z } from "zod";
 import { CircleAlert } from "lucide-react";
 import { loginSchema, type LoginSchemaType } from "@/schema/auth";
 import { Button } from "../ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { errorMessageByCode } from "@/utils/betterAuthErrorTranslations";
 export default function Login(props: { redirectTo: string }) {
 	const { t } = useTranslation();
 
@@ -17,11 +26,7 @@ export default function Login(props: { redirectTo: string }) {
 
 	const router = useRouter();
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<LoginSchemaType>({
+	const form = useForm<LoginSchemaType>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
 			username: "",
@@ -43,11 +48,21 @@ export default function Login(props: { redirectTo: string }) {
 				password: data.password,
 			});
 		}
-		const result = await signIn();
-		if (result.data) {
+		const { data: result, error } = await signIn();
+		if (result) {
 			router.navigate({ to: props.redirectTo });
-		} else {
-			setLoginWarning(t("login.loginFailed"));
+		} else if (error) {
+			try {
+				console.error(error);
+				setLoginWarning(
+					`${t("login.loginFailed")}: ${errorMessageByCode({
+						status: error.code || "",
+						t,
+					})}`,
+				);
+			} catch {
+				setLoginWarning(t("login.loginFailed"));
+			}
 		}
 		setIsSubmitting(false); // ボタンを再活性化
 	};
@@ -64,9 +79,9 @@ export default function Login(props: { redirectTo: string }) {
 	};
 
 	return (
-		<div>
+		<Form {...form}>
 			<form
-				onSubmit={handleSubmit(handleLogin)}
+				onSubmit={form.handleSubmit(handleLogin)}
 				className="flex flex-col justify-center items-center gap-3 sentry-block"
 			>
 				{loginWarning === "" ? null : (
@@ -77,40 +92,41 @@ export default function Login(props: { redirectTo: string }) {
 				)}
 
 				<div className="w-full flex p-2 gap-3 items-center justify-between">
-					<Label.Root
-						className="text-md text-accent-foreground"
-						htmlFor="username"
-					>
-						{t("login.username")}
-						{errors.username && (
-							<p className="text-destructive text-sm">
-								{errors.username.message}
-							</p>
+					<FormField
+						control={form.control}
+						name="username"
+						render={({ field }) => (
+							<FormItem className="flex snap-start justify-between items-start w-full">
+								<div className="space-y-2 items-center">
+									<FormLabel>{t("login.username")}</FormLabel>
+									<FormMessage />
+								</div>
+								<FormControl>
+									<Input {...field} className="w-[60%] max-w-80 min-w-40" />
+								</FormControl>
+							</FormItem>
 						)}
-					</Label.Root>
-
-					<input
-						id="username"
-						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-foreground rounded-2xl"
-						{...register("username", { required: true })}
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-3 items-center justify-between">
-					<Label.Root
-						className="text-md text-accent-foreground"
-						htmlFor="password"
-					>
-						{t("login.password")}
-						{errors.password && (
-							<p className="text-destructive text-sm">
-								{errors.password.message}
-							</p>
+					<FormField
+						control={form.control}
+						name="password"
+						render={({ field }) => (
+							<FormItem className="flex snap-start justify-between items-start w-full">
+								<div className="space-y-2 items-center">
+									<FormLabel>{t("login.password")}</FormLabel>
+									<FormMessage />
+								</div>
+								<FormControl>
+									<Input
+										{...field}
+										type="password"
+										className="w-[60%] max-w-80 min-w-40 align-top"
+									/>
+								</FormControl>
+							</FormItem>
 						)}
-					</Label.Root>
-					<input
-						type="password"
-						className="w-[60%] max-w-80 p-2 border-2 border-gray-400 text-foreground rounded-2xl"
-						{...register("password", { required: true })}
 					/>
 				</div>
 				<div className="w-full flex p-2 flex-wrap gap-4 items-center justify-center">
@@ -127,6 +143,6 @@ export default function Login(props: { redirectTo: string }) {
 					</Button>
 				</div>
 			</form>
-		</div>
+		</Form>
 	);
 }

@@ -47,7 +47,7 @@
     "username": "Username",
     "password": "Password",
     "login": "Login",
-    "loginFailed": "Login failed",
+    "loginFailed": "Login failed.",
     "continueAsGuest": "Continue as Guest",
     "createAccount": "Create account",
     "createAccountDescription": "Create account to save your data.",
@@ -69,7 +69,9 @@
     "guest": "Guest user",
     "emailDescription": "Your Email address",
     "passwordDescription": "Type your password",
-    "confirmPasswordDescription": "Type in to confirm your password"
+    "confirmPasswordDescription": "Type in to confirm your password",
+    "internalServerError": "Server error occured.",
+    "unknownError": "An error occured."
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -309,5 +311,38 @@
     "open": "Open",
     "text": "Text",
     "websocketNotConnected": "Websocket is not connected"
+  },
+  "auth": {
+    "userNotFound": "User not found",
+    "failedToCreateUser": "Failed to create user",
+    "failedToCreateSession": "Failed to create auth session",
+    "failedToUpdateUser": "Failed to update user",
+    "failedToGetSession": "Failed to get auth session",
+    "invalidPassword": "Invalid password",
+    "invalidEmail": "Invalid Email",
+    "invalidEmailOrPassword": "Invalid Email or password",
+    "providerNotFound": "Provider not found",
+    "invalidToken": "Invalid token",
+    "idTokenNotSupported": "id_token not supported",
+    "socialAccountAlreadyLinked": "Social account already linked",
+    "failedToGetUserInfo": "Failed to get user info",
+    "userEmailNotFound": "User email not found",
+    "emailNotVerified": "Email not verified",
+    "passwordTooShort": "Password too short",
+    "passwordTooLong": "Password too long",
+    "userAlreadyExists": "User already exists",
+    "emailCannotBeUpdated": "Email can not be updated",
+    "credentialAccountNotFound": "Credential account not found",
+    "sessionExpired": "Session expired. Re-authenticate to perform this action.",
+    "failedToUnlinkLastAccount": "You can't unlink your last account",
+    "accountNotFound": "Account not found",
+    "unknownError": "An unknown error occured",
+    "invalidUsernameOrPassword": "invalid username or password",
+    "unexpectedError": "unexpected error",
+    "usernameIsAlreadyTaken": "username is already taken. please try another.",
+    "youCannotBanYourself": "You cannot ban yourself",
+    "onlyAdminsCanAccessThisEndpoint": "Only admins can access this endpoint",
+    "couldNotCreateSession": "Could not create session",
+    "anonymousUsersCannotSignInAgainAnonymously": "Anonymous users cannot sign in again anonymously"
   }
 }
