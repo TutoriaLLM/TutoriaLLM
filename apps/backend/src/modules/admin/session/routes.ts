@@ -23,8 +23,8 @@ export const downloadAllSessions = createRoute({
 
 export const findSessionFromUserId = createRoute({
 	method: "get",
-	path: "/admin/session/find/{userId}",
-	summary: "Find sessions by userId",
+	path: "/admin/session/list/{userId}",
+	summary: "Find list of sessions by userId",
 	request: {
 		query: listSessionsQuery.schema,
 		params: findSessionFromUserIdParam.schema,

@@ -41,6 +41,16 @@ const app = createHonoApp()
 				orderBy: [sortOrderType(sortFieldType)],
 				limit: end - start,
 				offset: start,
+				columns: {
+					dialogue: false,
+					quickReplies: false,
+					isReplying: false,
+					workspace: false,
+					isVMRunning: false,
+					audios: false,
+					userAudio: false,
+					screenshot: false,
+				},
 				with: {
 					userInfo: {
 						columns: {
@@ -79,6 +89,16 @@ const app = createHonoApp()
 					orderBy: [sortOrderType(sortFieldType)],
 					limit: end - start,
 					offset: start,
+					columns: {
+						dialogue: false,
+						quickReplies: false,
+						isReplying: false,
+						workspace: false,
+						isVMRunning: false,
+						audios: false,
+						userAudio: false,
+						screenshot: false,
+					},
 					with: {
 						userInfo: {
 							columns: {

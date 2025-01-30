@@ -98,7 +98,7 @@ export function SessionTable() {
 		});
 	};
 
-	const table = useReactTable<SessionValue>({
+	const table = useReactTable<Partial<SessionValue>>({
 		columns: sessionColumns(setPopupSessionFromSessionId),
 		data: sessions?.sessions || [],
 		getCoreRowModel: getCoreRowModel(),

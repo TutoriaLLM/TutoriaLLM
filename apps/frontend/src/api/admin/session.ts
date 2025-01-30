@@ -16,7 +16,7 @@ export const listSessions = async (
 };
 
 const listSessionsFromUserIdType =
-	adminClient.admin.session.find[":userId"].$get;
+	adminClient.admin.session.list[":userId"].$get;
 type listSessionsFromUserIdType = InferRequestType<
 	typeof listSessionsFromUserIdType
 >;
@@ -24,7 +24,7 @@ export const listSessionsFromUserId = async (
 	query: listSessionsFromUserIdType["query"],
 	userId: string,
 ) => {
-	const response = await adminClient.admin.session.find[":userId"].$get({
+	const response = await adminClient.admin.session.list[":userId"].$get({
 		query,
 		param: {
 			userId,

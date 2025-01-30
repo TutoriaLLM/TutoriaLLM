@@ -44,14 +44,16 @@ export function sessionByUserColumns(
 		},
 	});
 
-	const handleDeleteSession = (key: string) => {
+	const handleDeleteSession = (key: string | undefined) => {
+		if (!key) return;
 		del({ sessionId: key });
 	};
-	const handleStatsPopup = (sessionId: string) => {
+	const handleStatsPopup = (sessionId: string | undefined) => {
+		if (!sessionId) return;
 		setPopupSessionFromSessionId(sessionId);
 	};
 
-	const sessionColumns: ColumnDef<SessionValue>[] = [
+	const sessionColumns: ColumnDef<Partial<SessionValue>>[] = [
 		{
 			header: t("admin.projectName"),
 			accessorKey: "name",

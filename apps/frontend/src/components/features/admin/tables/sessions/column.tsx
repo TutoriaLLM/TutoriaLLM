@@ -23,7 +23,8 @@ export function sessionColumns(
 ) {
 	const router = useRouter();
 	const { t } = useTranslation();
-	const handleStatsPopup = (sessionId: string) => {
+	const handleStatsPopup = (sessionId: string | undefined) => {
+		if (!sessionId) return;
 		setPopupSessionFromSessionId(sessionId);
 	};
 	const { toast } = useToast();
@@ -54,10 +55,11 @@ export function sessionColumns(
 		console.info("Open User Info", id);
 		router.navigate({ to: `/admin/users/${id}` });
 	}
-	const handleDeleteSession = (key: string) => {
+	const handleDeleteSession = (key: string | undefined) => {
+		if (!key) return;
 		del({ sessionId: key });
 	};
-	const sessionColumns: ColumnDef<SessionValue>[] = [
+	const sessionColumns: ColumnDef<Partial<SessionValue>>[] = [
 		{
 			header: t("admin.user"),
 			accessorKey: "userInfo",

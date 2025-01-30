@@ -147,7 +147,18 @@ export const sessionValueSchema = z
 	})
 	.merge(timestampSchema);
 
-export const SessionValueListSchema = z.array(sessionValueSchema);
+export const SessionValueListSchema = z.array(
+	sessionValueSchema.omit({
+		dialogue: true,
+		quickReplies: true,
+		isReplying: true,
+		workspace: true,
+		isVMRunning: true,
+		audios: true,
+		userAudio: true,
+		screenshot: true,
+	}),
+);
 
 export const SessionValueListSchemaWithSort = z.object({
 	sessions: SessionValueListSchema,
