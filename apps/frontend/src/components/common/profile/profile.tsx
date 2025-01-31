@@ -10,13 +10,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/initial";
 import { cn } from "@/libs/utils";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function UserAccount(props: { session: AuthSession }) {
 	const { session } = props;
 	const router = useRouter();
 	const { t } = useTranslation();
+	const queryClient = useQueryClient();
 	async function handleSignout() {
 		const result = await authClient.signOut();
+		queryClient.invalidateQueries({
+			refetchType: "all",
+		});
 		if (!result.data?.success || result.error) {
 			console.error("Failed to signout");
 			return;

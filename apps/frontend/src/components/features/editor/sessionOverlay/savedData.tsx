@@ -4,7 +4,7 @@ import getImageFromSerializedWorkspace from "@/components/features/editor/genera
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@/hooks/useMutations";
 import type { SessionValue } from "@/type";
-import { useRouteContext, useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import type * as Blockly from "blockly";
 import { Clock, PlayIcon, Search, Trash2 } from "lucide-react";
 import {
@@ -29,6 +29,7 @@ import {
 	CardDescription,
 	CardHeader,
 } from "@/components/ui/card";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function SavedData() {
 	const { t } = useTranslation();
@@ -38,9 +39,7 @@ export default function SavedData() {
 	const hiddenDivRef = useRef<HTMLDivElement | null>(null);
 
 	const router = useRouter();
-	const { queryClient } = useRouteContext({
-		from: "__root__",
-	});
+	const queryClient = useQueryClient();
 
 	const [thumbnailMap, setThumbnailMap] = useState<Record<string, string>>({});
 
@@ -73,7 +72,7 @@ export default function SavedData() {
 			});
 			queryClient.invalidateQueries({
 				queryKey: ["userSessions"],
-				refetchType: "all",
+				refetchType: "active",
 			});
 		},
 		onError: (error) => {

@@ -3,11 +3,12 @@ import ExecSwitch from "@/components/features/editor/ExecSwitch";
 import { Button } from "@/components/ui/button";
 import * as Progress from "@radix-ui/react-progress";
 import { useTour } from "@reactour/tour";
-import { useRouteContext, useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import { HelpCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { RenameSession } from "./renameSession";
 import type { Socket } from "socket.io-client";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Navbar({
 	sessionId,
@@ -30,9 +31,7 @@ export default function Navbar({
 }) {
 	const { t } = useTranslation();
 	const router = useRouter();
-	const { queryClient } = useRouteContext({
-		from: "__root__",
-	});
+	const queryClient = useQueryClient();
 
 	function handleExit() {
 		socket?.disconnect();

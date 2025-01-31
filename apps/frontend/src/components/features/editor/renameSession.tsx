@@ -22,7 +22,8 @@ import {
 	type RenameSessionSchemaType,
 } from "@/schema/session";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouteContext, useRouter } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
 import { PenBoxIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -33,9 +34,7 @@ export function RenameSession({
 }: { id: string; name: string | null }) {
 	const { t } = useTranslation();
 	const router = useRouter();
-	const { queryClient } = useRouteContext({
-		from: "/$sessionId",
-	});
+	const queryClient = useQueryClient();
 	const { toast } = useToast();
 	const form = useForm<RenameSessionSchemaType>({
 		resolver: zodResolver(renameSessionSchema),
