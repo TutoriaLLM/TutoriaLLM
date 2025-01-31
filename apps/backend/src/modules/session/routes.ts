@@ -10,9 +10,18 @@ import {
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
-const newSession = createRoute({
+const baseSessionsConfig = {
+	path: "/session" as const,
+	tags: ["session"],
+};
+
+/**
+ * Create a new session, from the provided session data
+ */
+export const newSession = createRoute({
+	...baseSessionsConfig,
 	method: "post",
-	path: "/session/new",
+	path: `${baseSessionsConfig.path}/new`,
 	summary: "Create a new session, from the provided session data",
 	request: {
 		query: newSessionQuery.schema,
@@ -28,9 +37,13 @@ const newSession = createRoute({
 	},
 });
 
-const resumeSession = createRoute({
+/**
+ * Resume a session, from the provided session data
+ */
+export const resumeSession = createRoute({
+	...baseSessionsConfig,
 	method: "post",
-	path: "/session/resume/{key}",
+	path: `${baseSessionsConfig.path}/resume/{key}`,
 	summary: "Resume a session, from the provided session data",
 	request: {
 		params: sessionParam.schema,
@@ -47,9 +60,14 @@ const resumeSession = createRoute({
 	},
 });
 
-const getSession = createRoute({
+/**
+ * Get a session by its key
+ */
+export const getSession = createRoute({
+	...baseSessionsConfig,
 	method: "get",
-	path: "/session/{key}",
+	path: `${baseSessionsConfig.path}/{key}`,
+	summary: "Get a session by its key",
 	request: {
 		params: sessionParam.schema,
 	},
@@ -64,9 +82,14 @@ const getSession = createRoute({
 	},
 });
 
-const getUserSessions = createRoute({
+/**
+ * Get all sessions belonging to the current user
+ */
+export const getUserSessions = createRoute({
+	...baseSessionsConfig,
 	method: "get",
-	path: "/session",
+	path: baseSessionsConfig.path,
+	summary: "Get all sessions belonging to the current user",
 	responses: {
 		200: {
 			content: jsonBody(listSessionValueSchema),
@@ -77,9 +100,14 @@ const getUserSessions = createRoute({
 	},
 });
 
-const putSession = createRoute({
+/**
+ * Update a session by its key
+ */
+export const putSession = createRoute({
+	...baseSessionsConfig,
 	method: "put",
-	path: "/session/{key}",
+	path: `${baseSessionsConfig.path}/{key}`,
+	summary: "Update a session by its key",
 	request: {
 		params: sessionParam.schema,
 		body: {
@@ -100,9 +128,14 @@ const putSession = createRoute({
 	},
 });
 
-const putSessionName = createRoute({
+/**
+ * Rename a session by its key
+ */
+export const putSessionName = createRoute({
+	...baseSessionsConfig,
 	method: "put",
-	path: "/session/{key}/rename",
+	path: `${baseSessionsConfig.path}/{key}/rename`,
+	summary: "Rename a session by its key",
 	request: {
 		params: sessionParam.schema,
 		body: {
@@ -123,9 +156,14 @@ const putSessionName = createRoute({
 	},
 });
 
-const deleteSession = createRoute({
+/**
+ * Delete a session by its key
+ */
+export const deleteSession = createRoute({
+	...baseSessionsConfig,
 	method: "delete",
-	path: "/session/{key}",
+	path: `${baseSessionsConfig.path}/{key}`,
+	summary: "Delete a session by its key",
 	request: {
 		params: sessionParam.schema,
 	},
@@ -139,13 +177,3 @@ const deleteSession = createRoute({
 		}),
 	},
 });
-
-export {
-	newSession,
-	resumeSession,
-	getSession,
-	getUserSessions,
-	putSession,
-	putSessionName,
-	deleteSession,
-};

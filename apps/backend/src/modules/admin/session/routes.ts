@@ -8,9 +8,21 @@ import {
 } from "@/modules/admin/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
+/**
+ * Base config for admin session management
+ */
+const baseAdminSessionsConfig = {
+	path: "/admin/session" as const,
+	tags: ["admin-session"],
+};
+
+/**
+ * Download all sessions, by JSON format
+ */
 export const downloadAllSessions = createRoute({
+	...baseAdminSessionsConfig,
 	method: "get",
-	path: "/admin/session/download",
+	path: `${baseAdminSessionsConfig.path}/download`,
 	summary: "Download all sessions, by JSON format",
 	responses: {
 		200: {
@@ -21,9 +33,13 @@ export const downloadAllSessions = createRoute({
 	},
 });
 
+/**
+ * Find list of sessions by userId
+ */
 export const findSessionFromUserId = createRoute({
+	...baseAdminSessionsConfig,
 	method: "get",
-	path: "/admin/session/list/{userId}",
+	path: `${baseAdminSessionsConfig.path}/list/{userId}`,
 	summary: "Find list of sessions by userId",
 	request: {
 		query: listSessionsQuery.schema,
@@ -40,9 +56,13 @@ export const findSessionFromUserId = createRoute({
 	},
 });
 
+/**
+ * List all sessions, with pagination / sorting
+ */
 export const listSessions = createRoute({
+	...baseAdminSessionsConfig,
 	method: "get",
-	path: "/admin/session/list",
+	path: `${baseAdminSessionsConfig.path}/list`,
 	summary: "List all sessions, with pagination / sorting",
 	request: {
 		query: listSessionsQuery.schema,
@@ -58,9 +78,13 @@ export const listSessions = createRoute({
 	},
 });
 
+/**
+ * Delete a session
+ */
 export const deleteSession = createRoute({
+	...baseAdminSessionsConfig,
 	method: "delete",
-	path: "/admin/session/{sessionId}",
+	path: `${baseAdminSessionsConfig.path}/{sessionId}`,
 	summary: "Delete a session",
 	request: {
 		params: deleteSessionParam.schema,
@@ -75,9 +99,13 @@ export const deleteSession = createRoute({
 	},
 });
 
+/**
+ * Delete all sessions by userId
+ */
 export const deleteSessionByUserId = createRoute({
+	...baseAdminSessionsConfig,
 	method: "delete",
-	path: "/admin/session/user/{userId}",
+	path: `${baseAdminSessionsConfig.path}/user/{userId}`,
 	summary: "Delete all sessions by userId",
 	request: {
 		params: findSessionFromUserIdParam.schema,
