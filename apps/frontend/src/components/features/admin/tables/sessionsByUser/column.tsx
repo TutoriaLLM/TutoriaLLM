@@ -133,6 +133,8 @@ export function sessionByUserColumns(
 		{
 			header: t("admin.stats"),
 			accessorKey: "stats",
+			enableSorting: false,
+
 			cell: ({ row }) => (
 				<>
 					<p className="font-medium text-xs  flex gap-1">
@@ -163,6 +165,8 @@ export function sessionByUserColumns(
 		{
 			header: t("admin.actions"),
 			accessorKey: "actions",
+			enableSorting: false,
+
 			cell: ({ row }) => (
 				<span className="flex gap-2">
 					<a href={`/${row.original.sessionId}`} className={buttonVariants()}>

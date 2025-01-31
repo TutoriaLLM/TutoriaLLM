@@ -103,6 +103,8 @@ export function tutorialsColumns() {
 		},
 		{
 			header: t("admin.actions"),
+			enableSorting: false,
+
 			cell: ({ row }) => {
 				return (
 					<div className="flex gap-2">

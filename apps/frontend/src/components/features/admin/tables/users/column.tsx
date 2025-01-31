@@ -140,6 +140,8 @@ export function userColumns(currentUserId: string) {
 		{
 			header: t("admin.actions"),
 			accessorKey: "actions",
+			enableSorting: false,
+
 			cell: ({ row }) => {
 				return (
 					<div className="flex gap-2">

@@ -110,7 +110,11 @@ export function UserTable(props: {
 							{headerGroup.headers.map((header) => (
 								<TableHead
 									key={header.column.id}
-									onClick={() => handleSort(header.column.id)}
+									onClick={() => {
+										if (header.column.getCanSort()) {
+											handleSort(header.column.id);
+										}
+									}}
 								>
 									{flexRender(
 										header.column.columnDef.header,

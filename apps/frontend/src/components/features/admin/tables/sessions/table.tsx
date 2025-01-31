@@ -164,9 +164,11 @@ export function SessionTable() {
 								{headerGroup.headers.map((header) => (
 									<TableHead
 										key={header.id}
-										onClick={() =>
-											handleSort(header.column.id as keyof SessionValue)
-										}
+										onClick={() => {
+											if (header.column.getCanSort()) {
+												handleSort(header.column.id as keyof SessionValue);
+											}
+										}}
 									>
 										{flexRender(
 											header.column.columnDef.header,

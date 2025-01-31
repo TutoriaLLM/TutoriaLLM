@@ -102,9 +102,11 @@ export function TutorialsTable() {
 								{headerGroup.headers.map((header) => (
 									<TableHead
 										key={header.id}
-										onClick={() =>
-											handleSort(header.column.id as keyof TutorialColumn)
-										}
+										onClick={() => {
+											if (header.column.getCanSort()) {
+												handleSort(header.column.id as keyof TutorialColumn);
+											}
+										}}
 									>
 										{flexRender(
 											header.column.columnDef.header,
