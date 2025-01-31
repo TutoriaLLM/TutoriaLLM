@@ -1,5 +1,4 @@
 import { TourProvider } from "@reactour/tour";
-import {} from "@tanstack/react-router";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 import DialogueView from "@/components/features/editor/dialogue/index.js";

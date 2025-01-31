@@ -14,7 +14,6 @@ import i18next from "i18next";
 import { Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {} from "react-tag-input";
 
 type TagForInput = {
 	value: string;

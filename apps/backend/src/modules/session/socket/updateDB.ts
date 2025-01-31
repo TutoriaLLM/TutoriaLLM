@@ -4,7 +4,6 @@ import type { SessionValueWithoutUserInfo } from "@/modules/session/schema";
 import { eq } from "drizzle-orm";
 import { createPatch } from "rfc6902";
 import type { Socket } from "socket.io";
-import {} from "typescript";
 
 // Functions excluding privacy sensitive information. Save but do not send.
 function removePrivacyInfo(

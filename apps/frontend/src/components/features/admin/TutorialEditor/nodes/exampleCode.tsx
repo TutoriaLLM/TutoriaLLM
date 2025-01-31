@@ -9,7 +9,6 @@ import {
 import { useEffect, useState } from "react";
 import "blockly/javascript";
 import { PanelRightClose, Trash2 } from "lucide-react";
-import {} from "jotai";
 import { BlocklyEditor } from "@/components/common/Blockly";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
