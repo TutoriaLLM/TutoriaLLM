@@ -1,0 +1,18 @@
+{
+  "version": "0.2",
+  "import": ["./cspell-node.config.cjs"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "**/dist/**",
+    "*.log",
+    "*.svg",
+    "*.mcmeta",
+    "apps/backend/migrations/**"
+  ],
+  "dictionaryDefinitions": [],
+  "dictionaries": [],
+  "words": ["tutoriallm", "colour"],
+  "ignoreWords": []
+}
