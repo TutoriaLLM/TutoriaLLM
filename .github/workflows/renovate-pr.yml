@@ -1,0 +1,31 @@
+name: renovate-pr
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  create-renovate-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            ref: dev
+      - name: Check PR
+        id: check-pr
+        run: echo "count=$(gh pr list -S 'Renovate Updates in:title' | wc -l)" >> "$GITHUB_OUTPUT"
+      - name: Create PR
+        if: steps.check-pr.outputs.count == 0
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c renovate-pr
+          git commit --allow-empty -m "Renovate Updates"
+          git push origin renovate-pr
+          gh pr create -B dev -H renovate-pr -t "Renovate Updates" -b ''
