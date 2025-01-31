@@ -70,8 +70,8 @@
     "emailDescription": "Your Email address",
     "passwordDescription": "Type your password",
     "confirmPasswordDescription": "Type in to confirm your password",
-    "internalServerError": "Server error occured.",
-    "unknownError": "An error occured."
+    "internalServerError": "Server error occurred.",
+    "unknownError": "An error occurred."
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -336,7 +336,7 @@
     "sessionExpired": "Session expired. Re-authenticate to perform this action.",
     "failedToUnlinkLastAccount": "You can't unlink your last account",
     "accountNotFound": "Account not found",
-    "unknownError": "An unknown error occured",
+    "unknownError": "An unknown error occurred",
     "invalidUsernameOrPassword": "invalid username or password",
     "unexpectedError": "unexpected error",
     "usernameIsAlreadyTaken": "username is already taken. please try another.",

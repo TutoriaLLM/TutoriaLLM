@@ -59,7 +59,7 @@
     "i18next-fs-backend": "2.3.2",
     "idb": "8.0.0",
     "jotai": "2.10.1",
-    "js-yaml": "4.1.0",
+    "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "lucide-react": "0.381.0",
     "nodemon": "3.1.7",

@@ -71,7 +71,7 @@ export const deleteData = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [deleteDataParam.vErr()],
+			validationErrorResponseSchemas: [deleteDataParam.vErr()],
 		}),
 	},
 });
@@ -102,7 +102,7 @@ export const newGuide = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newGuideRequest.vErr()],
+			validationErrorResponseSchemas: [newGuideRequest.vErr()],
 		}),
 	},
 });
@@ -124,7 +124,7 @@ export const searchGuides = createRoute({
 			description: "Returns the list of guides",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideSearchQuery.vErr()],
+			validationErrorResponseSchemas: [guideSearchQuery.vErr()],
 		}),
 	},
 });
@@ -163,7 +163,7 @@ export const getGuide = createRoute({
 			description: "Returns the guide",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideIdParam.vErr()],
+			validationErrorResponseSchemas: [guideIdParam.vErr()],
 		}),
 	},
 });
@@ -187,7 +187,7 @@ export const updateGuide = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideIdParam.vErr()],
+			validationErrorResponseSchemas: [guideIdParam.vErr()],
 		}),
 	},
 });
@@ -208,7 +208,7 @@ export const deleteGuide = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideIdParam.vErr()],
+			validationErrorResponseSchemas: [guideIdParam.vErr()],
 		}),
 	},
 });

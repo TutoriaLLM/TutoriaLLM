@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ErrorToastContent } from "../../toastContent";
 
-export function CreateAccontFromAnonymous() {
+export function CreateAccountFromAnonymous() {
 	const router = useRouter();
 	const { toast } = useToast();
 	const { t } = useTranslation();

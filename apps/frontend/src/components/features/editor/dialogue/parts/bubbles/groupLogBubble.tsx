@@ -34,7 +34,7 @@ function renderGroupLogBubble(
 						<TriangleAlert />
 					</span>
 				) : (
-					<span className="text-xs w-full font-semibold text-secondary-foregorund rounded-2xl flex justify-between items-center p-2 bg-secondary">
+					<span className="text-xs w-full font-semibold text-secondary-foreground rounded-2xl flex justify-between items-center p-2 bg-secondary">
 						<span className="text-xs text-secondary-foreground">
 							<p className="text-base flex-grow">{t("textbubble.log")}</p>
 							{t("textbubble.showingLatest", {

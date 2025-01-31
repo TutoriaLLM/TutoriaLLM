@@ -11,8 +11,64 @@
     "*.mcmeta",
     "apps/backend/migrations/**"
   ],
-  "dictionaryDefinitions": [],
-  "dictionaries": [],
-  "words": ["tutoriallm", "colour"],
-  "ignoreWords": []
+  "dictionaryDefinitions": [
+    {
+      "name": "minecraft-terms",
+      "path": "./minecraft-dictionary.txt"
+    }
+  ],
+  "dictionaries": ["minecraft-terms"],
+  "words": [
+    "tutoriallm",
+    "colour",
+    "hnsw",
+    "viewports",
+    "serializednodes",
+    "isuser",
+    "sessionvalue",
+    "Stringto",
+    "Updator",
+    "dialgoue",
+    "furigana",
+    "Replyingfor",
+    "responseor",
+    "nodetype",
+    "nowheel",
+    "noscroll",
+    "Langpicker",
+    "beforeinstallprompt",
+    "debugmessage",
+    "typecode",
+    "typesafety",
+    "debuginfo",
+    "logbuffer",
+    "behaviour",
+    "quickreply",
+    "easymode",
+    "selectables",
+    "laston",
+    "pixeldensity",
+    "geras",
+    "zelos",
+    "gamemode",
+    "sendmessage",
+    "isready",
+    "healthcheck",
+    "pgdata",
+    "onboarding",
+    "uncast"
+  ],
+  "ignoreWords": [
+    "Tokumaru",
+    "shadcn",
+    "XXXG",
+    "warining",
+    "overscan",
+    "wavesurfer",
+    "textbubble",
+    "jaegertracing",
+    "pgvector",
+    "Vercel",
+    "mcmeta"
+  ]
 }

@@ -20,6 +20,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "cspell": "^8.17.3",
+    "js-yaml": "4.1.0",
     "sherif": "1.1.1",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",

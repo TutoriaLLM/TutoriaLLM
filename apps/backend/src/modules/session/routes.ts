@@ -32,7 +32,7 @@ export const newSession = createRoute({
 			description: "Returns the session id",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
+			validationErrorResponseSchemas: [newSessionQuery.vErr()],
 		}),
 	},
 });
@@ -55,7 +55,7 @@ export const resumeSession = createRoute({
 				"Returns the session id. If the session provided, it will return the session id to continue the session from existing session, or create a new session based on the provided data.",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
+			validationErrorResponseSchemas: [newSessionQuery.vErr()],
 		}),
 	},
 });
@@ -77,7 +77,7 @@ export const getSession = createRoute({
 			description: "Returns the session data",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [sessionParam.vErr()],
+			validationErrorResponseSchemas: [sessionParam.vErr()],
 		}),
 	},
 });
@@ -120,7 +120,7 @@ export const putSession = createRoute({
 			description: "Session updated",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
+			validationErrorResponseSchemas: [
 				sessionParam.vErr(),
 				putSessionRequest.vErr(),
 			],
@@ -148,7 +148,7 @@ export const putSessionName = createRoute({
 			description: "Session name updated",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
+			validationErrorResponseSchemas: [
 				sessionParam.vErr(),
 				updateSessionNameRequest.vErr(),
 			],
@@ -173,7 +173,7 @@ export const deleteSession = createRoute({
 			description: "Session deleted",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [sessionParam.vErr()],
+			validationErrorResponseSchemas: [sessionParam.vErr()],
 		}),
 	},
 });

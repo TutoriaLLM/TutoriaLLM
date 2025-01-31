@@ -300,9 +300,9 @@ const useBlocklyWorkspace = ({
 	});
 
 	const handleWorkspaceChanged = useCallback(
-		(newWorksapce: Blockly.WorkspaceSvg) => {
+		(newWorkspace: Blockly.WorkspaceSvg) => {
 			if (onWorkspaceChange) {
-				onWorkspaceChange(newWorksapce);
+				onWorkspaceChange(newWorkspace);
 			}
 		},
 		[onWorkspaceChange],

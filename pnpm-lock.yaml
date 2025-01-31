@@ -21,6 +21,9 @@ catalogs:
     hono:
       specifier: 4.6.16
       version: 4.6.16
+    js-yaml:
+      specifier: 4.1.0
+      version: 4.1.0
     rfc6902:
       specifier: 5.1.1
       version: 5.1.1
@@ -54,6 +57,9 @@ importers:
       cspell:
         specifier: ^8.17.3
         version: 8.17.3
+      js-yaml:
+        specifier: 4.1.0
+        version: 4.1.0
       sherif:
         specifier: 1.1.1
         version: 1.1.1
@@ -199,7 +205,7 @@ importers:
         specifier: 12.3.0
         version: 12.3.0(@types/node@20.16.12)
       js-yaml:
-        specifier: 4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
       kuromoji:
         specifier: 0.1.2
@@ -422,7 +428,7 @@ importers:
         specifier: 2.10.1
         version: 2.10.1(@types/react@18.3.11)(react@18.3.1)
       js-yaml:
-        specifier: 4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
       kuromoji:
         specifier: 0.1.2

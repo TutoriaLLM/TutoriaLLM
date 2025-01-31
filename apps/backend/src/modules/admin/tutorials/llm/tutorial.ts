@@ -12,9 +12,9 @@ import { generateObject, NoObjectGeneratedError } from "ai";
 
 async function generateContentFromContent(content?: string) {
 	const config = getConfig();
-	const blockname = await getBlockNames();
+	const blockName = await getBlockNames();
 
-	const allBlocks = listAllBlocks(blockname);
+	const allBlocks = listAllBlocks(blockName);
 	const schema = z.object({
 		content: z.string(),
 	});
