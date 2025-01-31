@@ -23,7 +23,7 @@ export const useUserSession = () => {
 	} = useQuery({
 		queryKey: ["userSessions"],
 		queryFn: () => getUserSessions(),
-		staleTime: 1000 * 5, // 5 seconds of cache
+		staleTime: 0,
 		refetchOnReconnect: true,
 	});
 	return { sessions, isPending, isError };
