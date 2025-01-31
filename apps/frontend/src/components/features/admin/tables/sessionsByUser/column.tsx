@@ -15,12 +15,14 @@ import {
 	ErrorToastContent,
 	SuccessToastContent,
 } from "@/components/common/toastContent";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function sessionByUserColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
 ) {
 	const { t } = useTranslation();
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
 		onSuccess: () => {
@@ -30,6 +32,10 @@ export function sessionByUserColumns(
 				),
 			});
 			//reload
+			queryClient.invalidateQueries({
+				queryKey: ["sessions"],
+				refetchType: "active",
+			});
 		},
 		onError: (error) => {
 			toast({

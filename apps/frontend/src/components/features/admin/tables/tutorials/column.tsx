@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/toast";
 import { useMutation } from "@/hooks/useMutations";
 import type { Tutorial } from "@/type";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
@@ -15,6 +16,7 @@ export function tutorialsColumns() {
 	const { toast } = useToast();
 	const router = useRouter();
 	const { t } = useTranslation();
+	const queryClient = useQueryClient();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteTutorial,
 		onSuccess: () => {
@@ -24,6 +26,10 @@ export function tutorialsColumns() {
 						{t("toast.deletedTutorial")}
 					</SuccessToastContent>
 				),
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["tutorials"],
+				refetchType: "active",
 			});
 		},
 		onError: () => {

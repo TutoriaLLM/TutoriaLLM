@@ -17,6 +17,7 @@ import {
 	SuccessToastContent,
 } from "@/components/common/toastContent";
 import type { AdminSingleSession } from "@/type";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -28,6 +29,7 @@ export function sessionColumns(
 		setPopupSessionFromSessionId(sessionId);
 	};
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
 
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSession,
@@ -36,6 +38,10 @@ export function sessionColumns(
 				description: (
 					<SuccessToastContent>{t("toast.sessionDeleted")}</SuccessToastContent>
 				),
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["sessions"],
+				refetchType: "active",
 			});
 		},
 		onError: (error) => {
