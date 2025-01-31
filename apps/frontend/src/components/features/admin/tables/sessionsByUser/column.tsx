@@ -3,7 +3,7 @@ import { useMutation } from "@/hooks/useMutations";
 import {} from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {} from "@/hooks/admin/session.js";
-import type { SessionValue } from "@/type";
+import type { AdminSingleSession } from "@/type";
 import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -53,7 +53,7 @@ export function sessionByUserColumns(
 		setPopupSessionFromSessionId(sessionId);
 	};
 
-	const sessionColumns: ColumnDef<Partial<SessionValue>>[] = [
+	const sessionColumns: ColumnDef<AdminSingleSession>[] = [
 		{
 			header: t("admin.projectName"),
 			accessorKey: "name",

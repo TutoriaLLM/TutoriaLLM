@@ -1,4 +1,4 @@
-import { client } from "@/api";
+import { adminClient, client } from "@/api";
 import type { InferResponseType } from "backend/hc";
 import { authClient } from "./libs/auth-client";
 
@@ -12,6 +12,10 @@ export type AppConfig = InferResponseType<typeof $Config>;
 
 const $Session = client.session[":key"].$get;
 export type SessionValue = InferResponseType<typeof $Session, 200>;
+
+const $AdminSessionList = adminClient.admin.session.list.$get;
+export type AdminSessionList = InferResponseType<typeof $AdminSessionList, 200>;
+export type AdminSingleSession = AdminSessionList["sessions"][0];
 
 const $Tutorial = client.tutorials[":id"].$get;
 export type Tutorial = InferResponseType<typeof $Tutorial, 200>;

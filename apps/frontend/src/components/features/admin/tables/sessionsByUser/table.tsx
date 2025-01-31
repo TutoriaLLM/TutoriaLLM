@@ -6,7 +6,7 @@ import {
 	useReactTable,
 	flexRender,
 } from "@tanstack/react-table";
-import type { SessionValue } from "@/type";
+import type { AdminSingleSession, SessionValue } from "@/type";
 import {
 	Table,
 	TableBody,
@@ -75,7 +75,7 @@ export function SessionByUserTable() {
 		<div>{t("admin.notSelected")}</div>
 	);
 
-	const table = useReactTable<SessionValue>({
+	const table = useReactTable<AdminSingleSession>({
 		columns: sessionByUserColumns(setPopupSessionFromSessionId),
 		data: userSessions?.sessions || [],
 		getCoreRowModel: getCoreRowModel(),

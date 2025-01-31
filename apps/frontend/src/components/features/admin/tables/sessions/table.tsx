@@ -3,7 +3,7 @@ import { downloadAllSessions } from "@/api/admin/session.js";
 import { SessionValueView } from "@/components/features/admin/SessionValueView/index.js";
 import { Button } from "@/components/ui/button";
 import { useListSessions } from "@/hooks/admin/session.js";
-import type { SessionValue } from "@/type";
+import type { AdminSingleSession, SessionValue } from "@/type";
 import {} from "@/utils/time";
 import { getRouteApi } from "@tanstack/react-router";
 import {
@@ -98,7 +98,7 @@ export function SessionTable() {
 		});
 	};
 
-	const table = useReactTable<Partial<SessionValue>>({
+	const table = useReactTable<AdminSingleSession>({
 		columns: sessionColumns(setPopupSessionFromSessionId),
 		data: sessions?.sessions || [],
 		getCoreRowModel: getCoreRowModel(),

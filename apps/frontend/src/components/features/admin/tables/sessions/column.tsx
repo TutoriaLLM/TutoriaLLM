@@ -2,7 +2,6 @@ import { deleteSession } from "@/api/admin/session.js";
 import {} from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {} from "@/hooks/admin/session.js";
-import type { SessionValue } from "@/type";
 import { langToStr } from "@/utils/langToStr";
 import { msToTime, timeAgo } from "@/utils/time";
 import { useMutation } from "@/hooks/useMutations";
@@ -17,6 +16,7 @@ import {
 	ErrorToastContent,
 	SuccessToastContent,
 } from "@/components/common/toastContent";
+import type { AdminSingleSession } from "@/type";
 
 export function sessionColumns(
 	setPopupSessionFromSessionId: (sessionId: string) => void,
@@ -59,7 +59,7 @@ export function sessionColumns(
 		if (!key) return;
 		del({ sessionId: key });
 	};
-	const sessionColumns: ColumnDef<Partial<SessionValue>>[] = [
+	const sessionColumns: ColumnDef<AdminSingleSession>[] = [
 		{
 			header: t("admin.user"),
 			accessorKey: "userInfo",
