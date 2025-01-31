@@ -1,0 +1,19 @@
+name: Daily Webhook Trigger
+
+on:
+  schedule:
+    # "0 0 * * *" は毎日UTC時間0時に実行されることを意味します。
+    # 他の時間に設定したい場合はCron表記を調整してください。
+    - cron: "0 0 * * *"
+
+jobs:
+  trigger-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl request
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+               -d '{"key":"value"}' \
+                "$WEBHOOK_URL"

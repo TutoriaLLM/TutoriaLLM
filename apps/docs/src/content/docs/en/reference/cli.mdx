@@ -1,0 +1,63 @@
+---
+title: TutoriaLLM CLI
+description: Provides a reference for the TutoriaLLM CLI.
+sidebar:
+  order: 2
+---
+
+import {
+  LinkCard,
+  Card,
+  CardGrid,
+  Aside,
+  Icon,
+} from "@astrojs/starlight/components";
+
+## TutoriaLLM CLI
+
+The TutoriaLLM CLI is a command-line interface for debugging and troubleshooting issues that arise in the application. This page provides a command reference for the TutoriaLLM CLI.
+
+<Aside type="note" title="Note">
+  This feature is currently under development and may still have many unstable
+  aspects. Additionally, the specifications of the commands may change. Please
+  be aware of this.
+</Aside>
+
+### Usage
+
+Run the following command to display the available commands.
+
+```sh
+npm run cli
+```
+
+### register
+
+The `register` command is used to register a new user in the TutoriaLLM application. Normally, new user registration is done from the admin page, but this command can be used when the page is inaccessible.
+If the environment variables `DEFAULT_USER_NAME` and `DEFAULT_USER_PASSWORD` are already set, they will be used automatically to register the user.
+
+```sh
+npm run cli register
+```
+
+### init
+
+The `init` command initializes the TutoriaLLM application settings (config). Normally, the initial settings are automatically configured during the first startup, but this command can be used if the initial settings were not configured for some reason.
+
+<Aside type="caution" title="Caution">
+  Running this command will reset the application settings. Please execute with
+  caution.
+</Aside>
+
+```sh
+npm run cli init
+```
+
+### delete-initialized
+
+The `delete-initialized` command removes the initialized tag. In TutoriaLLM, if a file named `.initialized` exists in the system, it is treated as initialized. Running this command will remove the initialized tag.
+If the initialization tag does not exist, the database migration will be executed, and user information will be initialized when the image is started.
+
+```sh
+npm run cli delete-initialized
+```

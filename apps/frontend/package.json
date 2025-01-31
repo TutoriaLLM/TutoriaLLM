@@ -79,7 +79,7 @@
     "rfc6902": "catalog:",
     "socket.io-client": "4.8.0",
     "tailwind-merge": "2.5.5",
-    "tailwindcss": "3.4.14",
+    "tailwindcss": "catalog:",
     "tailwindcss-animate": "1.0.7",
     "tsx": "4.19.1",
     "vite": "5.4.9",

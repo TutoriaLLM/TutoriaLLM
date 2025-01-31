@@ -1,0 +1,4081 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: TutoriaLLM API
+components:
+  schemas:
+    BadRequestErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - BAD_REQUEST
+            status:
+              type: number
+              enum:
+                - 400
+          required:
+            - message
+            - type
+            - status
+      required:
+        - error
+    NewSessionQueryValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                language:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    UnauthorizedErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - UNAUTHORIZED
+            status:
+              type: number
+              enum:
+                - 401
+          required:
+            - message
+            - type
+            - status
+      required:
+        - error
+    ForbiddenErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - FORBIDDEN
+            status:
+              type: number
+              enum:
+                - 403
+          required:
+            - message
+            - type
+            - status
+      required:
+        - error
+    NotFoundErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - NOT_FOUND
+            status:
+              type: number
+              enum:
+                - 404
+          required:
+            - message
+            - type
+            - status
+      required:
+        - error
+    TooManyRequestsErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - TOO_MANY_REQUESTS
+            status:
+              type: number
+              enum:
+                - 429
+          required:
+            - message
+            - type
+            - status
+      required:
+        - error
+    ServerErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - SERVER_ERROR
+            status:
+              type: number
+              enum:
+                - 500
+          required:
+            - message
+            - type
+            - status
+      required:
+        - error
+    NewSessionRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                sessioncode:
+                  type: string
+                uuid:
+                  type: string
+                dialogue:
+                  type: string
+                quickReplies:
+                  type: string
+                isReplying:
+                  type: string
+                workspace:
+                  type: string
+                isVMRunning:
+                  type: string
+                clients:
+                  type: string
+                language:
+                  type: string
+                easyMode:
+                  type: string
+                responseMode:
+                  type: string
+                llmContext:
+                  type: string
+                tutorial:
+                  type: string
+                stats:
+                  type: string
+                audios:
+                  type: string
+                userAudio:
+                  type: string
+                screenshot:
+                  type: string
+                clicks:
+                  type: string
+                createdAt:
+                  type: string
+                updatedAt:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    NewSessionRequest:
+      type: object
+      properties:
+        sessioncode:
+          type: string
+        uuid:
+          type: string
+        dialogue:
+          type: array
+          nullable: true
+          items:
+            type: object
+            description: A dialogue type schema
+            title: Dialogue
+            example:
+              id: 1
+              contentType: user
+              isuser: true
+              content: Hello
+              ui: example_ui
+        quickReplies:
+          type: array
+          nullable: true
+          items:
+            type: string
+        isReplying:
+          type: boolean
+        workspace:
+          type: object
+          nullable: true
+          additionalProperties:
+            nullable: true
+        isVMRunning:
+          type: boolean
+        clients:
+          type: array
+          nullable: true
+          items:
+            type: string
+        language:
+          type: string
+          nullable: true
+        easyMode:
+          type: boolean
+          nullable: true
+        responseMode:
+          type: string
+          enum:
+            - text
+            - audio
+        llmContext:
+          type: string
+          nullable: true
+        tutorial:
+          type: object
+          properties:
+            isTutorial:
+              type: boolean
+            tutorialId:
+              type: number
+              nullable: true
+            progress:
+              type: number
+          required:
+            - isTutorial
+            - tutorialId
+            - progress
+        stats:
+          type: object
+          properties:
+            totalConnectingTime:
+              type: number
+            currentNumOfBlocks:
+              type: number
+            totalInvokedLLM:
+              type: number
+            totalUserMessages:
+              type: number
+            totalCodeExecutions:
+              type: number
+          required:
+            - totalConnectingTime
+            - currentNumOfBlocks
+            - totalInvokedLLM
+            - totalUserMessages
+            - totalCodeExecutions
+        audios:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              base64:
+                type: string
+            required:
+              - id
+              - base64
+        userAudio:
+          type: string
+          nullable: true
+        screenshot:
+          type: string
+          nullable: true
+        clicks:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              x:
+                type: number
+              "y":
+                type: number
+              value:
+                type: number
+              timestamp:
+                type: number
+            required:
+              - x
+              - "y"
+              - value
+              - timestamp
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - sessioncode
+        - uuid
+        - dialogue
+        - quickReplies
+        - isReplying
+        - workspace
+        - isVMRunning
+        - clients
+        - language
+        - easyMode
+        - responseMode
+        - llmContext
+        - tutorial
+        - stats
+        - audios
+        - userAudio
+        - screenshot
+        - clicks
+        - createdAt
+        - updatedAt
+    GetSessionParamValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                key:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    PutSessionRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                sessioncode:
+                  type: string
+                uuid:
+                  type: string
+                dialogue:
+                  type: string
+                quickReplies:
+                  type: string
+                isReplying:
+                  type: string
+                workspace:
+                  type: string
+                isVMRunning:
+                  type: string
+                clients:
+                  type: string
+                language:
+                  type: string
+                easyMode:
+                  type: string
+                responseMode:
+                  type: string
+                llmContext:
+                  type: string
+                tutorial:
+                  type: string
+                stats:
+                  type: string
+                audios:
+                  type: string
+                userAudio:
+                  type: string
+                screenshot:
+                  type: string
+                clicks:
+                  type: string
+                createdAt:
+                  type: string
+                updatedAt:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    PutSessionRequest:
+      type: object
+      properties:
+        sessioncode:
+          type: string
+        uuid:
+          type: string
+        dialogue:
+          type: array
+          nullable: true
+          items:
+            type: object
+            description: A dialogue type schema
+            title: Dialogue
+            example:
+              id: 1
+              contentType: user
+              isuser: true
+              content: Hello
+              ui: example_ui
+        quickReplies:
+          type: array
+          nullable: true
+          items:
+            type: string
+        isReplying:
+          type: boolean
+        workspace:
+          type: object
+          nullable: true
+          additionalProperties:
+            nullable: true
+        isVMRunning:
+          type: boolean
+        clients:
+          type: array
+          nullable: true
+          items:
+            type: string
+        language:
+          type: string
+          nullable: true
+        easyMode:
+          type: boolean
+          nullable: true
+        responseMode:
+          type: string
+          enum:
+            - text
+            - audio
+        llmContext:
+          type: string
+          nullable: true
+        tutorial:
+          type: object
+          properties:
+            isTutorial:
+              type: boolean
+            tutorialId:
+              type: number
+              nullable: true
+            progress:
+              type: number
+          required:
+            - isTutorial
+            - tutorialId
+            - progress
+        stats:
+          type: object
+          properties:
+            totalConnectingTime:
+              type: number
+            currentNumOfBlocks:
+              type: number
+            totalInvokedLLM:
+              type: number
+            totalUserMessages:
+              type: number
+            totalCodeExecutions:
+              type: number
+          required:
+            - totalConnectingTime
+            - currentNumOfBlocks
+            - totalInvokedLLM
+            - totalUserMessages
+            - totalCodeExecutions
+        audios:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              base64:
+                type: string
+            required:
+              - id
+              - base64
+        userAudio:
+          type: string
+          nullable: true
+        screenshot:
+          type: string
+          nullable: true
+        clicks:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              x:
+                type: number
+              "y":
+                type: number
+              value:
+                type: number
+              timestamp:
+                type: number
+            required:
+              - x
+              - "y"
+              - value
+              - timestamp
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - sessioncode
+        - uuid
+        - dialogue
+        - quickReplies
+        - isReplying
+        - workspace
+        - isVMRunning
+        - clients
+        - language
+        - easyMode
+        - responseMode
+        - llmContext
+        - tutorial
+        - stats
+        - audios
+        - userAudio
+        - screenshot
+        - clicks
+        - createdAt
+        - updatedAt
+    GetSpecificTutorialParamValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                id:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    ListSessionsQueryValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                page:
+                  type: string
+                limit:
+                  type: string
+                sortField:
+                  type: string
+                sortOrder:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    DeleteSessionParamValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                sessionCode:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    NewTutorialRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                content:
+                  type: string
+                tags:
+                  type: string
+                language:
+                  type: string
+                metadata:
+                  type: string
+                serializednodes:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    NewTutorialRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+                nullable: true
+              name:
+                type: string
+            required:
+              - id
+              - name
+        language:
+          type: string
+        metadata:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            selectCount:
+              type: number
+            author:
+              type: string
+          required:
+            - title
+            - description
+            - selectCount
+        serializednodes:
+          type: string
+      required:
+        - content
+        - tags
+        - language
+        - metadata
+        - serializednodes
+    UpdateTutorialRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                id:
+                  type: string
+                content:
+                  type: string
+                tags:
+                  type: string
+                language:
+                  type: string
+                metadata:
+                  type: string
+                serializednodes:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    UpdateTutorialRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        content:
+          type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+                nullable: true
+              name:
+                type: string
+            required:
+              - id
+              - name
+        language:
+          type: string
+        metadata:
+          type: object
+          properties:
+            title:
+              type: string
+            description:
+              type: string
+            selectCount:
+              type: number
+            author:
+              type: string
+          required:
+            - title
+            - description
+            - selectCount
+        serializednodes:
+          type: string
+      required:
+        - id
+        - content
+        - tags
+        - language
+        - metadata
+        - serializednodes
+    GenerateContentRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                content:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    GenerateContentRequest:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+    GenerateMetadataRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                content:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    GenerateMetadataRequest:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+    NewUserRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    NewUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+    PutUserParamValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                id:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    PutUserRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        username:
+          type: string
+        password:
+          type: string
+    DeleteDataParamValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                id:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    NewGuideRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                id:
+                  type: string
+                question:
+                  type: string
+                answer:
+                  type: string
+                metadata:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    NewGuideRequest:
+      type: object
+      properties:
+        id:
+          type: number
+        question:
+          type: string
+        answer:
+          type: string
+        metadata:
+          type: object
+          properties:
+            author:
+              type: string
+            date:
+              type: string
+            sessionCode:
+              type: string
+      required:
+        - id
+        - question
+        - answer
+        - metadata
+    GuideSearchRequestValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                query:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    GuideIdParamValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            type:
+              type: string
+              enum:
+                - VALIDATION_ERROR
+            status:
+              type: number
+              enum:
+                - 400
+            formErrors:
+              type: string
+            fieldErrors:
+              type: object
+              properties:
+                id:
+                  type: string
+          required:
+            - message
+            - type
+            - status
+            - formErrors
+            - fieldErrors
+      required:
+        - error
+    UpdateGuideRequest:
+      type: object
+      properties:
+        metadata:
+          type: object
+          properties:
+            author:
+              type: string
+            date:
+              type: string
+            sessionCode:
+              type: string
+        question:
+          type: string
+        answer:
+          type: string
+  parameters: {}
+paths:
+  /config:
+    get:
+      responses:
+        "200":
+          description: Returns the app configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  General_Settings:
+                    type: object
+                    properties:
+                      Enable_Join_by_code:
+                        type: boolean
+                      Enable_Create_Room:
+                        type: boolean
+                      Enable_Memory_Use_Log:
+                        type: boolean
+                    required:
+                      - Enable_Join_by_code
+                      - Enable_Create_Room
+                      - Enable_Memory_Use_Log
+                  AI_Settings:
+                    type: object
+                    properties:
+                      Chat_AI_Model:
+                        type: string
+                      Chat_Audio:
+                        type: boolean
+                      Chat_AI_Temperature:
+                        type: number
+                    required:
+                      - Chat_AI_Model
+                      - Chat_Audio
+                      - Chat_AI_Temperature
+                  Client_Settings:
+                    type: object
+                    properties:
+                      AutoReply:
+                        type: boolean
+                      Reply_Time_ms:
+                        type: number
+                      Screenshot_Interval_min:
+                        type: number
+                      GA_Tracking_ID:
+                        type: string
+                    required:
+                      - AutoReply
+                      - Reply_Time_ms
+                      - Screenshot_Interval_min
+                      - GA_Tracking_ID
+                  Code_Execution_Limits:
+                    type: object
+                    properties:
+                      Max_CodeRangeSizeMb:
+                        type: number
+                      Max_OldGenerationSizeMb:
+                        type: number
+                      Max_YoungGenerationSizeMb:
+                        type: number
+                      Max_Num_Message_Queue:
+                        type: number
+                    required:
+                      - Max_CodeRangeSizeMb
+                      - Max_OldGenerationSizeMb
+                      - Max_YoungGenerationSizeMb
+                      - Max_Num_Message_Queue
+                  Client_Sentry_Settings:
+                    type: object
+                    properties:
+                      Sentry_DSN:
+                        type: string
+                      replaysOnErrorSampleRate:
+                        type: number
+                      replaysSessionSampleRate:
+                        type: number
+                      tracesSampleRate:
+                        type: number
+                    required:
+                      - Sentry_DSN
+                      - replaysOnErrorSampleRate
+                      - replaysSessionSampleRate
+                      - tracesSampleRate
+                required:
+                  - General_Settings
+                  - AI_Settings
+                  - Client_Settings
+                  - Code_Execution_Limits
+                  - Client_Sentry_Settings
+  /status:
+    get:
+      summary: Return 200 when server is running
+      responses:
+        "200":
+          description: Server is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                required:
+                  - status
+  /session/new:
+    post:
+      summary: Create a new session, from the provided session data
+      parameters:
+        - schema:
+            type: string
+          required: false
+          name: language
+          in: query
+      responses:
+        "200":
+          description: Returns the session id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionCode:
+                    type: string
+                required:
+                  - sessionCode
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/NewSessionQueryValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /session/resume/{key}:
+    post:
+      summary: Resume a session, from the provided session data
+      parameters:
+        - schema:
+            type: string
+          required: true
+          name: key
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewSessionRequest"
+      responses:
+        "200":
+          description: Returns the session id. If the session provided, it will return the session id to continue the session from existing session, or create a new session based on the provided data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionCode:
+                    type: string
+                required:
+                  - sessionCode
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/NewSessionRequestValidationErrorResponse"
+                  - $ref: "#/components/schemas/NewSessionQueryValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /session/{key}:
+    put:
+      parameters:
+        - schema:
+            type: string
+          required: true
+          name: key
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutSessionRequest"
+      responses:
+        "200":
+          description: Session updated
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSessionParamValidationErrorResponse"
+                  - $ref: "#/components/schemas/PutSessionRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    delete:
+      parameters:
+        - schema:
+            type: string
+          required: true
+          name: key
+          in: path
+      responses:
+        "200":
+          description: Session deleted
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSessionParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    get:
+      parameters:
+        - schema:
+            type: string
+          required: true
+          name: key
+          in: path
+      responses:
+        "200":
+          description: Returns the session data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessioncode:
+                    type: string
+                  uuid:
+                    type: string
+                  dialogue:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      description: A dialogue type schema
+                      title: Dialogue
+                      example:
+                        id: 1
+                        contentType: user
+                        isuser: true
+                        content: Hello
+                        ui: example_ui
+                  quickReplies:
+                    type: array
+                    nullable: true
+                    items:
+                      type: string
+                  isReplying:
+                    type: boolean
+                  workspace:
+                    type: object
+                    nullable: true
+                    additionalProperties:
+                      nullable: true
+                  isVMRunning:
+                    type: boolean
+                  clients:
+                    type: array
+                    nullable: true
+                    items:
+                      type: string
+                  language:
+                    type: string
+                    nullable: true
+                  easyMode:
+                    type: boolean
+                    nullable: true
+                  responseMode:
+                    type: string
+                    enum:
+                      - text
+                      - audio
+                  llmContext:
+                    type: string
+                    nullable: true
+                  tutorial:
+                    type: object
+                    properties:
+                      isTutorial:
+                        type: boolean
+                      tutorialId:
+                        type: number
+                        nullable: true
+                      progress:
+                        type: number
+                    required:
+                      - isTutorial
+                      - tutorialId
+                      - progress
+                  stats:
+                    type: object
+                    properties:
+                      totalConnectingTime:
+                        type: number
+                      currentNumOfBlocks:
+                        type: number
+                      totalInvokedLLM:
+                        type: number
+                      totalUserMessages:
+                        type: number
+                      totalCodeExecutions:
+                        type: number
+                    required:
+                      - totalConnectingTime
+                      - currentNumOfBlocks
+                      - totalInvokedLLM
+                      - totalUserMessages
+                      - totalCodeExecutions
+                  audios:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        base64:
+                          type: string
+                      required:
+                        - id
+                        - base64
+                  userAudio:
+                    type: string
+                    nullable: true
+                  screenshot:
+                    type: string
+                    nullable: true
+                  clicks:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: number
+                        "y":
+                          type: number
+                        value:
+                          type: number
+                        timestamp:
+                          type: number
+                      required:
+                        - x
+                        - "y"
+                        - value
+                        - timestamp
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    format: date-time
+                required:
+                  - sessioncode
+                  - uuid
+                  - dialogue
+                  - quickReplies
+                  - isReplying
+                  - workspace
+                  - isVMRunning
+                  - clients
+                  - language
+                  - easyMode
+                  - responseMode
+                  - llmContext
+                  - tutorial
+                  - stats
+                  - audios
+                  - userAudio
+                  - screenshot
+                  - clicks
+                  - createdAt
+                  - updatedAt
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSessionParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /tutorials:
+    get:
+      summary: Get list of tutorials (without content)
+      responses:
+        "200":
+          description: Returns the app configuration, without content
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    tags:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                            nullable: true
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                    language:
+                      type: string
+                    metadata:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        selectCount:
+                          type: number
+                        author:
+                          type: string
+                      required:
+                        - title
+                        - description
+                        - selectCount
+                  required:
+                    - id
+                    - tags
+                    - language
+                    - metadata
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /tutorials/tags:
+    get:
+      summary: Get list of tags from all tutorials
+      responses:
+        "200":
+          description: Returns the list of tags from all tutorials
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      nullable: true
+                    name:
+                      type: string
+                  required:
+                    - id
+                    - name
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /tutorials/{id}:
+    get:
+      summary: Get specific tutorial by id
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns the tutorial content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  content:
+                    type: string
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          nullable: true
+                        name:
+                          type: string
+                      required:
+                        - id
+                        - name
+                  language:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      selectCount:
+                        type: number
+                      author:
+                        type: string
+                    required:
+                      - title
+                      - description
+                      - selectCount
+                  serializednodes:
+                    type: string
+                required:
+                  - id
+                  - content
+                  - tags
+                  - language
+                  - metadata
+                  - serializednodes
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSpecificTutorialParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/config:
+    get:
+      responses:
+        "200":
+          description: Returns the app configuration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  General_Settings:
+                    type: object
+                    properties:
+                      Enable_Join_by_code:
+                        type: boolean
+                      Enable_Create_Room:
+                        type: boolean
+                      Enable_Memory_Use_Log:
+                        type: boolean
+                    required:
+                      - Enable_Join_by_code
+                      - Enable_Create_Room
+                      - Enable_Memory_Use_Log
+                  AI_Settings:
+                    type: object
+                    properties:
+                      Chat_AI_Model:
+                        type: string
+                      Chat_Audio:
+                        type: boolean
+                      Chat_AI_Temperature:
+                        type: number
+                    required:
+                      - Chat_AI_Model
+                      - Chat_Audio
+                      - Chat_AI_Temperature
+                  Client_Settings:
+                    type: object
+                    properties:
+                      AutoReply:
+                        type: boolean
+                      Reply_Time_ms:
+                        type: number
+                      Screenshot_Interval_min:
+                        type: number
+                      GA_Tracking_ID:
+                        type: string
+                    required:
+                      - AutoReply
+                      - Reply_Time_ms
+                      - Screenshot_Interval_min
+                      - GA_Tracking_ID
+                  Code_Execution_Limits:
+                    type: object
+                    properties:
+                      Max_CodeRangeSizeMb:
+                        type: number
+                      Max_OldGenerationSizeMb:
+                        type: number
+                      Max_YoungGenerationSizeMb:
+                        type: number
+                      Max_Num_Message_Queue:
+                        type: number
+                    required:
+                      - Max_CodeRangeSizeMb
+                      - Max_OldGenerationSizeMb
+                      - Max_YoungGenerationSizeMb
+                      - Max_Num_Message_Queue
+                  Client_Sentry_Settings:
+                    type: object
+                    properties:
+                      Sentry_DSN:
+                        type: string
+                      replaysOnErrorSampleRate:
+                        type: number
+                      replaysSessionSampleRate:
+                        type: number
+                      tracesSampleRate:
+                        type: number
+                    required:
+                      - Sentry_DSN
+                      - replaysOnErrorSampleRate
+                      - replaysSessionSampleRate
+                      - tracesSampleRate
+                required:
+                  - General_Settings
+                  - AI_Settings
+                  - Client_Settings
+                  - Code_Execution_Limits
+                  - Client_Sentry_Settings
+  /admin/config/update:
+    post:
+      summary: Update the app configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                General_Settings:
+                  type: object
+                  properties:
+                    Enable_Join_by_code:
+                      type: boolean
+                    Enable_Create_Room:
+                      type: boolean
+                    Enable_Memory_Use_Log:
+                      type: boolean
+                  required:
+                    - Enable_Join_by_code
+                    - Enable_Create_Room
+                    - Enable_Memory_Use_Log
+                AI_Settings:
+                  type: object
+                  properties:
+                    Chat_AI_Model:
+                      type: string
+                    Chat_Audio:
+                      type: boolean
+                    Chat_AI_Temperature:
+                      type: number
+                  required:
+                    - Chat_AI_Model
+                    - Chat_Audio
+                    - Chat_AI_Temperature
+                Client_Settings:
+                  type: object
+                  properties:
+                    AutoReply:
+                      type: boolean
+                    Reply_Time_ms:
+                      type: number
+                    Screenshot_Interval_min:
+                      type: number
+                    GA_Tracking_ID:
+                      type: string
+                  required:
+                    - AutoReply
+                    - Reply_Time_ms
+                    - Screenshot_Interval_min
+                    - GA_Tracking_ID
+                Code_Execution_Limits:
+                  type: object
+                  properties:
+                    Max_CodeRangeSizeMb:
+                      type: number
+                    Max_OldGenerationSizeMb:
+                      type: number
+                    Max_YoungGenerationSizeMb:
+                      type: number
+                    Max_Num_Message_Queue:
+                      type: number
+                  required:
+                    - Max_CodeRangeSizeMb
+                    - Max_OldGenerationSizeMb
+                    - Max_YoungGenerationSizeMb
+                    - Max_Num_Message_Queue
+                Client_Sentry_Settings:
+                  type: object
+                  properties:
+                    Sentry_DSN:
+                      type: string
+                    replaysOnErrorSampleRate:
+                      type: number
+                    replaysSessionSampleRate:
+                      type: number
+                    tracesSampleRate:
+                      type: number
+                  required:
+                    - Sentry_DSN
+                    - replaysOnErrorSampleRate
+                    - replaysSessionSampleRate
+                    - tracesSampleRate
+              required:
+                - General_Settings
+                - AI_Settings
+                - Client_Settings
+                - Code_Execution_Limits
+                - Client_Sentry_Settings
+      responses:
+        "200":
+          description: Config updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  General_Settings:
+                    type: object
+                    properties:
+                      Enable_Join_by_code:
+                        type: boolean
+                      Enable_Create_Room:
+                        type: boolean
+                      Enable_Memory_Use_Log:
+                        type: boolean
+                    required:
+                      - Enable_Join_by_code
+                      - Enable_Create_Room
+                      - Enable_Memory_Use_Log
+                  AI_Settings:
+                    type: object
+                    properties:
+                      Chat_AI_Model:
+                        type: string
+                      Chat_Audio:
+                        type: boolean
+                      Chat_AI_Temperature:
+                        type: number
+                    required:
+                      - Chat_AI_Model
+                      - Chat_Audio
+                      - Chat_AI_Temperature
+                  Client_Settings:
+                    type: object
+                    properties:
+                      AutoReply:
+                        type: boolean
+                      Reply_Time_ms:
+                        type: number
+                      Screenshot_Interval_min:
+                        type: number
+                      GA_Tracking_ID:
+                        type: string
+                    required:
+                      - AutoReply
+                      - Reply_Time_ms
+                      - Screenshot_Interval_min
+                      - GA_Tracking_ID
+                  Code_Execution_Limits:
+                    type: object
+                    properties:
+                      Max_CodeRangeSizeMb:
+                        type: number
+                      Max_OldGenerationSizeMb:
+                        type: number
+                      Max_YoungGenerationSizeMb:
+                        type: number
+                      Max_Num_Message_Queue:
+                        type: number
+                    required:
+                      - Max_CodeRangeSizeMb
+                      - Max_OldGenerationSizeMb
+                      - Max_YoungGenerationSizeMb
+                      - Max_Num_Message_Queue
+                  Client_Sentry_Settings:
+                    type: object
+                    properties:
+                      Sentry_DSN:
+                        type: string
+                      replaysOnErrorSampleRate:
+                        type: number
+                      replaysSessionSampleRate:
+                        type: number
+                      tracesSampleRate:
+                        type: number
+                    required:
+                      - Sentry_DSN
+                      - replaysOnErrorSampleRate
+                      - replaysSessionSampleRate
+                      - tracesSampleRate
+                required:
+                  - General_Settings
+                  - AI_Settings
+                  - Client_Settings
+                  - Code_Execution_Limits
+                  - Client_Sentry_Settings
+  /admin/session/download:
+    get:
+      summary: Download all sessions, by JSON format
+      responses:
+        "200":
+          description: Returns all sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sessioncode:
+                      type: string
+                    uuid:
+                      type: string
+                    dialogue:
+                      type: array
+                      nullable: true
+                      items:
+                        type: object
+                        description: A dialogue type schema
+                        title: Dialogue
+                        example:
+                          id: 1
+                          contentType: user
+                          isuser: true
+                          content: Hello
+                          ui: example_ui
+                    quickReplies:
+                      type: array
+                      nullable: true
+                      items:
+                        type: string
+                    isReplying:
+                      type: boolean
+                    workspace:
+                      type: object
+                      nullable: true
+                      additionalProperties:
+                        type: string
+                    isVMRunning:
+                      type: boolean
+                    clients:
+                      type: array
+                      nullable: true
+                      items:
+                        type: string
+                    language:
+                      type: string
+                      nullable: true
+                    easyMode:
+                      type: boolean
+                      nullable: true
+                    responseMode:
+                      type: string
+                      enum:
+                        - text
+                        - audio
+                    llmContext:
+                      type: string
+                      nullable: true
+                    tutorial:
+                      type: object
+                      properties:
+                        isTutorial:
+                          type: boolean
+                        tutorialId:
+                          type: number
+                          nullable: true
+                        progress:
+                          type: number
+                      required:
+                        - isTutorial
+                        - tutorialId
+                        - progress
+                    stats:
+                      type: object
+                      properties:
+                        totalConnectingTime:
+                          type: number
+                        currentNumOfBlocks:
+                          type: number
+                        totalInvokedLLM:
+                          type: number
+                        totalUserMessages:
+                          type: number
+                        totalCodeExecutions:
+                          type: number
+                      required:
+                        - totalConnectingTime
+                        - currentNumOfBlocks
+                        - totalInvokedLLM
+                        - totalUserMessages
+                        - totalCodeExecutions
+                    audios:
+                      type: array
+                      nullable: true
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          base64:
+                            type: string
+                        required:
+                          - id
+                          - base64
+                    userAudio:
+                      type: string
+                      nullable: true
+                    screenshot:
+                      type: string
+                      nullable: true
+                    clicks:
+                      type: array
+                      nullable: true
+                      items:
+                        type: object
+                        properties:
+                          x:
+                            type: number
+                          "y":
+                            type: number
+                          value:
+                            type: number
+                          timestamp:
+                            type: number
+                        required:
+                          - x
+                          - "y"
+                          - value
+                          - timestamp
+                    createdAt:
+                      type: string
+                    updatedAt:
+                      type: string
+                  required:
+                    - sessioncode
+                    - uuid
+                    - dialogue
+                    - quickReplies
+                    - isReplying
+                    - workspace
+                    - isVMRunning
+                    - clients
+                    - language
+                    - easyMode
+                    - responseMode
+                    - llmContext
+                    - tutorial
+                    - stats
+                    - audios
+                    - userAudio
+                    - screenshot
+                    - clicks
+                    - createdAt
+                    - updatedAt
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/session/list:
+    get:
+      summary: List all sessions, with pagination / sorting
+      parameters:
+        - schema:
+            type: integer
+          required: false
+          name: page
+          in: query
+        - schema:
+            type: integer
+          required: false
+          name: limit
+          in: query
+        - schema:
+            type: string
+            enum:
+              - sessioncode
+              - uuid
+              - dialogue
+              - quickReplies
+              - isReplying
+              - workspace
+              - isVMRunning
+              - clients
+              - language
+              - easyMode
+              - responseMode
+              - llmContext
+              - tutorial
+              - stats
+              - audios
+              - userAudio
+              - screenshot
+              - clicks
+              - createdAt
+              - updatedAt
+          required: true
+          name: sortField
+          in: query
+        - schema:
+            type: string
+          required: false
+          name: sortOrder
+          in: query
+      responses:
+        "200":
+          description: Returns all sessions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sessioncode:
+                          type: string
+                        uuid:
+                          type: string
+                        dialogue:
+                          type: array
+                          nullable: true
+                          items:
+                            type: object
+                            description: A dialogue type schema
+                            title: Dialogue
+                            example:
+                              id: 1
+                              contentType: user
+                              isuser: true
+                              content: Hello
+                              ui: example_ui
+                        quickReplies:
+                          type: array
+                          nullable: true
+                          items:
+                            type: string
+                        isReplying:
+                          type: boolean
+                        workspace:
+                          type: object
+                          nullable: true
+                          additionalProperties:
+                            type: string
+                        isVMRunning:
+                          type: boolean
+                        clients:
+                          type: array
+                          nullable: true
+                          items:
+                            type: string
+                        language:
+                          type: string
+                          nullable: true
+                        easyMode:
+                          type: boolean
+                          nullable: true
+                        responseMode:
+                          type: string
+                          enum:
+                            - text
+                            - audio
+                        llmContext:
+                          type: string
+                          nullable: true
+                        tutorial:
+                          type: object
+                          properties:
+                            isTutorial:
+                              type: boolean
+                            tutorialId:
+                              type: number
+                              nullable: true
+                            progress:
+                              type: number
+                          required:
+                            - isTutorial
+                            - tutorialId
+                            - progress
+                        stats:
+                          type: object
+                          properties:
+                            totalConnectingTime:
+                              type: number
+                            currentNumOfBlocks:
+                              type: number
+                            totalInvokedLLM:
+                              type: number
+                            totalUserMessages:
+                              type: number
+                            totalCodeExecutions:
+                              type: number
+                          required:
+                            - totalConnectingTime
+                            - currentNumOfBlocks
+                            - totalInvokedLLM
+                            - totalUserMessages
+                            - totalCodeExecutions
+                        audios:
+                          type: array
+                          nullable: true
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              base64:
+                                type: string
+                            required:
+                              - id
+                              - base64
+                        userAudio:
+                          type: string
+                          nullable: true
+                        screenshot:
+                          type: string
+                          nullable: true
+                        clicks:
+                          type: array
+                          nullable: true
+                          items:
+                            type: object
+                            properties:
+                              x:
+                                type: number
+                              "y":
+                                type: number
+                              value:
+                                type: number
+                              timestamp:
+                                type: number
+                            required:
+                              - x
+                              - "y"
+                              - value
+                              - timestamp
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                      required:
+                        - sessioncode
+                        - uuid
+                        - dialogue
+                        - quickReplies
+                        - isReplying
+                        - workspace
+                        - isVMRunning
+                        - clients
+                        - language
+                        - easyMode
+                        - responseMode
+                        - llmContext
+                        - tutorial
+                        - stats
+                        - audios
+                        - userAudio
+                        - screenshot
+                        - clicks
+                        - createdAt
+                        - updatedAt
+                  total:
+                    type: number
+                  page:
+                    type: number
+                  limit:
+                    type: number
+                required:
+                  - sessions
+                  - total
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/ListSessionsQueryValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/session/{sessionCode}:
+    delete:
+      summary: Delete a session
+      parameters:
+        - schema:
+            type: string
+          required: true
+          name: sessionCode
+          in: path
+      responses:
+        "200":
+          description: Returns the session code
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/DeleteSessionParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/tutorials:
+    get:
+      summary: Get all tutorials
+      responses:
+        "200":
+          description: Returns the list of tutorials
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    tags:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                            nullable: true
+                          name:
+                            type: string
+                        required:
+                          - id
+                          - name
+                    language:
+                      type: string
+                    metadata:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                        description:
+                          type: string
+                        selectCount:
+                          type: number
+                        author:
+                          type: string
+                      required:
+                        - title
+                        - description
+                        - selectCount
+                  required:
+                    - id
+                    - tags
+                    - language
+                    - metadata
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    post:
+      summary: Create a new tutorial
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewTutorialRequest"
+      responses:
+        "200":
+          description: Returns the 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/NewTutorialRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/tutorials/{id}:
+    get:
+      summary: Get a specific tutorial by ID
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns the tutorial
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  content:
+                    type: string
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          nullable: true
+                        name:
+                          type: string
+                      required:
+                        - id
+                        - name
+                  language:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                      description:
+                        type: string
+                      selectCount:
+                        type: number
+                      author:
+                        type: string
+                    required:
+                      - title
+                      - description
+                      - selectCount
+                  serializednodes:
+                    type: string
+                required:
+                  - id
+                  - content
+                  - tags
+                  - language
+                  - metadata
+                  - serializednodes
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSpecificTutorialParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    delete:
+      summary: Delete a tutorial by ID
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSpecificTutorialParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    put:
+      summary: Update a tutorial by ID
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTutorialRequest"
+      responses:
+        "200":
+          description: Returns 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GetSpecificTutorialParamValidationErrorResponse"
+                  - $ref: "#/components/schemas/UpdateTutorialRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/tutorials/generate-content:
+    post:
+      summary: Generate content using AI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateContentRequest"
+      responses:
+        "200":
+          description: Returns the generated content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: string
+                required:
+                  - content
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GenerateContentRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/tutorials/generate-metadata:
+    post:
+      summary: Generate metadata using AI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateMetadataRequest"
+      responses:
+        "200":
+          description: Returns the generated metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  tags:
+                    type: array
+                    items:
+                      type: string
+                  language:
+                    type: string
+                required:
+                  - title
+                  - description
+                  - tags
+                  - language
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GenerateMetadataRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/users:
+    get:
+      summary: Get list of users
+      responses:
+        "200":
+          description: Returns the list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    username:
+                      type: string
+                  required:
+                    - id
+                    - username
+    post:
+      summary: Create a new user, from username and password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUserRequest"
+      responses:
+        "200":
+          description: Returns the user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  username:
+                    type: string
+                required:
+                  - id
+                  - username
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/NewUserRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/users/{id}:
+    get:
+      summary: Get username and id by id
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns the user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  username:
+                    type: string
+                required:
+                  - id
+                  - username
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/PutUserParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    put:
+      summary: Update user data
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutUserRequest"
+      responses:
+        "200":
+          description: Returns the user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                required:
+                  - id
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/PutUserParamValidationErrorResponse"
+                  - $ref: "#/components/schemas/NewUserRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    delete:
+      summary: Delete user
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns the user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                required:
+                  - id
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/PutUserParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/data/random:
+    get:
+      summary: Get a random training data
+      responses:
+        "200":
+          description: Returns a random training data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  metadata:
+                    type: object
+                    properties:
+                      author:
+                        type: string
+                      date:
+                        type: string
+                      sessionCode:
+                        type: string
+                required:
+                  - id
+                  - question
+                  - answer
+                  - metadata
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/data/list:
+    get:
+      summary: List all training data
+      responses:
+        "200":
+          description: Returns all training data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    question:
+                      type: string
+                    answer:
+                      type: string
+                    metadata:
+                      type: object
+                      properties:
+                        author:
+                          type: string
+                        date:
+                          type: string
+                        sessionCode:
+                          type: string
+                  required:
+                    - id
+                    - question
+                    - answer
+                    - metadata
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/data/{id}:
+    delete:
+      summary: Delete a training data from id
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/DeleteDataParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/guide/new:
+    post:
+      summary: Create a new guide from data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewGuideRequest"
+      responses:
+        "200":
+          description: Returns 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/NewGuideRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/guide/search:
+    post:
+      summary: Search guides by query
+      parameters:
+        - schema:
+            type: string
+          required: true
+          name: query
+          in: query
+      responses:
+        "200":
+          description: Returns the list of guides
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    metadata:
+                      type: object
+                      properties:
+                        author:
+                          type: string
+                        date:
+                          type: string
+                        sessionCode:
+                          type: string
+                    question:
+                      type: string
+                    answer:
+                      type: string
+                    embedding:
+                      type: array
+                      nullable: true
+                      items:
+                        type: number
+                  required:
+                    - id
+                    - metadata
+                    - question
+                    - answer
+                    - embedding
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GuideSearchRequestValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/guide/list:
+    get:
+      summary: Return the list of guides
+      responses:
+        "200":
+          description: Returns the list of guides
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    metadata:
+                      type: object
+                      properties:
+                        author:
+                          type: string
+                        date:
+                          type: string
+                        sessionCode:
+                          type: string
+                    question:
+                      type: string
+                    answer:
+                      type: string
+                  required:
+                    - id
+                    - metadata
+                    - question
+                    - answer
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+  /admin/training/guide/{id}:
+    get:
+      summary: Get a guide from id
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns the guide
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  metadata:
+                    type: object
+                    properties:
+                      author:
+                        type: string
+                      date:
+                        type: string
+                      sessionCode:
+                        type: string
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  embedding:
+                    type: array
+                    nullable: true
+                    items:
+                      type: number
+                required:
+                  - id
+                  - metadata
+                  - question
+                  - answer
+                  - embedding
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GuideIdParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    put:
+      summary: Update a guide
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGuideRequest"
+      responses:
+        "200":
+          description: Returns 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GuideIdParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+    delete:
+      summary: Delete a guide
+      parameters:
+        - schema:
+            type: integer
+          required: true
+          name: id
+          in: path
+      responses:
+        "200":
+          description: Returns 200(OK)
+        "400":
+          description: "Bad request: problem processing request."
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: "#/components/schemas/BadRequestErrorResponse"
+                  - $ref: "#/components/schemas/GuideIdParamValidationErrorResponse"
+        "401":
+          description: "Unauthorized: authentication required."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponse"
+        "403":
+          description: "Forbidden: insufficient permissions."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponse"
+        "404":
+          description: "Not found: resource does not exist."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "429":
+          description: "Too many requests: rate limit exceeded."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponse"
+        "500":
+          description: "Server error: something went wrong."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
