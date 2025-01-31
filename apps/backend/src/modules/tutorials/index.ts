@@ -9,6 +9,9 @@ import { createHonoApp } from "@/create-app";
 import { tags, tutorials } from "@/db/schema/tutorial";
 
 const app = createHonoApp()
+	/**
+	 * Get all tutorials
+	 */
 	.openapi(getTutorials, async (c) => {
 		const getTutorials = await db
 			.select({
@@ -20,10 +23,16 @@ const app = createHonoApp()
 			.from(tutorials);
 		return c.json(getTutorials, 200);
 	})
+	/**
+	 * Get all tags
+	 */
 	.openapi(getTags, async (c) => {
 		const allTags = await db.select().from(tags);
 		return c.json(allTags, 200);
 	})
+	/**
+	 * Get a specific tutorial
+	 */
 	.openapi(getSpecificTutorial, async (c) => {
 		const id = c.req.valid("param").id;
 		const tutorial = await db.query.tutorials.findFirst({
