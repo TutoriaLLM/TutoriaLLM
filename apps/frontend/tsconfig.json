@@ -10,6 +10,7 @@
     },
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
+    "noErrorTruncation": true,
 
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
