@@ -79,8 +79,8 @@ export async function updateSession(
 		socket.emit("notifyIsReplyingforSender");
 
 		updateDialogueWithLLM(newDataJson, socket)
-			.then(async (responseorError) => {
-				updateAndBroadcastDiffToAll(sessionId, responseorError, socket);
+			.then(async (responseOrError) => {
+				updateAndBroadcastDiffToAll(sessionId, responseOrError, socket);
 			})
 			.catch((error) => {
 				console.error("Error invoking LLM:", error);
