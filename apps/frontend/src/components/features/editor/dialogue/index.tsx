@@ -81,7 +81,7 @@ export default function DialogueView({
 								{
 									id: lastId + 1,
 									contentType: "user_audio",
-									isuser: true,
+									isUser: true,
 									content: "",
 								},
 							],
@@ -119,7 +119,7 @@ export default function DialogueView({
 								{
 									id: lastId + 1,
 									contentType: "user",
-									isuser: true,
+									isUser: true,
 									content: message,
 								},
 							],

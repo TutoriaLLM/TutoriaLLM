@@ -61,7 +61,7 @@ export async function updateDialogueWithLLM(
 				{
 					id: (data.dialogue?.length || 0) + 1,
 					contentType: "ai_audio",
-					isuser: false,
+					isUser: false,
 					content: JSON.stringify({
 						id: `${updatedAudios.length}`,
 						transcript: message.transcript,
@@ -97,7 +97,7 @@ export async function updateDialogueWithLLM(
 						id: (updatedDialogue.dialogue?.length || 0) + 1,
 						contentType: "ui",
 						ui: message.ui,
-						isuser: false,
+						isUser: false,
 						content: "",
 					},
 				],

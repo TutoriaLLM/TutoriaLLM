@@ -27,7 +27,7 @@ export async function updateSession(
 
 	function isLastMessageByUser(dialogue: Dialogue[]) {
 		const lastMessage = dialogue[dialogue.length - 1];
-		return lastMessage.isuser;
+		return lastMessage.isUser;
 	}
 
 	function isDialogueChanged(oldData: SessionValue, newData: SessionValue) {
