@@ -66,8 +66,8 @@ export function TutorialsTable() {
 		[search.page, search.limit, search.sortField, search.sortOrder],
 	);
 
-	//content and serializednodes are not fetched from tutorial list api
-	type TutorialColumn = Omit<Tutorial, "content" | "serializednodes">;
+	//content and serializedNodes are not fetched from tutorial list api
+	type TutorialColumn = Omit<Tutorial, "content" | "serializedNodes">;
 
 	const table = useReactTable<TutorialColumn>({
 		columns: tutorialsColumns(),

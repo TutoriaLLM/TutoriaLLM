@@ -215,7 +215,7 @@ export default function Toolbar(props: {
 			);
 
 			// Serialize node
-			const serializednodes = JSON.stringify({ nodes, edges });
+			const serializedNodes = JSON.stringify({ nodes, edges });
 
 			// Send data to API
 			console.log(tags);
@@ -225,7 +225,7 @@ export default function Toolbar(props: {
 					id: props.id,
 					tutorial: {
 						id: props.id,
-						serializednodes: serializednodes,
+						serializedNodes: serializedNodes,
 						metadata: metadata,
 						tags: tags.map((tag) => {
 							return {
@@ -239,7 +239,7 @@ export default function Toolbar(props: {
 				});
 			} else {
 				post({
-					serializednodes: serializednodes,
+					serializedNodes: serializedNodes,
 					metadata: metadata,
 					tags: tags.map((tag) => {
 						return {

@@ -22,7 +22,7 @@ export function TutorialUploader({
 			reader.onload = (e) => {
 				try {
 					const json = JSON.parse(e.target?.result as string);
-					if (!(json.metadata && json.content && json.serializednodes)) {
+					if (!(json.metadata && json.content && json.serializedNodes)) {
 						toast({
 							description: (
 								<ErrorToastContent>

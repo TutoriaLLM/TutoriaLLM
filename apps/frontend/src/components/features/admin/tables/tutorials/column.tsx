@@ -55,8 +55,8 @@ export function tutorialsColumns() {
 		});
 	};
 
-	//content and serializednodes are not fetched from tutorial list api
-	type TutorialColumn = Omit<Tutorial, "content" | "serializednodes">;
+	//content and serializedNodes are not fetched from tutorial list api
+	type TutorialColumn = Omit<Tutorial, "content" | "serializedNodes">;
 	const tutorialColumns: ColumnDef<TutorialColumn>[] = [
 		{
 			header: t("admin.tutorialId"),
