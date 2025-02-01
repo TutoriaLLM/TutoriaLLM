@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getStatus } from "@/api/health";
 import { CheckCircle, CircleAlertIcon, LoaderCircle } from "lucide-react";
 import { LangPicker } from "@/components/common/LangPicker";
-import { DebugInfo } from "@/components/features/editor/sessionOverlay/debuginfo";
+import { DebugInfo } from "@/components/features/editor/sessionOverlay/debugInfo";
 export const Route = createFileRoute("/")({
 	beforeLoad: async ({ location }) => ({
 		getSession: async () => {
