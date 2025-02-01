@@ -2,7 +2,7 @@ import CustomHandle from "@/components/features/admin/TutorialEditor/customHandl
 import type {
 	markdownNode,
 	metadataNode,
-} from "@/components/features/admin/TutorialEditor/nodes/nodeType";
+} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { Position, useHandleConnections, useNodesData } from "@xyflow/react";
 import Markdown from "react-markdown";
 
