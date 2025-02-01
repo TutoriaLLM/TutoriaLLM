@@ -1,37 +1,31 @@
 ---
+import { CardGrid } from "@astrojs/starlight/components";
+
 // GitHub APIからコントリビューターを取得する関数
 async function getContributors() {
-	const response = await fetch(
-		"https://api.github.com/repos/TutoriaLLM/TutoriaLLM/contributors",
-	);
-	if (!response.ok) {
-		return [
-			{
-				login: "Error for contributors",
-				avatar_url: "",
-				html_url: "",
-				contributions: 999,
-			},
-		];
-	}
-	return await response.json();
+  const response = await fetch('https://api.github.com/repos/TutoriaLLM/TutoriaLLM/contributors');
+  if (!response.ok) {
+    return [{
+      login: "Error for contributors",
+      avatar_url: "",
+      html_url: "",
+      contributions: 999
+    }];
+  }
+  return await response.json();
 }
 
 async function getMembers() {
-	const response = await fetch(
-		"https://api.github.com/orgs/TutoriaLLM/members",
-	);
-	if (!response.ok) {
-		return [
-			{
-				login: "Error for members",
-				avatar_url: "",
-				html_url: "",
-				contributions: 999,
-			},
-		];
-	}
-	return await response.json();
+  const response = await fetch('https://api.github.com/orgs/TutoriaLLM/members');
+  if (!response.ok) {
+    return [{
+      login: "Error for members",
+      avatar_url: "",
+      html_url: "",
+      contributions: 999
+    }];
+  }
+  return await response.json();
 }
 
 // サーバーサイドでコントリビューターとメンバーを取得
@@ -39,27 +33,20 @@ const contributors = await getContributors();
 const members = await getMembers();
 
 // コントリビューターのデータをログイン名でマップ化
-const contributorMap = new Map(
-	contributors.map((contributor: { login: string; contributions: number }) => [
-		contributor.login,
-		contributor.contributions,
-	]),
-);
+const contributorMap = new Map(contributors.map((contributor: { login: string; contributions: number; }) => [contributor.login, contributor.contributions]));
 
 // メンバーのログイン名のセットを作成
-const memberLogins = new Set(
-	members.map((member: { login: string }) => member.login),
-);
+const memberLogins = new Set(members.map((member: { login: string; }) => member.login));
 
 // コントリビューターからメンバーを除外
 const filteredContributors = contributors.filter(
-	(contributor: { login: unknown }) => !memberLogins.has(contributor.login),
+(  contributor: { login: unknown; }) => !memberLogins.has(contributor.login)
 );
 
 // メンバーにコントリビューション数を追加
-const membersWithContributions = members.map((member: { login: unknown }) => ({
-	...member,
-	contributions: contributorMap.get(member.login) || 0,
+const membersWithContributions = members.map((member: { login: unknown; }) => ({
+  ...member,
+  contributions: contributorMap.get(member.login) || 0
 }));
 ---
 <style>

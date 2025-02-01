@@ -7,10 +7,10 @@
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
-    "ignore": ["node_modules", "dist", ".astro/**"]
+    "ignore": ["node_modules", "dist", ".astro/**", "*.astro"]
   },
   "linter": {
-    "ignore": ["node_modules", "dist", ".astro/**"],
+    "ignore": ["node_modules", "dist", ".astro/**", "*.astro"],
     "enabled": true,
     "rules": {
       "all": true,
