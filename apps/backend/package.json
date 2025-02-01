@@ -24,7 +24,7 @@
     "drizzle:push:local": "drizzle-kit push --config=drizzle.studio.config.ts",
     "drizzle:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
     "drizzle:studio": "drizzle-kit studio --config=drizzle.studio.config.ts",
-    "tsc": "tsc --noEmit",
+    "type:check": "tsc --noEmit",
     "cli": "tsx src/cli.ts"
   },
   "dependencies": {

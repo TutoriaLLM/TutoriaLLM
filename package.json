@@ -15,7 +15,7 @@
     "spell": "cspell lint '**'"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm format && pnpm lint:repo && pnpm check"
+    "pre-commit": "pnpm format && pnpm lint:repo && pnpm check && pnpm --filter ./apps/** type:check"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
