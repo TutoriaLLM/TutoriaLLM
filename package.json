@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.6.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "vitest run",
+    "test": "vitest",
     "prepare": "pnpm simple-git-hooks",
     "format": "biome format . --write",
     "check": "biome check . --fix",
@@ -18,13 +18,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "sherif": "1.1.1",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",
-    "vitest": "2.1.8"
+    "vitest": "3.0.4"
   },
   "dependencies": {
-    "@testing-library/react": "^16.2.0",
     "@vitejs/plugin-react": "4.3.2",
     "jsdom": "^26.0.0"
   }
