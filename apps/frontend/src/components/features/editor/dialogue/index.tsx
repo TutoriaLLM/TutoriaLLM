@@ -1,4 +1,4 @@
-import QuickReply from "@/components/features/editor/dialogue/parts/quickreply";
+import QuickReply from "@/components/features/editor/dialogue/parts/quickReply";
 import TextBubble from "@/components/features/editor/dialogue/parts/textbubble";
 import { SwitchModeUI } from "@/components/features/editor/dialogue/parts/ui/switchModeUI";
 import {
