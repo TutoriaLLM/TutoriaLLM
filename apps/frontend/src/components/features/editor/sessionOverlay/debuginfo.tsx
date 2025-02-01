@@ -14,7 +14,7 @@ import {
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 /**
- * The BeforeInstallPromptEvent is fired at the Window.onbeforeinstallprompt handler
+ * The BeforeInstallPromptEvent is fired at the Window.onbeforeInstallPrompt handler
  * before a user is prompted to "install" a web site to a home screen on mobile.
  *
  * @deprecated Only supported on Chrome and Android Webview.
@@ -59,21 +59,21 @@ export function DebugInfo() {
 			setIsPWAInstalled(false);
 		}
 
-		// Monitor beforeinstallprompt event
+		// Monitor beforeInstallPrompt event
 		const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
 			e.preventDefault(); // Prevent default prompts
 			setDeferredPrompt(e); // Save Event
 		};
 
 		window.addEventListener(
-			"beforeinstallprompt",
+			"beforeInstallPrompt",
 			handleBeforeInstallPrompt as EventListener,
 		);
 
 		// Cleanup Event Listener
 		return () =>
 			window.removeEventListener(
-				"beforeinstallprompt",
+				"beforeInstallPrompt",
 				handleBeforeInstallPrompt as EventListener,
 			);
 	}, []);
