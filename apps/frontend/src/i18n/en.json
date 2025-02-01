@@ -4,7 +4,7 @@
     "sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
     "hello": "Hello",
     "createSession": "Create new room",
-    "typecodeMsg": "Type your code, or create new room to start.",
+    "typeCodeMsg": "Type your code, or create new room to start.",
     "about": "About this app",
     "welcome": "Study coding with AI",
     "debuginfo": "Debug Info",

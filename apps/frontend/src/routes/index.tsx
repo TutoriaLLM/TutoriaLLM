@@ -41,7 +41,7 @@ export type Message = {
 function Home() {
 	const [message, setMessage] = useState<Message>({
 		type: "info",
-		message: "session.typecodeMsg",
+		message: "session.typeCodeMsg",
 	});
 
 	const { t, i18n } = useTranslation();
