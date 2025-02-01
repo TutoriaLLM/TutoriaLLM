@@ -9,7 +9,8 @@
     "*.log",
     "*.svg",
     "*.mcmeta",
-    "apps/backend/migrations/**"
+    "apps/backend/migrations/**",
+    "apps/**/playwright-report/**"
   ],
   "dictionaryDefinitions": [
     {
