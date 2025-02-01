@@ -3,7 +3,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import Login from "@/components/common/login";
-import { LangPicker } from "@/components/common/Langpicker";
+import { LangPicker } from "@/components/common/LangPicker";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const Route = createFileRoute("/login")({

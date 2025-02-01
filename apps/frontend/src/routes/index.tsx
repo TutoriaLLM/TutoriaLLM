@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getStatus } from "@/api/health";
 import { CheckCircle, CircleAlertIcon, LoaderCircle } from "lucide-react";
-import { LangPicker } from "@/components/common/Langpicker";
+import { LangPicker } from "@/components/common/LangPicker";
 import { DebugInfo } from "@/components/features/editor/sessionOverlay/debuginfo";
 export const Route = createFileRoute("/")({
 	beforeLoad: async ({ location }) => ({
