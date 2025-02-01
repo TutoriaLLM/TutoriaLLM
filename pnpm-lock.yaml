@@ -40,26 +40,25 @@ catalogs:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 1.9.4
+        version: 1.9.4
       '@testing-library/react':
         specifier: ^16.2.0
         version: 16.2.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@vitejs/plugin-react':
         specifier: 4.3.2
         version: 4.3.2(vite@5.4.9(@types/node@20.17.12)(terser@5.37.0))
-      jsdom:
-        specifier: ^26.0.0
-        version: 26.0.0
-    devDependencies:
-      '@biomejs/biome':
-        specifier: 1.9.4
-        version: 1.9.4
       cspell:
         specifier: ^8.17.3
         version: 8.17.3
       js-yaml:
-        specifier: 4.1.0
+        specifier: 'catalog:'
         version: 4.1.0
+      jsdom:
+        specifier: ^26.0.0
+        version: 26.0.0
       sherif:
         specifier: 1.1.1
         version: 1.1.1
