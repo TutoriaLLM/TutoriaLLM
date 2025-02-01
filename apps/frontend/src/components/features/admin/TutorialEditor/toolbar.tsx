@@ -25,7 +25,7 @@ import {
 	XCircle,
 } from "lucide-react";
 import { useState } from "react";
-import type { CustomNodeType } from "./nodes/nodetype";
+import type { CustomnodeType } from "./nodes/nodeType";
 import { useTranslation } from "react-i18next";
 import {
 	ErrorToastContent,
@@ -142,7 +142,7 @@ export default function Toolbar(props: {
 			);
 
 			// // Get data from connected nodes
-			// for (const node of connectedNodes as CustomNodeType[]) {
+			// for (const node of connectedNodes as CustomnodeType[]) {
 			// 	if (node.type === "md" || node.type === "mdGen") {
 			// 		if ("source" in node.data) {
 			// 			content = node.data.source || ""; // Provide a default value
@@ -169,11 +169,11 @@ export default function Toolbar(props: {
 			// 	}
 			// }
 
-			function getConnectedNodeData(connectedNodes: CustomNodeType[]) {
-				const isMarkdownNode = (node: CustomNodeType) =>
+			function getConnectedNodeData(connectedNodes: CustomnodeType[]) {
+				const isMarkdownNode = (node: CustomnodeType) =>
 					node.type === "md" || node.type === "mdGen";
 
-				const isMetadataNode = (node: CustomNodeType) =>
+				const isMetadataNode = (node: CustomnodeType) =>
 					node.type === "metadata" || node.type === "metadataGen";
 
 				const data = connectedNodes.map((node) => {
@@ -211,7 +211,7 @@ export default function Toolbar(props: {
 			}
 
 			const { metadata, tags, language, content } = getConnectedNodeData(
-				connectedNodes as CustomNodeType[],
+				connectedNodes as CustomnodeType[],
 			);
 
 			// Serialize node

@@ -25,10 +25,10 @@ import {
 
 import "@mdxeditor/editor/style.css";
 import type {
-	CustomNodeType,
+	CustomnodeType,
 	markdownNode,
 	workspaceNode,
-} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+} from "@/components/features/admin/TutorialEditor/nodes/nodeType";
 import { Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,7 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	});
 
 	// Obtain node data for Blockly handles to which they are connected
-	const nodesData = useNodesData<CustomNodeType>(
+	const nodesData = useNodesData<CustomnodeType>(
 		connections.map((connection) => connection.source),
 	);
 

@@ -14,7 +14,7 @@ import CustomHandle from "@/components/features/admin/TutorialEditor/customHandl
 import type {
 	markdownNode,
 	mdToMetadataNode,
-} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+} from "@/components/features/admin/TutorialEditor/nodes/nodeType";
 import { useMutation } from "@/hooks/useMutations.js";
 import { Bot, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";

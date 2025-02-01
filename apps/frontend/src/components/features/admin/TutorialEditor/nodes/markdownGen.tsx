@@ -12,10 +12,10 @@ import "@mdxeditor/editor/style.css";
 import { generateContent } from "@/api/admin/tutorials.js";
 import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
 import type {
-	CustomNodeType,
+	CustomnodeType,
 	markdownNode,
 	mdToMdNode,
-} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+} from "@/components/features/admin/TutorialEditor/nodes/nodeType";
 import { Bot, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
@@ -48,7 +48,7 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	});
 
 	// Get Markdown input node
-	const nodesData = useNodesData<CustomNodeType>(
+	const nodesData = useNodesData<CustomnodeType>(
 		markdownConnections.map((connection) => connection.source),
 	);
 

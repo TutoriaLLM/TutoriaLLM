@@ -38,7 +38,7 @@ export type workspaceNode = Node<{
 	};
 }>;
 
-export type CustomNodeType =
+export type CustomnodeType =
 	| BuiltInNode
 	| markdownNode
 	| metadataNode
