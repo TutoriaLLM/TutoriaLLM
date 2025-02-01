@@ -25,7 +25,7 @@ import {
 
 import "@mdxeditor/editor/style.css";
 import type {
-	CustomnodeType,
+	CustomNodeType,
 	markdownNode,
 	workspaceNode,
 } from "@/components/features/admin/TutorialEditor/nodes/nodeType";
@@ -50,7 +50,7 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	});
 
 	// Obtain node data for Blockly handles to which they are connected
-	const nodesData = useNodesData<CustomnodeType>(
+	const nodesData = useNodesData<CustomNodeType>(
 		connections.map((connection) => connection.source),
 	);
 

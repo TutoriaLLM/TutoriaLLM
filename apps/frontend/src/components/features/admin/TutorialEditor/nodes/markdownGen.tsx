@@ -12,7 +12,7 @@ import "@mdxeditor/editor/style.css";
 import { generateContent } from "@/api/admin/tutorials.js";
 import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
 import type {
-	CustomnodeType,
+	CustomNodeType,
 	markdownNode,
 	mdToMdNode,
 } from "@/components/features/admin/TutorialEditor/nodes/nodeType";
@@ -48,7 +48,7 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	});
 
 	// Get Markdown input node
-	const nodesData = useNodesData<CustomnodeType>(
+	const nodesData = useNodesData<CustomNodeType>(
 		markdownConnections.map((connection) => connection.source),
 	);
 
