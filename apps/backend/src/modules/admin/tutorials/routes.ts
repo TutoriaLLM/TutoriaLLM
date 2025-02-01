@@ -54,7 +54,7 @@ export const getSpecificTutorial = createRoute({
 			description: "Returns the tutorial",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [specificTutorialParam.vErr()],
+			validationErrorResponseSchemas: [specificTutorialParam.vErr()],
 		}),
 	},
 });
@@ -75,7 +75,7 @@ export const deleteTutorial = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [specificTutorialParam.vErr()],
+			validationErrorResponseSchemas: [specificTutorialParam.vErr()],
 		}),
 	},
 });
@@ -98,7 +98,7 @@ export const createTutorial = createRoute({
 			description: "Returns the 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newTutorialRequest.vErr()],
+			validationErrorResponseSchemas: [newTutorialRequest.vErr()],
 		}),
 	},
 });
@@ -122,7 +122,7 @@ export const updateTutorial = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
+			validationErrorResponseSchemas: [
 				specificTutorialParam.vErr(),
 				updateTutorialRequest.vErr(),
 			],
@@ -149,7 +149,7 @@ export const generateContent = createRoute({
 			description: "Returns the generated content",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [generateContentRequest.vErr()],
+			validationErrorResponseSchemas: [generateContentRequest.vErr()],
 		}),
 	},
 });
@@ -173,7 +173,7 @@ export const generateMetadata = createRoute({
 			description: "Returns the generated metadata",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [generateMetadataRequest.vErr()],
+			validationErrorResponseSchemas: [generateMetadataRequest.vErr()],
 		}),
 	},
 });

@@ -1,5 +1,5 @@
-import { LangPicker } from "@/components/common/Langpicker.js";
-import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+import { LangPicker } from "@/components/common/LangPicker.js";
+import type { metadataNode } from "@/components/features/admin/TutorialEditor/nodes/nodeType";
 import { Button } from "@/components/ui/button";
 import { FancyMultiSelect } from "@/components/ui/tags";
 import { useListTags } from "@/hooks/tutorials";

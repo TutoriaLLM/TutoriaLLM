@@ -51,7 +51,7 @@ export const findSessionFromUserId = createRoute({
 			description: "Returns all sessions",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [findSessionFromUserIdParam.vErr()],
+			validationErrorResponseSchemas: [findSessionFromUserIdParam.vErr()],
 		}),
 	},
 });
@@ -73,7 +73,7 @@ export const listSessions = createRoute({
 			description: "Returns all sessions",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [listSessionsQuery.vErr()],
+			validationErrorResponseSchemas: [listSessionsQuery.vErr()],
 		}),
 	},
 });
@@ -94,7 +94,7 @@ export const deleteSession = createRoute({
 			description: "Returns the session sessionId",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [deleteSessionParam.vErr()],
+			validationErrorResponseSchemas: [deleteSessionParam.vErr()],
 		}),
 	},
 });
@@ -115,7 +115,7 @@ export const deleteSessionByUserId = createRoute({
 			description: "Returns the session sessionId",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [findSessionFromUserIdParam.vErr()],
+			validationErrorResponseSchemas: [findSessionFromUserIdParam.vErr()],
 		}),
 	},
 });

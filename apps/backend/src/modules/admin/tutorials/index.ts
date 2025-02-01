@@ -145,7 +145,7 @@ const app = createHonoApp()
 					content: tutorialToUpdate.content,
 					metadata: tutorialToUpdate.metadata,
 					language: tutorialToUpdate.language,
-					serializednodes: tutorialToUpdate.serializednodes,
+					serializedNodes: tutorialToUpdate.serializedNodes,
 				})
 				.where(eq(tutorials.id, id));
 

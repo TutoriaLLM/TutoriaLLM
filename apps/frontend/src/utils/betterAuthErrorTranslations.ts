@@ -1,6 +1,6 @@
 import type { TFunction } from "i18next";
 
-//this is a function that translates the error messages from the better-auth(backend) to the frontend with i18n with suppoting base and plugins
+//this is a function that translates the error messages from the better-auth(backend) to the frontend with i18n with supporting base and plugins
 export function errorMessageByCode({
 	status,
 	t,

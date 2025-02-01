@@ -4,10 +4,10 @@
     "sessionNotFoundMsg": "Session not found. Type another code or create a new session to start.",
     "hello": "Hello",
     "createSession": "Create new room",
-    "typecodeMsg": "Type your code, or create new room to start.",
+    "typeCodeMsg": "Type your code, or create new room to start.",
     "about": "About this app",
     "welcome": "Study coding with AI",
-    "debuginfo": "Debug Info",
+    "debugInfo": "Debug Info",
     "aboutText": "This application is self-hosted software that provides tutorials using LLM (AI).  The application allows the site administrator to collect data on user usage and statements made in a non-personally identifiable form, and the data collected is used to learn the chat function in the app and to improve the AI's behaviour.  For further information on the handling of data provided by the app, please contact the website administrator. As the application is published as open source and the source code may have been modified, it is recommended not to use the application if the website administrator is unknown.  Data on information about sessions created may be deleted.",
     "findSavedSession": "Use saved data",
     "savedSession": "Saved Session",
@@ -70,8 +70,8 @@
     "emailDescription": "Your Email address",
     "passwordDescription": "Type your password",
     "confirmPasswordDescription": "Type in to confirm your password",
-    "internalServerError": "Server error occured.",
-    "unknownError": "An error occured."
+    "internalServerError": "Server error occurred.",
+    "unknownError": "An error occurred."
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -113,7 +113,6 @@
     "updatedScriptSuccess": "Updated script executed successfully.",
     "updatedScriptError": "Error executing updated script: {{error}}"
   },
-  "logbuffer": {},
   "general": {
     "connected": "Connected",
     "open": "Open",
@@ -336,7 +335,7 @@
     "sessionExpired": "Session expired. Re-authenticate to perform this action.",
     "failedToUnlinkLastAccount": "You can't unlink your last account",
     "accountNotFound": "Account not found",
-    "unknownError": "An unknown error occured",
+    "unknownError": "An unknown error occurred",
     "invalidUsernameOrPassword": "invalid username or password",
     "unexpectedError": "unexpected error",
     "usernameIsAlreadyTaken": "username is already taken. please try another.",

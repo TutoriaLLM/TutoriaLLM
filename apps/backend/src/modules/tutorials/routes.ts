@@ -49,7 +49,7 @@ const getSpecificTutorial = createRoute({
 			description: "Returns the tutorial content",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [getSpecificTutorialParam.vErr()],
+			validationErrorResponseSchemas: [getSpecificTutorialParam.vErr()],
 		}),
 	},
 });

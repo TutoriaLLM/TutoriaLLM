@@ -32,7 +32,7 @@ export const userDetailFromId = createRoute({
 			description: "Returns the user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [userDetailParam.vErr()],
+			validationErrorResponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });
@@ -57,7 +57,7 @@ export const updateUserDetail = createRoute({
 			description: "Returns the updated user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [userDetailParam.vErr()],
+			validationErrorResponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });

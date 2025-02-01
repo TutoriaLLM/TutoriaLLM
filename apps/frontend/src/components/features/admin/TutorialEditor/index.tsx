@@ -32,7 +32,7 @@ import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/toast";
 import { ErrorToastContent } from "@/components/common/toastContent";
 
-type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializednodes">;
+type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializedNodes">;
 
 const nodeTypes = {
 	md: Markdown,
@@ -56,7 +56,7 @@ export default function TutorialEditor(props: {
 			setTutorialData({
 				metadata: props.tutorial.metadata,
 				content: props.tutorial.content,
-				serializednodes: props.tutorial.serializednodes,
+				serializedNodes: props.tutorial.serializedNodes,
 			});
 		}
 	}, [props.tutorial]);
@@ -155,8 +155,8 @@ export default function TutorialEditor(props: {
 	);
 
 	useEffect(() => {
-		if (tutorialData?.serializednodes) {
-			const flow = JSON.parse(tutorialData.serializednodes) as {
+		if (tutorialData?.serializedNodes) {
+			const flow = JSON.parse(tutorialData.serializedNodes) as {
 				nodes: Node[];
 				edges: Edge[];
 			};

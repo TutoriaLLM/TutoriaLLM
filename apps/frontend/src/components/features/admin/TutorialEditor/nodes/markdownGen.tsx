@@ -15,7 +15,7 @@ import type {
 	CustomNodeType,
 	markdownNode,
 	mdToMdNode,
-} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
+} from "@/components/features/admin/TutorialEditor/nodes/nodeType";
 import { Bot, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
