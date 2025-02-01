@@ -1,4 +1,4 @@
-import type { workspaceNode } from "@/components/features/admin/TutorialEditor/nodes/nodeType";
+import type { workspaceNode } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import {
 	Handle,
 	type NodeProps,

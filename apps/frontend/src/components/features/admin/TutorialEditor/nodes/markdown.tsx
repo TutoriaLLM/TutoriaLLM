@@ -28,7 +28,7 @@ import type {
 	CustomNodeType,
 	markdownNode,
 	workspaceNode,
-} from "@/components/features/admin/TutorialEditor/nodes/nodeType";
+} from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";

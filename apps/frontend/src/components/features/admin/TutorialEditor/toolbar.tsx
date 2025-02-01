@@ -25,7 +25,7 @@ import {
 	XCircle,
 } from "lucide-react";
 import { useState } from "react";
-import type { CustomNodeType } from "./nodes/nodeType";
+import type { CustomNodeType } from "./nodes/nodetype";
 import { useTranslation } from "react-i18next";
 import {
 	ErrorToastContent,
