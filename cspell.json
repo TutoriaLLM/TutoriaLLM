@@ -54,6 +54,7 @@
     "jaegertracing",
     "pgvector",
     "Vercel",
-    "mcmeta"
+    "mcmeta",
+    "sessionvalue"
   ]
 }
