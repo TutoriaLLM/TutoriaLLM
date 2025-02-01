@@ -10,8 +10,10 @@
     "*.svg",
     "*.mcmeta",
     "apps/backend/migrations/**",
-    "apps/**/playwright-report/**",
-    "packages/extensions/src/**"
+    "**/playwright-report/**",
+    "**/artifacts/**",
+    "packages/extensions/src/**",
+    "**/docker-compose.yml"
   ],
   "dictionaryDefinitions": [
     {
