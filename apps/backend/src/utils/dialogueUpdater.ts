@@ -16,7 +16,7 @@ export function updateDialogue(
 			{
 				id: (currentDataJson.dialogue?.length ?? 0) + 1,
 				contentType: contentType,
-				isuser: false,
+				isUser: false,
 				content: message,
 			} as Dialogue,
 		],

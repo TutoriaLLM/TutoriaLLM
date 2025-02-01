@@ -71,7 +71,7 @@
     "http-proxy": "1.18.1",
     "http-proxy-middleware": "3.0.3",
     "inquirer": "12.3.0",
-    "js-yaml": "4.1.0",
+    "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "nanoid": "5.0.9",
     "openai": "4.77.0",

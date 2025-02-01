@@ -11,7 +11,15 @@ import {
 } from "@/modules/admin/session/routes";
 import { asc, count, desc, eq } from "drizzle-orm";
 
+/**
+ * This controller handles administrative session management, allowing
+ * download of all sessions, listing sessions with pagination and sorting,
+ * as well as deleting individual or user-owned sessions.
+ */
 const app = createHonoApp()
+	/**
+	 * Download all sessions in JSON format
+	 */
 	.openapi(downloadAllSessions, async (c) => {
 		const allSessions = await db.query.appSessions.findMany({
 			with: {
@@ -27,6 +35,12 @@ const app = createHonoApp()
 		});
 		return c.json(allSessions, 200);
 	})
+	/**
+	 * Find sessions by userId
+	 *
+	 * Supports pagination (page, limit) and sorting (sortField, sortOrder).
+	 * Returns the filtered list of sessions and the total count.
+	 */
 	.openapi(findSessionFromUserId, async (c) => {
 		const userId = c.req.valid("param").userId;
 		const { page, limit, sortField, sortOrder } = c.req.valid("query");
@@ -35,6 +49,7 @@ const app = createHonoApp()
 		const end = start + (limit || 10);
 		const sortOrderType = sortOrder === "asc" ? asc : desc;
 		const sortFieldType = appSessions[sortField];
+
 		const [sessions, total] = await Promise.all([
 			db.query.appSessions.findMany({
 				where: eq(appSessions.userInfo, userId),
@@ -69,7 +84,7 @@ const app = createHonoApp()
 
 		return c.json(
 			{
-				sessions: sessions,
+				sessions,
 				total: total[0].count,
 				page,
 				limit,
@@ -77,6 +92,9 @@ const app = createHonoApp()
 			200,
 		);
 	})
+	/**
+	 * List all sessions with pagination / sorting
+	 */
 	.openapi(listSessions, async (c) => {
 		const { page, limit, sortField, sortOrder } = c.req.valid("query");
 		try {
@@ -84,6 +102,7 @@ const app = createHonoApp()
 			const end = start + (limit || 10);
 			const sortOrderType = sortOrder === "asc" ? asc : desc;
 			const sortFieldType = appSessions[sortField];
+
 			const [sessions, total] = await Promise.all([
 				db.query.appSessions.findMany({
 					orderBy: [sortOrderType(sortFieldType)],
@@ -115,7 +134,7 @@ const app = createHonoApp()
 
 			return c.json(
 				{
-					sessions: sessions,
+					sessions,
 					total: total[0].count,
 					page,
 					limit,
@@ -130,6 +149,9 @@ const app = createHonoApp()
 			});
 		}
 	})
+	/**
+	 * Delete a specific session by sessionId
+	 */
 	.openapi(deleteSession, async (c) => {
 		const sessionId = c.req.valid("param").sessionId;
 		console.info(sessionId);
@@ -138,7 +160,8 @@ const app = createHonoApp()
 				.delete(appSessions)
 				.where(eq(appSessions.sessionId, sessionId))
 				.returning({ deletedId: appSessions.sessionId });
-			return c.json({ sessionId: sessionId }, 200);
+
+			return c.json({ sessionId }, 200);
 		} catch (err) {
 			console.error(err);
 			return errorResponse(c, {
@@ -147,6 +170,9 @@ const app = createHonoApp()
 			});
 		}
 	})
+	/**
+	 * Delete all sessions belonging to a specified userId
+	 */
 	.openapi(deleteSessionByUserId, async (c) => {
 		const userId = c.req.valid("param").userId;
 		try {
@@ -154,7 +180,8 @@ const app = createHonoApp()
 				.delete(appSessions)
 				.where(eq(appSessions.userInfo, userId))
 				.returning({ deletedId: appSessions.sessionId });
-			return c.json({ userId: userId }, 200);
+
+			return c.json({ userId }, 200);
 		} catch (err) {
 			console.error(err);
 			return errorResponse(c, {

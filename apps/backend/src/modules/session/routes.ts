@@ -10,9 +10,18 @@ import {
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
-const newSession = createRoute({
+const baseSessionsConfig = {
+	path: "/session" as const,
+	tags: ["session"],
+};
+
+/**
+ * Create a new session, from the provided session data
+ */
+export const newSession = createRoute({
+	...baseSessionsConfig,
 	method: "post",
-	path: "/session/new",
+	path: `${baseSessionsConfig.path}/new`,
 	summary: "Create a new session, from the provided session data",
 	request: {
 		query: newSessionQuery.schema,
@@ -23,14 +32,18 @@ const newSession = createRoute({
 			description: "Returns the session id",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
+			validationErrorResponseSchemas: [newSessionQuery.vErr()],
 		}),
 	},
 });
 
-const resumeSession = createRoute({
+/**
+ * Resume a session, from the provided session data
+ */
+export const resumeSession = createRoute({
+	...baseSessionsConfig,
 	method: "post",
-	path: "/session/resume/{key}",
+	path: `${baseSessionsConfig.path}/resume/{key}`,
 	summary: "Resume a session, from the provided session data",
 	request: {
 		params: sessionParam.schema,
@@ -42,14 +55,19 @@ const resumeSession = createRoute({
 				"Returns the session id. If the session provided, it will return the session id to continue the session from existing session, or create a new session based on the provided data.",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newSessionQuery.vErr()],
+			validationErrorResponseSchemas: [newSessionQuery.vErr()],
 		}),
 	},
 });
 
-const getSession = createRoute({
+/**
+ * Get a session by its key
+ */
+export const getSession = createRoute({
+	...baseSessionsConfig,
 	method: "get",
-	path: "/session/{key}",
+	path: `${baseSessionsConfig.path}/{key}`,
+	summary: "Get a session by its key",
 	request: {
 		params: sessionParam.schema,
 	},
@@ -59,14 +77,19 @@ const getSession = createRoute({
 			description: "Returns the session data",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [sessionParam.vErr()],
+			validationErrorResponseSchemas: [sessionParam.vErr()],
 		}),
 	},
 });
 
-const getUserSessions = createRoute({
+/**
+ * Get all sessions belonging to the current user
+ */
+export const getUserSessions = createRoute({
+	...baseSessionsConfig,
 	method: "get",
-	path: "/session",
+	path: baseSessionsConfig.path,
+	summary: "Get all sessions belonging to the current user",
 	responses: {
 		200: {
 			content: jsonBody(listSessionValueSchema),
@@ -77,9 +100,14 @@ const getUserSessions = createRoute({
 	},
 });
 
-const putSession = createRoute({
+/**
+ * Update a session by its key
+ */
+export const putSession = createRoute({
+	...baseSessionsConfig,
 	method: "put",
-	path: "/session/{key}",
+	path: `${baseSessionsConfig.path}/{key}`,
+	summary: "Update a session by its key",
 	request: {
 		params: sessionParam.schema,
 		body: {
@@ -92,7 +120,7 @@ const putSession = createRoute({
 			description: "Session updated",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
+			validationErrorResponseSchemas: [
 				sessionParam.vErr(),
 				putSessionRequest.vErr(),
 			],
@@ -100,9 +128,14 @@ const putSession = createRoute({
 	},
 });
 
-const putSessionName = createRoute({
+/**
+ * Rename a session by its key
+ */
+export const putSessionName = createRoute({
+	...baseSessionsConfig,
 	method: "put",
-	path: "/session/{key}/rename",
+	path: `${baseSessionsConfig.path}/{key}/rename`,
+	summary: "Rename a session by its key",
 	request: {
 		params: sessionParam.schema,
 		body: {
@@ -115,7 +148,7 @@ const putSessionName = createRoute({
 			description: "Session name updated",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
+			validationErrorResponseSchemas: [
 				sessionParam.vErr(),
 				updateSessionNameRequest.vErr(),
 			],
@@ -123,9 +156,14 @@ const putSessionName = createRoute({
 	},
 });
 
-const deleteSession = createRoute({
+/**
+ * Delete a session by its key
+ */
+export const deleteSession = createRoute({
+	...baseSessionsConfig,
 	method: "delete",
-	path: "/session/{key}",
+	path: `${baseSessionsConfig.path}/{key}`,
+	summary: "Delete a session by its key",
 	request: {
 		params: sessionParam.schema,
 	},
@@ -135,17 +173,7 @@ const deleteSession = createRoute({
 			description: "Session deleted",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [sessionParam.vErr()],
+			validationErrorResponseSchemas: [sessionParam.vErr()],
 		}),
 	},
 });
-
-export {
-	newSession,
-	resumeSession,
-	getSession,
-	getUserSessions,
-	putSession,
-	putSessionName,
-	deleteSession,
-};

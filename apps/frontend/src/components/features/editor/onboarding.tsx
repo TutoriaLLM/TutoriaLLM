@@ -13,8 +13,8 @@ export function Onboarding({
 
 	useEffect(() => {
 		if (currentSession && !hasStartedOnboarding) {
-			const lastOnboardingTime = cookie.lastonBoarding
-				? new Date(cookie.lastonBoarding)
+			const lastOnboardingTime = cookie.lastOnBoarding
+				? new Date(cookie.lastOnBoarding)
 				: null;
 			const timeSinceLastOnboarding = lastOnboardingTime
 				? now.getTime() - lastOnboardingTime.getTime()
@@ -27,13 +27,13 @@ export function Onboarding({
 					timeSinceLastOnboarding > oneDayInMs)
 			) {
 				setIsOpen(true);
-				setCookie("lastonBoarding", now);
+				setCookie("lastOnBoarding", now);
 				setHasStartedOnboarding(true);
 			}
 		}
 	}, [
 		currentSession,
-		cookie.lastonBoarding,
+		cookie.lastOnBoarding,
 		setCookie,
 		setIsOpen,
 		hasStartedOnboarding,
