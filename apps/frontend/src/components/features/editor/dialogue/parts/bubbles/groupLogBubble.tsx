@@ -24,8 +24,8 @@ function renderGroupLogBubble(
 			</div>
 			<div className="rounded-2xl text-background bg-foreground border p-3 gap-3 flex flex-col shadow max-w-sm w-full grow">
 				{content.some((logItem) => logItem.contentType === "error") ? (
-					<span className="text-xs w-full font-semibold text-warining-foreground rounded-2xl flex justify-between items-center p-2 bg-warning">
-						<span className="text-xs text-warining-foreground">
+					<span className="text-xs w-full font-semibold text-warning-foreground rounded-2xl flex justify-between items-center p-2 bg-warning">
+						<span className="text-xs text-warning-foreground">
 							<p className="text-base flex-grow">{t("textbubble.errorLog")}</p>
 							{t("textbubble.showingLatest", {
 								count: setting?.Code_Execution_Limits?.Max_Num_Message_Queue,
