@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "start": "cross-env NODE_ENV=production vite preview",
-    "build": "pnpm tsc && vite build",
+    "build": "vite build",
     "type:check": "tsc --noEmit"
   },
   "dependencies": {
