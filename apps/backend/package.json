@@ -24,7 +24,7 @@
     "drizzle:push:local": "drizzle-kit push --config=drizzle.studio.config.ts",
     "drizzle:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
     "drizzle:studio": "drizzle-kit studio --config=drizzle.studio.config.ts",
-    "tsc": "tsc --noEmit",
+    "type:check": "tsc --noEmit",
     "cli": "tsx src/cli.ts"
   },
   "dependencies": {
@@ -71,7 +71,7 @@
     "http-proxy": "1.18.1",
     "http-proxy-middleware": "3.0.3",
     "inquirer": "12.3.0",
-    "js-yaml": "4.1.0",
+    "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "nanoid": "5.0.9",
     "openai": "4.77.0",

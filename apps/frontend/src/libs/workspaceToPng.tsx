@@ -71,9 +71,9 @@ export async function workspaceToPngBase64(
 			const img = new Image();
 			img.onload = () => {
 				const canvas = document.createElement("canvas");
-				const pixeldensity = window.devicePixelRatio || 1;
-				canvas.width = width * pixeldensity;
-				canvas.height = height * pixeldensity;
+				const pixelDensity = window.devicePixelRatio || 1;
+				canvas.width = width * pixelDensity;
+				canvas.height = height * pixelDensity;
 				const context = canvas.getContext("2d");
 				if (context) {
 					context.drawImage(img, 0, 0, canvas.width, canvas.height);

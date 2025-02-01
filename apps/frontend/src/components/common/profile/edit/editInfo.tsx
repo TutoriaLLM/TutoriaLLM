@@ -22,7 +22,7 @@ import { useRouter } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { ErrorToastContent, SuccessToastContent } from "../../toastContent";
 
-export function Editinfo(props: { session: AuthSession }) {
+export function EditInfo(props: { session: AuthSession }) {
 	const { session } = props;
 	const { toast } = useToast();
 	const { t } = useTranslation();

@@ -12,9 +12,21 @@ import {
 } from "@/modules/admin/tutorials/schema";
 import { createRoute } from "@hono/zod-openapi";
 
+/**
+ * Base config for admin tutorials
+ */
+const baseAdminTutorialsConfig = {
+	path: "/admin/tutorials" as const,
+	tags: ["admin-tutorials"],
+};
+
+/**
+ * Get all tutorials
+ */
 export const getTutorialList = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "get",
-	path: "/admin/tutorials",
+	path: baseAdminTutorialsConfig.path,
 	summary: "Get all tutorials",
 	responses: {
 		200: {
@@ -24,9 +36,14 @@ export const getTutorialList = createRoute({
 		...errorResponses({}),
 	},
 });
+
+/**
+ * Get a specific tutorial by ID
+ */
 export const getSpecificTutorial = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "get",
-	path: "/admin/tutorials/{id}",
+	path: `${baseAdminTutorialsConfig.path}/{id}`,
 	summary: "Get a specific tutorial by ID",
 	request: {
 		params: specificTutorialParam.schema,
@@ -37,13 +54,18 @@ export const getSpecificTutorial = createRoute({
 			description: "Returns the tutorial",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [specificTutorialParam.vErr()],
+			validationErrorResponseSchemas: [specificTutorialParam.vErr()],
 		}),
 	},
 });
+
+/**
+ * Delete a tutorial by ID
+ */
 export const deleteTutorial = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "delete",
-	path: "/admin/tutorials/{id}",
+	path: `${baseAdminTutorialsConfig.path}/{id}`,
 	summary: "Delete a tutorial by ID",
 	request: {
 		params: specificTutorialParam.schema,
@@ -53,13 +75,18 @@ export const deleteTutorial = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [specificTutorialParam.vErr()],
+			validationErrorResponseSchemas: [specificTutorialParam.vErr()],
 		}),
 	},
 });
+
+/**
+ * Create a new tutorial
+ */
 export const createTutorial = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "post",
-	path: "/admin/tutorials",
+	path: baseAdminTutorialsConfig.path,
 	summary: "Create a new tutorial",
 	request: {
 		body: {
@@ -71,13 +98,18 @@ export const createTutorial = createRoute({
 			description: "Returns the 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newTutorialRequest.vErr()],
+			validationErrorResponseSchemas: [newTutorialRequest.vErr()],
 		}),
 	},
 });
+
+/**
+ * Update a tutorial by ID
+ */
 export const updateTutorial = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "put",
-	path: "/admin/tutorials/{id}",
+	path: `${baseAdminTutorialsConfig.path}/{id}`,
 	summary: "Update a tutorial by ID",
 	request: {
 		params: specificTutorialParam.schema,
@@ -90,7 +122,7 @@ export const updateTutorial = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [
+			validationErrorResponseSchemas: [
 				specificTutorialParam.vErr(),
 				updateTutorialRequest.vErr(),
 			],
@@ -98,10 +130,13 @@ export const updateTutorial = createRoute({
 	},
 });
 
-// Endpoints for generating content using AI
+/**
+ * Generate content using AI
+ */
 export const generateContent = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "post",
-	path: "/admin/tutorials/generate-content",
+	path: `${baseAdminTutorialsConfig.path}/generate-content`,
 	summary: "Generate content using AI",
 	request: {
 		body: {
@@ -114,13 +149,18 @@ export const generateContent = createRoute({
 			description: "Returns the generated content",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [generateContentRequest.vErr()],
+			validationErrorResponseSchemas: [generateContentRequest.vErr()],
 		}),
 	},
 });
+
+/**
+ * Generate metadata using AI
+ */
 export const generateMetadata = createRoute({
+	...baseAdminTutorialsConfig,
 	method: "post",
-	path: "/admin/tutorials/generate-metadata",
+	path: `${baseAdminTutorialsConfig.path}/generate-metadata`,
 	summary: "Generate metadata using AI",
 	request: {
 		body: {
@@ -133,7 +173,7 @@ export const generateMetadata = createRoute({
 			description: "Returns the generated metadata",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [generateMetadataRequest.vErr()],
+			validationErrorResponseSchemas: [generateMetadataRequest.vErr()],
 		}),
 	},
 });

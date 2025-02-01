@@ -1,7 +1,6 @@
 import { Plus } from "lucide-react";
-import { Button } from "../../ui/button";
-
-import { CreateAccontFromAnonymous } from "./create/createFromAnonymous";
+import { Button } from "@/components/ui/button";
+import { CreateAccountFromAnonymous } from "./create/createFromAnonymous";
 import {
 	Dialog,
 	DialogContent,
@@ -11,6 +10,7 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { useTranslation } from "react-i18next";
+
 export function CreateFromAnonymous() {
 	const { t } = useTranslation();
 	return (
@@ -31,7 +31,7 @@ export function CreateFromAnonymous() {
 					</DialogHeader>
 
 					<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
-						<CreateAccontFromAnonymous />
+						<CreateAccountFromAnonymous />
 					</div>
 				</DialogContent>
 			</Dialog>

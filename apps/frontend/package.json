@@ -7,7 +7,7 @@
     "dev": "vite",
     "start": "cross-env NODE_ENV=production vite preview",
     "build": "pnpm tsc && vite build",
-    "tsc": "tsc --noEmit"
+    "type:check": "tsc --noEmit"
   },
   "dependencies": {
     "@axe-core/playwright": "4.10.1",
@@ -59,7 +59,7 @@
     "i18next-fs-backend": "2.3.2",
     "idb": "8.0.0",
     "jotai": "2.10.1",
-    "js-yaml": "4.1.0",
+    "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "lucide-react": "0.381.0",
     "nodemon": "3.1.7",

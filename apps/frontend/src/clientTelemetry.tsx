@@ -29,15 +29,15 @@ const FrontendTracer = () => {
 
 			// Sentry Configuration (prevent multiple initializations)
 			if (!isSentryInitialized.current) {
-				const sentrysetting = config.Client_Sentry_Settings;
-				if (sentrysetting.Sentry_DSN) {
+				const sentrySetting = config.Client_Sentry_Settings;
+				if (sentrySetting.Sentry_DSN) {
 					Sentry.init({
-						dsn: sentrysetting.Sentry_DSN,
-						tracesSampleRate: sentrysetting.tracesSampleRate || 0,
+						dsn: sentrySetting.Sentry_DSN,
+						tracesSampleRate: sentrySetting.tracesSampleRate || 0,
 						replaysOnErrorSampleRate:
-							sentrysetting.replaysOnErrorSampleRate || 0,
+							sentrySetting.replaysOnErrorSampleRate || 0,
 						replaysSessionSampleRate:
-							sentrysetting.replaysSessionSampleRate || 0,
+							sentrySetting.replaysSessionSampleRate || 0,
 						integrations: [
 							Sentry.tanstackRouterBrowserTracingIntegration(router),
 							Sentry.replayIntegration({

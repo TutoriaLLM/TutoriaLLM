@@ -1,0 +1,1 @@
+ALTER TABLE "tutorials" RENAME COLUMN "serializednodes" TO "serializedNodes";

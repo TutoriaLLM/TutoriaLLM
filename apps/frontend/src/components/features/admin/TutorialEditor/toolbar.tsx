@@ -54,7 +54,7 @@ export default function Toolbar(props: {
 
 	const { screenToFlowPosition } = useReactFlow();
 
-	function creaeteNodeOnCenter(type: string, data?: any) {
+	function createNodeOnCenter(type: string, data?: any) {
 		const screenX = window.innerWidth / 2;
 		const screenY = window.innerHeight / 2;
 		const x = screenToFlowPosition({
@@ -215,7 +215,7 @@ export default function Toolbar(props: {
 			);
 
 			// Serialize node
-			const serializednodes = JSON.stringify({ nodes, edges });
+			const serializedNodes = JSON.stringify({ nodes, edges });
 
 			// Send data to API
 			console.log(tags);
@@ -225,7 +225,7 @@ export default function Toolbar(props: {
 					id: props.id,
 					tutorial: {
 						id: props.id,
-						serializednodes: serializednodes,
+						serializedNodes: serializedNodes,
 						metadata: metadata,
 						tags: tags.map((tag) => {
 							return {
@@ -239,7 +239,7 @@ export default function Toolbar(props: {
 				});
 			} else {
 				post({
-					serializednodes: serializednodes,
+					serializedNodes: serializedNodes,
 					metadata: metadata,
 					tags: tags.map((tag) => {
 						return {
@@ -348,7 +348,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-pink-100 to-red-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("md", {
+										createNodeOnCenter("md", {
 											source: "",
 											editorContent: "",
 										})
@@ -363,7 +363,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-sky-100 to-blue-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("metadata", {
+										createNodeOnCenter("metadata", {
 											source: "",
 											editorContent: "",
 										})
@@ -397,7 +397,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-pink-100 to-red-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("md", {
+										createNodeOnCenter("md", {
 											source: "",
 											editorContent: "",
 										})
@@ -414,7 +414,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-yellow-100 to-amber-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("blockly", {
+										createNodeOnCenter("blockly", {
 											source: "",
 											editorContent: "",
 										})
@@ -429,7 +429,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-rose-200 to-red-300 cursor-pointer shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("mdGen", {
+										createNodeOnCenter("mdGen", {
 											source: "",
 											editorContent: "",
 										})
@@ -459,7 +459,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-sky-100 to-blue-300 shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("metadata", {
+										createNodeOnCenter("metadata", {
 											source: "",
 											editorContent: "",
 										})
@@ -475,7 +475,7 @@ export default function Toolbar(props: {
 								<DropdownMenu.Item
 									className="rounded-xl bg-accent hover:bg-gradient-to-r from-red-100 to-blue-300 shadow p-1 px-2"
 									onClick={() =>
-										creaeteNodeOnCenter("metadataGen", {
+										createNodeOnCenter("metadataGen", {
 											source: "",
 											editorContent: "",
 										})

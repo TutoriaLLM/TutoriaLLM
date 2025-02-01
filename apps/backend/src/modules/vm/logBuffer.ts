@@ -59,11 +59,11 @@ export default class LogBuffer {
 		const logsToSave: Dialogue = {
 			id: sessionValue.dialogue.length + 1,
 			contentType: "group_log",
-			isuser: false,
+			isUser: false,
 			content: this.buffer.map((log, index) => ({
 				id: index + 1,
 				contentType: log[1] as ContentType,
-				isuser: false,
+				isUser: false,
 				content: log[0],
 			})),
 		};

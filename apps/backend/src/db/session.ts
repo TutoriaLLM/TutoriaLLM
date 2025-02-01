@@ -21,7 +21,7 @@ export function initialData(
 			{
 				id: 0,
 				contentType: "log",
-				isuser: false,
+				isUser: false,
 				content: "dialogue.Introduction",
 			},
 		],

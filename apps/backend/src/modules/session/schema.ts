@@ -26,7 +26,7 @@ export const timestampSchema = z.object({
 export type DialogueType = {
 	id: number;
 	contentType: ContentType;
-	isuser: boolean;
+	isUser: boolean;
 	content: string | DialogueType[];
 	ui?: string;
 };
@@ -35,7 +35,7 @@ export const DialogueSchema: z.ZodSchema<DialogueType> = z.lazy(() =>
 	z.object({
 		id: z.number(),
 		contentType: z.enum(contentTypeEnum),
-		isuser: z.boolean(),
+		isUser: z.boolean(),
 		content: z.union([z.string(), z.array(DialogueSchema)]),
 		ui: z.string().optional(),
 	}),
@@ -48,7 +48,7 @@ export const DialogueOpenApiSchema = DialogueSchema.openapi({
 	example: {
 		id: 1,
 		contentType: "user",
-		isuser: true,
+		isUser: true,
 		content: "Hello",
 		ui: "example_ui",
 	},

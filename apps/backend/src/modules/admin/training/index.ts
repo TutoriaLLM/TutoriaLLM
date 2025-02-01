@@ -17,7 +17,15 @@ import { eq, sql } from "drizzle-orm";
 import { createHonoApp } from "@/create-app";
 import { guides, trainingData } from "@/db/schema";
 
+/**
+ * This controller handles admin-based training data and guide operations.
+ * It includes CRUD operations for training data and guides, as well as
+ * utility functions to create guides from training data and query for knowledge.
+ */
 const app = createHonoApp()
+	/**
+	 * Get a random piece of training data
+	 */
 	.openapi(getRandomData, async (c) => {
 		const data = await db.query.trainingData.findFirst({
 			orderBy: sql`random()`,
@@ -30,10 +38,16 @@ const app = createHonoApp()
 		}
 		return c.json(data, 200);
 	})
+	/**
+	 * List all training data
+	 */
 	.openapi(listData, async (c) => {
 		const data = await db.query.trainingData.findMany();
 		return c.json(data, 200);
 	})
+	/**
+	 * Delete a piece of training data
+	 */
 	.openapi(deleteData, async (c) => {
 		const id = c.req.valid("param").id;
 		const data = await db.query.trainingData.findFirst({
@@ -49,7 +63,7 @@ const app = createHonoApp()
 			.delete(trainingData)
 			.where(eq(trainingData.id, id))
 			.returning({ id: trainingData.id });
-		if (result === undefined) {
+		if (!result || result.length === 0) {
 			return errorResponse(c, {
 				message: "Data to delete not found",
 				type: "NOT_FOUND",
@@ -57,11 +71,16 @@ const app = createHonoApp()
 		}
 		return c.json(result, 200);
 	})
+	/**
+	 * Create a new guide from training data
+	 */
 	.openapi(newGuide, async (c) => {
 		const data = c.req.valid("json");
 		try {
 			const createdGuide = await createGuideFromTrainingData(data);
+			// Insert the created guide into the guides table
 			await db.insert(guides).values(createdGuide);
+			// Remove the training data from which the guide was created
 			await db.delete(trainingData).where(eq(trainingData.id, data.id));
 			return c.json(createdGuide, 200);
 		} catch (e) {
@@ -72,11 +91,17 @@ const app = createHonoApp()
 			});
 		}
 	})
+	/**
+	 * Search guides by a query string
+	 */
 	.openapi(searchGuides, async (c) => {
 		const searchString = c.req.valid("query").query;
 		const result = await getKnowledge(searchString);
 		return c.json(result, 200);
 	})
+	/**
+	 * List all existing guides
+	 */
 	.openapi(listGuides, async (c) => {
 		const guidesList = await db.query.guides.findMany({
 			columns: {
@@ -88,6 +113,9 @@ const app = createHonoApp()
 		});
 		return c.json(guidesList, 200);
 	})
+	/**
+	 * Get a guide by its ID
+	 */
 	.openapi(getGuide, async (c) => {
 		const id = c.req.valid("param").id;
 		const guide = await db.query.guides.findFirst({
@@ -101,9 +129,13 @@ const app = createHonoApp()
 		}
 		return c.json(guide, 200);
 	})
+	/**
+	 * Update a guide
+	 */
 	.openapi(updateGuide, async (c) => {
 		const id = c.req.valid("param").id;
 		const data = c.req.valid("json");
+
 		const guide = await db.query.guides.findFirst({
 			where: eq(guides.id, id),
 		});
@@ -113,20 +145,26 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
+
 		const updatedGuide = {
 			...guide,
 			...data,
 		};
 		await db.update(guides).set(updatedGuide).where(eq(guides.id, id));
+
 		return c.json(updatedGuide, 200);
 	})
+	/**
+	 * Delete a guide by its ID
+	 */
 	.openapi(deleteGuide, async (c) => {
 		const id = c.req.valid("param").id;
 		const result = await db
 			.delete(guides)
 			.where(eq(guides.id, id))
 			.returning({ id: guides.id });
-		if (result === undefined) {
+
+		if (!result || result.length === 0) {
 			return errorResponse(c, {
 				message: "Guide to delete not found",
 				type: "NOT_FOUND",
