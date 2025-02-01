@@ -113,7 +113,6 @@
     "updatedScriptSuccess": "新しいコードの実行に成功しました",
     "updatedScriptError": "新しいコード実行中にエラーが発生："
   },
-  "logbuffer": {},
   "generic": {
     "connected": "接続しました",
     "websocketNotConnected": "Websocketが接続されていません",

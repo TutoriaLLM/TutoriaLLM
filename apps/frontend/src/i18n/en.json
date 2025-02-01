@@ -113,7 +113,6 @@
     "updatedScriptSuccess": "Updated script executed successfully.",
     "updatedScriptError": "Error executing updated script: {{error}}"
   },
-  "logbuffer": {},
   "general": {
     "connected": "Connected",
     "open": "Open",
