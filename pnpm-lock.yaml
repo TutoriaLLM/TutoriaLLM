@@ -544,8 +544,8 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.4.17)
       tsx:
-        specifier: 4.19.1
-        version: 4.19.1
+        specifier: 'catalog:'
+        version: 4.19.2
       vite:
         specifier: 5.4.9
         version: 5.4.9(@types/node@20.16.12)(terser@5.37.0)
@@ -9292,11 +9292,6 @@ packages:
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
-
-  tsx@4.19.1:
-    resolution: {integrity: sha512-0flMz1lh74BR4wOvBjuh9olbnwqCPc35OOlfyzHba0Dc+QNUeWX/Gq2YTbnwcWPO3BMd8fkzRVrHcsR+a7z7rA==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
 
   tsx@4.19.2:
     resolution: {integrity: sha512-pOUl6Vo2LUq/bSa8S5q7b91cgNSjctn9ugq/+Mvow99qW6x/UZYwzxy/3NmqoT66eHYfCVvFvACC58UBPFf28g==}
@@ -19435,7 +19430,7 @@ snapshots:
       preact: 10.25.4
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      tsx: 4.19.1
+      tsx: 4.19.2
     optionalDependencies:
       unplugin: 2.1.0
     transitivePeerDependencies:
@@ -20470,13 +20465,6 @@ snapshots:
       typescript: 5.7.3
 
   tslib@2.8.1: {}
-
-  tsx@4.19.1:
-    dependencies:
-      esbuild: 0.23.1
-      get-tsconfig: 4.8.1
-    optionalDependencies:
-      fsevents: 2.3.3
 
   tsx@4.19.2:
     dependencies:

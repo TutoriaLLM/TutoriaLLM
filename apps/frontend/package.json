@@ -81,7 +81,7 @@
     "tailwind-merge": "2.5.5",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "1.0.7",
-    "tsx": "4.19.1",
+    "tsx": "catalog:",
     "vite": "5.4.9",
     "vite-plugin-pwa": "0.20.5",
     "vite-plugin-svgr": "4.2.0",
