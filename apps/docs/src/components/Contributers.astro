@@ -49,35 +49,14 @@ const membersWithContributions = members.map((member: { login: unknown; }) => ({
   contributions: contributorMap.get(member.login) || 0
 }));
 ---
-<style>
-  .card {
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    overflow: clip;
-  }
-  .info {
-    display: flex;
-    flex-direction: column;
-  }
-  img {
-    border-radius: 50%;
-  }
-  h2 {
-    margin-top: 2rem;
-  }
-</style>
 
 <!-- メンバーの表示 -->
 <h3>Members</h3>
 <CardGrid>
   {membersWithContributions.map((member: { avatar_url: string | null | undefined; login: string; html_url: string | URL | null | undefined; contributions: unknown; }) => (
-    <div class="card">
-      <img src={member.avatar_url} alt={member.login} width="50" height="50" />
-      <span class="info">
+    <div class="p-4 border border-() rounded-2xl flex items-center gap-4 overflow-clip">
+      <img src={member.avatar_url} alt={member.login} class="w-14 h-14 rounded-2xl" />
+      <span class="flex flex-col">
         <a href={member.html_url}>@{member.login}</a>
         <p>Contributions: {member.contributions}</p>
       </span>
@@ -89,9 +68,9 @@ const membersWithContributions = members.map((member: { login: unknown; }) => ({
 <h3>Contributors</h3>
 <CardGrid>
   {filteredContributors.map((contributor: { avatar_url: string | null | undefined; login: string; html_url: string | URL | null | undefined; contributions: unknown; }) => (
-    <div class="card">
-      <img src={contributor.avatar_url} alt={contributor.login} width="50" height="50" />
-      <span class="info">
+    <div class="p-4 border border-() rounded-2xl flex items-center gap-4 overflow-clip">
+      <img src={contributor.avatar_url} alt={contributor.login} class="w-14 h-14 rounded-2xl"  />
+      <span class="flex flex-col">
         <a href={contributor.html_url}>@{contributor.login}</a>
         <p>Contributions: {contributor.contributions}</p>
       </span>
