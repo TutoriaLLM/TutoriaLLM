@@ -102,63 +102,12 @@ export const route = app
 	.route("/", healthRoutes)
 	.route("/", sessionRoutes)
 	.route("/", tutorialRoutes)
-	.doc("/doc", {
-		openapi: "3.0.0",
-		info: {
-			version: "2.0.0",
-			title: "TutoriaLLM API",
-		},
-		servers: [
-			{
-				url: `http://localhost:${port}`,
-			},
-		],
-	})
-	// .get("/doc/with-auth", async (c) => {
-	// 	const nonAuthRef = await fetch(`http://localhost:${port}/doc`).then(
-	// 		(res) => res.body,
-	// 	);
-	// 	let result = "";
-
-	// 	if (nonAuthRef) {
-	// 		const reader = nonAuthRef.getReader();
-	// 		const decoder = new TextDecoder();
-
-	// 		let done = false;
-	// 		while (!done) {
-	// 			const { value, done: isDone } = await reader.read();
-	// 			if (value) {
-	// 				result += decoder.decode(value, { stream: true });
-	// 			}
-	// 			done = isDone;
-	// 		}
-	// 	}
-
-	// 	const authRef =
-	// 		(await auth.api.generateOpenAPISchema()) as Swagger.SwaggerV3;
-
-	// 	const mergeResult = merge([
-	// 		{
-	// 			oas: JSON.parse(result),
-	// 		},
-	// 		{
-	// 			oas: authRef,
-	// 			pathModification: {
-	// 				prepend: "/auth",
-	// 			},
-	// 		},
-	// 	]);
-
-	// 	if (isErrorResult(mergeResult)) return c.body(JSON.stringify(c.error));
-
-	// 	return c.body(JSON.stringify(mergeResult.output), 200);
-	// })
 	.get(
 		"/ui",
 		apiReference({
 			pageTitle: "TutoriaLLM API Reference",
 			spec: {
-				url: "/doc/with-auth",
+				url: "/doc",
 			},
 		}),
 	);
@@ -186,7 +135,7 @@ const mergeResult = merge([
 	},
 ]);
 
-app.get("/doc/with-auth", (c) => {
+app.get("/doc", (c) => {
 	if (isErrorResult(mergeResult)) {
 		return c.body(JSON.stringify(c.error));
 	}
@@ -255,8 +204,3 @@ const isDev = process.env.NODE_ENV === "development";
 if (isDev) showRoutes(app, { verbose: true, colorize: true });
 
 export type AppType = typeof route;
-
-//export openapi schema
-export const docs = isErrorResult(mergeResult)
-	? JSON.stringify(mergeResult)
-	: JSON.stringify(mergeResult.output);

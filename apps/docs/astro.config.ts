@@ -3,6 +3,7 @@ import starlight from "@astrojs/starlight";
 import starlightOpenAPI, { openAPISidebarGroups } from "starlight-openapi";
 import starlightLinksValidator from "starlight-links-validator";
 import tailwind from "@astrojs/tailwind";
+import { loadEnv } from "vite";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,12 +15,16 @@ export default defineConfig({
 					{
 						base: "api",
 						label: "API リファレンス",
-						schema: "./schema/api-schema.yaml",
+						schema:
+							loadEnv(process.env.OPENAPI_DOCS_URL as string, process.cwd(), "")
+								.OPENAPI_DOCS_URL || "http://localhost:3001/doc",
 					},
 					{
 						base: "en/api",
 						label: "API Reference",
-						schema: "./schema/api-schema.yaml",
+						schema:
+							loadEnv(process.env.OPENAPI_DOCS_URL as string, process.cwd(), "")
+								.OPENAPI_DOCS_URL || "http://localhost:3001/doc",
 					},
 				]),
 			],
