@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightOpenAPI, { openAPISidebarGroups } from "starlight-openapi";
 import starlightLinksValidator from "starlight-links-validator";
+import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
 				"./src/customColour.css",
 				"./src/styles.css",
 				"./src/fonts/IBMPlexMono-ExtraLightItalic.css",
+				"./src/tailwind.css",
 			],
 			components: {
 				SiteTitle: "./src/components/SiteTitle.astro",
@@ -82,6 +84,9 @@ export default defineConfig({
 				},
 				...openAPISidebarGroups,
 			],
+		}),
+		tailwind({
+			applyBaseStyles: false,
 		}),
 	],
 });
