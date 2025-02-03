@@ -1,7 +1,11 @@
 # Base image
 FROM node:20-slim AS base
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+# FIX: Bad workaround (https://github.com/nodejs/corepack/issues/612)
+ENV COREPACK_INTEGRITY_KEYS=0
+
 RUN corepack enable
 RUN apt-get update && apt-get install -y iproute2 net-tools ffmpeg
 
