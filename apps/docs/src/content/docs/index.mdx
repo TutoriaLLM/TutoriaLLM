@@ -1,0 +1,116 @@
+---
+title: TutoriaLLMへようこそ
+description: Scratchのようなブロックプログラミングのチュートリアルを簡単に作成し、AIを利用して提供することができるセルフホスト型のソフトウェアです。
+template: splash
+hero:
+  tagline: Scratchのようなブロックプログラミングのチュートリアルを簡単に作成し、AIを利用して提供することができるセルフホスト型のソフトウェアです。
+  image:
+    file: ../../assets/square.webp
+  actions:
+    - text: デモで試す
+      link: https://demo.tutoriaLLM.com
+      icon: external
+      variant: primary
+    - text: ドキュメントを読む
+      link: /introduction
+      icon: right-arrow
+      variant: secondary
+---
+
+import {
+  Card,
+  CardGrid,
+  Aside,
+  LinkCard,
+  LinkButton,
+} from "@astrojs/starlight/components";
+
+import Contributers from "../../components/Contributers.astro";
+
+<Aside type="note" title="大事なお知らせ">
+- **11月4日 (月曜・振替休日)** に東京大学で開催される**2024年度の未踏ジュニア成果報告会**で、TutoriaLLMの**プレゼンテーションをオンラインにて行いました。**[詳しくはこちらをご覧ください](https://jr.mitou.org/projects/2024/tutoriallm)
+
+- **11月17日 (日曜)** にTODA HALL & CONFERENCE TOKYOで実施された**アプリ甲子園2024 決勝大会** AI部門にて、アプリのプレゼンテーションを行い、技術賞・優勝・総務大臣賞を受賞しました。[詳しくはこちらをご覧ください](https://applikoshien.jp/)
+
+- **現在、正式版のリリースは行われていません。** このサイトは開発中の機能を含んでいるため、情報が変更される可能性があります。
+
+- **デモサイトは無料で利用できますが**、 データは定期的に削除され、アップデートが適用されることがあります。バグなども多く安定性は保証できかねますので、ご了承ください。
+
+- 現在、**アプリの大幅な更新を行なっています。** ドキュメントは近日中に更新される予定です。
+
+</Aside>
+
+## 始めよう
+
+<CardGrid stagger>
+  <Card title="自分のアプリをデプロイする" icon="github">
+    [GitHubリポジトリ](https://github.com/TutoriaLLM/TutoriaLLM)から初めるか、[ホストする方法](/developer/host)を参照してください。
+  </Card>
+  <Card title="デモを体験する" icon="external">
+    いくつかのチュートリアルを試せる[TutoriaLLMのデモ](https://demo.tutoriaLLM.com)に触れてみましょう。
+  </Card>
+  <Card title="アプリの使い方について知る" icon="open-book">
+    [TutoriaLLMについて](/introduction)学びましょう。
+  </Card>
+</CardGrid>
+
+## TutoriaLLM とは
+
+TutoriaLLM は、Scratch のようなブロックプログラミングのチュートリアルを簡単に作成し、AI を利用して提供することができるセルフホスト型のソフトウェアです。
+
+<iframe
+  class="iframe-video"
+  src="https://www.youtube.com/embed/-EubeJrnn70?si=BDjkakbLhWRao7sy"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
+
+<LinkCard
+  title="さらに詳しく"
+  description="TutoriaLLM についてもっと知りたいですか？"
+  href="/introduction"
+/>
+
+## メンバーとコントリビューター
+
+プロジェクトは So Tokumaru によって開発されていますが、多くのコントリビューターによって支えられています。
+
+<LinkCard
+  title="TutoriaLLMの開発に貢献する"
+  description="GitHub リポジトリを覗いてみましょう。"
+  href="https://github.com/TutoriaLLM/TutoriaLLM"
+/>
+
+<Contributers />
+
+## お問い合わせ
+
+お問い合わせは目的に応じて以下の方法で行うことができます。
+
+<CardGrid>
+
+<Card title="バグ報告や機能リクエスト" icon="github">
+  このアプリはオープンソースで開発されています。バグ報告や機能リクエストは
+  GitHub Issues で受け付けています。
+  <LinkCard
+    title="GitHub Issues"
+    description="GitHub Issues でバグ報告や機能リクエストを行うことができます。"
+    href="https://github.com/TutoriaLLM/TutoriaLLM/issues"
+  />
+</Card>
+
+<Card title="開発者コミュニティへの参加" icon="discord">
+
+TutoriaLLM の開発者コミュニティに参加して、開発に貢献しましょう。アプリに関する相談でも、開発に関する相談でも、関係のない話でも、どんな話題も歓迎です。
+
+<LinkCard
+  title="Discord サーバー"
+  description="TutoriaLLMのコミュニティに参加しましょう。"
+  href="https://discord.gg/zxuREnWVXC"
+/>
+</Card>
+
+</CardGrid>

@@ -1,0 +1,154 @@
+---
+title: Hosting TutoriaLLM
+description: Use Docker Compose to host the TutoriaLLM app on a server.
+sidebar:
+  order: 1
+---
+
+import {
+  LinkCard,
+  Card,
+  CardGrid,
+  Aside,
+  Icon,
+  Code,
+} from "@astrojs/starlight/components";
+
+## How to Host the Application
+
+To host TutoriaLLM, you need to set up the frontend, backend, and database. Below is a guide on hosting the TutoriaLLM app using Docker Compose and a hosting service of your choice.
+
+<Aside type="note" title="About Docker">
+  For information about Docker, refer to the [Docker](https://www.docker.com/)
+  official site.
+</Aside>
+
+<Aside type="note" title="Changes">
+  Starting from v1.0, Docker images for the frontend are no longer provided. Due
+  to the separated repository structure, you need to specify the backend API
+  endpoint when building Vite.
+</Aside>
+
+## Hosting the Backend and Database
+
+Use Docker Compose to host the backend and database. Follow the steps below to host the TutoriaLLM app.
+Prepare a server (e.g., VPS) or a computer with Docker installed.
+
+<Aside type="caution" title="Caution!">
+  Warning: On platforms where SSL is mandatory, Minecraft-related features may
+  not function correctly. Since Minecraft does not support SSL (HTTPS), you may
+  need to disable SSL or the Minecraft-Core extension to resolve this issue.
+</Aside>
+
+### Pulling the Backend Docker Image
+
+The image is available on Docker Hub. While multiple versions are provided, it is recommended to use the latest version. To use the image, you need to connect to Pgvector (or PostgreSQL with vector support).
+
+<LinkCard
+  title="Docker Hub - TutoriaLLM_api"
+  href="https://hub.docker.com/r/soumame/tutoriallm_api"
+/>
+
+### About Versions
+
+TutoriaLLM offers multiple versions to ensure stability. For details on version changes, refer to the [GitHub repository](https://github.com/TutoriaLLM/TutoriaLLM/):
+
+- `latest` - Latest release
+  - `release_[YYYY-DDMM-BUILD_NUMBER]` - Versioned releases
+- `latest-preview` - Latest development release
+  - `preview_[YYYY-DDMM-BUILD_NUMBER]` - Development versions
+
+### Creating the Compose File
+
+import composeProdExample from "../../../media/code/docker-compose.prod.yml?raw";
+
+Below is an example of a production-ready `docker-compose.yml` file.
+
+<Aside type="note" title="Note">
+  This file references the `docker-compose.prod.yml` file from the [GitHub
+  repository](https://github.com/TutoriaLLM/TutoriaLLM/). It sets up the
+  necessary environment variables for running a secure app using a reverse proxy
+  and includes configuration for auto-updating the app with Watchtower.
+</Aside>
+
+<Code code={composeProdExample} lang="yaml" title="./docker-compose.yml" />
+
+### Setting Environment Variables
+
+Below is an example of environment variables. Adjust them according to your deployment method:
+
+- OPENAI_API_KEY - Key for using the OpenAI API
+- OPENAI_API_ENDPOINT - Endpoint for OpenAI API. Defaults to the standard endpoint if not set.
+
+- POSTGRES_USER - Database username
+- POSTGRES_PASSWORD - Database password
+- DB_PORT=5432 - Database port
+- POSTGRES_DB - Database name
+- DB_HOST - Database host
+
+- DEFAULT_USER_NAME - Default username
+- DEFAULT_USER_PASSWORD - Default user password
+
+- SENTRY_DSN - Optional, DSN for Sentry.io to track backend errors
+
+- DOMAIN - App domain name, used for automatic SSL configuration
+- EMAIL - App email address, used for automatic SSL configuration
+
+- CORS_ORIGIN - CORS settings, set the frontend URL
+
+<Aside type="caution" title="Caution!">
+  Warning: TutoriaLLM uses multiple services via the OpenAI key. Depending on
+  the tier, usage limits may occur, causing the app to malfunction. For details,
+  see [OpenAI - Rate
+  Limits](https://platform.openai.com/docs/guides/rate-limits/usage-tiers).
+</Aside>
+
+### Starting the App
+
+Run the following command in the directory containing the Compose file and `.env` file to start the app:
+
+```sh
+docker compose up
+
+## To run in the background
+docker compose up -d
+```
+
+## Hosting the Frontend
+
+There are several ways to host the frontend. This guide explains how to host it using Vercel or Netlify.
+
+### Forking the Repository
+
+Fork the GitHub repository.
+
+<LinkCard
+  title="GitHub Repository"
+  description="Check out the TutoriaLLM GitHub repository."
+  href="https://github.com/TutoriaLLM/TutoriaLLM"
+/>
+
+### Hosting
+
+Set up the following configurations on your hosting service to deploy the app:
+
+<Aside type="caution" title="Caution!">
+  When hosting on a hosting service, build the frontend directly from the root.
+  You must build the backend and extensions before building the frontend.
+</Aside>
+
+#### Setting Environment Variables
+
+- VITE_BACKEND_URL - Backend API endpoint
+
+#### Build Settings
+
+Build all packages from the root directory using the `pnpm build:all` command:
+
+- Build Command: `pnpm build:all`
+  Then upload the built frontend files to the hosting service.
+- Build Directory: `/apps/frontend/dist`
+
+### Using Docker
+
+As environment variables must be set when building the frontend files, Docker images for the frontend are not provided on Docker Hub. Use the `Dockerfile` in the repository to build the image for the frontend.

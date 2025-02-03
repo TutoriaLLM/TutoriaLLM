@@ -1,0 +1,165 @@
+---
+title: Developing the Application
+description: Information about the development of TutoriaLLM.
+sidebar:
+  order: 2
+---
+
+import {
+  LinkCard,
+  Card,
+  CardGrid,
+  Aside,
+  Icon,
+  Code,
+} from "@astrojs/starlight/components";
+
+## TutoriaLLM Repository Structure
+
+```md
+![Repository Structure](../../media/images/stacks.png)
+
+TutoriaLLM consists of two main systems: the frontend and the backend. The frontend is built with React, Vite, and Tanstack Router, while the backend is built with Hono and Node.js. It uses PostgreSQL as the database. Additionally, there is an extension system that provides functionality for integrating with external applications like Minecraft.
+```
+
+### Frontend
+
+```md
+The frontend is built with React, Vite, and Tanstack Router. You can use any editor to edit the code and run the app in a local environment using Node.js.
+```
+
+### Backend
+
+```md
+The backend is built with Hono and Node.js, requiring PostgreSQL as the database. It works alongside the frontend to manage the application's data. The backend is provided as a Docker image, which can be deployed on a server using tools like Docker Compose for database connectivity.  
+This page explains how to run the application in a local environment for development purposes.
+```
+
+## Cloning the Repository
+
+```md
+Clone the GitHub repository to start development. You can use your preferred editor to edit the code and run the application locally using Node.js.
+```
+
+```md
+<LinkCard
+  title="GitHub Repository"
+  description="Check out the TutoriaLLM GitHub repository."
+  href="https://github.com/TutoriaLLM/TutoriaLLM"
+/>
+```
+
+## Setting Environment Variables
+
+```md
+Below is an example of the required environment variables. Set these in `/apps/frontend/.env` and `/apps/backend/.env`.
+```
+
+### `/apps/frontend/.env`
+
+```env
+VITE_BACKEND_URL=http://localhost:3001
+```
+
+### `/apps/backend/.env`
+
+```env
+OPENAI_API_KEY="sk-xxxxxx"
+OPENAI_API_ENDPOINT="https://your-openai-api-endpoint"
+
+CORS_ORIGIN="http://localhost:3000"
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_PORT=5432
+POSTGRES_DB="tutoriallm_db"
+DB_HOST="db.tutoriallm.local"
+
+DOMAIN="localhost"
+EMAIL="example@example.com"
+
+DEFAULT_USER_PASSWORD="admin"
+DEFAULT_USER_NAME="admin"
+```
+
+## Connecting to the Database
+
+```md
+TutoriaLLM requires a connection to PostgreSQL with pgvector enabled. Below is a guide to setting up pgvector using Docker Compose.
+```
+
+```yaml
+import composeExample from "../../media/code/docker-compose.yml?raw";
+
+<Code code={composeExample} lang="yaml" title="/docker-compose.yml" />
+```
+
+```md
+<Aside type="note" title="About Docker">
+  For more information about Docker, see [Docker](https://www.docker.com/).
+</Aside>
+```
+
+## Starting the Server
+
+```md
+Start the database:
+```
+
+```sh
+docker compose up
+```
+
+```md
+Start the frontend and backend with the following commands:
+```
+
+```sh
+# Frontend
+cd apps/frontend
+pnpm i && pnpm dev
+
+# Backend
+cd apps/backend
+pnpm i && pnpm dev
+```
+
+```md
+<Aside type="note" title="Note">
+  By default, TutoriaLLM uses port 3000 for the frontend and port 3001 for the API entry point.
+</Aside>
+```
+
+## Sharing Type Definitions
+
+```md
+This repository uses a pnpm workspace to share type definitions between the frontend and backend. Type definitions are defined in the backend and can be used in the frontend.
+```
+
+```sh
+# Generate type definitions in the backend
+cd apps/backend
+pnpm run build
+```
+
+## Developing Extensions
+
+```md
+Extensions are placed in the `/packages/extensions` directory by default. If you create an extension, add it to this directory. Values exported in `index.ts` are used by both the frontend and backend.
+```
+
+```md
+<Aside type="note" title="Note">
+  The directory structure for extensions may change in future versions.
+</Aside>
+```
+
+```sh
+After defining an extension, build it using the following command:
+
+# Build the extension
+pnpm run build
+```
+
+```md
+Once built, type definitions are automatically shared between the frontend and backend.
+```
