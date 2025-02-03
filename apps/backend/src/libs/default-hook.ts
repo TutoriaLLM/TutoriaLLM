@@ -9,7 +9,7 @@ import type { Hook } from "@hono/zod-openapi";
 export const defaultHook: Hook<unknown, Context, "", unknown> = (result, c) => {
 	if (result.success) return;
 
-	// Fflaten and retrieve errors
+	// flatten and retrieve errors
 	const { formErrors, fieldErrors } = result.error.flatten();
 
 	// String to identify the type of error in the application

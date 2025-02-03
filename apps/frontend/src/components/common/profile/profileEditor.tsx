@@ -2,7 +2,7 @@ import { PenIcon } from "lucide-react";
 import { Button } from "../../ui/button";
 import type { AuthSession } from "@/type";
 import { EditPassword } from "./edit/editPassword";
-import { Editinfo } from "./edit/editInfo";
+import { EditInfo } from "./edit/editInfo";
 import {
 	Dialog,
 	DialogContent,
@@ -27,8 +27,7 @@ export function ProfileEditor({ session }: { session: AuthSession }) {
 					<DialogTitle>{t("login.editTitle")}</DialogTitle>
 					<DialogDescription>{t("login.editDescription")}</DialogDescription>
 					<div className="w-full h-full flex flex-col gap-3 flex-grow overflow-y-auto">
-						<Editinfo session={session} />
-
+						<EditInfo session={session} />
 						<EditPassword />
 					</div>
 				</DialogHeader>

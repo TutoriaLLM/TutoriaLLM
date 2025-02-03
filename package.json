@@ -11,13 +11,25 @@
     "format": "biome format . --write",
     "check": "biome check . --fix",
     "lint:repo": "sherif",
-    "build:all": "pnpm -r build"
+    "build:all": "pnpm -r build",
+    "spell": "cspell lint '**'",
+    "commit": "cz"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm format && pnpm lint:repo && pnpm check"
+    "pre-commit": "pnpm format && pnpm lint:repo && pnpm check && pnpm --filter ./apps/** type:check",
+    "commit-msg": "pnpm commitlint --edit ${1}",
+    "prepare-commit-msg": "cat $1 | pnpm commitlint -q || (exec < /dev/tty && node_modules/.bin/cz --hook || true)"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
+    "@vitejs/plugin-react": "4.3.2",
+    "commitizen": "4.3.1",
+    "cspell": "^8.17.3",
+    "cz-conventional-changelog": "3.3.0",
+    "js-yaml": "catalog:",
+    "jsdom": "^26.0.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
@@ -26,8 +38,12 @@
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "3.0.4"
   },
-  "dependencies": {
-    "@vitejs/plugin-react": "4.3.2",
-    "jsdom": "^26.0.0"
+  "commitlint": {
+    "extends": ["@commitlint/config-conventional"]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

@@ -1,0 +1,66 @@
+---
+title: Troubleshooting
+description: Provides information on troubleshooting and known issues with the TutoriaLLM app and during development.
+sidebar:
+  order: 1
+---
+
+import {
+  LinkCard,
+  Card,
+  CardGrid,
+  Aside,
+  Icon,
+} from "@astrojs/starlight/components";
+
+This page provides information on troubleshooting and known issues with the TutoriaLLM app and during development.
+
+<Aside type="note" title="Note">
+  Since TutoriaLLM is open-source software, the application may have been
+  modified by the host. Therefore, the following information may not always
+  apply. Please contact the application administrator.
+</Aside>
+
+## Issues with the App
+
+This section explains issues with the TutoriaLLM app.
+
+### Performance Issues
+
+Since TutoriaLLM is a browser-based application, it may run slowly in some environments. This is especially true for older devices or browsers. In such cases, it is recommended to use the latest browser or update the device.
+To address these issues, TutoriaLLM also offers a PWA (Progressive Web App). Using a compatible browser can speed up the app's performance.
+You can install the PWA from the "About this app" section at the bottom of the initial screen.
+For more details, please contact the app administrator.
+
+### Issues with Unstable Network
+
+It has been reported that the app may not function properly on devices with unstable network connections. In such cases, it is recommended to stabilize the network environment or use the app on a different device.
+Additionally, when using features like voice mode, data communication of several MB may occur at once, so please be mindful of the communication environment. In metered communication environments, communication charges may become high.
+
+### Issues Connecting to Minecraft
+
+If issues arise when connecting to Minecraft Education or Minecraft Bedrock Edition, please ensure that encryption is turned off during the connection. TutoriaLLM does not support encryption for Minecraft, so please turn off the "Require encrypted communication" setting in Minecraft.
+
+Additionally, while TutoriaLLM can connect with Minecraft, there have been reports of connection failures despite correct settings. In such cases, please check the connection methods provided in the AI chat space and reconfigure the settings. If the connection still fails after multiple attempts, please contact the app administrator.
+
+---
+
+## Issues During Development
+
+This section explains troubleshooting and known issues during development.
+
+### Issues with SSL
+
+When exposing TutoriaLLM to the public, it is recommended to use SSL, but please note the following points:
+
+- If the SSL certificate has expired, the app may not function properly. Please update the certificate if it has expired.
+- If SSL is disabled on the client side, features like voice input may not be available.
+- Forcing SSL on all connections may prevent connections to Minecraft. If connecting to Minecraft, SSL needs to be disabled, so please change the settings.
+- When assigning domains using DNS or similar, if using proxies like Cloudflare, connections to Minecraft may fail. In such cases, please disable the proxy.
+
+### Issues with Image Versions
+
+Since TutoriaLLM uses Docker images to run the app, behavior may vary depending on the image version. If the app behaves strangely, please check the version of the image being used.
+If the version tag includes `preview`, it is a development version and may exhibit unstable behavior. In such cases, it is recommended to use a stable version.
+Therefore, it is recommended to use an image with the `latest` tag.
+If you find bugs in an image with the `latest` tag, please refer to the [Contribute](/en/developer/contribute) page and report them.

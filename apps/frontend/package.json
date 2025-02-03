@@ -7,7 +7,7 @@
     "dev": "vite",
     "start": "cross-env NODE_ENV=production vite preview",
     "build": "pnpm tsc && vite build",
-    "tsc": "tsc --noEmit"
+    "type:check": "tsc --noEmit"
   },
   "dependencies": {
     "@axe-core/playwright": "4.10.1",
@@ -59,7 +59,7 @@
     "i18next-fs-backend": "2.3.2",
     "idb": "8.0.0",
     "jotai": "2.10.1",
-    "js-yaml": "4.1.0",
+    "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "lucide-react": "0.381.0",
     "nodemon": "3.1.7",
@@ -79,9 +79,9 @@
     "rfc6902": "catalog:",
     "socket.io-client": "4.8.0",
     "tailwind-merge": "2.5.5",
-    "tailwindcss": "3.4.14",
+    "tailwindcss": "catalog:",
     "tailwindcss-animate": "1.0.7",
-    "tsx": "4.19.1",
+    "tsx": "catalog:",
     "vite": "5.4.9",
     "vite-plugin-pwa": "0.20.5",
     "vite-plugin-svgr": "4.2.0",

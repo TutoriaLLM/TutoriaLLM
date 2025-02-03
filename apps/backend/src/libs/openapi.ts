@@ -40,9 +40,9 @@ export const jsonBody = <
  * Define error responses for Open API
  */
 export const errorResponses = ({
-	validationErrorResnponseSchemas,
+	validationErrorResponseSchemas,
 }: {
-	validationErrorResnponseSchemas?: [
+	validationErrorResponseSchemas?: [
 		ReturnType<typeof createValidationErrorResponseSchema>,
 		...ReturnType<typeof createValidationErrorResponseSchema>[],
 	];
@@ -56,7 +56,7 @@ export const errorResponses = ({
 						"BadRequestErrorResponse",
 					);
 
-					const schemas = validationErrorResnponseSchemas;
+					const schemas = validationErrorResponseSchemas;
 
 					// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 					return schemas ? z.union([baseSchema, ...schemas]) : baseSchema;

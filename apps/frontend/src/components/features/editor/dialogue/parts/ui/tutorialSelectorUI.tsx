@@ -93,7 +93,7 @@ function SelectTutorialUI({
 					{
 						id: (prev.dialogue?.length ?? 0) + 1,
 						contentType: "log",
-						isuser: false,
+						isUser: false,
 						content: t("tutorial.startTutorial"),
 					},
 				],

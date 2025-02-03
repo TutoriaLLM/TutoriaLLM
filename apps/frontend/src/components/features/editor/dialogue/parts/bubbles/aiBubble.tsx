@@ -13,10 +13,10 @@ function renderAIBubble(
 	markdownComponents: Components,
 	t: TFunction,
 	id: number,
-	easymode: boolean, // Add state
+	easyMode: boolean, // Add state
 ) {
 	// If state is false, ruby tags are removed
-	const displayContent = easymode ? content : removeRubyTags(content);
+	const displayContent = easyMode ? content : removeRubyTags(content);
 
 	return (
 		<div

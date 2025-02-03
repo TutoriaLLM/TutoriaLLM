@@ -13,10 +13,21 @@ import {
 } from "@/modules/admin/training/schema";
 import { createRoute } from "@hono/zod-openapi";
 
-// API to manage training data
+/**
+ * Base config for training data
+ */
+const baseTrainingDataConfig = {
+	path: "/admin/training/data" as const,
+	tags: ["admin-training-data"],
+};
+
+/**
+ * Get a random training data
+ */
 export const getRandomData = createRoute({
+	...baseTrainingDataConfig,
 	method: "get",
-	path: "/admin/training/data/random",
+	path: `${baseTrainingDataConfig.path}/random`,
 	summary: "Get a random training data",
 	responses: {
 		200: {
@@ -27,9 +38,13 @@ export const getRandomData = createRoute({
 	},
 });
 
+/**
+ * List all training data
+ */
 export const listData = createRoute({
+	...baseTrainingDataConfig,
 	method: "get",
-	path: "/admin/training/data/list",
+	path: `${baseTrainingDataConfig.path}/list`,
 	summary: "List all training data",
 	responses: {
 		200: {
@@ -40,9 +55,13 @@ export const listData = createRoute({
 	},
 });
 
+/**
+ * Delete a training data from id
+ */
 export const deleteData = createRoute({
+	...baseTrainingDataConfig,
 	method: "delete",
-	path: "/admin/training/data/{id}",
+	path: `${baseTrainingDataConfig.path}/{id}`,
 	summary: "Delete a training data from id",
 	request: {
 		params: deleteDataParam.schema,
@@ -52,30 +71,26 @@ export const deleteData = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [deleteDataParam.vErr()],
+			validationErrorResponseSchemas: [deleteDataParam.vErr()],
 		}),
 	},
 });
 
-//Not in use
-// export const getData = createRoute({
-// 	method: "get",
-// 	path: "/admin/training/data/:id",
-// 	summary: "Get a training data from id",
-// 	responses: {
-// 		200: {
-// 			content: jsonBody(dataSchema),
-// 			description: "Returns a training data",
-// 		},
-// 		...errorResponses({}),
-// 	},
-// });
+/**
+ * Base config for training guides
+ */
+const baseTrainingGuideConfig = {
+	path: "/admin/training/guide" as const,
+	tags: ["admin-training-guide"],
+};
 
-// API for guides to be created based on data
-
+/**
+ * Create a new guide from data
+ */
 export const newGuide = createRoute({
+	...baseTrainingGuideConfig,
 	method: "post",
-	path: "/admin/training/guide/new",
+	path: `${baseTrainingGuideConfig.path}/new`,
 	summary: "Create a new guide from data",
 	request: {
 		body: {
@@ -87,14 +102,18 @@ export const newGuide = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [newGuideRequest.vErr()],
+			validationErrorResponseSchemas: [newGuideRequest.vErr()],
 		}),
 	},
 });
 
+/**
+ * Search guides by query
+ */
 export const searchGuides = createRoute({
+	...baseTrainingGuideConfig,
 	method: "post",
-	path: "/admin/training/guide/search",
+	path: `${baseTrainingGuideConfig.path}/search`,
 	summary: "Search guides by query",
 	request: {
 		query: guideSearchQuery.schema,
@@ -105,14 +124,18 @@ export const searchGuides = createRoute({
 			description: "Returns the list of guides",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideSearchQuery.vErr()],
+			validationErrorResponseSchemas: [guideSearchQuery.vErr()],
 		}),
 	},
 });
 
+/**
+ * Return the list of guides
+ */
 export const listGuides = createRoute({
+	...baseTrainingGuideConfig,
 	method: "get",
-	path: "/admin/training/guide/list",
+	path: `${baseTrainingGuideConfig.path}/list`,
 	summary: "Return the list of guides",
 	responses: {
 		200: {
@@ -123,9 +146,13 @@ export const listGuides = createRoute({
 	},
 });
 
+/**
+ * Get a guide from id
+ */
 export const getGuide = createRoute({
+	...baseTrainingGuideConfig,
 	method: "get",
-	path: "/admin/training/guide/{id}",
+	path: `${baseTrainingGuideConfig.path}/{id}`,
 	summary: "Get a guide from id",
 	request: {
 		params: guideIdParam.schema,
@@ -136,14 +163,18 @@ export const getGuide = createRoute({
 			description: "Returns the guide",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideIdParam.vErr()],
+			validationErrorResponseSchemas: [guideIdParam.vErr()],
 		}),
 	},
 });
 
+/**
+ * Update a guide
+ */
 export const updateGuide = createRoute({
+	...baseTrainingGuideConfig,
 	method: "put",
-	path: "/admin/training/guide/{id}",
+	path: `${baseTrainingGuideConfig.path}/{id}`,
 	summary: "Update a guide",
 	request: {
 		params: guideIdParam.schema,
@@ -156,14 +187,18 @@ export const updateGuide = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideIdParam.vErr()],
+			validationErrorResponseSchemas: [guideIdParam.vErr()],
 		}),
 	},
 });
 
+/**
+ * Delete a guide
+ */
 export const deleteGuide = createRoute({
+	...baseTrainingGuideConfig,
 	method: "delete",
-	path: "/admin/training/guide/{id}",
+	path: `${baseTrainingGuideConfig.path}/{id}`,
 	summary: "Delete a guide",
 	request: {
 		params: guideIdParam.schema,
@@ -173,7 +208,7 @@ export const deleteGuide = createRoute({
 			description: "Returns 200(OK)",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [guideIdParam.vErr()],
+			validationErrorResponseSchemas: [guideIdParam.vErr()],
 		}),
 	},
 });

@@ -9,7 +9,7 @@
 [![Website](https://img.shields.io/badge/Website-Visit-blue)](https://tutoriallm.com)
 [![Docker](https://img.shields.io/docker/pulls/soumame/tutoriallm_api)](https://hub.docker.com/r/soumame/tutoriallm_api)
 
-[English](../../README.md)
+[English](./README.md)
 | **日本語**
 
 TutoriaLLM は、小中学生を対象とした、Web 上で使用できる、LLM によって提供されるセルフホスト型プログラミング学習プラットフォームです。教育コンテンツを制作する人と、そのコンテンツから学ぶ人たちのために設計されています。
