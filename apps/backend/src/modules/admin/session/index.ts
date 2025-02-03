@@ -1,5 +1,4 @@
 import { createHonoApp } from "@/create-app";
-import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { errorResponse } from "@/libs/errors";
 import {
@@ -21,7 +20,7 @@ const app = createHonoApp()
 	 * Download all sessions in JSON format
 	 */
 	.openapi(downloadAllSessions, async (c) => {
-		const allSessions = await db.query.appSessions.findMany({
+		const allSessions = await c.get("db").query.appSessions.findMany({
 			with: {
 				userInfo: {
 					columns: {
@@ -51,7 +50,7 @@ const app = createHonoApp()
 		const sortFieldType = appSessions[sortField];
 
 		const [sessions, total] = await Promise.all([
-			db.query.appSessions.findMany({
+			c.get("db").query.appSessions.findMany({
 				where: eq(appSessions.userInfo, userId),
 				orderBy: [sortOrderType(sortFieldType)],
 				limit: end - start,
@@ -77,7 +76,8 @@ const app = createHonoApp()
 					},
 				},
 			}),
-			db
+			c
+				.get("db")
 				.select({ count: count(eq(appSessions.userInfo, userId)) })
 				.from(appSessions),
 		]);
@@ -104,7 +104,7 @@ const app = createHonoApp()
 			const sortFieldType = appSessions[sortField];
 
 			const [sessions, total] = await Promise.all([
-				db.query.appSessions.findMany({
+				c.get("db").query.appSessions.findMany({
 					orderBy: [sortOrderType(sortFieldType)],
 					limit: end - start,
 					offset: start,
@@ -129,7 +129,7 @@ const app = createHonoApp()
 						},
 					},
 				}),
-				db.select({ count: count() }).from(appSessions),
+				c.get("db").select({ count: count() }).from(appSessions),
 			]);
 
 			return c.json(
@@ -156,7 +156,8 @@ const app = createHonoApp()
 		const sessionId = c.req.valid("param").sessionId;
 		console.info(sessionId);
 		try {
-			await db
+			await c
+				.get("db")
 				.delete(appSessions)
 				.where(eq(appSessions.sessionId, sessionId))
 				.returning({ deletedId: appSessions.sessionId });
@@ -176,7 +177,8 @@ const app = createHonoApp()
 	.openapi(deleteSessionByUserId, async (c) => {
 		const userId = c.req.valid("param").userId;
 		try {
-			await db
+			await c
+				.get("db")
 				.delete(appSessions)
 				.where(eq(appSessions.userInfo, userId))
 				.returning({ deletedId: appSessions.sessionId });

@@ -1,4 +1,3 @@
-import { db } from "@/db";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteData,
@@ -27,7 +26,7 @@ const app = createHonoApp()
 	 * Get a random piece of training data
 	 */
 	.openapi(getRandomData, async (c) => {
-		const data = await db.query.trainingData.findFirst({
+		const data = await c.get("db").query.trainingData.findFirst({
 			orderBy: sql`random()`,
 		});
 		if (!data) {
@@ -42,7 +41,7 @@ const app = createHonoApp()
 	 * List all training data
 	 */
 	.openapi(listData, async (c) => {
-		const data = await db.query.trainingData.findMany();
+		const data = await c.get("db").query.trainingData.findMany();
 		return c.json(data, 200);
 	})
 	/**
@@ -50,7 +49,7 @@ const app = createHonoApp()
 	 */
 	.openapi(deleteData, async (c) => {
 		const id = c.req.valid("param").id;
-		const data = await db.query.trainingData.findFirst({
+		const data = await c.get("db").query.trainingData.findFirst({
 			where: eq(trainingData.id, id),
 		});
 		if (!data) {
@@ -59,7 +58,8 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
-		const result = await db
+		const result = await c
+			.get("db")
 			.delete(trainingData)
 			.where(eq(trainingData.id, id))
 			.returning({ id: trainingData.id });
@@ -79,9 +79,12 @@ const app = createHonoApp()
 		try {
 			const createdGuide = await createGuideFromTrainingData(data);
 			// Insert the created guide into the guides table
-			await db.insert(guides).values(createdGuide);
+			await c.get("db").insert(guides).values(createdGuide);
 			// Remove the training data from which the guide was created
-			await db.delete(trainingData).where(eq(trainingData.id, data.id));
+			await c
+				.get("db")
+				.delete(trainingData)
+				.where(eq(trainingData.id, data.id));
 			return c.json(createdGuide, 200);
 		} catch (e) {
 			console.error(e);
@@ -103,7 +106,7 @@ const app = createHonoApp()
 	 * List all existing guides
 	 */
 	.openapi(listGuides, async (c) => {
-		const guidesList = await db.query.guides.findMany({
+		const guidesList = await c.get("db").query.guides.findMany({
 			columns: {
 				id: true,
 				metadata: true,
@@ -118,7 +121,7 @@ const app = createHonoApp()
 	 */
 	.openapi(getGuide, async (c) => {
 		const id = c.req.valid("param").id;
-		const guide = await db.query.guides.findFirst({
+		const guide = await c.get("db").query.guides.findFirst({
 			where: eq(guides.id, id),
 		});
 		if (!guide) {
@@ -136,7 +139,7 @@ const app = createHonoApp()
 		const id = c.req.valid("param").id;
 		const data = c.req.valid("json");
 
-		const guide = await db.query.guides.findFirst({
+		const guide = await c.get("db").query.guides.findFirst({
 			where: eq(guides.id, id),
 		});
 		if (!guide) {
@@ -150,7 +153,7 @@ const app = createHonoApp()
 			...guide,
 			...data,
 		};
-		await db.update(guides).set(updatedGuide).where(eq(guides.id, id));
+		await c.get("db").update(guides).set(updatedGuide).where(eq(guides.id, id));
 
 		return c.json(updatedGuide, 200);
 	})
@@ -159,7 +162,8 @@ const app = createHonoApp()
 	 */
 	.openapi(deleteGuide, async (c) => {
 		const id = c.req.valid("param").id;
-		const result = await db
+		const result = await c
+			.get("db")
 			.delete(guides)
 			.where(eq(guides.id, id))
 			.returning({ id: guides.id });

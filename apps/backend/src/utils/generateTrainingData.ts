@@ -1,7 +1,6 @@
 import { db } from "@/db";
 import type { TrainingData } from "@/db/schema";
 import { trainingData } from "@/db/schema/training";
-import { getConfig } from "@/modules/config";
 import { asc, eq } from "drizzle-orm";
 
 // API to generate and store training data, also used internally.
@@ -10,7 +9,6 @@ export default async function generateTrainingData(
 	metadata: TrainingData["metadata"],
 	response: string,
 ) {
-	const config = getConfig();
 	try {
 		// If there are more than 100 data, delete the oldest data
 		await db

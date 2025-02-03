@@ -18,6 +18,8 @@ import { isErrorResult, merge } from "openapi-merge";
 import type { Swagger } from "atlassian-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { AppErrorStatusCode } from "./libs/errors/config";
+import { inject } from "./libs/inject";
+
 const app = createHonoApp();
 
 app.use(
@@ -28,55 +30,8 @@ app.use(
 		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 		credentials: true,
 	}),
+	inject,
 );
-
-// app.use("*", async (c, next) => {
-// 	if (c.req.method === "GET") {
-// 		return next();
-// 	}
-// 	const originHeader = c.req.header("Origin") ?? null;
-// 	const hostHeader = c.req.header("Host") ?? null;
-// 	console.info("Origin Header:", originHeader);
-// 	console.info("Host Header:", hostHeader);
-// 	if (
-// 		!(
-// 			originHeader &&
-// 			hostHeader &&
-// 			verifyRequestOrigin(originHeader, [
-// 				hostHeader,
-// 				process.env.CORS_ORIGIN ?? "http://localhost:3000",
-// 			])
-// 		)
-// 	) {
-// 		console.info("Invalid origin");
-// 		return c.body(null, 403);
-// 	}
-// 	await next();
-// });
-
-// app.use("*", async (c, next) => {
-// 	const sessionId = lucia.readSessionCookie(c.req.header("Cookie") ?? "");
-// 	if (!sessionId) {
-// 		c.set("user", null);
-// 		c.set("session", null);
-// 		return next();
-// 	}
-
-// 	const { session, user } = await lucia.validateSession(sessionId);
-// 	if (session?.fresh) {
-// 		c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
-// 			append: true,
-// 		});
-// 	}
-// 	if (!session) {
-// 		c.header("Set-Cookie", lucia.createBlankSessionCookie().serialize(), {
-// 			append: true,
-// 		});
-// 	}
-// 	c.set("session", session);
-// 	c.set("user", user);
-// 	return next();
-// });
 
 let port = 3001;
 if (process.env.SERVER_PORT) {

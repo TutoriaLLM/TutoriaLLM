@@ -36,7 +36,7 @@ const app = createHonoApp()
 	 */
 	.openapi(getSpecificTutorial, async (c) => {
 		const id = c.req.valid("param").id;
-		const tutorial = await db.query.tutorials.findFirst({
+		const tutorial = await c.get("db").query.tutorials.findFirst({
 			where: eq(tutorials.id, id),
 		});
 		if (!tutorial) {
@@ -53,10 +53,14 @@ const app = createHonoApp()
 	.openapi(deleteTutorial, async (c) => {
 		const id = c.req.valid("param").id;
 		// Delete tutorialsTags related to this tutorial
-		await db.delete(tutorialsTags).where(eq(tutorialsTags.tutorialId, id));
+		await c
+			.get("db")
+			.delete(tutorialsTags)
+			.where(eq(tutorialsTags.tutorialId, id));
 
 		// Delete the tutorial record
-		const result = await db
+		const result = await c
+			.get("db")
 			.delete(tutorials)
 			.where(eq(tutorials.id, id))
 			.returning({ id: tutorials.id });
@@ -76,7 +80,8 @@ const app = createHonoApp()
 		const data = c.req.valid("json");
 		try {
 			// Insert tutorial and return the created ID and tags
-			const tutorial = await db
+			const tutorial = await c
+				.get("db")
 				.insert(tutorials)
 				.values(data)
 				.returning({ id: tutorials.id, tags: tutorials.tags });
@@ -84,14 +89,16 @@ const app = createHonoApp()
 			// If there are tags, handle the tag creation/association
 			if (data.tags && data.tags.length > 0) {
 				for (const tag of data.tags) {
-					let existingTag = await db
+					let existingTag = await c
+						.get("db")
 						.select()
 						.from(tags)
 						.where(eq(tags.name, tag.name));
 
 					if (existingTag.length === 0) {
 						// If the tag does not exist, create it
-						const [newTag] = await db
+						const [newTag] = await c
+							.get("db")
 							.insert(tags)
 							.values({ name: tag.name })
 							.returning({ id: tags.id });
@@ -104,14 +111,14 @@ const app = createHonoApp()
 					}
 
 					// Associate the tag to the tutorial in tutorialsTags table
-					await db.insert(tutorialsTags).values({
+					await c.get("db").insert(tutorialsTags).values({
 						tutorialId: tutorial[0].id,
 						tagId: existingTag[0].id,
 					});
 				}
 			}
 			return c.json(tutorial, 200);
-		} catch (e) {
+		} catch (_e) {
 			return errorResponse(c, {
 				message: "Failed to create tutorial",
 				type: "SERVER_ERROR",
@@ -139,7 +146,8 @@ const app = createHonoApp()
 			const tutorialToUpdate = c.req.valid("json");
 
 			// Update the tutorial content/metadata
-			await db
+			await c
+				.get("db")
 				.update(tutorials)
 				.set({
 					content: tutorialToUpdate.content,
@@ -152,18 +160,23 @@ const app = createHonoApp()
 			// Handle tag updates
 			if (tutorialToUpdate.tags && tutorialToUpdate.tags.length > 0) {
 				// First, delete existing tag associations
-				await db.delete(tutorialsTags).where(eq(tutorialsTags.tutorialId, id));
+				await c
+					.get("db")
+					.delete(tutorialsTags)
+					.where(eq(tutorialsTags.tutorialId, id));
 
 				// Then, create new tag associations
 				for (const tag of tutorialToUpdate.tags) {
-					let existingTag = await db
+					let existingTag = await c
+						.get("db")
 						.select()
 						.from(tags)
 						.where(eq(tags.name, tag.name));
 
 					if (existingTag.length === 0) {
 						// If the tag does not exist, create it
-						const [newTag] = await db
+						const [newTag] = await c
+							.get("db")
 							.insert(tags)
 							.values({ name: tag.name })
 							.returning({ id: tags.id });
@@ -176,7 +189,7 @@ const app = createHonoApp()
 					}
 
 					// Associate the new/updated tag to the tutorial
-					await db.insert(tutorialsTags).values({
+					await c.get("db").insert(tutorialsTags).values({
 						tutorialId: id,
 						tagId: existingTag[0].id,
 					});
@@ -190,11 +203,11 @@ const app = createHonoApp()
 				.leftJoin(tutorialsTags, eq(tags.id, tutorialsTags.tagId))
 				.where(isNull(tutorialsTags.tutorialId));
 			for (const tag of unusedTags) {
-				await db.delete(tags).where(eq(tags.id, tag.id));
+				await c.get("db").delete(tags).where(eq(tags.id, tag.id));
 			}
 
 			return c.json(tutorial, 200);
-		} catch (e) {
+		} catch (_e) {
 			return errorResponse(c, {
 				message: "Failed to update tutorial",
 				type: "SERVER_ERROR",
