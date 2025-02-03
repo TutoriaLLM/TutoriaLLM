@@ -10,7 +10,7 @@
 [![Docker](https://img.shields.io/docker/pulls/soumame/tutoriallm_api)](https://hub.docker.com/r/soumame/tutoriallm_api)
 
 **English**
-| [日本語](docs/readme/readme_ja.md)
+| [日本語](./readme_ja.md)
 
 TutoriaLLM is a self-hosted programming learning platform for K-12 Education that can be used on the web. It is designed for those who create educational content and those who learn from it.
 
