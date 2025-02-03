@@ -5,7 +5,6 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
 	test: {
 		environment: "jsdom",
-		workspace: ["apps/*", "packages/*"],
 		exclude: [
 			//default exclude
 			"**/node_modules/**",
