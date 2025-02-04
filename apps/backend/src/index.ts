@@ -159,3 +159,5 @@ const isDev = process.env.NODE_ENV === "development";
 if (isDev) showRoutes(app, { verbose: true, colorize: true });
 
 export type AppType = typeof route;
+
+export default app;
