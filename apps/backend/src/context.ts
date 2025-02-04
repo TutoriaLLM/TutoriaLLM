@@ -1,11 +1,10 @@
 import type { Env } from "hono";
 import type { auth } from "@/libs/auth";
-import type { NodePgDatabase } from "drizzle-orm/node-postgres";
+import type { NodePgClient, NodePgDatabase } from "drizzle-orm/node-postgres";
 import type * as schema from "@/db/schema";
-import type pg from "pg";
 
 export type Database = NodePgDatabase<typeof schema> & {
-	$client: pg.Client;
+	$client: NodePgClient;
 };
 export interface Context extends Env {
 	Variables: {

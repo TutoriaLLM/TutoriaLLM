@@ -7,15 +7,18 @@ import { sql } from "drizzle-orm";
 import type { Database } from "@/context";
 
 export async function setupDB({ port }: { port: "random" | number }) {
-	const container = await new DockerComposeEnvironment(".", "compose.yml")
-		.withEnvironmentFile(".env.test")
+	const container = await new DockerComposeEnvironment(
+		".",
+		"docker-compose.yml",
+	)
+		.withEnvironmentFile("./apps/backend/.env.test")
 		// overwrite environment variables
 		.withEnvironment({
-			DATABASE_PORT: port === "random" ? "0" : `${port}`,
+			DB_PORT: port === "random" ? "0" : `${port}`,
 		})
 		.withWaitStrategy("db", Wait.forListeningPorts())
 		.up(["db"]);
-	const dbContainer = container.getContainer("db-1");
+	const dbContainer = container.getContainer("tutoriallm_db");
 
 	// これで実際にhost側にbindされたランダムなポートを得る
 	const mappedPort = dbContainer.getMappedPort(5432);
@@ -28,7 +31,7 @@ export async function setupDB({ port }: { port: "random" | number }) {
 	const db = drizzle(url, { schema });
 
 	await migrate(db, {
-		migrationsFolder: "./migrations",
+		migrationsFolder: "./apps/backend/migrations",
 	});
 
 	async function down() {
@@ -56,7 +59,7 @@ export async function truncate(db: Database) {
 
 	const tables = await db.execute(query); // retrieve tables
 
-	for (const table of tables) {
+	for (const table of tables.rows) {
 		const query = sql.raw(`TRUNCATE TABLE ${table.table_name} CASCADE;`);
 		await db.execute(query); // Truncate (clear all the data) the table
 	}

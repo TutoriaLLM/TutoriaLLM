@@ -6,7 +6,7 @@
   "packageManager": "pnpm@9.6.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "test": "vitest",
+    "test": "vitest run",
     "prepare": "pnpm simple-git-hooks",
     "format": "biome format . --write",
     "check": "biome check . --fix",

@@ -1,6 +1,6 @@
 import { defineProject, mergeConfig } from "vitest/config";
 import configShared from "../../vitest.config";
-
+import dotenv from "dotenv";
 export default mergeConfig(
 	configShared,
 	defineProject({
@@ -11,6 +11,7 @@ export default mergeConfig(
 			clearMocks: true,
 			globalSetup: "./tests/vitest.setup.ts",
 			environment: "node",
+			env: dotenv.config({ path: `${__dirname}/.env.test` }).parsed,
 		},
 		resolve: {
 			alias: {

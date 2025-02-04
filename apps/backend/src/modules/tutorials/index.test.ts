@@ -12,6 +12,7 @@ describe("Tutorials", () => {
 
 	test("GET /tutorials", async () => {
 		const res = await testClient(app).tutorials.$get();
+		console.log(res);
 
 		const json = await res.json();
 
