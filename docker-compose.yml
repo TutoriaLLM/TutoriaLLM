@@ -12,7 +12,7 @@ services:
     container_name: tutoriallm_db
     image: pgvector/pgvector:pg14
     ports:
-      - "5432:5432"
+      - ${DATABASE_PORT:-5432}:5432
     env_file:
       - ./apps/backend/.env
     environment:
