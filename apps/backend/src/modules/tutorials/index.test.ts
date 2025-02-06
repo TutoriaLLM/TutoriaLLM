@@ -1,21 +1,77 @@
-import { beforeEach, describe, test, expect } from "vitest";
+import { describe, test, expect } from "vitest";
 import { testClient } from "hono/testing";
 import { setup } from "tests/test.helper";
 
 // need to import after test.helper
-import app from "./index";
+import tutorialRoutes from "./index";
+import { createHonoApp } from "@/create-app";
+import { tags, type Tutorial, tutorials } from "@/db/schema";
 
 const { db } = await setup();
 
-describe("Tutorials", () => {
-	beforeEach(async () => {});
+const dummyTutorial = {
+	id: 1,
+	content: "This is a test tutorial",
+	language: "en",
+	metadata: {
+		description: "This is a test tutorial",
+		title: "Test Tutorial",
+		selectCount: 0,
+		author: "Test Author",
+	},
+	serializedNodes: "test",
+	tags: [
+		{
+			id: 1,
+			name: "Test Tag",
+		},
+	],
+} satisfies Tutorial;
+
+describe("Tutorials", async () => {
+	const app = createHonoApp()
+		.use(async (c, next) => {
+			c.set("db", db);
+			await next();
+		})
+		.route("/", tutorialRoutes);
+
+	await db.insert(tutorials).values(dummyTutorial);
+	await db.insert(tags).values({ name: dummyTutorial.tags[0].name });
 
 	test("GET /tutorials", async () => {
 		const res = await testClient(app).tutorials.$get();
-		console.log(res);
 
 		const json = await res.json();
 
-		expect(json).toEqual({ hello: "world" });
+		//partial match
+		expect(json).toContainEqual({
+			id: dummyTutorial.id,
+			language: dummyTutorial.language,
+			metadata: dummyTutorial.metadata,
+			tags: dummyTutorial.tags,
+		});
+	});
+
+	test("GET /tags", async () => {
+		const res = await testClient(app).tutorials.tags.$get();
+
+		const json = await res.json();
+
+		expect(json).toContainEqual(
+			expect.objectContaining({
+				name: dummyTutorial.tags[0].name,
+			}),
+		);
+	});
+
+	test("GET /tutorials/:id", async () => {
+		const res = await testClient(app).tutorials[":id"].$get({
+			param: { id: dummyTutorial.id.toString() },
+		});
+
+		const json = await res.json();
+
+		expect(json).toEqual(dummyTutorial);
 	});
 });
