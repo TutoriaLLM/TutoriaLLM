@@ -19,6 +19,7 @@ import type { Swagger } from "atlassian-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { AppErrorStatusCode } from "./libs/errors/config";
 import { inject } from "./libs/inject";
+import { db } from "./db";
 
 const app = createHonoApp();
 
@@ -30,7 +31,7 @@ app.use(
 		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 		credentials: true,
 	}),
-	inject,
+	inject(db),
 );
 
 let port = 3001;
