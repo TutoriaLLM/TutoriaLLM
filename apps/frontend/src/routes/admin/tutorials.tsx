@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 
-export const tutorialsQuerySchema = z.object({
+const tutorialsQuerySchema = z.object({
 	page: fallback(z.number(), 1).default(1),
 	limit: fallback(z.number(), 10).default(10),
 	sortField: fallback(z.string() as z.ZodType<keyof Tutorial>, "id").default(

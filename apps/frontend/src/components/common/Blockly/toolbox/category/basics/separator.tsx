@@ -1,4 +1,4 @@
-export const separator = {
+const separator = {
 	kind: "sep",
 	cssConfig: {
 		container: "blocklySeparator",

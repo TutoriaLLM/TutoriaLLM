@@ -101,7 +101,7 @@ export const AudioSchema = z.object({
 });
 export type SavedAudio = z.infer<typeof AudioSchema>;
 
-export const UserInfoSchema = z.object({
+const UserInfoSchema = z.object({
 	id: z.string(),
 	username: z.string(),
 	image: z.string().nullable(),

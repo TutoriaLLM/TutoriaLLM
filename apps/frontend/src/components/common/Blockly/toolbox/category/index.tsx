@@ -66,5 +66,3 @@ export const toolboxCategories = {
 	kind: "categoryToolbox",
 	contents: categoryContents,
 } satisfies Blockly.utils.toolbox.ToolboxDefinition;
-
-export default toolboxCategories;

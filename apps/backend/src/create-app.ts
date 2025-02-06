@@ -3,7 +3,7 @@ import type { Schema } from "hono";
 import { defaultHook } from "@/libs/default-hook";
 import type { Context } from "./context";
 
-export class CustomHono<
+class CustomHono<
 	E extends Context = Context,
 	// biome-ignore lint/complexity/noBannedTypes: <explanation>
 	S extends Schema = {},

@@ -2,7 +2,8 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 
 // Health check endpoints for external use
 const app = new OpenAPIHono();
-app.get("/", (c, next) => {
+
+app.get("/", (c) => {
 	return c.json({ status: "ok" }, 200);
 });
 

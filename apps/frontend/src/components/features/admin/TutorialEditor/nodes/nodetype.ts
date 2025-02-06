@@ -10,10 +10,6 @@ export type mdToMdNode = Node<{
 	outputFromAI: string;
 }>;
 
-export type outputNode = Node<{
-	output: string;
-}>;
-
 export type metadataNode = Node<{
 	title: string;
 	description: string;

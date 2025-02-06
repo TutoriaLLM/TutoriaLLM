@@ -14,7 +14,8 @@ const $Session = client.session[":key"].$get;
 export type SessionValue = InferResponseType<typeof $Session, 200>;
 
 const $AdminSessionList = adminClient.admin.session.list.$get;
-export type AdminSessionList = InferResponseType<typeof $AdminSessionList, 200>;
+
+type AdminSessionList = InferResponseType<typeof $AdminSessionList, 200>;
 export type AdminSingleSession = AdminSessionList["sessions"][0];
 
 const $Tutorial = client.tutorials[":id"].$get;

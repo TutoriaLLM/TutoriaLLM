@@ -1,8 +1,9 @@
 import { listSessions, listSessionsFromUserId } from "@/api/admin/session";
 import type { SessionValue } from "@/type";
 import { useQuery } from "@tanstack/react-query";
+
 // get Session lists for admin, with pagination
-export type Pagination = {
+type Pagination = {
 	page: number;
 	limit: number;
 	sortField: keyof SessionValue;

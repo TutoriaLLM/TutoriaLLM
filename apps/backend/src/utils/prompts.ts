@@ -11,7 +11,7 @@
  * @example
  * type Variables = ExtractPromptVariables<"Hello, {{name}}!">; // "name"
  */
-export type ExtractPromptVariables<
+type ExtractPromptVariables<
 	T extends string,
 	Vars = never,
 > = T extends `${infer Before}{{${infer I}}}${infer After}`
@@ -27,7 +27,7 @@ export type ExtractPromptVariables<
  * @example
  * type Filled = FilledPrompt<"Hello, {{name}}!", { name: "Alice" }>; // "Hello, Alice!"
  */
-export type FilledPrompt<
+type FilledPrompt<
 	T extends string,
 	Vars extends { [K: string]: string },
 > = T extends `${infer Before}{{${infer I}}}${infer After}`

@@ -9,14 +9,14 @@
     "test": "vitest run",
     "prepare": "pnpm simple-git-hooks",
     "format": "biome format . --write",
-    "check": "biome check . --fix",
+    "lint": "biome lint --write .",
     "lint:repo": "sherif",
     "build:all": "pnpm -r build",
     "spell": "cspell lint '**'",
     "commit": "cz"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm format && pnpm lint:repo && pnpm check && pnpm --filter ./apps/** type:check",
+    "pre-commit": "pnpm format && pnpm lint && pnpm lint:repo && pnpm --filter ./apps/** type:check",
     "commit-msg": "pnpm commitlint --edit ${1}",
     "prepare-commit-msg": "cat $1 | pnpm commitlint -q || (exec < /dev/tty && node_modules/.bin/cz --hook || true)"
   },
@@ -31,6 +31,7 @@
     "cz-conventional-changelog": "3.3.0",
     "js-yaml": "catalog:",
     "jsdom": "^26.0.0",
+    "knip": "5.43.6",
     "sherif": "1.1.1",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",

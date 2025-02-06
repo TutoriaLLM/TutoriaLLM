@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
 import type { Socket } from "socket.io-client";
 // This switch toggles whether the code is executed or not. It should work independently of the parent component.
-export function ExecSwitch({
+function ExecSwitch({
 	socket,
 	isCodeRunning,
 	isConnected,

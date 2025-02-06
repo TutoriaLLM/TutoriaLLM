@@ -1,6 +1,6 @@
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 // import { visualizer } from "rollup-plugin-visualizer";
 import tailwindcss from "tailwindcss";
@@ -9,16 +9,6 @@ import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
-	const backendUrl = () => {
-		if (process.env.VITE_BACKEND_URL === undefined) {
-			const env = loadEnv("", process.cwd());
-			if (env.VITE_BACKEND_URL) {
-				return JSON.stringify(env.VITE_BACKEND_URL);
-			}
-			throw new Error("VITE_BACKEND_URL is not defined");
-		}
-		return JSON.stringify(process.env.VITE_BACKEND_URL);
-	};
 	return {
 		optimizeDeps: {
 			include: ["blockly"],
@@ -89,7 +79,7 @@ export default defineConfig(() => {
 			}),
 		],
 		define: {
-			VITE_BACKEND_URL: backendUrl(),
+			VITE_BACKEND_URL: process.env.VITE_BACKEND_URL,
 		},
 		resolve: {
 			alias: {
