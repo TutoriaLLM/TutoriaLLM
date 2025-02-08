@@ -94,7 +94,14 @@ const mergeResult = merge([
 		oas: nonAuthRef,
 	},
 	{
-		oas: authRef,
+		oas: {
+			...authRef,
+			servers: [
+				{
+					url: "http://localhost:3001",
+				},
+			],
+		},
 		pathModification: {
 			prepend: "/auth",
 		},
