@@ -6,7 +6,6 @@ import {
 	sessionValueSchema,
 	sessionIdSchema,
 	listSessionValueSchema,
-	updateSessionNameRequest,
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
@@ -123,34 +122,6 @@ export const putSession = createRoute({
 			validationErrorResponseSchemas: [
 				sessionParam.vErr(),
 				putSessionRequest.vErr(),
-			],
-		}),
-	},
-});
-
-/**
- * Rename a session by its key
- */
-export const putSessionName = createRoute({
-	...baseSessionsConfig,
-	method: "put",
-	path: `${baseSessionsConfig.path}/{key}/rename`,
-	summary: "Rename a session by its key",
-	request: {
-		params: sessionParam.schema,
-		body: {
-			content: jsonBody(updateSessionNameRequest.schema),
-		},
-	},
-	responses: {
-		200: {
-			content: jsonBody(sessionIdSchema),
-			description: "Session name updated",
-		},
-		...errorResponses({
-			validationErrorResponseSchemas: [
-				sessionParam.vErr(),
-				updateSessionNameRequest.vErr(),
 			],
 		}),
 	},

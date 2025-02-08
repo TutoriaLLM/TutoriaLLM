@@ -8,7 +8,6 @@ import {
 	getUserSessions,
 	newSession,
 	putSession,
-	putSessionName,
 	resumeSession,
 } from "@/modules/session/routes";
 import { eq } from "drizzle-orm";
@@ -113,15 +112,7 @@ const app = createHonoApp()
 	 */
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;
-		const { userInfo, ...sessionData } = c.req.valid("json");
-
-		// Ensure user info is provided
-		if (!userInfo) {
-			return errorResponse(c, {
-				message: "User info is required",
-				type: "BAD_REQUEST",
-			});
-		}
+		const sessionData = c.req.valid("json");
 
 		const existingSession = await c.get("db").query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
@@ -136,51 +127,11 @@ const app = createHonoApp()
 			});
 		}
 
-		// Check if the user is authorized to update this session
-		const existingUserId = existingSession.userInfo?.id;
-		const newUserId =
-			typeof userInfo === "object" && "id" in userInfo ? userInfo.id : userInfo;
-
-		if (existingUserId !== newUserId) {
-			return errorResponse(c, {
-				message: "Unauthorized",
-				type: "UNAUTHORIZED",
-			});
-		}
-
 		// Update the session data
 		const result = await c
 			.get("db")
 			.update(appSessions)
-			.set(sessionData)
-			.where(eq(appSessions.sessionId, key))
-			.returning({ id: appSessions.sessionId });
-
-		return c.json({ sessionId: result[0].id }, 200);
-	})
-	/**
-	 * Rename an existing session
-	 */
-	.openapi(putSessionName, async (c) => {
-		const key = c.req.valid("param").key;
-		const { sessionName } = c.req.valid("json");
-
-		// Ensure the session exists
-		const existingSession = await c.get("db").query.appSessions.findFirst({
-			where: eq(appSessions.sessionId, key),
-		});
-		if (!existingSession) {
-			return errorResponse(c, {
-				message: "Session not found",
-				type: "NOT_FOUND",
-			});
-		}
-
-		// Update only the name
-		const result = await c
-			.get("db")
-			.update(appSessions)
-			.set({ name: sessionName })
+			.set({ ...sessionData, userInfo: undefined })
 			.where(eq(appSessions.sessionId, key))
 			.returning({ id: appSessions.sessionId });
 
@@ -245,20 +196,4 @@ const app = createHonoApp()
 		});
 		return c.json(data, 200);
 	});
-
-/**
- * A middleware for all session routes to ensure the user is authenticated
- */
-app.use("/session/**", async (c, next) => {
-	const session = c.get("session");
-	if (!session) {
-		console.info("no session");
-		return errorResponse(c, {
-			message: "Unauthorized",
-			type: "UNAUTHORIZED",
-		});
-	}
-	await next();
-});
-
 export default app;
