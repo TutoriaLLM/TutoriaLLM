@@ -1,8 +1,9 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, beforeEach } from "vitest";
 import { testClient } from "hono/testing";
 import { setup } from "tests/test.helper";
 
 // need to import after test.helper
+import { inject } from "@/libs/inject";
 import tutorialRoutes from "./index";
 import { createHonoApp } from "@/create-app";
 import { tags, type Tutorial, tutorials } from "@/db/schema";
@@ -28,16 +29,13 @@ const dummyTutorial = {
 	],
 } satisfies Tutorial;
 
-describe("Tutorials", async () => {
-	const app = createHonoApp()
-		.use(async (c, next) => {
-			c.set("db", db);
-			await next();
-		})
-		.route("/", tutorialRoutes);
+describe("Tutorials", () => {
+	const app = createHonoApp().use(inject).route("/", tutorialRoutes);
 
-	await db.insert(tutorials).values(dummyTutorial);
-	await db.insert(tags).values({ name: dummyTutorial.tags[0].name });
+	beforeEach(async () => {
+		await db.insert(tutorials).values(dummyTutorial);
+		await db.insert(tags).values({ name: dummyTutorial.tags[0].name });
+	});
 
 	test("GET /tutorials", async () => {
 		const res = await testClient(app).tutorials.$get();
@@ -55,7 +53,6 @@ describe("Tutorials", async () => {
 
 	test("GET /tags", async () => {
 		const res = await testClient(app).tutorials.tags.$get();
-
 		const json = await res.json();
 
 		expect(json).toContainEqual(

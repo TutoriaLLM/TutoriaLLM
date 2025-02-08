@@ -9,7 +9,7 @@ services:
       - "9411:9411"
 
   db:
-    container_name: tutoriallm_db
+    # container_name: tutoriallm_db
     image: pgvector/pgvector:pg14
     ports:
       - ${DB_PORT:-5432}:5432

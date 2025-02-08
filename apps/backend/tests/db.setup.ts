@@ -5,7 +5,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import * as schema from "@/db/schema";
 import { sql } from "drizzle-orm";
 import type { Database } from "@/context";
-
+import pg from "pg";
 export async function setupDB({ port }: { port: "random" | number }) {
 	const container = await new DockerComposeEnvironment(
 		".",
@@ -18,7 +18,7 @@ export async function setupDB({ port }: { port: "random" | number }) {
 		})
 		.withWaitStrategy("db", Wait.forListeningPorts())
 		.up(["db"]);
-	const dbContainer = container.getContainer("tutoriallm_db");
+	const dbContainer = container.getContainer("db-1");
 
 	// これで実際にhost側にbindされたランダムなポートを得る
 	const mappedPort = dbContainer.getMappedPort(5432);
@@ -28,13 +28,18 @@ export async function setupDB({ port }: { port: "random" | number }) {
 		port: mappedPort,
 	});
 
-	const db = drizzle(url, { schema });
+	const pool = new pg.Pool({
+		connectionString: url,
+	});
+
+	const db = drizzle(pool, { schema });
 
 	await migrate(db, {
 		migrationsFolder: "./apps/backend/migrations",
 	});
 
 	async function down() {
+		await pool.end();
 		await container.down();
 	}
 
@@ -51,7 +56,8 @@ export async function setupDB({ port }: { port: "random" | number }) {
 }
 
 export async function truncate(db: Database) {
-	const query = sql<string>`SELECT table_name
+	const query = sql<string>`
+      SELECT table_name
       FROM information_schema.tables
       WHERE table_schema = 'public'
         AND table_type = 'BASE TABLE';
@@ -60,7 +66,9 @@ export async function truncate(db: Database) {
 	const tables = await db.execute(query); // retrieve tables
 
 	for (const table of tables.rows) {
-		const query = sql.raw(`TRUNCATE TABLE ${table.table_name} CASCADE;`);
-		await db.execute(query); // Truncate (clear all the data) the table
+		// テーブル名をダブルクォートで囲む
+		const tableName = table.table_name;
+		const query = sql.raw(`TRUNCATE TABLE "${tableName}" CASCADE;`);
+		await db.execute(query); // テーブル内の全データを削除
 	}
 }

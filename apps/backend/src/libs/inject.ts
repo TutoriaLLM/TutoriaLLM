@@ -1,6 +1,6 @@
 import { createMiddleware } from "hono/factory";
 import type { Context } from "@/context";
-import { auth } from "./auth";
+import { auth } from "@/libs/auth";
 import { db } from "@/db";
 
 /**
@@ -15,7 +15,7 @@ export const inject = createMiddleware<Context>(async (c, next) => {
 
 	const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
-	if (session === null) {
+	if (!(session?.user && session?.session)) {
 		c.set("user", null);
 		c.set("session", null);
 		return next();
