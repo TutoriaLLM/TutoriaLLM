@@ -55,8 +55,6 @@ app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 export const route = app
 	.route("/", configRoutes)
 	.route("/", healthRoutes)
-	.route("/", sessionRoutes)
-	.route("/", tutorialRoutes)
 	.get(
 		"/ui",
 		apiReference({
@@ -65,7 +63,20 @@ export const route = app
 				url: "/doc",
 			},
 		}),
-	);
+	)
+	.use("/**", async (c, next) => {
+		const session = c.get("session");
+		if (!session) {
+			console.info("no session");
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
+		await next();
+	})
+	.route("/", sessionRoutes)
+	.route("/", tutorialRoutes);
 
 /**
  * Generate merged OpenAPI schema for documentation API and export it
