@@ -42,7 +42,6 @@ const app = createHonoApp()
 		if (!language) {
 			language = "en";
 		}
-		console.info("session created with initial data");
 
 		const sessionId = nanoid(12);
 		const uuid = uuidv7();
@@ -65,7 +64,6 @@ const app = createHonoApp()
 			.values(initialData(uuid, sessionId, language.toString(), user.id))
 			.execute();
 
-		console.info("session created by api");
 		return c.json({ sessionId }, 200);
 	})
 	/**

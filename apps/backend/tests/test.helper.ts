@@ -45,7 +45,6 @@ export async function setup() {
 	});
 
 	async function createUser() {
-		console.info("Creating user");
 		const result = await db.transaction(async (tx) => {
 			const dummyUser = await tx
 				.insert(user)
