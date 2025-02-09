@@ -18,7 +18,7 @@ import { isErrorResult, merge } from "openapi-merge";
 import type { Swagger } from "atlassian-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { AppErrorStatusCode } from "./libs/errors/config";
-import { inject } from "./libs/inject";
+import { inject } from "./middleware/inject";
 
 const app = createHonoApp();
 
