@@ -1,4 +1,5 @@
 import { errorResponses, jsonBody } from "@/libs/openapi";
+import { verifyAuth } from "@/middleware/auth";
 import {
 	newSessionQuery,
 	putSessionRequest,
@@ -21,6 +22,7 @@ export const newSession = createRoute({
 	...baseSessionsConfig,
 	method: "post",
 	path: `${baseSessionsConfig.path}/new`,
+	middleware: [verifyAuth] as const,
 	summary: "Create a new session, from the provided session data",
 	request: {
 		query: newSessionQuery.schema,
@@ -43,6 +45,8 @@ export const resumeSession = createRoute({
 	...baseSessionsConfig,
 	method: "post",
 	path: `${baseSessionsConfig.path}/resume/{key}`,
+	middleware: [verifyAuth] as const,
+
 	summary: "Resume a session, from the provided session data",
 	request: {
 		params: sessionParam.schema,
@@ -106,6 +110,8 @@ export const putSession = createRoute({
 	...baseSessionsConfig,
 	method: "put",
 	path: `${baseSessionsConfig.path}/{key}`,
+	middleware: [verifyAuth] as const,
+
 	summary: "Update a session by its key",
 	request: {
 		params: sessionParam.schema,
@@ -134,6 +140,8 @@ export const deleteSession = createRoute({
 	...baseSessionsConfig,
 	method: "delete",
 	path: `${baseSessionsConfig.path}/{key}`,
+	middleware: [verifyAuth] as const,
+
 	summary: "Delete a session by its key",
 	request: {
 		params: sessionParam.schema,
