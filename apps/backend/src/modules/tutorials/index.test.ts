@@ -3,7 +3,7 @@ import { testClient } from "hono/testing";
 import { setup } from "tests/test.helper";
 
 // need to import after test.helper
-import { inject } from "@/libs/inject";
+import { inject } from "@/middleware/inject";
 import tutorialRoutes from "./index";
 import { createHonoApp } from "@/create-app";
 import { tags, type Tutorial, tutorials } from "@/db/schema";
