@@ -53,8 +53,6 @@ app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 
 // Process executed after server startup
 export const route = app
-	.route("/", configRoutes)
-	.route("/", healthRoutes)
 	.get(
 		"/ui",
 		apiReference({
@@ -64,20 +62,11 @@ export const route = app
 			},
 		}),
 	)
-	.use("/**", async (c, next) => {
-		const session = c.get("session");
-		if (!session) {
-			console.info("no session");
-			return errorResponse(c, {
-				message: "Unauthorized",
-				type: "UNAUTHORIZED",
-			});
-		}
-		await next();
-	})
+	.route("/", configRoutes)
+	.route("/", healthRoutes)
 	.route("/", sessionRoutes)
-	.route("/", tutorialRoutes);
-
+	.route("/", tutorialRoutes)
+	.route("/", adminRoutes);
 /**
  * Generate merged OpenAPI schema for documentation API and export it
  */
@@ -115,7 +104,6 @@ app.get("/doc", (c) => {
 
 	return c.body(JSON.stringify(mergeResult.output), 200);
 });
-app.route("/", adminRoutes);
 
 // websocket proxy to vm is configured and handled directly on the server
 server.on("upgrade", (req, socket, head) => {
