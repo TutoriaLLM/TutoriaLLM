@@ -57,7 +57,7 @@ export const newTutorialRequest = {
 		),
 };
 export const updateTutorialRequest = {
-	schema: tutorialSchema.openapi("UpdateTutorialRequest"),
+	schema: tutorialSchema.partial().openapi("UpdateTutorialRequest"),
 	vErr: () =>
 		createValidationErrorResponseSchema(updateTutorialRequest.schema).openapi(
 			"UpdateTutorialRequestValidationErrorResponse",

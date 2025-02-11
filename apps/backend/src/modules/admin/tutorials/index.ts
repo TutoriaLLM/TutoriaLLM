@@ -1,4 +1,3 @@
-import { db } from "@/db";
 import { errorResponse } from "@/libs/errors";
 import { generateMetadataFromContent } from "@/modules/admin/tutorials/llm/metadata";
 import { generateContentFromContent } from "@/modules/admin/tutorials/llm/tutorial";
@@ -25,7 +24,8 @@ const app = createHonoApp()
 	 * Get the list of all tutorials
 	 */
 	.openapi(getTutorialList, async (c) => {
-		const allTutorials = await db
+		const allTutorials = await c
+			.get("db")
 			.select() // Might be better to eliminate unnecessary fields.
 			.from(tutorials);
 
@@ -131,7 +131,8 @@ const app = createHonoApp()
 	.openapi(updateTutorial, async (c) => {
 		const id = c.req.valid("param").id;
 		try {
-			const tutorial = await db
+			const tutorial = await c
+				.get("db")
 				.select()
 				.from(tutorials)
 				.where(eq(tutorials.id, id));
@@ -150,10 +151,7 @@ const app = createHonoApp()
 				.get("db")
 				.update(tutorials)
 				.set({
-					content: tutorialToUpdate.content,
-					metadata: tutorialToUpdate.metadata,
-					language: tutorialToUpdate.language,
-					serializedNodes: tutorialToUpdate.serializedNodes,
+					...tutorialToUpdate,
 				})
 				.where(eq(tutorials.id, id));
 
@@ -197,7 +195,8 @@ const app = createHonoApp()
 			}
 
 			// Remove unused tags
-			const unusedTags = await db
+			const unusedTags = await c
+				.get("db")
 				.select({ id: tags.id })
 				.from(tags)
 				.leftJoin(tutorialsTags, eq(tags.id, tutorialsTags.tagId))
