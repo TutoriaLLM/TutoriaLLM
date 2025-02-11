@@ -68,7 +68,9 @@ export async function truncate(db: Database) {
 	for (const table of tables.rows) {
 		// テーブル名をダブルクォートで囲む
 		const tableName = table.table_name;
-		const query = sql.raw(`TRUNCATE TABLE "${tableName}" CASCADE;`);
+		const query = sql.raw(
+			`TRUNCATE TABLE "${tableName}" RESTART IDENTITY CASCADE;`,
+		);
 		await db.execute(query); // テーブル内の全データを削除
 	}
 }
