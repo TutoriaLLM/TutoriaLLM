@@ -65,11 +65,23 @@ describe("Admin Tutorials", () => {
 			const res = await testClient(app).admin.tutorials.$get();
 			const json = await res.json();
 			expect(json).toHaveLength(2);
-			expect(json).toHaveProperty("[0].content");
-			expect(json).toHaveProperty("[0].language");
-			expect(json).toHaveProperty("[0].metadata");
-			expect(json).toHaveProperty("[0].tags");
-			expect(json).toHaveProperty("[0].serializedNodes");
+			expect(json).toHaveProperty("[0].content", "test content");
+			expect(json).toHaveProperty("[0].language", "en");
+			expect(json).toHaveProperty("[0].metadata", {
+				description: "test description",
+				title: "test title",
+				selectCount: 0,
+			});
+			expect(json).toHaveProperty("[0].tags", [
+				{
+					id: 1,
+					name: "test tag",
+				},
+			]);
+			expect(json).toHaveProperty(
+				"[0].serializedNodes",
+				"test-serialized-nodes",
+			);
 		});
 	});
 
@@ -106,11 +118,20 @@ describe("Admin Tutorials", () => {
 			});
 			const json = await res.json();
 			console.log(json);
-			expect(json).toHaveProperty("content");
-			expect(json).toHaveProperty("language");
-			expect(json).toHaveProperty("metadata");
-			expect(json).toHaveProperty("tags");
-			expect(json).toHaveProperty("serializedNodes");
+			expect(json).toHaveProperty("content", "test content");
+			expect(json).toHaveProperty("language", "en");
+			expect(json).toHaveProperty("metadata", {
+				description: "test description",
+				title: "test title",
+				selectCount: 0,
+			});
+			expect(json).toHaveProperty("tags", [
+				{
+					id: 1,
+					name: "test tag",
+				},
+			]);
+			expect(json).toHaveProperty("serializedNodes", "test-serialized-nodes");
 		});
 	});
 
