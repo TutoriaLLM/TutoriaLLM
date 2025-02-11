@@ -6,6 +6,10 @@
   "exports": {
     ".": "./dist/index.js"
   },
+  "scripts": {
+    "build": "wireit",
+    "type:check": "wireit"
+  },
   "dependencies": {
     "@blockly/field-grid-dropdown": "5.0.9",
     "@blockly/field-slider": "7.0.9",
@@ -17,7 +21,16 @@
     "@types/node": "catalog:",
     "typescript": "catalog:"
   },
-  "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+  "wireit": {
+    "build": {
+      "command": "tsc -p tsconfig.build.json",
+      "files": ["src", "tsconfig.json", "package.json"],
+      "output": ["dist"]
+    },
+    "type:check": {
+      "command": "tsc -p tsconfig.json --noEmit",
+      "files": ["src", "tsconfig.json", "package.json"],
+      "output": ["dist"]
+    }
   }
 }

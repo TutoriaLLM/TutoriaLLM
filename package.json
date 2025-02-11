@@ -12,6 +12,7 @@
     "check": "biome check . --fix",
     "lint:repo": "sherif",
     "dev": "wireit",
+    "type:check": "wireit",
     "build": "pnpm -r build",
     "spell-check": "cspell lint \"**\"",
     "commit": "cz"
@@ -42,11 +43,11 @@
     "dev": {
       "dependencies": ["./apps/backend:dev", "./apps/frontend:dev"]
     },
-    "typecheck": {
+    "type:check": {
       "dependencies": [
-        "./packages/shared:typecheck",
-        "./apps/backend:typecheck",
-        "./apps/frontend:typecheck"
+        "./packages/extensions:type:check",
+        "./apps/backend:type:check",
+        "./apps/frontend:type:check"
       ]
     }
   },
