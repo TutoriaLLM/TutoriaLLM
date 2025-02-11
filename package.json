@@ -11,8 +11,9 @@
     "format": "biome format . --write",
     "check": "biome check . --fix",
     "lint:repo": "sherif",
-    "build:all": "pnpm -r build",
-    "spell": "cspell lint '**'",
+    "dev": "wireit",
+    "build": "pnpm -r build",
+    "spell-check": "cspell lint \"**\"",
     "commit": "cz"
   },
   "simple-git-hooks": {
@@ -34,7 +35,20 @@
     "sherif": "1.1.1",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",
-    "vitest": "2.1.8"
+    "vitest": "2.1.8",
+    "wireit": "0.14.11"
+  },
+  "wireit": {
+    "dev": {
+      "dependencies": ["./apps/backend:dev", "./apps/frontend:dev"]
+    },
+    "typecheck": {
+      "dependencies": [
+        "./packages/shared:typecheck",
+        "./apps/backend:typecheck",
+        "./apps/frontend:typecheck"
+      ]
+    }
   },
   "commitlint": {
     "extends": ["@commitlint/config-conventional"]

@@ -13,9 +13,10 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
-    "start": "cross-env NODE_ENV=production tsx src/index.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "dev": "wireit",
+    "start": "wireit",
+    "build": "wireit",
+    "type:check": "wireit",
     "auth:generate": "pnpm dlx @better-auth/cli@latest generate --config=./src/libs/auth.ts --output=./src/db/schema/auth.ts --y",
     "drizzle:generate": "drizzle-kit generate --config=drizzle.config.ts",
     "drizzle:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
@@ -24,7 +25,6 @@
     "drizzle:push:local": "drizzle-kit push --config=drizzle.studio.config.ts",
     "drizzle:introspect": "drizzle-kit introspect --config=drizzle.config.ts",
     "drizzle:studio": "drizzle-kit studio --config=drizzle.studio.config.ts",
-    "type:check": "tsc --noEmit",
     "cli": "tsx src/cli.ts"
   },
   "dependencies": {
@@ -97,6 +97,33 @@
     "@types/pg": "8.11.10",
     "@types/uuid": "9.0.8",
     "typescript": "catalog:"
+  },
+  "wireit": {
+    "dev": {
+      "command": "cross-env NODE_ENV=development tsx watch src/index.ts",
+      "service": {
+        "readyWhen": {
+          "lineMatches": "Server is running on port \\d+"
+        }
+      },
+      "dependencies": ["../../packages/extensions:build"]
+    },
+    "start": {
+      "command": "cross-env NODE_ENV=production tsx src/index.ts",
+      "dependencies": ["../../packages/extensions:build"]
+    },
+    "build": {
+      "command": "tsc -p tsconfig.build.json",
+      "files": ["src", "tsconfig.json", "package.json"],
+      "output": ["dist"],
+      "dependencies": ["../../packages/extensions:build"]
+    },
+    "type:check": {
+      "command": "tsc --noEmit",
+      "files": ["src", "package.json", "tsconfig.build.json"],
+      "output": [],
+      "dependencies": ["../../packages/extensions:build"]
+    }
   },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }
