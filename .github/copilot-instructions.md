@@ -141,6 +141,70 @@ Users will ask questions about the following coding languages:
 - **Backend**: `apps/backend/src`  
   - Use Hono for API endpoints and Zod for schema validation
 
+## 4. Testing Guidelines
+
+### Overview
+
+- **Backend Testing**:  
+  Use [vitest](https://vitest.dev/) along with Hono’s test client to run your tests. Ensure that your tests can integrate a test database and include user context information as required.
+
+### Guidelines
+
+1. **Setup and Initialization**  
+   - Create a test helper module (e.g., `tests/test.helper.ts`) that sets up the testing environment.  
+   - This module should initialize the test database, create test users, and set up any other required context.
+   
+2. **Contextual Information**  
+   - When testing API endpoints, inject database instances and user information into the test context.  
+   - This ensures that your tests simulate real-world scenarios including authentication and persistent data.
+
+3. **Test Structure and Organization**  
+   - Organize tests in a dedicated `tests` directory.  
+   - Name test files using the `*.test.ts` convention.
+   - Use `describe` and `beforeEach`/`afterEach` hooks for setting up and tearing down test conditions.
+
+4. **Example Test**
+
+   ```typescript
+   import { setup } from "tests/test.helper";
+   import { appSessions } from "path/to/appSessions"; // adjust the import as necessary
+
+   // Setup test environment
+   const { createUser, db } = await setup();
+
+   describe("Sessions", () => {
+     beforeEach(async () => {
+       // Create a user before each test
+       await createUser();
+     });
+
+     describe("Session resuming operation", () => {
+       beforeEach(async () => {
+         // Insert required session data into the test database
+         await db.insert(appSessions).values({
+           // Provide necessary session values here
+         });
+       });
+
+       it("should resume a session successfully", async () => {
+         // Use Hono's test client to simulate a request
+         // const response = await testClient.get("/api/sessions/resume");
+         // expect(response.status).toBe(200);
+         // Additional assertions...
+       });
+     });
+   });
+   ```
+
+5. **Best Practices**  
+   - **Early Returns**: Use early returns to simplify your test logic.
+   - **Clear Naming**: Use descriptive names for test cases and helper functions.
+   - **Error Handling**: Ensure that errors are caught and properly reported using try/catch blocks where necessary.
+   - **State Management**: Use hooks (`beforeEach`, `afterEach`) to maintain a clean state between tests.
+   - **Comprehensive Assertions**: Verify all critical aspects of your API responses including status codes, response data, and error messages.
+
+Following these guidelines will help ensure that your backend tests are robust, maintainable, and reflective of the production environment.
+
 ### Code Implementation Guidelines
 
 When writing code, follow these rules:
