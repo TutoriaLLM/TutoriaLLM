@@ -1,11 +1,6 @@
 import { session, user } from "@/db/schema";
 import { vi, afterAll, afterEach } from "vitest";
 
-const testUser = {
-	email: "test-email@email.com",
-	name: "Test Name",
-};
-
 export async function setup() {
 	const { container, db, truncate, down } = await vi.hoisted(async () => {
 		const { setupDB } = await import("./db.setup");
@@ -44,14 +39,14 @@ export async function setup() {
 		await truncate();
 	});
 
-	async function createUser() {
+	async function createUser({ userStr }: { userStr?: string } = {}) {
 		const result = await db.transaction(async (tx) => {
 			const dummyUser = await tx
 				.insert(user)
 				.values({
-					id: "user-id-123",
-					name: testUser.name,
-					email: testUser.email,
+					id: userStr || "testUser123",
+					name: `${userStr || "testUser123"}-name`,
+					email: `${userStr || "testUser123"}@example.com`,
 					emailVerified: true,
 					image: null,
 					createdAt: new Date(),
@@ -60,19 +55,19 @@ export async function setup() {
 					banned: false,
 					banReason: null,
 					banExpires: null,
-					username: "mockuser",
+					username: `${userStr || "testUser123"}-username`,
 					isAnonymous: false,
 				})
 				.returning();
 			const dummySession = await tx
 				.insert(session)
 				.values({
-					id: "session-id-123",
+					id: `session-${dummyUser[0].id}`,
 					createdAt: new Date(),
 					updatedAt: new Date(),
 					userId: dummyUser[0].id,
 					expiresAt: new Date(Date.now() + 1000 * 60 * 60),
-					token: "mock-session-token",
+					token: `mock-token-${dummyUser[0].id}`,
 					ipAddress: "127.0.0.1",
 					userAgent: "Mozilla/5.0",
 					impersonatedBy: null,

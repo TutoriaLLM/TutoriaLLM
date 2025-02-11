@@ -14,7 +14,9 @@ const { createUser, db } = await setup();
 
 describe("Sessions", () => {
 	beforeEach(async () => {
-		await createUser();
+		await createUser({
+			userStr: "testUser123",
+		});
 	});
 	const app = createHonoApp().use(inject).route("/", sessionRoutes);
 
@@ -40,7 +42,7 @@ describe("Sessions", () => {
 						"00000000-00000000-00000000-00000000",
 						"session-id-123",
 						"en",
-						"user-id-123",
+						"testUser123",
 					),
 				)
 				.execute();
@@ -78,7 +80,7 @@ describe("Sessions", () => {
 						"00000000-00000000-00000000-00000000",
 						"session-id-123",
 						"en",
-						"user-id-123",
+						"testUser123",
 					),
 				)
 				.execute();
@@ -105,7 +107,7 @@ describe("Sessions", () => {
 						"00000000-00000000-00000000-00000000",
 						"session-id-123",
 						"en",
-						"user-id-123",
+						"testUser123",
 					),
 				)
 				.execute();

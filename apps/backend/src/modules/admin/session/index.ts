@@ -78,8 +78,9 @@ const app = createHonoApp()
 			}),
 			c
 				.get("db")
-				.select({ count: count(eq(appSessions.userInfo, userId)) })
-				.from(appSessions),
+				.select({ count: count(appSessions.sessionId) }) // 主キーなど null にならないカラムを指定
+				.from(appSessions)
+				.where(eq(appSessions.userInfo, userId)), // ここでフィルタリング
 		]);
 
 		return c.json(
