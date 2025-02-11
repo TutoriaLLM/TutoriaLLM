@@ -114,7 +114,7 @@
     },
     "build": {
       "command": "tsc -p tsconfig.build.json",
-      "files": ["src", "tsconfig.json", "package.json"],
+      "files": ["src", "tsconfig.build.json", "package.json"],
       "output": ["dist"],
       "dependencies": ["../../packages/extensions:build"]
     },
