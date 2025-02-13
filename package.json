@@ -44,11 +44,7 @@
       "dependencies": ["./apps/backend:dev", "./apps/frontend:dev"]
     },
     "type:check": {
-      "dependencies": [
-        "./packages/extensions:type:check",
-        "./apps/backend:type:check",
-        "./apps/frontend:type:check"
-      ]
+      "dependencies": ["./apps/backend:type:check", "./apps/frontend:type:check"]
     }
   },
   "commitlint": {
