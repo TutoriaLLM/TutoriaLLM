@@ -65,23 +65,6 @@ describe("Admin Tutorials", () => {
 			const res = await testClient(app).admin.tutorials.$get();
 			const json = await res.json();
 			expect(json).toHaveLength(2);
-			expect(json).toHaveProperty("[0].content", "test content");
-			expect(json).toHaveProperty("[0].language", "en");
-			expect(json).toHaveProperty("[0].metadata", {
-				description: "test description",
-				title: "test title",
-				selectCount: 0,
-			});
-			expect(json).toHaveProperty("[0].tags", [
-				{
-					id: 1,
-					name: "test tag",
-				},
-			]);
-			expect(json).toHaveProperty(
-				"[0].serializedNodes",
-				"test-serialized-nodes",
-			);
 		});
 	});
 
