@@ -6,7 +6,7 @@ export default mergeConfig(
 	defineProject({
 		test: {
 			environment: "jsdom",
-			setupFiles: ["./vitest.setup.ts"],
+			setupFiles: ["./tests/vitest.setup.ts"],
 		},
 		resolve: {
 			alias: {

@@ -126,7 +126,7 @@ export function ExecSwitch({
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
 					</span>
 					<Switch.Root
-						data-testid="exec-switch"
+						role="switch"
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
 						onCheckedChange={ChangeSwitch}
@@ -147,7 +147,6 @@ export function ExecSwitch({
 										reloadButtonStatus === "idle",
 								},
 							)}
-							data-testid="update-code"
 							type="button"
 							variant="outline"
 							onClick={updateCode}

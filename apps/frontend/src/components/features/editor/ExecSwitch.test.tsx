@@ -1,10 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { fireEvent, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { fireEvent, render, waitFor, cleanup } from "@testing-library/react";
 
 // テスト対象のコンポーネントをインポート
 import { ExecSwitch } from "./ExecSwitch";
-import { renderFC } from "@/libs/test";
-
+import { getSocket } from "@/libs/socket";
 // react-i18nextのモック（翻訳用）
 vi.mock("react-i18next", () => ({
 	useTranslation: () => ({
@@ -12,17 +11,16 @@ vi.mock("react-i18next", () => ({
 	}),
 }));
 
-describe("ExecSwitch コンポーネントのテスト", () => {
-	let mockSocket: any;
+describe("Test for ExecSwitch", () => {
+	const mockSocket = getSocket("test");
+	mockSocket.emit = vi.fn();
 
-	beforeEach(() => {
-		mockSocket = {
-			emit: vi.fn(),
-		};
+	afterEach(() => {
+		cleanup();
 	});
 
 	it("Is code can be stopped when code is running", async () => {
-		const result = renderFC(
+		const result = render(
 			<ExecSwitch
 				socket={mockSocket}
 				isCodeRunning={true}
@@ -30,10 +28,11 @@ describe("ExecSwitch コンポーネントのテスト", () => {
 				workspace={{ foo: "bar" }}
 			/>,
 		);
-		const switchElement = result.getByTestId("exec-switch");
+		const switchElement = result.getByRole("switch");
 
 		await waitFor(() => {
 			expect(switchElement).not.toBeDisabled();
+			expect(switchElement).toBeChecked();
 		});
 
 		fireEvent.click(switchElement);
@@ -41,8 +40,8 @@ describe("ExecSwitch コンポーネントのテスト", () => {
 		expect(mockSocket.emit).toHaveBeenCalledWith("stopVM");
 	});
 
-	it("Is switch can be clicked when code is not running", async () => {
-		const result = renderFC(
+	it("Is switch can be clicked when code is not running, with workspace value", async () => {
+		const result = render(
 			<ExecSwitch
 				socket={mockSocket}
 				isCodeRunning={false}
@@ -50,10 +49,11 @@ describe("ExecSwitch コンポーネントのテスト", () => {
 				workspace={{ foo: "bar" }}
 			/>,
 		);
-		const switchElement = result.getByTestId("exec-switch");
+		const switchElement = result.getByRole("switch");
 
 		await waitFor(() => {
 			expect(switchElement).not.toBeDisabled();
+			expect(switchElement).not.toBeChecked();
 		});
 
 		fireEvent.click(switchElement);
@@ -61,8 +61,28 @@ describe("ExecSwitch コンポーネントのテスト", () => {
 		expect(mockSocket.emit).toHaveBeenCalledWith("openVM");
 	});
 
+	it("Is switch can't be clicked when its reloading", async () => {
+		const result = render(
+			<ExecSwitch
+				socket={mockSocket}
+				isCodeRunning={true}
+				isConnected={true}
+				workspace={{ foo: "bar" }}
+			/>,
+		);
+		const buttonElement = result.getByRole("button");
+
+		await waitFor(() => {
+			expect(buttonElement).not.toBeDisabled();
+		});
+
+		fireEvent.click(buttonElement);
+
+		expect(buttonElement).toBeDisabled();
+	});
+
 	it("Don't show switch when not connected", () => {
-		const result = renderFC(
+		const result = render(
 			<ExecSwitch
 				socket={null}
 				isCodeRunning={false}
@@ -72,29 +92,5 @@ describe("ExecSwitch コンポーネントのテスト", () => {
 		);
 
 		expect(result.container.querySelector(".execSwitch")).toBeEmptyDOMElement();
-	});
-
-	it("Is updates code button working", async () => {
-		const result = renderFC(
-			<ExecSwitch
-				socket={mockSocket}
-				isCodeRunning={true}
-				isConnected={true}
-				workspace={{ foo: "bar" }}
-			/>,
-		);
-
-		const reloadButton = result.getByTestId("update-code");
-
-		await waitFor(() => {
-			expect(reloadButton).not.toBeDisabled();
-		});
-
-		fireEvent.click(reloadButton);
-
-		await waitFor(() => {
-			expect(mockSocket.emit);
-		});
-		expect(reloadButton).toBeDisabled();
 	});
 });

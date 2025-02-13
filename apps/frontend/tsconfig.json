@@ -27,6 +27,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "./vitest.setup.ts"],
+  "include": ["src", "tests/vitest.setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
