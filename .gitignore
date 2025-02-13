@@ -29,3 +29,6 @@ app_data
 *.sln
 *.sw?
 .env
+
+# wireit states
+.wireit

@@ -4,10 +4,10 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "start": "cross-env NODE_ENV=production vite preview",
-    "build": "pnpm tsc && vite build",
-    "type:check": "tsc --noEmit"
+    "dev": "wireit",
+    "start": "wireit",
+    "build": "wireit",
+    "type:check": "wireit"
   },
   "dependencies": {
     "@axe-core/playwright": "4.10.1",
@@ -102,6 +102,33 @@
     "axe-html-reporter": "2.2.11",
     "rollup-plugin-visualizer": "5.12.0",
     "typescript": "catalog:"
+  },
+  "wireit": {
+    "dev": {
+      "command": "vite",
+      "dependencies": ["../../packages/extensions:build", "../backend:build"],
+      "service": {
+        "readyWhen": {
+          "lineMatches": "Local:   http://localhost:\\d+/"
+        }
+      }
+    },
+    "build": {
+      "command": "vite build",
+      "files": ["src", "tsconfig.json", "package.json"],
+      "output": ["dist"],
+      "dependencies": ["../../packages/extensions:build", "../backend:build", "type:check"]
+    },
+    "start": {
+      "command": "cross-env NODE_ENV=production vite preview",
+      "dependencies": ["../../packages/extensions:build", "../backend:build"]
+    },
+    "type:check": {
+      "command": "tsc --noEmit",
+      "files": ["src", "package.json", "tsconfig.json"],
+      "output": [],
+      "dependencies": ["../../packages/extensions:build", "../backend:build"]
+    }
   },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }

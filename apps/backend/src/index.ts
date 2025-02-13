@@ -162,7 +162,12 @@ initSocketServer(server as HttpServer);
 
 const isDev = process.env.NODE_ENV === "development";
 
-if (isDev) showRoutes(app, { verbose: true, colorize: true });
+if (isDev) {
+	console.info(`Ready on http://localhost:${port}`);
+	console.info();
+
+	showRoutes(app, { verbose: true, colorize: true });
+}
 
 export type AppType = typeof route;
 
