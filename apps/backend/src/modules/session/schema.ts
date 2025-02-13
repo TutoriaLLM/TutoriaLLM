@@ -180,19 +180,11 @@ export const newSessionQuery = {
 		),
 };
 export const putSessionRequest = {
-	schema: sessionValueSchema.openapi("PutSessionRequest"),
+	schema: sessionValueSchema.partial().openapi("PutSessionRequest"),
 	vErr: () =>
 		createValidationErrorResponseSchema(putSessionRequest.schema).openapi(
 			"PutSessionRequestValidationErrorResponse",
 		),
-};
-
-export const updateSessionNameRequest = {
-	schema: sessionNameSchema.openapi("UpdateSessionNameRequest"),
-	vErr: () =>
-		createValidationErrorResponseSchema(
-			updateSessionNameRequest.schema,
-		).openapi("UpdateSessionNameRequestValidationErrorResponse"),
 };
 
 // Use the same schema for put, get, and delete

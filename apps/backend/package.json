@@ -96,6 +96,7 @@
     "@types/node": "catalog:",
     "@types/pg": "8.11.10",
     "@types/uuid": "9.0.8",
+    "testcontainers": "10.17.2",
     "typescript": "catalog:"
   },
   "wireit": {

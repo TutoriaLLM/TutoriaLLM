@@ -6,7 +6,6 @@ import { updateSession } from "@/modules/session/socket/sessionUpdator";
 import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "@/modules/vm";
 import { updateDialogue } from "@/utils/dialogueUpdater";
 import { updateStats } from "@/utils/statsUpdater";
-import { createMiddleware } from "hono/factory";
 import type { Operation } from "rfc6902";
 import { Server } from "socket.io";
 
@@ -244,14 +243,3 @@ export function initSocketServer(server: HttpServer) {
 		}
 	});
 }
-
-export const ioMiddleware = createMiddleware<{
-	Variables: {
-		io: Server;
-	};
-}>(async (c, next) => {
-	if (!c.var.io && io) {
-		c.set("io", io);
-	}
-	await next();
-});

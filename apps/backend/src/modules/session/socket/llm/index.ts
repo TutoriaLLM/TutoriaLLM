@@ -90,7 +90,7 @@ export async function invokeLLM(
 ) {
 	const config = getConfig();
 
-	const allBlocks = listAllBlocks(availableBlocks);
+	const _allBlocks = listAllBlocks(availableBlocks);
 
 	if (!session.dialogue) {
 		console.error("No dialogue found in the session.");

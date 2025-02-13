@@ -1,4 +1,5 @@
 import { errorResponses, jsonBody } from "@/libs/openapi";
+import { verifyAuth } from "@/middleware/auth";
 import {
 	newSessionQuery,
 	putSessionRequest,
@@ -6,7 +7,6 @@ import {
 	sessionValueSchema,
 	sessionIdSchema,
 	listSessionValueSchema,
-	updateSessionNameRequest,
 } from "@/modules/session/schema";
 import { createRoute } from "@hono/zod-openapi";
 
@@ -22,6 +22,7 @@ export const newSession = createRoute({
 	...baseSessionsConfig,
 	method: "post",
 	path: `${baseSessionsConfig.path}/new`,
+	middleware: [verifyAuth] as const,
 	summary: "Create a new session, from the provided session data",
 	request: {
 		query: newSessionQuery.schema,
@@ -44,6 +45,8 @@ export const resumeSession = createRoute({
 	...baseSessionsConfig,
 	method: "post",
 	path: `${baseSessionsConfig.path}/resume/{key}`,
+	middleware: [verifyAuth] as const,
+
 	summary: "Resume a session, from the provided session data",
 	request: {
 		params: sessionParam.schema,
@@ -107,6 +110,8 @@ export const putSession = createRoute({
 	...baseSessionsConfig,
 	method: "put",
 	path: `${baseSessionsConfig.path}/{key}`,
+	middleware: [verifyAuth] as const,
+
 	summary: "Update a session by its key",
 	request: {
 		params: sessionParam.schema,
@@ -129,40 +134,14 @@ export const putSession = createRoute({
 });
 
 /**
- * Rename a session by its key
- */
-export const putSessionName = createRoute({
-	...baseSessionsConfig,
-	method: "put",
-	path: `${baseSessionsConfig.path}/{key}/rename`,
-	summary: "Rename a session by its key",
-	request: {
-		params: sessionParam.schema,
-		body: {
-			content: jsonBody(updateSessionNameRequest.schema),
-		},
-	},
-	responses: {
-		200: {
-			content: jsonBody(sessionIdSchema),
-			description: "Session name updated",
-		},
-		...errorResponses({
-			validationErrorResponseSchemas: [
-				sessionParam.vErr(),
-				updateSessionNameRequest.vErr(),
-			],
-		}),
-	},
-});
-
-/**
  * Delete a session by its key
  */
 export const deleteSession = createRoute({
 	...baseSessionsConfig,
 	method: "delete",
 	path: `${baseSessionsConfig.path}/{key}`,
+	middleware: [verifyAuth] as const,
+
 	summary: "Delete a session by its key",
 	request: {
 		params: sessionParam.schema,

@@ -86,6 +86,7 @@ export default function Navbar({
 					<span className="flex gap-1.5 justify-center items-center">
 						<Button
 							type="button"
+							data-testid="start-tour"
 							size="icon"
 							variant="outline"
 							onClick={() => setIsOpen(true)} // Start Tour

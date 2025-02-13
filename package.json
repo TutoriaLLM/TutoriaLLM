@@ -26,7 +26,9 @@
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "19.6.1",
     "@commitlint/config-conventional": "19.6.0",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@vitejs/plugin-react": "4.3.2",
     "commitizen": "4.3.1",
     "cspell": "^8.17.3",
@@ -36,7 +38,7 @@
     "sherif": "1.1.1",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",
-    "vitest": "2.1.8",
+    "vitest": "3.0.4",
     "wireit": "0.14.11"
   },
   "wireit": {

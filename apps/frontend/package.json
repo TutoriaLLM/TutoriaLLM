@@ -91,6 +91,7 @@
     "zod-i18n-map": "2.27.0"
   },
   "devDependencies": {
+    "@mswjs/socket.io-binding": "0.1.1",
     "@playwright/test": "1.49.1",
     "@tanstack/router-devtools": "1.90.0",
     "@tanstack/router-plugin": "1.87.13",
@@ -100,6 +101,7 @@
     "@types/react-dom": "18.3.1",
     "@types/uuid": "9.0.8",
     "axe-html-reporter": "2.2.11",
+    "msw": "2.7.0",
     "rollup-plugin-visualizer": "5.12.0",
     "typescript": "catalog:"
   },

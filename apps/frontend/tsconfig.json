@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "noErrorTruncation": true,
-
+    "types": ["vitest/globals"],
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -27,6 +27,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
+  "include": ["src", "tests/vitest.setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

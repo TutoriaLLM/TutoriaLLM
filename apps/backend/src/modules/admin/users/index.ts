@@ -1,5 +1,4 @@
 import { createHonoApp } from "@/create-app";
-import { db } from "@/db";
 import { user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { updateUserDetail, userDetailFromId } from "./routes";
@@ -16,7 +15,7 @@ const app = createHonoApp()
 	 */
 	.openapi(userDetailFromId, async (c) => {
 		const userId = c.req.valid("param").id;
-		const userDetail = await db.query.user.findFirst({
+		const userDetail = await c.get("db").query.user.findFirst({
 			where: eq(user.id, userId),
 			columns: {
 				id: true,
@@ -49,7 +48,8 @@ const app = createHonoApp()
 		const userId = c.req.valid("param").id;
 		const { name, email, image, role, username } = c.req.valid("json");
 
-		const updatedUser = await db
+		const updatedUser = await c
+			.get("db")
 			.update(user)
 			.set({
 				name,

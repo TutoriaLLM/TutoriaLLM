@@ -1,8 +1,6 @@
 import { createHonoApp } from "@/create-app";
-import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { initialData } from "@/db/session";
-import { auth } from "@/libs/auth";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
@@ -10,7 +8,6 @@ import {
 	getUserSessions,
 	newSession,
 	putSession,
-	putSessionName,
 	resumeSession,
 } from "@/modules/session/routes";
 import { eq } from "drizzle-orm";
@@ -32,10 +29,9 @@ const app = createHonoApp()
 	 * already exists.
 	 */
 	.openapi(newSession, async (c) => {
-		const session = await auth.api.getSession({
-			headers: c.req.raw.headers,
-		});
-		if (!session) {
+		const [session, user] = [c.get("session"), c.get("user")];
+
+		if (!(session && user)) {
 			return errorResponse(c, {
 				message: "Unauthorized",
 				type: "UNAUTHORIZED",
@@ -46,13 +42,12 @@ const app = createHonoApp()
 		if (!language) {
 			language = "en";
 		}
-		console.info("session created with initial data");
 
 		const sessionId = nanoid(12);
 		const uuid = uuidv7();
 
 		// Check for duplicate session ID
-		const value = await db.query.appSessions.findFirst({
+		const value = await c.get("db").query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, sessionId),
 		});
 		if (value?.sessionId === sessionId) {
@@ -63,14 +58,12 @@ const app = createHonoApp()
 		}
 
 		// Insert a new session with initial data
-		await db
+		await c
+			.get("db")
 			.insert(appSessions)
-			.values(
-				initialData(uuid, sessionId, language.toString(), session.user.id),
-			)
+			.values(initialData(uuid, sessionId, language.toString(), user.id))
 			.execute();
 
-		console.info("session created by api");
 		return c.json({ sessionId }, 200);
 	})
 	/**
@@ -81,10 +74,8 @@ const app = createHonoApp()
 	 */
 	.openapi(resumeSession, async (c) => {
 		const key = c.req.valid("param").key;
-		const session = await auth.api.getSession({
-			headers: c.req.raw.headers,
-		});
-		if (!session) {
+		const user = c.get("user");
+		if (!user) {
 			return errorResponse(c, {
 				message: "Unauthorized",
 				type: "UNAUTHORIZED",
@@ -92,7 +83,7 @@ const app = createHonoApp()
 		}
 
 		// Check if the session exists
-		const value = await db.query.appSessions.findFirst({
+		const value = await c.get("db").query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
 		});
 		if (!value) {
@@ -103,7 +94,7 @@ const app = createHonoApp()
 		}
 
 		// Check if the session belongs to the current user
-		if (value.userInfo !== session.user.id) {
+		if (value.userInfo !== user.id) {
 			return errorResponse(c, {
 				message: "Unauthorized",
 				type: "UNAUTHORIZED",
@@ -119,17 +110,9 @@ const app = createHonoApp()
 	 */
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;
-		const { userInfo, ...sessionData } = c.req.valid("json");
+		const sessionData = c.req.valid("json");
 
-		// Ensure user info is provided
-		if (!userInfo) {
-			return errorResponse(c, {
-				message: "User info is required",
-				type: "BAD_REQUEST",
-			});
-		}
-
-		const existingSession = await db.query.appSessions.findFirst({
+		const existingSession = await c.get("db").query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
 			with: {
 				userInfo: { columns: { id: true } },
@@ -142,49 +125,11 @@ const app = createHonoApp()
 			});
 		}
 
-		// Check if the user is authorized to update this session
-		const existingUserId = existingSession.userInfo?.id;
-		const newUserId =
-			typeof userInfo === "object" && "id" in userInfo ? userInfo.id : userInfo;
-
-		if (existingUserId !== newUserId) {
-			return errorResponse(c, {
-				message: "Unauthorized",
-				type: "UNAUTHORIZED",
-			});
-		}
-
 		// Update the session data
-		const result = await db
+		const result = await c
+			.get("db")
 			.update(appSessions)
-			.set(sessionData)
-			.where(eq(appSessions.sessionId, key))
-			.returning({ id: appSessions.sessionId });
-
-		return c.json({ sessionId: result[0].id }, 200);
-	})
-	/**
-	 * Rename an existing session
-	 */
-	.openapi(putSessionName, async (c) => {
-		const key = c.req.valid("param").key;
-		const { sessionName } = c.req.valid("json");
-
-		// Ensure the session exists
-		const existingSession = await db.query.appSessions.findFirst({
-			where: eq(appSessions.sessionId, key),
-		});
-		if (!existingSession) {
-			return errorResponse(c, {
-				message: "Session not found",
-				type: "NOT_FOUND",
-			});
-		}
-
-		// Update only the name
-		const result = await db
-			.update(appSessions)
-			.set({ name: sessionName })
+			.set({ ...sessionData, userInfo: undefined })
 			.where(eq(appSessions.sessionId, key))
 			.returning({ id: appSessions.sessionId });
 
@@ -198,7 +143,7 @@ const app = createHonoApp()
 	 */
 	.openapi(deleteSession, async (c) => {
 		const key = c.req.valid("param").key;
-		const existingSession = await db.query.appSessions.findFirst({
+		const existingSession = await c.get("db").query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
 		});
 		if (!existingSession) {
@@ -208,7 +153,8 @@ const app = createHonoApp()
 			});
 		}
 
-		const result = await db
+		const result = await c
+			.get("db")
 			.delete(appSessions)
 			.where(eq(appSessions.sessionId, key))
 			.returning({ id: appSessions.sessionId });
@@ -220,7 +166,7 @@ const app = createHonoApp()
 	 */
 	.openapi(getSession, async (c) => {
 		const key = c.req.valid("param").key;
-		const data = await db.query.appSessions.findFirst({
+		const data = await c.get("db").query.appSessions.findFirst({
 			where: eq(appSessions.sessionId, key),
 		});
 		if (!data) {
@@ -235,37 +181,17 @@ const app = createHonoApp()
 	 * List all sessions belonging to the authenticated user
 	 */
 	.openapi(getUserSessions, async (c) => {
-		const session = await auth.api.getSession({
-			headers: c.req.raw.headers,
-		});
-		if (!session) {
+		const user = c.get("user");
+		if (!user) {
 			return errorResponse(c, {
 				message: "Unauthorized",
 				type: "UNAUTHORIZED",
 			});
 		}
 
-		const data = await db.query.appSessions.findMany({
-			where: eq(appSessions.userInfo, session.user.id),
+		const data = await c.get("db").query.appSessions.findMany({
+			where: eq(appSessions.userInfo, user.id),
 		});
 		return c.json(data, 200);
 	});
-
-/**
- * A middleware for all session routes to ensure the user is authenticated
- */
-app.use("/session/**", async (c, next) => {
-	const session = await auth.api.getSession({
-		headers: c.req.raw.headers,
-	});
-	if (!session) {
-		console.info("no session");
-		return errorResponse(c, {
-			message: "Unauthorized",
-			type: "UNAUTHORIZED",
-		});
-	}
-	await next();
-});
-
 export default app;

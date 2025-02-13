@@ -1,4 +1,4 @@
-import { updateSessionName } from "@/api/session";
+import { updateSession } from "@/api/session";
 import {
 	ErrorToastContent,
 	SuccessToastContent,
@@ -43,7 +43,13 @@ export function RenameSession({
 		},
 	});
 	const { mutate } = useMutation({
-		mutationFn: updateSessionName,
+		mutationFn: ({
+			key,
+			sessionName,
+		}: {
+			key: string;
+			sessionName: string;
+		}) => updateSession({ key }, { name: sessionName }),
 		onSuccess: () => {
 			//Reload all sessiondata to reflect the changes
 			queryClient.invalidateQueries({
