@@ -46,6 +46,8 @@ jobs:
         context: .
         file: ./Dockerfile
         target: frontend
+        build-args: |
+          OPENAPI_DOCS_URL=${{ env.OPENAPI_DOCS_URL }}
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:latest
@@ -57,6 +59,8 @@ jobs:
         context: .
         file: ./Dockerfile
         target: backend
+        build-args: |
+          OPENAPI_DOCS_URL=${{ env.OPENAPI_DOCS_URL }}
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm_api:latest
