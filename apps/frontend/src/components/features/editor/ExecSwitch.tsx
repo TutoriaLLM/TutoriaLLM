@@ -126,6 +126,7 @@ export function ExecSwitch({
 						{isCodeRunning ? t("execSwitch.Running") : t("execSwitch.Stopped")}
 					</span>
 					<Switch.Root
+						role="switch"
 						checked={isCodeRunning}
 						disabled={isSwitchDisabled}
 						onCheckedChange={ChangeSwitch}

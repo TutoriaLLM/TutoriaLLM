@@ -1,0 +1,52 @@
+# Minecraft Block Names
+netherrack
+glowstone
+noteblock
+shulker
+stonebrick
+unpowered
+
+# Minecraft Mob Names
+mooshroom
+pufferfish
+hoglin
+shulker
+zoglin
+endermite
+piglin
+
+# Minecraft Game Mechanics
+overworld
+isunderwater
+gamemode
+travelled
+sendmessage
+
+# Minecraft Specific Events and Commands
+onminecraftconnection
+onplayerchatcommand
+onplayerplacedblock
+onplayerbrokedblock
+onplayeruseitem
+onplayerdied
+onserverstart
+
+# Minecraft Positions and Directions
+playerpos
+playerxpos
+playerypos
+playerzpos
+xyzposition
+getposition
+relativeposition
+teleportagent
+
+# Minecraft Agent and Block Actions
+createagent
+turnagent
+setblock
+fillblock
+agentplaceblock
+setagentblock
+summonmonster
+changeweather

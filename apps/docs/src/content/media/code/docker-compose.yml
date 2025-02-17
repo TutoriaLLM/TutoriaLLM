@@ -1,0 +1,24 @@
+services:
+  db:
+    container_name: tutoriallm_db
+    image: pgvector/pgvector:pg14
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./apps/backend/.env
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ=UTC
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 5s
+      timeout: 60s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - db_data_db:/var/lib/postgresql/data
+volumes:
+  db_data_db:

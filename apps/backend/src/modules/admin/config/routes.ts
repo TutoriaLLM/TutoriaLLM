@@ -2,9 +2,21 @@ import { jsonBody } from "@/libs/openapi";
 import { AppConfigSchema } from "@/modules/admin/config/schema";
 import { createRoute } from "@hono/zod-openapi";
 
-const updateConfigApp = createRoute({
+/**
+ * Base config for admin configuration management
+ */
+const baseAdminConfig = {
+	path: "/admin/config" as const,
+	tags: ["admin-config"],
+};
+
+/**
+ * Update the app configuration
+ */
+export const updateConfigApp = createRoute({
+	...baseAdminConfig,
 	method: "post",
-	path: "/admin/config/update",
+	path: `${baseAdminConfig.path}/update`,
 	summary: "Update the app configuration",
 	request: {
 		body: {
@@ -19,9 +31,14 @@ const updateConfigApp = createRoute({
 	},
 });
 
-const getConfigApp = createRoute({
+/**
+ * Get the app configuration
+ */
+export const getConfigApp = createRoute({
+	...baseAdminConfig,
 	method: "get",
-	path: "/admin/config",
+	path: baseAdminConfig.path,
+	summary: "Get the app configuration",
 	responses: {
 		200: {
 			content: jsonBody(AppConfigSchema),
@@ -29,5 +46,3 @@ const getConfigApp = createRoute({
 		},
 	},
 });
-
-export { updateConfigApp, getConfigApp };

@@ -18,6 +18,7 @@ import { isErrorResult, merge } from "openapi-merge";
 import type { Swagger } from "atlassian-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { AppErrorStatusCode } from "./libs/errors/config";
+import { inject } from "./middleware/inject";
 
 const app = createHonoApp();
 
@@ -29,55 +30,8 @@ app.use(
 		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 		credentials: true,
 	}),
+	inject,
 );
-
-// app.use("*", async (c, next) => {
-// 	if (c.req.method === "GET") {
-// 		return next();
-// 	}
-// 	const originHeader = c.req.header("Origin") ?? null;
-// 	const hostHeader = c.req.header("Host") ?? null;
-// 	console.info("Origin Header:", originHeader);
-// 	console.info("Host Header:", hostHeader);
-// 	if (
-// 		!(
-// 			originHeader &&
-// 			hostHeader &&
-// 			verifyRequestOrigin(originHeader, [
-// 				hostHeader,
-// 				process.env.CORS_ORIGIN ?? "http://localhost:3000",
-// 			])
-// 		)
-// 	) {
-// 		console.info("Invalid origin");
-// 		return c.body(null, 403);
-// 	}
-// 	await next();
-// });
-
-// app.use("*", async (c, next) => {
-// 	const sessionId = lucia.readSessionCookie(c.req.header("Cookie") ?? "");
-// 	if (!sessionId) {
-// 		c.set("user", null);
-// 		c.set("session", null);
-// 		return next();
-// 	}
-
-// 	const { session, user } = await lucia.validateSession(sessionId);
-// 	if (session?.fresh) {
-// 		c.header("Set-Cookie", lucia.createSessionCookie(session.id).serialize(), {
-// 			append: true,
-// 		});
-// 	}
-// 	if (!session) {
-// 		c.header("Set-Cookie", lucia.createBlankSessionCookie().serialize(), {
-// 			append: true,
-// 		});
-// 	}
-// 	c.set("session", session);
-// 	c.set("user", user);
-// 	return next();
-// });
 
 let port = 3001;
 if (process.env.SERVER_PORT) {
@@ -99,73 +53,57 @@ app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 
 // Process executed after server startup
 export const route = app
-	.route("/", configRoutes)
-	.route("/", healthRoutes)
-	.route("/", sessionRoutes)
-	.route("/", tutorialRoutes)
-	.doc("/doc", {
-		openapi: "3.0.0",
-		info: {
-			version: "2.0.0",
-			title: "TutoriaLLM API",
-		},
-		servers: [
-			{
-				url: `http://localhost:${port}`,
-			},
-		],
-	})
-	.get("/doc/with-auth", async (c) => {
-		const nonAuthRef = await fetch(`http://localhost:${port}/doc`).then(
-			(res) => res.body,
-		);
-		let result = "";
-
-		if (nonAuthRef) {
-			const reader = nonAuthRef.getReader();
-			const decoder = new TextDecoder();
-
-			let done = false;
-			while (!done) {
-				const { value, done: isDone } = await reader.read();
-				if (value) {
-					result += decoder.decode(value, { stream: true });
-				}
-				done = isDone;
-			}
-		}
-
-		const authRef =
-			(await auth.api.generateOpenAPISchema()) as Swagger.SwaggerV3;
-
-		const mergeResult = merge([
-			{
-				oas: JSON.parse(result),
-			},
-			{
-				oas: authRef,
-				pathModification: {
-					prepend: "/auth",
-				},
-			},
-		]);
-
-		if (isErrorResult(mergeResult)) return c.body(JSON.stringify(c.error));
-
-		return c.body(JSON.stringify(mergeResult.output), 200);
-	})
 	.get(
 		"/ui",
 		apiReference({
 			pageTitle: "TutoriaLLM API Reference",
 			spec: {
-				url: "/doc/with-auth",
+				url: "/doc",
 			},
 		}),
-	);
+	)
+	.route("/", configRoutes)
+	.route("/", healthRoutes)
+	.route("/", sessionRoutes)
+	.route("/", tutorialRoutes)
+	.route("/", adminRoutes);
+/**
+ * Generate merged OpenAPI schema for documentation API and export it
+ */
+const authRef = (await auth.api.generateOpenAPISchema()) as Swagger.SwaggerV3;
+const nonAuthRef = app.getOpenAPI31Document({
+	openapi: "3.0.0",
+	info: {
+		version: "2.0.0",
+		title: "TutoriaLLM API",
+	},
+}) as Swagger.SwaggerV3;
+const mergeResult = merge([
+	{
+		oas: nonAuthRef,
+	},
+	{
+		oas: {
+			...authRef,
+			servers: [
+				{
+					url: "http://localhost:3001",
+				},
+			],
+		},
+		pathModification: {
+			prepend: "/auth",
+		},
+	},
+]);
 
-// The OpenAPI documentation will be available at /doc
-app.route("/", adminRoutes);
+app.get("/doc", (c) => {
+	if (isErrorResult(mergeResult)) {
+		return c.body(JSON.stringify(c.error));
+	}
+
+	return c.body(JSON.stringify(mergeResult.output), 200);
+});
 
 // websocket proxy to vm is configured and handled directly on the server
 server.on("upgrade", (req, socket, head) => {
@@ -224,6 +162,13 @@ initSocketServer(server as HttpServer);
 
 const isDev = process.env.NODE_ENV === "development";
 
-if (isDev) showRoutes(app, { verbose: true, colorize: true });
+if (isDev) {
+	console.info(`Ready on http://localhost:${port}`);
+	console.info();
+
+	showRoutes(app, { verbose: true, colorize: true });
+}
 
 export type AppType = typeof route;
+
+export default app;

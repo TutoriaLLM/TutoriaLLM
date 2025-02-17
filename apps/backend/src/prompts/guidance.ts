@@ -25,7 +25,7 @@ export async function simplifyDialogue(session: SessionValue, limit: number) {
  * @type {string}
  * @constant
  */
-export const dialgoueSystemTemplate = `
+export const dialogueSystemTemplate = `
 You are a coding tutor of Blockly using the following language: {{language}}
 This app using visual programming language that allows users to create code by dragging and dropping blocks.
 User must use trigger blocks to start the program, and can use action blocks to create what they want to do.

@@ -24,7 +24,7 @@ export const tutorialSchema = z.object({
 	tags: tagsSchema,
 	language: z.string(),
 	metadata: metadataSchema,
-	serializednodes: z.string(),
+	serializedNodes: z.string(),
 });
 
 export const newTutorialSchema = tutorialSchema.omit({ id: true });
@@ -57,7 +57,7 @@ export const newTutorialRequest = {
 		),
 };
 export const updateTutorialRequest = {
-	schema: tutorialSchema.openapi("UpdateTutorialRequest"),
+	schema: tutorialSchema.partial().openapi("UpdateTutorialRequest"),
 	vErr: () =>
 		createValidationErrorResponseSchema(updateTutorialRequest.schema).openapi(
 			"UpdateTutorialRequestValidationErrorResponse",

@@ -8,7 +8,7 @@ import { zodTextSchema } from "@/modules/session/socket/llm/responseFormat";
 import {
 	audioDialogueSystemTemplate,
 	audioDialogueUserTemplate,
-	dialgoueSystemTemplate,
+	dialogueSystemTemplate,
 	dialogueUserTemplate,
 	simplifyDialogue,
 } from "@/prompts/guidance";
@@ -90,7 +90,7 @@ export async function invokeLLM(
 ) {
 	const config = getConfig();
 
-	const allBlocks = listAllBlocks(availableBlocks);
+	const _allBlocks = listAllBlocks(availableBlocks);
 
 	if (!session.dialogue) {
 		console.error("No dialogue found in the session.");
@@ -153,7 +153,7 @@ export async function invokeLLM(
 						messages: [
 							{
 								role: "system",
-								content: fillPrompt(dialgoueSystemTemplate, {
+								content: fillPrompt(dialogueSystemTemplate, {
 									language: langToStr(session.language || "en") || "en",
 									allBlocks: availableBlocks.toString(),
 									uiElements: ui
@@ -311,7 +311,7 @@ export async function invokeLLM(
 				messages: [
 					{
 						role: "system",
-						content: fillPrompt(dialgoueSystemTemplate, {
+						content: fillPrompt(dialogueSystemTemplate, {
 							language: langToStr(session.language || "en") || "en",
 							allBlocks: availableBlocks.toString(),
 							uiElements: ui

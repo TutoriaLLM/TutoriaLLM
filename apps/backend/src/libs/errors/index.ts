@@ -5,7 +5,7 @@ import type { Context } from "hono";
 /* *
  * Functions that return error responses
  *
- * status code is derived in the function from AppErroType
+ * status code is derived in the function from AppErrorType
  */
 export const errorResponse = <ErrorType extends AppErrorType>(
 	c: Context,

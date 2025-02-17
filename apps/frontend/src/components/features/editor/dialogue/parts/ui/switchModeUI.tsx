@@ -29,7 +29,7 @@ function SwitchModeUI({
 					{
 						id: (prev.dialogue?.length ?? 0) + 1,
 						contentType: "log",
-						isuser: false,
+						isUser: false,
 						content: t("tutorial.easyModeChanged", {
 							status: prev.easyMode ? t("off") : t("on"),
 						}),
@@ -52,7 +52,7 @@ function SwitchModeUI({
 					{
 						id: (prev.dialogue?.length ?? 0) + 1,
 						contentType: "log",
-						isuser: false,
+						isUser: false,
 						content: t("tutorial.responseModeChanged", {
 							mode:
 								prev.responseMode === "text"

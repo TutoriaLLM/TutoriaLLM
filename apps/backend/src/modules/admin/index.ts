@@ -1,5 +1,4 @@
 import { createHonoApp } from "@/create-app";
-import { auth } from "@/libs/auth";
 import { errorResponse } from "@/libs/errors";
 import appConfigRoute from "@/modules/admin/config";
 import sessionManagerRoute from "@/modules/admin/session";
@@ -11,10 +10,8 @@ import userManagerRoute from "@/modules/admin/users";
 const app = createHonoApp()
 	// Disable access to the administrator page if you do not have authorization
 	.use("/admin/**", async (c, next) => {
-		const session = await auth.api.getSession({
-			headers: c.req.raw.headers,
-		});
-		if (!session || session.user.role !== "admin") {
+		const user = c.get("user");
+		if (!user || user.role !== "admin") {
 			return errorResponse(c, {
 				message: "Unauthorized",
 				type: "UNAUTHORIZED",

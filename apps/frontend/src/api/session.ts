@@ -50,20 +50,6 @@ export const updateSession = async (
 	return handleResponse(response);
 };
 
-export const updateSessionName = async ({
-	key,
-	sessionName,
-}: {
-	key: string;
-	sessionName: string;
-}) => {
-	const response = await client.session[":key"].rename.$put({
-		param: { key },
-		json: { sessionName },
-	});
-	return handleResponse(response);
-};
-
 const SessionToDelete = client.session[":key"].$delete;
 type SessionToDelete = InferRequestType<typeof SessionToDelete>;
 export const deleteSession = async (key: SessionToDelete["param"]) => {

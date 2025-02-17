@@ -7,11 +7,22 @@ import {
 } from "./schema";
 import { errorResponses, jsonBody } from "@/libs/openapi";
 
-//get user's detailed information from id
+/**
+ * Base admin users config
+ */
+const baseAdminUsersConfig = {
+	path: "/admin/users" as const,
+	tags: ["admin-users"],
+};
+
+/**
+ * Get user's detailed information from id
+ */
 export const userDetailFromId = createRoute({
+	...baseAdminUsersConfig,
 	method: "get",
+	path: `${baseAdminUsersConfig.path}/{id}`,
 	summary: "Get user's detailed information from id",
-	path: "/admin/users/{id}",
 	request: {
 		params: userDetailParam.schema,
 	},
@@ -21,16 +32,19 @@ export const userDetailFromId = createRoute({
 			description: "Returns the user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [userDetailParam.vErr()],
+			validationErrorResponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });
 
-//update user's detailed information manually instead of Better-auth
+/**
+ * Update user's detailed information manually instead of Better-auth
+ */
 export const updateUserDetail = createRoute({
+	...baseAdminUsersConfig,
 	method: "put",
+	path: `${baseAdminUsersConfig.path}/{id}`,
 	summary: "Update user's detailed information",
-	path: "/admin/users/{id}",
 	request: {
 		params: userDetailParam.schema,
 		body: {
@@ -43,7 +57,7 @@ export const updateUserDetail = createRoute({
 			description: "Returns the updated user's detailed information",
 		},
 		...errorResponses({
-			validationErrorResnponseSchemas: [userDetailParam.vErr()],
+			validationErrorResponseSchemas: [userDetailParam.vErr()],
 		}),
 	},
 });

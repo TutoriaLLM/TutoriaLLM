@@ -38,5 +38,5 @@ export const tutorials = pgTable("tutorials", {
 	tags: json("tags").$type<Tags>().notNull(),
 	language: varchar("language", { length: 255 }).notNull(),
 	metadata: json("metadata").$type<TutorialMetadata>().notNull(),
-	serializednodes: text("serializednodes").notNull(), // Newly added
+	serializedNodes: text("serializedNodes").notNull(), // Newly added
 });
