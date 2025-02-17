@@ -8,6 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions: write-all
+    environment: dev
 
 
     steps:
@@ -66,7 +67,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ env.PACKAGE_VERSION }}
-        release_name: Release ${{ env.PACKAGE_VERSION }}
         draft: false
         prerelease: false
         body: |
