@@ -3,6 +3,8 @@ import { betterAuth } from "better-auth";
 import { admin, anonymous, username, openAPI } from "better-auth/plugins";
 
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { user } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export const auth = betterAuth({
 	plugins: [
@@ -30,3 +32,44 @@ export const auth = betterAuth({
 		throw: true,
 	},
 });
+
+export const createUser = async ({
+	email,
+	password,
+	displayName,
+	username,
+}: {
+	email: string;
+	password: string;
+	displayName: string;
+	username: string;
+}) => {
+	const user = await auth.api.signUpEmail({
+		body: {
+			email,
+			password,
+			name: displayName,
+			username: username,
+		},
+	});
+	return user;
+};
+
+export const setRole = async ({
+	userId,
+	role,
+}: {
+	userId: string;
+	role: "admin" | "user";
+}) => {
+	const result = await db
+		.update(user)
+		.set({
+			role,
+		})
+		.where(eq(user.id, userId))
+		.returning({
+			id: user.id,
+		});
+	return result[0];
+};
