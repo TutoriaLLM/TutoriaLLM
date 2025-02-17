@@ -6,7 +6,7 @@ export function ExitButton(props: { text: string; onClick: () => void }) {
 		<Button
 			className="rounded-2xl text-nowrap"
 			type="button"
-			variant={"red"}
+			variant="destructive"
 			size="xl"
 			onClick={() => {
 				props.onClick();

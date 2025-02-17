@@ -26,7 +26,7 @@ export const timestampSchema = z.object({
 export type DialogueType = {
 	id: number;
 	contentType: ContentType;
-	isuser: boolean;
+	isUser: boolean;
 	content: string | DialogueType[];
 	ui?: string;
 };
@@ -35,7 +35,7 @@ export const DialogueSchema: z.ZodSchema<DialogueType> = z.lazy(() =>
 	z.object({
 		id: z.number(),
 		contentType: z.enum(contentTypeEnum),
-		isuser: z.boolean(),
+		isUser: z.boolean(),
 		content: z.union([z.string(), z.array(DialogueSchema)]),
 		ui: z.string().optional(),
 	}),
@@ -48,7 +48,7 @@ export const DialogueOpenApiSchema = DialogueSchema.openapi({
 	example: {
 		id: 1,
 		contentType: "user",
-		isuser: true,
+		isUser: true,
 		content: "Hello",
 		ui: "example_ui",
 	},
@@ -82,7 +82,7 @@ export type TutorialMetadata = z.infer<typeof TutorialMetadataSchema>;
 export const TrainingMetadataSchema = z.object({
 	author: z.string().optional(),
 	date: z.string().optional(),
-	sessionCode: z.string().optional(),
+	sessionId: z.string().optional(),
 });
 export type TrainingMetadata = z.infer<typeof TrainingMetadataSchema>;
 
@@ -101,11 +101,20 @@ export const AudioSchema = z.object({
 });
 export type SavedAudio = z.infer<typeof AudioSchema>;
 
+export const UserInfoSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+	image: z.string().nullable(),
+	email: z.string(),
+});
+
 export const sessionValueSchema = z
 	.object({
 		// Basic Information
-		sessioncode: z.string(),
 		uuid: z.string(),
+		sessionId: z.string(),
+
+		name: z.string().nullable(),
 
 		// Dialogue related
 		dialogue: z.array(DialogueOpenApiSchema).nullable(),
@@ -134,10 +143,13 @@ export const sessionValueSchema = z
 
 		// Interaction-related
 		clicks: z.array(ClickSchema).nullable(),
+		userInfo: z.union([z.string(), UserInfoSchema]).nullable(),
 	})
 	.merge(timestampSchema);
+export const listSessionValueSchema = z.array(sessionValueSchema);
 
 export type SessionValue = z.infer<typeof sessionValueSchema>;
+export type SessionValueWithoutUserInfo = Omit<SessionValue, "userInfo">;
 
 export const keySchema = z.object({
 	key: z.string().openapi({
@@ -152,8 +164,12 @@ export const languageQuerySchema = z.object({
 	language: z.string(),
 });
 
-export const sessionCodeSchema = z.object({
-	sessionCode: z.string(),
+export const sessionIdSchema = z.object({
+	sessionId: z.string(),
+});
+
+export const sessionNameSchema = z.object({
+	sessionName: z.string(),
 });
 
 export const newSessionQuery = {
@@ -163,16 +179,8 @@ export const newSessionQuery = {
 			"NewSessionQueryValidationErrorResponse",
 		),
 };
-export const newSessionRequest = {
-	schema: sessionValueSchema.openapi("NewSessionRequest"),
-	vErr: () =>
-		createValidationErrorResponseSchema(newSessionRequest.schema).openapi(
-			"NewSessionRequestValidationErrorResponse",
-		),
-};
-
 export const putSessionRequest = {
-	schema: sessionValueSchema.openapi("PutSessionRequest"),
+	schema: sessionValueSchema.partial().openapi("PutSessionRequest"),
 	vErr: () =>
 		createValidationErrorResponseSchema(putSessionRequest.schema).openapi(
 			"PutSessionRequestValidationErrorResponse",

@@ -17,12 +17,15 @@ import type {
 } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { useMutation } from "@/hooks/useMutations.js";
 import { Bot, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
 	const [isGenerated, setIsGenerated] = useState(false);
 	const [content, setContent] = useState(data.source || "");
 
+	const { t } = useTranslation();
 	const initialMetadata = {
 		title: data?.metaData?.title || "",
 		description: data?.metaData?.description || "",
@@ -133,16 +136,22 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	}, [isGenerated]);
 
 	return (
-		<div className="metadata-node w-full h-full flex flex-col bg-white border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
-			<span className="w-full h-4 bg-gray-300 custom-drag-handle cursor-move justify-center items-center flex gap-2">
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
+		<div className="metadata-node w-full h-full flex flex-col bg-background border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
+			<span className="w-full h-4 bg-border custom-drag-handle cursor-move flex justify-center items-center gap-2">
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
 			</span>
 			<NodeToolbar>
-				<button type="button" className="text-red-500 " onClick={handleDelete}>
+				<Button
+					type="button"
+					className="text-destructive-foreground"
+					size="icon"
+					variant="destructive"
+					onClick={handleDelete}
+				>
 					<Trash2 className="drop-shadow" />
-				</button>
+				</Button>
 			</NodeToolbar>
 
 			<CustomHandle
@@ -162,30 +171,31 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 				}
 			/>
 			<div className="flex justify-center flex-col items-center p-2">
-				<h3 className="text-lg font-bold mb-2">Metadata Generator</h3>
-				<button
+				<h3 className="text-lg font-bold mb-2">
+					{t("admin.metadataGenerator")}
+				</h3>
+				<Button
 					type="button"
-					className="bg-sky-400 hover:sky-500 rounded-2xl p-2 flex gap-2 text-white"
 					onClick={() => {
 						mutate({ content });
 					}}
 					disabled={isPending}
 				>
 					<Bot className="drop-shadow" />
-					{isPending ? "Generating..." : "Generate Metadata from AI"}
-				</button>
+					{isPending ? "Generating..." : t("admin.generateMetadata")}
+				</Button>
 			</div>
 			{isCompared && (
 				<div className="w-full h-full p-4 bg-gray-100 border-t overflow-y-auto">
 					<div className="flex gap-4 max-w-xl">
 						<div className="w-[50%]">
-							<h4 className="font-semibold">Original Content:</h4>
+							<h4 className="font-semibold">{t("admin.originalMetaData")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
 								{content}
 							</pre>
 						</div>
 						<div className="w-[50%]">
-							<h4 className="font-semibold">AI Generated Metadata:</h4>
+							<h4 className="font-semibold">{t("admin.generatedMetaData")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
 								{JSON.stringify(generatedMetadata)}
 							</pre>

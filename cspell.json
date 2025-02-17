@@ -1,0 +1,64 @@
+{
+  "version": "0.2",
+  "import": ["./cspell-node.config.cjs"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "**/dist/**",
+    "*.log",
+    "*.svg",
+    "*.mcmeta",
+    "apps/backend/migrations/**",
+    "**/playwright-report/**",
+    "**/artifacts/**",
+    "packages/extensions/src/**",
+    "**/docker-compose.yml"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "minecraft-terms",
+      "path": "./minecraft-dictionary.txt"
+    }
+  ],
+  "dictionaries": ["minecraft-terms"],
+  "languageSettings": [
+    {
+      "locale": "en-GB"
+    }
+  ],
+
+  "words": [
+    "tutoriallm",
+    "colour",
+    "hnsw",
+    "viewports",
+    "Stringto",
+    "Updator",
+    "furigana",
+    "Replyingfor",
+    "nowheel",
+    "noscroll",
+    "behaviour",
+    "selectables",
+    "geras",
+    "zelos",
+    "gamemode",
+    "pgdata",
+    "onboarding",
+    "uncast"
+  ],
+  "ignoreWords": [
+    "Tokumaru",
+    "shadcn",
+    "XXXG",
+    "overscan",
+    "wavesurfer",
+    "textbubble",
+    "jaegertracing",
+    "pgvector",
+    "Vercel",
+    "mcmeta",
+    "sessionvalue"
+  ]
+}

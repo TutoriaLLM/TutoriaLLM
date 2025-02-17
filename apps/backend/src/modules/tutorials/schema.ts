@@ -27,7 +27,7 @@ export const tutorialSchema = z.object({
 	tags: tagsSchema,
 	language: z.string(),
 	metadata: metadataSchema,
-	serializednodes: z.string(),
+	serializedNodes: z.string(),
 });
 
 export const getTutorialsSchema = z.array(

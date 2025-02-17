@@ -16,16 +16,16 @@ function renderGroupLogBubble(
 			key={id}
 			className="flex justify-start items-end gap-2 w-full break-all animate-fade-in"
 		>
-			<div className="text-gray-600 flex flex-col items-center shrink">
-				<span className="bg-gray-200 rounded-full p-2">
+			<div className="text-foreground flex flex-col items-center shrink">
+				<span className="p-2">
 					<Server />
 				</span>
 				<p className="text-xs">{t("textbubble.server")}</p>
 			</div>
-			<div className="rounded-2xl text-gray-200 bg-gray-800 p-3 gap-3 flex flex-col shadow max-w-sm w-full grow">
+			<div className="rounded-2xl text-background bg-foreground border p-3 gap-3 flex flex-col shadow max-w-sm w-full grow">
 				{content.some((logItem) => logItem.contentType === "error") ? (
-					<span className="text-xs w-full font-semibold text-red-200 rounded-2xl flex justify-between items-center p-2 bg-red-600">
-						<span className="text-xs text-red-300">
+					<span className="text-xs w-full font-semibold text-warning-foreground rounded-2xl flex justify-between items-center p-2 bg-warning">
+						<span className="text-xs text-warning-foreground">
 							<p className="text-base flex-grow">{t("textbubble.errorLog")}</p>
 							{t("textbubble.showingLatest", {
 								count: setting?.Code_Execution_Limits?.Max_Num_Message_Queue,
@@ -34,8 +34,8 @@ function renderGroupLogBubble(
 						<TriangleAlert />
 					</span>
 				) : (
-					<span className="text-xs w-full font-semibold text-green-200 rounded-2xl flex justify-between items-center p-2 bg-green-600">
-						<span className="text-xs text-green-300">
+					<span className="text-xs w-full font-semibold text-secondary-foreground rounded-2xl flex justify-between items-center p-2 bg-secondary">
+						<span className="text-xs text-secondary-foreground">
 							<p className="text-base flex-grow">{t("textbubble.log")}</p>
 							{t("textbubble.showingLatest", {
 								count: setting?.Code_Execution_Limits?.Max_Num_Message_Queue,
@@ -49,9 +49,9 @@ function renderGroupLogBubble(
 						<span
 							className={`text-sm font-mono break-words ${
 								logItem.contentType === "error"
-									? "text-red-300 pl-2 border-l-2 border-red-400"
+									? "text-warning-foreground pl-2 border-l-2 border-warning"
 									: logItem.contentType === "info"
-										? "text-blue-300 pl-2 border-l-2 border-blue-400"
+										? "text-primary-foreground pl-2 border-l-2 border-primary"
 										: ""
 							}`}
 							key={logItem.id}

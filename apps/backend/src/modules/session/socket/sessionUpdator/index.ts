@@ -17,17 +17,17 @@ export async function updateSession(
 	socket: Socket,
 ) {
 	const newDataJson = createNewSessionValue(socket, currentDataJson, diff);
-	const code = currentDataJson.sessioncode;
+	const sessionId = currentDataJson.sessionId;
 
-	if (currentDataJson.uuid !== newDataJson.uuid) {
-		socket.emit("error", "Invalid uuid");
+	if (currentDataJson.sessionId !== newDataJson.sessionId) {
+		socket.emit("error", "Invalid sessionId");
 		socket.disconnect();
 		return;
 	}
 
 	function isLastMessageByUser(dialogue: Dialogue[]) {
 		const lastMessage = dialogue[dialogue.length - 1];
-		return lastMessage.isuser;
+		return lastMessage.isUser;
 	}
 
 	function isDialogueChanged(oldData: SessionValue, newData: SessionValue) {
@@ -64,7 +64,7 @@ export async function updateSession(
 	) {
 		// Send diffs to all clients except the sender
 		updateAndBroadcastDiff(
-			code,
+			sessionId,
 			{
 				...newDataJson,
 				stats: {
@@ -79,13 +79,13 @@ export async function updateSession(
 		socket.emit("notifyIsReplyingforSender");
 
 		updateDialogueWithLLM(newDataJson, socket)
-			.then(async (responseorError) => {
-				updateAndBroadcastDiffToAll(code, responseorError, socket);
+			.then(async (responseOrError) => {
+				updateAndBroadcastDiffToAll(sessionId, responseOrError, socket);
 			})
 			.catch((error) => {
 				console.error("Error invoking LLM:", error);
 			});
 	} else {
-		updateAndBroadcastDiff(code, newDataJson, socket);
+		updateAndBroadcastDiff(sessionId, newDataJson, socket);
 	}
 }

@@ -1,12 +1,12 @@
 import { io } from "socket.io-client";
 
-export function getSocket(sessionCode: string, uuid: string) {
+export function getSocket(sessionId: string) {
 	const socket = io(VITE_BACKEND_URL, {
 		path: "/session/socket/connect",
 		query: {
-			code: sessionCode,
-			uuid: uuid,
+			sessionId: sessionId,
 		},
+		autoConnect: false,
 	});
 	return socket;
 }

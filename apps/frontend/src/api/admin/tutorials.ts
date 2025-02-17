@@ -7,7 +7,7 @@ export const getTutorials = async () => {
 	return handleResponse(response);
 };
 
-export const getSpecificTutorial = async ({ id }: { id: number }) => {
+export const getSpecificTutorial = async ({ id }: { id: number | string }) => {
 	const response = await adminClient.admin.tutorials[":id"].$get({
 		param: {
 			id: id.toString(),

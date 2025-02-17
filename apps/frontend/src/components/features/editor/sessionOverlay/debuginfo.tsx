@@ -1,10 +1,20 @@
-import Popup from "@/components/ui/Popup.js";
+import { Button } from "@/components/ui/button";
 import { deleteDB } from "idb";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+
 /**
- * The BeforeInstallPromptEvent is fired at the Window.onbeforeinstallprompt handler
+ * The BeforeInstallPromptEvent is fired at the Window.onbeforeInstallPrompt handler
  * before a user is prompted to "install" a web site to a home screen on mobile.
  *
  * @deprecated Only supported on Chrome and Android Webview.
@@ -36,13 +46,8 @@ interface BeforeInstallPromptEvent extends Event {
 export function DebugInfo() {
 	// State that maintains the installation status of the PWA
 	const [isPWAInstalled, setIsPWAInstalled] = useState<boolean>(false);
-	const [isDebugInfoOpen, setIsDebugInfoOpen] = useState<boolean>(false);
 	const [deferredPrompt, setDeferredPrompt] =
 		useState<BeforeInstallPromptEvent | null>(null); // State to hold the installation prompt
-
-	function switchDebugInfo() {
-		setIsDebugInfoOpen(!isDebugInfoOpen);
-	}
 
 	const { t } = useTranslation();
 
@@ -54,21 +59,21 @@ export function DebugInfo() {
 			setIsPWAInstalled(false);
 		}
 
-		// Monitor beforeinstallprompt event
+		// Monitor beforeInstallPrompt event
 		const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
 			e.preventDefault(); // Prevent default prompts
 			setDeferredPrompt(e); // Save Event
 		};
 
 		window.addEventListener(
-			"beforeinstallprompt",
+			"beforeInstallPrompt",
 			handleBeforeInstallPrompt as EventListener,
 		);
 
 		// Cleanup Event Listener
 		return () =>
 			window.removeEventListener(
-				"beforeinstallprompt",
+				"beforeInstallPrompt",
 				handleBeforeInstallPrompt as EventListener,
 			);
 	}, []);
@@ -92,64 +97,57 @@ export function DebugInfo() {
 	};
 
 	return (
-		<div className="h-full flex flex-col gap-2 text-xs text-gray-400">
-			<button
-				type="button"
-				className={`p-2 rounded-xl bg-gray-200 hover:bg-gray-300 ${
-					isDebugInfoOpen ? "bg-gray-300" : ""
-				}`}
-				onClick={switchDebugInfo}
-			>
-				{t("session.about")}
-			</button>
-			{isDebugInfoOpen ? (
-				<Popup
-					openState={isDebugInfoOpen}
-					onClose={switchDebugInfo}
-					Content={
-						<div className="flex flex-col gap-4">
-							<h2 className="text-2xl text-gray-700">{t("session.about")}</h2>
-							<p className="">{t("session.aboutText")}</p>
-							<h2 className="text-2xl text-gray-700">
-								{t("session.debuginfo")}
-							</h2>
-							<div className="flex flex-col gap-2">
-								<p>Default Language : {navigator.language}</p>
-								<p>
-									PWA Status: {isPWAInstalled ? "Installed" : "Not Installed"}
-								</p>
-								{/* install button */}
-								{!isPWAInstalled && deferredPrompt && (
-									<button
-										type="button"
-										className="p-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600"
-										onClick={() => handleInstallClick()}
-									>
-										{t("session.installPWA")}
-									</button>
-								)}
-								<button
-									type="button"
-									className="p-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600"
-									onClick={() => handleDeleteStorageClick()}
-								>
-									{t("session.deleteStorage")}
-								</button>
-								{/* Add other debugging information here */}
-							</div>
-							<p className="italic font-bold">
-								&#9829;Developed by So Tokumaru with many contributors. <br />
-								<a
-									className="text-blue-400 hover:text-blue-300 transition-colors"
-									href="https://tutoriallm.com"
-								>
-									check tutoriallm.com for more info
-								</a>
-							</p>
-						</div>
-					}
-				/>
-			) : null}
-		</div>
+		<Dialog>
+			<div className="w-full">
+				<DialogTrigger asChild={true}>
+					<Button size="sm" variant="ghost" className="mx-auto">
+						{t("session.about")}
+					</Button>
+				</DialogTrigger>
+			</div>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>{t("session.about")}</DialogTitle>
+					<VisuallyHidden>
+						<DialogDescription>
+							Information and debugging tools
+						</DialogDescription>
+					</VisuallyHidden>
+				</DialogHeader>
+				<div className="flex flex-col gap-4">
+					<p className="text-sm">{t("session.aboutText")}</p>
+					<h2 className="text-base font-bold text-foreground">
+						{t("session.debugInfo")}
+					</h2>
+					<div className="flex flex-col gap-2 text-xs">
+						<p>Default Language : {navigator.language}</p>
+						<p>PWA Status: {isPWAInstalled ? "Installed" : "Not Installed"}</p>
+						{/* install button */}
+						{!isPWAInstalled && deferredPrompt && (
+							<Button type="button" onClick={() => handleInstallClick()}>
+								{t("session.installPWA")}
+							</Button>
+						)}
+						<Button
+							type="button"
+							variant="destructive"
+							onClick={() => handleDeleteStorageClick()}
+						>
+							{t("session.deleteStorage")}
+						</Button>
+						{/* Add other debugging information here */}
+					</div>
+					<p className="italic font-bold">
+						&#9829;Developed by So Tokumaru with many contributors. <br />
+						<a
+							className="text-primary hover:text-primary transition-colors"
+							href="https://tutoriallm.com"
+						>
+							check tutoriallm.com for more info
+						</a>
+					</p>
+				</div>
+			</DialogContent>
+		</Dialog>
 	);
 }

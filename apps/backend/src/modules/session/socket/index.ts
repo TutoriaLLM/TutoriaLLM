@@ -6,17 +6,16 @@ import { updateSession } from "@/modules/session/socket/sessionUpdator";
 import { ExecCodeTest, StopCodeTest, UpdateCodeTest } from "@/modules/vm";
 import { updateDialogue } from "@/utils/dialogueUpdater";
 import { updateStats } from "@/utils/statsUpdater";
-import { createMiddleware } from "hono/factory";
 import type { Operation } from "rfc6902";
 import { Server } from "socket.io";
 
-import { appSessions } from "@/db/schema";
 import type { SessionValue } from "@/modules/session/schema";
 import {
 	updateAndBroadcastDiff,
 	updateAndBroadcastDiffToAll,
 } from "@/modules/session/socket/updateDB";
 import { eq } from "drizzle-orm";
+import { appSessions } from "@/db/schema";
 
 const config = getConfig();
 
@@ -32,25 +31,23 @@ export function initSocketServer(server: HttpServer) {
 
 	io.on("connection", async (socket) => {
 		console.info("new connection request from client");
-		const code = socket.handshake.query.code as string;
-		const uuid = socket.handshake.query.uuid as string;
+		const sessionId = socket.handshake.query.sessionId as string;
 
-		console.info("on connect:", code, uuid);
 		try {
 			// If the code does not exist, the connection is rejected
 			// Migrated from Redis to Postgres: from 1.0.0
 			const data = await db.query.appSessions.findFirst({
-				where: eq(appSessions.sessioncode, code),
+				where: eq(appSessions.sessionId, sessionId),
 			});
 
-			// Connection denied if uuid does not match
-			if (data?.uuid !== uuid) {
-				socket.emit("error", "Invalid uuid");
+			// Connection denied if sessionId does not match
+			if (data?.sessionId !== sessionId) {
+				socket.emit("error", "Invalid sessionId");
 				socket.disconnect();
 				return;
 			}
 
-			socket.join(data.sessioncode);
+			socket.join(data.sessionId);
 
 			const dataWithNewClient = {
 				...data,
@@ -61,17 +58,17 @@ export function initSocketServer(server: HttpServer) {
 
 			// Add Client
 			updateAndBroadcastDiffToAll(
-				code,
+				sessionId,
 				dataWithNewClient, // Data with additional clients
 				socket,
 			);
 
 			async function getCurrentDataJson(
-				code: string,
+				sessionId: string,
 			): Promise<SessionValue | null> {
 				// Migrated from Redis to Postgres: from 1.0.0
 				const data = await db.query.appSessions.findFirst({
-					where: eq(appSessions.sessioncode, code),
+					where: eq(appSessions.sessionId, sessionId),
 				});
 				if (!data) {
 					socket.emit("error", "Session not found");
@@ -91,7 +88,7 @@ export function initSocketServer(server: HttpServer) {
 			); // Request screenshots every specified minute
 
 			socket.on("UpdateCurrentSessionDiff", async (diff: Operation[]) => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(sessionId);
 				if (!currentDataJson) {
 					socket.disconnect();
 					return;
@@ -105,7 +102,7 @@ export function initSocketServer(server: HttpServer) {
 				}
 			});
 			socket.on("openVM", async () => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(sessionId);
 				if (!currentDataJson) {
 					socket.disconnect();
 					return;
@@ -117,7 +114,7 @@ export function initSocketServer(server: HttpServer) {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
 					updateAndBroadcastDiffToAll(
-						code,
+						sessionId,
 						updateDialogue("error.empty_workspace", currentDataJson, "error"),
 						socket,
 					);
@@ -137,7 +134,7 @@ export function initSocketServer(server: HttpServer) {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
 					updateAndBroadcastDiffToAll(
-						code,
+						sessionId,
 						updateDialogue("error.empty_code", currentDataJson, "error"),
 						socket,
 					);
@@ -145,25 +142,24 @@ export function initSocketServer(server: HttpServer) {
 				}
 				const serverRootPath = `${socket.request.headers.host}`;
 				const result = await ExecCodeTest(
-					code,
-					currentDataJson.uuid,
+					currentDataJson.sessionId,
 					generatedCode,
 					serverRootPath,
 					socket,
 					updateAndBroadcastDiffToAll,
 				);
-				if (result === "Valid uuid") {
+				if (result === "Valid sessionId") {
 					isRunning = true;
 					currentDataJson.isVMRunning = isRunning;
-					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
+					await updateAndBroadcastDiffToAll(sessionId, currentDataJson, socket);
 				} else {
 					isRunning = false;
 					currentDataJson.isVMRunning = isRunning;
-					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
+					await updateAndBroadcastDiffToAll(sessionId, currentDataJson, socket);
 				}
 			});
 			socket.on("updateVM", async (callback) => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(sessionId);
 				if (!currentDataJson?.workspace) {
 					socket.disconnect();
 					return;
@@ -173,20 +169,19 @@ export function initSocketServer(server: HttpServer) {
 					currentDataJson.language || "en",
 				);
 				const result = await UpdateCodeTest(
-					code,
-					currentDataJson.uuid,
+					currentDataJson.sessionId,
 					generatedCode,
 				);
 				callback("ok");
 			});
 			socket.on("stopVM", async () => {
-				const currentDataJson = await getCurrentDataJson(code);
+				const currentDataJson = await getCurrentDataJson(sessionId);
 				if (!currentDataJson) {
 					socket.disconnect();
 					return;
 				}
 				let isRunning = currentDataJson.isVMRunning;
-				await StopCodeTest(code, uuid, socket, updateAndBroadcastDiffToAll);
+				await StopCodeTest(sessionId, socket, updateAndBroadcastDiffToAll);
 				isRunning = false;
 				currentDataJson.isVMRunning = isRunning;
 
@@ -197,7 +192,7 @@ export function initSocketServer(server: HttpServer) {
 					currentDataJson,
 				);
 				await updateAndBroadcastDiffToAll(
-					code,
+					sessionId,
 					currentDataJsonWithUpdatedStats,
 					socket,
 				);
@@ -210,7 +205,7 @@ export function initSocketServer(server: HttpServer) {
 					const rawData = await db
 						.select()
 						.from(appSessions)
-						.where(eq(appSessions.sessioncode, code));
+						.where(eq(appSessions.sessionId, sessionId));
 
 					const currentData: SessionValue = rawData[0];
 
@@ -231,14 +226,13 @@ export function initSocketServer(server: HttpServer) {
 						currentDataJson?.clients?.length === 0
 					) {
 						const result = await StopCodeTest(
-							code,
-							uuid,
+							sessionId,
 							socket,
 							updateAndBroadcastDiff,
 						);
 						currentDataJson.isVMRunning = false;
 					}
-					await updateAndBroadcastDiffToAll(code, currentDataJson, socket);
+					await updateAndBroadcastDiffToAll(sessionId, currentDataJson, socket);
 				} catch (error) {
 					console.error("Error closing connection:", error);
 				}
@@ -249,14 +243,3 @@ export function initSocketServer(server: HttpServer) {
 		}
 	});
 }
-
-export const ioMiddleware = createMiddleware<{
-	Variables: {
-		io: Server;
-	};
-}>(async (c, next) => {
-	if (!c.var.io && io) {
-		c.set("io", io);
-	}
-	await next();
-});

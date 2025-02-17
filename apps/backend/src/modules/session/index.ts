@@ -1,139 +1,122 @@
 import { createHonoApp } from "@/create-app";
-import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { initialData } from "@/db/session";
 import { errorResponse } from "@/libs/errors";
 import {
 	deleteSession,
 	getSession,
+	getUserSessions,
 	newSession,
 	putSession,
 	resumeSession,
 } from "@/modules/session/routes";
-import joincodeGen from "@/utils/joincodeGen";
 import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
+import { uuidv7 } from "uuidv7";
 
+/**
+ * This controller handles session management logic, including creating new sessions,
+ * resuming existing sessions, updating or deleting sessions, etc.
+ * Data is stored in a Postgres database instead of a Redis store.
+ */
 const app = createHonoApp()
+	/**
+	 * Create a new session
+	 *
+	 * Generates a new session for an authenticated user, optionally with
+	 * a specified language. Uses a nanoid-based session ID and a UUIDv7 for
+	 * uniqueness. Prevents duplicates by checking if the same sessionId
+	 * already exists.
+	 */
 	.openapi(newSession, async (c) => {
-		let language = c.req.valid("query").language;
+		const [session, user] = [c.get("session"), c.get("user")];
 
-		if (language === undefined || !language) {
+		if (!(session && user)) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
+
+		let language = c.req.valid("query").language;
+		if (!language) {
 			language = "en";
 		}
 
-		const code = joincodeGen();
+		const sessionId = nanoid(12);
+		const uuid = uuidv7();
 
-		console.info("session created with initial data");
-
-		// Returns an error if a session with the same code already exists
-		const value = await db.query.appSessions.findFirst({
-			where: eq(appSessions.sessioncode, code),
+		// Check for duplicate session ID
+		const value = await c.get("db").query.appSessions.findFirst({
+			where: eq(appSessions.sessionId, sessionId),
 		});
-
-		if (value?.sessioncode === code) {
+		if (value?.sessionId === sessionId) {
 			return errorResponse(c, {
 				message: "Session code already exists",
 				type: "BAD_REQUEST",
 			});
 		}
 
-		// Migrated from Redis to Postgres: from 1.0.0
-		// If initial data is not specified, generate initial data and create session
-		await db
+		// Insert a new session with initial data
+		await c
+			.get("db")
 			.insert(appSessions)
-			.values(initialData(code, language.toString()))
+			.values(initialData(uuid, sessionId, language.toString(), user.id))
 			.execute();
-		console.info("session created by api");
-		return c.json(
-			{
-				sessionCode: code,
-			},
-			200,
-		);
+
+		return c.json({ sessionId }, 200);
 	})
+	/**
+	 * Resume an existing session by sessionId
+	 *
+	 * Validates that the authenticated user matches the session's owner.
+	 * Returns the sessionId if it exists and is owned by the user.
+	 */
 	.openapi(resumeSession, async (c) => {
 		const key = c.req.valid("param").key;
-
-		const sessionData = c.req.valid("json");
-		// Check to see if a session for that key exists
-		const value = await db.query.appSessions.findFirst({
-			where: eq(appSessions.sessioncode, key),
-		});
-		if (
-			!value ||
-			value.workspace?.toString() !== sessionData.workspace?.toString()
-		) {
-			// If there is no session or the session data does not match, create a new session based on the data
-			const code = joincodeGen();
-			const {
-				uuid,
-				dialogue,
-				quickReplies,
-				workspace,
-				language,
-				easyMode,
-				responseMode,
-				llmContext,
-				tutorial,
-				stats,
-				clicks,
-			} = sessionData;
-			await db
-				.insert(appSessions)
-				.values({
-					sessioncode: code,
-					uuid,
-					createdAt: new Date().toISOString(),
-					updatedAt: new Date().toISOString(),
-					...(quickReplies && { quickReplies }),
-					dialogue: [
-						...(dialogue ?? []),
-						{
-							id: (dialogue?.length ?? 0) + 1,
-							contentType: "log",
-							isuser: false,
-							content: "dialogue.NewSessionWithData",
-						},
-					],
-					isReplying: false,
-					workspace,
-					isVMRunning: false,
-					clients: [],
-					language,
-					easyMode,
-					responseMode,
-					llmContext,
-					tutorial,
-					stats: stats ?? {
-						audios: [],
-						userAudio: "",
-						screenshot: "",
-						clicks: clicks ?? [],
-					},
-				})
-				.execute();
-			return c.json(
-				{
-					sessionCode: code,
-				},
-				200,
-			);
+		const user = c.get("user");
+		if (!user) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
 		}
-		return c.json(
-			{
-				sessionCode: key,
-			},
-			200,
-		);
 
-		// Migrated from Redis to Postgres: from 1.0.0
+		// Check if the session exists
+		const value = await c.get("db").query.appSessions.findFirst({
+			where: eq(appSessions.sessionId, key),
+		});
+		if (!value) {
+			return errorResponse(c, {
+				message: "Session not found",
+				type: "NOT_FOUND",
+			});
+		}
+
+		// Check if the session belongs to the current user
+		if (value.userInfo !== user.id) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
+		return c.json({ sessionId: key }, 200);
 	})
+	/**
+	 * Update an existing session
+	 *
+	 * Overwrites session data with the new JSON body, while ensuring
+	 * the authenticated user's ID matches the session record.
+	 */
 	.openapi(putSession, async (c) => {
 		const key = c.req.valid("param").key;
 		const sessionData = c.req.valid("json");
-		// Migrated from Redis to Postgres: from 1.0.0
-		const existingSession = await db.query.users.findFirst({
-			where: eq(appSessions.sessioncode, key),
+
+		const existingSession = await c.get("db").query.appSessions.findFirst({
+			where: eq(appSessions.sessionId, key),
+			with: {
+				userInfo: { columns: { id: true } },
+			},
 		});
 		if (!existingSession) {
 			return errorResponse(c, {
@@ -141,17 +124,27 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
-		await db
+
+		// Update the session data
+		const result = await c
+			.get("db")
 			.update(appSessions)
-			.set(sessionData)
-			.where(eq(appSessions.sessioncode, key));
-		return c.json({ message: "Session updated" }, 200);
+			.set({ ...sessionData, userInfo: undefined })
+			.where(eq(appSessions.sessionId, key))
+			.returning({ id: appSessions.sessionId });
+
+		return c.json({ sessionId: result[0].id }, 200);
 	})
+	/**
+	 * Delete an existing session
+	 *
+	 * Ensures the session exists before removal. No ownership check is done here
+	 * (unless enforced in the middleware).
+	 */
 	.openapi(deleteSession, async (c) => {
 		const key = c.req.valid("param").key;
-		// Migrated from Redis to Postgres: from 1.0.0
-		const existingSession = await db.query.users.findFirst({
-			where: eq(appSessions.sessioncode, key),
+		const existingSession = await c.get("db").query.appSessions.findFirst({
+			where: eq(appSessions.sessionId, key),
 		});
 		if (!existingSession) {
 			return errorResponse(c, {
@@ -159,14 +152,22 @@ const app = createHonoApp()
 				type: "NOT_FOUND",
 			});
 		}
-		await db.delete(appSessions).where(eq(appSessions.sessioncode, key));
-		return c.json({ message: "Session deleted" }, 200);
+
+		const result = await c
+			.get("db")
+			.delete(appSessions)
+			.where(eq(appSessions.sessionId, key))
+			.returning({ id: appSessions.sessionId });
+
+		return c.json({ sessionId: result[0].id }, 200);
 	})
+	/**
+	 * Retrieve a specific session by sessionId
+	 */
 	.openapi(getSession, async (c) => {
 		const key = c.req.valid("param").key;
-		// Migrated from Redis to Postgres: from 1.0.0
-		const data = await db.query.appSessions.findFirst({
-			where: eq(appSessions.sessioncode, key),
+		const data = await c.get("db").query.appSessions.findFirst({
+			where: eq(appSessions.sessionId, key),
 		});
 		if (!data) {
 			return errorResponse(c, {
@@ -175,6 +176,22 @@ const app = createHonoApp()
 			});
 		}
 		return c.json(data, 200);
-	});
+	})
+	/**
+	 * List all sessions belonging to the authenticated user
+	 */
+	.openapi(getUserSessions, async (c) => {
+		const user = c.get("user");
+		if (!user) {
+			return errorResponse(c, {
+				message: "Unauthorized",
+				type: "UNAUTHORIZED",
+			});
+		}
 
+		const data = await c.get("db").query.appSessions.findMany({
+			where: eq(appSessions.userInfo, user.id),
+		});
+		return c.json(data, 200);
+	});
 export default app;

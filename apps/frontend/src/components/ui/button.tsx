@@ -4,18 +4,26 @@ import { type VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
 const buttonVariants = cva(
-	"rounded-full font-semibold justify-center items-center flex gap-0.5",
+	"font-semibold justify-center whitespace-nowrap items-center flex transition gap-1 [&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0 disabled:opacity-50",
 	{
 		variants: {
 			variant: {
-				default: "bg-sky-500 text-white hover:bg-sky-600 ",
-				red: "bg-red-500 text-white hover:bg-red-600 ",
-				orange: "bg-orange-500 text-white hover:bg-orange-600 ",
+				default: "bg-primary text-primary-foreground hover:bg-primary/80 ",
+				destructive:
+					"bg-destructive text-destructive-foreground hover:bg-destructive/80 ",
+				secondary:
+					"bg-secondary text-secondary-foreground hover:bg-secondary/80 ",
+				ghost:
+					"bg-transparent text-accent-foreground hover:bg-accent/80 hover:text-accent-foreground/80",
+				outline:
+					"border border-input bg-background hover:bg-accent hover:text-accent-foreground",
 			},
 			size: {
-				default: "p-1.5 px-2",
-				lg: "p-2.5 md:p-3 md:px-4",
-				xl: "p-2.5 px-3 md:p-4",
+				icon: "h-10 w-10 rounded-full",
+				sm: "py-1 px-2 md:py-1.5 md:px-2.5  text-sm rounded-xl",
+				default: "py-2 px-4 md:py-2.5 md:px-3 rounded-2xl",
+				lg: "p-2.5 md:p-3 md:px-4 rounded-2xl",
+				xl: "p-2.5 px-3 md:p-4 rounded-2xl",
 			},
 		},
 		defaultVariants: {

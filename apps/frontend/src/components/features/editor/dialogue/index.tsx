@@ -1,24 +1,37 @@
-import QuickReply from "@/components/features/editor/dialogue/parts/quickreply";
+import QuickReply from "@/components/features/editor/dialogue/parts/quickReply";
 import TextBubble from "@/components/features/editor/dialogue/parts/textbubble";
 import { SwitchModeUI } from "@/components/features/editor/dialogue/parts/ui/switchModeUI";
 import {
 	HorizontalScrollProvider,
 	useHorizontalScroll,
 } from "@/hooks/horizontalScroll.js";
-import { currentSessionState } from "@/state.js";
 import { updateStats } from "@/utils/statsUpdater.js";
-import { useAtom } from "jotai";
 import { Bot, Mic, Pause, Play, Send, Trash } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	type Dispatch,
+	type SetStateAction,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import WaveSurfer from "wavesurfer.js";
 
 import { useConfig } from "@/hooks/config.js";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/libs/utils";
+import type { SessionValue } from "@/type";
 
-export default function DialogueView() {
+export default function DialogueView({
+	session,
+	setSession,
+}: {
+	session: SessionValue | null;
+	setSession: Dispatch<SetStateAction<SessionValue | null>>;
+}) {
 	const { t } = useTranslation();
-	const [session, setSession] = useAtom(currentSessionState);
 	const [message, setMessage] = useState("");
 	const [audioURL, setAudioURL] = useState("");
 	const [isRecording, setIsRecording] = useState(false);
@@ -68,7 +81,7 @@ export default function DialogueView() {
 								{
 									id: lastId + 1,
 									contentType: "user_audio",
-									isuser: true,
+									isUser: true,
 									content: "",
 								},
 							],
@@ -81,7 +94,7 @@ export default function DialogueView() {
 							userAudio: audioURL, // Set base64 encoded MP3 data
 						};
 					}
-					return prev;
+					return session;
 				});
 				setMessage(""); // Clear field after message is sent
 				setAudioURL(""); // Clear audio URL
@@ -93,6 +106,7 @@ export default function DialogueView() {
 				// Confirmation that the transmission is not already in progress
 				setIsSending(true); // Set the sending flag
 				setSession((prev) => {
+					console.log("Sending message", setSession);
 					if (prev) {
 						const lastId =
 							(prev.dialogue?.length || 0) > 0
@@ -105,7 +119,7 @@ export default function DialogueView() {
 								{
 									id: lastId + 1,
 									contentType: "user",
-									isuser: true,
+									isUser: true,
 									content: message,
 								},
 							],
@@ -270,10 +284,21 @@ export default function DialogueView() {
 		}
 	}, [session?.dialogue]);
 
+	//limit time of recording
+	useEffect(() => {
+		if (remainingTime <= 0) {
+			stopRecording();
+		}
+	}, [remainingTime]);
+
 	const items = rowVirtualizer.getVirtualItems();
 	return (
-		<div className="dialogue grow w-full h-full flex flex-col bg-gray-100 font-medium">
-			<SwitchModeUI audio={config?.AI_Settings.Chat_Audio} />
+		<div className="dialogue grow w-full h-full flex flex-col bg-background font-medium">
+			<SwitchModeUI
+				audio={config?.AI_Settings.Chat_Audio}
+				sessionState={session}
+				setSessionState={setSession}
+			/>
 			<div
 				className="w-full h-full overflow-y-auto contain-strict"
 				ref={parentRef}
@@ -296,6 +321,8 @@ export default function DialogueView() {
 							if (!item) return null;
 							return (
 								<TextBubble
+									currentSession={session}
+									setCurrentSession={setSession}
 									className="w-full"
 									ref={(el) => {
 										if (el) {
@@ -317,13 +344,13 @@ export default function DialogueView() {
 				{/* Show animation while replying */}
 				{session?.isReplying && (
 					<div className="flex px-4 py-2 justify-start items-end gap-2 animate-loading-blink">
-						<div className="text-gray-600 flex flex-col items-center">
-							<span className="bg-gray-200 rounded-full p-2">
+						<div className="text-foreground flex flex-col items-center">
+							<span className="p-2">
 								<Bot />
 							</span>
 							<p className="text-xs">{t("textbubble.ai")}</p>
 						</div>
-						<div className="rounded-2xl rounded-bl-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
+						<div className="rounded-2xl rounded-bl-none bg-accent text-accent-foreground p-3 shadow max-w-sm border">
 							<p className="prose bg-gradient-to-r from-gray-500 from-30% via-gray-700 via-50% to-gray-500 to-70% bg-[size:280%] bg-center flex animate-loading-flow text-transparent bg-clip-text">
 								{t("textbubble.replying")}
 							</p>
@@ -332,7 +359,7 @@ export default function DialogueView() {
 				)}
 			</div>
 			<div className="w-full p-2">
-				<div className="items-center bg-white shadow gap-2 p-2 rounded-2xl w-full">
+				<div className="items-center bg-card shadow gap-2 p-2 rounded-2xl w-full">
 					{session?.quickReplies && (
 						<div className="relative w-full py-2.5 overflow-clip">
 							{/* Provide context with HorizontalScrollProvider */}
@@ -342,48 +369,25 @@ export default function DialogueView() {
 									quickReplies={session?.quickReplies || null}
 								/>
 							</HorizontalScrollProvider>
-							<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-							<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+							<div className="absolute inset-y-0 left-0 w-4 bg-gradient-to-r from-card to-transparent pointer-events-none" />
+							<div className="absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-card to-transparent pointer-events-none" />
 						</div>
 					)}
 
 					<form className="flex w-full gap-2" onSubmit={sendMessage}>
 						{config?.AI_Settings.Chat_Audio && isHttps && (
-							<button
+							<Button
 								type="button"
 								onClick={isRecording ? stopRecording : startRecording}
-								className={`w-10 h-12 md:w-12 md:h-16 shrink-0 text-white rounded-2xl flex justify-center items-center relative transition-colors  ${
-									isRecording ? "bg-red-500" : "bg-green-600 hover:bg-green-700"
-								}`}
+								className={cn(
+									"w-10 h-12 md:w-12 md:h-16 shrink-0 text-background rounded-2xl flex justify-center items-center relative transition-colors bg-secondary hover:bg-secondary",
+									{ "bg-destructive": isRecording },
+								)}
 							>
 								{isRecording ? (
 									<div className="flex items-center justify-center">
 										<div className="relative">
-											<svg className="w-12 h-12">
-												<title>Recording Remaining Time</title>
-												<circle
-													className="text-gray-300"
-													strokeWidth="4"
-													stroke="currentColor"
-													fill="transparent"
-													r="18"
-													cx="24"
-													cy="24"
-												/>
-												<circle
-													className="text-rose-600"
-													strokeWidth="4"
-													strokeDasharray="113"
-													strokeDashoffset={(113 * remainingTime) / 10}
-													strokeLinecap="round"
-													stroke="currentColor"
-													fill="transparent"
-													r="18"
-													cx="24"
-													cy="24"
-												/>
-											</svg>
-											<span className="absolute inset-0 flex items-center justify-center text-xs text-red-100">
+											<span className="absolute inset-0 flex items-center justify-center text-xs text-destructive-foreground">
 												{remainingTime}
 											</span>
 										</div>
@@ -391,49 +395,60 @@ export default function DialogueView() {
 								) : (
 									<Mic />
 								)}
-							</button>
+							</Button>
 						)}
-						<div className="flex-1 flex min-w-24 border shadow-inner gap-2 p-1 rounded-2xl bg-gray-100 outline-none focus:ring-2 focus:ring-blue-500">
+						<div
+							className="flex flex-1 min-w-0 border shadow-inner gap-2 p-1 rounded-2xl 
+             bg-background outline-none focus:ring-2 focus:ring-blue-500 overflow-hidden"
+						>
 							{audioURL ? (
-								<div className="flex gap-2 p-1 justify-center items-center rounded-full bg-gray-200 animate-fade-in">
-									<button
+								<div
+									className="flex w-full min-w-0 max-w-48 gap-2 p-1 justify-center items-center 
+                       rounded-full bg-accent animate-fade-in"
+								>
+									<Button
 										type="button"
-										className="text-gray-400 hover:text-green-400 p-2"
+										variant="ghost"
+										className="hover:text-secondary p-2"
 										onClick={togglePlayPause}
 									>
 										{isPlaying ? <Pause /> : <Play />}
-									</button>
-									<div id="waveform" className="w-12 h-8" />
-									<button
+									</Button>
+									<div
+										id="waveform"
+										className="flex-1 min-w-0 h-8 overflow-hidden"
+									>
+										{/* Waveformライブラリの描画用要素 */}
+									</div>
+									<Button
 										type="button"
+										variant="ghost"
 										onClick={removeAudio}
-										className="text-gray-400 hover:text-rose-400 p-2"
+										className="hover:text-destructive p-2"
 									>
 										<Trash />
-									</button>
+									</Button>
 								</div>
 							) : (
 								<input
 									type="text"
 									placeholder={t("textbubble.ask")}
-									className="p-2 md:p-3 flex-1 bg-transparent outline-none text-sm md:text-base"
+									className="p-2 md:p-3 flex-1 bg-transparent 
+                       outline-none text-sm md:text-base"
 									value={message}
 									onChange={(e) => setMessage(e.target.value)}
 								/>
 							)}
 						</div>
 
-						<button
+						<Button
 							type="submit"
-							className={`w-10 h-12 md:w-12 md:h-16 shrink-0 text-white rounded-2xl flex justify-center items-center transition-colors ${
-								(message === "" && !audioURL) || session?.isReplying
-									? "bg-gray-300 transition"
-									: "bg-sky-600 hover:bg-sky-700 transition"
-							}`}
+							size="icon"
+							className="w-10 h-12 md:w-12 md:h-16 shrink-0 text-background rounded-2xl"
 							disabled={(message === "" && !audioURL) || session?.isReplying}
 						>
 							<Send />
-						</button>
+						</Button>
 					</form>
 				</div>
 			</div>

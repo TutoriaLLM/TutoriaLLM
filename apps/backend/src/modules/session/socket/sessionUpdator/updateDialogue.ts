@@ -1,5 +1,4 @@
 import { db } from "@/db";
-import { appSessions } from "@/db/schema";
 import { updateDialogue } from "@/utils/dialogueUpdater";
 
 import { getBlockNames } from "@/libs/registerBlocks";
@@ -7,6 +6,7 @@ import type { SessionValue } from "@/modules/session/schema";
 import { invokeLLM } from "@/modules/session/socket/llm";
 import { eq } from "drizzle-orm";
 import type { Socket } from "socket.io";
+import { appSessions } from "@/db/schema";
 
 // Call LLM asynchronously and push when the message is created
 export async function updateDialogueWithLLM(
@@ -14,12 +14,12 @@ export async function updateDialogueWithLLM(
 	socket: Socket,
 ): Promise<SessionValue> {
 	// At the end of processing, when the final data is returned, the previous data is re-retrieved.
-	async function getLatestData(code: string) {
+	async function getLatestData(sessionId: string) {
 		// Migrated from Redis to Postgres: from 1.0.0
 		const rawData = await db
 			.select()
 			.from(appSessions)
-			.where(eq(appSessions.sessioncode, code));
+			.where(eq(appSessions.sessionId, sessionId));
 
 		const data: SessionValue = rawData[0];
 		return data;
@@ -40,7 +40,7 @@ export async function updateDialogueWithLLM(
 		"data" in message &&
 		message.data
 	) {
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.sessionId);
 		const updatedAudios = [
 			...(latestData.audios || []),
 			{
@@ -61,7 +61,7 @@ export async function updateDialogueWithLLM(
 				{
 					id: (data.dialogue?.length || 0) + 1,
 					contentType: "ai_audio",
-					isuser: false,
+					isUser: false,
 					content: JSON.stringify({
 						id: `${updatedAudios.length}`,
 						transcript: message.transcript,
@@ -75,7 +75,7 @@ export async function updateDialogueWithLLM(
 
 	// Processing when output is text
 	if (typeof message !== "string" && message && "response" in message) {
-		const latestData2 = await getLatestData(data.sessioncode);
+		const latestData2 = await getLatestData(data.sessionId);
 		let updatedDialogue = updateDialogue(message.response, latestData2, "ai");
 
 		// quick replies
@@ -97,13 +97,13 @@ export async function updateDialogueWithLLM(
 						id: (updatedDialogue.dialogue?.length || 0) + 1,
 						contentType: "ui",
 						ui: message.ui,
-						isuser: false,
+						isUser: false,
 						content: "",
 					},
 				],
 			};
 		}
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.sessionId);
 		return {
 			...latestData,
 			dialogue: updatedDialogue.dialogue,
@@ -119,7 +119,7 @@ export async function updateDialogueWithLLM(
 	// Processing when the message is a string
 	if (typeof message === "string") {
 		const updatedDialogue = updateDialogue(message, data, "ai");
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.sessionId);
 		return {
 			...latestData,
 			dialogue: updatedDialogue.dialogue,
@@ -129,13 +129,13 @@ export async function updateDialogueWithLLM(
 
 	// Delete the user's audio if it is included
 	if (data.userAudio) {
-		const latestData = await getLatestData(data.sessioncode);
+		const latestData = await getLatestData(data.sessionId);
 		latestData.userAudio = "";
 		return latestData;
 	}
 
 	// If failed, retrieve the latest data and return it as is
-	const latestData = await getLatestData(data.sessioncode);
+	const latestData = await getLatestData(data.sessionId);
 	latestData.isReplying = false;
 	return latestData;
 }

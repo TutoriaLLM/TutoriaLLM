@@ -1,3 +1,16 @@
 packages:
  - 'apps/*'
  - 'packages/*'
+catalog:
+  better-auth: 1.1.15
+  blockly: 11.1.1
+  dotenv: 16.4.5
+  hono: 4.6.16
+  rfc6902: 5.1.1
+  tsx: 4.19.2
+  js-yaml: 4.1.0
+  zod: 3.24.1
+  tailwindcss: 3.4.17
+  "@types/node": 20.16.12
+  typescript: 5.6.3
+

@@ -14,14 +14,14 @@ function renderLogBubble(
 			key={id}
 			className="flex justify-start items-end gap-2 animate-fade-in"
 		>
-			<div className="text-gray-600 flex flex-col items-center">
-				<span className="bg-gray-200 rounded-full p-2">
+			<div className="text-foreground flex flex-col items-center">
+				<span className="p-2">
 					<Server />
 				</span>
 				<p className="text-xs">{t("textbubble.server")}</p>
 			</div>
-			<div className="text-gray-800 bg-transparent rounded-2xl p-3 max-w-sm w-full">
-				<p className="text-xs font-semibold text-gray-600">
+			<div className="text-foreground bg-transparent rounded-2xl p-3 max-w-sm w-full">
+				<p className="text-xs font-semibold text-foreground">
 					{t("textbubble.log")}:
 				</p>
 				<span className="prose prose-sm md:prose-base">

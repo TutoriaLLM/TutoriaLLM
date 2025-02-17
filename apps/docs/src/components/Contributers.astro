@@ -1,0 +1,79 @@
+---
+import { CardGrid } from "@astrojs/starlight/components";
+
+// GitHub APIからコントリビューターを取得する関数
+async function getContributors() {
+  const response = await fetch('https://api.github.com/repos/TutoriaLLM/TutoriaLLM/contributors');
+  if (!response.ok) {
+    return [{
+      login: "Error for contributors",
+      avatar_url: "",
+      html_url: "",
+      contributions: 999
+    }];
+  }
+  return await response.json();
+}
+
+async function getMembers() {
+  const response = await fetch('https://api.github.com/orgs/TutoriaLLM/members');
+  if (!response.ok) {
+    return [{
+      login: "Error for members",
+      avatar_url: "",
+      html_url: "",
+      contributions: 999
+    }];
+  }
+  return await response.json();
+}
+
+// サーバーサイドでコントリビューターとメンバーを取得
+const contributors = await getContributors();
+const members = await getMembers();
+
+// コントリビューターのデータをログイン名でマップ化
+const contributorMap = new Map(contributors.map((contributor: { login: string; contributions: number; }) => [contributor.login, contributor.contributions]));
+
+// メンバーのログイン名のセットを作成
+const memberLogins = new Set(members.map((member: { login: string; }) => member.login));
+
+// コントリビューターからメンバーを除外
+const filteredContributors = contributors.filter(
+(  contributor: { login: unknown; }) => !memberLogins.has(contributor.login)
+);
+
+// メンバーにコントリビューション数を追加
+const membersWithContributions = members.map((member: { login: unknown; }) => ({
+  ...member,
+  contributions: contributorMap.get(member.login) || 0
+}));
+---
+
+<!-- メンバーの表示 -->
+<h3>Members</h3>
+<CardGrid>
+  {membersWithContributions.map((member: { avatar_url: string | null | undefined; login: string; html_url: string | URL | null | undefined; contributions: unknown; }) => (
+    <div class="p-4 border border-() rounded-2xl flex items-center gap-4 overflow-clip">
+      <img src={member.avatar_url} alt={member.login} class="w-14 h-14 rounded-2xl" />
+      <span class="flex flex-col">
+        <a href={member.html_url}>@{member.login}</a>
+        <p>Contributions: {member.contributions}</p>
+      </span>
+    </div>
+  ))}
+</CardGrid>
+
+<!-- コントリビューターの表示 -->
+<h3>Contributors</h3>
+<CardGrid>
+  {filteredContributors.map((contributor: { avatar_url: string | null | undefined; login: string; html_url: string | URL | null | undefined; contributions: unknown; }) => (
+    <div class="p-4 border border-() rounded-2xl flex items-center gap-4 overflow-clip">
+      <img src={contributor.avatar_url} alt={contributor.login} class="w-14 h-14 rounded-2xl"  />
+      <span class="flex flex-col">
+        <a href={contributor.html_url}>@{contributor.login}</a>
+        <p>Contributions: {contributor.contributions}</p>
+      </span>
+    </div>
+  ))}
+</CardGrid>

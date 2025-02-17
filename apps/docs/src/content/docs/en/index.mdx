@@ -1,0 +1,120 @@
+---
+title: Welcome to TutoriaLLM
+description: A self-hosted software that allows you to easily create block programming tutorials like Scratch and provide them using AI.
+template: splash
+hero:
+  tagline: A self-hosted software that allows you to easily create block programming tutorials like Scratch and provide them using AI.
+  image:
+    file: ../../../assets/square.webp
+  actions:
+    - text: Try the Demo
+      link: https://demo.tutoriaLLM.com
+      icon: external
+      variant: primary
+    - text: Read the Documentation
+      link: /introduction
+      icon: right-arrow
+      variant: secondary
+---
+
+import {
+  Card,
+  CardGrid,
+  Aside,
+  LinkCard,
+  LinkButton,
+} from "@astrojs/starlight/components";
+
+import Contributers from "../../../components/Contributers.astro";
+
+<Aside type="note" title="Important Notice">
+- **Monday, November 4th (Public Holiday in Japan)**, a **presentation of TutoriaLLM** was held online at the **2024 Mitou Junior Achievement Report Meeting** at the University of Tokyo. [Click here for more details](https://jr.mitou.org/english/projects/2024/tutoriallm)
+
+- **Sunday, November 17th**, a presentation of the app was held at the **App Koshien 2024 Final Competition** AI Division at TODA HALL & CONFERENCE TOKYO, and received the Technical Award, Grand Prize, and Minister of Internal Affairs and Communications Award. [Click here for more details](https://applikoshien.jp/)
+
+- **The stable version has not been released yet.** This site includes features under development, so the information is subject to change.
+
+- **The demo site is available for free**, but data is periodically deleted, and updates may be applied. Please understand that bugs may occur, and stability cannot be guaranteed.
+
+- A **major update** is currently being applied to the app. The documentation will be updated soon.
+
+</Aside>
+
+## Let's Get Started
+
+<CardGrid stagger>
+  <Card title="Deploy Your Own App" icon="github">
+    Start by checking the [GitHub
+    repository](https://github.com/TutoriaLLM/TutoriaLLM) or refer to the
+    [Editor Guide](/en/developer/host).
+  </Card>
+  <Card title="Try the Demo" icon="external">
+    Experience the demo of [TutoriaLLM](https://demo.tutoriaLLM.com), where you
+    can try several tutorials.
+  </Card>
+  <Card title="Learn How to Use the App" icon="open-book">
+    Learn more about [TutoriaLLM](/en/introduction) and read the [User
+    Guide](/en/introduction) for details on how to use the app.
+  </Card>
+</CardGrid>
+
+## What is TutoriaLLM?
+
+TutoriaLLM is a self-hosted software that allows you to easily create block programming tutorials like Scratch and provide them using AI.
+
+<iframe
+  class="iframe-video"
+  src="https://www.youtube.com/embed/zVqjqdK0cPQ?si=wD9dumxaMFKNRfMD"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
+
+<LinkCard
+  title="Learn More"
+  description="Want to know more about TutoriaLLM?"
+  href="/en/introduction"
+/>
+
+## Members and Contributors
+
+The project is developed by So Tokumaru, but is supported by many contributors.
+
+<LinkCard
+  title="Contribute to the Development of TutoriaLLM"
+  description="Check out the GitHub repository."
+  href="https://github.com/TutoriaLLM/TutoriaLLM"
+/>
+
+<Contributers />
+
+## Contact Us
+
+You can contact us in the following ways based on your needs.
+
+<CardGrid>
+
+<Card title="Report Bugs or Request Features" icon="github">
+  This app is developed as open-source software. Bug reports and feature
+  requests are accepted via GitHub Issues.
+  <LinkCard
+    title="GitHub Issues"
+    description="You can report bugs or request features via GitHub Issues."
+    href="https://github.com/TutoriaLLM/TutoriaLLM/issues"
+  />
+</Card>
+
+<Card title="Join the Developer Community" icon="discord">
+
+Join the TutoriaLLM developer community and contribute to its development. Whether it's to discuss the app, development topics, or even unrelated matters, all discussions are welcome.
+
+<LinkCard
+  title="Discord Server"
+  description="Join the TutoriaLLM community."
+  href="https://discord.gg/zxuREnWVXC"
+/>
+</Card>
+
+</CardGrid>

@@ -1,21 +1,27 @@
 import type { AppSession } from "@/db/schema"; // Type used when interacting with DB (almost the same as SessionValue used in the front end)
 
-export function initialData(code: string, language: string): AppSession {
+export function initialData(
+	uuid: string,
+	sessionId: string,
+	language: string,
+	userId: string,
+): AppSession {
 	const quickReplyByLang = [
 		"quickReply.WhatINeed",
 		"quickReply.HowToUse",
 		"quickReply.BeginTutorial",
 	];
 	return {
-		sessioncode: code,
-		uuid: crypto.randomUUID(),
+		uuid: uuid,
+		sessionId: sessionId,
+		name: null,
 		createdAt: new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
 		dialogue: [
 			{
 				id: 0,
 				contentType: "log",
-				isuser: false,
+				isUser: false,
 				content: "dialogue.Introduction",
 			},
 		],
@@ -44,5 +50,6 @@ export function initialData(code: string, language: string): AppSession {
 		userAudio: "",
 		screenshot: "",
 		clicks: [],
+		userInfo: userId,
 	};
 }

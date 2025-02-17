@@ -5,22 +5,36 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1733133986103,
-      "tag": "0000_wet_sabretooth",
+      "when": 1735012985524,
+      "tag": "0000_outstanding_killer_shrike",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1733134004100,
-      "tag": "0001_natural_luke_cage",
+      "when": 1735013014295,
+      "tag": "0001_glossy_payback",
       "breakpoints": true
     },
     {
       "idx": 2,
       "version": "7",
-      "when": 1734915698676,
-      "tag": "0002_unusual_dracula",
+      "when": 1735207550572,
+      "tag": "0002_vengeful_vanisher",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1736492833465,
+      "tag": "0003_lame_psylocke",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1738398609105,
+      "tag": "0004_certain_warhawk",
       "breakpoints": true
     }
   ]

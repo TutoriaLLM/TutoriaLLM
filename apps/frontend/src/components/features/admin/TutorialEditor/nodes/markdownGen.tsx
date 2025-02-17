@@ -12,16 +12,19 @@ import "@mdxeditor/editor/style.css";
 import { generateContent } from "@/api/admin/tutorials.js";
 import CustomHandle from "@/components/features/admin/TutorialEditor/customHandle";
 import type {
-	MyNode,
+	CustomNodeType,
 	markdownNode,
 	mdToMdNode,
 } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
 import { Bot, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
+	const { t } = useTranslation();
 	const [isGenerated, setIsGenerated] = useState(false); // AI generation flags
 	const [markdown, setMarkdown] = useState(data.source || ""); // Get initial values from data.source
 	const [generatedMarkdown, setGeneratedMarkdown] = useState(
@@ -45,7 +48,7 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	});
 
 	// Get Markdown input node
-	const nodesData = useNodesData<MyNode>(
+	const nodesData = useNodesData<CustomNodeType>(
 		markdownConnections.map((connection) => connection.source),
 	);
 
@@ -118,16 +121,22 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 	}, [generatedMarkdown, isGenerated]);
 
 	return (
-		<div className="markdown-node w-full h-full flex flex-col bg-white border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
-			<span className="w-full h-4 bg-gray-300 custom-drag-handle cursor-move justify-center items-center flex gap-2">
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
-				<span className="text-xs w-1 h-1 rounded-full bg-white" />
+		<div className="markdown-node w-full h-full flex flex-col bg-background border mdxeditor-popup-container cursor-auto rounded-xl overflow-clip">
+			<span className="w-full h-4 bg-border custom-drag-handle cursor-move flex justify-center items-center gap-2">
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
+				<span className="text-xs w-1 h-1 rounded-full bg-accent-foreground" />
 			</span>
 			<NodeToolbar>
-				<button type="button" className="text-red-500 " onClick={handleDelete}>
+				<Button
+					type="button"
+					className="text-destructive-foreground "
+					size="icon"
+					variant="destructive"
+					onClick={handleDelete}
+				>
 					<Trash2 className="drop-shadow" />
-				</button>
+				</Button>
 			</NodeToolbar>
 
 			<CustomHandle
@@ -147,10 +156,11 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 				}
 			/>
 			<div className="flex justify-center flex-col items-center p-2">
-				<h3 className="text-lg font-bold mb-2">Comparison</h3>
-				<button
+				<h3 className="text-lg font-bold mb-2">
+					{t("admin.generatedMdComparison")}
+				</h3>
+				<Button
 					type="button"
-					className="bg-sky-400 hoverLsky-500 rounded-2xl p-2 flex gap-2 text-white"
 					onClick={() => {
 						mutate({
 							content: markdown,
@@ -158,28 +168,28 @@ export function MarkdownGen({ id, data }: NodeProps<mdToMdNode>) {
 					}}
 				>
 					<Bot className="drop-shadow" />
-					Generate Markdown from AI
-				</button>
+					{t("admin.generateMarkdown")}
+				</Button>
 			</div>
 			{/* Display messages being generated */}
 			{isPending ? (
-				<p className="w-full h-full p-2 text-center text-gray-500">
-					Generating Markdown...
+				<p className="w-full h-full p-2 text-center text-accent-foreground">
+					{t("admin.generatingMarkdown")}
 				</p>
 			) : null}
 			{/* Displays comparison of input and output data */}
 			{isCompared && (
-				<div className="w-full h-full p-4 bg-gray-100 border-t ">
+				<div className="w-full h-full p-4 bg-background border-t ">
 					<div className="flex gap-4 max-w-xl">
-						<div className="w-[50%]">
-							<h4 className="font-semibold">Original Markdown:</h4>
-							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
+						<div className="w-[50%] no-wheel">
+							<h4 className="font-semibold">{t("admin.originalMd")}</h4>
+							<pre className="whitespace-pre-wrap break-words bg-card h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
 								<Markdown>{markdown}</Markdown>
 							</pre>
 						</div>
-						<div className="w-[50%]">
-							<h4 className="font-semibold">AI Generated Markdown:</h4>
-							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
+						<div className="w-[50%] no-wheel">
+							<h4 className="font-semibold">{t("admin.generatedMd")}</h4>
+							<pre className="whitespace-pre-wrap break-words bg-card h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
 								<Markdown>{generatedMarkdown}</Markdown>
 							</pre>
 						</div>

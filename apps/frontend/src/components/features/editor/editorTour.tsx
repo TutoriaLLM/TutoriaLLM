@@ -10,10 +10,6 @@ export function tourSteps(isMobile: boolean) {
 			selector: ".app",
 			content: () => t("tour.welcome"),
 		},
-		{
-			selector: ".joinCode",
-			content: () => t("tour.joinCode"),
-		},
 		// For mobile, move to workspace
 		...(isMobile
 			? [

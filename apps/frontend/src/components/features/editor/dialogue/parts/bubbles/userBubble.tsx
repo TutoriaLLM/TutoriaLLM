@@ -13,13 +13,13 @@ function renderUserBubble(
 			key={id}
 			className="flex justify-start flex-row-reverse items-end gap-2 animate-fade-in"
 		>
-			<div className="text-gray-600 flex flex-col items-center">
-				<span className="bg-gray-200 rounded-full p-2">
+			<div className="text-foreground flex flex-col items-center">
+				<span className="p-2">
 					<User />
 				</span>
 				<p className="text-xs">{t("textbubble.you")}</p>
 			</div>
-			<div className="rounded-2xl rounded-br-none bg-gray-300 text-gray-800 p-3 shadow max-w-sm">
+			<div className="rounded-2xl rounded-br-none bg-accent text-accent-foreground border p-3 shadow max-w-sm">
 				<span className="prose prose-sm md:prose-base">
 					<Markdown components={markdownComponents}>{content}</Markdown>
 				</span>

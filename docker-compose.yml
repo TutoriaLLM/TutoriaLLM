@@ -9,10 +9,10 @@ services:
       - "9411:9411"
 
   db:
-    container_name: tutoriallm_db
+    # container_name: tutoriallm_db
     image: pgvector/pgvector:pg14
     ports:
-      - "5432:5432"
+      - ${DB_PORT:-5432}:5432
     env_file:
       - ./apps/backend/.env
     environment:
@@ -36,8 +36,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: frontend
-      args:
-        VITE_BACKEND_URL: http://localhost:3001
+    environment:
+      - VITE_BACKEND_URL=http://localhost:3001
     ports:
       - "3000:3000"
 
@@ -58,7 +58,6 @@ services:
           pnpm install &&
           pnpm run drizzle:generate &&
           pnpm run drizzle:migrate &&
-          pnpm run reset-credential &&
           touch /app_data/.initialized &&
           pnpm run start;
         else

@@ -94,7 +94,7 @@
 }
 
 .highlight {
-	animation: highlightCategoryButton 1s infinite;
+	animation: highlightCategoryButton 1.5s infinite;
 }
 
 /* Custom css dropdown */

@@ -31,7 +31,7 @@ export default function Output() {
 			<style>
 				{`
 					.react-flow__node-output {
-						background-color: #f9fafb;
+						background-color: hsl(var(--background));
 						width: 100%;
 						max-width: 24rem;
 						display: flex;
@@ -54,28 +54,28 @@ export default function Output() {
 					{metadataNodesData.map((node) => (
 						<div
 							key={node.id}
-							className="bg-gray-200 text-gray-600 p-2 rounded-md flex flex-col gap-2"
+							className="bg-card text-card-foreground p-2 rounded-md flex flex-col gap-2"
 						>
 							<p className="flex flex-wrap">
-								<strong className="text-gray-800">Title:</strong>{" "}
+								<strong className="text-card-foreground">Title:</strong>{" "}
 								{node.data.title}
 							</p>
 							<p className="flex flex-wrap">
-								<strong className="text-gray-800">Description:</strong>{" "}
+								<strong className="text-card-foreground">Description:</strong>{" "}
 								{node.data.description}
 							</p>
 							<p className="flex flex-wrap">
-								<strong className="text-gray-800">Tags:</strong>{" "}
+								<strong className="text-card-foreground">Tags:</strong>{" "}
 								{node.data.tags.join(", ")}
 							</p>
 							<p className="flex flex-wrap">
-								<strong className="text-gray-800">Language:</strong>{" "}
+								<strong className="text-card-foreground">Language:</strong>{" "}
 								{node.data.language}
 							</p>
 						</div>
 					))}
 				</div>
-				<div className="text-left">
+				<div className="text-left no-wheel">
 					<CustomHandle
 						id="markdown"
 						type="target"
@@ -85,9 +85,9 @@ export default function Output() {
 					/>
 					<h3 className=" text-lg font-semibold">Markdown:</h3>
 					{markdownNodesData.map((node) => (
-						<div key={node.id} className="bg-gray-200 p-2 rounded-md">
-							<div id={`content-${node.id}`} className="border p-1">
-								<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
+						<div key={node.id} className="bg-card p-2 rounded-md">
+							<div id={`content-${node.id}`} className="p-1">
+								<pre className="whitespace-pre-wrap break-words text-card-foreground h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2">
 									<Markdown>{node.data.source}</Markdown>
 								</pre>
 							</div>

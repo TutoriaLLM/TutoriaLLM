@@ -4,63 +4,10 @@ import fs from "node:fs";
 import { Command } from "commander";
 import inquirer from "inquirer";
 
-import { resetCredentials } from "@/db/users";
 import { createConfig, deleteConfig } from "@/modules/config";
-import { saltAndHashPassword } from "@/utils/password";
+import { createUser, setRole } from "./libs/auth";
 
 const program = new Command();
-
-// User Registration Commands
-program
-	.command("register")
-	.description(
-		"Register a user. If the DEFAULT_USER_NAME and DEFAULT_USER_PASSWORD environment variables are set, they will be used.",
-	)
-	.action(async () => {
-		const { DEFAULT_USER_NAME, DEFAULT_USER_PASSWORD } = process.env;
-
-		if (DEFAULT_USER_NAME && DEFAULT_USER_PASSWORD) {
-			console.info(
-				`Registering user from environment variables: ${DEFAULT_USER_NAME}`,
-			);
-			// Add user registration process here
-			const hashedPassword = await saltAndHashPassword(DEFAULT_USER_PASSWORD);
-			resetCredentials(DEFAULT_USER_NAME, hashedPassword)
-				.then((result) => {
-					console.info("User created:", result);
-					process.exit();
-				})
-				.catch((error) => {
-					console.error("Error creating user:", error);
-					process.exit();
-				});
-		} else {
-			const answers = await inquirer.prompt([
-				{
-					type: "input",
-					name: "username",
-					message: "Type your username:",
-				},
-				{
-					type: "password",
-					name: "password",
-					message: "Type your password:",
-				},
-			]);
-			console.info(`Registering user: ${answers.username}`);
-			// Add user registration process here
-			const hashedPassword = await saltAndHashPassword(answers.password);
-			resetCredentials(answers.username, hashedPassword)
-				.then((result) => {
-					console.info("User created:", result);
-					process.exit();
-				})
-				.catch((error) => {
-					console.error("Error creating user:", error);
-					process.exit();
-				});
-		}
-	});
 
 // initialization command
 program
@@ -80,11 +27,68 @@ program
 			deleteConfig();
 			createConfig();
 			console.info("Config initialized.");
+			//create .initialized file
+			fs.writeFileSync("/app_data/.initialized", "");
+			console.info(".initialized created");
 			process.exit();
 		} else {
 			console.info("Initialization canceled.");
 			process.exit();
 		}
+	});
+
+program
+	.command("register")
+	.description(
+		"Register a user. If the DEFAULT_USER_NAME and DEFAULT_USER_PASSWORD environment variables are set, they will be used.",
+	)
+	.action(async () => {
+		const { DEFAULT_USER_NAME, DEFAULT_USER_PASSWORD } = process.env;
+
+		const credentials =
+			DEFAULT_USER_NAME && DEFAULT_USER_PASSWORD
+				? { username: DEFAULT_USER_NAME, password: DEFAULT_USER_PASSWORD }
+				: await inquirer.prompt([
+						{
+							type: "input",
+							name: "username",
+							message: "Type your username:",
+						},
+						{
+							type: "password",
+							name: "password",
+							message: "Type your password:",
+						},
+					]);
+
+		console.info(`Registering user: ${credentials.username}`);
+
+		const { role } = await inquirer.prompt([
+			{
+				type: "list",
+				name: "role",
+				message: "Select your role:",
+				choices: ["user", "admin"],
+				default: "user",
+			},
+		]);
+
+		createUser({
+			email: `${credentials.username}@example.com`,
+			password: credentials.password,
+			displayName: credentials.username,
+			username: credentials.username,
+		})
+			.then((result) => {
+				console.info("User created: ", result.user);
+				setRole({ userId: result.user.id, role });
+				console.info("Role set: ", role);
+				process.exit();
+			})
+			.catch((error) => {
+				console.error("Error creating user:", error);
+				process.exit();
+			});
 	});
 
 // Command to delete .initialized

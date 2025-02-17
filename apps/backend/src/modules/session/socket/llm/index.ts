@@ -8,7 +8,7 @@ import { zodTextSchema } from "@/modules/session/socket/llm/responseFormat";
 import {
 	audioDialogueSystemTemplate,
 	audioDialogueUserTemplate,
-	dialgoueSystemTemplate,
+	dialogueSystemTemplate,
 	dialogueUserTemplate,
 	simplifyDialogue,
 } from "@/prompts/guidance";
@@ -90,7 +90,7 @@ export async function invokeLLM(
 ) {
 	const config = getConfig();
 
-	const allBlocks = listAllBlocks(availableBlocks);
+	const _allBlocks = listAllBlocks(availableBlocks);
 
 	if (!session.dialogue) {
 		console.error("No dialogue found in the session.");
@@ -119,12 +119,7 @@ export async function invokeLLM(
 		try {
 			const mp3Path = await convertWebMToMp3(webmInputPath);
 
-			updateAudioDialogue(
-				session.sessioncode,
-				lastDialogue.id,
-				socket,
-				mp3Path,
-			);
+			updateAudioDialogue(session.sessionId, lastDialogue.id, socket, mp3Path);
 			// KNOWLEDGE NOT AVAILABLE
 
 			const tutorialContent = await getTutorialContent(session);
@@ -158,7 +153,7 @@ export async function invokeLLM(
 						messages: [
 							{
 								role: "system",
-								content: fillPrompt(dialgoueSystemTemplate, {
+								content: fillPrompt(dialogueSystemTemplate, {
 									language: langToStr(session.language || "en") || "en",
 									allBlocks: availableBlocks.toString(),
 									uiElements: ui
@@ -316,7 +311,7 @@ export async function invokeLLM(
 				messages: [
 					{
 						role: "system",
-						content: fillPrompt(dialgoueSystemTemplate, {
+						content: fillPrompt(dialogueSystemTemplate, {
 							language: langToStr(session.language || "en") || "en",
 							allBlocks: availableBlocks.toString(),
 							uiElements: ui
@@ -365,7 +360,7 @@ export async function invokeLLM(
 				{
 					author: "AI",
 					date: new Date().toISOString(),
-					sessionCode: session.sessioncode,
+					sessionId: session.sessionId,
 				},
 				response.response,
 			);

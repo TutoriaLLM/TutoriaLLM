@@ -1,6 +1,8 @@
 import FrontendTracer from "@/clientTelemetry.js";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import React from "react";
+import { Toaster } from "@/components/ui/toaster";
+import type { QueryClient } from "@tanstack/react-query";
 
 const TanStackRouterDevtoolsForDev =
 	import.meta.env.MODE === "production" || process.env.NODE_ENV === "production"
@@ -13,12 +15,15 @@ const TanStackRouterDevtoolsForDev =
 					// default: res.TanStackRouterDevtoolsPanel
 				})),
 			);
-
+interface Context {
+	queryClient: QueryClient;
+}
 // It's the layout component
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<Context>()({
 	component: () => (
 		<>
 			<Outlet />
+			<Toaster />
 			<FrontendTracer />
 			<TanStackRouterDevtoolsForDev />
 		</>
