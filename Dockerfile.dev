@@ -1,6 +1,11 @@
 # Base image
 FROM node:20-slim AS base
 
+# Required for build /docs package
+ARG OPENAPI_DOCS_URL
+ENV OPENAPI_DOCS_URL=${OPENAPI_DOCS_URL}
+
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # FIX: Bad workaround (https://github.com/nodejs/corepack/issues/612)
