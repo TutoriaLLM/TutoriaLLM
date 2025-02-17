@@ -1,11 +1,6 @@
 # Base image
 FROM node:20-slim AS base
 
-# Required for build /docs package
-ARG OPENAPI_DOCS_URL
-ENV OPENAPI_DOCS_URL=${OPENAPI_DOCS_URL}
-
-
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # FIX: Bad workaround (https://github.com/nodejs/corepack/issues/612)
@@ -18,7 +13,7 @@ FROM base AS build
 COPY . /usr/src/tutoriallm
 WORKDIR /usr/src/tutoriallm
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile -r
-RUN pnpm run -r --filter=!frontend build
+RUN pnpm run -r --filter=!frontend --filter=!docs build
 
 FROM base AS backend-dev
 COPY --from=build /usr/src/tutoriallm /usr/src/tutoriallm

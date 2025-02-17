@@ -8,10 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions: write-all
-    environment: dev
-    env:
-      OPENAPI_DOCS_URL: ${{ vars.OPENAPI_DOCS_URL }}
-
       
     steps:
     - name: Checkout code
@@ -46,8 +42,6 @@ jobs:
         context: .
         file: ./Dockerfile
         target: frontend
-        build-args: |
-         OPENAPI_DOCS_URL=${{ env.OPENAPI_DOCS_URL }}
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm_frontend:latest-preview
@@ -59,8 +53,6 @@ jobs:
         context: .
         file: ./Dockerfile
         target: backend
-        build-args: |
-          OPENAPI_DOCS_URL=${{ env.OPENAPI_DOCS_URL }}
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/tutoriallm_api:latest-preview
