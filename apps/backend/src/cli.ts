@@ -79,9 +79,9 @@ program
 			displayName: credentials.username,
 			username: credentials.username,
 		})
-			.then((result) => {
+			.then(async (result) => {
 				console.info("User created: ", result.user);
-				setRole({ userId: result.user.id, role });
+				await setRole({ userId: result.user.id, role });
 				console.info("Role set: ", role);
 				process.exit();
 			})
