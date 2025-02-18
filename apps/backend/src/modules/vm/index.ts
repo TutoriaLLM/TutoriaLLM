@@ -83,7 +83,17 @@ const server = serve({
 	port: vmPort,
 	createServer: createServer,
 });
+
 server.on("upgrade", (req, socket, head) => {
+	const urlParts = req.url?.split("/");
+	const sessionId = urlParts?.[1];
+
+	if (!sessionId || !vmProxies.has(sessionId)) {
+		socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
+		socket.destroy();
+		return;
+	}
+
 	proxy.upgrade(req, socket as nodeSocket, head);
 });
 
