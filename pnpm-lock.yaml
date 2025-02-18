@@ -350,8 +350,8 @@ importers:
         specifier: 4.10.1
         version: 4.10.1(playwright-core@1.49.1)
       '@blockly/field-grid-dropdown':
-        specifier: 5.0.9
-        version: 5.0.9(blockly@11.1.1)
+        specifier: 5.0.12
+        version: 5.0.12(blockly@11.1.1)
       '@blockly/field-slider':
         specifier: 7.0.9
         version: 7.0.9(blockly@11.1.1)
@@ -627,8 +627,8 @@ importers:
   packages/extensions:
     dependencies:
       '@blockly/field-grid-dropdown':
-        specifier: 5.0.9
-        version: 5.0.9(blockly@11.1.1)
+        specifier: 5.0.12
+        version: 5.0.12(blockly@11.1.1)
       '@blockly/field-slider':
         specifier: 7.0.9
         version: 7.0.9(blockly@11.1.1)
@@ -1409,8 +1409,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@blockly/field-grid-dropdown@5.0.9':
-    resolution: {integrity: sha512-ziVKA1PL4J/n2FeY+CvY8dSzc/sOESBe8xNB/kPCDEe3UOvwhFtpnOvOmIWLixn4VO4B5Wp0aCY/C49SRILP4Q==}
+  '@blockly/field-grid-dropdown@5.0.12':
+    resolution: {integrity: sha512-wBxOfiMvOMMDcQGGweeKJMpyq9Eki3Y14pX0PlvjYvPKC7/AWcnUFHbicvIFC+DloeBXyxp44ppDMr8kc3mA+w==}
     engines: {node: '>=8.17.0'}
     peerDependencies:
       blockly: ^11.0.0
@@ -11396,7 +11396,7 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@blockly/field-grid-dropdown@5.0.9(blockly@11.1.1)':
+  '@blockly/field-grid-dropdown@5.0.12(blockly@11.1.1)':
     dependencies:
       blockly: 11.1.1
 

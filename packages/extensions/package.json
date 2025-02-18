@@ -11,7 +11,7 @@
     "type:check": "wireit"
   },
   "dependencies": {
-    "@blockly/field-grid-dropdown": "5.0.9",
+    "@blockly/field-grid-dropdown": "5.0.12",
     "@blockly/field-slider": "7.0.9",
     "blockly": "catalog:",
     "hono": "catalog:",
