@@ -25,8 +25,8 @@ catalogs:
       specifier: 4.1.0
       version: 4.1.0
     rfc6902:
-      specifier: 5.1.1
-      version: 5.1.1
+      specifier: 5.1.2
+      version: 5.1.2
     tailwindcss:
       specifier: 3.4.17
       version: 3.4.17
@@ -250,7 +250,7 @@ importers:
         version: 7.0.0
       rfc6902:
         specifier: 'catalog:'
-        version: 5.1.1
+        version: 5.1.2
       socket.io:
         specifier: 4.8.1
         version: 4.8.1
@@ -546,7 +546,7 @@ importers:
         version: 7.0.0
       rfc6902:
         specifier: 'catalog:'
-        version: 5.1.1
+        version: 5.1.2
       socket.io-client:
         specifier: 4.8.0
         version: 4.8.0
@@ -8997,8 +8997,8 @@ packages:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
-  rfc6902@5.1.1:
-    resolution: {integrity: sha512-8rKImbe8GTXJ7cl9v+sF3U0WQ9aaSBn4fEcGP1VJakWN335ufj75ctvWXEhrzecGRxXpY6pEFbcdWzesjV7bFg==}
+  rfc6902@5.1.2:
+    resolution: {integrity: sha512-zxcb+PWlE8PwX0tiKE6zP97THQ8/lHmeiwucRrJ3YFupWEmp25RmFSlB1dNTqjkovwqG4iq+u1gzJMBS3um8mA==}
 
   rollup-plugin-visualizer@5.12.0:
     resolution: {integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==}
@@ -20415,7 +20415,7 @@ snapshots:
 
   reusify@1.0.4: {}
 
-  rfc6902@5.1.1: {}
+  rfc6902@5.1.2: {}
 
   rollup-plugin-visualizer@5.12.0(rollup@2.79.2):
     dependencies:
