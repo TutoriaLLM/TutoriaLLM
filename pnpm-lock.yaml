@@ -353,8 +353,8 @@ importers:
         specifier: 5.0.12
         version: 5.0.12(blockly@11.1.1)
       '@blockly/field-slider':
-        specifier: 7.0.9
-        version: 7.0.9(blockly@11.1.1)
+        specifier: 7.0.12
+        version: 7.0.12(blockly@11.1.1)
       '@hookform/resolvers':
         specifier: 3.9.1
         version: 3.9.1(react-hook-form@7.54.2(react@18.3.1))
@@ -630,8 +630,8 @@ importers:
         specifier: 5.0.12
         version: 5.0.12(blockly@11.1.1)
       '@blockly/field-slider':
-        specifier: 7.0.9
-        version: 7.0.9(blockly@11.1.1)
+        specifier: 7.0.12
+        version: 7.0.12(blockly@11.1.1)
       blockly:
         specifier: 'catalog:'
         version: 11.1.1
@@ -1415,8 +1415,8 @@ packages:
     peerDependencies:
       blockly: ^11.0.0
 
-  '@blockly/field-slider@7.0.9':
-    resolution: {integrity: sha512-E+JAvPYAPWm49AUom6Fd5RJJeDdEtd0jW6LVYx8aqHBH3XfYbWseTFOWLs5KLcP7h4s3b91+yf2ppgPo+MBULQ==}
+  '@blockly/field-slider@7.0.12':
+    resolution: {integrity: sha512-yZGWNdVqf1V9VfNxEMvQucNY4smwg0Cz8XvzghOvzIUHcWQq/ce4vtsTg4nyMxxZRFFnfA2FT9Xs0HXsyUfecw==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       blockly: ^11.0.0
@@ -11402,7 +11402,7 @@ snapshots:
     dependencies:
       blockly: 11.1.1
 
-  '@blockly/field-slider@7.0.9(blockly@11.1.1)':
+  '@blockly/field-slider@7.0.12(blockly@11.1.1)':
     dependencies:
       blockly: 11.1.1
 
