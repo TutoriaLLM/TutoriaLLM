@@ -162,8 +162,8 @@ importers:
         specifier: 1.27.0
         version: 1.27.0
       '@scalar/hono-api-reference':
-        specifier: 0.5.169
-        version: 0.5.169(hono@4.6.16)
+        specifier: 0.5.173
+        version: 0.5.173(hono@4.6.16)
       '@sentry/node':
         specifier: 8.49.0
         version: 8.49.0
@@ -4720,18 +4720,18 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
-  '@scalar/hono-api-reference@0.5.169':
-    resolution: {integrity: sha512-K6mGd1mxKXh5/jqxo0yHIOFi4N5jjQj8PL2TAJMhcUZ39qwSZ7/V7SGMBBpGtWNsGofac0bZ7q/7yoTsY3/RYg==}
+  '@scalar/hono-api-reference@0.5.173':
+    resolution: {integrity: sha512-3d92BE7yBba0BXbt+ZWRjd66oSG7yhL04c5BxB8bgQY54bUsCcCAzMdZFt65JbB8zJ6ffWZNB+FZWkGR3KDmdg==}
     engines: {node: '>=18'}
     peerDependencies:
       hono: ^4.0.0
 
-  '@scalar/openapi-types@0.1.6':
-    resolution: {integrity: sha512-V+KnESyVJqorJzEN0QFlu3tAImCHjnvPov6QcQvjfY7s0+CjrI3rRO3oVIRlXURTQrQGrnhxvK0SkXGAZ+dxvw==}
+  '@scalar/openapi-types@0.1.7':
+    resolution: {integrity: sha512-oOTG3JQifg55U3DhKB7WdNIxFnJzbPJe7rqdyWdio977l8IkxQTVmObftJhdNIMvhV2K+1f/bDoMQGu6yTaD0A==}
     engines: {node: '>=18'}
 
-  '@scalar/types@0.0.28':
-    resolution: {integrity: sha512-NRGWtxWE/YfpAiNKh/XCV5o9CaYlg8etwelux1q7VRAbZqbpti5c14a5/t2mCiFSrfoyh4ghAHuYC9n3uwnuXQ==}
+  '@scalar/types@0.0.32':
+    resolution: {integrity: sha512-WHMkFQw4cu1mrG4pEiTUXVBBs205kHECdLM/5F7ATI0A7Axv6G1GgofkwbyCAayUjNk82uaCXzSOgPojbq4iGQ==}
     engines: {node: '>=18'}
 
   '@sentry-internal/browser-utils@8.34.0':
@@ -15059,16 +15059,16 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@scalar/hono-api-reference@0.5.169(hono@4.6.16)':
+  '@scalar/hono-api-reference@0.5.173(hono@4.6.16)':
     dependencies:
-      '@scalar/types': 0.0.28
+      '@scalar/types': 0.0.32
       hono: 4.6.16
 
-  '@scalar/openapi-types@0.1.6': {}
+  '@scalar/openapi-types@0.1.7': {}
 
-  '@scalar/types@0.0.28':
+  '@scalar/types@0.0.32':
     dependencies:
-      '@scalar/openapi-types': 0.1.6
+      '@scalar/openapi-types': 0.1.7
       '@unhead/schema': 1.11.18
 
   '@sentry-internal/browser-utils@8.34.0':
