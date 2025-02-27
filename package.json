@@ -31,7 +31,7 @@
     "@testing-library/user-event": "14.6.1",
     "@vitejs/plugin-react": "4.3.4",
     "commitizen": "4.3.1",
-    "cspell": "8.17.4",
+    "cspell": "8.17.5",
     "cz-conventional-changelog": "3.3.0",
     "js-yaml": "catalog:",
     "jsdom": "26.0.0",
