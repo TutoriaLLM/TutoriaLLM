@@ -1,6 +1,6 @@
 {
   "name": "tutoriallm",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@9.6.0",
@@ -34,7 +34,7 @@
     "cspell": "8.17.5",
     "cz-conventional-changelog": "3.3.0",
     "js-yaml": "catalog:",
-    "jsdom": "26.0.0",
+    "jsdom": "^26.0.0",
     "sherif": "1.1.1",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",

@@ -54,13 +54,13 @@ importers:
         specifier: 19.6.0
         version: 19.6.0
       '@testing-library/jest-dom':
-        specifier: 6.6.3
+        specifier: ^6.6.3
         version: 6.6.3
       '@testing-library/react':
         specifier: 16.2.0
         version: 16.2.0(@testing-library/dom@10.4.0)(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@testing-library/user-event':
-        specifier: 14.6.1
+        specifier: ^14.6.1
         version: 14.6.1(@testing-library/dom@10.4.0)
       '@vitejs/plugin-react':
         specifier: 4.3.4
@@ -78,7 +78,7 @@ importers:
         specifier: 'catalog:'
         version: 4.1.0
       jsdom:
-        specifier: 26.0.0
+        specifier: ^26.0.0
         version: 26.0.0
       sherif:
         specifier: 1.1.1
@@ -165,8 +165,8 @@ importers:
         specifier: 0.5.173
         version: 0.5.173(hono@4.6.16)
       '@sentry/node':
-        specifier: 8.49.0
-        version: 8.49.0
+        specifier: 8.47.0
+        version: 8.47.0
       ai:
         specifier: 4.0.22
         version: 4.0.22(react@18.3.1)(zod@3.24.2)
@@ -174,7 +174,7 @@ importers:
         specifier: 0.41.1
         version: 0.41.1
       atlassian-openapi:
-        specifier: 1.0.20
+        specifier: ^1.0.20
         version: 1.0.20
       better-auth:
         specifier: 'catalog:'
@@ -240,7 +240,7 @@ importers:
         specifier: 4.77.0
         version: 4.77.0(zod@3.24.2)
       openapi-merge:
-        specifier: 1.3.3
+        specifier: ^1.3.3
         version: 1.3.3
       pg:
         specifier: 8.13.1
@@ -307,7 +307,7 @@ importers:
   apps/docs:
     dependencies:
       '@astrojs/check':
-        specifier: 0.9.4
+        specifier: ^0.9.4
         version: 0.9.4(prettier@3.4.2)(typescript@5.6.3)
       '@astrojs/starlight':
         specifier: 0.28.6
@@ -325,7 +325,7 @@ importers:
         specifier: 0.7.4
         version: 0.7.4(astro@4.16.18(@types/node@20.17.19)(rollup@4.30.1)(terser@5.37.0)(typescript@5.6.3))
       sharp:
-        specifier: 0.32.6
+        specifier: ^0.32.6
         version: 0.32.6
       starlight-links-validator:
         specifier: 0.12.4
@@ -536,7 +536,7 @@ importers:
         specifier: 2.1.4
         version: 2.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-scan:
-        specifier: 0.0.54
+        specifier: ^0.0.54
         version: 0.0.54(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@2.79.2)
       react-tag-input:
         specifier: 6.10.3
@@ -592,7 +592,7 @@ importers:
         version: 1.49.1
       '@tanstack/router-devtools':
         specifier: 1.90.0
-        version: 1.90.0(@tanstack/react-router@1.90.0(@tanstack/router-generator@1.95.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 1.90.0(@tanstack/react-router@1.90.0)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/router-plugin':
         specifier: 1.87.13
         version: 1.87.13(@tanstack/react-router@1.90.0(@tanstack/router-generator@1.95.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@5.4.12(@types/node@20.17.19)(terser@5.37.0))
@@ -4764,16 +4764,16 @@ packages:
     resolution: {integrity: sha512-adrXCTK/zsg5pJ67lgtZqdqHvyx6etMjQW3P82NgWdj83c8fb+zH+K79Z47pD4zQjX0ou2Ws5nwwi4wJbz4bfA==}
     engines: {node: '>=14.18'}
 
-  '@sentry/core@8.49.0':
-    resolution: {integrity: sha512-/OAm6LdHhh8TvfDAucWfSJV7M03IOHrJm5LVjrrKr4gwQ1HKd4CDbARsBbPwHIzSRAle0IgG3sbJxEvv52JUIw==}
+  '@sentry/core@8.47.0':
+    resolution: {integrity: sha512-iSEJZMe3DOcqBFZQAqgA3NB2lCWBc4Gv5x/SCri/TVg96wAlss4VrUunSI2Mp0J4jJ5nJcJ2ChqHSBAU48k3FA==}
     engines: {node: '>=14.18'}
 
-  '@sentry/node@8.49.0':
-    resolution: {integrity: sha512-ui/X6AsHEc+TzgegW8Lq2dZvLHm2npaPMzeICdTotoR8S7LUgTXWfxpzKNra7K13QWY2A2AmabxKOSZJSnPHyQ==}
+  '@sentry/node@8.47.0':
+    resolution: {integrity: sha512-tMzeU3KkmDi2OVvSu+Ah5pwoi7srsSyc1DovBbRQU96RFf/lOFzGe9JERa1MyDUqqLH95NqnPTNsa4Amb8/Vxg==}
     engines: {node: '>=14.18'}
 
-  '@sentry/opentelemetry@8.49.0':
-    resolution: {integrity: sha512-Ffasnpat8WhqvRB/DFbcGp+J+xh76NCztTDi6f3a1jBCONTJypHt2p5l9lJuu1O/UPN1vIJjOpUMOvdd0FHGVA==}
+  '@sentry/opentelemetry@8.47.0':
+    resolution: {integrity: sha512-wunyBIUPeY6Kx3SFhOQqOPs+hyRADO5bztpo8aZ3N3xfzhefSTOdrgUroKvHx1DvoQO6MAlykcuUFps3yfaqmg==}
     engines: {node: '>=14.18'}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
@@ -9935,8 +9935,39 @@ packages:
       vite:
         optional: true
 
-  vite@5.4.12:
-    resolution: {integrity: sha512-KwUaKB27TvWwDJr1GjjWthLMATbGEbeWYZIbGZ5qFIsgPP3vWzLu4cVooqhm5/Z2SPDUMjyPVjTztm5tYKwQxA==}
+  vite@5.4.14:
+    resolution: {integrity: sha512-EK5cY7Q1D8JNhSaPKVK4pwBFvaTmZxEnoKXLG/U9gmdDcihQGNzFlgIvaxezFR4glP1LsuiedwMBqCXH3wZccA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      sass-embedded: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+
+  vite@5.4.9:
+    resolution: {integrity: sha512-20OVpJHh0PAM0oSOELa5GaZNWeDjcAvQjGXy2Uyr+Tp+/D2/Hdz6NLgpJLsarPTA2QJ6v8mX2P1ZfbsSKvdMkg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -15145,9 +15176,9 @@ snapshots:
       '@sentry/types': 8.34.0
       '@sentry/utils': 8.34.0
 
-  '@sentry/core@8.49.0': {}
+  '@sentry/core@8.47.0': {}
 
-  '@sentry/node@8.49.0':
+  '@sentry/node@8.47.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/context-async-hooks': 1.30.0(@opentelemetry/api@1.9.0)
@@ -15181,20 +15212,20 @@ snapshots:
       '@opentelemetry/sdk-trace-base': 1.30.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
       '@prisma/instrumentation': 5.22.0
-      '@sentry/core': 8.49.0
-      '@sentry/opentelemetry': 8.49.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.28.0)
+      '@sentry/core': 8.47.0
+      '@sentry/opentelemetry': 8.47.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.28.0)
       import-in-the-middle: 1.12.0
     transitivePeerDependencies:
       - supports-color
 
-  '@sentry/opentelemetry@8.49.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.28.0)':
+  '@sentry/opentelemetry@8.47.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.56.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.28.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.56.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.30.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
-      '@sentry/core': 8.49.0
+      '@sentry/core': 8.47.0
 
   '@sentry/react@8.34.0(react@18.3.1)':
     dependencies:
@@ -15398,7 +15429,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tanstack/router-devtools@1.90.0(@tanstack/react-router@1.90.0(@tanstack/router-generator@1.95.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tanstack/router-devtools@1.90.0(@tanstack/react-router@1.90.0)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@tanstack/react-router': 1.90.0(@tanstack/router-generator@1.95.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
