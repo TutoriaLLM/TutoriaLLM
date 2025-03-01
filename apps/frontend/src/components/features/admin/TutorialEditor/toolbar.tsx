@@ -216,10 +216,6 @@ export default function Toolbar(props: {
 
 			// Serialize node
 			const serializedNodes = JSON.stringify({ nodes, edges });
-
-			// Send data to API
-			console.log(tags);
-
 			if (props.id) {
 				put({
 					id: props.id,

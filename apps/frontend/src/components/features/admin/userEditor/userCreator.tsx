@@ -39,7 +39,6 @@ const UserCreatorForm = () => {
 	});
 
 	async function onSubmit(data: AdminCreateUserDetailType) {
-		console.log("onSubmit", data);
 		const result = await authClient.admin.createUser({
 			name: data.name,
 			email: data.email,
