@@ -90,7 +90,7 @@ export async function invokeLLM(
 ) {
 	const config = getConfig();
 
-	const _allBlocks = listAllBlocks(availableBlocks);
+	const allBlocks = listAllBlocks(availableBlocks);
 
 	if (!session.dialogue) {
 		console.error("No dialogue found in the session.");
@@ -313,7 +313,7 @@ export async function invokeLLM(
 						role: "system",
 						content: fillPrompt(dialogueSystemTemplate, {
 							language: langToStr(session.language || "en") || "en",
-							allBlocks: availableBlocks.toString(),
+							allBlocks: allBlocks.toString(),
 							uiElements: ui
 								.map((u) => `${u.ui} - ${u.description} ${u.warn}`)
 								.join("\n"),
