@@ -41,7 +41,9 @@ export function CodeEditor({
 	socketInstance: Socket | null;
 }) {
 	const [activeTab, setActiveTab] = useAtom(currentTabState);
-	const blockNameToHighlight = useAtomValue(blockNameFromMenuState);
+	const [blockNameToHighlight, setBlockNameToHighlight] = useAtom(
+		blockNameFromMenuState,
+	);
 	const highlightedBlock = useAtomValue(highlightedBlockState);
 	const [isMenuOpen, setIsMenuOpen] = useState(true);
 	const [workspaceJson, setWorkspaceJson] = useState<
@@ -142,6 +144,7 @@ export function CodeEditor({
 									<BlocklyEditor
 										isMenuOpen={isMenuOpen}
 										blockNameToHighlight={blockNameToHighlight}
+										setBlockNameToHighlight={setBlockNameToHighlight}
 										blockIdToHighlight={highlightedBlock}
 										language={currentSession?.language ?? "en"}
 										workspaceJson={workspaceJson ?? undefined}
@@ -167,6 +170,7 @@ export function CodeEditor({
 									<BlocklyEditor
 										isMenuOpen={isMenuOpen}
 										blockNameToHighlight={blockNameToHighlight}
+										setBlockNameToHighlight={setBlockNameToHighlight}
 										blockIdToHighlight={highlightedBlock}
 										language={currentSession?.language ?? "en"}
 										workspaceJson={workspaceJson ?? undefined}
