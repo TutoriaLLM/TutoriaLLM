@@ -14,12 +14,14 @@ import {
 	ErrorToastContent,
 	SuccessToastContent,
 } from "@/components/common/toastContent";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function userColumns(currentUserId: string) {
 	const router = useRouter();
 	const { toast } = useToast();
 
 	const { t } = useTranslation();
+	const queryClient = useQueryClient();
 	const { mutate: del } = useMutation({
 		mutationFn: deleteSessionByUserId,
 	});
@@ -45,7 +47,10 @@ export function userColumns(currentUserId: string) {
 				<SuccessToastContent>{t("toast.deletedUser")}</SuccessToastContent>
 			),
 		});
-		router.navigate({ to: "/admin/users" });
+		queryClient.invalidateQueries({
+			queryKey: ["users"],
+			refetchType: "active",
+		});
 	}
 
 	async function handleChangeRole(id: string, role: string) {
@@ -72,6 +77,10 @@ export function userColumns(currentUserId: string) {
 					{t("toast.updatedRole")}
 				</p>
 			),
+		});
+		queryClient.invalidateQueries({
+			queryKey: ["users"],
+			refetchType: "active",
 		});
 	}
 
