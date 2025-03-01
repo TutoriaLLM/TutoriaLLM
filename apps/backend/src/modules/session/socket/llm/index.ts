@@ -23,8 +23,8 @@ import type { Socket } from "socket.io";
 import { fillPrompt } from "@/utils/prompts";
 import stringifyKnowledge from "@/utils/stringifyKnowledge";
 import { generateObject, NoObjectGeneratedError } from "ai";
-import { openai } from "@ai-sdk/openai";
 import { langToStr } from "@/utils/langToStr";
+import { openai } from "@/libs/openai";
 
 // OpenAI API client to support audio modality(temporary)
 const openaiFromOpenAI = new OpenAI({
