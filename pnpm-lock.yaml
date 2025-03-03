@@ -174,8 +174,8 @@ importers:
         specifier: 0.41.1
         version: 0.41.1
       atlassian-openapi:
-        specifier: 1.0.20
-        version: 1.0.20
+        specifier: 1.0.21
+        version: 1.0.21
       better-auth:
         specifier: 'catalog:'
         version: 1.1.19
@@ -5532,8 +5532,8 @@ packages:
     resolution: {integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==}
     engines: {node: '>= 4.0.0'}
 
-  atlassian-openapi@1.0.20:
-    resolution: {integrity: sha512-MgTMxa0MTCwUb4zIsh9EA2AcTXhGuDDibt7gUQ/VuudzMTJfKwzxU+uV2/F5ZjYkvAuFUQzIp10bgOIxRPRhTw==}
+  atlassian-openapi@1.0.21:
+    resolution: {integrity: sha512-1OnnoY2CQYHgXrce/06BltL7fox+uVY7brHUInyFbMpTURjTNIGXfLQxVDRo/2On7ryyKzkX7FfNApYhXw7f+w==}
 
   autoprefixer@10.4.20:
     resolution: {integrity: sha512-XY25y5xSv/wEoqzDyXXME4AFfkZI0P23z6Fs3YgymDnKJkCGOnkL0iTxCa85UTqaSgfcqyf3UA6+c7wUvx/16g==}
@@ -16177,7 +16177,7 @@ snapshots:
 
   at-least-node@1.0.0: {}
 
-  atlassian-openapi@1.0.20:
+  atlassian-openapi@1.0.21:
     dependencies:
       jsonpointer: 5.0.1
       urijs: 1.19.11
@@ -19529,7 +19529,7 @@ snapshots:
 
   openapi-merge@1.3.3:
     dependencies:
-      atlassian-openapi: 1.0.20
+      atlassian-openapi: 1.0.21
       lodash: 4.17.21
       ts-is-present: 1.2.2
 
