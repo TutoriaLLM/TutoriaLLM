@@ -52,7 +52,7 @@
     "dom-to-image-more": "3.5.0",
     "dotenv": "catalog:",
     "extensions": "workspace:",
-    "fast-glob": "3.3.2",
+    "fast-glob": "3.3.3",
     "html2canvas": "1.4.1",
     "i18next": "23.16.0",
     "i18next-browser-languagedetector": "8.0.2",
