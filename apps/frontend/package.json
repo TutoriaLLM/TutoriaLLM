@@ -54,7 +54,7 @@
     "extensions": "workspace:",
     "fast-glob": "3.3.2",
     "html2canvas": "1.4.1",
-    "i18next": "23.16.0",
+    "i18next": "23.16.8",
     "i18next-browser-languagedetector": "8.0.2",
     "i18next-fs-backend": "2.3.2",
     "idb": "8.0.0",
