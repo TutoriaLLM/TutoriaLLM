@@ -539,8 +539,8 @@ importers:
         specifier: 0.0.54
         version: 0.0.54(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@2.79.2)
       react-tag-input:
-        specifier: 6.10.3
-        version: 6.10.3(react-dnd-html5-backend@14.1.0)(react-dnd@14.0.5(@types/hoist-non-react-statics@3.3.6)(@types/node@20.17.23)(@types/react@18.3.18)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 6.10.6
+        version: 6.10.6(react-dnd-html5-backend@14.1.0)(react-dnd@14.0.5(@types/hoist-non-react-statics@3.3.6)(@types/node@20.17.23)(@types/react@18.3.18)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rehype-raw:
         specifier: 7.0.0
         version: 7.0.0
@@ -8815,13 +8815,13 @@ packages:
       '@types/react':
         optional: true
 
-  react-tag-input@6.10.3:
-    resolution: {integrity: sha512-IVneBnT0/7N8FktHsFUA2UVDvcwLSJoWDTdEm/Ei/r5O6iBABaVw1RMh6SlG+P7oummvzSY6EBjGCXr/Ntq8rQ==}
+  react-tag-input@6.10.6:
+    resolution: {integrity: sha512-oXopRSs2ZSuMqsygcZhjal869MZpAUX0YVNQ/WGaYXPJmbuZIviqeTocs3g/BHs9ReIG9vu563JOZsHGikiMgw==}
     peerDependencies:
-      react: ^18.2.0
-      react-dnd: ^14.0.2
-      react-dnd-html5-backend: ^14.0.0
-      react-dom: ^18.2.0
+      react: ^18.2.0 || ^19.0.0
+      react-dnd: ^14.0.2 || ^16.0.0
+      react-dnd-html5-backend: ^14.0.0 || ^16.0.0
+      react-dom: ^18.2.0 || ^19.0.0
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -20172,7 +20172,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.18
 
-  react-tag-input@6.10.3(react-dnd-html5-backend@14.1.0)(react-dnd@14.0.5(@types/hoist-non-react-statics@3.3.6)(@types/node@20.17.23)(@types/react@18.3.18)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-tag-input@6.10.6(react-dnd-html5-backend@14.1.0)(react-dnd@14.0.5(@types/hoist-non-react-statics@3.3.6)(@types/node@20.17.23)(@types/react@18.3.18)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@types/lodash-es': 4.17.12
       classnames: 2.3.3
