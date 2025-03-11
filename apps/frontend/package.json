@@ -65,7 +65,7 @@
     "nodemon": "3.1.9",
     "postcss": "8.4.47",
     "react": "18.3.1",
-    "react-cookie": "7.2.1",
+    "react-cookie": "7.2.2",
     "react-dom": "18.3.1",
     "react-ga4": "2.1.0",
     "react-hook-form": "7.54.2",
