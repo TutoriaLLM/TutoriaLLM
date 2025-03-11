@@ -10,7 +10,7 @@ import type { Socket } from "socket.io";
 
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
-	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/vi",
+	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/v1",
 });
 
 async function audioToText(mp3Path: string) {

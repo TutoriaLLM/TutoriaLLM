@@ -71,6 +71,7 @@ export const BlocklyEditor = ({
 	toolboxConfiguration = toolboxCategories,
 	isMenuOpen = true,
 	blockNameToHighlight,
+	setBlockNameToHighlight,
 	blockIdToHighlight,
 	onWorkspaceChange,
 	workspaceJson,
@@ -81,6 +82,7 @@ export const BlocklyEditor = ({
 	toolboxConfiguration?: Blockly.utils.toolbox.ToolboxDefinition;
 	isMenuOpen: boolean;
 	blockNameToHighlight?: string | null;
+	setBlockNameToHighlight?: (blockName: string | null) => void;
 	blockIdToHighlight?: string | null;
 	onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void;
 	workspaceJson?: object;
@@ -122,6 +124,61 @@ export const BlocklyEditor = ({
 			};
 		}
 	}, [workspace]);
+
+	const onToolboxOpen = (event: Blockly.Events.Abstract) => {
+		if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
+			// If you have a category open and there is a block you need to find in the toolbox from State, find that block and highlight it in the workspace in the toolbox
+			if (!workspace) return;
+			const toolbox = workspace.getToolbox();
+			if (
+				blockNameToHighlight &&
+				toolbox?.getSelectedItem() !== null &&
+				toolbox?.getSelectedItem() !== undefined
+			) {
+				try {
+					const flyout = toolbox.getFlyout();
+					const flyoutWorkspace = flyout?.getWorkspace();
+					if (!flyoutWorkspace) return;
+					const block = flyoutWorkspace?.getBlocksByType(blockNameToHighlight);
+					const highlight = new BlockHighlight(flyoutWorkspace);
+
+					if (block && block.length > 0 && workspace) {
+						// Highlight.
+						highlight.init(10, block[0].id);
+					}
+					// If the block does not exist, highlight from an empty id
+					if (block && block.length === 0 && workspace) {
+						const highlight = new BlockHighlight(workspace);
+						highlight.init(10, block[0].id);
+					}
+					// If the category is closed, de-highlight it
+					if (
+						toolbox.getFlyout()?.isVisible() === false &&
+						setBlockNameToHighlight
+					) {
+						setBlockNameToHighlight(null);
+					}
+				} catch {
+					return null;
+				}
+			}
+		}
+		// Unhighlight if the block specified in the menu has been moved
+		if (event.type === Blockly.Events.MOVE) {
+			const moveEvent = event as Blockly.Events.BlockMove;
+			if (!workspace) return;
+			const toolbox = workspace.getToolbox() as Blockly.Toolbox;
+			const toolWorkspace = toolbox.getFlyout()?.getWorkspace();
+			if (!(toolWorkspace && blockNameToHighlight)) {
+				return;
+			}
+			const block = toolWorkspace.getBlocksByType(blockNameToHighlight);
+			if (moveEvent?.blockId === block[0]?.id && setBlockNameToHighlight) {
+				setBlockNameToHighlight(null);
+			}
+		}
+	};
+	workspace?.addChangeListener(onToolboxOpen);
 
 	useEffect(() => {
 		if (blockNameToHighlight && workspace) {
