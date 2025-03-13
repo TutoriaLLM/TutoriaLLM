@@ -39,7 +39,7 @@
     "@tanstack/zod-adapter": "1.92.6",
     "@vitejs/plugin-react": "4.3.4",
     "@xyflow/react": "12.3.2",
-    "autoprefixer": "10.4.20",
+    "autoprefixer": "10.4.21",
     "backend": "workspace:",
     "better-auth": "catalog:",
     "blockly": "catalog:",
