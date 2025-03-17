@@ -3,7 +3,7 @@ packages:
  - 'packages/*'
 catalog:
   better-auth: 1.1.19
-  blockly: 11.1.1
+  blockly: 11.2.1
   dotenv: 16.4.7
   hono: 4.6.16
   rfc6902: 5.1.2
