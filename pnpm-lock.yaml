@@ -81,8 +81,8 @@ importers:
         specifier: 26.0.0
         version: 26.0.0
       sherif:
-        specifier: 1.1.1
-        version: 1.1.1
+        specifier: 1.4.0
+        version: 1.4.0
       simple-git-hooks:
         specifier: 2.11.1
         version: 2.11.1
@@ -9178,38 +9178,38 @@ packages:
     resolution: {integrity: sha512-AzqKpGKjrj7EM6rKVQEPpB288oCfnrEIuyoT9cyF4nmGa7V8Zk6f7RRqYisX8X9m+Q7bd632aZW4ky7EhbQztA==}
     engines: {node: '>= 0.4'}
 
-  sherif-darwin-arm64@1.1.1:
-    resolution: {integrity: sha512-67WeOqkp6/glNIvNINi5FjFmyJU65XUmA+ow16DBHXaR3C7mA6eQNjP3Ro3EMLRXzzvj9cMJ0k7vLsbxWCzBkw==}
+  sherif-darwin-arm64@1.4.0:
+    resolution: {integrity: sha512-7PTK+BMC7zHxie3dDi/TPJXrHvCVs+Kf80NO6G9dm/DHFwLi/EJpw/i49H9W3NgN2ND9+MlR0/q0g2rSiaCmkg==}
     cpu: [arm64]
     os: [darwin]
 
-  sherif-darwin-x64@1.1.1:
-    resolution: {integrity: sha512-FVRuABcXT5cNcCLrWyH0WomkHQ/HMQodwklUVPpuDg08p7dZo8AZNsRmmCh//l8U6G56LW9dQJbkgOq8yI4MHg==}
+  sherif-darwin-x64@1.4.0:
+    resolution: {integrity: sha512-r4pwDHjPgeothxvl+d58BvJ1WhSiWfiukivltJJXgQDg4p64K4nv9dsQw1+zO4I2gYSlsUOXA9LDYlka79JyTA==}
     cpu: [x64]
     os: [darwin]
 
-  sherif-linux-arm64@1.1.1:
-    resolution: {integrity: sha512-jFZMQ5v/R0dUcER4zR9NG/y1tGwdDI5R+ZqBG6iyDwviT5jpRTGXBQSSss4yaflLbOq1HpQeXzfMJX408BWklg==}
+  sherif-linux-arm64@1.4.0:
+    resolution: {integrity: sha512-cABgykKbFYruIZkU07ubiKgJS6qooIbMpwBTpivCb7/5Xwgw2Jm1oryhKFFv4i8I3R1TPdNxHpz2yyGuaW+7Uw==}
     cpu: [arm64]
     os: [linux]
 
-  sherif-linux-x64@1.1.1:
-    resolution: {integrity: sha512-l3N+wwDjCSCC/MKI9/4RLIpMVfnMlQ2EhzmimhZuLt3v8+lfkG7+at0De5idkJXejoHyXNLKAiTRxYaVsXwGpQ==}
+  sherif-linux-x64@1.4.0:
+    resolution: {integrity: sha512-igofjXjgov2QTyivMCkPuXklqBHfVDikicyilQlPTEMO3ZIsz1uE6D6IC1iq7iDV/cbx0IYJo6v0cSSpiYTrSA==}
     cpu: [x64]
     os: [linux]
 
-  sherif-windows-arm64@1.1.1:
-    resolution: {integrity: sha512-eRt/4GWSeJUdaP3Gu38zpK/mCTLRQl+KaPfBbJ9CC+jzUxsiFE0+hMcvc0gecvMqAHYpQAWJ2y3oiMuJ2mwQ8A==}
+  sherif-windows-arm64@1.4.0:
+    resolution: {integrity: sha512-1oQ178TfmRYrhMOyRrQ3AOKwt7hmGXZJJwyJE4LV3c7PgKvOiWz3USBI1FapLbNBmslgsTnzJJVD7CFZNOqDZA==}
     cpu: [arm64]
     os: [win32]
 
-  sherif-windows-x64@1.1.1:
-    resolution: {integrity: sha512-yRBJMcoyqederEv+Jgz8Nnv63xXRppZn/XUCTukFDKgY41v8JDnU3CeS79F7DxakS8vu9Y6kGATvwpShbGYzeA==}
+  sherif-windows-x64@1.4.0:
+    resolution: {integrity: sha512-hTY6gYKRlOA0SqpK4yklAPzFZhn6NJGeM50ida67b2k7B6ApsStru9U3yt//b6cqy+6z3HxgxH9IpVVBiWJnVQ==}
     cpu: [x64]
     os: [win32]
 
-  sherif@1.1.1:
-    resolution: {integrity: sha512-571FkeQKaRZJJj4w55LEATkUC2kkoxkdlYuBx3V5N+O3P++4dgpCO1+goQBHbVJivmTpL7zkcLWLfymWf1BtUw==}
+  sherif@1.4.0:
+    resolution: {integrity: sha512-mo7zKtRsDrRadbXa8tuoK5mtov5kV4qw2iuzD/ZyEVSeZfY0BpR1+KUhvJHCUJDHBv2nh0dJMwKkmlbbq/QKOg==}
     hasBin: true
 
   shiki@1.29.2:
@@ -20722,32 +20722,32 @@ snapshots:
 
   shell-quote@1.8.2: {}
 
-  sherif-darwin-arm64@1.1.1:
+  sherif-darwin-arm64@1.4.0:
     optional: true
 
-  sherif-darwin-x64@1.1.1:
+  sherif-darwin-x64@1.4.0:
     optional: true
 
-  sherif-linux-arm64@1.1.1:
+  sherif-linux-arm64@1.4.0:
     optional: true
 
-  sherif-linux-x64@1.1.1:
+  sherif-linux-x64@1.4.0:
     optional: true
 
-  sherif-windows-arm64@1.1.1:
+  sherif-windows-arm64@1.4.0:
     optional: true
 
-  sherif-windows-x64@1.1.1:
+  sherif-windows-x64@1.4.0:
     optional: true
 
-  sherif@1.1.1:
+  sherif@1.4.0:
     optionalDependencies:
-      sherif-darwin-arm64: 1.1.1
-      sherif-darwin-x64: 1.1.1
-      sherif-linux-arm64: 1.1.1
-      sherif-linux-x64: 1.1.1
-      sherif-windows-arm64: 1.1.1
-      sherif-windows-x64: 1.1.1
+      sherif-darwin-arm64: 1.4.0
+      sherif-darwin-x64: 1.4.0
+      sherif-linux-arm64: 1.4.0
+      sherif-linux-x64: 1.4.0
+      sherif-windows-arm64: 1.4.0
+      sherif-windows-x64: 1.4.0
 
   shiki@1.29.2:
     dependencies:
