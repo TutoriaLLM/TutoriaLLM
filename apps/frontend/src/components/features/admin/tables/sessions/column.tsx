@@ -73,7 +73,7 @@ export function sessionColumns(
 						{typeof row.original.userInfo !== "string" &&
 						row.original.userInfo ? (
 							<UserCard
-								image={row.original.userInfo.image}
+								image={`${import.meta.env.VITE_BACKEND_URL}${row.original.userInfo.image}`}
 								header={row.original.userInfo.username}
 								subheader={row.original.userInfo.email}
 								id={row.original.userInfo.id}

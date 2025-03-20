@@ -106,7 +106,7 @@ export function userColumns(currentUserId: string) {
 			cell: ({ row }) => {
 				return (
 					<UserCard
-						image={row.original.image}
+						image={`${import.meta.env.VITE_BACKEND_URL}${row.original.image}`}
 						header={row.original.name}
 						subheader={row.original.email}
 						isAnonymous={row.original.isAnonymous}

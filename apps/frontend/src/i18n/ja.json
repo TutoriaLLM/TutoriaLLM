@@ -37,7 +37,8 @@
     "emailDescription": "あなたのメールアドレス",
     "passwordDescription": "パスワードを入力してください",
     "internalServerError": "サーバーエラーが発生しました。",
-    "unknownError": "エラーが発生しました。"
+    "unknownError": "エラーが発生しました。",
+    "editIcon": "アイコンの編集"
   },
   "navbar": {
     "saveAndLeave": "保存してやめる",
@@ -309,7 +310,9 @@
     "sessionDeleted": "セッションが削除されました",
     "updatedProjectName": "プロジェクト名を更新しました",
     "failedToUpdateProjectName": "プロジェクト名の更新に失敗しました",
-    "createdUser": "新規ユーザーを作成しました"
+    "createdUser": "新規ユーザーを作成しました",
+    "failedToUpdateIcon": "アイコンの更新に失敗しました",
+    "invalidImageFormat": "無効な画像フォーマットです"
   },
   "auth": {
     "accountNotFound": "アカウントが見つかりません",
