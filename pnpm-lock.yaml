@@ -298,8 +298,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8
       testcontainers:
-        specifier: 10.17.2
-        version: 10.17.2
+        specifier: 10.20.0
+        version: 10.20.0
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5174,9 +5174,6 @@ packages:
   '@types/node@18.19.70':
     resolution: {integrity: sha512-RE+K0+KZoEpDUbGGctnGdkrLFwi1eYKTlIHNl2Um98mUkGsm1u2Ff6Ltd0e8DktTtC98uy7rSj+hO8t/QuLoVQ==}
 
-  '@types/node@20.17.23':
-    resolution: {integrity: sha512-8PCGZ1ZJbEZuYNTMqywO+Sj4vSKjSjT6Ua+6RFOYlEvIvKQABPtrNkoVSLSKDb4obYcMhspVKmsw8Cm10NFRUg==}
-
   '@types/node@20.17.24':
     resolution: {integrity: sha512-d7fGCyB96w9BnWQrOsJtpyiSaBcAYYr75bnK6ZRjDbql2cGLj/3GsL5OYmLPNq76l7Gf2q4Rv9J2o6h5CrD9sA==}
 
@@ -9535,8 +9532,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  testcontainers@10.17.2:
-    resolution: {integrity: sha512-tnvXQsqwnOUjNENWLllfFmDLQUm24Q0MNL6kbVH35bIKPujEhyG6dOcpU8N5vwA4mD/ZdtwfHel++Z1Tw084uQ==}
+  testcontainers@10.20.0:
+    resolution: {integrity: sha512-pOPm/OUIT41aMijAZ9RsYg5xOq9ciy93+pCf2D9qDI0oV8rwk91XpPoUlizll4qwxmmHsLmfZFHJTpeB+BIfmw==}
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
@@ -15753,10 +15750,6 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.17.23':
-    dependencies:
-      undici-types: 6.19.8
-
   '@types/node@20.17.24':
     dependencies:
       undici-types: 6.19.8
@@ -15794,7 +15787,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 20.17.23
+      '@types/node': 20.17.24
 
   '@types/shimmer@1.2.0': {}
 
@@ -21189,7 +21182,7 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  testcontainers@10.17.2:
+  testcontainers@10.20.0:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@types/dockerode': 3.3.34
