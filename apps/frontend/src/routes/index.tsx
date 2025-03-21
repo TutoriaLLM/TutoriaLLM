@@ -58,9 +58,9 @@ function Home() {
 	return (
 		<div className="min-h-svh overflow-auto flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-background">
 			<div className="max-w-2xl w-full my-auto space-y-4 px-2">
-				<div className="flex w-full flex-wrap md:flex-nowrap justify-between items-center">
+				<div className="flex w-full flex-wrap md:flex-nowrap justify-between items-center px-2">
 					<div className="space-y-2 w-full">
-						<h2 className="text-3xl font-semibold">
+						<h2 className="text-2xl md:text-3xl font-semibold">
 							{t("session.hello")}
 							{session.user.name === t("login.guest")
 								? ""
@@ -74,17 +74,17 @@ function Home() {
 						{isServerOnline === null ? (
 							<span className="flex gap-2 justify-center items-center ">
 								{t("session.checkingServer")}
-								<LoaderCircle className=" text-primary w-8 h-8 animate-spin" />
+								<LoaderCircle className=" text-primary w-6 h-6 md:w-8 md:h-8 animate-spin" />
 							</span>
 						) : isServerOnline ? (
 							<span className="flex gap-2 justify-center items-center ">
 								{t("session.available")}
-								<CheckCircle className=" text-secondary w-8 h-8" />
+								<CheckCircle className=" text-secondary w-6 h-6 md:w-8 md:h-8" />
 							</span>
 						) : (
 							<span className="flex gap-2 justify-center items-center ">
 								{t("session.serverOffline")}
-								<CircleAlertIcon className=" text-destructive w-8 h-8 animate-pulse" />
+								<CircleAlertIcon className=" text-destructive w-6 h-6 md:w-8 md:h-8 animate-pulse" />
 							</span>
 						)}
 					</div>
