@@ -92,7 +92,11 @@ export function EditIcon(props: { session: AuthSession }) {
 					{session.user.image ? (
 						<Avatar className="w-20 h-20 ">
 							<AvatarImage
-								src={`${import.meta.env.VITE_BACKEND_URL}${session.user.image}`}
+								src={
+									session.user.image
+										? `${import.meta.env.VITE_BACKEND_URL}${session.user.image}`
+										: undefined
+								}
 							/>
 							<AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
 						</Avatar>

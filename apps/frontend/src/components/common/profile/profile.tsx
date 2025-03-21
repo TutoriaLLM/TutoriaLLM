@@ -91,7 +91,11 @@ export function UserAccount(props: { session: AuthSession }) {
 				{session.user.image ? (
 					<Avatar className="w-10 h-10 shrink-0">
 						<AvatarImage
-							src={`${import.meta.env.VITE_BACKEND_URL}${session.user.image}`}
+							src={
+								session.user.image
+									? `${import.meta.env.VITE_BACKEND_URL}${session.user.image}`
+									: undefined
+							}
 						/>
 						<AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
 					</Avatar>

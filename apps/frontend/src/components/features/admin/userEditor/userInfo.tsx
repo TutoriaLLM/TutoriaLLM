@@ -68,7 +68,11 @@ export function AdminUserInfo({
 						{userDetail?.image ? (
 							<Avatar className="w-40 h-40 ">
 								<AvatarImage
-									src={`${import.meta.env.VITE_BACKEND_URL}${userDetail.image}`}
+									src={
+										userDetail.image
+											? `${import.meta.env.VITE_BACKEND_URL}${userDetail.image}`
+											: undefined
+									}
 								/>
 								<AvatarFallback>{getInitials(userDetail?.name)}</AvatarFallback>
 							</Avatar>
