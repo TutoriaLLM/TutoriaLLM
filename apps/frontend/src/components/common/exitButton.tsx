@@ -13,7 +13,7 @@ export function ExitButton(props: { text: string; onClick: () => void }) {
 			}}
 		>
 			<DoorOpen />
-			<span className="hidden sm:block">{props.text}</span>
+			<span>{props.text}</span>
 		</Button>
 	);
 }
