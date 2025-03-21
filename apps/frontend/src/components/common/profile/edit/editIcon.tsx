@@ -108,7 +108,7 @@ export function EditIcon(props: { session: AuthSession }) {
 				</div>
 				<form
 					onSubmit={form.handleSubmit(handleImageUpload)}
-					className="w-full"
+					className="w-full flex gap-2"
 				>
 					<FormField
 						control={form.control}
@@ -122,7 +122,7 @@ export function EditIcon(props: { session: AuthSession }) {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" size={"sm"} variant={"outline"}>
+					<Button type="submit" size={"sm"}>
 						<UploadIcon className="h-4 w-4" />
 						{t("login.update")}
 					</Button>
