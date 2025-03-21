@@ -63,7 +63,7 @@ export function AdminUserInfo({
 	return (
 		<div className="space-y-4">
 			<div className="flex justify-between">
-				<div className="flex gap-2 bg-background rounded-2xl p-3 justify-center items-center font-bold">
+				<div className="flex gap-2 bg-background rounded-2xl p-3 font-bold w-full overflow-clip">
 					<div>
 						{userDetail?.image ? (
 							<Avatar className="w-40 h-40 ">
@@ -79,13 +79,13 @@ export function AdminUserInfo({
 						) : (
 							<BoringAvatar
 								size="160px"
-								className="w-40 h-40 rounded-full"
+								className="w-20 h-20 md:w-40 md:h-40 rounded-full"
 								name={userDetail?.id}
 								variant="beam"
 							/>
 						)}
 					</div>
-					<div className="space-y-2">
+					<div className="space-y-2 w-full">
 						<div className="w-full flex gap-2 justify-between text-background">
 							{userDetail?.role === "admin" ? (
 								<div className="border-warning text-warning border-2 rounded-full p-1 px-2.5">
@@ -128,12 +128,12 @@ export function AdminUserInfo({
 								<p className="">{userDetail?.name || t("admin.noName")}</p>
 							)}
 						</h2>
-						<div className="text-accent-foreground flex gap-2">
-							<UserIcon />
+						<div className="text-accent-foreground flex gap-2 text-xs">
+							<UserIcon className="w-4 h-4" />
 							{userDetail?.username || t("admin.noUsername")}
 						</div>
-						<div className="text-accent-foreground flex gap-2">
-							<MailIcon />
+						<div className="text-accent-foreground flex gap-2 break-all text-xs">
+							<MailIcon className="w-4 h-4" />
 							{userDetail?.email || t("admin.noEmail")}
 						</div>
 						<div className="text-accent-foreground gap-2 text-xs">
