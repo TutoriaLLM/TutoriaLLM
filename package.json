@@ -38,7 +38,7 @@
     "sherif": "1.4.0",
     "simple-git-hooks": "2.11.1",
     "vite-tsconfig-paths": "5.0.1",
-    "vitest": "3.0.8",
+    "vitest": "3.0.9",
     "wireit": "0.14.11"
   },
   "wireit": {
