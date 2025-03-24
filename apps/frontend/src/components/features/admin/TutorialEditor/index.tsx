@@ -31,6 +31,7 @@ import { TutorialUploader } from "./upload";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/toast";
 import { ErrorToastContent } from "@/components/common/toastContent";
+import { DeleteButton } from "./edges/deleteButton";
 
 type TutorialType = Pick<Tutorial, "metadata" | "content" | "serializedNodes">;
 
@@ -41,6 +42,10 @@ const nodeTypes = {
 	metadataGen: MetadataGen,
 	blockly: ExampleCode,
 	output: Output,
+};
+
+const edgeTypes = {
+	deleteButton: DeleteButton,
 };
 
 export default function TutorialEditor(props: {
@@ -72,12 +77,12 @@ export default function TutorialEditor(props: {
 				tags: [],
 			},
 			dragHandle: ".custom-drag-handle",
-			position: { x: 100, y: 100 },
+			position: { x: 500, y: 100 },
 		},
 		{
 			id: "md",
 			type: "md",
-			position: { x: 300, y: 400 },
+			position: { x: 450, y: 400 },
 			dragHandle: ".custom-drag-handle",
 			data: { source: "", editorContent: "" },
 		},
@@ -98,7 +103,7 @@ export default function TutorialEditor(props: {
 				targetHandles: [{ id: "output-metadata" }, { id: "output-markdown" }],
 			},
 
-			position: { x: 800, y: 500 },
+			position: { x: 1000, y: 500 },
 		},
 	];
 
@@ -108,18 +113,21 @@ export default function TutorialEditor(props: {
 			source: "metadata",
 			target: "output",
 			targetHandle: "metadata",
+			type: "deleteButton",
 		},
 		{
 			id: "md-output-initial",
 			source: "md",
 			target: "output",
 			targetHandle: "markdown",
+			type: "deleteButton",
 		},
 		{
 			id: "blockly-md-initial",
 			source: "blockly",
 			target: "md",
 			targetHandle: "blockly",
+			type: "deleteButton",
 		},
 	];
 
@@ -166,7 +174,10 @@ export default function TutorialEditor(props: {
 	}, [tutorialData, setNodes, setEdges]);
 
 	const onConnect = useCallback(
-		(params: any) => setEdges((eds) => addEdge(params, eds)),
+		(connection: any) => {
+			const edge = { ...connection, type: "deleteButton" };
+			setEdges((eds) => addEdge(edge, eds));
+		},
 		[setEdges],
 	);
 	return (
@@ -198,6 +209,7 @@ export default function TutorialEditor(props: {
 				nodes={nodes}
 				edges={edges}
 				nodeTypes={nodeTypes}
+				edgeTypes={edgeTypes}
 				onNodesChange={onNodesChange}
 				onEdgesChange={onEdgesChange}
 				nodeOrigin={[0.5, 0.5]}
