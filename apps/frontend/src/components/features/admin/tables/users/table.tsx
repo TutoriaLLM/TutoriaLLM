@@ -30,6 +30,9 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
 import { useUserList } from "@/hooks/admin/users";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
+import { useDebounce } from "@/hooks/debounce";
 
 export function UserTable(props: {
 	userId: string;
@@ -51,6 +54,23 @@ export function UserTable(props: {
 		});
 	}
 
+	const [localSearchValue, setLocalSearchValue] = useState(
+		search.searchValue || "",
+	);
+	// after 400ms, update search value
+	const debouncedSearchValue = useDebounce(localSearchValue, 400);
+
+	// debounce search value
+	useEffect(() => {
+		if (debouncedSearchValue !== search.searchValue) {
+			navigate({ search: { ...search, searchValue: debouncedSearchValue } });
+		}
+	}, [debouncedSearchValue]);
+
+	function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
+		navigate({ search: { ...search, role: e.target.value } });
+	}
+
 	const table = useReactTable<UserWithRole>({
 		columns: userColumns(props.userId),
 		data: users?.data?.users || [],
@@ -62,6 +82,19 @@ export function UserTable(props: {
 	});
 	return (
 		<AdminBodyWrapper title="Users">
+			<div className="flex gap-2 max-w-md p-3">
+				{/* search by text / filter by role */}
+				<Input
+					placeholder="Search by text"
+					value={localSearchValue}
+					onChange={(e) => setLocalSearchValue(e.target.value)}
+				/>
+				<Select value={search.role} onChange={handleFilter}>
+					<option value="">All</option>
+					<option value="admin">Admin</option>
+					<option value="user">User</option>
+				</Select>
+			</div>
 			<Table>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
