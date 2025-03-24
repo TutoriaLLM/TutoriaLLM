@@ -230,7 +230,10 @@
     "writeMetadata": "ここにメタデータを書き込みます",
     "projectName": "プロジェクト名",
     "displayNameDescription": "ユーザーの表示名",
-    "emailDescription": "ユーザーの認証用メールアドレス"
+    "emailDescription": "ユーザーの認証用メールアドレス",
+    "all": "全て",
+    "searchByText": "ユーザー名で検索",
+    "anonymous": "ゲストユーザー"
   },
   "quickReply": {
     "HowToUse": "どうやって使うの？",

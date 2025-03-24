@@ -33,6 +33,7 @@ import { useUserList } from "@/hooks/admin/users";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/debounce";
+import { useTranslation } from "react-i18next";
 
 export function UserTable(props: {
 	userId: string;
@@ -41,7 +42,7 @@ export function UserTable(props: {
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
 	const { users } = useUserList(search);
-
+	const { t } = useTranslation();
 	function handleSort(field: string) {
 		const newSortOrder =
 			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
@@ -83,16 +84,15 @@ export function UserTable(props: {
 	return (
 		<AdminBodyWrapper title="Users">
 			<div className="flex gap-2 max-w-md p-3">
-				{/* search by text / filter by role */}
 				<Input
-					placeholder="Search by text"
+					placeholder={t("admin.searchByText")}
 					value={localSearchValue}
 					onChange={(e) => setLocalSearchValue(e.target.value)}
 				/>
 				<Select value={search.role} onChange={handleFilter}>
-					<option value="">All</option>
-					<option value="admin">Admin</option>
-					<option value="user">User</option>
+					<option value="">{t("admin.all")}</option>
+					<option value="admin">{t("admin.user")}</option>
+					<option value="user">{t("admin.admin")}</option>
 				</Select>
 			</div>
 			<Table>

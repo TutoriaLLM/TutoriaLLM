@@ -121,8 +121,9 @@ export function AdminUserInfo({
 						</div>
 						<h2 className="text-2xl">
 							{userDetail?.isAnonymous ? (
-								<p className="inline-flex">
-									*Anonymous <LucideVenetianMask className="w-5 h-5" />
+								<p className="inline-flex text-destructive">
+									{t("admin.anonymous")}{" "}
+									<LucideVenetianMask className="w-5 h-5" />
 								</p>
 							) : (
 								<p className="">{userDetail?.name || t("admin.noName")}</p>

@@ -235,7 +235,10 @@
     "password": "Password",
     "projectName": "Project name",
     "displayNameDescription": "This is user's display name",
-    "emailDescription": "User's email for authentication"
+    "emailDescription": "User's email for authentication",
+    "all": "all",
+    "searchByText": "search by username",
+    "anonymous": "Guest user"
   },
   "quickReply": {
     "WhatINeed": "What I need to do?",
