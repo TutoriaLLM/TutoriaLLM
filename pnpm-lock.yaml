@@ -13,8 +13,8 @@ catalogs:
       specifier: 1.1.19
       version: 1.1.19
     blockly:
-      specifier: 11.2.1
-      version: 11.2.1
+      specifier: 11.2.2
+      version: 11.2.2
     dotenv:
       specifier: 16.4.7
       version: 16.4.7
@@ -181,7 +181,7 @@ importers:
         version: 1.1.19
       blockly:
         specifier: 'catalog:'
-        version: 11.2.1
+        version: 11.2.2
       commander:
         specifier: 12.1.0
         version: 12.1.0
@@ -351,10 +351,10 @@ importers:
         version: 4.10.1(playwright-core@1.51.1)
       '@blockly/field-grid-dropdown':
         specifier: 5.0.12
-        version: 5.0.12(blockly@11.2.1)
+        version: 5.0.12(blockly@11.2.2)
       '@blockly/field-slider':
         specifier: 7.0.12
-        version: 7.0.12(blockly@11.2.1)
+        version: 7.0.12(blockly@11.2.2)
       '@hookform/resolvers':
         specifier: 3.9.1
         version: 3.9.1(react-hook-form@7.54.2(react@18.3.1))
@@ -444,7 +444,7 @@ importers:
         version: 1.1.19
       blockly:
         specifier: 'catalog:'
-        version: 11.2.1
+        version: 11.2.2
       boring-avatars:
         specifier: 1.11.2
         version: 1.11.2
@@ -628,13 +628,13 @@ importers:
     dependencies:
       '@blockly/field-grid-dropdown':
         specifier: 5.0.12
-        version: 5.0.12(blockly@11.2.1)
+        version: 5.0.12(blockly@11.2.2)
       '@blockly/field-slider':
         specifier: 7.0.12
-        version: 7.0.12(blockly@11.2.1)
+        version: 7.0.12(blockly@11.2.2)
       blockly:
         specifier: 'catalog:'
-        version: 11.2.1
+        version: 11.2.2
       hono:
         specifier: 'catalog:'
         version: 4.7.4
@@ -5658,8 +5658,8 @@ packages:
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
 
-  blockly@11.2.1:
-    resolution: {integrity: sha512-20sCwSwX2Z6UxR/er0B5y6wRFukuIdvOjc7jMuIwyCO/yT35+UbAqYueMga3JFA9NoWPwQc+3s6/XnLkyceAww==}
+  blockly@11.2.2:
+    resolution: {integrity: sha512-YJW9jMz4qoBXzOOUqxWBOHL35QhOOTAg2a6sVAFJh+/uNTXW0z506JS7qkqZI4PQ9fnUhDqmhF8a0qWSTL1tjg==}
     engines: {node: '>=18'}
 
   boolbase@1.0.0:
@@ -11485,13 +11485,13 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@blockly/field-grid-dropdown@5.0.12(blockly@11.2.1)':
+  '@blockly/field-grid-dropdown@5.0.12(blockly@11.2.2)':
     dependencies:
-      blockly: 11.2.1
+      blockly: 11.2.2
 
-  '@blockly/field-slider@7.0.12(blockly@11.2.1)':
+  '@blockly/field-slider@7.0.12(blockly@11.2.2)':
     dependencies:
-      blockly: 11.2.1
+      blockly: 11.2.2
 
   '@bundled-es-modules/cookie@2.0.1':
     dependencies:
@@ -16390,7 +16390,7 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
 
-  blockly@11.2.1:
+  blockly@11.2.2:
     dependencies:
       jsdom: 25.0.1
     transitivePeerDependencies:
