@@ -38,7 +38,6 @@ export function EditIcon(props: { session: AuthSession }) {
 	//After uploading image, the image url will be set to the session.user.image, refresh the query to get the updated user image.
 	const handleImageUpload = async (data: UploadImageSchemaType) => {
 		const file = data.file;
-		console.log(file);
 		//limit the file format
 		if (!file?.type.startsWith("image/")) {
 			toast({
@@ -62,7 +61,6 @@ export function EditIcon(props: { session: AuthSession }) {
 		const fileAsFile = new File([compressedFile], file.name, {
 			type: compressedFile.type,
 		});
-		console.log(fileAsFile);
 		const imageUrl = await uploadImage(fileAsFile);
 
 		//update the user image url in the database(better-auth)
