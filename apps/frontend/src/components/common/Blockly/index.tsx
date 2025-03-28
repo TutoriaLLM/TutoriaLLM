@@ -74,6 +74,7 @@ export const BlocklyEditor = ({
 	blockNameToHighlight,
 	setBlockNameToHighlight,
 	blockIdToHighlight,
+	setBlockIdToHighlight,
 	onWorkspaceChange,
 	workspaceJson,
 	setWorkspaceJson,
@@ -85,6 +86,7 @@ export const BlocklyEditor = ({
 	blockNameToHighlight?: string | null;
 	setBlockNameToHighlight?: (blockName: string | null) => void;
 	blockIdToHighlight?: string | null;
+	setBlockIdToHighlight?: (blockId: string | null) => void;
 	onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void;
 	workspaceJson?: object;
 	setWorkspaceJson?: (json: object | null) => void;
@@ -154,6 +156,18 @@ export const BlocklyEditor = ({
 
 	//highlight specified block by id
 	useEffect(() => {
+		const onUserMovedTargetBlock = (event: Blockly.Events.Abstract) => {
+			if (event.type === Blockly.Events.MOVE) {
+				const moveEvent = event as Blockly.Events.BlockMove;
+				if (moveEvent.blockId === blockIdToHighlight) {
+					blockHighlightRef.current?.dispose();
+					setBlockIdToHighlight ? setBlockIdToHighlight(null) : null;
+				}
+			}
+		};
+
+		workspace?.addChangeListener(onUserMovedTargetBlock);
+
 		if (blockHighlightRef.current) {
 			blockHighlightRef.current.dispose();
 		}
@@ -164,6 +178,10 @@ export const BlocklyEditor = ({
 		} else {
 			blockHighlightRef.current = null;
 		}
+
+		return () => {
+			workspace?.removeChangeListener(onUserMovedTargetBlock);
+		};
 	}, [blockIdToHighlight, workspace]);
 
 	// Hide/Show toolbox
