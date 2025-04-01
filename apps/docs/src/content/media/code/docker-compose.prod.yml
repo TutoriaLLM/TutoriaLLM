@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   reverse-proxy:
-    image: traefik:v3.1
+    image: traefik:v3.2
     command:
       - --api.insecure=true
       - --accesslog=true
