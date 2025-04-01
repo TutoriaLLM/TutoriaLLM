@@ -298,8 +298,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8
       testcontainers:
-        specifier: 10.22.0
-        version: 10.22.0
+        specifier: 10.23.0
+        version: 10.23.0
       typescript:
         specifier: 'catalog:'
         version: 5.8.2
@@ -5174,9 +5174,6 @@ packages:
   '@types/node@18.19.70':
     resolution: {integrity: sha512-RE+K0+KZoEpDUbGGctnGdkrLFwi1eYKTlIHNl2Um98mUkGsm1u2Ff6Ltd0e8DktTtC98uy7rSj+hO8t/QuLoVQ==}
 
-  '@types/node@20.17.27':
-    resolution: {integrity: sha512-U58sbKhDrthHlxHRJw7ZLiLDZGmAUOZUbpw0S6nL27sYUdhvgBLCRu/keSd6qcTsfArd1sRFCCBxzWATGr/0UA==}
-
   '@types/node@20.17.28':
     resolution: {integrity: sha512-DHlH/fNL6Mho38jTy7/JT7sn2wnXI+wULR6PV4gy4VHLVvnrV/d3pHAMQHhc4gjdLmK2ZiPoMxzp6B3yRajLSQ==}
 
@@ -9521,8 +9518,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  testcontainers@10.22.0:
-    resolution: {integrity: sha512-W2ExCkFRaRTg0CysIDdHXY7icdOGyTpAkp2feUBDJpSKv6+5+E7my5h3r6jPMwD8hzloFFhBUavN6qlFH3I3Og==}
+  testcontainers@10.23.0:
+    resolution: {integrity: sha512-sZeij9mAyR9ixlaAmxU/DNb5LQ2duGCBDVjLaI975QGsX3sWatsBMDr4rqnP3IBemLynp+azZBMEfw75YsXMMg==}
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
@@ -15614,7 +15611,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
-      '@types/node': 20.17.27
+      '@types/node': 20.17.28
 
   '@types/cookie@0.4.1': {}
 
@@ -15738,10 +15735,6 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.17.27':
-    dependencies:
-      undici-types: 6.19.8
-
   '@types/node@20.17.28':
     dependencies:
       undici-types: 6.19.8
@@ -15779,7 +15772,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 20.17.27
+      '@types/node': 20.17.28
 
   '@types/shimmer@1.2.0': {}
 
@@ -21147,7 +21140,7 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  testcontainers@10.22.0:
+  testcontainers@10.23.0:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@types/dockerode': 3.3.35
