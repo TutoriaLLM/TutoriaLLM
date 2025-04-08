@@ -140,18 +140,49 @@ export const BlocklyEditor = ({
 				);
 			}
 
+			let highlightTimerId: number | null = null;
+
+			const handleWorkspaceChange = (event: Blockly.Events.Abstract) => {
+				if (isRelevantChange(event) && blockNameToHighlight) {
+					if (highlightTimerId !== null) {
+						clearTimeout(highlightTimerId);
+					}
+
+					highlightTimerId = window.setTimeout(() => {
+						if (toolboxHighlighterRef.current && blockNameToHighlight) {
+							toolboxHighlighterRef.current.highlightBlock(
+								blockNameToHighlight,
+							);
+						}
+						highlightTimerId = null;
+					}, 10);
+				}
+			};
+
+			workspace.addChangeListener(handleWorkspaceChange);
 			if (blockNameToHighlight) {
+				console.log("highlightBlock");
 				toolboxHighlighterRef.current.highlightBlock(blockNameToHighlight);
 			} else {
+				console.log("disposeHighlight");
 				toolboxHighlighterRef.current.disposeHighlight();
 			}
+
+			return () => {
+				// クリーンアップ時にイベントリスナーを削除
+				workspace.removeChangeListener(handleWorkspaceChange);
+
+				// タイマーがあればクリア
+				if (highlightTimerId !== null) {
+					clearTimeout(highlightTimerId);
+				}
+
+				if (toolboxHighlighterRef.current) {
+					toolboxHighlighterRef.current.disposeHighlight();
+					toolboxHighlighterRef.current = null;
+				}
+			};
 		}
-		return () => {
-			if (toolboxHighlighterRef.current) {
-				toolboxHighlighterRef.current.disposeHighlight();
-				toolboxHighlighterRef.current = null;
-			}
-		};
 	}, [blockNameToHighlight, workspace]);
 
 	//highlight specified block by id
@@ -290,6 +321,7 @@ const useBlocklyWorkspace = ({
 	// call handleWorkspaceChanged when its changed
 
 	useEffect(() => {
+		console.log("useEffect");
 		if (workspace === null) {
 			return undefined;
 		}
