@@ -2,7 +2,7 @@ packages:
  - 'apps/*'
  - 'packages/*'
 catalog:
-  better-auth: 1.1.19
+  better-auth: 1.1.21
   blockly: 11.2.2
   dotenv: 16.4.7
   hono: 4.7.5
