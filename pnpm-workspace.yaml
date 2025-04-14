@@ -5,7 +5,7 @@ catalog:
   better-auth: 1.1.19
   blockly: 11.2.2
   dotenv: 16.4.7
-  hono: 4.7.5
+  hono: 4.7.6
   rfc6902: 5.1.2
   tsx: 4.19.3
   js-yaml: 4.1.0
