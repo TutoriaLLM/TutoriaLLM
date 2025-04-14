@@ -298,8 +298,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8
       testcontainers:
-        specifier: 10.24.0
-        version: 10.24.0
+        specifier: 10.24.2
+        version: 10.24.2
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -6367,8 +6367,8 @@ packages:
     resolution: {integrity: sha512-ens7BiayssQz/uAxGzH8zGXCtiV24rRWXdjNha5V4zSOcxmAZsfGVm/PPFbwQdqEkDnhG+SyR9E3zSHUbOKXBQ==}
     engines: {node: '>= 8.0'}
 
-  dockerode@4.0.4:
-    resolution: {integrity: sha512-6GYP/EdzEY50HaOxTVTJ2p+mB5xDHTMJhS+UoGrVyS6VC+iQRh7kZ4FRpUYq6nziby7hPqWhOrFFUFTMUZJJ5w==}
+  dockerode@4.0.5:
+    resolution: {integrity: sha512-ZPmKSr1k1571Mrh7oIBS/j0AqAccoecY2yH420ni5j1KyNMgnoTh4Nu4FWunh0HZIJmRSmSysJjBIpa/zyWUEA==}
     engines: {node: '>= 8.0'}
 
   dom-accessibility-api@0.5.16:
@@ -9555,9 +9555,6 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  tar-fs@2.0.1:
-    resolution: {integrity: sha512-6tzWDMeroL87uF/+lin46k+Q+46rAJ0SyPGz7OW7wTgblI273hsBqk2C1j0/xNadNLKDTUL9BukSjB7cwgmlPA==}
-
   tar-fs@2.1.2:
     resolution: {integrity: sha512-EsaAXwxmx8UB7FRKqeozqEPop69DXcmYwTQwXvyAPF352HJsPdkVhvTaDPYqfNgruveJIJy3TA2l+2zj8LJIJA==}
 
@@ -9584,8 +9581,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  testcontainers@10.24.0:
-    resolution: {integrity: sha512-akkNb3LO2IhxnJzl5kj6dDt2c5q0bWHSTUSLSsqqLuZkaJTYCyWCE76uSzJLGpCkASV7Bw4XOOKvn4Tu0GHeFA==}
+  testcontainers@10.24.2:
+    resolution: {integrity: sha512-Don3EXEQuSw14+nFG9pj48fL9ck/jXDfR9Rb0K3acOyn/gg97+gsnfZaLzpdejl9GcPJVKxACNRe3SYVC2uWqg==}
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
@@ -17248,14 +17245,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  dockerode@4.0.4:
+  dockerode@4.0.5:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@grpc/grpc-js': 1.12.5
       '@grpc/proto-loader': 0.7.13
       docker-modem: 5.0.6
       protobufjs: 7.4.0
-      tar-fs: 2.0.1
+      tar-fs: 2.1.2
       uuid: 10.0.0
     transitivePeerDependencies:
       - supports-color
@@ -21265,13 +21262,6 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  tar-fs@2.0.1:
-    dependencies:
-      chownr: 1.1.4
-      mkdirp-classic: 0.5.3
-      pump: 3.0.2
-      tar-stream: 2.2.0
-
   tar-fs@2.1.2:
     dependencies:
       chownr: 1.1.4
@@ -21319,7 +21309,7 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  testcontainers@10.24.0:
+  testcontainers@10.24.2:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@types/dockerode': 3.3.35
@@ -21328,7 +21318,7 @@ snapshots:
       byline: 5.0.0
       debug: 4.4.0(supports-color@5.5.0)
       docker-compose: 0.24.8
-      dockerode: 4.0.4
+      dockerode: 4.0.5
       get-port: 7.1.0
       proper-lockfile: 4.1.2
       properties-reader: 2.3.0
