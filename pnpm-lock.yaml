@@ -93,8 +93,8 @@ importers:
         specifier: 3.1.1
         version: 3.1.1(@types/debug@4.1.12)(@types/node@20.17.30)(jsdom@26.0.0)(msw@2.7.4(@types/node@20.17.30)(typescript@5.8.3))(terser@5.37.0)
       wireit:
-        specifier: 0.14.11
-        version: 0.14.11
+        specifier: 0.14.12
+        version: 0.14.12
 
   apps/backend:
     dependencies:
@@ -10317,8 +10317,8 @@ packages:
     resolution: {integrity: sha512-c9bZp7b5YtRj2wOe6dlj32MK+Bx/M/d+9VB2SHM1OtsUHR0aV0tdP6DWh/iMt0kWi1t5g1Iudu6hQRNd1A4PVA==}
     engines: {node: '>=18'}
 
-  wireit@0.14.11:
-    resolution: {integrity: sha512-edO3AiL1wYlBIapwx8e1OGEmsG37sv7qnRzx4YDsMPcKo+6NMOjWYcfRbaeoB1MzakLrnozWB2Q1q7Ko45NckA==}
+  wireit@0.14.12:
+    resolution: {integrity: sha512-gNSd+nZmMo6cuICezYXRIayu6TSOeCSCDzjSF0q6g8FKDsRbdqrONrSZYzdk/uBISmRcv4vZtsno6GyGvdXwGA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -22074,7 +22074,7 @@ snapshots:
     dependencies:
       string-width: 7.2.0
 
-  wireit@0.14.11:
+  wireit@0.14.12:
     dependencies:
       brace-expansion: 4.0.0
       chokidar: 3.6.0
