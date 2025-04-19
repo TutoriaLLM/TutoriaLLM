@@ -238,7 +238,9 @@
     "emailDescription": "User's email for authentication",
     "all": "all",
     "searchByText": "search by username",
-    "anonymous": "Guest user"
+    "anonymous": "Guest user",
+    "originalContent": "original content",
+    "markdownEditor": "markdown editor"
   },
   "quickReply": {
     "WhatINeed": "What I need to do?",
