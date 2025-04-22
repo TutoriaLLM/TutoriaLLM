@@ -101,7 +101,7 @@
     "@types/react-dom": "18.3.6",
     "@types/uuid": "9.0.8",
     "axe-html-reporter": "2.2.11",
-    "msw": "2.7.4",
+    "msw": "2.7.5",
     "rollup-plugin-visualizer": "5.14.0",
     "typescript": "catalog:"
   },
