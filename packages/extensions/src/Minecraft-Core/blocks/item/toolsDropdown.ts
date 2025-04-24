@@ -5,6 +5,9 @@ import type { Block } from "@/types/block";
 import type { Locale } from "@/types/locale";
 import "@blockly/field-grid-dropdown";
 
+const cdnUrl =
+	"https://cdn.jsdelivr.net/gh/Tutoriallm/bedrock-samples@main/resource_pack/textures/items";
+
 export const block = {
 	type: "ext_minecraft_var_toolsDropdown",
 	message0: "%{BKY_MINECRAFT_VAR_TOOLSDROPDOWN}",
@@ -17,7 +20,7 @@ export const block = {
 			options: [
 				[
 					{
-						src: "/minecraft/fishing_rod_uncast.png",
+						src: `${cdnUrl}/fishing_rod_uncast.png`,
 						width: 30,
 						height: 30,
 						alt: "Fishing Rod",
@@ -26,7 +29,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stick.png",
+						src: `${cdnUrl}/stick.png`,
 						width: 30,
 						height: 30,
 						alt: "Stick",
@@ -35,7 +38,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/apple.png",
+						src: `${cdnUrl}/apple.png`,
 						width: 30,
 						height: 30,
 						alt: "Apple",
@@ -44,7 +47,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/bow_standby.png",
+						src: `${cdnUrl}/bow_standby.png`,
 						width: 30,
 						height: 30,
 						alt: "Bow",
@@ -53,7 +56,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/fireworks.png",
+						src: `${cdnUrl}/fireworks.png`,
 						width: 30,
 						height: 30,
 						alt: "Firework Rocket",
@@ -62,7 +65,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/flint_and_steel.png",
+						src: `${cdnUrl}/flint_and_steel.png`,
 						width: 30,
 						height: 30,
 						alt: "Flint and Steel",
@@ -71,7 +74,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/spyglass.png",
+						src: `${cdnUrl}/spyglass.png`,
 						width: 30,
 						height: 30,
 						alt: "Spyglass",
@@ -80,7 +83,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/wood_axe.png",
+						src: `${cdnUrl}/wood_axe.png`,
 						width: 30,
 						height: 30,
 						alt: "Wooden Axe",
@@ -89,7 +92,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_axe.png",
+						src: `${cdnUrl}/stone_axe.png`,
 						width: 30,
 						height: 30,
 						alt: "Stone Axe",
@@ -98,7 +101,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_axe.png",
+						src: `${cdnUrl}/iron_axe.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron Axe",
@@ -107,7 +110,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_axe.png",
+						src: `${cdnUrl}/diamond_axe.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond Axe",
@@ -116,7 +119,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_axe.png",
+						src: `${cdnUrl}/gold_axe.png`,
 						width: 30,
 						height: 30,
 						alt: "Golden Axe",
@@ -125,7 +128,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/netherite_axe.png",
+						src: `${cdnUrl}/netherite_axe.png`,
 						width: 30,
 						height: 30,
 						alt: "Netherite Axe",
@@ -134,7 +137,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/wood_shovel.png",
+						src: `${cdnUrl}/wood_shovel.png`,
 						width: 30,
 						height: 30,
 						alt: "Wooden Shovel",
@@ -143,7 +146,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_shovel.png",
+						src: `${cdnUrl}/stone_shovel.png`,
 						width: 30,
 						height: 30,
 						alt: "Stone Shovel",
@@ -152,7 +155,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_shovel.png",
+						src: `${cdnUrl}/iron_shovel.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron Shovel",
@@ -161,7 +164,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_shovel.png",
+						src: `${cdnUrl}/diamond_shovel.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond Shovel",
@@ -170,7 +173,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_shovel.png",
+						src: `${cdnUrl}/gold_shovel.png`,
 						width: 30,
 						height: 30,
 						alt: "Golden Shovel",
@@ -179,7 +182,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/netherite_shovel.png",
+						src: `${cdnUrl}/netherite_shovel.png`,
 						width: 30,
 						height: 30,
 						alt: "Netherite Shovel",
@@ -188,7 +191,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/wood_pickaxe.png",
+						src: `${cdnUrl}/wood_pickaxe.png`,
 						width: 30,
 						height: 30,
 						alt: "Wooden Pickaxe",
@@ -197,7 +200,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_pickaxe.png",
+						src: `${cdnUrl}/stone_pickaxe.png`,
 						width: 30,
 						height: 30,
 						alt: "Stone Pickaxe",
@@ -206,7 +209,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_pickaxe.png",
+						src: `${cdnUrl}/iron_pickaxe.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron Pickaxe",
@@ -215,7 +218,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_pickaxe.png",
+						src: `${cdnUrl}/diamond_pickaxe.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond Pickaxe",
@@ -224,7 +227,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_pickaxe.png",
+						src: `${cdnUrl}/gold_pickaxe.png`,
 						width: 30,
 						height: 30,
 						alt: "Golden Pickaxe",
@@ -233,7 +236,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/netherite_pickaxe.png",
+						src: `${cdnUrl}/netherite_pickaxe.png`,
 						width: 30,
 						height: 30,
 						alt: "Netherite Pickaxe",
@@ -242,7 +245,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/wood_hoe.png",
+						src: `${cdnUrl}/wood_hoe.png`,
 						width: 30,
 						height: 30,
 						alt: "Wooden Hoe",
@@ -251,7 +254,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_hoe.png",
+						src: `${cdnUrl}/stone_hoe.png`,
 						width: 30,
 						height: 30,
 						alt: "Stone Hoe",
@@ -260,7 +263,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_hoe.png",
+						src: `${cdnUrl}/iron_hoe.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron Hoe",
@@ -269,7 +272,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_hoe.png",
+						src: `${cdnUrl}/diamond_hoe.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond Hoe",
@@ -278,7 +281,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_hoe.png",
+						src: `${cdnUrl}/gold_hoe.png`,
 						width: 30,
 						height: 30,
 						alt: "Golden Hoe",
@@ -287,7 +290,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/netherite_hoe.png",
+						src: `${cdnUrl}/netherite_hoe.png`,
 						width: 30,
 						height: 30,
 						alt: "Netherite Hoe",
@@ -296,7 +299,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/wood_sword.png",
+						src: `${cdnUrl}/wood_sword.png`,
 						width: 30,
 						height: 30,
 						alt: "Wooden Sword",
@@ -305,7 +308,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_sword.png",
+						src: `${cdnUrl}/stone_sword.png`,
 						width: 30,
 						height: 30,
 						alt: "Stone Sword",
@@ -314,7 +317,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_sword.png",
+						src: `${cdnUrl}/iron_sword.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron Sword",
@@ -323,7 +326,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_sword.png",
+						src: `${cdnUrl}/diamond_sword.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond Sword",
@@ -332,7 +335,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_sword.png",
+						src: `${cdnUrl}/gold_sword.png`,
 						width: 30,
 						height: 30,
 						alt: "Golden Sword",
@@ -341,7 +344,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/netherite_sword.png",
+						src: `${cdnUrl}/netherite_sword.png`,
 						width: 30,
 						height: 30,
 						alt: "Netherite Sword",
