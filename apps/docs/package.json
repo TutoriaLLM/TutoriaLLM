@@ -23,6 +23,6 @@
     "typescript": "catalog:"
   },
   "devDependencies": {
-    "vite": "5.4.9"
+    "vite": "5.4.12"
   }
 }
