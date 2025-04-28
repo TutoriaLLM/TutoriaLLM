@@ -62,7 +62,7 @@
     "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "lucide-react": "0.381.0",
-    "nodemon": "3.1.9",
+    "nodemon": "3.1.10",
     "postcss": "8.4.47",
     "react": "18.3.1",
     "react-cookie": "7.2.2",
