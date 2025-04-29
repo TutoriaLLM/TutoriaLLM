@@ -12,7 +12,7 @@ import {
 import { uuidv7 } from "uuidv7";
 
 const s3Client = new S3Client({
-	region: process.env.S3_REGION,
+	region: process.env.S3_REGION ?? "ap-northeast-1",
 	endpoint: process.env.S3_ENDPOINT,
 	forcePathStyle: true,
 	credentials: {

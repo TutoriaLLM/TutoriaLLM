@@ -34,7 +34,7 @@ const app = createHonoApp()
 	.openapi(getImage, async (c) => {
 		const fileName = c.req.valid("param").fileName;
 		const file = await getFile(bucketName, fileName);
-		const byteArray = await file.Body?.transformToByteArray();
+		const byteArray = file.Body ? await file.Body.transformToByteArray() : null;
 		if (!byteArray) {
 			return errorResponse(c, {
 				type: "NOT_FOUND",
