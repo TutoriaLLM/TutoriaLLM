@@ -222,8 +222,8 @@ importers:
         specifier: 1.18.1
         version: 1.18.1(debug@4.4.0)
       http-proxy-middleware:
-        specifier: 3.0.3
-        version: 3.0.3
+        specifier: 3.0.5
+        version: 3.0.5
       inquirer:
         specifier: 12.3.0
         version: 12.3.0(@types/node@20.17.31)
@@ -7374,8 +7374,8 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
-  http-proxy-middleware@3.0.3:
-    resolution: {integrity: sha512-usY0HG5nyDUwtqpiZdETNbmKtw3QQ1jwYFZ9wi5iHzX2BcILwQKtYDJPo7XHTsu5Z0B2Hj3W9NNnbd+AjFWjqg==}
+  http-proxy-middleware@3.0.5:
+    resolution: {integrity: sha512-GLZZm1X38BPY4lkXA01jhwxvDoOkkXqjgVyUzVxiEK4iuRu03PZoYHhHRwxnfhQMDuaxi3vVri0YgSro/1oWqg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   http-proxy@1.18.1:
@@ -18698,7 +18698,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@3.0.3:
+  http-proxy-middleware@3.0.5:
     dependencies:
       '@types/http-proxy': 1.17.16
       debug: 4.4.0(supports-color@5.5.0)
