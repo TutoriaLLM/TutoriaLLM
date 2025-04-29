@@ -108,7 +108,10 @@
   "wireit": {
     "dev": {
       "command": "vite",
-      "dependencies": ["../../packages/extensions:build", "../backend:build"],
+      "dependencies": [
+        "../../packages/extensions:build",
+        "../backend:build"
+      ],
       "service": {
         "readyWhen": {
           "lineMatches": "Local:   http://localhost:\\d+/"
@@ -117,20 +120,40 @@
     },
     "build": {
       "command": "vite build",
-      "files": ["src", "tsconfig.json", "package.json"],
-      "output": ["dist"],
-      "dependencies": ["../../packages/extensions:build", "../backend:build", "type:check"]
+      "files": [
+        "src",
+        "tsconfig.json",
+        "package.json"
+      ],
+      "output": [
+        "dist"
+      ],
+      "dependencies": [
+        "../../packages/extensions:build",
+        "../backend:build",
+        "type:check"
+      ]
     },
     "start": {
       "command": "cross-env NODE_ENV=production vite preview",
-      "dependencies": ["../../packages/extensions:build", "../backend:build"]
+      "dependencies": [
+        "../../packages/extensions:build",
+        "../backend:build"
+      ]
     },
     "type:check": {
       "command": "tsc --noEmit",
-      "files": ["src", "package.json", "tsconfig.json"],
+      "files": [
+        "src",
+        "package.json",
+        "tsconfig.json"
+      ],
       "output": [],
-      "dependencies": ["../../packages/extensions:build", "../backend:build"]
+      "dependencies": [
+        "../../packages/extensions:build",
+        "../backend:build"
+      ]
     }
   },
-  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
+  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
 }
