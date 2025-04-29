@@ -17,7 +17,7 @@ import {
 	highlightedBlockState,
 } from "@/state.js";
 import type { SessionValue, Tab } from "@/type.js";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { MessageCircleMore, PanelRightClose, Puzzle } from "lucide-react";
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -44,7 +44,9 @@ export function CodeEditor({
 	const [blockNameToHighlight, setBlockNameToHighlight] = useAtom(
 		blockNameFromMenuState,
 	);
-	const highlightedBlock = useAtomValue(highlightedBlockState);
+	const [highlightedBlock, setHighlightedBlock] = useAtom(
+		highlightedBlockState,
+	);
 	const [isMenuOpen, setIsMenuOpen] = useState(true);
 	const [workspaceJson, setWorkspaceJson] = useState<
 		SessionValue["workspace"] | null
@@ -146,6 +148,7 @@ export function CodeEditor({
 										blockNameToHighlight={blockNameToHighlight}
 										setBlockNameToHighlight={setBlockNameToHighlight}
 										blockIdToHighlight={highlightedBlock}
+										setBlockIdToHighlight={setHighlightedBlock}
 										language={currentSession?.language ?? "en"}
 										workspaceJson={workspaceJson ?? undefined}
 										setWorkspaceJson={setCurrentSessionWorkspace}
@@ -172,6 +175,7 @@ export function CodeEditor({
 										blockNameToHighlight={blockNameToHighlight}
 										setBlockNameToHighlight={setBlockNameToHighlight}
 										blockIdToHighlight={highlightedBlock}
+										setBlockIdToHighlight={setHighlightedBlock}
 										language={currentSession?.language ?? "en"}
 										workspaceJson={workspaceJson ?? undefined}
 										setWorkspaceJson={setCurrentSessionWorkspace}

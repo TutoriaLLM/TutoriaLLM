@@ -37,7 +37,8 @@
     "emailDescription": "あなたのメールアドレス",
     "passwordDescription": "パスワードを入力してください",
     "internalServerError": "サーバーエラーが発生しました。",
-    "unknownError": "エラーが発生しました。"
+    "unknownError": "エラーが発生しました。",
+    "editIcon": "アイコンの編集"
   },
   "navbar": {
     "saveAndLeave": "保存してやめる",
@@ -183,17 +184,17 @@
     "generatingMarkdown": "生成中...",
     "lastUpdatedTime": "最終更新時間",
     "metadata": "メタデータ",
-    "metadataGenerator": "メタデータジェネレーター",
+    "metadataGenerator": "メタデータの生成",
     "noDate": "日付なし",
     "noEmail": "メールなし",
     "noName": "名前なし",
     "noUsername": "ユーザー名がありません",
     "notSelected": "選択されていません",
-    "originalMd": "オリジナルの値下げ",
+    "originalMd": "オリジナルのマークダウン",
     "originalMetaData": "元のメタデータ",
     "password": "パスワード",
-    "refineContent": "コンテンツを絞り込む",
-    "refineMetadata": "メタデータを絞り込む",
+    "refineContent": "コンテンツを生成",
+    "refineMetadata": "メタデータを生成",
     "role": "役割",
     "selectedTutorial": "選択したチュートリアル",
     "sessionAnalyticsDialog": "セッション分析ダイアログ",
@@ -225,11 +226,16 @@
     "username": "ユーザー名",
     "welcome": "TutoriaLLM へようこそ",
     "workspacePreview": "ワークスペースのプレビュー",
-    "writeContent": "ここにコンテンツを書いてください",
-    "writeMetadata": "ここにメタデータを書き込みます",
+    "writeContent": "コンテンツの書き込み",
+    "writeMetadata": "メタデータの書き込み",
     "projectName": "プロジェクト名",
     "displayNameDescription": "ユーザーの表示名",
-    "emailDescription": "ユーザーの認証用メールアドレス"
+    "emailDescription": "ユーザーの認証用メールアドレス",
+    "all": "全て",
+    "searchByText": "ユーザー名で検索",
+    "anonymous": "ゲストユーザー",
+    "originalContent": "元のコンテンツ",
+    "markdownEditor": "Markdown エディター"
   },
   "quickReply": {
     "HowToUse": "どうやって使うの？",
@@ -309,7 +315,9 @@
     "sessionDeleted": "セッションが削除されました",
     "updatedProjectName": "プロジェクト名を更新しました",
     "failedToUpdateProjectName": "プロジェクト名の更新に失敗しました",
-    "createdUser": "新規ユーザーを作成しました"
+    "createdUser": "新規ユーザーを作成しました",
+    "failedToUpdateIcon": "アイコンの更新に失敗しました",
+    "invalidImageFormat": "無効な画像フォーマットです"
   },
   "auth": {
     "accountNotFound": "アカウントが見つかりません",

@@ -66,7 +66,10 @@ function UserViewer() {
 					{ slug: "users", label: "users" },
 					{
 						slug: userDetail.id,
-						label: `${userDetail.username}(${userDetail.id})` || userDetail.id,
+						// label: `${userDetail.username}(${userDetail.id})` || userDetail.id,
+						label: userDetail.username
+							? userDetail.username
+							: `no username (${userDetail.id})`,
 					},
 				]}
 			/>

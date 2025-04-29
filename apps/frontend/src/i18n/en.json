@@ -71,7 +71,8 @@
     "passwordDescription": "Type your password",
     "confirmPasswordDescription": "Type in to confirm your password",
     "internalServerError": "Server error occurred.",
-    "unknownError": "An error occurred."
+    "unknownError": "An error occurred.",
+    "editIcon": "edit icon"
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -234,7 +235,12 @@
     "password": "Password",
     "projectName": "Project name",
     "displayNameDescription": "This is user's display name",
-    "emailDescription": "User's email for authentication"
+    "emailDescription": "User's email for authentication",
+    "all": "all",
+    "searchByText": "search by username",
+    "anonymous": "Guest user",
+    "originalContent": "original content",
+    "markdownEditor": "markdown editor"
   },
   "quickReply": {
     "WhatINeed": "What I need to do?",
@@ -302,7 +308,9 @@
     "noConfigToSave": "No config value to save",
     "updatedProjectName": "Project name updated",
     "failedToUpdateProjectName": "Failed to update project name",
-    "createdUser": "New user created"
+    "createdUser": "New user created",
+    "failedToUpdateIcon": "Failed to upadte icon",
+    "invalidImageFormat": "Invalid image format"
   },
   "generic": {
     "audio": "Audio",

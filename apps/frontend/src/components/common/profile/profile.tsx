@@ -90,7 +90,13 @@ export function UserAccount(props: { session: AuthSession }) {
 			<div className="flex gap-3 items-center">
 				{session.user.image ? (
 					<Avatar className="w-10 h-10 shrink-0">
-						<AvatarImage src={session.user.image} />
+						<AvatarImage
+							src={
+								session.user.image
+									? `${import.meta.env.VITE_BACKEND_URL}${session.user.image}`
+									: undefined
+							}
+						/>
 						<AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
 					</Avatar>
 				) : (

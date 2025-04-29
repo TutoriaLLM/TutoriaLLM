@@ -1,4 +1,8 @@
-export function getInitials(name: string): string {
+export function getInitials(name: string | null | undefined): string {
+	if (!name) {
+		return "";
+	}
+
 	const trimmedName = name.trim();
 
 	if (trimmedName === "") {

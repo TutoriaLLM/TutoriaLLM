@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "version": "2.0.2",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "dev": "wireit",
@@ -44,6 +44,7 @@
     "better-auth": "catalog:",
     "blockly": "catalog:",
     "boring-avatars": "1.11.2",
+    "browser-image-compression": "2.0.2",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "cmdk": "1.0.4",
@@ -65,6 +66,7 @@
     "nodemon": "3.1.9",
     "postcss": "8.4.47",
     "react": "18.3.1",
+    "react-avatar-editor": "13.0.2",
     "react-cookie": "7.2.2",
     "react-dom": "18.3.1",
     "react-ga4": "2.1.0",
@@ -98,6 +100,7 @@
     "@types/kuromoji": "0.1.3",
     "@types/node": "catalog:",
     "@types/react": "18.3.18",
+    "@types/react-avatar-editor": "13.0.4",
     "@types/react-dom": "18.3.5",
     "@types/uuid": "9.0.8",
     "axe-html-reporter": "2.2.11",

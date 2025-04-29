@@ -30,6 +30,10 @@ import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
 import { useUserList } from "@/hooks/admin/users";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
+import { useDebounce } from "@/hooks/debounce";
+import { useTranslation } from "react-i18next";
 
 export function UserTable(props: {
 	userId: string;
@@ -38,7 +42,7 @@ export function UserTable(props: {
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
 	const { users } = useUserList(search);
-
+	const { t } = useTranslation();
 	function handleSort(field: string) {
 		const newSortOrder =
 			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
@@ -49,6 +53,23 @@ export function UserTable(props: {
 				sortOrder: newSortOrder,
 			},
 		});
+	}
+
+	const [localSearchValue, setLocalSearchValue] = useState(
+		search.searchValue || "",
+	);
+	// after 400ms, update search value
+	const debouncedSearchValue = useDebounce(localSearchValue, 400);
+
+	// debounce search value
+	useEffect(() => {
+		if (debouncedSearchValue !== search.searchValue) {
+			navigate({ search: { ...search, searchValue: debouncedSearchValue } });
+		}
+	}, [debouncedSearchValue]);
+
+	function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
+		navigate({ search: { ...search, role: e.target.value } });
 	}
 
 	const table = useReactTable<UserWithRole>({
@@ -62,6 +83,18 @@ export function UserTable(props: {
 	});
 	return (
 		<AdminBodyWrapper title="Users">
+			<div className="flex gap-2 max-w-md p-3">
+				<Input
+					placeholder={t("admin.searchByText")}
+					value={localSearchValue}
+					onChange={(e) => setLocalSearchValue(e.target.value)}
+				/>
+				<Select value={search.role} onChange={handleFilter}>
+					<option value="">{t("admin.all")}</option>
+					<option value="admin">{t("admin.user")}</option>
+					<option value="user">{t("admin.admin")}</option>
+				</Select>
+			</div>
 			<Table>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (

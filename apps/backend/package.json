@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "private": true,
-  "version": "2.0.2",
+  "version": "2.1.0",
   "type": "module",
   "exports": {
     "./hc": {
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "1.0.11",
+    "@aws-sdk/client-s3": "3.758.0",
     "@hono/node-server": "1.13.8",
     "@hono/node-ws": "1.0.8",
     "@hono/zod-openapi": "0.18.4",
