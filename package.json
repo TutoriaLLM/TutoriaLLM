@@ -34,7 +34,7 @@
     "cspell": "8.19.2",
     "cz-conventional-changelog": "3.3.0",
     "js-yaml": "catalog:",
-    "jsdom": "26.0.0",
+    "jsdom": "26.1.0",
     "sherif": "1.5.0",
     "simple-git-hooks": "2.12.1",
     "vite-tsconfig-paths": "5.0.1",
