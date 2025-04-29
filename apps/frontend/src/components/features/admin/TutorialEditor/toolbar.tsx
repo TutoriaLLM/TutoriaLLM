@@ -141,37 +141,8 @@ export default function Toolbar(props: {
 				connectedNodeIds.includes(node.id),
 			);
 
-			// // Get data from connected nodes
-			// for (const node of connectedNodes as CustomNodeType[]) {
-			// 	if (node.type === "md" || node.type === "mdGen") {
-			// 		if ("source" in node.data) {
-			// 			content = node.data.source || ""; // Provide a default value
-			// 		}
-			// 	} else if (node.type === "metadata" || node.type === "metadataGen") {
-			// 		// Separate tags from metadata
-			// 		if (
-			// 			"title" in node.data &&
-			// 			"description" in node.data &&
-			// 			"selectCount" in node.data
-			// 		) {
-			// 			metadata = {
-			// 				title: node.data.title,
-			// 				description: node.data.description,
-			// 				selectCount: node.data.selectCount || 0,
-			// 			};
-			// 		}
-			// 		if ("tags" in node.data) {
-			// 			tags = node.data.tags.map((tag) => tag);
-			// 		}
-			// 		if ("language" in node.data) {
-			// 			language = node.data.language;
-			// 		}
-			// 	}
-			// }
-
 			function getConnectedNodeData(connectedNodes: CustomNodeType[]) {
-				const isMarkdownNode = (node: CustomNodeType) =>
-					node.type === "md" || node.type === "mdGen";
+				const isMarkdownNode = (node: CustomNodeType) => node.type === "md";
 
 				const isMetadataNode = (node: CustomNodeType) =>
 					node.type === "metadata" || node.type === "metadataGen";
@@ -216,10 +187,6 @@ export default function Toolbar(props: {
 
 			// Serialize node
 			const serializedNodes = JSON.stringify({ nodes, edges });
-
-			// Send data to API
-			console.log(tags);
-
 			if (props.id) {
 				put({
 					id: props.id,
@@ -424,21 +391,6 @@ export default function Toolbar(props: {
 										title={t("admin.example")}
 										description={t("admin.createExample")}
 										icon={<Puzzle />}
-									/>
-								</DropdownMenu.Item>
-								<DropdownMenu.Item
-									className="rounded-xl bg-accent hover:bg-gradient-to-r from-rose-200 to-red-300 cursor-pointer shadow p-1 px-2"
-									onClick={() =>
-										createNodeOnCenter("mdGen", {
-											source: "",
-											editorContent: "",
-										})
-									}
-								>
-									<MenuText
-										title={t("admin.refineContent")}
-										description={t("admin.generateContent")}
-										icon={<Bot />}
 									/>
 								</DropdownMenu.Item>
 							</DropdownMenu.SubContent>

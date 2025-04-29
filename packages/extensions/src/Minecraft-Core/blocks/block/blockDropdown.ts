@@ -5,6 +5,9 @@ import type { Block } from "@/types/block";
 import type { Locale } from "@/types/locale";
 import "@blockly/field-grid-dropdown";
 
+const cdnUrl =
+	"https://cdn.jsdelivr.net/gh/Tutoriallm/bedrock-samples@main/resource_pack/textures/blocks";
+
 export const block = {
 	type: "ext_minecraft_var_blockDropdown",
 	message0: "%{BKY_MINECRAFT_VAR_BLOCKDROPDOWN}",
@@ -17,7 +20,7 @@ export const block = {
 			options: [
 				[
 					{
-						src: "/minecraft/structure_air.png",
+						src: `${cdnUrl}/structure_air.png`,
 						width: 30,
 						height: 30,
 						alt: "Air",
@@ -26,7 +29,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone.png",
+						src: `${cdnUrl}/stone.png`,
 						width: 30,
 						height: 30,
 						alt: "Stone",
@@ -35,7 +38,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/grass_block_side.png",
+						src: `${cdnUrl}/grass_side_carried.png`,
 						width: 30,
 						height: 30,
 						alt: "Grass",
@@ -44,7 +47,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/dirt.png",
+						src: `${cdnUrl}/dirt.png`,
 						width: 30,
 						height: 30,
 						alt: "Dirt",
@@ -53,7 +56,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/cobblestone.png",
+						src: `${cdnUrl}/cobblestone.png`,
 						width: 30,
 						height: 30,
 						alt: "Cobblestone",
@@ -62,7 +65,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_planks.png",
+						src: `${cdnUrl}/planks_oak.png`,
 						width: 30,
 						height: 30,
 						alt: "Planks",
@@ -71,7 +74,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_sapling.png",
+						src: `${cdnUrl}/sapling_oak.png`,
 						width: 30,
 						height: 30,
 						alt: "Sapling",
@@ -80,7 +83,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/bedrock.png",
+						src: `${cdnUrl}/bedrock.png`,
 						width: 30,
 						height: 30,
 						alt: "Bedrock",
@@ -89,7 +92,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/water_placeholder.png",
+						src: `${cdnUrl}/water_placeholder.png`,
 						width: 30,
 						height: 30,
 						alt: "Sand",
@@ -98,7 +101,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/lava_placeholder.png",
+						src: `${cdnUrl}/lava_placeholder.png`,
 						width: 30,
 						height: 30,
 						alt: "Lava",
@@ -107,7 +110,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/sand.png",
+						src: `${cdnUrl}/sand.png`,
 						width: 30,
 						height: 30,
 						alt: "Sand",
@@ -116,7 +119,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gravel.png",
+						src: `${cdnUrl}/gravel.png`,
 						width: 30,
 						height: 30,
 						alt: "Gravel",
@@ -125,7 +128,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_ore.png",
+						src: `${cdnUrl}/gold_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Gold_ore",
@@ -134,7 +137,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_ore.png",
+						src: `${cdnUrl}/iron_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron_ore",
@@ -143,7 +146,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/coal_ore.png",
+						src: `${cdnUrl}/coal_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Coal_ore",
@@ -152,7 +155,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_log.png",
+						src: `${cdnUrl}/log_oak.png`,
 						width: 30,
 						height: 30,
 						alt: "Log",
@@ -161,16 +164,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_leaves.png",
-						width: 30,
-						height: 30,
-						alt: "Leaves",
-					},
-					"LEAVES",
-				],
-				[
-					{
-						src: "/minecraft/sponge.png",
+						src: `${cdnUrl}/sponge.png`,
 						width: 30,
 						height: 30,
 						alt: "Sponge",
@@ -179,7 +173,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/glass.png",
+						src: `${cdnUrl}/glass.png`,
 						width: 30,
 						height: 30,
 						alt: "Glass",
@@ -188,7 +182,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/lapis_ore.png",
+						src: `${cdnUrl}/lapis_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Lapis_ore",
@@ -197,7 +191,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/lapis_block.png",
+						src: `${cdnUrl}/lapis_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Lapis_block",
@@ -206,7 +200,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/dispenser_front.png",
+						src: `${cdnUrl}/dispenser_front_horizontal.png`,
 						width: 30,
 						height: 30,
 						alt: "Dispenser",
@@ -215,7 +209,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/sandstone.png",
+						src: `${cdnUrl}/sandstone_normal.png`,
 						width: 30,
 						height: 30,
 						alt: "Sandstone",
@@ -224,7 +218,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/note_block.png",
+						src: `${cdnUrl}/noteblock.png`,
 						width: 30,
 						height: 30,
 						alt: "Noteblock",
@@ -233,7 +227,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/bed_head_top.png",
+						src: `${cdnUrl}/bed_head_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Bed",
@@ -242,7 +236,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/powered_rail.png",
+						src: `${cdnUrl}/rail_golden.png`,
 						width: 30,
 						height: 30,
 						alt: "Golden_rail",
@@ -251,7 +245,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/detector_rail.png",
+						src: `${cdnUrl}/rail_detector.png`,
 						width: 30,
 						height: 30,
 						alt: "Detector_rail",
@@ -260,7 +254,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/piston_top_sticky.png",
+						src: `${cdnUrl}/piston_top_sticky.png`,
 						width: 30,
 						height: 30,
 						alt: "Sticky_piston",
@@ -270,7 +264,7 @@ export const block = {
 
 				[
 					{
-						src: "/minecraft/piston_top.png",
+						src: `${cdnUrl}/piston_top_normal.png`,
 						width: 30,
 						height: 30,
 						alt: "Piston",
@@ -279,7 +273,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/white_wool.png",
+						src: `${cdnUrl}/wool_colored_white.png`,
 						width: 30,
 						height: 30,
 						alt: "Wool",
@@ -288,7 +282,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/poppy.png",
+						src: `${cdnUrl}/flower_rose.png`,
 						width: 30,
 						height: 30,
 						alt: "Red_flower",
@@ -297,7 +291,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/brown_mushroom.png",
+						src: `${cdnUrl}/mushroom_brown.png`,
 						width: 30,
 						height: 30,
 						alt: "Brown_mushroom",
@@ -306,7 +300,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/red_mushroom.png",
+						src: `${cdnUrl}/mushroom_red.png`,
 						width: 30,
 						height: 30,
 						alt: "Red_mushroom",
@@ -315,7 +309,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/gold_block.png",
+						src: `${cdnUrl}/gold_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Gold_block",
@@ -324,7 +318,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_block.png",
+						src: `${cdnUrl}/iron_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron_block",
@@ -333,7 +327,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/bricks.png",
+						src: `${cdnUrl}/brick.png`,
 						width: 30,
 						height: 30,
 						alt: "Brick_block",
@@ -342,7 +336,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/tnt_top.png",
+						src: `${cdnUrl}/tnt_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Tnt",
@@ -351,7 +345,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/bookshelf.png",
+						src: `${cdnUrl}/bookshelf.png`,
 						width: 30,
 						height: 30,
 						alt: "Bookshelf",
@@ -360,7 +354,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/mossy_cobblestone.png",
+						src: `${cdnUrl}/cobblestone_mossy.png`,
 						width: 30,
 						height: 30,
 						alt: "Mossy_cobblestone",
@@ -369,7 +363,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/obsidian.png",
+						src: `${cdnUrl}/obsidian.png`,
 						width: 30,
 						height: 30,
 						alt: "Obsidian",
@@ -378,7 +372,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/torch.png",
+						src: `${cdnUrl}/torch_on.png`,
 						width: 30,
 						height: 30,
 						alt: "Torch",
@@ -387,7 +381,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/fire_0_placeholder.png",
+						src: `${cdnUrl}/fire_0_placeholder.png`,
 						width: 30,
 						height: 30,
 						alt: "Fire",
@@ -396,7 +390,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/redstone_dust.png",
+						src: `${cdnUrl}/redstone_dust_cross.png`,
 						width: 30,
 						height: 30,
 						alt: "Redstone_wire",
@@ -405,7 +399,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_ore.png",
+						src: `${cdnUrl}/diamond_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond_ore",
@@ -414,7 +408,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/diamond_block.png",
+						src: `${cdnUrl}/diamond_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Diamond_block",
@@ -423,7 +417,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/crafting_table_top.png",
+						src: `${cdnUrl}/crafting_table_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Crafting_table",
@@ -432,7 +426,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/furnace_front.png",
+						src: `${cdnUrl}/furnace_front_on.png`,
 						width: 30,
 						height: 30,
 						alt: "Furnace",
@@ -441,7 +435,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_door_top.png",
+						src: `${cdnUrl}/door_wood.png`,
 						width: 30,
 						height: 30,
 						alt: "Wooden_door",
@@ -450,7 +444,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/ladder.png",
+						src: `${cdnUrl}/ladder.png`,
 						width: 30,
 						height: 30,
 						alt: "Ladder",
@@ -459,7 +453,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/rail.png",
+						src: `${cdnUrl}/rail_normal.png`,
 						width: 30,
 						height: 30,
 						alt: "Rail",
@@ -468,7 +462,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/lever.png",
+						src: `${cdnUrl}/lever.png`,
 						width: 30,
 						height: 30,
 						alt: "Lever",
@@ -477,16 +471,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_pressure_plate.png",
-						width: 30,
-						height: 30,
-						alt: "Stone_Pressure_Plate",
-					},
-					"STONE_PRESSURE_PLATE",
-				],
-				[
-					{
-						src: "/minecraft/iron_door_top.png",
+						src: `${cdnUrl}/door_iron.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron_door",
@@ -495,7 +480,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/redstone_ore.png",
+						src: `${cdnUrl}/redstone_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Redstone_ore",
@@ -504,7 +489,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/redstone_torch.png",
+						src: `${cdnUrl}/redstone_torch_on.png`,
 						width: 30,
 						height: 30,
 						alt: "Redstone_torch",
@@ -513,16 +498,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_button.png",
-						width: 30,
-						height: 30,
-						alt: "Stone_button",
-					},
-					"STONE_BUTTON",
-				],
-				[
-					{
-						src: "/minecraft/ice.png",
+						src: `${cdnUrl}/ice.png`,
 						width: 30,
 						height: 30,
 						alt: "Ice",
@@ -531,25 +507,17 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/snow.png",
+						src: `${cdnUrl}/snow.png`,
 						width: 30,
 						height: 30,
 						alt: "Snow",
 					},
 					"SNOW",
 				],
+
 				[
 					{
-						src: "/minecraft/cactus_side.png",
-						width: 30,
-						height: 30,
-						alt: "Cactus",
-					},
-					"CACTUS",
-				],
-				[
-					{
-						src: "/minecraft/clay.png",
+						src: `${cdnUrl}/clay.png`,
 						width: 30,
 						height: 30,
 						alt: "Clay",
@@ -558,26 +526,17 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/jukebox_top.png",
+						src: `${cdnUrl}/jukebox_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Jukebox",
 					},
 					"JUKEBOX",
 				],
-				[
-					{
-						src: "/minecraft/oak_fence.png",
-						width: 30,
-						height: 30,
-						alt: "Oak_Fence",
-					},
 
-					"OAK_FENCE",
-				],
 				[
 					{
-						src: "/minecraft/netherrack.png",
+						src: `${cdnUrl}/netherrack.png`,
 						width: 30,
 						height: 30,
 						alt: "Netherrack",
@@ -586,7 +545,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/soul_sand.png",
+						src: `${cdnUrl}/soul_sand.png`,
 						width: 30,
 						height: 30,
 						alt: "Soul_sand",
@@ -595,7 +554,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/glowstone.png",
+						src: `${cdnUrl}/glowstone.png`,
 						width: 30,
 						height: 30,
 						alt: "Glowstone",
@@ -604,7 +563,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/nether_portal.png",
+						src: `${cdnUrl}/portal_placeholder.png`,
 						width: 30,
 						height: 30,
 						alt: "Portal",
@@ -613,7 +572,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/cake_top.png",
+						src: `${cdnUrl}/cake_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Cake",
@@ -622,7 +581,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/repeater.png",
+						src: `${cdnUrl}/repeater_on.png`,
 						width: 30,
 						height: 30,
 						alt: "Unpowered_repeater",
@@ -631,7 +590,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/white_stained_glass.png",
+						src: `${cdnUrl}/glass_white.png`,
 						width: 30,
 						height: 30,
 						alt: "Stained_glass",
@@ -640,7 +599,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_trapdoor.png",
+						src: `${cdnUrl}/wooden_trapdoor.png`,
 						width: 30,
 						height: 30,
 						alt: "Trapdoor",
@@ -649,7 +608,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/stone_bricks.png",
+						src: `${cdnUrl}/stonebrick.png`,
 						width: 30,
 						height: 30,
 						alt: "Stonebrick",
@@ -658,7 +617,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/brown_mushroom_block.png",
+						src: `${cdnUrl}/mushroom_block_skin_brown.png`,
 						width: 30,
 						height: 30,
 						alt: "Brown_mushroom_block",
@@ -667,7 +626,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/red_mushroom_block.png",
+						src: `${cdnUrl}/mushroom_block_skin_red.png`,
 						width: 30,
 						height: 30,
 						alt: "Red_mushroom_block",
@@ -676,7 +635,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_bars.png",
+						src: `${cdnUrl}/iron_bars.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron_bars",
@@ -685,7 +644,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/glass_pane_top.png",
+						src: `${cdnUrl}/glass_pane_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Glass_pane",
@@ -694,17 +653,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/bamboo_fence_gate.png",
-						width: 30,
-						height: 30,
-						alt: "Fence_gate",
-					},
-					"FENCE_GATE",
-				],
-
-				[
-					{
-						src: "/minecraft/lily_pad.png",
+						src: `${cdnUrl}/carried_waterlily.png`,
 						width: 30,
 						height: 30,
 						alt: "Waterlily",
@@ -713,7 +662,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/enchanting_table_top.png",
+						src: `${cdnUrl}/enchanting_table_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Enchanting_table",
@@ -722,7 +671,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/brewing_stand.png",
+						src: `${cdnUrl}/brewing_stand.png`,
 						width: 30,
 						height: 30,
 						alt: "Brewing_stand",
@@ -731,7 +680,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/end_portal_frame_top.png",
+						src: `${cdnUrl}/endframe_top.png`,
 						width: 30,
 						height: 30,
 						alt: "End_Portal",
@@ -740,7 +689,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/dragon_egg.png",
+						src: `${cdnUrl}/dragon_egg.png`,
 						width: 30,
 						height: 30,
 						alt: "Dragon_egg",
@@ -749,7 +698,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/redstone_lamp.png",
+						src: `${cdnUrl}/redstone_lamp_on.png`,
 						width: 30,
 						height: 30,
 						alt: "Redstone_lamp",
@@ -758,7 +707,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/emerald_ore.png",
+						src: `${cdnUrl}/emerald_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Emerald_ore",
@@ -767,7 +716,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/tripwire_hook.png",
+						src: `${cdnUrl}/trip_wire_source.png`,
 						width: 30,
 						height: 30,
 						alt: "Tripwire_hook",
@@ -776,7 +725,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/tripwire.png",
+						src: `${cdnUrl}/trip_wire.png`,
 						width: 30,
 						height: 30,
 						alt: "Tripwire",
@@ -785,7 +734,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/emerald_block.png",
+						src: `${cdnUrl}/emerald_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Emerald_block",
@@ -794,7 +743,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/command_block.png",
+						src: `${cdnUrl}/command_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Command Block",
@@ -803,7 +752,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/beacon.png",
+						src: `${cdnUrl}/beacon.png`,
 						width: 30,
 						height: 30,
 						alt: "Beacon",
@@ -812,16 +761,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/oak_button.png",
-						width: 30,
-						height: 30,
-						alt: "Oak_Button",
-					},
-					"oak_button",
-				],
-				[
-					{
-						src: "/minecraft/trapped_chest_front.png",
+						src: `${cdnUrl}/trapped_chest_front.png`,
 						width: 30,
 						height: 30,
 						alt: "Trapped_Chest",
@@ -830,7 +770,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/comparator.png",
+						src: `${cdnUrl}/comparator_on.png`,
 						width: 30,
 						height: 30,
 						alt: "Unpowered_comparator",
@@ -839,7 +779,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/daylight_detector_top.png",
+						src: `${cdnUrl}/daylight_detector_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Daylight_detector",
@@ -848,7 +788,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/redstone_block.png",
+						src: `${cdnUrl}/redstone_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Redstone_block",
@@ -857,7 +797,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/hopper_top.png",
+						src: `${cdnUrl}/hopper_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Hopper",
@@ -866,7 +806,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/nether_quartz_ore.png",
+						src: `${cdnUrl}/quartz_ore.png`,
 						width: 30,
 						height: 30,
 						alt: "Quartz_ore",
@@ -875,7 +815,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/quartz_block_top.png",
+						src: `${cdnUrl}/quartz_block_top.png`,
 						width: 30,
 						height: 30,
 						alt: "Quartz_block",
@@ -884,7 +824,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/activator_rail.png",
+						src: `${cdnUrl}/rail_activator.png`,
 						width: 30,
 						height: 30,
 						alt: "Activator_rail",
@@ -893,7 +833,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/dropper_front.png",
+						src: `${cdnUrl}/dropper_front_horizontal.png`,
 						width: 30,
 						height: 30,
 						alt: "Dropper",
@@ -903,7 +843,7 @@ export const block = {
 
 				[
 					{
-						src: "/minecraft/slime_block.png",
+						src: `${cdnUrl}/slime.png`,
 						width: 30,
 						height: 30,
 						alt: "Slime",
@@ -912,7 +852,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/barrier.png",
+						src: `${cdnUrl}/barrier.png`,
 						width: 30,
 						height: 30,
 						alt: "barrier",
@@ -921,7 +861,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/iron_trapdoor.png",
+						src: `${cdnUrl}/iron_trapdoor.png`,
 						width: 30,
 						height: 30,
 						alt: "Iron_trapdoor",
@@ -931,7 +871,7 @@ export const block = {
 
 				[
 					{
-						src: "/minecraft/hay_block_side.png",
+						src: `${cdnUrl}/hay_block_side.png`,
 						width: 30,
 						height: 30,
 						alt: "Hay_block",
@@ -940,7 +880,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/end_rod.png",
+						src: `${cdnUrl}/end_rod.png`,
 						width: 30,
 						height: 30,
 						alt: "End_rod",
@@ -949,7 +889,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/end_gateway.png",
+						src: `${cdnUrl}/end_gateway.png`,
 						width: 30,
 						height: 30,
 						alt: "End_Gateway",
@@ -958,7 +898,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/observer_front.png",
+						src: `${cdnUrl}/observer_front.png`,
 						width: 30,
 						height: 30,
 						alt: "Observer",
@@ -967,7 +907,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/white_shulker_box.png",
+						src: `${cdnUrl}/shulker_top_white.png`,
 						width: 30,
 						height: 30,
 						alt: "White_shulker_box",
@@ -976,7 +916,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/white_concrete.png",
+						src: `${cdnUrl}/concrete_white.png`,
 						width: 30,
 						height: 30,
 						alt: "Concrete",
@@ -985,7 +925,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/white_concrete_powder.png",
+						src: `${cdnUrl}/concrete_powder_white.png`,
 						width: 30,
 						height: 30,
 						alt: "Concrete_powder",
@@ -994,7 +934,7 @@ export const block = {
 				],
 				[
 					{
-						src: "/minecraft/structure_block.png",
+						src: `${cdnUrl}/structure_block.png`,
 						width: 30,
 						height: 30,
 						alt: "Structure_block",

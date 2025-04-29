@@ -26,27 +26,31 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const [content, setContent] = useState(data.source || "");
 
 	const { t } = useTranslation();
+
+	// メタデータの初期値を適切に設定
 	const initialMetadata = {
 		title: data?.metaData?.title || "",
 		description: data?.metaData?.description || "",
-		tags: data?.metaData?.tags || "",
+		tags: Array.isArray(data?.metaData?.tags)
+			? data.metaData.tags
+			: typeof data?.metaData?.tags === "string"
+				? data.metaData.tags
+				: "",
 		language: data?.metaData?.language || "",
 	};
-	const [generatedMetadata, setGeneratedMetadata] = useState({
-		title: initialMetadata.title,
-		description: initialMetadata.description,
-		tags: initialMetadata.tags,
-		language: initialMetadata.language,
-	});
-	const [isCompared, setIsCompared] = useState(false);
 
+	const [generatedMetadata, setGeneratedMetadata] = useState(initialMetadata);
+	const [isCompared, setIsCompared] = useState(!!data.metaData);
 	const handleDataChange = (metadata: {
 		title: string;
 		description: string;
-		tags: string[];
+		tags: string[] | string;
 		language: string;
 	}) => {
-		updateNodeData(id, { ...data, ...metadata });
+		updateNodeData(id, {
+			...data,
+			metaData: metadata,
+		});
 	};
 
 	const handleDelete = () => {
@@ -61,10 +65,16 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	const nodesData = useNodesData<markdownNode>(
 		metadataConnections.map((connection) => connection.source),
 	);
-	// AI-generated data at initialization, if any
+
+	// 初期化時にメタデータが存在する場合の処理を改善
 	useEffect(() => {
-		if (data.metaData) {
-			setGeneratedMetadata(data.metaData);
+		if (data.metaData && Object.keys(data.metaData).length > 0) {
+			setGeneratedMetadata({
+				title: data.metaData.title || "",
+				description: data.metaData.description || "",
+				tags: data.metaData.tags || "",
+				language: data.metaData.language || "",
+			});
 			setIsGenerated(true);
 			setIsCompared(true);
 		}
@@ -72,9 +82,7 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 
 	useEffect(() => {
 		if (nodesData && nodesData.length > 0) {
-			const mdNode = nodesData.find(
-				(node) => node.type === "md" || node.type === "mdGen",
-			);
+			const mdNode = nodesData.find((node) => node.type === "md");
 			if (mdNode?.data) {
 				const markdownData = mdNode.data as markdownNode["data"];
 				setContent(markdownData.source);
@@ -87,6 +95,11 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 	}, [nodesData]);
 
 	const resetMetadata = () => {
+		// メタデータがすでに存在する場合はリセットしない
+		if (data.metaData && Object.keys(data.metaData).length > 0) {
+			return;
+		}
+
 		handleDataChange({
 			title: "",
 			description: "",
@@ -96,7 +109,7 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 		setGeneratedMetadata({
 			title: "",
 			description: "",
-			tags: [],
+			tags: "",
 			language: "",
 		});
 		setContent("");
@@ -189,7 +202,7 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 				<div className="w-full h-full p-4 bg-gray-100 border-t overflow-y-auto">
 					<div className="flex gap-4 max-w-xl">
 						<div className="w-[50%]">
-							<h4 className="font-semibold">{t("admin.originalMetaData")}</h4>
+							<h4 className="font-semibold">{t("admin.originalContent")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose noscroll select-text overflow-y-auto p-2 border rounded">
 								{content}
 							</pre>
@@ -197,7 +210,10 @@ export function MetadataGen({ id, data }: NodeProps<mdToMetadataNode>) {
 						<div className="w-[50%]">
 							<h4 className="font-semibold">{t("admin.generatedMetaData")}</h4>
 							<pre className="whitespace-pre-wrap break-words bg-gray-300 h-full max-h-80 cursor-text nowheel prose-sm noscroll select-text overflow-y-auto p-2 border rounded">
-								{JSON.stringify(generatedMetadata)}
+								<p>{generatedMetadata.title}</p>
+								<p>{generatedMetadata.description}</p>
+								<p>{generatedMetadata.tags}</p>
+								<p>{generatedMetadata.language}</p>
 							</pre>
 						</div>
 					</div>

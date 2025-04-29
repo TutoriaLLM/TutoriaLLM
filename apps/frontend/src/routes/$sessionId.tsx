@@ -67,7 +67,6 @@ export const Route = createFileRoute("/$sessionId")({
 });
 
 function RouteComponent() {
-	console.log("RouteComponent");
 	const { sessionId } = Route.useParams();
 	const { data: appSession } = useSuspenseQuery(sessionQueryOptions(sessionId));
 
@@ -114,7 +113,6 @@ function RouteComponent() {
 
 			// Apply the difference to currentSession
 			setCurrentSession((prevSession) => {
-				console.log("Received Diff");
 				setPrevSession(prevSession); // Save Previous Session
 				if (prevSession) {
 					const updatedSession = { ...prevSession }; // Create a copy of the current session

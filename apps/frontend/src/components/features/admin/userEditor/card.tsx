@@ -1,6 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import BoringAvatar from "boring-avatars";
 import { getInitials } from "@/utils/initial";
+import { useTranslation } from "react-i18next";
+import { cn } from "@/libs/utils";
 
 const UserCard = ({
 	image,
@@ -17,11 +19,15 @@ const UserCard = ({
 	onClick?: () => void;
 	id: string;
 }) => {
+	const { t } = useTranslation();
 	return (
 		<div
-			className={`max-w-xs min-w-48 shadow flex items-center gap-3 bg-card px-2 py-3 rounded-2xl overflow-clip ${
-				onClick ? "cursor-pointer hover:shadow-lg" : "cursor-default"
-			}`}
+			className={cn(
+				`max-w-xs min-w-48 shadow flex items-center gap-3 bg-card px-2 py-3 rounded-2xl overflow-clip ${
+					onClick ? "cursor-pointer hover:shadow-lg" : "cursor-default"
+				}`,
+				isAnonymous && "bg-destructive-foreground",
+			)}
 			onClick={onClick}
 			onKeyUp={(e) => e.key === "Enter" && onClick?.()}
 		>
@@ -40,7 +46,9 @@ const UserCard = ({
 			)}
 			<div>
 				{isAnonymous ? (
-					<p className="font-semibold ">*Anonymous</p>
+					<p className="font-semibold text-destructive">
+						{t("admin.anonymous")}
+					</p>
 				) : (
 					<p className="font-semibold ">{header}</p>
 				)}

@@ -5,8 +5,6 @@ import {
 } from "@tanstack/react-table";
 import type { UserWithRole } from "better-auth/plugins/admin";
 import { userColumns } from "./column";
-import { authClient } from "@/libs/auth-client";
-import { useEffect, useState } from "react";
 import {
 	Table,
 	TableBody,
@@ -27,12 +25,15 @@ import {
 	ChevronRight,
 	ChevronUp,
 } from "lucide-react";
-import type { z } from "zod";
-import type { userQuerySchema } from "@/routes/admin/users";
 import { getRouteApi } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/select";
 import { AdminBodyWrapper } from "@/components/layout/adminBody";
+import { useUserList } from "@/hooks/admin/users";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
+import { useDebounce } from "@/hooks/debounce";
+import { useTranslation } from "react-i18next";
 
 export function UserTable(props: {
 	userId: string;
@@ -40,46 +41,8 @@ export function UserTable(props: {
 	const routeApi = getRouteApi("/admin/users");
 	const search = routeApi.useSearch();
 	const navigate = routeApi.useNavigate();
-	const [data, setData] = useState<UserWithRole[]>([]);
-
-	async function getUsers({
-		page,
-		limit,
-		sortField,
-		sortOrder,
-		searchField,
-		searchOperator,
-		searchValue,
-		role,
-	}: z.infer<typeof userQuerySchema>) {
-		const query: Record<string, any> = {
-			limit: limit,
-			offset: (page - 1) * limit,
-			sortBy: sortField,
-			sortDirection: sortOrder,
-		};
-
-		if (searchField) query.searchField = searchField;
-		if (searchOperator) query.searchOperator = searchOperator;
-		if (searchValue) query.searchValue = searchValue;
-		if (role) {
-			query.filterField = "role";
-			query.filterValue = role;
-			query.filterOperator = "eq";
-		}
-
-		return await authClient.admin.listUsers({
-			fetchOptions: {},
-			query,
-		});
-	}
-
-	useEffect(() => {
-		getUsers(search).then((users) => {
-			setData(users.data?.users || []);
-		});
-	}, [search]);
-
+	const { users } = useUserList(search);
+	const { t } = useTranslation();
 	function handleSort(field: string) {
 		const newSortOrder =
 			search.sortField === field && search.sortOrder === "asc" ? "desc" : "asc";
@@ -92,9 +55,26 @@ export function UserTable(props: {
 		});
 	}
 
+	const [localSearchValue, setLocalSearchValue] = useState(
+		search.searchValue || "",
+	);
+	// after 400ms, update search value
+	const debouncedSearchValue = useDebounce(localSearchValue, 400);
+
+	// debounce search value
+	useEffect(() => {
+		if (debouncedSearchValue !== search.searchValue) {
+			navigate({ search: { ...search, searchValue: debouncedSearchValue } });
+		}
+	}, [debouncedSearchValue]);
+
+	function handleFilter(e: React.ChangeEvent<HTMLSelectElement>) {
+		navigate({ search: { ...search, role: e.target.value } });
+	}
+
 	const table = useReactTable<UserWithRole>({
 		columns: userColumns(props.userId),
-		data,
+		data: users?.data?.users || [],
 		getCoreRowModel: getCoreRowModel(),
 		manualPagination: true,
 		initialState: {
@@ -103,6 +83,18 @@ export function UserTable(props: {
 	});
 	return (
 		<AdminBodyWrapper title="Users">
+			<div className="flex gap-2 max-w-md p-3">
+				<Input
+					placeholder={t("admin.searchByText")}
+					value={localSearchValue}
+					onChange={(e) => setLocalSearchValue(e.target.value)}
+				/>
+				<Select value={search.role} onChange={handleFilter}>
+					<option value="">{t("admin.all")}</option>
+					<option value="admin">{t("admin.user")}</option>
+					<option value="user">{t("admin.admin")}</option>
+				</Select>
+			</div>
 			<Table>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
@@ -197,7 +189,7 @@ export function UserTable(props: {
 									}),
 								});
 							}}
-							disabled={data.length < search.limit}
+							disabled={(users?.data?.users?.length ?? 0) < search.limit}
 						>
 							<ChevronRight />
 						</Button>
