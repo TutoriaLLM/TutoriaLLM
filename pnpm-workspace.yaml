@@ -3,13 +3,13 @@ packages:
  - 'packages/*'
 catalog:
   better-auth: 1.1.19
-  blockly: 11.1.1
-  dotenv: 16.4.7
-  hono: 4.6.16
+  blockly: 11.2.2
+  dotenv: 16.5.0
+  hono: 4.7.7
   rfc6902: 5.1.2
   tsx: 4.19.3
   js-yaml: 4.1.0
-  zod: 3.24.2
+  zod: 3.24.3
   tailwindcss: 3.4.17
-  "@types/node": 20.17.19
-  typescript: 5.6.3
+  "@types/node": 20.17.31
+  typescript: 5.8.3

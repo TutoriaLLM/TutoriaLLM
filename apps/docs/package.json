@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@astrojs/check": "0.9.4",
-    "@astrojs/starlight": "0.28.6",
+    "@astrojs/starlight": "0.34.1",
     "@astrojs/starlight-tailwind": "2.0.3",
-    "@astrojs/tailwind": "6.0.0",
+    "@astrojs/tailwind": "6.0.2",
     "astro": "4.16.18",
     "astro-embed": "0.7.4",
     "sharp": "0.32.6",
