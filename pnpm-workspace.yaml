@@ -3,6 +3,7 @@ packages:
  - 'packages/*'
 catalog:
   better-auth: 1.1.19
+  vite: 6.0.2
   blockly: 11.2.2
   dotenv: 16.5.0
   hono: 4.7.7

@@ -2,11 +2,19 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightOpenAPI, { openAPISidebarGroups } from "starlight-openapi";
 import starlightLinksValidator from "starlight-links-validator";
-import tailwind from "@astrojs/tailwind";
 import { loadEnv } from "vite";
+
+import tailwindcss from "@tailwindcss/vite";
+import type { ViteUserConfig } from "astro";
 
 // https://astro.build/config
 export default defineConfig({
+	markdown: {
+		shikiConfig: {
+			theme: "github-light",
+		},
+	},
+
 	integrations: [
 		starlight({
 			plugins: [
@@ -31,10 +39,9 @@ export default defineConfig({
 			title: "TutoriaLLM",
 			customCss: [
 				// カスタムCSSファイルへの相対パス
-				"./src/customColour.css",
+				"./src/global.css",
 				"./src/styles.css",
 				"./src/fonts/IBMPlexMono-ExtraLightItalic.css",
-				"./src/tailwind.css",
 			],
 			components: {
 				SiteTitle: "./src/components/SiteTitle.astro",
@@ -54,10 +61,18 @@ export default defineConfig({
 					lang: "en",
 				},
 			},
-			social: {
-				github: "https://github.com/tutoriallm/",
-				discord: "https://discord.gg/zxuREnWVXC",
-			},
+			social: [
+				{
+					icon: "github",
+					label: "GitHub",
+					href: "https://github.com/tutoriallm/",
+				},
+				{
+					icon: "discord",
+					label: "Discord",
+					href: "https://discord.gg/zxuREnWVXC",
+				},
+			],
 			sidebar: [
 				{
 					label: "はじめに",
@@ -90,8 +105,8 @@ export default defineConfig({
 				...openAPISidebarGroups,
 			],
 		}),
-		tailwind({
-			applyBaseStyles: false,
-		}),
 	],
+	vite: {
+		plugins: [tailwindcss()],
+	} as ViteUserConfig,
 });
