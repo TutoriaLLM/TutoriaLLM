@@ -31,8 +31,8 @@ catalogs:
       specifier: 3.4.17
       version: 3.4.17
     tsx:
-      specifier: 4.19.3
-      version: 4.19.3
+      specifier: 4.19.4
+      version: 4.19.4
     typescript:
       specifier: 5.8.3
       version: 5.8.3
@@ -259,7 +259,7 @@ importers:
         version: 2.3.0
       tsx:
         specifier: 'catalog:'
-        version: 4.19.3
+        version: 4.19.4
       uuid:
         specifier: 9.0.1
         version: 9.0.1
@@ -567,7 +567,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.17)
       tsx:
         specifier: 'catalog:'
-        version: 4.19.3
+        version: 4.19.4
       vite:
         specifier: 5.4.9
         version: 5.4.9(@types/node@20.17.32)(terser@5.39.0)
@@ -9607,8 +9607,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.19.3:
-    resolution: {integrity: sha512-4H8vUNGNjQ4V2EOoGw005+c+dGuPSnhpPBPHBtsZdGZBk/iJb4kguGlPWaZTZ3q5nMtFOEsY0nRDlh9PJyd6SQ==}
+  tsx@4.19.4:
+    resolution: {integrity: sha512-gK5GVzDkJK1SI1zwHf32Mqxf2tSJkNx+eYcNly5+nHvWqXUJYUkWBQtKauoESz3ymezAI++ZwT855x5p5eop+Q==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -15416,7 +15416,7 @@ snapshots:
     dependencies:
       '@tanstack/virtual-file-routes': 1.115.0
       prettier: 3.5.3
-      tsx: 4.19.3
+      tsx: 4.19.4
       zod: 3.24.3
     optionalDependencies:
       '@tanstack/react-router': 1.90.0(@tanstack/router-generator@1.117.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -20094,7 +20094,7 @@ snapshots:
       preact: 10.26.5
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      tsx: 4.19.3
+      tsx: 4.19.4
     optionalDependencies:
       unplugin: 2.1.0
     transitivePeerDependencies:
@@ -21235,7 +21235,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.19.3:
+  tsx@4.19.4:
     dependencies:
       esbuild: 0.25.3
       get-tsconfig: 4.10.0
