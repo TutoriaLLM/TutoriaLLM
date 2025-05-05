@@ -99,8 +99,8 @@ importers:
   apps/backend:
     dependencies:
       '@ai-sdk/openai':
-        specifier: 1.3.20
-        version: 1.3.20(zod@3.24.3)
+        specifier: 1.3.21
+        version: 1.3.21(zod@3.24.3)
       '@hono/node-server':
         specifier: 1.14.1
         version: 1.14.1(hono@4.7.8)
@@ -660,8 +660,8 @@ packages:
   '@adobe/css-tools@4.4.2':
     resolution: {integrity: sha512-baYZExFpsdkBNuvGKTKWCwKH57HRZLVtycZS05WTQNVOiXVSeAki3nU35zlRbToeMW8aHlJfyS+1C4BOv27q0A==}
 
-  '@ai-sdk/openai@1.3.20':
-    resolution: {integrity: sha512-/DflUy7ROG9k6n6YTXMBFPbujBKnbGY58f3CwvicLvDar9nDAloVnUWd3LUoOxpSVnX8vtQ7ngxF52SLWO6RwQ==}
+  '@ai-sdk/openai@1.3.21':
+    resolution: {integrity: sha512-ipAhkRKUd2YaMmn7DAklX3N7Ywx/rCsJHVyb0V/lKRqPcc612qAFVbjg+Uve8QYJlbPxgfsM4s9JmCFp6PSdYw==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
@@ -10448,7 +10448,7 @@ snapshots:
 
   '@adobe/css-tools@4.4.2': {}
 
-  '@ai-sdk/openai@1.3.20(zod@3.24.3)':
+  '@ai-sdk/openai@1.3.21(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
