@@ -3,32 +3,29 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
 
-env:
-  WORKING_DIRECTORY: application
-
 jobs:
   test:
     name: Run test codes
     if: |
       github.event.pull_request.draft == false
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.WORKING_DIRECTORY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version-file: ${{ env.WORKING_DIRECTORY }}/package.json
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          node-version-file: './package.json'
+          cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install
       - name: Run Vitest
-        run: npx vitest --coverage.enabled true
+        run: pnpm test:coverage
       - name: Show coverage
         uses: davelosert/vitest-coverage-report-action@v2
-        with:
-          working-directory: ${{ env.WORKING_DIRECTORY }}
