@@ -12,20 +12,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 9
           run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: './package.json'
           cache: 'pnpm'
           cache-dependency-path: '**/pnpm-lock.yaml'
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Run Vitest
         run: pnpm test:coverage
+
       - name: Show coverage
         uses: davelosert/vitest-coverage-report-action@v2
