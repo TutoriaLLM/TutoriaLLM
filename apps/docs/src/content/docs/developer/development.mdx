@@ -2,7 +2,7 @@
 title: アプリケーションを開発する
 description: TutoriaLLMの開発に関する情報を提供します。
 sidebar:
-  order: 2
+  order: 3
 ---
 
 import {
@@ -13,23 +13,6 @@ import {
   Icon,
   Code,
 } from "@astrojs/starlight/components";
-
-## TutoriaLLMのリポジトリ構成
-
-![リポジトリ構成](../../media/images/stacks.png)
-
-TutoriaLLMには、フロントエンドとバックエンドの２つのシステムがあります。フロントエンドは、React+Vite+Tanstack Router で構築されており、バックエンドは、Hono+Node.js で構築されています。また、データベースとして PostgreSQLを使用しています。
-また、これらの２つのシステムに拡張機能を提供するExtensionシステムがあります。これにより、Minecraftなど外部のアプリケーションと連携する機能を構築することができます。
-
-### フロントエンド
-
-フロントエンドは、React+Vite+Tanstack Router で構築されています。任意のエディタを使用してコードを編集し、Node.jsを利用したローカル環境でアプリを利用することができます。
-
-### バックエンド
-
-バックエンドは、Hono+Node.js で構築されています。データベースとして PostgreSQLを使用する必要があります。バックエンドは、フロントエンドと連携して、アプリケーションのデータを管理します。
-また、バックエンドはDocker imageとして提供されており、Docker compose などを使用してデータベースと接続した上で、サーバーにデプロイすることができます。
-このページでは、開発目的のために、ローカル環境でアプリを利用する方法を説明します。
 
 ## リポジトリのクローン
 
@@ -45,17 +28,19 @@ GitHub リポジトリをクローンして、開発を行います。お好み�
 
 以下は環境変数の例です。`/apps/frontend/.env` と `/apps/backend/.env` に設定してください。
 
-`/apps/frontend/.env`
+<Code code={
+  `
+  VITE_BACKEND_URL=http://localhost:3001
+  `
+} lang="env" title="/apps/frontend/.env" />
 
-```env
-VITE_BACKEND_URL=http://localhost:3001
-```
-
-`/apps/backend/.env`
-
-```env
+<Code code={
+  `
 OPENAI_API_KEY="sk-xxxxxx"
 OPENAI_API_ENDPOINT="https://your-openai-api-endpoint"
+BETTER_AUTH_URL="http://localhost:3001"
+BETTER_AUTH_SECRET=dummyDummyDummy
+
 
 CORS_ORIGIN="http://localhost:3000"
 POSTGRES_USER=postgres
@@ -69,15 +54,29 @@ EMAIL="example@example.com"
 
 DEFAULT_USER_PASSWORD="admin"
 DEFAULT_USER_NAME="admin"
-```
+
+S3_USER="s3_root"
+S3_PASSWORD="s3_password"
+S3_ACCESS_KEY_ID="s3_access_key_id"
+S3_SECRET_ACCESS_KEY="s3_secret_access_key"
+  `
+} lang="env" title="/apps/backend/.env" />
+
+ドキュメンテーション(apps/docs)の開発サーバーを利用する際は、環境変数を、`/apps/docs/.env` に設定してください。
+
+<Code code={
+  `
+  OPENAPI_DOCS_URL=http://localhost:3001
+  `
+} lang="env" title="/apps/docs/.env" />
 
 ## データベースとの接続
 
 TutoriaLLM は、PostgreSQLと接続する必要があります。また、vector が利用できる PostgreSQL が必要です。ここでは、Docker composeを使用してpgvectorを利用する方法を説明します。
 
-import composeExample from "../../media/code/docker-compose.yml?raw";
+import composeExample from "../../media/code/docker-compose.pg.yml?raw";
 
-<Code code={composeExample} lang="yaml" title="/docker-compose.yml" />
+<Code code={composeExample} lang="yaml" title="/docker-compose.pg.yml" />
 
 <Aside type="note" title="About Docker">
   Dockerについては、[Docker](https://www.docker.com/)を参照してください。
@@ -85,19 +84,37 @@ import composeExample from "../../media/code/docker-compose.yml?raw";
 
 ## サーバーの起動
 
+### (推奨) Dockerを使用した起動
+
+Docker composeを利用して、フロントエンドとバックエンドを起動します。TutoriaLLMリポジトリ内にある`docker-compose.yml`と、`docker-compose.dev.override.yml`を使用してください。
+
+<Code code={
+  `
+  docker compose -f docker-compose.yml -f docker-compose.dev.override.yml up --build # ビルドして起動
+  docker compose -f docker-compose.yml -f docker-compose.dev.override.yml up # 起動
+  `
+} lang="sh" title="Start the server" />
+
+
+ドキュメンテーションの開発サーバーを起動する必要がある場合はpnpmを使用してください。
+
+### pnpmを使用した起動
+
+pnpmを利用することで、個別にフロントエンドとバックエンドを起動することができます。
+
 データベースを起動します。
 
-```sh
+<Code code={
+  `
+  docker compose up
+  `
+} lang="sh" title="Start the database" />
 
-docker compose up
+フロントエンドとバックエンド、必要があればドキュメンテーションを以下のコマンドで起動します。
 
-```
-
-フロントエンドとバックエンドを以下のコマンドで起動します。
-
-```sh
-
-# フロントエンド
+<Code code={
+  `
+  # フロントエンド
 cd apps/frontend
 pnpm i && pnpm dev
 
@@ -105,7 +122,11 @@ pnpm i && pnpm dev
 cd apps/backend
 pnpm i && pnpm dev
 
-```
+# ドキュメンテーション
+cd apps/docs
+pnpm i && pnpm dev
+  `
+} lang="sh" title="Start the development server" />
 
 <Aside type="note" title="ノート">
   TutoriaLLMでは、デフォルトでは3000をフロントエンドに、3001をapiのエントリーポイントのポートとして使用しています。
@@ -116,26 +137,36 @@ pnpm i && pnpm dev
 このリポジトリでは、pnpm workspaceを使用して、フロントエンドとバックエンドで型定義を共有しています。
 型定義はバックエンドで定義し、フロントエンドで使用することができます。
 
-```sh
-# バックエンドで型定義を生成
-cd apps/backend
-pnpm run build
-```
+<Code code={
+  `
+  # バックエンドで型定義を生成
+  cd apps/backend
+  pnpm run build
+  `
+} lang="sh" title="Build the type definitions" />
+
+## テスト
+
+ルートディレクトリで、以下のコマンドでテストを実行します。
+
+<Code code={
+  `
+  pnpm test
+  `
+} lang="sh" title="Test" />
 
 ## 拡張機能の開発
 
 拡張機能は、デフォルトでは`/packages/extensions`に配置されています。拡張機能を作成する場合は、このディレクトリに配置してください。
 index.tsでエクスポートされた値をフロントエンドとバックエンドが読み込むために利用します。
 
-<Aside type="note" title="ノート">
-  将来的なバージョンでは、拡張機能のディレクトリ構造が変更される可能性があります。
-</Aside>
-
 拡張機能を定義した後、以下のコマンドでビルドします。
 
-```sh
-# 拡張機能のビルド
-pnpm run build
-```
+<Code code={
+  `
+  # 拡張機能のビルド
+  pnpm run build
+  `
+} lang="sh" title="Build the extension" />
 
-ビルド後、自動的にフロントエンドとバックエンドに型定義が共有されます。
+ビルド後、再度フロントエンドとバックエンドを起動してください。
