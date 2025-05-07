@@ -93,15 +93,7 @@ export default defineConfig({
 						collapsed: true,
 					},
 				},
-				{
-					label: "リファレンス",
-					translations: {
-						en: "Reference",
-					},
-					autogenerate: {
-						directory: "reference",
-					},
-				},
+
 				...openAPISidebarGroups,
 			],
 		}),
