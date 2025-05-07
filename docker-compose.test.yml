@@ -1,0 +1,40 @@
+services:
+  minio:
+    image: minio/minio:latest
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: ${S3_USER}            
+      MINIO_ROOT_PASSWORD: ${S3_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - data_minio:/export
+      - minio_config:/root/.minio
+    command: server /export --console-address ":9001"
+
+  db:
+    image: pgvector/pgvector:pg14
+    ports:
+      - ${DB_PORT:-5432}:5432
+    env_file:
+      - ./apps/backend/.env.test
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ=UTC
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
+      interval: 5s
+      timeout: 60s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - db_data_test:/var/lib/postgresql/data
+
+volumes:
+  db_data_test:
+  data_minio:
+  minio_config: 

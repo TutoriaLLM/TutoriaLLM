@@ -84,7 +84,7 @@
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "1.0.7",
     "tsx": "catalog:",
-    "vite": "5.4.9",
+    "vite": "catalog:",
     "vite-plugin-pwa": "0.20.5",
     "vite-plugin-svgr": "4.2.0",
     "vite-tsconfig-paths": "5.0.1",
