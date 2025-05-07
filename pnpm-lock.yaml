@@ -359,8 +359,8 @@ importers:
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
       '@mdxeditor/editor':
-        specifier: 3.31.0
-        version: 3.31.0(@codemirror/language@6.11.0)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.26)
+        specifier: 3.32.1
+        version: 3.32.1(@codemirror/language@6.11.0)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.26)
       '@radix-ui/react-accordion':
         specifier: 1.2.8
         version: 1.2.8(@types/react-dom@18.3.7(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3086,8 +3086,8 @@ packages:
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
 
-  '@mdxeditor/editor@3.31.0':
-    resolution: {integrity: sha512-vacFwTQ3DF4Z6HMpgR0FyzG13Y/TN+Bzlf+/WhlOgqH+yTftE2InlCg4qL5smAZkn19fwTteePgLPp1kmEBHkw==}
+  '@mdxeditor/editor@3.32.1':
+    resolution: {integrity: sha512-numiJV6aKi6Il0Q6uRKY35I0mas6R9ZQgFBEkMLbzbzg1nEtPq5r4j6zNK+GmD7P9q5xCQMmiUxVQ17Wmo41cg==}
     engines: {node: '>=16'}
     peerDependencies:
       react: '>= 18 || >= 19'
@@ -11746,7 +11746,7 @@ snapshots:
 
   '@codesandbox/nodebox@0.1.8':
     dependencies:
-      outvariant: 1.4.0
+      outvariant: 1.4.3
       strict-event-emitter: 0.4.6
 
   '@codesandbox/sandpack-client@2.19.8':
@@ -13139,7 +13139,7 @@ snapshots:
       - acorn
       - supports-color
 
-  '@mdxeditor/editor@3.31.0(@codemirror/language@6.11.0)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.26)':
+  '@mdxeditor/editor@3.32.1(@codemirror/language@6.11.0)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.26)':
     dependencies:
       '@codemirror/lang-markdown': 6.3.2
       '@codemirror/language-data': 6.5.1
@@ -20854,7 +20854,7 @@ snapshots:
       '@open-draft/deferred-promise': 2.2.0
       dotenv: 16.5.0
       mime-db: 1.54.0
-      outvariant: 1.4.0
+      outvariant: 1.4.3
 
   statuses@2.0.1: {}
 
