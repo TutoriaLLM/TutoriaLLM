@@ -28,6 +28,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      # Some packages are required to be built before running tests(e.g. extensions)
+      - name: Build packages
+        run: pnpm build
+
       - name: Run Vitest
         run: pnpm test:coverage
 
