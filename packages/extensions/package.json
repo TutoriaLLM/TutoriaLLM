@@ -2,7 +2,7 @@
   "name": "extensions",
   "private": true,
   "type": "module",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "exports": {
     ".": "./dist/index.js"
   },
@@ -11,8 +11,8 @@
     "type:check": "wireit"
   },
   "dependencies": {
-    "@blockly/field-grid-dropdown": "5.0.9",
-    "@blockly/field-slider": "7.0.9",
+    "@blockly/field-grid-dropdown": "5.0.12",
+    "@blockly/field-slider": "7.0.12",
     "blockly": "catalog:",
     "hono": "catalog:",
     "uuidv7": "1.0.2"

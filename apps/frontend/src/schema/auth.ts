@@ -62,8 +62,11 @@ export const createUserSchema = z
 			i18n: "password_mismatch",
 		},
 	});
-
+export const uploadImageSchema = z.object({
+	file: z.instanceof(File),
+});
 export type LoginSchemaType = z.infer<typeof loginSchema>;
 export type UpdateUserSchemaType = z.infer<typeof updateUserSchema>;
 export type UpdatePasswordSchemaType = z.infer<typeof updatePasswordSchema>;
 export type CreateUserSchemaType = z.infer<typeof createUserSchema>;
+export type UploadImageSchemaType = z.infer<typeof uploadImageSchema>;

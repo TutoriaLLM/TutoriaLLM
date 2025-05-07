@@ -1,0 +1,37 @@
+---
+title: Repository Structure
+description: Information about the repository structure of TutoriaLLM.
+sidebar:
+  order: 2
+---
+
+import {
+  Aside,
+} from "@astrojs/starlight/components";
+
+## TutoriaLLM Repository Structure
+
+![Repository Structure](../../../media/images/stacks.png)
+
+TutoriaLLM consists of two main systems: the frontend and the backend. The frontend is built with React, Vite, and Tanstack Router, while the backend is built with Hono and Node.js. It uses PostgreSQL as the database. Additionally, there is an extension system that provides functionality for integrating with external applications like Minecraft.
+
+<Aside type="note" title="Specialized Knowledge Required">
+Hosting TutoriaLLM requires specialized knowledge of both the frontend and backend.
+</Aside>
+
+### Frontend (apps/frontend)
+
+The frontend is built with React, Vite, and Tanstack Router. You can use any editor to edit the code and run the app in a local environment using Node.js.
+
+### Backend (apps/backend)
+
+The backend is built with Hono and Node.js, requiring PostgreSQL as the database. It works alongside the frontend to manage the application's data. The backend is provided as a Docker image, which can be deployed on a server using tools like Docker Compose for database connectivity.  
+This page explains how to run the application in a local environment for development purposes.
+
+### Documentation (apps/docs)
+
+The documentation is built with Astro and Starlight. It includes API references (auto-generated) and information on how to create tutorials.
+
+### Extensions (packages/extensions)
+
+Extensions are located in the `/packages/extensions` directory by default. They provide functionality for integrating with external applications like Minecraft.

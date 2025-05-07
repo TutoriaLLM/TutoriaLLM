@@ -29,12 +29,22 @@ import type {
 	markdownNode,
 	workspaceNode,
 } from "@/components/features/admin/TutorialEditor/nodes/nodetype";
-import { Trash2 } from "lucide-react";
-import React, { useEffect } from "react";
+import { Maximize2, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { useTranslation } from "react-i18next";
 
 export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	const { updateNodeData, deleteElements } = useReactFlow();
+
+	const [isWindowOpen, setIsWindowOpen] = useState(false);
+	const { t } = useTranslation();
 
 	const handleSourceChange = (field: string, value: string) => {
 		updateNodeData(id, { ...data, [field]: value });
@@ -55,11 +65,29 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 	);
 
 	const mdxEditorRef = React.useRef<MDXEditorMethods>(null);
+	const dialogEditorRef = React.useRef<MDXEditorMethods>(null);
+
+	// 共通のマークダウン変更ハンドラー
+	const handleMarkdownChange = (newMarkdown: string) => {
+		handleSourceChange("editorContent", newMarkdown);
+
+		// 両方のエディタを同期
+		if (mdxEditorRef.current) {
+			mdxEditorRef.current.setMarkdown(newMarkdown);
+		}
+		if (dialogEditorRef.current) {
+			dialogEditorRef.current.setMarkdown(newMarkdown);
+		}
+	};
 
 	// Update markdown in mdxEditor when data is changed
 	useEffect(() => {
 		if (mdxEditorRef.current) {
 			mdxEditorRef.current.setMarkdown(data.editorContent);
+		}
+
+		if (dialogEditorRef.current) {
+			dialogEditorRef.current.setMarkdown(data.editorContent);
 		}
 
 		// Check if Blockly node is connected
@@ -71,9 +99,7 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 				if (workspace) {
 					handleSourceChange(
 						"source",
-						`${data.editorContent}\n\nThis is example of workspace:${JSON.stringify(
-							workspace,
-						)}`,
+						`${data.editorContent}\n\nThis is example of workspace:\n\`\`\`${JSON.stringify(workspace, null, 2)}\`\`\``,
 					);
 				} else {
 					handleSourceChange("source", data.editorContent);
@@ -147,9 +173,7 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 				ref={mdxEditorRef}
 				contentEditableClassName="prose cursor-text"
 				markdown={data.editorContent}
-				onChange={(newMarkdown) =>
-					handleSourceChange("editorContent", newMarkdown)
-				}
+				onChange={handleMarkdownChange}
 				plugins={[
 					toolbarPlugin({
 						toolbarContents: () => (
@@ -166,6 +190,52 @@ export function Markdown({ id, data }: NodeProps<markdownNode>) {
 					markdownShortcutPlugin(),
 				]}
 			/>
+			<div className="flex justify-end">
+				<Button
+					variant="ghost"
+					size="icon"
+					onClick={() => setIsWindowOpen(true)}
+				>
+					<Maximize2 />
+				</Button>
+				<Dialog
+					open={isWindowOpen}
+					onOpenChange={(value) => {
+						if (!value) {
+							setIsWindowOpen(false);
+						}
+					}}
+				>
+					<DialogContent className="max-w-6xl h-full">
+						<DialogHeader>
+							<DialogTitle>{t("admin.markdownEditor")}</DialogTitle>
+						</DialogHeader>
+						<MDXEditor
+							className="flex-1 overflow-auto min-h-[80vh]"
+							ref={dialogEditorRef}
+							contentEditableClassName="prose cursor-text min-w-full min-h-full bg-white"
+							markdown={data.editorContent}
+							onChange={handleMarkdownChange}
+							plugins={[
+								toolbarPlugin({
+									toolbarClassName: "w-full",
+									toolbarContents: () => (
+										<>
+											<UndoRedo />
+											<BoldItalicUnderlineToggles />
+											<ListsToggle />
+											<BlockTypeSelect />
+										</>
+									),
+								}),
+								headingsPlugin(),
+								listsPlugin(),
+								markdownShortcutPlugin(),
+							]}
+						/>
+					</DialogContent>
+				</Dialog>
+			</div>
 		</div>
 	);
 }

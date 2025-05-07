@@ -27,6 +27,7 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 			[x: string]: any;
 		},
 	) => {
+		console.log(value);
 		updateNodeData(id, { ...data, [field]: value });
 	};
 
@@ -79,7 +80,7 @@ export function ExampleCode({ id, data }: NodeProps<workspaceNode>) {
 
 			<div id="workspaceArea" className="no-wheel w-[700px] h-[500px]">
 				<BlocklyEditor
-					workspaceJson={session || undefined}
+					workspaceJson={session || data.workspace || undefined}
 					setWorkspaceJson={(workspace) => setSession(workspace)}
 					isMenuOpen={isToolboxOpen}
 					language={i18next.language}

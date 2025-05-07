@@ -8,6 +8,7 @@ import "@/styles/blockly.css";
 import registerBlocks from "./blocks";
 import { BlockHighlight } from "./blockHighlight";
 import { blocklyLocale } from "@/i18n/blocklyLocale";
+import { ToolboxHighlighter } from "./toolboxHighlight";
 
 export const defaultBlocklyOptions: Blockly.BlocklyOptions = {
 	toolbox: toolboxCategories,
@@ -71,7 +72,9 @@ export const BlocklyEditor = ({
 	toolboxConfiguration = toolboxCategories,
 	isMenuOpen = true,
 	blockNameToHighlight,
+	setBlockNameToHighlight,
 	blockIdToHighlight,
+	setBlockIdToHighlight,
 	onWorkspaceChange,
 	workspaceJson,
 	setWorkspaceJson,
@@ -81,13 +84,16 @@ export const BlocklyEditor = ({
 	toolboxConfiguration?: Blockly.utils.toolbox.ToolboxDefinition;
 	isMenuOpen: boolean;
 	blockNameToHighlight?: string | null;
+	setBlockNameToHighlight?: (blockName: string | null) => void;
 	blockIdToHighlight?: string | null;
+	setBlockIdToHighlight?: (blockId: string | null) => void;
 	onWorkspaceChange?: (workspace: Blockly.WorkspaceSvg) => void;
 	workspaceJson?: object;
 	setWorkspaceJson?: (json: object | null) => void;
 }) => {
 	const blocklyDiv = useRef<HTMLDivElement | null>(null);
 	const blockHighlightRef = useRef<BlockHighlight | null>(null);
+	const toolboxHighlighterRef = useRef<ToolboxHighlighter | null>(null);
 
 	const { workspace } = useBlocklyWorkspace({
 		workspaceJson,
@@ -124,101 +130,75 @@ export const BlocklyEditor = ({
 	}, [workspace]);
 
 	useEffect(() => {
-		if (blockNameToHighlight && workspace) {
-			// Function to highlight a category and its parent categories
-			function highlightCategory(category: Blockly.ToolboxCategory) {
-				const div = category.getDiv();
-				const labelDOM = div?.getElementsByClassName(
-					"blocklyTreeRow",
-				)[0] as HTMLElement;
-				if (labelDOM) {
-					labelDOM.style.backgroundColor = "#ef4444";
-					labelDOM.classList.add("highlight"); // highlight is defined in the CSS file
-				}
-			}
-			// Function to highlight everything up to the top level hierarchy
-			function highlightParentCategory(category: Blockly.ToolboxCategory) {
-				let parent = category.getParent();
-				while (parent) {
-					const parentCategory = parent as Blockly.CollapsibleToolboxCategory;
-					parent = parentCategory.getParent();
-					highlightCategory(parentCategory);
-					highlightParentCategory(parentCategory);
-				}
+		if (workspace) {
+			if (!toolboxHighlighterRef.current) {
+				toolboxHighlighterRef.current = new ToolboxHighlighter(
+					workspace,
+					setBlockNameToHighlight
+						? () => setBlockNameToHighlight(null)
+						: () => {},
+				);
 			}
 
-			function containsBlockType(
-				contents: Blockly.utils.toolbox.FlyoutItemInfoArray,
-				blockType: string,
-			): boolean {
-				for (const content of contents) {
-					// Checks if content is a block and has a type property
-					if (
-						content.kind === "block" &&
-						"type" in content &&
-						content.type === blockType
-					) {
-						return true;
+			let highlightTimerId: number | null = null;
+
+			const handleWorkspaceChange = (event: Blockly.Events.Abstract) => {
+				if (isRelevantChange(event) && blockNameToHighlight) {
+					if (highlightTimerId !== null) {
+						clearTimeout(highlightTimerId);
 					}
-				}
-				return false;
-			}
 
-			// Highlight the menu item in the toolbox item to be highlighted, if any
-			const toolboxItem = (
-				workspace.getToolbox() as Blockly.Toolbox
-			).getToolboxItems();
-
-			for (const item of toolboxItem) {
-				if (item.isSelectable()) {
-					const category = item as
-						| Blockly.ToolboxCategory
-						| Blockly.CollapsibleToolboxCategory;
-
-					const contents = category.getContents();
-					if (
-						typeof contents !== "string" &&
-						blockNameToHighlight &&
-						containsBlockType(contents, blockNameToHighlight)
-					) {
-						// If the category name matches, change the color of that category
-						highlightCategory(category);
-					}
-				}
-				if (item.isCollapsible()) {
-					const category = item as Blockly.CollapsibleToolboxCategory;
-					// Retrieve child items
-					const children = category.getChildToolboxItems();
-					for (const child of children) {
-						const item = child as Blockly.ToolboxCategory;
-						const contents = item.getContents();
-						if (
-							typeof contents !== "string" &&
-							blockNameToHighlight &&
-							containsBlockType(contents, blockNameToHighlight)
-						) {
-							// If the category name matches, change the color of that category
-							highlightCategory(item);
-							// Also change the color of the parent category
-							highlightParentCategory(item);
+					highlightTimerId = window.setTimeout(() => {
+						if (toolboxHighlighterRef.current && blockNameToHighlight) {
+							toolboxHighlighterRef.current.highlightBlock(
+								blockNameToHighlight,
+							);
 						}
-					}
-					const contents = category.getContents();
-					if (
-						typeof contents !== "string" &&
-						blockNameToHighlight &&
-						containsBlockType(contents, blockNameToHighlight)
-					) {
-						// If the category name matches, change the color of that category
-						highlightCategory(category);
-					}
+						highlightTimerId = null;
+					}, 10);
 				}
+			};
+
+			workspace.addChangeListener(handleWorkspaceChange);
+			if (blockNameToHighlight) {
+				console.log("highlightBlock");
+				toolboxHighlighterRef.current.highlightBlock(blockNameToHighlight);
+			} else {
+				console.log("disposeHighlight");
+				toolboxHighlighterRef.current.disposeHighlight();
 			}
+
+			return () => {
+				// クリーンアップ時にイベントリスナーを削除
+				workspace.removeChangeListener(handleWorkspaceChange);
+
+				// タイマーがあればクリア
+				if (highlightTimerId !== null) {
+					clearTimeout(highlightTimerId);
+				}
+
+				if (toolboxHighlighterRef.current) {
+					toolboxHighlighterRef.current.disposeHighlight();
+					toolboxHighlighterRef.current = null;
+				}
+			};
 		}
 	}, [blockNameToHighlight, workspace]);
 
 	//highlight specified block by id
 	useEffect(() => {
+		const onUserMovedTargetBlock = (event: Blockly.Events.Abstract) => {
+			if (event.type === Blockly.Events.MOVE) {
+				const moveEvent = event as Blockly.Events.BlockMove;
+				if (moveEvent.blockId === blockIdToHighlight) {
+					blockHighlightRef.current?.dispose();
+					setBlockIdToHighlight ? setBlockIdToHighlight(null) : null;
+				}
+			}
+		};
+
+		workspace?.addChangeListener(onUserMovedTargetBlock);
+
 		if (blockHighlightRef.current) {
 			blockHighlightRef.current.dispose();
 		}
@@ -229,6 +209,10 @@ export const BlocklyEditor = ({
 		} else {
 			blockHighlightRef.current = null;
 		}
+
+		return () => {
+			workspace?.removeChangeListener(onUserMovedTargetBlock);
+		};
 	}, [blockIdToHighlight, workspace]);
 
 	// Hide/Show toolbox
@@ -286,6 +270,8 @@ const useBlocklyWorkspace = ({
 
 	const workspaceConfigurationRef = useRef(workspaceConfiguration);
 
+	const internalUpdateRef = useRef(false);
+
 	useEffect(() => {
 		workspaceConfigurationRef.current = workspaceConfiguration;
 	}, [workspaceConfiguration]);
@@ -335,6 +321,7 @@ const useBlocklyWorkspace = ({
 	// call handleWorkspaceChanged when its changed
 
 	useEffect(() => {
+		console.log("useEffect");
 		if (workspace === null) {
 			return undefined;
 		}
@@ -361,6 +348,7 @@ const useBlocklyWorkspace = ({
 
 		const callback = (event: Blockly.Events.Abstract) => {
 			if (isRelevantChange(event) && setWorkspaceJson) {
+				internalUpdateRef.current = true;
 				const newJson = Blockly.serialization.workspaces.save(workspace);
 				setWorkspaceJson(newJson);
 			}
@@ -374,6 +362,10 @@ const useBlocklyWorkspace = ({
 	}, [workspace, setWorkspaceJson]);
 
 	useEffect(() => {
+		if (internalUpdateRef.current) {
+			internalUpdateRef.current = false;
+			return;
+		}
 		if (workspaceJson && workspace) {
 			const currentWorkspaceJson =
 				Blockly.serialization.workspaces.save(workspace);

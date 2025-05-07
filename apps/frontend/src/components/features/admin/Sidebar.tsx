@@ -11,7 +11,7 @@ import {
 	Cog,
 	GraduationCap,
 	LayoutDashboard,
-	Sidebar,
+	MenuIcon,
 	User,
 } from "lucide-react";
 import { useState } from "react";
@@ -78,7 +78,7 @@ export default function SideBar() {
 					type="button"
 					className="md:hidden p-2 top-2 left-2 gap-0.5 font-semibold text-xs justify-center items-center flex bg-background hover:bg-accent shadow transition rounded-full text-foreground"
 				>
-					<Sidebar />
+					<MenuIcon />
 					<span>{t("sidebar.toggle")}</span>
 				</Button>
 			</div>

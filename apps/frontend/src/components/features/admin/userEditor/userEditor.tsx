@@ -142,7 +142,7 @@ const UserEditorForm = ({
 								<FormMessage />
 							</div>
 							<FormControl>
-								<Select name="role" value={field.value ?? ""}>
+								<Select {...field} value={field.value ?? ""}>
 									<option value="admin">{t("admin.admin")}</option>
 									<option value="user">{t("admin.user")}</option>
 								</Select>

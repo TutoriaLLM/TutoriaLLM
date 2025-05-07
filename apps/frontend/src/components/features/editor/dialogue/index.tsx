@@ -106,7 +106,6 @@ export default function DialogueView({
 				// Confirmation that the transmission is not already in progress
 				setIsSending(true); // Set the sending flag
 				setSession((prev) => {
-					console.log("Sending message", setSession);
 					if (prev) {
 						const lastId =
 							(prev.dialogue?.length || 0) > 0

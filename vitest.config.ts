@@ -14,6 +14,9 @@ export default defineConfig({
 			// exclude e2e tests(playwright)
 			"**/e2e/**",
 		],
+		coverage: {
+			reporter: ["text", "json-summary", "json"],
+		},
 	},
 
 	plugins: [tsconfigPaths(), react()],

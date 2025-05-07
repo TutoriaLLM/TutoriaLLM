@@ -98,14 +98,12 @@ export function DebugInfo() {
 
 	return (
 		<Dialog>
-			<div className="w-full">
-				<DialogTrigger asChild={true}>
-					<Button size="sm" variant="ghost" className="mx-auto">
-						{t("session.about")}
-					</Button>
-				</DialogTrigger>
-			</div>
-			<DialogContent>
+			<DialogTrigger asChild={true}>
+				<Button size="sm" variant="ghost" className="mx-auto">
+					{t("session.about")}
+				</Button>
+			</DialogTrigger>
+			<DialogContent className="h-full sm:h-auto">
 				<DialogHeader>
 					<DialogTitle>{t("session.about")}</DialogTitle>
 					<VisuallyHidden>
@@ -114,7 +112,7 @@ export function DebugInfo() {
 						</DialogDescription>
 					</VisuallyHidden>
 				</DialogHeader>
-				<div className="flex flex-col gap-4">
+				<div className="space-y-4">
 					<p className="text-sm">{t("session.aboutText")}</p>
 					<h2 className="text-base font-bold text-foreground">
 						{t("session.debugInfo")}

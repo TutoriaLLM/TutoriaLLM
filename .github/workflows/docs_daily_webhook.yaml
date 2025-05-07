@@ -1,0 +1,18 @@
+name: Daily Docs Webhook
+
+on:
+  schedule:
+    # Run daily at 00:00 UTC
+    - cron: '0 0 * * *'
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  trigger-webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Docs Rebuild Webhook
+        run: |
+          curl -X POST ${{ secrets.DOCS_WEBHOOK_URL }} \
+            -H "Content-Type: application/json" \
+            -d '{"event": "daily_rebuild", "source": "github_action"}'
