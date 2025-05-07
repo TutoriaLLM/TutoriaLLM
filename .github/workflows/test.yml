@@ -30,6 +30,9 @@ jobs:
 
       # Some packages are required to be built before running tests(e.g. extensions)
       - name: Build packages
+        env:
+          OPENAPI_DOCS_URL: ${{ vars.OPENAPI_DOCS_URL }}
+          VITE_BACKEND_URL: "http://localhost:3001"
         run: pnpm build
 
       - name: Run Vitest
