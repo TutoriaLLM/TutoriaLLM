@@ -6,10 +6,11 @@ import * as schema from "@/db/schema";
 import { sql } from "drizzle-orm";
 import type { Database } from "@/context";
 import pg from "pg";
+
 export async function setupDB({ port }: { port: "random" | number }) {
 	const container = await new DockerComposeEnvironment(
 		".",
-		"docker-compose.yml",
+		"docker-compose.test.yml",
 	)
 		.withEnvironmentFile("./apps/backend/.env.test")
 		// overwrite environment variables
