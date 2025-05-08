@@ -17,9 +17,9 @@ import { createHonoApp } from "./create-app";
 import { auth } from "./libs/auth";
 import { isErrorResult, merge } from "openapi-merge";
 import type { Swagger } from "atlassian-openapi";
-import { apiReference } from "@scalar/hono-api-reference";
 import { AppErrorStatusCode } from "./libs/errors/config";
 import { inject } from "./middleware/inject";
+import { Scalar } from "@scalar/hono-api-reference";
 
 const app = createHonoApp();
 
@@ -56,11 +56,9 @@ app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 export const route = app
 	.get(
 		"/ui",
-		apiReference({
+		Scalar({
 			pageTitle: "TutoriaLLM API Reference",
-			spec: {
-				url: "/doc",
-			},
+			url: "/doc",
 		}),
 	)
 	.route("/", configRoutes)
