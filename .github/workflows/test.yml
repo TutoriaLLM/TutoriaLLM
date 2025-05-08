@@ -1,0 +1,42 @@
+name: vitest
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  test:
+    name: Run test codes
+    if: |
+      github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './package.json'
+          cache: 'pnpm'
+          cache-dependency-path: '**/pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # Some packages are required to be built before running tests(e.g. extensions)
+      - name: Build packages
+        env:
+          OPENAPI_DOCS_URL: ${{ vars.OPENAPI_DOCS_URL }}
+          VITE_BACKEND_URL: "http://localhost:3001"
+        run: pnpm build
+
+      - name: Run Vitest
+        run: pnpm test:coverage
+
+      - name: Show coverage
+        uses: davelosert/vitest-coverage-report-action@v2

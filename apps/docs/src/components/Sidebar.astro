@@ -1,10 +1,11 @@
 ---
-import type { Props } from '@astrojs/starlight/props';
+import type { StarlightRouteData } from '@astrojs/starlight/route-data';
 import Default from '@astrojs/starlight/components/Sidebar.astro';
 
 const isEnglishPage = Astro.url.pathname.startsWith('/en/');
 
-Astro.props.sidebar = Astro.props.sidebar
+
+Astro.locals.starlightRoute.sidebar = Astro.locals.starlightRoute.sidebar
   .filter((entry) => {
     if (isEnglishPage && entry.type === 'group' && entry.label === 'API リファレンス') {
       return false;
@@ -13,7 +14,7 @@ Astro.props.sidebar = Astro.props.sidebar
     }
     if (isEnglishPage && entry.type === 'group' && entry.label === 'API Reference') {
       //APIリファレンス以下の再帰的に全てのリンクをチェックし、en/が含まれていたら削除する
-      function checkLink(entry: Props['sidebar'][0]) {
+      function checkLink(entry: StarlightRouteData['sidebar'][0]) {
         if ('entries' in entry) {
           for (const subEntry of entry.entries) {
             if ('href' in subEntry && subEntry.href?.includes('/en/')) {

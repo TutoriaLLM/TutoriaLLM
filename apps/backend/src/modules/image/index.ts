@@ -48,7 +48,7 @@ const app = createHonoApp()
 
 		c.header("Content-Type", contentType);
 		c.header("Cache-Control", cacheControl);
-		return c.body(byteArray.buffer, 200);
+		return c.body(byteArray.buffer as ArrayBuffer, 200);
 	});
 
 export default app;

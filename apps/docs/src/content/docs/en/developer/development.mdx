@@ -2,7 +2,7 @@
 title: Developing the Application
 description: Information about the development of TutoriaLLM.
 sidebar:
-  order: 2
+  order: 3
 ---
 
 import {
@@ -14,58 +14,33 @@ import {
   Code,
 } from "@astrojs/starlight/components";
 
-## TutoriaLLM Repository Structure
-
-```md
-![Repository Structure](../../media/images/stacks.png)
-
-TutoriaLLM consists of two main systems: the frontend and the backend. The frontend is built with React, Vite, and Tanstack Router, while the backend is built with Hono and Node.js. It uses PostgreSQL as the database. Additionally, there is an extension system that provides functionality for integrating with external applications like Minecraft.
-```
-
-### Frontend
-
-```md
-The frontend is built with React, Vite, and Tanstack Router. You can use any editor to edit the code and run the app in a local environment using Node.js.
-```
-
-### Backend
-
-```md
-The backend is built with Hono and Node.js, requiring PostgreSQL as the database. It works alongside the frontend to manage the application's data. The backend is provided as a Docker image, which can be deployed on a server using tools like Docker Compose for database connectivity.  
-This page explains how to run the application in a local environment for development purposes.
-```
-
 ## Cloning the Repository
 
-```md
-Clone the GitHub repository to start development. You can use your preferred editor to edit the code and run the application locally using Node.js.
-```
+Clone the GitHub repository to start development. You can edit the code using your preferred editor and use the application in a local environment with Node.js.
 
-```md
 <LinkCard
   title="GitHub Repository"
   description="Check out the TutoriaLLM GitHub repository."
   href="https://github.com/TutoriaLLM/TutoriaLLM"
 />
-```
 
 ## Setting Environment Variables
 
-```md
-Below is an example of the required environment variables. Set these in `/apps/frontend/.env` and `/apps/backend/.env`.
-```
+Below are examples of environment variables. Set them in `/apps/frontend/.env` and `/apps/backend/.env`.
 
-### `/apps/frontend/.env`
+<Code code={
+  `
+  VITE_BACKEND_URL=http://localhost:3001
+  `
+} lang="env" title="/apps/frontend/.env" />
 
-```env
-VITE_BACKEND_URL=http://localhost:3001
-```
-
-### `/apps/backend/.env`
-
-```env
+<Code code={
+  `
 OPENAI_API_KEY="sk-xxxxxx"
 OPENAI_API_ENDPOINT="https://your-openai-api-endpoint"
+BETTER_AUTH_URL="http://localhost:3001"
+BETTER_AUTH_SECRET=dummyDummyDummy
+
 
 CORS_ORIGIN="http://localhost:3000"
 POSTGRES_USER=postgres
@@ -79,87 +54,119 @@ EMAIL="example@example.com"
 
 DEFAULT_USER_PASSWORD="admin"
 DEFAULT_USER_NAME="admin"
-```
+
+S3_USER="s3_root"
+S3_PASSWORD="s3_password"
+S3_ACCESS_KEY_ID="s3_access_key_id"
+S3_SECRET_ACCESS_KEY="s3_secret_access_key"
+  `
+} lang="env" title="/apps/backend/.env" />
+
+When using the documentation development server (apps/docs), set the environment variables in `/apps/docs/.env`.
+
+<Code code={
+  `
+  OPENAPI_DOCS_URL=http://localhost:3001
+  `
+} lang="env" title="/apps/docs/.env" />
 
 ## Connecting to the Database
 
-```md
-TutoriaLLM requires a connection to PostgreSQL with pgvector enabled. Below is a guide to setting up pgvector using Docker Compose.
-```
+TutoriaLLM requires a connection to PostgreSQL with vector capabilities. Here's how to use Docker compose with pgvector.
 
-```yaml
-import composeExample from "../../media/code/docker-compose.yml?raw";
+import composeExample from "../../../media/code/docker-compose.pg.yml?raw";
 
-<Code code={composeExample} lang="yaml" title="/docker-compose.yml" />
-```
+<Code code={composeExample} lang="yaml" title="/docker-compose.pg.yml" />
 
-```md
 <Aside type="note" title="About Docker">
-  For more information about Docker, see [Docker](https://www.docker.com/).
+  For information about Docker, refer to [Docker](https://www.docker.com/).
 </Aside>
-```
 
 ## Starting the Server
 
-```md
+### (Recommended) Starting with Docker
+
+Use Docker compose to start the frontend and backend. Use the `docker-compose.yml` and `docker-compose.dev.override.yml` files in the TutoriaLLM repository.
+
+<Code code={
+  `
+  docker compose -f docker-compose.yml -f docker-compose.dev.override.yml up --build # Build and start
+  docker compose -f docker-compose.yml -f docker-compose.dev.override.yml up # Start
+  `
+} lang="sh" title="Start the server" />
+
+If you need to start the documentation development server, use pnpm.
+
+### Starting with pnpm
+
+You can start the frontend and backend individually using pnpm.
+
 Start the database:
-```
 
-```sh
-docker compose up
-```
+<Code code={
+  `
+  docker compose up
+  `
+} lang="sh" title="Start the database" />
 
-```md
-Start the frontend and backend with the following commands:
-```
+Start the frontend, backend, and documentation (if needed) with the following commands:
 
-```sh
-# Frontend
+<Code code={
+  `
+  # Frontend
 cd apps/frontend
 pnpm i && pnpm dev
 
 # Backend
 cd apps/backend
 pnpm i && pnpm dev
-```
 
-```md
+# Documentation
+cd apps/docs
+pnpm i && pnpm dev
+  `
+} lang="sh" title="Start the development server" />
+
 <Aside type="note" title="Note">
-  By default, TutoriaLLM uses port 3000 for the frontend and port 3001 for the API entry point.
+  By default, TutoriaLLM uses port 3000 for the frontend and port 3001 as the API entry point.
 </Aside>
-```
 
 ## Sharing Type Definitions
 
-```md
-This repository uses a pnpm workspace to share type definitions between the frontend and backend. Type definitions are defined in the backend and can be used in the frontend.
-```
+This repository uses pnpm workspace to share type definitions between the frontend and backend.
+Type definitions are defined in the backend and can be used in the frontend.
 
-```sh
-# Generate type definitions in the backend
-cd apps/backend
-pnpm run build
-```
+<Code code={
+  `
+  # Generate type definitions in the backend
+  cd apps/backend
+  pnpm run build
+  `
+} lang="sh" title="Build the type definitions" />
+
+## Testing
+
+Run tests with the following command in the root directory:
+
+<Code code={
+  `
+  pnpm test
+  `
+} lang="sh" title="Test" />
 
 ## Developing Extensions
 
-```md
-Extensions are placed in the `/packages/extensions` directory by default. If you create an extension, add it to this directory. Values exported in `index.ts` are used by both the frontend and backend.
-```
+Extensions are located in `/packages/extensions` by default. Place your extensions in this directory when creating them.
+The values exported in index.ts are used by the frontend and backend.
 
-```md
-<Aside type="note" title="Note">
-  The directory structure for extensions may change in future versions.
-</Aside>
-```
+After defining an extension, build it with the following command:
 
-```sh
-After defining an extension, build it using the following command:
+<Code code={
+  `
+  # Build the extension
+  pnpm run build
+  `
+} lang="sh" title="Build the extension" />
 
-# Build the extension
-pnpm run build
-```
+After building, restart the frontend and backend.
 
-```md
-Once built, type definitions are automatically shared between the frontend and backend.
-```
