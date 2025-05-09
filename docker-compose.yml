@@ -42,7 +42,7 @@ services:
       dockerfile: Dockerfile
       target: frontend
     environment:
-      - VITE_BACKEND_URL=http://localhost:3001
+      - VITE_BACKEND_URL
     ports:
       - "3000:3000"
 
