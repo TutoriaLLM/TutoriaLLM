@@ -1,18 +1,12 @@
-import type { AIAudios } from "@/type.js";
 import type { TFunction } from "i18next";
 import { Bot, Headphones } from "lucide-react";
-function renderAIaudioBubble(
-	content: string,
-	t: TFunction,
-	id: number,
-	audios: AIAudios | undefined, // Add audios
-) {
+function renderAIaudioBubble(content: string, t: TFunction, id: number) {
 	const parsedContent = JSON.parse(content) as {
-		id: string;
+		url: string;
 		transcript: string;
 	};
 
-	const audio = audios?.find((audio) => audio?.id === parsedContent.id);
+	const audioUrl = `${import.meta.env.VITE_BACKEND_URL}/audio/${parsedContent.url}`;
 
 	return (
 		<div
@@ -35,10 +29,7 @@ function renderAIaudioBubble(
 					{parsedContent.transcript}
 				</p>
 				<audio controls={true} className="w-full">
-					<source
-						src={`data:audio/mp3;base64,${audio?.base64}`}
-						type="audio/mp3"
-					/>
+					<source src={audioUrl} type="audio/mp3" />
 					<track kind="captions" />
 				</audio>
 			</div>

@@ -8,6 +8,7 @@ import healthRoutes from "@/modules/health";
 import sessionRoutes from "@/modules/session";
 import tutorialRoutes from "@/modules/tutorials";
 import imageRoutes from "@/modules/image";
+import audioRoutes from "@/modules/audio";
 import vmProxyRoutes, { vmProxy } from "@/modules/vmProxy";
 import { serve } from "@hono/node-server";
 import { cors } from "hono/cors";
@@ -66,7 +67,9 @@ export const route = app
 	.route("/", sessionRoutes)
 	.route("/", tutorialRoutes)
 	.route("/", adminRoutes)
-	.route("/", imageRoutes);
+	.route("/", imageRoutes)
+	.route("/", audioRoutes);
+
 /**
  * Generate merged OpenAPI schema for documentation API and export it
  */

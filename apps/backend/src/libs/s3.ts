@@ -50,7 +50,7 @@ export const deleteBucket = async (bucketName: string) => {
 	await s3Client.send(new DeleteBucketCommand({ Bucket: bucketName }));
 };
 
-export const uploadFile = async (bucketName: string, file: File) => {
+export const uploadFile = async (bucketName: "audio" | "image", file: File) => {
 	const ext = file.name.split(".").pop(); // get file extension
 	const fileName = ext ? `${uuidv7()}.${ext}` : uuidv7();
 	await createBucket(bucketName);

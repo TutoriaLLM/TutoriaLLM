@@ -95,12 +95,6 @@ export const StatsSchema = z.object({
 });
 export type Stats = z.infer<typeof StatsSchema>;
 
-export const AudioSchema = z.object({
-	id: z.string(),
-	base64: z.string(),
-});
-export type SavedAudio = z.infer<typeof AudioSchema>;
-
 export const UserInfoSchema = z.object({
 	id: z.string(),
 	username: z.string(),
@@ -137,7 +131,6 @@ export const sessionValueSchema = z
 		stats: StatsSchema,
 
 		// Media Relations
-		audios: z.array(AudioSchema).nullable(),
 		userAudio: z.string().nullable(),
 		screenshot: z.string().nullable(),
 

@@ -46,7 +46,6 @@ export function initialData(
 			totalUserMessages: 0,
 			totalCodeExecutions: 0,
 		},
-		audios: [],
 		userAudio: "",
 		screenshot: "",
 		clicks: [],

@@ -7,6 +7,7 @@ import { invokeLLM } from "@/modules/session/socket/llm";
 import { eq } from "drizzle-orm";
 import type { Socket } from "socket.io";
 import { appSessions } from "@/db/schema";
+import { uploadFile } from "@/libs/s3";
 
 // Call LLM asynchronously and push when the message is created
 export async function updateDialogueWithLLM(
@@ -25,8 +26,6 @@ export async function updateDialogueWithLLM(
 		return data;
 	}
 
-	const language = data.language;
-
 	const blockNames = await getBlockNames();
 
 	const message = await invokeLLM(data, blockNames, socket);
@@ -41,18 +40,17 @@ export async function updateDialogueWithLLM(
 		message.data
 	) {
 		const latestData = await getLatestData(data.sessionId);
-		const updatedAudios = [
-			...(latestData.audios || []),
-			{
-				id: `${(latestData.audios?.length || 0) + 1}`,
-				base64: message.data,
-			},
-		];
+		//from v 2.1.1 base64 audio will be replaced with audio file URL from CDN
+		const binaryString = atob(message.data); // 文字列 → 8bit 文字列
+		const len = binaryString.length;
+		const bytes = new Uint8Array(len);
+		for (let i = 0; i < len; i++) bytes[i] = binaryString.charCodeAt(i);
 
-		// If the number of audios exceeds 5, the latest 5 should remain.
-		if (updatedAudios.length > 5) {
-			updatedAudios.splice(0, updatedAudios.length - 5);
-		}
+		const audioFile = new File([bytes], "audio.mp3", {
+			type: "audio/mp3",
+		});
+
+		const fileName = await uploadFile("audio", audioFile);
 
 		return {
 			...latestData,
@@ -63,13 +61,12 @@ export async function updateDialogueWithLLM(
 					contentType: "ai_audio",
 					isUser: false,
 					content: JSON.stringify({
-						id: `${updatedAudios.length}`,
+						url: fileName,
 						transcript: message.transcript,
 					}),
 				},
 			],
 			isReplying: false,
-			audios: updatedAudios,
 		};
 	}
 

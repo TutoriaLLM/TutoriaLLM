@@ -1,7 +1,6 @@
 import type {
 	Click,
 	Dialogue,
-	SavedAudio,
 	Stats,
 	TutorialStats,
 } from "@/modules/session/schema";
@@ -43,7 +42,6 @@ export const appSessions = pgTable("app_session", {
 	llmContext: text("llm_context"),
 	tutorial: json("tutorial").$type<TutorialStats>().notNull(),
 	stats: json("stats").$type<Stats>().notNull(),
-	audios: json("audios").$type<SavedAudio[]>(),
 	userAudio: text("user_audio"),
 	screenshot: text("screenshot"),
 	clicks: json("clicks").$type<Click[]>(),
