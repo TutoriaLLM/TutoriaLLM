@@ -323,10 +323,10 @@ importers:
         version: 0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))
       '@astrojs/starlight-tailwind':
         specifier: 4.0.1
-        version: 4.0.1(@astrojs/starlight@0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1)))(tailwindcss@4.1.4)
+        version: 4.0.1(@astrojs/starlight@0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1)))(tailwindcss@4.1.6)
       '@astrojs/tailwind':
         specifier: 6.0.2
-        version: 6.0.2(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))(tailwindcss@4.1.4)
+        version: 6.0.2(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))(tailwindcss@4.1.6)
       '@tailwindcss/vite':
         specifier: ^4.1.4
         version: 4.1.4(vite@6.0.2(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1))
@@ -352,8 +352,8 @@ importers:
         specifier: 0.16.0
         version: 0.16.0(@astrojs/markdown-remark@6.3.1)(@astrojs/starlight@0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1)))(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))(openapi-types@12.1.3)
       tailwindcss:
-        specifier: 4.1.4
-        version: 4.1.4
+        specifier: 4.1.6
+        version: 4.1.6
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -10216,6 +10216,9 @@ packages:
   tailwindcss@4.1.4:
     resolution: {integrity: sha512-1ZIUqtPITFbv/DxRmDr5/agPqJwF69d24m9qmM1939TJehgY539CtzeZRjbLt5G6fSy/7YqqYsfvoTEw9xUI2A==}
 
+  tailwindcss@4.1.6:
+    resolution: {integrity: sha512-j0cGLTreM6u4OWzBeLBpycK0WIh8w7kSwcUsQZoGLHZ7xDTdM69lN64AgoIEEwFi0tnhs4wSykUa5YWxAzgFYg==}
+
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -11592,10 +11595,10 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.4
 
-  '@astrojs/starlight-tailwind@4.0.1(@astrojs/starlight@0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1)))(tailwindcss@4.1.4)':
+  '@astrojs/starlight-tailwind@4.0.1(@astrojs/starlight@0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1)))(tailwindcss@4.1.6)':
     dependencies:
       '@astrojs/starlight': 0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))
-      tailwindcss: 4.1.4
+      tailwindcss: 4.1.6
 
   '@astrojs/starlight@0.34.3(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))':
     dependencies:
@@ -11630,13 +11633,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/tailwind@6.0.2(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))(tailwindcss@4.1.4)':
+  '@astrojs/tailwind@6.0.2(astro@5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1))(tailwindcss@4.1.6)':
     dependencies:
       astro: 5.7.12(@types/node@20.17.46)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.7.1)
       autoprefixer: 10.4.21(postcss@8.5.3)
       postcss: 8.5.3
       postcss-load-config: 4.0.2(postcss@8.5.3)
-      tailwindcss: 4.1.4
+      tailwindcss: 4.1.6
     transitivePeerDependencies:
       - ts-node
 
@@ -23220,6 +23223,8 @@ snapshots:
       - ts-node
 
   tailwindcss@4.1.4: {}
+
+  tailwindcss@4.1.6: {}
 
   tapable@2.2.1: {}
 
