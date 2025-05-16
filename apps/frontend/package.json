@@ -38,7 +38,7 @@
     "@tanstack/router-vite-plugin": "1.87.13",
     "@tanstack/zod-adapter": "1.92.6",
     "@vitejs/plugin-react": "4.4.1",
-    "@xyflow/react": "12.6.0",
+    "@xyflow/react": "12.6.1",
     "autoprefixer": "10.4.21",
     "backend": "workspace:",
     "better-auth": "catalog:",
