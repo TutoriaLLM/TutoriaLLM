@@ -368,8 +368,8 @@ importers:
         specifier: 4.10.1
         version: 4.10.1(playwright-core@1.52.0)
       '@blockly/field-grid-dropdown':
-        specifier: 5.0.12
-        version: 5.0.12(blockly@11.2.2)
+        specifier: 5.0.15
+        version: 5.0.15(blockly@11.2.2)
       '@blockly/field-slider':
         specifier: 7.0.15
         version: 7.0.15(blockly@11.2.2)
@@ -651,8 +651,8 @@ importers:
   packages/extensions:
     dependencies:
       '@blockly/field-grid-dropdown':
-        specifier: 5.0.12
-        version: 5.0.12(blockly@11.2.2)
+        specifier: 5.0.15
+        version: 5.0.15(blockly@11.2.2)
       '@blockly/field-slider':
         specifier: 7.0.15
         version: 7.0.15(blockly@11.2.2)
@@ -1689,11 +1689,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@blockly/field-grid-dropdown@5.0.12':
-    resolution: {integrity: sha512-wBxOfiMvOMMDcQGGweeKJMpyq9Eki3Y14pX0PlvjYvPKC7/AWcnUFHbicvIFC+DloeBXyxp44ppDMr8kc3mA+w==}
+  '@blockly/field-grid-dropdown@5.0.15':
+    resolution: {integrity: sha512-Shjdtkwteg++JV9OFppLDozJFHqJgVc19vsNiJxivVCwxzpkSD5G0VxpOndDq7ECw14esJsS0Y5OduTTCFQbHQ==}
     engines: {node: '>=8.17.0'}
     peerDependencies:
-      blockly: ^11.0.0
+      blockly: ^12.0.0
 
   '@blockly/field-slider@7.0.15':
     resolution: {integrity: sha512-14fjynv/b0pJEAgvOJA52KT97weX1OMQXxIqAUoxMWW2RD8aUxL9tvPbeSj7SPBrtvbAeoHg+X/r0TUcDCsQow==}
@@ -12898,7 +12898,7 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@blockly/field-grid-dropdown@5.0.12(blockly@11.2.2)':
+  '@blockly/field-grid-dropdown@5.0.15(blockly@11.2.2)':
     dependencies:
       blockly: 11.2.2
 
