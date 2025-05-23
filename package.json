@@ -25,13 +25,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@commitlint/cli": "19.8.0",
-    "@commitlint/config-conventional": "19.8.0",
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@vitejs/plugin-react": "4.4.1",
-    "@vitest/coverage-v8": "3.1.2",
+    "@vitest/coverage-v8": "3.1.4",
     "commitizen": "4.3.1",
     "cspell": "8.19.4",
     "cz-conventional-changelog": "3.3.0",
@@ -40,7 +40,7 @@
     "sherif": "1.5.0",
     "simple-git-hooks": "2.13.0",
     "vite-tsconfig-paths": "5.0.1",
-    "vitest": "3.1.2",
+    "vitest": "3.1.4",
     "wireit": "0.14.12"
   },
   "wireit": {
