@@ -41,13 +41,14 @@ const ui = [
 	},
 ];
 
-// Converts webm audio format to mp3 format
-async function convertWebMToMp3(webmInput: string): Promise<string> {
+// Converts webm audio format to wav format
+async function convertWebMToWav(webmInput: string): Promise<string> {
 	return new Promise((resolve, reject) => {
-		const mp3Output = `/tmp/${Date.now()}.mp3`;
+		const wavOutput = `/tmp/${Date.now()}.wav`;
 		ffmpeg(webmInput)
-			.output(mp3Output)
-			.on("end", () => resolve(mp3Output))
+			.format("wav")
+			.output(wavOutput)
+			.on("end", () => resolve(wavOutput))
 			.on("error", (err: Error) => reject(err))
 			.run();
 	});
@@ -111,15 +112,19 @@ export async function invokeLLM(
 	// From here, the process is branched (refactored)
 	if (isUserSentAudio && session.userAudio) {
 		const userAudio = session.userAudio.split(",")[1]; // It is in webm format.
-
 		const webmBuffer = Buffer.from(userAudio, "base64");
 		const webmInputPath = `/tmp/${Date.now()}.webm`;
 		fs.writeFileSync(webmInputPath, webmBuffer);
 
-		try {
-			const mp3Path = await convertWebMToMp3(webmInputPath);
+		const wavOutputPath = await convertWebMToWav(webmInputPath);
 
-			updateAudioDialogue(session.sessionId, lastDialogue.id, socket, mp3Path);
+		try {
+			updateAudioDialogue(
+				session.sessionId,
+				lastDialogue.id,
+				socket,
+				wavOutputPath,
+			);
 			// KNOWLEDGE NOT AVAILABLE
 
 			const tutorialContent = await getTutorialContent(session);
@@ -168,8 +173,8 @@ export async function invokeLLM(
 									{ type: "text", text: userTemplate },
 									{
 										type: "file",
-										mimeType: "audio/mpeg",
-										data: fs.readFileSync(mp3Path).toString("base64"),
+										mimeType: "audio/wav",
+										data: fs.readFileSync(wavOutputPath).toString("base64"),
 									},
 								],
 							},
@@ -210,8 +215,8 @@ export async function invokeLLM(
 								{
 									type: "input_audio",
 									input_audio: {
-										data: fs.readFileSync(mp3Path).toString("base64"),
-										format: "mp3",
+										data: fs.readFileSync(wavOutputPath).toString("base64"),
+										format: "wav",
 									},
 								},
 							],
@@ -240,9 +245,6 @@ export async function invokeLLM(
 		} catch (e) {
 			console.error("Error during audio conversion or LLM invocation", e);
 			return null;
-		} finally {
-			// Cleanup temp files
-			fs.unlinkSync(webmInputPath);
 		}
 	}
 

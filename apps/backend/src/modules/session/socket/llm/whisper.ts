@@ -1,34 +1,39 @@
 // Asynchronously transcribe received mp3s and save (deliver) them to Dialogue
-
 import fs from "node:fs";
 import { db } from "@/db";
 import { appSessions } from "@/db/schema";
 import { updateAndBroadcastDiffToAll } from "@/modules/session/socket/updateDB";
 import { eq } from "drizzle-orm";
-import OpenAI from "openai";
+import { experimental_transcribe as transcribe } from "ai";
+import { openai } from "@/libs/openai";
 import type { Socket } from "socket.io";
 
-const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
-	baseURL: process.env.OPENAI_API_ENDPOINT || "https://api.openai.com/v1",
-});
-
-async function audioToText(mp3Path: string) {
-	const transcription = await openai.audio.transcriptions.create({
-		file: fs.createReadStream(mp3Path),
-		model: "whisper-1",
-		response_format: "text",
-	});
-	return transcription;
+/**
+ * NEED FIX: 別ファイルの上では動くが、なぜかここで使うと動かない
+ *
+ */
+async function audioToText(base64wav: string) {
+	try {
+		const transcription = await transcribe({
+			model: openai.transcription("whisper-1"),
+			audio: base64wav,
+		});
+		return transcription.text;
+	} catch (error) {
+		console.error("Error transcribing audio:", error);
+		return null;
+	}
 }
 
 export async function updateAudioDialogue(
 	sessionId: string,
 	target_id: number,
 	Socket: Socket,
-	mp3Path: string,
+	audioPath: string, //expected as wav
 ) {
-	const transcript = await audioToText(mp3Path);
+	const base64Audio = fs.readFileSync(audioPath).toString("base64");
+
+	const transcript = await audioToText(base64Audio);
 
 	// Migrated from Redis to Postgres: from 1.0.0
 	const data = await db.query.appSessions.findFirst({
@@ -47,7 +52,7 @@ export async function updateAudioDialogue(
 								) {
 									return {
 										...dialogue,
-										content: transcript,
+										content: transcript || "error",
 									};
 								}
 								return dialogue;

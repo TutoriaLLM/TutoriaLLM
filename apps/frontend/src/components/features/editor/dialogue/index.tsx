@@ -91,7 +91,7 @@ export default function DialogueView({
 								},
 								prev,
 							).stats,
-							userAudio: audioURL, // Set base64 encoded MP3 data
+							userAudio: audioURL, // Set base64 encoded webm data
 						};
 					}
 					return session;
@@ -157,7 +157,7 @@ export default function DialogueView({
 			});
 
 			mediaRecorder.addEventListener("stop", () => {
-				const audioBlob = new Blob(audioChunks, { type: "audio/mp3" }); // Set to MP3 format
+				const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
 				const reader = new FileReader();
 				reader.readAsDataURL(audioBlob);
 				reader.onloadend = () => {
