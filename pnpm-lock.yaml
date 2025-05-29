@@ -416,8 +416,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3(@types/react-dom@18.3.7(@types/react@18.3.22))(@types/react@18.3.22)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reactour/tour':
-        specifier: 3.7.0
-        version: 3.7.0(react@18.3.1)
+        specifier: 3.8.0
+        version: 3.8.0(react@18.3.1)
       '@sentry/react':
         specifier: 8.34.0
         version: 8.34.0(react@18.3.1)
@@ -4752,10 +4752,10 @@ packages:
     peerDependencies:
       react: 16.x || 17.x || 18.x
 
-  '@reactour/tour@3.7.0':
-    resolution: {integrity: sha512-p0USaOBc5fcNBS5ZiQ2lsmztAhIGCUfx913Zw14FbEM8bhSXpR1F2JD0alVj9Ya1N+pnTNYatf14rSNGJsEnCg==}
+  '@reactour/tour@3.8.0':
+    resolution: {integrity: sha512-KZTFi1pAvoTVKKRdBN5+XCYxXBp4k4Ql/acZcXyPvec8VU24fkMSEeV+v8krfYQpoVcewxIu3gM6xWZZLjxi7w==}
     peerDependencies:
-      react: 16.x || 17.x || 18.x
+      react: 16.x || 17.x || 18.x || 19.x
 
   '@reactour/utils@0.5.0':
     resolution: {integrity: sha512-yQs5Nm/Dg1xRM7d/S/UILBV5OInrTgrjGzgc81/RP5khqdO5KnpOaC46yF83kDtCalte8X3RCwp+F2YA509k1w==}
@@ -16497,7 +16497,7 @@ snapshots:
       '@reactour/utils': 0.5.0(react@18.3.1)
       react: 18.3.1
 
-  '@reactour/tour@3.7.0(react@18.3.1)':
+  '@reactour/tour@3.8.0(react@18.3.1)':
     dependencies:
       '@reactour/mask': 1.1.0(react@18.3.1)
       '@reactour/popover': 1.2.0(react@18.3.1)
