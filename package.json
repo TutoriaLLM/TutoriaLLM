@@ -58,5 +58,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "1.0.6"
   }
 }

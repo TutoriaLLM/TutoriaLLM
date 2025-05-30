@@ -46,6 +46,10 @@ catalogs:
 importers:
 
   .:
+    dependencies:
+      '@anthropic-ai/claude-code':
+        specifier: 1.0.6
+        version: 1.0.6
     devDependencies:
       '@biomejs/biome':
         specifier: 1.9.4
@@ -717,6 +721,11 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@anthropic-ai/claude-code@1.0.6':
+    resolution: {integrity: sha512-QqPZZ4IXbUaSLqXEx4z68Stjc7NlGh/b4woyYyMks+cMUJ5ZYDEkAe09cRZQ6tjubZNgBaGTOqfTaT8NgnkioQ==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   '@apideck/better-ajv-errors@0.3.6':
     resolution: {integrity: sha512-P+ZygBLZtkp0qqOAJJVX4oX/sFo5JR3eBWwwuqHHhK0GIgQOKWrAfiAaWX0aArHkRWHMuggFEgAZNxVPwPZYaA==}
@@ -11375,6 +11384,13 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@anthropic-ai/claude-code@1.0.6':
+    optionalDependencies:
+      '@img/sharp-darwin-arm64': 0.33.5
+      '@img/sharp-linux-arm': 0.33.5
+      '@img/sharp-linux-x64': 0.33.5
+      '@img/sharp-win32-x64': 0.33.5
 
   '@apideck/better-ajv-errors@0.3.6(ajv@8.17.1)':
     dependencies:
