@@ -1,0 +1,1 @@
+ALTER TABLE "app_session" DROP COLUMN "audios";

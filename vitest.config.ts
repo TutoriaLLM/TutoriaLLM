@@ -15,7 +15,8 @@ export default defineConfig({
 			"**/e2e/**",
 		],
 		coverage: {
-			reporter: ["text", "json-summary", "json"],
+			provider: "v8",
+			reporter: ["text", "json-summary", "json", "html"],
 		},
 	},
 

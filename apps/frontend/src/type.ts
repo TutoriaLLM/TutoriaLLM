@@ -21,7 +21,6 @@ const $Tutorial = client.tutorials[":id"].$get;
 export type Tutorial = InferResponseType<typeof $Tutorial, 200>;
 
 export type Clicks = SessionValue["clicks"];
-export type AIAudios = SessionValue["audios"];
 export type Stats = SessionValue["stats"];
 
 // Type for defining tab types

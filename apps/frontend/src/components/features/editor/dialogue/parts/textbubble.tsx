@@ -79,12 +79,7 @@ const TextBubble = React.forwardRef(function TextBubble(
 					easyMode,
 				);
 			case "ai_audio":
-				return renderAIaudioBubble(
-					content,
-					t,
-					item.id,
-					currentSession?.audios ?? [],
-				);
+				return renderAIaudioBubble(content, t, item.id);
 			case "ui":
 				return item.ui === "selectTutorial" ? (
 					<SelectTutorialUI setSessionState={setCurrentSession} />

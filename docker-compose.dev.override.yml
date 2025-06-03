@@ -11,9 +11,11 @@ services:
       - /pnpm/store:/pnpm/store
     command: pnpm dev
     environment:
-      - VITE_BACKEND_URL=http://localhost:3001
+      - VITE_BACKEND_URL
     ports:
       - "3000:3000"
+    expose:
+      - 3000
 
   backend:
     build:
