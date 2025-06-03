@@ -5,13 +5,20 @@ import { eq } from "drizzle-orm";
 import { updateAndBroadcastDiffToAll } from "@/modules/session/socket/updateDB";
 import { transcribeAudio } from "./whisper";
 
+/**
+ * Generates transcript from base64 audio data and updates the session dialogue
+ * @param sessionId - The session ID
+ * @param target_id - The target dialogue ID to update
+ * @param Socket - The socket connection
+ * @param base64Wav - Base64 encoded WAV audio data
+ */
 export async function generateTranscriptFromAudio(
 	sessionId: string,
 	target_id: number,
 	Socket: Socket,
-	wavOutputPath: string, //expected as wav
+	base64Wav: string,
 ) {
-	const transcript = await transcribeAudio(wavOutputPath);
+	const transcript = await transcribeAudio(base64Wav);
 
 	// Migrated from Redis to Postgres: from 1.0.0
 	const data = await db.query.appSessions.findFirst({
