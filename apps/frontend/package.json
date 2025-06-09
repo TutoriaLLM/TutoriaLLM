@@ -10,7 +10,7 @@
     "type:check": "wireit"
   },
   "dependencies": {
-    "@axe-core/playwright": "4.10.1",
+    "@axe-core/playwright": "4.10.2",
     "@blockly/field-grid-dropdown": "5.0.16",
     "@blockly/field-slider": "7.0.16",
     "@hookform/resolvers": "3.10.0",
