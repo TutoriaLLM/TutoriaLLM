@@ -89,7 +89,7 @@
     "zod-to-json-schema": "3.24.5"
   },
   "devDependencies": {
-    "@types/cors": "2.8.18",
+    "@types/cors": "2.8.19",
     "@types/fluent-ffmpeg": "2.1.27",
     "@types/http-proxy": "1.17.16",
     "@types/js-yaml": "4.0.9",
