@@ -111,11 +111,11 @@ importers:
         specifier: 3.821.0
         version: 3.821.0
       '@hono/node-server':
-        specifier: 1.14.3
-        version: 1.14.3(hono@4.7.11)
+        specifier: 1.14.4
+        version: 1.14.4(hono@4.7.11)
       '@hono/node-ws':
         specifier: 1.1.4
-        version: 1.1.4(@hono/node-server@1.14.3(hono@4.7.11))(hono@4.7.11)
+        version: 1.1.4(@hono/node-server@1.14.4(hono@4.7.11))(hono@4.7.11)
       '@hono/zod-openapi':
         specifier: 0.19.8
         version: 0.19.8(hono@4.7.11)(zod@3.25.56)
@@ -2809,8 +2809,8 @@ packages:
   '@hexagon/base64@1.1.28':
     resolution: {integrity: sha512-lhqDEAvWixy3bZ+UOYbPwUbBkwBq5C1LAJ/xPC8Oi+lL54oyakv/npbA0aU2hgCsx/1NUd4IBvV03+aUBWxerw==}
 
-  '@hono/node-server@1.14.3':
-    resolution: {integrity: sha512-KuDMwwghtFYSmIpr4WrKs1VpelTrptvJ+6x6mbUcZnFcc213cumTF5BdqfHyW93B19TNI4Vaev14vOI2a0Ie3w==}
+  '@hono/node-server@1.14.4':
+    resolution: {integrity: sha512-DnxpshhYewr2q9ZN8ez/M5mmc3sucr8CT1sIgIy1bkeUXut9XWDkqHoFHRhWIQgkYnKpVRxunyhK7WzpJeJ6qQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
@@ -14057,13 +14057,13 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hono/node-server@1.14.3(hono@4.7.11)':
+  '@hono/node-server@1.14.4(hono@4.7.11)':
     dependencies:
       hono: 4.7.11
 
-  '@hono/node-ws@1.1.4(@hono/node-server@1.14.3(hono@4.7.11))(hono@4.7.11)':
+  '@hono/node-ws@1.1.4(@hono/node-server@1.14.4(hono@4.7.11))(hono@4.7.11)':
     dependencies:
-      '@hono/node-server': 1.14.3(hono@4.7.11)
+      '@hono/node-server': 1.14.4(hono@4.7.11)
       hono: 4.7.11
       ws: 8.18.0
     transitivePeerDependencies:
