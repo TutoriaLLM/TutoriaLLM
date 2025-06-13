@@ -114,8 +114,8 @@ importers:
         specifier: 1.14.4
         version: 1.14.4(hono@4.7.11)
       '@hono/node-ws':
-        specifier: 1.1.6
-        version: 1.1.6(@hono/node-server@1.14.4(hono@4.7.11))(hono@4.7.11)
+        specifier: 1.1.7
+        version: 1.1.7(@hono/node-server@1.14.4(hono@4.7.11))(hono@4.7.11)
       '@hono/zod-openapi':
         specifier: 0.19.8
         version: 0.19.8(hono@4.7.11)(zod@3.25.56)
@@ -2815,8 +2815,8 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@hono/node-ws@1.1.6':
-    resolution: {integrity: sha512-8ab2e0sr5FUbQJVYo0OxzaToQkiyeA9pOkLauzWHYNKfarhQ7XlISWsM3lShQYOOgrWpgXXxr1FTXXE0V7P/uw==}
+  '@hono/node-ws@1.1.7':
+    resolution: {integrity: sha512-O+sJXeruHlAAdSHUoyol8s2kTVqixdGIfKqakyN6z2RKR2O8LDOFr1CpTye7xfwmUsBe6uoXKSLmGvLbCfPFgw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       '@hono/node-server': ^1.11.1
@@ -12261,7 +12261,7 @@ snapshots:
       '@babel/core': 7.27.1
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-plugin-utils': 7.26.5
-      debug: 4.4.0(supports-color@5.5.0)
+      debug: 4.4.1
       lodash.debounce: 4.0.8
       resolve: 1.22.10
     transitivePeerDependencies:
@@ -14089,7 +14089,7 @@ snapshots:
     dependencies:
       hono: 4.7.11
 
-  '@hono/node-ws@1.1.6(@hono/node-server@1.14.4(hono@4.7.11))(hono@4.7.11)':
+  '@hono/node-ws@1.1.7(@hono/node-server@1.14.4(hono@4.7.11))(hono@4.7.11)':
     dependencies:
       '@hono/node-server': 1.14.4(hono@4.7.11)
       hono: 4.7.11
