@@ -10,7 +10,7 @@ catalog:
   rfc6902: 5.1.2
   tsx: 4.19.4
   js-yaml: 4.1.0
-  zod: 3.25.57
+  zod: 3.25.64
   tailwindcss: 3.4.17
   "@types/node": 20.19.0
   typescript: 5.8.3
