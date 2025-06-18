@@ -93,7 +93,7 @@
     "zod-i18n-map": "2.27.0"
   },
   "devDependencies": {
-    "@mswjs/socket.io-binding": "0.1.1",
+    "@mswjs/socket.io-binding": "0.2.0",
     "@playwright/test": "1.52.0",
     "@tanstack/router-devtools": "1.90.0",
     "@tanstack/router-plugin": "1.87.13",
