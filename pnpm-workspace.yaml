@@ -12,5 +12,5 @@ catalog:
   js-yaml: 4.1.0
   zod: 3.25.64
   tailwindcss: 3.4.17
-  "@types/node": 20.19.0
+  "@types/node": 20.19.1
   typescript: 5.8.3
