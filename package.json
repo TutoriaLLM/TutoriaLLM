@@ -31,7 +31,7 @@
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
     "@vitejs/plugin-react": "4.4.1",
-    "@vitest/coverage-v8": "3.2.3",
+    "@vitest/coverage-v8": "3.2.4",
     "commitizen": "4.3.1",
     "cspell": "8.19.4",
     "cz-conventional-changelog": "3.3.0",
@@ -40,7 +40,7 @@
     "sherif": "1.5.0",
     "simple-git-hooks": "2.13.0",
     "vite-tsconfig-paths": "5.0.1",
-    "vitest": "3.2.3",
+    "vitest": "3.2.4",
     "wireit": "0.14.12"
   },
   "wireit": {
