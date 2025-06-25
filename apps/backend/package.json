@@ -33,7 +33,7 @@
     "@hono/node-server": "1.14.4",
     "@hono/node-ws": "1.1.7",
     "@hono/zod-openapi": "0.19.8",
-    "@hono/zod-validator": "0.5.0",
+    "@hono/zod-validator": "0.7.0",
     "@opentelemetry/api": "1.9.0",
     "@opentelemetry/auto-instrumentations-node": "0.50.2",
     "@opentelemetry/auto-instrumentations-web": "0.41.0",
