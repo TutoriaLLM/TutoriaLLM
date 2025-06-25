@@ -114,8 +114,8 @@ importers:
         specifier: 1.14.4
         version: 1.14.4(hono@4.8.2)
       '@hono/node-ws':
-        specifier: 1.1.7
-        version: 1.1.7(@hono/node-server@1.14.4(hono@4.8.2))(hono@4.8.2)
+        specifier: 1.2.0
+        version: 1.2.0(@hono/node-server@1.14.4(hono@4.8.2))(hono@4.8.2)
       '@hono/zod-openapi':
         specifier: 0.19.8
         version: 0.19.8(hono@4.8.2)(zod@3.25.67)
@@ -2815,8 +2815,8 @@ packages:
     peerDependencies:
       hono: ^4
 
-  '@hono/node-ws@1.1.7':
-    resolution: {integrity: sha512-O+sJXeruHlAAdSHUoyol8s2kTVqixdGIfKqakyN6z2RKR2O8LDOFr1CpTye7xfwmUsBe6uoXKSLmGvLbCfPFgw==}
+  '@hono/node-ws@1.2.0':
+    resolution: {integrity: sha512-OBPQ8OSHBw29mj00wT/xGYtB6HY54j0fNSdVZ7gZM3TUeq0So11GXaWtFf1xWxQNfumKIsj0wRuLKWfVsO5GgQ==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       '@hono/node-server': ^1.11.1
@@ -6077,6 +6077,7 @@ packages:
 
   atlassian-openapi@1.0.21:
     resolution: {integrity: sha512-1OnnoY2CQYHgXrce/06BltL7fox+uVY7brHUInyFbMpTURjTNIGXfLQxVDRo/2On7ryyKzkX7FfNApYhXw7f+w==}
+    deprecated: 'DEPRECATED: atlassian-openapi has moved to @atlassian/atlassian-openapi. The latest version is 1.0.6. Please update your dependency.'
 
   autoprefixer@10.4.21:
     resolution: {integrity: sha512-O+A6LWV5LDHSJD3LjHYoNi4VLsj/Whi7k6zG12xTYaU4cQ8oxQGckXNX8cRHK5yOZ/ppVHe0ZBXGzSV9jXdVbQ==}
@@ -14097,7 +14098,7 @@ snapshots:
     dependencies:
       hono: 4.8.2
 
-  '@hono/node-ws@1.1.7(@hono/node-server@1.14.4(hono@4.8.2))(hono@4.8.2)':
+  '@hono/node-ws@1.2.0(@hono/node-server@1.14.4(hono@4.8.2))(hono@4.8.2)':
     dependencies:
       '@hono/node-server': 1.14.4(hono@4.8.2)
       hono: 4.8.2
