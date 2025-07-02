@@ -16,8 +16,8 @@ catalogs:
       specifier: 11.2.2
       version: 11.2.2
     dotenv:
-      specifier: 16.5.0
-      version: 16.5.0
+      specifier: 16.6.1
+      version: 16.6.1
     hono:
       specifier: 4.8.3
       version: 4.8.3
@@ -202,7 +202,7 @@ importers:
         version: 7.0.3
       dotenv:
         specifier: 'catalog:'
-        version: 16.5.0
+        version: 16.6.1
       drizzle-kit:
         specifier: 0.30.6
         version: 0.30.6
@@ -489,7 +489,7 @@ importers:
         version: 3.5.0
       dotenv:
         specifier: 'catalog:'
-        version: 16.5.0
+        version: 16.6.1
       extensions:
         specifier: 'workspace:'
         version: link:../../packages/extensions
@@ -6977,8 +6977,8 @@ packages:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
 
-  dotenv@16.5.0:
-    resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
     engines: {node: '>=12'}
 
   doublearray@0.0.2:
@@ -19231,7 +19231,7 @@ snapshots:
     dependencies:
       is-obj: 2.0.0
 
-  dotenv@16.5.0: {}
+  dotenv@16.6.1: {}
 
   doublearray@0.0.2: {}
 
@@ -23005,7 +23005,7 @@ snapshots:
   static-browser-server@1.0.3:
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
-      dotenv: 16.5.0
+      dotenv: 16.6.1
       mime-db: 1.53.0
       outvariant: 1.4.3
 
