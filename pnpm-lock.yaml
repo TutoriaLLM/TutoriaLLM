@@ -171,8 +171,8 @@ importers:
         specifier: 1.27.0
         version: 1.27.0
       '@scalar/hono-api-reference':
-        specifier: 0.9.7
-        version: 0.9.7(hono@4.8.4)
+        specifier: 0.9.9
+        version: 0.9.9(hono@4.8.4)
       '@sentry/node':
         specifier: 8.49.0
         version: 8.49.0
@@ -4942,22 +4942,22 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
-  '@scalar/core@0.3.5':
-    resolution: {integrity: sha512-tcLLaGT/otQuEZzTtWUlnBMtcs95gcqwJSQCHqDui2v/+2ctV3FKjGJFoZLutICmQaSGLk0zNt14w39/VAsEqw==}
+  '@scalar/core@0.3.7':
+    resolution: {integrity: sha512-Qeq+DfOWxjVHFff9qx0w9gVK6FmgqJtpN3je5C3elKVXNPC/7rxG4BfAuced+SdnogaVzpb9rvvHPblMgsKrwQ==}
     engines: {node: '>=20'}
 
-  '@scalar/hono-api-reference@0.9.7':
-    resolution: {integrity: sha512-IJngqUlvIEZ7e4VrUUdviNbGQIx6NoHb7XrkTAUMLYvcTw1J3TcdFY4i7hWiD4bp2z+pVbi3UFStlt7y6KzdUA==}
+  '@scalar/hono-api-reference@0.9.9':
+    resolution: {integrity: sha512-8oJ1xaYVHT3/7Go5FtcZqqsm4NkJL0Jxf3ZipXjoJcvhyiBXyQdXGNnKJVXSci2BhQMqMav6pXzkje8gq74ZAg==}
     engines: {node: '>=20'}
     peerDependencies:
       hono: ^4.0.0
 
-  '@scalar/openapi-types@0.3.4':
-    resolution: {integrity: sha512-MfHRX1jqLcf6kwDDeXSYENywZXJLZx9Jn8r7DCQApw2QJW/yxb4GnCU0vygCh5KBk1GVJ4x6pyXiWNozb+fGAw==}
+  '@scalar/openapi-types@0.3.5':
+    resolution: {integrity: sha512-/iTUSJMMHVMIFJngeIjTVtU5lwIMNyEIm25e0XtDV0veW6zmIhLsaH2/nwpIgR1iXVyd/uWMyMrtQW329s3c4w==}
     engines: {node: '>=20'}
 
-  '@scalar/types@0.2.5':
-    resolution: {integrity: sha512-kXulR6peh+zzP9DFqhncUKtvnV59e6Cf/y3N5Q8RQIa8huRB+901MbXewUEXV4MXYzMMBKJXRgc1LwwbAZUtRA==}
+  '@scalar/types@0.2.7':
+    resolution: {integrity: sha512-C4sbkqzCeQWYWaOUIQPdVm6g3FhUkcqpVorArApv7WfCEgVn1KLOOYELFMWwCHim2GnrZblVVUPubf0UXjUcLA==}
     engines: {node: '>=20'}
 
   '@sentry-internal/browser-utils@8.34.0':
@@ -11648,7 +11648,7 @@ snapshots:
       graphemer: 1.4.0
       multiformats: 9.9.0
       uint8arrays: 3.0.0
-      zod: 3.25.72
+      zod: 3.25.74
 
   '@atproto/lexicon@0.4.10':
     dependencies:
@@ -11656,7 +11656,7 @@ snapshots:
       '@atproto/syntax': 0.4.0
       iso-datestring-validator: 2.2.2
       multiformats: 9.9.0
-      zod: 3.25.72
+      zod: 3.25.74
 
   '@atproto/syntax@0.3.4': {}
 
@@ -11665,7 +11665,7 @@ snapshots:
   '@atproto/xrpc@0.6.12':
     dependencies:
       '@atproto/lexicon': 0.4.10
-      zod: 3.25.72
+      zod: 3.25.74
 
   '@aws-crypto/crc32@5.2.0':
     dependencies:
@@ -16699,22 +16699,22 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@scalar/core@0.3.5':
+  '@scalar/core@0.3.7':
     dependencies:
-      '@scalar/types': 0.2.5
+      '@scalar/types': 0.2.7
 
-  '@scalar/hono-api-reference@0.9.7(hono@4.8.4)':
+  '@scalar/hono-api-reference@0.9.9(hono@4.8.4)':
     dependencies:
-      '@scalar/core': 0.3.5
+      '@scalar/core': 0.3.7
       hono: 4.8.4
 
-  '@scalar/openapi-types@0.3.4':
+  '@scalar/openapi-types@0.3.5':
     dependencies:
       zod: 3.24.1
 
-  '@scalar/types@0.2.5':
+  '@scalar/types@0.2.7':
     dependencies:
-      '@scalar/openapi-types': 0.3.4
+      '@scalar/openapi-types': 0.3.5
       nanoid: 5.1.5
       zod: 3.24.1
 
