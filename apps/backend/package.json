@@ -50,7 +50,7 @@
     "@opentelemetry/sdk-trace-node": "1.26.0",
     "@opentelemetry/sdk-trace-web": "1.26.0",
     "@opentelemetry/semantic-conventions": "1.27.0",
-    "@scalar/hono-api-reference": "0.9.9",
+    "@scalar/hono-api-reference": "0.9.10",
     "@sentry/node": "8.49.0",
     "ai": "4.3.16",
     "argon2": "0.41.1",
