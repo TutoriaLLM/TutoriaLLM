@@ -94,7 +94,7 @@
   },
   "devDependencies": {
     "@mswjs/socket.io-binding": "0.2.0",
-    "@playwright/test": "1.53.2",
+    "@playwright/test": "1.54.1",
     "@tanstack/router-devtools": "1.90.0",
     "@tanstack/router-plugin": "1.87.13",
     "@types/kuromoji": "0.1.3",
