@@ -52,7 +52,7 @@
     "@opentelemetry/semantic-conventions": "1.27.0",
     "@scalar/hono-api-reference": "0.9.10",
     "@sentry/node": "8.49.0",
-    "ai": "4.3.17",
+    "ai": "4.3.19",
     "argon2": "0.41.1",
     "atlassian-openapi": "1.0.21",
     "better-auth": "catalog:",
