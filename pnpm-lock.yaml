@@ -377,8 +377,8 @@ importers:
         specifier: 3.10.0
         version: 3.10.0(react-hook-form@7.54.2(react@18.3.1))
       '@mdxeditor/editor':
-        specifier: 3.39.1
-        version: 3.39.1(@codemirror/language@6.10.8)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.21)
+        specifier: 3.40.0
+        version: 3.40.0(@codemirror/language@6.10.8)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.21)
       '@radix-ui/react-accordion':
         specifier: 1.2.11
         version: 1.2.11(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3228,8 +3228,8 @@ packages:
   '@mdx-js/mdx@3.1.0':
     resolution: {integrity: sha512-/QxEhPAvGwbQmy1Px8F899L5Uc2KZ6JtXwlCgJmjSTBedwOZkByYcBG4GceIGPXRDsmfxhHazuS+hlOShRLeDw==}
 
-  '@mdxeditor/editor@3.39.1':
-    resolution: {integrity: sha512-z9w8HUzAgN0DRHM0xQBNxhstwEAKU1VFf+E0JeJxK3d3YmcwBTS0LoC9tuiTgFtRhUITrfcQzPx4+tOZ9eWDZg==}
+  '@mdxeditor/editor@3.40.0':
+    resolution: {integrity: sha512-yNwnXEhhIvk0ElhAHuaksnk8WxBkKDGxm+SsKAf6aI2OmDfz4lxY4/zqElvb89XtwyyqHuqi8wCCDGANWIQR1Q==}
     engines: {node: '>=16'}
     peerDependencies:
       react: '>= 18 || >= 19'
@@ -14685,7 +14685,7 @@ snapshots:
       - acorn
       - supports-color
 
-  '@mdxeditor/editor@3.39.1(@codemirror/language@6.10.8)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.21)':
+  '@mdxeditor/editor@3.40.0(@codemirror/language@6.10.8)(@lezer/highlight@1.2.1)(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yjs@13.6.21)':
     dependencies:
       '@codemirror/commands': 6.8.0
       '@codemirror/lang-markdown': 6.3.2
