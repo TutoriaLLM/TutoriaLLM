@@ -38,7 +38,7 @@
     "js-yaml": "catalog:",
     "jsdom": "26.1.0",
     "sherif": "1.6.1",
-    "simple-git-hooks": "2.13.0",
+    "simple-git-hooks": "2.13.1",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "3.2.4",
     "wireit": "0.14.12"
