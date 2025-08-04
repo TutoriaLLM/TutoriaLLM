@@ -6,7 +6,7 @@ catalog:
   vite: 6.0.2
   blockly: 11.2.2
   dotenv: 16.6.1
-  hono: 4.8.9
+  hono: 4.8.10
   rfc6902: 5.1.2
   tsx: 4.20.3
   js-yaml: 4.1.0
