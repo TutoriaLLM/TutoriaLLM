@@ -19,8 +19,8 @@ catalogs:
       specifier: 16.6.1
       version: 16.6.1
     hono:
-      specifier: 4.8.12
-      version: 4.8.12
+      specifier: 4.9.4
+      version: 4.9.4
     js-yaml:
       specifier: 4.1.0
       version: 4.1.0
@@ -112,16 +112,16 @@ importers:
         version: 3.850.0
       '@hono/node-server':
         specifier: 1.17.1
-        version: 1.17.1(hono@4.8.12)
+        version: 1.17.1(hono@4.9.4)
       '@hono/node-ws':
         specifier: 1.2.0
-        version: 1.2.0(@hono/node-server@1.17.1(hono@4.8.12))(hono@4.8.12)
+        version: 1.2.0(@hono/node-server@1.17.1(hono@4.9.4))(hono@4.9.4)
       '@hono/zod-openapi':
         specifier: 0.19.10
-        version: 0.19.10(hono@4.8.12)(zod@3.25.76)
+        version: 0.19.10(hono@4.9.4)(zod@3.25.76)
       '@hono/zod-validator':
         specifier: 0.7.2
-        version: 0.7.2(hono@4.8.12)(zod@3.25.76)
+        version: 0.7.2(hono@4.9.4)(zod@3.25.76)
       '@opentelemetry/api':
         specifier: 1.9.0
         version: 1.9.0
@@ -172,7 +172,7 @@ importers:
         version: 1.27.0
       '@scalar/hono-api-reference':
         specifier: 0.9.13
-        version: 0.9.13(hono@4.8.12)
+        version: 0.9.13(hono@4.9.4)
       '@sentry/node':
         specifier: 8.49.0
         version: 8.49.0
@@ -226,7 +226,7 @@ importers:
         version: 7.1.0
       hono:
         specifier: 'catalog:'
-        version: 4.8.12
+        version: 4.9.4
       http-proxy:
         specifier: 1.18.1
         version: 1.18.1(debug@4.4.0)
@@ -661,7 +661,7 @@ importers:
         version: 11.2.2
       hono:
         specifier: 'catalog:'
-        version: 4.8.12
+        version: 4.9.4
       uuidv7:
         specifier: 1.0.2
         version: 1.0.2
@@ -7702,8 +7702,8 @@ packages:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
 
-  hono@4.8.12:
-    resolution: {integrity: sha512-MQSKk1Mg7b74k8l+A025LfysnLtXDKkE4pLaSsYRQC5iy85lgZnuyeQ1Wynair9mmECzoLu+FtJtqNZSoogBDQ==}
+  hono@4.9.4:
+    resolution: {integrity: sha512-61hl6MF6ojTl/8QSRu5ran6GXt+6zsngIUN95KzF5v5UjiX/xnrLR358BNRawwIRO49JwUqJqQe3Rb2v559R8Q==}
     engines: {node: '>=16.9.0'}
 
   html-encoding-sniffer@4.0.0:
@@ -14096,30 +14096,30 @@ snapshots:
 
   '@hexagon/base64@1.1.28': {}
 
-  '@hono/node-server@1.17.1(hono@4.8.12)':
+  '@hono/node-server@1.17.1(hono@4.9.4)':
     dependencies:
-      hono: 4.8.12
+      hono: 4.9.4
 
-  '@hono/node-ws@1.2.0(@hono/node-server@1.17.1(hono@4.8.12))(hono@4.8.12)':
+  '@hono/node-ws@1.2.0(@hono/node-server@1.17.1(hono@4.9.4))(hono@4.9.4)':
     dependencies:
-      '@hono/node-server': 1.17.1(hono@4.8.12)
-      hono: 4.8.12
+      '@hono/node-server': 1.17.1(hono@4.9.4)
+      hono: 4.9.4
       ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@hono/zod-openapi@0.19.10(hono@4.8.12)(zod@3.25.76)':
+  '@hono/zod-openapi@0.19.10(hono@4.9.4)(zod@3.25.76)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.25.76)
-      '@hono/zod-validator': 0.7.2(hono@4.8.12)(zod@3.25.76)
-      hono: 4.8.12
+      '@hono/zod-validator': 0.7.2(hono@4.9.4)(zod@3.25.76)
+      hono: 4.9.4
       openapi3-ts: 4.5.0
       zod: 3.25.76
 
-  '@hono/zod-validator@0.7.2(hono@4.8.12)(zod@3.25.76)':
+  '@hono/zod-validator@0.7.2(hono@4.9.4)(zod@3.25.76)':
     dependencies:
-      hono: 4.8.12
+      hono: 4.9.4
       zod: 3.25.76
 
   '@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@18.3.1))':
@@ -16668,10 +16668,10 @@ snapshots:
     dependencies:
       '@scalar/types': 0.2.11
 
-  '@scalar/hono-api-reference@0.9.13(hono@4.8.12)':
+  '@scalar/hono-api-reference@0.9.13(hono@4.9.4)':
     dependencies:
       '@scalar/core': 0.3.11
-      hono: 4.8.12
+      hono: 4.9.4
 
   '@scalar/openapi-types@0.3.7':
     dependencies:
@@ -20212,7 +20212,7 @@ snapshots:
     dependencies:
       parse-passwd: 1.0.0
 
-  hono@4.8.12: {}
+  hono@4.9.4: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:
