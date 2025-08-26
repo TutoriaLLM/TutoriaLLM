@@ -8,7 +8,7 @@ catalog:
   dotenv: 16.6.1
   hono: 4.9.4
   rfc6902: 5.1.2
-  tsx: 4.20.3
+  tsx: 4.20.4
   js-yaml: 4.1.0
   zod: 3.25.76
   tailwindcss: 3.4.17
