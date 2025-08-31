@@ -22,7 +22,7 @@
     "sharp": "0.32.6",
     "starlight-links-validator": "0.16.0",
     "starlight-openapi": "0.16.0",
-    "tailwindcss": "4.1.11",
+    "tailwindcss": "4.1.12",
     "typescript": "catalog:"
   },
   "devDependencies": {
