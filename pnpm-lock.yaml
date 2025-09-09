@@ -171,8 +171,8 @@ importers:
         specifier: 1.27.0
         version: 1.27.0
       '@scalar/hono-api-reference':
-        specifier: 0.9.15
-        version: 0.9.15(hono@4.9.6)
+        specifier: 0.9.16
+        version: 0.9.16(hono@4.9.6)
       '@sentry/node':
         specifier: 8.49.0
         version: 8.49.0
@@ -4957,12 +4957,12 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
-  '@scalar/core@0.3.13':
-    resolution: {integrity: sha512-lgrueSjR1eacM39Zg0jAHikGomGAF2o2/s/5EcMz/ul7VLo/IBymw8gUjcGHZ9zd8PFGdo8DvOwFMRCiXiaDHw==}
+  '@scalar/core@0.3.14':
+    resolution: {integrity: sha512-Fjgscu148WY1g28VNVZikQxGX8iwronPttIoCf7ayausnVMWX6s6wOZm0D3StNbxqMl2js8FQ/s0GlfCAG6XEg==}
     engines: {node: '>=20'}
 
-  '@scalar/hono-api-reference@0.9.15':
-    resolution: {integrity: sha512-Lx/ity79xA3pdp624ikccDwvlY30M79e/1jvl/LjPDToc0byMr2tUVyHbmMhuaX8PVPlUKkdO97XGw0+M5IZJg==}
+  '@scalar/hono-api-reference@0.9.16':
+    resolution: {integrity: sha512-kItGQFtZfUjKCI0L5B1WwVJ2Vf61ixFf4QqvjfwEiNh8hWirwkqGLlFwPGlvwZVGzuScfoVJrpXUjQQ782txUw==}
     engines: {node: '>=20'}
     peerDependencies:
       hono: ^4.0.0
@@ -4971,8 +4971,8 @@ packages:
     resolution: {integrity: sha512-QHSvHBVDze3+dUwAhIGq6l1iOev4jdoqdBK7QpfeN1Q4h+6qpVEw3EEqBiH0AXUSh/iWwObBv4uMgfIx0aNZ5g==}
     engines: {node: '>=20'}
 
-  '@scalar/types@0.2.12':
-    resolution: {integrity: sha512-CW7jS+gpc3lZdjf+888++I9HtsGCk6zbh4lZscY8spcg/dlXXd3ReYicxee/cx+soDjU1d/Pcqj9o/QqvTFYxQ==}
+  '@scalar/types@0.2.13':
+    resolution: {integrity: sha512-rO6KGMJqOsBnN/2R4fErMFLpRSPVJElni+HABDpf+ZlLJp2lvxuPn0IXLumK5ytfplUH9iqKgSXjndnZfxSYLQ==}
     engines: {node: '>=20'}
 
   '@sentry-internal/browser-utils@8.34.0':
@@ -16738,20 +16738,20 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@scalar/core@0.3.13':
+  '@scalar/core@0.3.14':
     dependencies:
-      '@scalar/types': 0.2.12
+      '@scalar/types': 0.2.13
 
-  '@scalar/hono-api-reference@0.9.15(hono@4.9.6)':
+  '@scalar/hono-api-reference@0.9.16(hono@4.9.6)':
     dependencies:
-      '@scalar/core': 0.3.13
+      '@scalar/core': 0.3.14
       hono: 4.9.6
 
   '@scalar/openapi-types@0.3.7':
     dependencies:
       zod: 3.24.1
 
-  '@scalar/types@0.2.12':
+  '@scalar/types@0.2.13':
     dependencies:
       '@scalar/openapi-types': 0.3.7
       nanoid: 5.1.5
