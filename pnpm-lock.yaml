@@ -334,8 +334,8 @@ importers:
         specifier: 5.7.12
         version: 5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0)
       astro-embed:
-        specifier: 0.9.0
-        version: 0.9.0(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))
+        specifier: 0.9.1
+        version: 0.9.1(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))
       i:
         specifier: 0.3.7
         version: 0.3.7
@@ -741,8 +741,8 @@ packages:
     peerDependencies:
       zod: ^3.20.2
 
-  '@astro-community/astro-embed-baseline-status@0.1.2':
-    resolution: {integrity: sha512-u+3BwXCSjBIVW29MGTbdusRhRBhqcjHyE6dgBCsUK/nZ0BohP1Nfih8dB7YltTVZxgECakKWQWoSHabDbYteyA==}
+  '@astro-community/astro-embed-baseline-status@0.2.0':
+    resolution: {integrity: sha512-OtMNgMLW6Rs32WfUXyoa2Im7QB0orH1g6KD3a6Kq+08XnPtIHJEkcGtlNylYf4jUm5S8uTPloVWP3WS1U/o/OQ==}
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta
 
@@ -6048,8 +6048,8 @@ packages:
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta
 
-  astro-embed@0.9.0:
-    resolution: {integrity: sha512-koBCZH8n1q7tyXW+s11mdwb5dFsv9kG8uMuF17CUIVFJWqwRxx7YCpa9o2P9PuPeWffsrwmdVJTl65kLLP2Uug==}
+  astro-embed@0.9.1:
+    resolution: {integrity: sha512-l3lkPsluDOf/FeHWfBU1+7srAcHrByu/Z1dSr3iAheSVYJfSBpAmYnSsHG90NuIK/8Mr3tg0AhNE2JJy3an/zA==}
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta
 
@@ -11434,7 +11434,7 @@ snapshots:
       openapi3-ts: 4.5.0
       zod: 3.25.76
 
-  '@astro-community/astro-embed-baseline-status@0.1.2(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))':
+  '@astro-community/astro-embed-baseline-status@0.2.0(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))':
     dependencies:
       '@astro-community/astro-embed-utils': 0.1.3
       astro: 5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0)
@@ -18127,9 +18127,9 @@ snapshots:
       acorn: 8.14.1
       astro: 5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0)
 
-  astro-embed@0.9.0(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0)):
+  astro-embed@0.9.1(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0)):
     dependencies:
-      '@astro-community/astro-embed-baseline-status': 0.1.2(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))
+      '@astro-community/astro-embed-baseline-status': 0.2.0(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))
       '@astro-community/astro-embed-bluesky': 0.1.3(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))
       '@astro-community/astro-embed-integration': 0.8.1(astro@5.7.12(@types/node@20.19.17)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.5)(typescript@5.9.2)(yaml@2.8.0))
       '@astro-community/astro-embed-link-preview': 0.2.2
