@@ -422,8 +422,8 @@ importers:
         specifier: 8.34.0
         version: 8.34.0(react@18.3.1)
       '@tailwindcss/typography':
-        specifier: 0.5.18
-        version: 0.5.18(tailwindcss@3.4.17)
+        specifier: 0.5.19
+        version: 0.5.19(tailwindcss@3.4.17)
       '@tanstack/react-query':
         specifier: 5.61.0
         version: 5.61.0(react@18.3.1)
@@ -5437,8 +5437,8 @@ packages:
     resolution: {integrity: sha512-p5wOpXyOJx7mKh5MXh5oKk+kqcz8T+bA3z/5VWWeQwFrmuBItGwz8Y2CHk/sJ+dNb9B0nYFfn0rj/cKHZyjahQ==}
     engines: {node: '>= 10'}
 
-  '@tailwindcss/typography@0.5.18':
-    resolution: {integrity: sha512-dDIgwZOlf+tVkZ7A029VvQ1+ngKATENDjMEx2N35s2yPjfTS05RWSM8ilhEWSa5DMJ6ci2Ha9WNZEd2GQjrdQg==}
+  '@tailwindcss/typography@0.5.19':
+    resolution: {integrity: sha512-w31dd8HOx3k9vPtcQh5QHP9GwKcgbMp87j58qi6xgiBnFFtKEAgCWnDw4qUT8aHwkCp8bKvb/KGKWWHedP0AAg==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
 
@@ -17389,7 +17389,7 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.4
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.4
 
-  '@tailwindcss/typography@0.5.18(tailwindcss@3.4.17)':
+  '@tailwindcss/typography@0.5.19(tailwindcss@3.4.17)':
     dependencies:
       postcss-selector-parser: 6.0.10
       tailwindcss: 3.4.17
