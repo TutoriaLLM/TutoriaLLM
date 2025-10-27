@@ -316,8 +316,8 @@ importers:
   apps/docs:
     dependencies:
       '@astrojs/check':
-        specifier: 0.9.4
-        version: 0.9.4(prettier@3.4.2)(typescript@5.9.3)
+        specifier: 0.9.5
+        version: 0.9.5(prettier@3.4.2)(typescript@5.9.3)
       '@astrojs/starlight':
         specifier: 0.36.1
         version: 0.36.1(astro@5.7.12(@types/node@20.19.23)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.0))
@@ -777,8 +777,8 @@ packages:
     peerDependencies:
       astro: ^2.0.0 || ^3.0.0-beta || ^4.0.0-beta || ^5.0.0-beta
 
-  '@astrojs/check@0.9.4':
-    resolution: {integrity: sha512-IOheHwCtpUfvogHHsvu0AbeRZEnjJg3MopdLddkJE70mULItS/Vh37BHcI00mcOJcH1vhD3odbpvWokpxam7xA==}
+  '@astrojs/check@0.9.5':
+    resolution: {integrity: sha512-88vc8n2eJ1Oua74yXSGo/8ABMeypfQPGEzuoAx2awL9Ju8cE6tZ2Rz9jVx5hIExHK5gKVhpxfZj4WXm7e32g1w==}
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -11488,7 +11488,7 @@ snapshots:
       astro: 5.7.12(@types/node@20.19.23)(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.40.1)(terser@5.39.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.0)
       lite-youtube-embed: 0.3.3
 
-  '@astrojs/check@0.9.4(prettier@3.4.2)(typescript@5.9.3)':
+  '@astrojs/check@0.9.5(prettier@3.4.2)(typescript@5.9.3)':
     dependencies:
       '@astrojs/language-server': 2.15.4(prettier@3.4.2)(typescript@5.9.3)
       chokidar: 4.0.3
