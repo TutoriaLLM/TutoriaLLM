@@ -286,11 +286,11 @@ importers:
         specifier: 2.8.19
         version: 2.8.19
       '@types/fluent-ffmpeg':
-        specifier: 2.1.27
-        version: 2.1.27
+        specifier: 2.1.28
+        version: 2.1.28
       '@types/http-proxy':
-        specifier: 1.17.16
-        version: 1.17.16
+        specifier: 1.17.17
+        version: 1.17.17
       '@types/js-yaml':
         specifier: 4.0.9
         version: 4.0.9
@@ -5676,8 +5676,8 @@ packages:
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
 
-  '@types/fluent-ffmpeg@2.1.27':
-    resolution: {integrity: sha512-QiDWjihpUhriISNoBi2hJBRUUmoj/BMTYcfz+F+ZM9hHWBYABFAE6hjP/TbCZC0GWwlpa3FzvHH9RzFeRusZ7A==}
+  '@types/fluent-ffmpeg@2.1.28':
+    resolution: {integrity: sha512-5ovxsDwBcPfJ+eYs1I/ZpcYCnkce7pvH9AHSvrZllAp1ZPpTRDZAFjF3TRFbukxSgIYTTNYePbS0rKUmaxVbXw==}
 
   '@types/fontkit@2.0.8':
     resolution: {integrity: sha512-wN+8bYxIpJf+5oZdrdtaX04qUuWHcKxcDEgRS9Qm9ZClSHjzEn13SxUC+5eRM+4yXIeTYk8mTzLAWGF64847ew==}
@@ -5688,8 +5688,8 @@ packages:
   '@types/hoist-non-react-statics@3.3.6':
     resolution: {integrity: sha512-lPByRJUer/iN/xa4qpyL0qmL11DqNW81iU/IG1S3uvRUq4oKagz8VCxZjiWkumgt66YT3vOdDgZ0o32sGKtCEw==}
 
-  '@types/http-proxy@1.17.16':
-    resolution: {integrity: sha512-sdWoUajOB1cd0A8cRRQ1cfyWNbmFKLAqBB89Y8x5iYyG/mkJHc0YUH8pdWBy2omi9qtCpiIgGjuwO0dQST2l5w==}
+  '@types/http-proxy@1.17.17':
+    resolution: {integrity: sha512-ED6LB+Z1AVylNTu7hdzuBqOgMnvG/ld6wGCG8wFnAzKX5uyW2K3WD52v0gnLCTK/VLpXtKckgWuyScYK6cSPaw==}
 
   '@types/js-yaml@4.0.9':
     resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
@@ -5735,9 +5735,6 @@ packages:
 
   '@types/node@18.19.87':
     resolution: {integrity: sha512-OIAAu6ypnVZHmsHCeJ+7CCSub38QNBS9uceMQeg7K5Ur0Jr+wG9wEOEvvMbhp09pxD5czIUy/jND7s7Tb6Nw7A==}
-
-  '@types/node@20.19.22':
-    resolution: {integrity: sha512-hRnu+5qggKDSyWHlnmThnUqg62l29Aj/6vcYgUaSFL9oc7DVjeWEQN3PRgdSc6F8d9QRMWkf36CLMch1Do/+RQ==}
 
   '@types/node@20.19.23':
     resolution: {integrity: sha512-yIdlVVVHXpmqRhtyovZAcSy0MiPcYWGkoO4CGe/+jpP0hmNuihm4XhHbADpK++MsiLHP5MVlv+bcgdF99kSiFQ==}
@@ -17599,7 +17596,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
-      '@types/node': 20.19.22
+      '@types/node': 20.19.23
 
   '@types/cookie@0.4.1': {}
 
@@ -17661,13 +17658,13 @@ snapshots:
 
   '@types/estree@1.0.7': {}
 
-  '@types/fluent-ffmpeg@2.1.27':
+  '@types/fluent-ffmpeg@2.1.28':
     dependencies:
       '@types/node': 20.19.23
 
   '@types/fontkit@2.0.8':
     dependencies:
-      '@types/node': 20.19.22
+      '@types/node': 20.19.23
 
   '@types/hast@3.0.4':
     dependencies:
@@ -17678,7 +17675,7 @@ snapshots:
       '@types/react': 18.3.26
       hoist-non-react-statics: 3.3.2
 
-  '@types/http-proxy@1.17.16':
+  '@types/http-proxy@1.17.17':
     dependencies:
       '@types/node': 20.19.23
 
@@ -17731,10 +17728,6 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
-  '@types/node@20.19.22':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@20.19.23':
     dependencies:
       undici-types: 6.21.0
@@ -17772,7 +17765,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 20.19.22
+      '@types/node': 20.19.23
 
   '@types/shimmer@1.2.0': {}
 
@@ -20329,7 +20322,7 @@ snapshots:
 
   http-proxy-middleware@3.0.3:
     dependencies:
-      '@types/http-proxy': 1.17.16
+      '@types/http-proxy': 1.17.17
       debug: 4.4.0(supports-color@5.5.0)
       http-proxy: 1.18.1(debug@4.4.0)
       is-glob: 4.0.3
