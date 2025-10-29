@@ -37,7 +37,7 @@
     "cz-conventional-changelog": "3.3.0",
     "js-yaml": "catalog:",
     "jsdom": "26.1.0",
-    "sherif": "1.6.1",
+    "sherif": "1.7.0",
     "simple-git-hooks": "2.13.1",
     "vite-tsconfig-paths": "5.0.1",
     "vitest": "3.2.4",
