@@ -22,8 +22,8 @@ catalogs:
       specifier: 4.9.6
       version: 4.9.6
     js-yaml:
-      specifier: 4.1.0
-      version: 4.1.0
+      specifier: 4.1.1
+      version: 4.1.1
     rfc6902:
       specifier: 5.1.2
       version: 5.1.2
@@ -82,7 +82,7 @@ importers:
         version: 3.3.0(@types/node@20.19.24)(typescript@5.9.3)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.0
+        version: 4.1.1
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
@@ -238,7 +238,7 @@ importers:
         version: 12.3.0(@types/node@20.19.24)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.0
+        version: 4.1.1
       kuromoji:
         specifier: 0.1.2
         version: 0.1.2
@@ -516,7 +516,7 @@ importers:
         version: 2.10.1(@types/react@18.3.26)(react@18.3.1)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.0
+        version: 4.1.1
       kuromoji:
         specifier: 0.1.2
         version: 0.1.2
@@ -8185,6 +8185,10 @@ packages:
 
   js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
+    hasBin: true
+
+  js-yaml@4.1.1:
+    resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
   jsdom@25.0.1:
@@ -18849,7 +18853,7 @@ snapshots:
   cosmiconfig@8.3.6(typescript@5.9.3):
     dependencies:
       import-fresh: 3.3.0
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
@@ -18859,7 +18863,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -20716,6 +20720,10 @@ snapshots:
   js-tokens@9.0.1: {}
 
   js-yaml@4.1.0:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
 
