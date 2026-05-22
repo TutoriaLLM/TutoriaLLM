@@ -78,7 +78,7 @@ export async function workspaceToPngBase64(
 				const context = canvas.getContext("2d");
 				if (context) {
 					context.scale(pixelDensity, pixelDensity); // Keeping consistent coordinates
-					context.drawImage(img, 0, 0, canvas.width, canvas.height);
+					context.drawImage(img, 0, 0, width, height);
 					const dataUri = canvas.toDataURL("image/png");
 
 					// Use canvas and then remove it
