@@ -1,9 +1,10 @@
 import * as Blockly from "blockly/core";
 
-
-//  Convert an SVG of a block to a PNG data URI.
-//   @param {Blockly.WorkspaceSvg} # workspace The workspace.
-//  @returns {Promise<string>} A promise that resolves with the data URI.
+/**
+ * Convert an SVG of a block to a PNG data URI.
+ * @param {Blockly.WorkspaceSvg} workspace The workspace.
+ * @returns {Promise<string>} A promise that resolves with the data URI.
+ */
 
 export async function workspaceToPngBase64(
 	workspace: Blockly.WorkspaceSvg,
