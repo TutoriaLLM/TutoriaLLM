@@ -88,9 +88,9 @@
     "server": "Server",
     "ai": "AI",
     "you": "You",
-    "findBlock": "Find block",
+    "findBlock": "Find block..",
     "replying": "Replying...",
-    "ask": "Ask anything...",
+    "ask": "Ask anything.",
     "showingLatest": "Showing latest {{count}} messages",
     "errorLog": "Error Log",
     "audioMode": "Audio mode",
@@ -134,9 +134,9 @@
     "tutorialSelector": "You can select any tutorial that you want to make.",
     "welcome": "Welcome on board! This tour provides a brief overview of how to use this application.",
     "tabs": "You can switch the tabs to move between chat and workspace.",
-    "switchToWorkspace": "Let's switch to workspace.",
+    "switchToWorkspace": "Switch to Workspace.",
     "syncCode": "You can update code from here",
-    "switchToDialogue": "Okay, let's back to chat tab.",
+    "switchToDialogue": "Please head back to the chat tab.",
     "switchMode": "You can change settings from here"
   },
   "extension": {
@@ -175,7 +175,7 @@
     "selectedTutorial": "Selected tutorial",
     "tutorialId": "Tutorial id",
     "tutorialTitle": "Tutorial title",
-    "notSelected": "not selected",
+    "notSelected": "Not selected",
     "user": "User",
     "sessionId": "Session id",
     "actions": "Actions",
@@ -248,7 +248,7 @@
     "BeginTutorial": "Begin tutorial"
   },
   "dialogue": {
-    "Introduction": "Hi! click the quick reply button of type in your questions to choose what to do!"
+    "Introduction": "Hi! click the reply button of type in your questions, then choose what to do!"
   },
   "AppConfig": {
     "General_Settings": "General Settings",

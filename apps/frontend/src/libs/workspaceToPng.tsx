@@ -1,10 +1,10 @@
 import * as Blockly from "blockly/core";
 
-/**
- * Convert an SVG of a block to a PNG data URI.
- * @param {Blockly.WorkspaceSvg} workspace The workspace.
- * @returns {Promise<string>} A promise that resolves with the data URI.
- */
+
+//  Convert an SVG of a block to a PNG data URI.
+//   @param {Blockly.WorkspaceSvg} # workspace The workspace.
+//  @returns {Promise<string>} A promise that resolves with the data URI.
+
 export async function workspaceToPngBase64(
 	workspace: Blockly.WorkspaceSvg,
 ): Promise<string> {
@@ -76,11 +76,13 @@ export async function workspaceToPngBase64(
 				canvas.height = height * pixelDensity;
 				const context = canvas.getContext("2d");
 				if (context) {
+					context.scale(pixelDensity, pixelDensity); // Keeping consistent coordinates
 					context.drawImage(img, 0, 0, canvas.width, canvas.height);
 					const dataUri = canvas.toDataURL("image/png");
 
 					// Use canvas and then remove it
-					canvas.remove();
+					// This is doing nothing, it should be safe to remove
+					// canvas.remove();
 
 					resolve(dataUri);
 				} else {
