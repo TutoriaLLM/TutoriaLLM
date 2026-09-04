@@ -15,7 +15,7 @@
     "@astrojs/starlight-tailwind": "4.0.2",
     "@astrojs/tailwind": "6.0.2",
     "@tailwindcss/vite": "^4.1.4",
-    "astro": "5.7.12",
+    "astro": "7.1.0",
     "astro-embed": "0.9.1",
     "i": "0.3.7",
     "npm": "11.3.0",
