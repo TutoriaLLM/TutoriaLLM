@@ -506,8 +506,8 @@ importers:
         specifier: 8.0.5
         version: 8.0.5
       i18next-fs-backend:
-        specifier: 2.3.2
-        version: 2.3.2
+        specifier: 2.6.6
+        version: 2.6.6
       idb:
         specifier: 8.0.3
         version: 8.0.3
@@ -7847,8 +7847,8 @@ packages:
   i18next-browser-languagedetector@8.0.5:
     resolution: {integrity: sha512-OstebRKqKiQw8xEvQF5aRyUujsCatanj7Q9eo5iiH2gJpoXGZ7483ol3sVBwfqbobTQPNH1J+NAyJ1aCQoEC+w==}
 
-  i18next-fs-backend@2.3.2:
-    resolution: {integrity: sha512-LIwUlkqDZnUI8lnUxBnEj8K/FrHQTT/Sc+1rvDm9E8YvvY5YxzoEAASNx+W5M9DfD5s77lI5vSAFWeTp26B/3Q==}
+  i18next-fs-backend@2.6.6:
+    resolution: {integrity: sha512-mYGu6Nt8RIp3X/U8Y+Gej1wo5xmYWmGKLqBGMCC2OCAou5rW5epeHgHmVcw20mJs9Z9+DAPHIxQPNCgFyPRMeg==}
 
   i18next@23.16.8:
     resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
@@ -20489,7 +20489,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.26.7
 
-  i18next-fs-backend@2.3.2: {}
+  i18next-fs-backend@2.6.6: {}
 
   i18next@23.16.8:
     dependencies:
