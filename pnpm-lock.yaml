@@ -22,8 +22,8 @@ catalogs:
       specifier: 4.9.6
       version: 4.9.6
     js-yaml:
-      specifier: 4.1.1
-      version: 4.1.1
+      specifier: 4.3.1
+      version: 4.3.1
     rfc6902:
       specifier: 5.1.2
       version: 5.1.2
@@ -82,7 +82,7 @@ importers:
         version: 3.3.0(@types/node@20.19.24)(typescript@5.9.3)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.1
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
@@ -238,7 +238,7 @@ importers:
         version: 12.3.0(@types/node@20.19.24)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.1
       kuromoji:
         specifier: 0.1.2
         version: 0.1.2
@@ -516,7 +516,7 @@ importers:
         version: 2.10.1(@types/react@18.3.26)(react@18.3.1)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.1
       kuromoji:
         specifier: 0.1.2
         version: 0.1.2
@@ -8241,6 +8241,10 @@ packages:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
+  js-yaml@4.3.1:
+    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
+    hasBin: true
+
   jsdom@25.0.1:
     resolution: {integrity: sha512-8i7LzZj7BF8uplX+ZyOlIz86V6TAsSs+np6m1kpW9u0JWi4z/1t+FzcK1aek+ybTnAC4KhBL4uXCNT0wcUIeCw==}
     engines: {node: '>=18'}
@@ -11635,7 +11639,7 @@ snapshots:
       hast-util-from-html: 2.0.3
       hast-util-to-text: 4.0.2
       import-meta-resolve: 4.1.0
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       mdast-util-definitions: 6.0.0
       rehype-raw: 7.0.0
       rehype-stringify: 10.0.1
@@ -11704,7 +11708,7 @@ snapshots:
       hast-util-to-string: 3.0.1
       hastscript: 9.0.1
       i18next: 23.16.8
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       klona: 2.0.6
       mdast-util-directive: 3.1.0
       mdast-util-to-markdown: 2.1.2
@@ -16707,7 +16711,7 @@ snapshots:
       '@jsdevtools/ono': 7.1.3
       '@types/json-schema': 7.0.15
       call-me-maybe: 1.0.2
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
 
   '@readme/openapi-parser@2.7.0(openapi-types@12.1.3)':
     dependencies:
@@ -18299,7 +18303,7 @@ snapshots:
       github-slugger: 2.0.0
       html-escaper: 3.0.3
       http-cache-semantics: 4.1.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       kleur: 4.1.5
       magic-string: 0.30.17
       magicast: 0.3.5
@@ -18966,7 +18970,7 @@ snapshots:
   cosmiconfig@8.3.6(typescript@5.9.3):
     dependencies:
       import-fresh: 3.3.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
@@ -18976,7 +18980,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.1.1
+      js-yaml: 4.3.1
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -20849,6 +20853,10 @@ snapshots:
       argparse: 2.0.1
 
   js-yaml@4.1.1:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@4.3.1:
     dependencies:
       argparse: 2.0.1
 
