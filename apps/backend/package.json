@@ -38,7 +38,7 @@
     "@opentelemetry/auto-instrumentations-node": "0.50.2",
     "@opentelemetry/auto-instrumentations-web": "0.41.0",
     "@opentelemetry/context-zone": "1.26.0",
-    "@opentelemetry/core": "1.26.0",
+    "@opentelemetry/core": "2.8.0",
     "@opentelemetry/exporter-metrics-otlp-proto": "0.53.0",
     "@opentelemetry/exporter-trace-otlp-proto": "0.53.0",
     "@opentelemetry/instrumentation": "0.53.0",
