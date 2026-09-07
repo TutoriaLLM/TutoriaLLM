@@ -58,7 +58,7 @@
     "better-auth": "catalog:",
     "blockly": "catalog:",
     "commander": "12.1.0",
-    "cors": "2.8.5",
+    "cors": "2.8.6",
     "cross-env": "7.0.3",
     "dotenv": "catalog:",
     "drizzle-kit": "0.30.6",
