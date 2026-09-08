@@ -79,7 +79,7 @@
     "react-tag-input": "6.10.6",
     "rehype-raw": "7.0.0",
     "rfc6902": "catalog:",
-    "socket.io-client": "4.8.1",
+    "socket.io-client": "4.8.3",
     "tailwind-merge": "2.5.5",
     "tailwindcss": "catalog:",
     "tailwindcss-animate": "1.0.7",
