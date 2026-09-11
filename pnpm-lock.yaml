@@ -365,8 +365,8 @@ importers:
   apps/frontend:
     dependencies:
       '@axe-core/playwright':
-        specifier: 4.10.2
-        version: 4.10.2(playwright-core@1.63.0)
+        specifier: 4.13.0
+        version: 4.13.0(playwright-core@1.63.0)
       '@blockly/field-grid-dropdown':
         specifier: 5.0.16
         version: 5.0.16(blockly@11.2.2)
@@ -637,7 +637,7 @@ importers:
         version: 9.0.8
       axe-html-reporter:
         specifier: 2.2.11
-        version: 2.2.11(axe-core@4.10.3)
+        version: 2.2.11(axe-core@4.13.0)
       msw:
         specifier: 2.15.0
         version: 2.15.0(@types/node@20.19.43)(typescript@5.9.3)
@@ -934,8 +934,8 @@ packages:
     resolution: {integrity: sha512-sl4Bm6yiMNYrZKkqqDFWN0UfnWhlS8ivKxrYl+6t0gCLrqr8y3B2IqZZbFRkfaVVp7C/baApyh71P+LeE1A2sQ==}
     engines: {node: '>=18.0.0'}
 
-  '@axe-core/playwright@4.10.2':
-    resolution: {integrity: sha512-6/b5BJjG6hDaRNtgzLIfKr5DfwyiLHO4+ByTLB0cJgWSM8Ll7KqtdblIS6bEkwSF642/Ex91vNqIl3GLXGlceg==}
+  '@axe-core/playwright@4.13.0':
+    resolution: {integrity: sha512-6YLx+kxXu5GJceG4ozFg+33a2EMTdjYwWGloJ3sb9Kta5pp+ZNS53uxGVog5JetIY8s++P5UrtX+cri+u0VAVg==}
     peerDependencies:
       playwright-core: '>= 1.0.0'
 
@@ -6135,8 +6135,8 @@ packages:
   await-lock@2.2.2:
     resolution: {integrity: sha512-aDczADvlvTGajTDjcjpJMqRkOF6Qdz3YbPZm/PyW6tKPkx2hlYBzxMhEywM/tU72HrVZjgl5VCdRuMlA7pZ8Gw==}
 
-  axe-core@4.10.3:
-    resolution: {integrity: sha512-Xm7bpRXnDSX2YE2YFfBk2FnF0ep6tmG7xPh8iHee8MIcrgq762Nkce856dYtJYLkuIoYZvGfTs/PbZhideTcEg==}
+  axe-core@4.13.0:
+    resolution: {integrity: sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==}
     engines: {node: '>=4'}
 
   axe-html-reporter@2.2.11:
@@ -11992,9 +11992,9 @@ snapshots:
 
   '@aws/lambda-invoke-store@0.3.0': {}
 
-  '@axe-core/playwright@4.10.2(playwright-core@1.63.0)':
+  '@axe-core/playwright@4.13.0(playwright-core@1.63.0)':
     dependencies:
-      axe-core: 4.10.3
+      axe-core: 4.13.0
       playwright-core: 1.63.0
 
   '@babel/code-frame@7.26.2':
@@ -18091,11 +18091,11 @@ snapshots:
 
   await-lock@2.2.2: {}
 
-  axe-core@4.10.3: {}
+  axe-core@4.13.0: {}
 
-  axe-html-reporter@2.2.11(axe-core@4.10.3):
+  axe-html-reporter@2.2.11(axe-core@4.13.0):
     dependencies:
-      axe-core: 4.10.3
+      axe-core: 4.13.0
       mustache: 4.2.0
 
   axobject-query@4.1.0: {}
