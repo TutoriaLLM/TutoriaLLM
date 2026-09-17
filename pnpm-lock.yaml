@@ -22,8 +22,8 @@ catalogs:
       specifier: 4.9.6
       version: 4.9.6
     js-yaml:
-      specifier: 4.1.1
-      version: 4.1.1
+      specifier: 4.3.2
+      version: 4.3.2
     rfc6902:
       specifier: 5.3.0
       version: 5.3.0
@@ -82,7 +82,7 @@ importers:
         version: 3.3.0(@types/node@20.19.43)(typescript@5.9.3)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.2
       jsdom:
         specifier: 26.1.0
         version: 26.1.0
@@ -238,7 +238,7 @@ importers:
         version: 12.3.0(@types/node@20.19.43)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.2
       kuromoji:
         specifier: 0.1.2
         version: 0.1.2
@@ -516,7 +516,7 @@ importers:
         version: 2.10.1(@types/react@18.3.31)(react@18.3.1)
       js-yaml:
         specifier: 'catalog:'
-        version: 4.1.1
+        version: 4.3.2
       kuromoji:
         specifier: 0.1.2
         version: 0.1.2
@@ -8402,12 +8402,12 @@ packages:
   js-tokens@9.0.1:
     resolution: {integrity: sha512-mxa9E9ITFOt0ban3j6L5MpjwegGz6lBQmM1IJkWeBZGcMxto50+eWdjC/52xDbS2vy0k7vIMK0Fe2wfL9OQSpQ==}
 
-  js-yaml@4.1.0:
-    resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
-    hasBin: true
-
   js-yaml@4.1.1:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
+    hasBin: true
+
+  js-yaml@4.3.2:
+    resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
   jsdom@25.0.1:
@@ -11830,7 +11830,7 @@ snapshots:
       hast-util-from-html: 2.0.3
       hast-util-to-text: 4.0.2
       import-meta-resolve: 4.1.0
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       mdast-util-definitions: 6.0.0
       rehype-raw: 7.0.0
       rehype-stringify: 10.0.1
@@ -11899,7 +11899,7 @@ snapshots:
       hast-util-to-string: 3.0.1
       hastscript: 9.0.1
       i18next: 23.16.8
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       klona: 2.0.6
       mdast-util-directive: 3.1.0
       mdast-util-to-markdown: 2.1.2
@@ -18191,7 +18191,7 @@ snapshots:
       github-slugger: 2.0.0
       html-escaper: 3.0.3
       http-cache-semantics: 4.1.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       kleur: 4.1.5
       magic-string: 0.30.17
       magicast: 0.3.5
@@ -18862,7 +18862,7 @@ snapshots:
   cosmiconfig@8.3.6(typescript@5.9.3):
     dependencies:
       import-fresh: 3.3.0
-      js-yaml: 4.1.1
+      js-yaml: 4.3.2
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
@@ -18872,7 +18872,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.1.1
+      js-yaml: 4.3.2
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
@@ -20786,11 +20786,11 @@ snapshots:
 
   js-tokens@9.0.1: {}
 
-  js-yaml@4.1.0:
+  js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
 
-  js-yaml@4.1.1:
+  js-yaml@4.3.2:
     dependencies:
       argparse: 2.0.1
 
