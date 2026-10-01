@@ -485,8 +485,8 @@ importers:
         specifier: 7.0.3
         version: 7.0.3
       dom-to-image-more:
-        specifier: 3.5.0
-        version: 3.5.0
+        specifier: 3.11.0
+        version: 3.11.0
       dotenv:
         specifier: 'catalog:'
         version: 16.6.1
@@ -7186,8 +7186,8 @@ packages:
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
 
-  dom-to-image-more@3.5.0:
-    resolution: {integrity: sha512-VF/vwfHsPNMHJb5W/5sAmco3UIlEWSEFLppInQwqwN4joUvBULDwE3CqVcUDkUWleke/nZ5KwIVSrrFlGw7WPA==}
+  dom-to-image-more@3.11.0:
+    resolution: {integrity: sha512-qvT580MyiR4wh6q3zNj0fXt0ViDA1y4iCJRkDioy4Ema6N9EOrwdvXT/wuRHh20epPJPvq9xl5ea/y87nYnkug==}
 
   dot-case@3.0.4:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
@@ -19315,7 +19315,7 @@ snapshots:
 
   dom-accessibility-api@0.6.3: {}
 
-  dom-to-image-more@3.5.0: {}
+  dom-to-image-more@3.11.0: {}
 
   dot-case@3.0.4:
     dependencies:
