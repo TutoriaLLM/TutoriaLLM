@@ -63,7 +63,7 @@
     "dotenv": "catalog:",
     "drizzle-kit": "0.30.6",
     "drizzle-orm": "0.38.2",
-    "drizzle-zod": "0.6.0",
+    "drizzle-zod": "0.8.3",
     "extensions": "workspace:",
     "fast-glob": "3.3.3",
     "fluent-ffmpeg": "2.1.3",
