@@ -67,7 +67,7 @@
     "extensions": "workspace:",
     "fast-glob": "3.3.3",
     "fluent-ffmpeg": "2.1.3",
-    "get-port": "7.1.0",
+    "get-port": "7.2.0",
     "hono": "catalog:",
     "http-proxy": "1.18.1",
     "http-proxy-middleware": "3.0.3",
