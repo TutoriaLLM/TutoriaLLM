@@ -71,7 +71,7 @@
     "hono": "catalog:",
     "http-proxy": "1.18.1",
     "http-proxy-middleware": "3.0.3",
-    "inquirer": "12.3.0",
+    "inquirer": "12.11.1",
     "js-yaml": "catalog:",
     "kuromoji": "0.1.2",
     "nanoid": "5.0.9",
