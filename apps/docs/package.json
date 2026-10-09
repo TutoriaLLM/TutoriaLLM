@@ -18,7 +18,7 @@
     "astro": "5.7.12",
     "astro-embed": "0.14.0",
     "i": "0.3.7",
-    "npm": "11.3.0",
+    "npm": "11.21.0",
     "sharp": "0.32.6",
     "starlight-links-validator": "0.16.0",
     "starlight-openapi": "0.16.0",
