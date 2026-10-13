@@ -437,8 +437,8 @@ importers:
         specifier: 8.21.3
         version: 8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-virtual':
-        specifier: 3.14.13
-        version: 3.14.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.14.14
+        version: 3.14.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/router-vite-plugin':
         specifier: 1.87.13
         version: 1.87.13(@tanstack/react-router@1.90.0(@tanstack/router-generator@1.95.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.0.2(@types/node@20.19.43)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.0))
@@ -5791,8 +5791,8 @@ packages:
       react: '>=16.8'
       react-dom: '>=16.8'
 
-  '@tanstack/react-virtual@3.14.13':
-    resolution: {integrity: sha512-JbDTAwtzZ99aOeCrAfW5EsE5KSq5RWh6Af2dtFwyLIIk48Ja7vm6n4axu/43T3vfjFnEGJalxJ1wyYjSQD6bSg==}
+  '@tanstack/react-virtual@3.14.14':
+    resolution: {integrity: sha512-eo/arVIpYi9rGJXR5y4fDoTiz+BBOc4HKVBKQMoPRswxJtP6HV8iupW/DkBE9TRh+PjzikIDHw2h7aV25g0Z4w==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -5840,8 +5840,8 @@ packages:
     resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
     engines: {node: '>=12'}
 
-  '@tanstack/virtual-core@3.17.11':
-    resolution: {integrity: sha512-+ILjvtHup6Y2hzQ6YzwMgX1Q+oQpxEGOXCEsCNaPoIP0VxMbizIBTmYTDtkerkIQS8/CbP1BRuyt8V/8BCsy1g==}
+  '@tanstack/virtual-core@3.18.0':
+    resolution: {integrity: sha512-8frWsyfyBwLGoDQ6wN6Lq3CoT8j4BPJUzE6nH4P9mruLhxPOamk82prC3JxRMLJzYnNa9ISaZ8NtfxEiOGkHEQ==}
 
   '@tanstack/virtual-file-routes@1.87.6':
     resolution: {integrity: sha512-PTpeM8SHL7AJM0pJOacFvHribbUODS51qe9NsMqku4mogh6BWObY1EeVmeGnp9o3VngAEsf+rJMs2zqIVz3WFA==}
@@ -17661,9 +17661,9 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@tanstack/react-virtual@3.14.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-virtual@3.14.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/virtual-core': 3.17.11
+      '@tanstack/virtual-core': 3.18.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
@@ -17726,7 +17726,7 @@ snapshots:
 
   '@tanstack/table-core@8.21.3': {}
 
-  '@tanstack/virtual-core@3.17.11': {}
+  '@tanstack/virtual-core@3.18.0': {}
 
   '@tanstack/virtual-file-routes@1.87.6': {}
 
