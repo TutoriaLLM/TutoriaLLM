@@ -340,8 +340,8 @@ importers:
         specifier: 0.3.7
         version: 0.3.7
       npm:
-        specifier: 11.21.0
-        version: 11.21.0
+        specifier: 11.21.1
+        version: 11.21.1
       sharp:
         specifier: 0.32.6
         version: 0.32.6
@@ -9254,8 +9254,8 @@ packages:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
 
-  npm@11.21.0:
-    resolution: {integrity: sha512-Zov8KhamNneiLdELtj5YALtNmJW4L4fCLTzjfpzXG2w6MSHcf0UxgdlK5uloCuksWT+7mGUU7wi79cO6RqivPg==}
+  npm@11.21.1:
+    resolution: {integrity: sha512-YTzL6QBEJXyHcTu0JiUc7RKMp+mzlJtl7rGLmERaXUQeFHIMc9atdr6G9M9C8vDWbv40epoTQAzNL2/PtZVDhQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
     bundledDependencies:
@@ -21933,7 +21933,7 @@ snapshots:
 
   normalize-range@0.1.2: {}
 
-  npm@11.21.0: {}
+  npm@11.21.1: {}
 
   nth-check@2.1.1:
     dependencies:
